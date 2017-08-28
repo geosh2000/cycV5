@@ -1,0 +1,36 @@
+<form class="form-group" [formGroup]="formSaldarCxc" (ngSubmit)="submit()" *ngIf="ready && !noRows">
+
+  <div class="form-group row" [ngClass]="{ 'has-danger': !formSaldarCxc.controls[item].valid && !formSaldarCxc.controls[item].pristine}" *ngFor="let item of formSaldarCxcDetail | keys" >
+    <label class="col-2 col-form-label">Saldar:</label>
+      <div class="col-10 input-group">
+        <label class="custom-control custom-checkbox" >
+          <input type="checkbox" class="custom-control-input"
+                  [formControlName]="item">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">{{ formSaldarCxcDetail[item].quincena }} -> Loc: {{ formSaldarCxcDetail[item].localizador }} ({{ formSaldarCxcDetail[item].monto | currency:'MXN':true:'.2-2' }})</span>
+        </label>
+      </div>
+      <div class="col-12 form-control-feedback" [ngClass]="{ 'has-danger': !formSaldarCxc.controls[item].valid && !formSaldarCxc.pristine}" *ngIf="formSaldarCxc.controls[item]._errors?.indeterminate">
+        <div><small class='text-danger'>Elige si el asesor ya ha firmado su CxC</small></div>
+      </div>
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <button
+            [disabled]="formSaldarCxc.invalid || submitting"
+            type="submit"
+            [ngClass]="{ 'btn-outline-secondary': formSaldarCxc.invalid, 'btn-success': !formSaldarCxc.invalid }"
+            class="btn"
+            >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
+    <span><strong>Hubo un error en el proceso</strong></span><br>
+    <span>
+      {{ errorMsg }}
+    </span><br>
+    <span>Por favor notifícalo a WFM</span>
+  </div>
+</form>
+
+<div class="alert alert-info" role="alert" *ngIf="noRows">
+  <strong>SIN CXC</strong> El asesor no tiene CxCs registrados por saldar.
+</div>

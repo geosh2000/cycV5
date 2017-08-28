@@ -1,0 +1,127 @@
+<!-- Form Set Baja -->
+        <form class="form-group" [formGroup]="formSetBaja" (ngSubmit)="submit()">
+
+          <!-- ID -->
+          <div class="form-group row">
+            <label class="col-4 col-form-label">id</label>
+            <div class="col-8 input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-address-card-o fa-fw"></i>
+              </span>
+              <input
+                formControlName="id"
+                class="form-control uneditable-input" type="text" value="" readonly>
+            </div>
+          </div>
+
+          <!-- Fecha Baja -->
+          <div class="form-group row">
+            <label class="col-4 col-form-label">Fecha de Baja</label>
+            <div class="col-8 input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-calendar fa-fw"></i>
+              </span>
+              <input
+                daterangepicker
+                formControlName="fechaBaja"
+                [options]="singlePicker"
+                (selected)="setVal($event.start, 'fechaBaja')"
+                class="form-control uneditable-input" type="text" value="">
+            </div>
+          </div>
+
+          <!-- Comentarios -->
+          <div class="form-group row" [ngClass]="{ 'has-danger': !formSetBaja.controls['comentarios'].valid }" *ngIf="formSetBaja.controls['fechaBaja'].valid">
+            <label class="col-4 col-form-label">Comentarios</label>
+            <div class="col-8 input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-comments fa-fw"></i>
+              </span>
+              <input
+                formControlName="comentarios"
+                class="form-control" type="text" value="">
+            </div>
+            <div class="col-12 form-control-feedback" *ngIf="formSetBaja.controls['comentarios']._errors?.required">
+              <div><small>Es importante que ingreses tus comentarios de la solicitud</small></div>
+            </div>
+          </div>
+
+          <!-- Recontratable -->
+          <div class="form-group row" [ngClass]="{ 'has-danger': !formSetBaja.controls['recontratable'].valid }" *ngIf="formSetBaja.controls['fechaBaja'].valid">
+            <label class="col-4 col-form-label"></label>
+            <div class="col-8 input-group">
+              <label class="custom-control custom-checkbox" >
+                <input type="checkbox" class="custom-control-input"
+                        formControlName="recontratable" [indeterminate]="true">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Recontratable</span>
+              </label>
+            </div>
+            <div class="col-12 form-control-feedback" *ngIf="formSetBaja.controls['recontratable']._errors?.indeterminate">
+              <div><small>Elige si el asesor será o no recontratable</small></div>
+            </div>
+          </div>
+
+          <!-- Reemplazable -->
+          <div class="form-group row" [ngClass]="{ 'has-danger': !formSetBaja.controls['reemplazable'].valid }" *ngIf="formSetBaja.controls['fechaBaja'].valid">
+            <label class="col-4 col-form-label"></label>
+            <div class="col-8 input-group">
+              <label class="custom-control custom-checkbox" >
+                <input type="checkbox" class="custom-control-input"
+                        formControlName="reemplazable" [indeterminate]="true">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Reemplazable</span>
+              </label>
+            </div>
+            <div class="col-12 form-control-feedback" *ngIf="formSetBaja.controls['reemplazable']._errors?.indeterminate">
+              <div><small>Elige si la vacante será o no reemplazable</small></div>
+            </div>
+          </div>
+
+
+          <!-- Fecha Liberacion -->
+          <!-- <div class="form-group row"> -->
+          <div class="form-group row" [ngClass]="{ 'has-danger': !formSetBaja.controls['fechaLiberacion'].valid }" *ngIf="formSetBaja.controls['reemplazable'].value == true">
+            <label class="col-4 col-form-label">Fecha Liberación</label>
+            <div class="col-8 input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-calendar-o fa-fw"></i>
+              </span>
+              <input
+                daterangepicker
+                formControlName="fechaLiberacion"
+                [options]="singlePicker"
+                (selected)="setVal($event.start, 'fechaLiberacion')"
+                class="form-control uneditable-input" type="text" value="">
+            </div>
+            <div class="col-12 form-control-feedback" *ngIf="formSetBaja.controls['fechaLiberacion']._errors?.required">
+              <div><small>La fecha de liberación es requerida cuando la vacante es reemplazable</small></div>
+            </div>
+            <div class="col-12 form-control-feedback" *ngIf="formSetBaja.controls['fechaLiberacion']._errors?.lessFechaLiberacion">
+              <div><small>La fecha de liberación debe ser menor o igual a la fecha de Baja</small></div>
+            </div>
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
+            <span><strong>Hubo un error en el proceso</strong></span><br>
+            <span>
+              {{ errorMsg }}
+            </span><br>
+            <span>Por favor notifícalo a WFM</span>
+          </div>
+          <div class="d-flex flex-row-reverse">
+            <button
+                    type="submit"
+                    [ngClass]="{ 'btn-outline-secondary': formSetBaja.invalid, 'btn-success': !formSetBaja.invalid }"
+                    class="btn"
+                    (click)="submitBaja()"
+                    [disabled]="retrieving"
+                    >{{ titleSubmit }} <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="retrieving"></i></button>
+            <!-- <button
+                    [disabled]="formSetBaja.invalid"
+                    type="submit"
+                    [ngClass]="{ 'btn-outline-secondary': formSetBaja.invalid, 'btn-success': !formSetBaja.invalid }"
+                    class="btn"
+                    >{{ titleSubmit }}</button> -->
+          </div>
+
+        </form>

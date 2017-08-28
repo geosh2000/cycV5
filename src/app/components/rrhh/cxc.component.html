@@ -1,0 +1,111 @@
+<div class="container-fluid">
+
+  <div class="d-flex justify-content-start">
+    <div class="form-group">
+
+        <div
+            class="input-group"
+            daterangepicker (selected)="dateChange($event.start, $event.end)">
+            <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker">
+            <span class="input-group-btn">
+                <a type="button" class="btn btn-default"><i class="fa fa-calendar fa-fw"></i></a>
+            </span>
+        </div>
+    </div>
+    <button type="button" class="btn btn-outline-warning ml-auto" *ngIf="ready" (click)="downloadXLS('listCxc', 'listCxc')">Descargar</button>
+  </div>
+  <hr>
+  <p *ngIf="loadingCxc">Cargando CxCs...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
+  <div class="alert alert-danger" *ngIf="errorFlag">
+    {{ errorMsg | json }}
+  </div>
+  <div class="container-fluid" *ngIf="ready">
+    <ng2-smart-table
+              id='listCxc'
+              (edit)="viewDetails($event)"
+              class='table-responsive table-striped'
+              [settings]="smartTableSettings"
+              [source]="listCxc"
+              >
+    </ng2-smart-table>
+  </div>
+
+
+
+</div>
+
+<!-- Change Status -->
+<div class="modal fade" id="editCXC" tabindex="-1" role="dialog" aria-labelledby="editCXCLabel" aria-hidden="true" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="actualCxcReady">
+        <h5 class="modal-title" id="editCXCLabel">Editar Cxc -> # {{ actualCxc['id'] }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="!checkCredential('cxc_registro')">
+        <div class="alert alert-danger" role="alert">
+          No cuentas con permisos para ver este contenido
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="actualCxcReady && checkCredential('cxc_registro')">
+        <div class="d-flex justify-content-around">
+          <button type="button" class="btn btn-outline-warning" *ngIf="actualCxc['status'] == 0" (click)="editCxc()">Editar</button>
+          <button type="button" class="btn btn-outline-primary" *ngIf="actualCxc['status'] == 0 && !editFlag" (cilck)="changeStatus(1)">Enviar a RRHH  <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+        </div>
+        <hr>
+        <div class="alert alert-danger" role="alert" *ngIf="actualCxc['status'] >= 1">
+          No es posible editar un Cxc ya aplicado o enviado a RRHH
+        </div>
+        <div class="container" *ngIf="editFlag">
+          <form class="form-group" [formGroup]="formEditCxc" (ngSubmit)="submit()">
+
+            <div class="form-group row" [ngClass]="{ 'has-danger': !formEditCxc.controls['comments'].valid && !formEditCxc.controls['comments'].pristine}">
+
+                <label class="col-4 col-form-label">Comentarios</label>
+                <div class="col-8 input-group">
+                  <span class="input-group-addon">
+                    <i class="fa fa-comment fa-fw"></i>
+                  </span>
+                  <input
+                    formControlName="comments"
+                    class="form-control" type="text" value="">
+                </div>
+                <div class="col-12 form-control-feedback" *ngIf="formEditCxc.controls['comments'].errors?.required && !formEditCxc.controls['comments'].pristine">
+                  <div><small>Campo Obligatorio</small></div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row" [ngClass]="{ 'has-danger': !formEditCxc.controls['firmado'].valid && !formEditCxc.controls['firmado'].pristine}">
+                <label class="col-4 col-form-label"></label>
+                <div class="col-8 input-group">
+                  <label class="custom-control custom-checkbox" >
+                    <input type="checkbox" class="custom-control-input"
+                            formControlName="firmado">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Firmado</span>
+                  </label>
+                </div>
+            </div>
+
+            <div class="d-flex flex-row-reverse">
+              <button type="button" class="btn btn-danger" (click)="noEdit()">Cancelar</button>
+              <button
+                      [disabled]="formEditCxc.invalid || submitting"
+                      type="submit"
+                      [ngClass]="{ 'btn-outline-secondary': formEditCxc.invalid, 'btn-success': !formEditCxc.invalid }"
+                      class="btn"
+                      >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+            </div>
+          </form>
+
+        </div>
+
+        <div class="container" *ngIf="applyFlag">
+          <app-apply-cxc></app-apply-cxc>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

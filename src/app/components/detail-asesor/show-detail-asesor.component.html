@@ -1,0 +1,502 @@
+<div class='container' *ngIf="showContents">
+  <br>
+
+  <div class="row animated fadeIn fast" *ngIf="asesor">
+
+    <div class="col-md-5">
+      <!-- Generales -->
+      <div class="row">
+        <div class='contact-box col-sm-12'>
+          <div class="alert alert-info" role="alert">
+            <div class="row">
+              <div class="col-sm-4">
+                <p style="position:relative;
+                      top:50%;
+                      transform: translateY(-50%);
+                      -webkit-transform: translateY(-50%);
+                      -ms-transform: translateY(-50%);">
+                  <strong><i class="fa fa-fw fa-history"></i> Detalles</strong>
+                </p>
+              </div>
+              <div class="col-sm-8 text-right">
+                <button type="button" class="btn btn-sm btn-outline-warning" (click)="showModal('#form_editDetails', '#detailAsesor', 'editDetails', asesor)">Editar</button>
+              </div>
+            </div>
+          </div>
+          <div class="row d-flex align-items-center">
+            <div class='col-4'>
+                <div class='text-center align-self-center'>
+                    <img alt='image' class='img img-circle img-fluid' style='margin: auto;' src='assets/img/no-image.png'>
+                </div>
+            </div>
+            <div class='col-8 text-xs-left'>
+                <h5>{{ asesor.nombre }}</h5>
+                <p><small>{{ asesor.corto }}</small></p>
+                <p><small><i class="fa fa-fw fa-product-hunt"></i> {{ asesor.profile }} </small></p>
+                <p *ngIf="asesor.status == 'Activo'"><small>Jefe Directo: {{asesor.sup }}</small></p>
+            </div>
+          </div>
+          <hr>
+
+          <div class="row d-flex align-items-center">
+            <div class='col-4'>
+                <div class='text-center align-self-center'>
+                    <h5 class='contact-title'>{{ asesor.puesto }}<br>{{ asesor.departamento }}<br><small>{{ asesor.codigo }}</small></h5>
+                </div>
+            </div>
+            <div class='col-8 text-xs-left'>
+                <p><i class="fa fa-fw fa-user"></i> {{ asesor.numcol }} </p>
+                <p><i class="fa fa-fw fa-phone"></i>  {{ asesor.tel }}</p>
+                <p><i class="fa fa-fw fa-mobile"></i>  {{asesor.tel2 }}</p>
+                <a href='mailto:<?php echo $asesor->correo; ?>'><i class="fa fa-fw fa-envelope"></i> {{ asesor.correo }}</a><br>
+                <a href='mailto:<?php echo $asesor->correoPersonal; ?>'><i class="fa fa-fw fa-envelope-o"></i> {{ asesor.correoPersonal }}</a>
+
+            </div>
+            <div class='clearfix'></div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Historial -->
+      <div class="row">
+        <div class='contact-box col-sm-12'>
+
+          <!-- Puestos -->
+          <div class="alert alert-info" role="alert">
+            <div class="d-flex justify-content-end">
+              <div class="mr-auto p-2">
+                <p style="position:relative;
+                      top:50%;
+                      transform: translateY(-50%);
+                      -webkit-transform: translateY(-50%);
+                      -ms-transform: translateY(-50%);">
+                  <strong><i class="fa fa-fw fa-history"></i> Historial</strong>
+                </p>
+              </div>
+              <div class="p-2">
+                <div class="row d-flex justify-content-end">
+                  <ng-container *ngIf="asesor.status == 'Activo' && asesor.solPendiente == 0 && _init.checkSingleCredential('hc_cambios_solicitud')">
+                    <p class="mr-auto p-2">Solicitar</p>
+                    <button
+                            type="button"
+                            style="cursor: pointer"
+                            class="btn btn-sm btn-outline-info"
+                            (click)="showModal('#form_cambioPuesto', '#detailAsesor', 'askCambio', asesor)">
+                      Cambio de Puesto
+                    </button>
+                    <button
+                            type="button"
+                            style="cursor: pointer"
+                            class="btn btn-sm btn-outline-danger"
+                            (click)="showModal('#form_setBaja', '#detailAsesor', 'askBaja', asesor)">
+                      Baja
+                    </button>
+                  </ng-container>
+                </div>
+                <div class="row d-flex justify-content-end" style="margin-top: 3px" *ngIf="_init.checkSingleCredential('hc_cambios_aprobacion')">
+                  <ng-container *ngIf="asesor.status == 'Activo' && asesor.solPendiente == 0">
+                    <p class="mr-auto p-2">Registrar</p>
+                    <button
+                            type="button"
+                            style="cursor: pointer"
+                            class="btn btn-sm btn-outline-danger"
+                            (click)="showModal('#form_setBaja', '#detailAsesor', 'setBaja', asesor)">
+                      Registrar Baja Directamente
+                    </button>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- <div class="row">
+              <div class="col-sm-3">
+                <p style="position:relative;
+                      top:50%;
+                      transform: translateY(-50%);
+                      -webkit-transform: translateY(-50%);
+                      -ms-transform: translateY(-50%);">
+                  <strong><i class="fa fa-fw fa-history"></i> Historial</strong>
+                </p>
+              </div>
+              <div class="col-sm-9 text-right" *ngIf="solicitarCambios">
+                <button type="button" class="btn btn-sm btn-outline-info" (click)="showCambioPuesto('#form_cambioPuesto', '#detailAsesor')">Solicitar<br>Cambio de Puesto</button>
+                <button type="button" class="btn btn-sm btn-outline-danger">Solicitar<br>Baja</button>
+                <button type="button" class="btn btn-sm btn-danger">Registrar<br>Baja</button>
+              </div>
+            </div> -->
+          </div>
+
+          <div class="row">
+
+              <div class="col-sm-12">
+                <div *ngFor="let item of asesor.histo_puestos | keys">
+                  <p><i class="fa fa-fw fa-play"></i> Inicio: {{ asesor.histo_puestos[item].fecha | date:"dd MMMM yyyy"}}</p>
+                  <p><i class="fa fa-fw fa-list-ol"></i> Vacante: {{ asesor.histo_puestos[item].id }}</p>
+                  <p class="text-primary"><strong><i class="fa fa-fw fa-user-o"></i> {{ asesor.histo_puestos[item].puesto }}</strong></p>
+                  <p class="text-danger"><i class="fa fa-fw fa-building-o"></i> {{ asesor.histo_puestos[item].pdv }}</p>
+                  <p><i class="fa fa-fw fa-globe"></i> {{ asesor.histo_puestos[item].ciudad }}</p>
+                  <hr>
+                </div>
+                <hr>
+                <div *ngFor="let item of asesor.histo_solicitudes | keys">
+                  <p><i class="fa fa-fw fa-bell-o"></i> Solicitud de {{ asesor.histo_solicitudes[item].tipo }} <i class="fa fa-fw fa-long-arrow-right"></i>
+                    <span [ngSwitch]="asesor.histo_solicitudes[item].statusId">
+                      <span *ngSwitchCase="0"><span class='badge badge-pill badge-warning'>{{ asesor.histo_solicitudes[item].status }}</span></span>
+                      <span *ngSwitchCase="1"><span class='badge badge-pill badge-success'>{{ asesor.histo_solicitudes[item].status }}</span></span>
+                      <span *ngSwitchCase="2"><span class='badge badge-pill badge-info'>{{ asesor.histo_solicitudes[item].status }}</span></span>
+                      <span *ngSwitchCase="3"><span class='badge badge-pill badge-danger'>{{ asesor.histo_solicitudes[item].status }}</span></span>
+                      <span *ngSwitchCase="4">
+                        <span class='badge badge-pill badge-default'>{{ asesor.histo_solicitudes[item].status }}</span>
+                        <span *ngIf="_init.checkSingleCredential('allmighty')"
+                              class='badge badge-pill badge-danger' style="cursor: pointer;" (click)='deleteSol(1, asesor.histo_solicitudes[item].id)'>Borrar</span>
+                        <div class="alert alert-warning" role="alert" *ngIf="solicitudConfirmFlag && warning == asesor.histo_solicitudes[item].id">
+                          <span>Seguro que deseas <strong>{{ solicitudConfirmMsg }}?</strong></span><br>
+                          <span>
+                            <button
+                                  type="button"
+                                  class="btn btn-sm btn-success"
+                                  [disabled]="solicitudConfirmRetrieving"
+                                  (click)="solicitudConfirm( 1, 'del', asesor.histo_solicitudes[item].id )"
+                                  >
+                                  <i class="fa fa-check fa-fw" *ngIf="!solicitudConfirmRetrieving"></i>
+                                  <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="solicitudConfirmRetrieving"></i>
+                            </button>
+                            <button
+                                  type="button"
+                                  class="btn btn-sm btn-danger"
+                                  [disabled]="solicitudConfirmRetrieving"
+                                  (click)="solicitudConfirm( 0 )"
+                                  >
+                                  <i class="fa fa-times fa-fw"></i>
+                            </button>
+                          </span>
+                        </div>
+                      </span>
+                      <span *ngSwitchDefault>NA</span>
+
+                      <ng-container *ngIf="asesor.histo_solicitudes[item].tipo == 'Baja'">
+                        <span class="badge badge-default" *ngIf="asesor.histo_solicitudes[item].recontratable == '' || asesor.histo_solicitudes[item].recontratable == NULL">Sin Información</span>
+                        <span class="badge badge-danger"  *ngIf="asesor.histo_solicitudes[item].recontratable == 0">No Recontratable</span>
+                        <span class="badge badge-success" *ngIf="asesor.histo_solicitudes[item].recontratable == 1">Recontratable</span>
+                      </ng-container>
+                    </span>
+                  </p>
+                  <p><i class="fa fa-fw fa-list-ol"></i> id Solicitud: {{ asesor.histo_solicitudes[item].id }}</p>
+                  <p *ngIf="asesor.histo_solicitudes[item].rrhhcomment != NULL && asesor.histo_solicitudes[item].rrhhcomment != ''"><i class="fa fa-fw fa-commenting-o"></i> RRHH: <cite>"{{ asesor.histo_solicitudes[item].rrhhcomment }}"</cite></p>
+                  <p class="text-danger"><i class="fa fa-fw fa-calendar-o"></i> Solicitud: {{ asesor.histo_solicitudes[item].fechaRequest | date:"dd MMMM yyyy" }} por {{ asesor.histo_solicitudes[item].solicitante }}</p>
+                  <p *ngIf="asesor.histo_solicitudes[item].tipo == 'Cambio'"><i class="fa fa-fw fa-user-o"></i> <span class="text-primary">{{ asesor.histo_solicitudes[item].dep }} <i class="fa fa-fw fa-arrow-right"></i> {{ asesor.histo_solicitudes[item].puesto }}</span></p>
+                  <p class="text-danger" *ngIf="asesor.histo_solicitudes[item].tipo == 'Cambio'"><i class="fa fa-fw fa-building-o"></i> {{ asesor.histo_solicitudes[item].pdv }}</p>
+                  <p *ngIf="asesor.histo_solicitudes[item].tipo == 'Cambio'"><i class="fa fa-fw fa-globe" ></i> {{ asesor.histo_solicitudes[item].ciudad }}</p>
+                  <p class="text-danger" *ngIf="asesor.histo_solicitudes[item].solicitudComment != NULL"><i class="fa fa-fw fa-commenting"></i> <cite>{{ asesor.histo_solicitudes[item].solicitudComment }}</cite></p>
+                  <p><i class="fa fa-fw fa-calendar"></i> Fecha solicitada: {{ asesor.histo_solicitudes[item].fechaSolicitada | date:"dd MMMM yyyy" }}</p>
+                  <p *ngIf="(asesor.histo_solicitudes[item].statusId == 0 || asesor.histo_solicitudes[item].statusId == 2) && !solicitudConfirmFlag && !solicitudConfirmAlert">
+                    <button *ngIf="(asesor.histo_solicitudes[item].solicitanteID == credentials.hcInfo['id']) || _init.checkSingleCredential('allmighty')"
+                            type="button" class="btn btn-sm btn-outline-warning" (click)="cxlSol( 1, asesor.histo_solicitudes[item].id )">Cancelar</button>
+                  </p>
+                  <div class="alert alert-warning" role="alert" *ngIf="(asesor.histo_solicitudes[item].statusId == 0 || asesor.histo_solicitudes[item].statusId == 2) && solicitudConfirmFlag && warning == asesor.histo_solicitudes[item].id">
+                    <span>Seguro que deseas <strong>{{ solicitudConfirmMsg }}?</strong></span><br>
+                    <span>
+                      <button
+                            type="button"
+                            class="btn btn-sm btn-success"
+                            [disabled]="solicitudConfirmRetrieving"
+                            (click)="solicitudConfirm( 1, 'cxl', asesor.histo_solicitudes[item].id )"
+                            >
+                            <i class="fa fa-check fa-fw" *ngIf="!solicitudConfirmRetrieving"></i>
+                            <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="solicitudConfirmRetrieving"></i>
+                      </button>
+                      <button
+                            type="button"
+                            class="btn btn-sm btn-danger"
+                            [disabled]="solicitudConfirmRetrieving"
+                            (click)="solicitudConfirm( 0 )"
+                            >
+                            <i class="fa fa-times fa-fw"></i>
+                      </button>
+                    </span>
+                  </div>
+                  <div class="alert alert-danger" role="alert" *ngIf="(asesor.histo_solicitudes[item].statusId == 0 || asesor.histo_solicitudes[item].statusId == 2) && solicitudConfirmAlert">
+                    <span><strong>Hubo un error en el proceso</strong></span><br>
+                    <span>
+                      {{ solicitudConfirmMsg }}
+                    </span><br>
+                    <span>Por favor notifícalo a WFM</span>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-sm-1">
+
+    </div>
+
+    <div class="contact-box col-md-5">
+      <!-- Contratacion -->
+      <div class="alert alert-info" role="alert">
+        <strong><i class="fa fa-fw fa-calendar"></i> Contratación</strong>
+      </div>
+      <table class="table">
+        <thead class="thead-default">
+          <tr>
+            <th class="text-center" >Ingreso</th>
+            <th class="text-center" >Status</th>
+            <th class="text-center"  *ngIf="asesor.status=='Inactivo'">Egreso</th>
+            <th class="text-center"  *ngIf="asesor.status=='Inactivo'">Recontratable</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center" >{{ asesor.ingreso | date:"dd MMMM yyyy" }}</td>
+            <td class="text-center" >
+              <div [ngSwitch]="asesor.status">
+                <div *ngSwitchCase="'Activo'"><span class='badge badge-pill badge-success'>Activo</span></div>
+                <div *ngSwitchCase="'Inactivo'"><span class='badge badge-pill badge-danger'>Inactivo</span></div>
+                <div *ngSwitchDefault>N/A</div>
+              </div>
+            </td>
+            <td class="text-center"  *ngIf="asesor.status=='Inactivo'">{{ asesor.egreso | date:"dd MMMM yyyy" }}</td>
+            <td class="text-center"  *ngIf="asesor.status=='Inactivo'">
+              <span class="badge badge-default" *ngIf="asesor.recontratable == '' || asesor.recontratable == NULL">Sin Información</span>
+              <span class="badge badge-danger"  *ngIf="asesor.recontratable == 0">No Recontratable</span>
+              <span class="badge badge-success" *ngIf="asesor.recontratable == 1">Recontratable</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+      <!-- Asistencia -->
+      <ng-container *ngIf="asesor.status=='Activo'">
+        <div class="alert alert-info" role="alert">
+          <strong><i class="fa fa-fw fa-calendar-check-o"></i> Asistencia</strong>
+        </div>
+        <table class="table">
+          <thead class="thead-default">
+            <tr>
+              <th class="text-center" >Ultima Asistencia</th>
+              <th class="text-center" >Horario de Hoy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center" >{{ asesor.asistencia['last'] | date:"dd MMMM yyyy" }}</td>
+              <td class="text-center" >{{ asesor.asistencia['horario']}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </ng-container>
+      <!-- Contrato -->
+      <div class="alert alert-info" role="alert">
+        <div class="d-flex justify-content-end">
+          <div class="mr-auto p-2">
+            <p style="position:relative;
+                  top:50%;
+                  transform: translateY(-50%);
+                  -webkit-transform: translateY(-50%);
+                  -ms-transform: translateY(-50%);">
+              <strong><i class="fa fa-fw fa-file-text"></i> Contrato</strong>
+            </p>
+          </div>
+          <div class="p-2">
+            <button
+                    type="button"
+                    class="btn btn-sm btn-outline-warning"
+                    *ngIf="_init.checkSingleCredential('hc_agregar_asesor')"
+                    (click)="showModal('#form_addContrato', '#detailAsesor', 'addContrato', asesor)"
+            >
+              Agregar Contrato
+            </button>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        <thead  class="thead-default">
+          <tr>
+            <th class="text-center" >Tipo</th>
+            <th class="text-center" >Status</th>
+            <th class="text-center"  *ngIf="asesor.contrato_tipo=='Temporal'">Fin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center" *ngIf="asesor.contrato_tipo == 'Temporal'"><span class="badge badge-warning">Temporal</span></td>
+            <td class="text-center" *ngIf="asesor.contrato_tipo != 'Temporal'"><span class="badge badge-success">Indefinido</span></td>
+
+            <td class="text-center" *ngIf="asesor.status == 'Activo'">
+              <span class="badge badge-success" *ngIf="asesor.contrato_status == 'Vigente'">Vigente</span>
+              <span class="badge badge-warning" *ngIf="asesor.contrato_status == 'Vencido'">Vencido</span>
+            </td>
+            <td class="text-center" *ngIf="asesor.status != 'Activo'">
+              <span class="badge badge-danger">Terminado</span>
+            </td>
+
+            <td class="text-center"  *ngIf="asesor.contrato_tipo=='Temporal'">
+              {{ asesor.contrato_fin }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+      <!-- Salarios -->
+      <ng-container *ngIf="_init.checkSingleCredential('hc_salarios_display') && asesor.status == 'Activo' && asesor.salario['codigo'] != 'NA'">
+        <div class="alert alert-info" role="alert">
+          <div class="d-flex justify-content-end">
+            <div class="mr-auto p-2">
+              <p style="position:relative;
+                    top:50%;
+                    transform: translateY(-50%);
+                    -webkit-transform: translateY(-50%);
+                    -ms-transform: translateY(-50%);">
+                <strong><i class="fa fa-fw fa-usd"></i> Sueldo</strong>
+              </p>
+            </div>
+            <div class="p-2">
+              <button
+                      type="button"
+                      class="btn btn-sm btn-outline-success"
+                      *ngIf="_init.checkSingleCredential('hc_cambios_solicitud') && !asesor.solSalario.exists"
+                      (click)="showModal('#form_ajusteSalarial', '#detailAsesor', 'ajusteSalarial', asesor)"
+              >
+                Solicitud Ajuste Salarial
+              </button>
+              <button
+                      type="button"
+                      class="btn btn-sm btn-outline-info"
+                      *ngIf="(_init.checkSingleCredential('hc_cambios_solicitud') || _init.checkSingleCredential('hc_salarios_approbe')) && asesor.solSalario.exists"
+                      (click)="showModal('#form_editarAjusteSalarial', '#detailAsesor', 'editarAjusteSalarial', asesor)"
+              >
+                Editar Solicitud
+              </button>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <thead  class="thead-default">
+            <tr>
+              <th class="text-center" >Por Codigo</th>
+              <th class="text-center" >Factor</th>
+              <th class="text-center" >Diario</th>
+              <th class="text-center" >Mensual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center" >{{ +asesor.salario['codigo']  | currency:'MXN':true:'.2-2'  }}</td>
+              <td class="text-center" >{{ +asesor.salario['factor']    | number:'.2-2'              }}%</td>
+              <td class="text-center" >{{ asesor.salario['diario'] | currency:'MXN':true:'.2-2'  }}</td>
+              <td class="text-center" >{{ +asesor.salario['mensual'] | currency:'MXN':true:'.2-2'  }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </ng-container>
+      <!-- CxC -->
+      <div class="alert alert-info" role="alert">
+        <div class="d-flex justify-content-end">
+          <div class="mr-auto p-2">
+            <p style="position:relative;
+                  top:50%;
+                  transform: translateY(-50%);
+                  -webkit-transform: translateY(-50%);
+                  -ms-transform: translateY(-50%);">
+              <strong><i class="fa fa-fw fa-money"></i> CXC</strong>
+            </p>
+          </div>
+          <div class="p-2">
+            <button
+                    type="button"
+                    class="btn btn-sm btn-outline-info"
+                    *ngIf="_init.checkSingleCredential('cxc_registro')"
+                    (click)="showModal('#form_addCxc', '#detailAsesor', 'addCxc', asesor)"
+            >
+              Agregar
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-sm btn-outline-warning"
+                    *ngIf="_init.checkSingleCredential('cxc_apply')"
+                    (click)="showModal('#form_applyCxc', '#detailAsesor', 'applyCxc', asesor)"
+            >
+              Aplicar
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-sm btn-outline-success"
+                    *ngIf="_init.checkSingleCredential('cxc_apply')"
+                    (click)="showModal('#form_saldarCxc', '#detailAsesor', 'saldarCxc', asesor)"
+            >
+              Saldar
+            </button>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        <thead  class="thead-default">
+          <tr>
+            <th class="text-center" >Total</th>
+            <th class="text-center" >Adeudo</th>
+            <th class="text-center" >Sig. Quincena</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center" >{{ +asesor.cxc_total | currency:'MXN':true:'.2-2' }}</td>
+            <td class="text-center" >{{ +asesor.cxc_adeudo | currency:'MXN':true:'.2-2' }}</td>
+            <td class="text-center" >{{ +asesor.cxc_quincena | currency:'MXN':true:'.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+      <!-- Sanciones -->
+      <div class="alert alert-info" role="alert">
+        <div class="d-flex justify-content-end">
+          <div class="mr-auto p-2">
+            <p style="position:relative;
+                  top:50%;
+                  transform: translateY(-50%);
+                  -webkit-transform: translateY(-50%);
+                  -ms-transform: translateY(-50%);">
+              <strong><i class="fa fa-fw fa-gavel"></i> Sanciones</strong>
+            </p>
+          </div>
+          <div class="p-2">
+            <button
+                    type="button"
+                    class="btn btn-sm btn-outline-warning"
+                    *ngIf="_init.checkSingleCredential('sanciones') && asesor.sanc != null"
+                    (click)="showModal('#form_detalleSanciones', '#detailAsesor', 'detalleSanciones', asesor)"
+            >
+              Ver Detalle
+            </button>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        <thead  class="thead-default">
+          <tr>
+            <th class="text-center" >Acciones</th>
+            <th class="text-center" >Actas</th>
+            <th class="text-center" >P.Performance</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="asesor.sanc != NULL">
+          <tr>
+            <td class="text-center" >{{ (asesor.sanc.Accion?.Total | number:".0-0") }} | {{ (asesor.sanc.Accion?.Vigentes | number:".0-0") }}</td>
+            <td class="text-center" >{{ (asesor.sanc.Acta?.Total | number:".0-0") }} | {{ (asesor.sanc.Acta?.Vigentes | number:".0-0") }}</td>
+            <td class="text-center" >{{ (asesor.sanc.PPerformance?.Total | number:".0-0") }} | {{ (asesor.sanc.PPerformance?.Vigentes | number:".0-0") }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+<!-- <app-cambio-puesto></app-cambio-puesto> -->

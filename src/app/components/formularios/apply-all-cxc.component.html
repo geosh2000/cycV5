@@ -1,0 +1,90 @@
+<p *ngIf="!ready">Cargando Prenómina...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
+<div class="container-fluid" *ngIf="ready && !noRows">
+  <table class="table-responsive table-striped table-bordered table-hover table-sm">
+    <thead class="thead-default">
+      <tr>
+        <th>#</th>
+        <th>Asesor</th>
+        <th>Localizador</th>
+        <th>Fecha CxC</th>
+        <th>Monto</th>
+        <th>Comentarios</th>
+        <th>Creador</th>
+        <th>Status</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of formApplyCxcDetail | keys">
+        <tr [ngClass]="{ 'alert-warning': formApplyCxcDetail[item].flagApply }">
+          <th scope="row">{{ formApplyCxcDetail[item].id }}</th>
+          <td>{{ formApplyCxcDetail[item].nombreAsesor }}</td>
+          <td><a target="_blank" href="https://rsv.pricetravel.com.mx/reservations/show/{{ formApplyCxcDetail[item].localizador }}">{{ formApplyCxcDetail[item].localizador }}</a></td>
+          <td>{{ formApplyCxcDetail[item].fecha_cxc | date:"dd MMMM yyyy" }}</td>
+          <td>{{ formApplyCxcDetail[item].monto | currency:'MXN':true:'.2-2' }}</td>
+          <td style='max-width: 500px'>{{ formApplyCxcDetail[item].comments }}</td>
+          <td>{{ formApplyCxcDetail[item].creador }}</td>
+          <ng-container [ngSwitch]="formApplyCxcDetail[item].status">
+            <ng-container *ngSwitchCase="0">
+              <td><span class='badge badge-pill badge-danger'>En revisión por CC</span></td>
+              <td><button type="button" class="btn btn-sm" [ngClass]="{ 'btn-outline-danger': !applying, 'btn-outline-secondary' : applying }" (click)="showApplyForm(item)" [disabled]="applying">Aplicar</button></td>
+            </ng-container>
+            <ng-container *ngSwitchCase="1">
+              <td><span class='badge badge-pill badge-primary'>Listo para Aplicar</span></td>
+              <td><button type="button" class="btn btn-sm" [ngClass]="{ 'btn-outline-info': !applying, 'btn-outline-secondary' : applying }" (click)="showApplyForm(item)" [disabled]="applying">Aplicar</button></td>
+            </ng-container>
+          </ng-container>
+        </tr>
+        <!-- FORM APPLY -->
+        <tr *ngIf="formApplyCxcDetail[item].flagApply" class="animated fadeIn">
+          <td colspan=100>
+            <form class="alert alert-warning d-flex justify-content-around form-inline" [formGroup]="formApplyCxc">
+              <label class="mr-sm-2" for="inlineFormCustomSelect">Quincenas:
+                <span class="col-12 form-control-feedback" *ngIf="formApplyCxc.controls['quincenas'].errors?.required && !formApplyCxc.controls['quincenas'].pristine">
+                  <small>Campo Obligatorio</small>
+                </span>
+              </label>
+                <select class="custom-select mb-2 mr-sm-2 mb-sm-0" formControlName="quincenas" [ngClass]="{ 'has-danger': !formApplyCxc.controls['quincenas'].valid && !formApplyCxc.controls['quincenas'].pristine}">
+                  <option value=''>Selecciona...</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                </select>
+
+              <span>Monto: {{ montoaPagar | currency:'MXN':true:'.2-2' }}</span>
+
+              <label class="mr-sm-2" for="inlineFormCustomSelect">Inicio:
+                <span class="col-12 form-control-feedback" *ngIf="formApplyCxc.controls['inicio'].errors?.required && !formApplyCxc.controls['inicio'].pristine">
+                <small>Campo Obligatorio</small>
+                </span>
+              </label>
+                <select class="custom-select mb-2 mr-sm-2 mb-sm-0" formControlName="inicio" [ngClass]="{ 'has-danger': !formApplyCxc.controls['inicio'].valid && !formApplyCxc.controls['inicio'].pristine}">
+                  <option value=''>Selecciona...</option>
+                  <option [value]="option.id" *ngFor="let option of listFechas">{{ option.pago }}</option>
+                </select>
+
+
+                <button
+                        [disabled]="formApplyCxc.invalid || submitting"
+                        type="button"
+                        [ngClass]="{ 'btn-outline-secundary': formApplyCxc.invalid, 'btn-success': !formApplyCxc.invalid }"
+                        class="btn btn-sm"
+                        (click)="submit()"
+                        >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+              <button type="button" class="btn btn-sm btn-danger" (click)="closeApplyForm(item)">Cancelar</button>
+            </form>
+          </td>
+        </tr>
+        <!-- FORM APPLY END -->
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<div class="alert alert-info" role="alert" *ngIf="noRows">
+  <strong>Sin Pendientes</strong> No existen Cxc por aplicar
+</div>

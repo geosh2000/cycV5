@@ -1,0 +1,54 @@
+<form class="form-group" [formGroup]="formAddContrato" (ngSubmit)="submit()">
+
+  <div class="form-group row" [ngClass]="{ 'has-danger': !formAddContrato.controls[item].valid && !formAddContrato.controls[item].pristine}" *ngFor="let item of formAddContratoDetail | keys" >
+    <ng-container *ngIf="formAddContratoDetail[item].show">
+      <label class="col-4 col-form-label">{{ item | capitalizado }} <span *ngIf="formAddContratoDetail[item].required">*</span></label>
+      <div class="col-8 input-group">
+        <span class="input-group-addon">
+          <i class="{{ formAddContratoDetail[item].icon }}"></i>
+        </span>
+        <input
+          *ngIf="formAddContratoDetail[item].tipo=='date'"
+          daterangepicker
+          [formControlName]="item"
+          [options]="singlePicker"
+          (selected)="setVal($event.start, item)"
+          class="form-control uneditable-input" type="text" value="" [readonly]="formAddContratoDetail[item].readonly">
+        <input
+          *ngIf="formAddContratoDetail[item].tipo=='text'"
+          [formControlName]="item"
+          class="form-control" type="text" value="" [readonly]="formAddContratoDetail[item].readonly">
+        <select
+                *ngIf="formAddContratoDetail[item].tipo=='select'"
+                class="custom-select" style="max-width: 257px; min-width: 257px;"
+                [formControlName]="item"
+                >
+          <option value="">Selecciona...</option>
+          <option value="1">Temporal</option>
+          <option value="2">Indefinido</option>
+        </select>
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formAddContrato.controls[item].errors?.pattern && !formAddContrato.controls[item].pristine">
+        <div><small [innerHTML]="formAddContratoDetail[item].pattern"></small></div>
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formAddContrato.controls[item].errors?.required && !formAddContrato.controls[item].pristine">
+        <div><small>Campo Obligatorio</small></div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <button
+            [disabled]="formAddContrato.invalid || submitting"
+            type="submit"
+            [ngClass]="{ 'btn-outline-secondary': formAddContrato.invalid, 'btn-success': !formAddContrato.invalid }"
+            class="btn"
+            >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
+    <span><strong>Hubo un error en el proceso</strong></span><br>
+    <span>
+      {{ errorMsg }}
+    </span><br>
+    <span>Por favor notifícalo a WFM</span>
+  </div>
+</form>

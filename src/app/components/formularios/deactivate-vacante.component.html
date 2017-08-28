@@ -1,0 +1,61 @@
+
+<div class="alert alert-warning" role="alert">
+  Al desactivar la vacante, dejará de ser visible para reclutamiento y dejará de contar en el HeadCount
+</div>
+<div class="alert alert-info" role="alert">
+  Ya no es posible reactivar vacantes, en su lugar se debe crear una nueva y pasar por el flujo de autorización
+</div>
+<form class="form-group" [formGroup]="formDeactivateVacante" (ngSubmit)="submit()">
+
+  <div class="form-group row" [ngClass]="{ 'has-danger': !formDeactivateVacante.controls['fecha'].valid && !formDeactivateVacante.controls['fecha'].pristine}">
+
+      <label class="col-4 col-form-label">Fecha</label>
+      <div class="col-8 input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-calendar-o fa-fw"></i>
+        </span>
+        <input
+          daterangepicker
+          [formControlName]="'fecha'"
+          [options]="singlePicker"
+          (selected)="setVal($event.start, 'fecha')"
+          class="form-control uneditable-input" type="text" value="">
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formDeactivateVacante.controls['fecha'].errors?.pattern && !formDeactivateVacante.controls['fecha'].pristine">
+        <div><small>El formato debe coincidir con YYYY-MM-DD</small></div>
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formDeactivateVacante.controls['fecha'].errors?.required && !formDeactivateVacante.controls['fecha'].pristine">
+        <div><small>Campo Obligatorio</small></div>
+      </div>
+
+  </div>
+
+  <div class="form-group row">
+
+      <label class="col-4 col-form-label">Comentarios</label>
+      <div class="col-8 input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-comment-o fa-fw"></i>
+        </span>
+        <input
+          [formControlName]="'comments'"
+          class="form-control" type="text" value="">
+      </div>
+
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <button
+            [disabled]="formDeactivateVacante.invalid || submitting"
+            type="submit"
+            [ngClass]="{ 'btn-outline-secondary': formDeactivateVacante.invalid, 'btn-success': !formDeactivateVacante.invalid }"
+            class="btn"
+            >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
+    <span><strong>Hubo un error en el proceso</strong></span><br>
+    <span>
+      {{ errorMsg }}
+    </span><br>
+    <span>Por favor notifícalo a WFM</span>
+  </div>
+</form>

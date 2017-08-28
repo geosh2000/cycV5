@@ -1,0 +1,288 @@
+<div class='container' *ngIf="showContents">
+<ng-container *ngIf="showFilters">
+  <div class="row d-flex justify-content-around">
+    <div class="col-3">
+      <div class="form-group row">
+        <div class="col-sm-12 input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-user-o fa-fw"></i>
+          </span>
+          <ng2-completer
+            class="form-control customComplete"
+            [(ngModel)]="searchStrName"
+            [datasource]="dataServiceName"
+            [minSearchLength]="0"
+            [clearSelected]="true"
+            (selected)="onSelected($event)"
+            placeholder="Nombre">
+          </ng2-completer>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group row">
+        <div class="col-sm-12 input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-user-o fa-fw"></i>
+          </span>
+          <ng2-completer
+            class="form-control customComplete"
+            [(ngModel)]="searchStrDep"
+            [datasource]="dataServiceDep"
+            [minSearchLength]="0"
+            [clearSelected]="true"
+            (selected)="onSelected($event)"
+            placeholder="Departamento">
+          </ng2-completer>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group row">
+        <div class="col-sm-12 input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-user-o fa-fw"></i>
+          </span>
+          <ng2-completer
+            class="form-control customComplete"
+            [(ngModel)]="searchStrIngreso"
+            [datasource]="dataServiceIngreso"
+            [minSearchLength]="0"
+            [clearSelected]="true"
+            (selected)="onSelected($event)"
+            placeholder="Ingreso (AA-MM)">
+          </ng2-completer>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group row">
+        <div class="col-sm-12 input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-user-o fa-fw"></i>
+          </span>
+          <ng2-completer
+            class="form-control customComplete"
+            [(ngModel)]="searchStrEgreso"
+            [datasource]="dataServiceEgreso"
+            [minSearchLength]="0"
+            [clearSelected]="true"
+            (selected)="onSelected($event)"
+            placeholder="Egreso (AA-MM)">
+          </ng2-completer>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <div class='mr-auto'>{{ titleSelection }}</div>
+    <button appButtonSave type="button" class="btn btn-sm btn-outline-success" *ngIf="_init.checkSingleCredential('hc_agregar_asesore')" (click)="showAddAsesor()">Agregar Asesor</button>
+    <button type="button" class="btn btn-sm btn-outline-info" *ngIf="listFlag" (click)="downloadXLS( params.id, 'listAsesores' )">Descargar</button>
+  </div>
+</ng-container>
+
+  <hr>
+  <div style="margin-top: 30px" class="alert alert-info" role="alert" *ngIf="detailLoading">
+    <h3 class="text-center"><i class="fa fa-spinner fa-pulse fa-lg fa-fw"></i> Loading info...</h3>
+  </div>
+  <app-show-detail-asesor (showDialog)="showAsesorChildDialog($event)"></app-show-detail-asesor>
+  <div class="container" *ngIf="listFlag && listAsesores">
+    <ng2-smart-table
+              (edit)="viewDetails($event)"
+              id='listAsesores'
+              class='table-responsive table-striped'
+              [settings]="smartTableSettings"
+              [source]="listAsesores['data']"
+              >
+    </ng2-smart-table>
+  </div>
+</div>
+
+<!-- Formulario Cambio de Puesto -->
+<div class="modal hide fade" id="form_cambioPuesto" tabindex="-1" role="dialog" aria-labelledby="form_cambioPuesto" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_cambioPuestoLabel">Cambio de Puesto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-cambio-puesto (closeDialog)="showDialogReturnParent($event)" (save)="retrieveAgain($event)"></app-cambio-puesto>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="showDialogReturnParent('#form_cambioPuesto')">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<div class="modal hide fade" id="form_editDetails" tabindex="-1" role="dialog" aria-labelledby="form_editDetails" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_editDetailsLabel">Editar Detalles</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-edit-details (closeDialog)="showDialogReturnParent($event)" (save)="retrieveAgain($event)"></app-edit-details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Set Baja -->
+<div class="modal hide fade" id="form_setBaja" tabindex="-1" role="dialog" aria-labelledby="form_setBaja" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_setBajaLabel">Registrar Baja <small>{{ titleBaja }}</small></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-set-baja (closeDialog)="showDialogReturnParent($event)" (save)="retrieveAgain($event)"></app-set-baja>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Add CxC -->
+<div class="modal hide fade" id="form_addCxc" tabindex="-1" role="dialog" aria-labelledby="form_addCxc" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_addCxcLabel">Registrar CxC</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-agregar-cxc (closeDialog)="showDialogReturnParent($event)" (save)="retrieveAgain($event)"></app-agregar-cxc>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Saldar CxC -->
+<div class="modal hide fade" id="form_saldarCxc" tabindex="-1" role="dialog" aria-labelledby="form_saldarCxc" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_saldarCxcLabel">Saldar CxC</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-saldar-cxc (closeDialog)="showDialogReturnParent($event)" (save)="retrieveAgain($event)"></app-saldar-cxc>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Apply CxC -->
+<div class="modal hide fade" id="form_applyCxc" tabindex="-1" role="dialog" aria-labelledby="form_applyCxc" aria-hidden="true">
+  <div class="modal-dialog modal-detailAsesores" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_applyCxcLabel">Aplicar CxC</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-apply-cxc (closeDialog)="showDialogReturnParent($event)" (save)="retrieveAgain($event)"></app-apply-cxc>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Solicitud Ajuste Salarial -->
+<div class="modal hide fade" id="form_ajusteSalarial" tabindex="-1" role="dialog" aria-labelledby="form_ajusteSalarial" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_ajusteSalarialLabel">Solicitar Ajuste Salarial</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-ajuste-salarial (closeDialog)="showDialogReturnParent($event)" (save)="retrieveAgain($event)"></app-ajuste-salarial>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Solicitud Ajuste Salarial -->
+<div class="modal hide fade" id="form_editarAjusteSalarial" tabindex="-1" role="dialog" aria-labelledby="form_editarAjusteSalarial" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_editarAjusteSalarialLabel">Ajuste Salarial</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-editar-ajuste-salarial (closeDialog)="showDialogReturnParent($event)" (save)="retrieveAgain($event)"></app-editar-ajuste-salarial>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Add Contrato -->
+<div class="modal hide fade" id="form_addContrato" tabindex="-1" role="dialog" aria-labelledby="form_addContrato" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_addContratoLabel">Agregar Contrato</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-add-contrato (closeDialog)="showDialogReturnParent($event)" (save)="retrieveAgain($event)"></app-add-contrato>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detalle Sanciones -->
+<div class="modal hide fade" id="form_detalleSanciones" tabindex="-1" role="dialog" aria-labelledby="form_detalleSanciones" aria-hidden="true">
+  <div class="modal-dialog modal-detailAsesores" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_detalleSancionesLabel">Detalle Sanciones</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-sanciones (closeDialog)="showDialogReturnParent($event)" ></app-sanciones>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Add Asesor -->
+<div class="modal hide fade" id="form_addAsesor" tabindex="-1" role="dialog" aria-labelledby="form_addAsesor" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_addAsesorLabel">Agregar Asesor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-add-asesor (showDialog)="showAsesorChildDialog($event)"></app-add-asesor>
+      </div>
+    </div>
+  </div>
+</div>

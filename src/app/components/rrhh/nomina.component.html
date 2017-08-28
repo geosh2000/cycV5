@@ -1,0 +1,35 @@
+<div class="container-fluid">
+
+  <p *ngIf="!listCortesFlag">Cargando Cortes de nómina...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
+  <div class="d-flex justify-content-start">
+    <select class="custom-select" *ngIf="listCortesFlag" (change)="selectedCorte( $event )">
+      <option value="">Selecciona el corte a mostrar</option>
+      <option [value]="listCortes[item]['id']" *ngFor="let item of listCortes | keys">
+        {{ listCortes[item]['name'] }}
+      </option>
+    </select>
+    <button type="button" class="btn btn-outline-warning ml-auto" *ngIf="ready" (click)="downloadXLS('prenomina', 'prenomina')">Descargar</button>
+  </div>
+
+  <hr>
+  <div class="alert alert-danger" *ngIf="cxcPendientes">
+    <strong>Importante!</strong> Existen CxCs pendientes por aplicar.
+  </div>
+
+  <p *ngIf="loadingNomina">Cargando Prenómina...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
+  <div class="alert alert-danger" *ngIf="errorFlag">
+    {{ errorMsg | json }}
+  </div>
+  <div class="container-fluid" *ngIf="ready">
+    <ng2-smart-table
+              id='prenomina'
+              class='table-responsive table-striped table-bordered table-hover table-sm'
+              [settings]="smartTableSettings"
+              [source]="prenomina"
+              >
+    </ng2-smart-table>
+  </div>
+
+
+
+</div>

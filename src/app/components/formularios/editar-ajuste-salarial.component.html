@@ -1,0 +1,81 @@
+<form class="form-group" *ngIf="ajuste">
+
+  <!-- ID -->
+  <div class="form-group row">
+    <label class="col-4 col-form-label">ID</label>
+    <div class="col-8 input-group">
+      <span class="input-group-addon">
+        <i class="fa fa-hashtag fa-fw"></i>
+      </span>
+      <input class="form-control" type="text" [value]="ajuste['id']" readonly>
+    </div>
+  </div>
+
+  <!-- Ajuste -->
+  <div class="form-group row">
+    <label class="col-4 col-form-label">Ajuste</label>
+    <div class="col-8 input-group">
+      <span class="input-group-addon">
+        <i class="fa fa-percent fa-fw"></i>
+      </span>
+      <input class="form-control" type="text" [value]="ajuste['ajuste']" readonly>
+    </div>
+  </div>
+
+  <!-- Salario -->
+  <div class="form-group row">
+    <label class="col-4 col-form-label">Anterior Salario</label>
+    <div class="col-8 input-group">
+      <span class="input-group-addon">
+        <i class="fa fa-usd fa-fw"></i>
+      </span>
+      <input class="form-control" type="text" [value]="ajuste['antiguo']" readonly>
+    </div>
+  </div>
+
+  <!-- Salario -->
+  <div class="form-group row">
+    <label class="col-4 col-form-label">Nuevo Salario</label>
+    <div class="col-8 input-group">
+      <span class="input-group-addon">
+        <i class="fa fa-usd fa-fw"></i>
+      </span>
+      <input class="form-control" type="text" [value]="ajuste['nuevo']" readonly>
+    </div>
+  </div>
+
+  <!-- Fecha Cambio -->
+  <div class="form-group row">
+    <label class="col-4 col-form-label">Fecha Cambio</label>
+    <div class="col-8 input-group">
+      <span class="input-group-addon">
+        <i class="fa fa-calendar fa-fw"></i>
+      </span>
+      <input class="form-control" type="text" [value]="ajuste['fecha']" readonly>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end"  *ngIf="currentUser.credentials['hc_salarios_approbe'] == 1 || currentUser.credentials['hc_cambios_solicitud'] == 1">
+    <button
+            [disabled]="submitting"
+            type="button"
+            class="btn btn-warning p-2"
+            style="margin-right: 5px"
+            (click)="cxl( )">Cancelar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting && accept"></i></button>
+    <button
+            [disabled]="submitting"
+            *ngIf="currentUser.credentials['hc_salarios_approbe'] == 1"
+            type="button"
+            class="btn btn-danger p-2"
+            style="margin-right: 5px"
+            (click)="approbe( false )">Declinar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting && !accept"></i></button>
+    <button
+            [disabled]="submitting"
+            *ngIf="currentUser.credentials['hc_salarios_approbe'] == 1"
+            type="button"
+            class="btn btn-success p-2"
+            (click)="approbe( true )">Aprobar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting && accept"></i></button>
+
+  </div>
+
+</form>

@@ -1,0 +1,40 @@
+<div class="container-fluid" *ngIf="showContents">
+
+  <div class="d-flex justify-content-start">
+    <div class="form-group p-2">
+        <div
+            class="input-group"
+            daterangepicker (selected)="dateChange($event.start, $event.end)">
+            <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker">
+            <span class="input-group-btn">
+                <a type="button" class="btn btn-default"><i class="fa fa-calendar fa-fw"></i></a>
+            </span>
+        </div>
+    </div>
+    <div class="p-2">
+        <button type="button" class="btn btn-outline-primary" *ngIf="skill!='' && searchStart && searchEnd" (click)="getPrecision(searchStart, searchEnd, skill)">Buscar</button>
+    </div>
+    <div class="ml-auto p-2">
+        <button type="button" class="btn btn-outline-warning" *ngIf="ready" (click)="downloadXLS('precision', 'precision')">Descargar</button>
+    </div>
+
+  </div>
+  <hr>
+  <p *ngIf="loadingPrecision">Cargando Precision...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
+  <div class="alert alert-danger" *ngIf="errorFlag">
+    {{ errorMsg | json }}
+  </div>
+  <div class="container-fluid" *ngIf="ready">
+    <ng2-smart-table
+              id='precision'
+              (edit)="viewDetails($event)"
+              class='table-responsive table-striped table-bordered table-hover table-sm'
+              [settings]="smartTableSettings"
+              [source]="listPrecision"
+              >
+    </ng2-smart-table>
+  </div>
+
+
+
+</div>

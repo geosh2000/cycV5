@@ -1,0 +1,105 @@
+<form class="form-group" [formGroup]="formSolicitarAjuste" (ngSubmit)="submit()">
+
+  <div class="form-group row" [ngClass]="{ 'has-danger': !formSolicitarAjuste.controls['ajuste'].valid && !formSolicitarAjuste.controls['ajuste'].pristine}">
+    <label class="col-4 col-form-label">Ajuste</label>
+      <div class="col-8 input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-percent fa-fw"></i>
+        </span>
+        <input
+          [formControlName]="'ajuste'"
+          class="form-control" type="text" value="">
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formSolicitarAjuste.controls['ajuste'].errors?.pattern && !formSolicitarAjuste.controls['ajuste'].pristine">
+        <div><small>De 0 a 50%, sólo dígitos con formato ## o ##.##</small></div>
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formSolicitarAjuste.controls['ajuste'].errors?.required && !formSolicitarAjuste.controls['ajuste'].pristine">
+        <div><small>Campo Obligatorio</small></div>
+      </div>
+  </div>
+  <!-- calculo salario ReadOnly -->
+  <div class="form-group row" [ngClass]="{ 'has-danger': !formSolicitarAjuste.controls['antiguo_salario'].valid && !formSolicitarAjuste.controls['antiguo_salario'].pristine}">
+    <label class="col-4 col-form-label">Salario Anterior</label>
+      <div class="col-8 input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-usd fa-fw"></i>
+        </span>
+        <input
+          [formControlName]="'antiguo_salario'"
+          class="form-control  uneditable-input"  type="text" id='antiguo_salario' readonly>
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formSolicitarAjuste.controls['nuevo_salario'].errors?.pattern && !formSolicitarAjuste.controls['nuevo_salario'].pristine">
+        <div><small>De 0 a 50%, sólo dígitos con formato ## o ##.##</small></div>
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formSolicitarAjuste.controls['nuevo_salario'].errors?.required && !formSolicitarAjuste.controls['nuevo_salario'].pristine">
+        <div><small>Campo Obligatorio</small></div>
+      </div>
+  </div>
+  <div class="form-group row" [ngClass]="{ 'has-danger': !formSolicitarAjuste.controls['nuevo_salario'].valid && !formSolicitarAjuste.controls['nuevo_salario'].pristine}">
+    <label class="col-4 col-form-label">Nuevo Salario</label>
+      <div class="col-8 input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-usd fa-fw"></i>
+        </span>
+        <input
+          [formControlName]="'nuevo_salario'"
+          class="form-control  uneditable-input"  type="text" id='nuevo_salario' readonly>
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formSolicitarAjuste.controls['nuevo_salario'].errors?.pattern && !formSolicitarAjuste.controls['nuevo_salario'].pristine">
+        <div><small>De 0 a 50%, sólo dígitos con formato ## o ##.##</small></div>
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formSolicitarAjuste.controls['nuevo_salario'].errors?.required && !formSolicitarAjuste.controls['nuevo_salario'].pristine">
+        <div><small>Campo Obligatorio</small></div>
+      </div>
+  </div>
+
+  <!-- Comentarios -->
+  <div class="form-group row" [ngClass]="{ 'has-danger': !formSolicitarAjuste.controls['comentarios_solicitante'].valid && !formSolicitarAjuste.controls['comentarios_solicitante'].pristine}">
+    <label class="col-4 col-form-label">Comentarios</label>
+      <div class="col-8 input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-comment fa-fw"></i>
+        </span>
+        <input
+          [formControlName]="'comentarios_solicitante'"
+          class="form-control" type="text" value="">
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formSolicitarAjuste.controls['comentarios_solicitante'].errors?.required && !formSolicitarAjuste.controls['comentarios_solicitante'].pristine">
+        <div><small>Campo Obligatorio</small></div>
+      </div>
+  </div>
+  <div class="form-group row" [ngClass]="{ 'has-danger': !formSolicitarAjuste.controls['fecha_cambio'].valid && !formSolicitarAjuste.controls['fecha_cambio'].pristine}">
+
+      <label class="col-4 col-form-label">Fecha Cambio</label>
+      <div class="col-8 input-group">
+        <input
+          daterangepicker
+          [formControlName]="'fecha_cambio'"
+          [options]="singlePicker"
+          (selected)="setVal($event.start, 'fecha_cambio')"
+          class="form-control uneditable-input" type="text" value="">
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formSolicitarAjuste.controls['fecha_cambio'].errors?.pattern && !formSolicitarAjuste.controls['fecha_cambio'].pristine">
+        <div><small>Debe coincidir con el formato YYYY-MM-DD</small></div>
+      </div>
+      <div class="col-12 form-control-feedback" *ngIf="formSolicitarAjuste.controls['fecha_cambio'].errors?.required && !formSolicitarAjuste.controls['fecha_cambio'].pristine">
+        <div><small>Campo Obligatorio</small></div>
+      </div>
+  </div>
+
+  <div class="d-flex flex-row-reverse">
+    <button
+            [disabled]="formSolicitarAjuste.invalid || submitting"
+            type="submit"
+            [ngClass]="{ 'btn-outline-secondary': formSolicitarAjuste.invalid, 'btn-success': !formSolicitarAjuste.invalid }"
+            class="btn"
+            >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
+    <span><strong>Hubo un error en el proceso</strong></span><br>
+    <span>
+      {{ errorMsg }}
+    </span><br>
+    <span>Por favor notifícalo a WFM</span>
+  </div>
+</form>

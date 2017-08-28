@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <ng-container *ngIf="ready && !noRows">
+    <table class="table">
+      <thead class="thead-default">
+        <tr>
+          <th>#</th>
+          <th>Asesor</th>
+          <th>Tipo</th>
+          <th>Incidencia</th>
+          <th>Aplicación</th>
+          <th>Afectación</th>
+          <th>Motivo</th>
+          <th>Creador</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of sancionDetail | keys">
+          <tr>
+            <th scope="row">
+              {{ sancionDetail[item].id }}
+              <ng-container *ngIf="sancionDetail[item].afectado == 1">
+                 <br><span class='badge badge-pill badge-warning'>Activo</span>
+              </ng-container>
+            </th>
+            <td>{{ sancionDetail[item].nombre_asesor }}</td>
+            <ng-container [ngSwitch]="sancionDetail[item].tipo">
+              <td *ngSwitchCase="1"><small><span class='badge badge-pill badge-danger'>Acta</span></small></td>
+              <td *ngSwitchCase="2"><small><span class='badge badge-pill badge-primary'>Acción Disciplinaria</span></small></td>
+              <td *ngSwitchCase="3"><small><span class='badge badge-pill badge-warning'>Plan Performance</span></small></td>
+            </ng-container>
+            <td>{{ sancionDetail[item].fecha_incidencia | date:"dd/MM/yy" }}</td>
+            <td>{{ sancionDetail[item].fecha_aplicacion | date:"dd/MM" }}</td>
+            <td class="text-center"><span *ngIf="sancionDetail[item].fecha_afectacion_inicio != null">{{ sancionDetail[item].fecha_afectacion_inicio | date:"dd/MM" }}<br>a<br>{{ sancionDetail[item].fecha_afectacion_fin | date:"dd/MM" }}</span></td>
+            <td>{{ sancionDetail[item].motivo }}</td>
+            <td>{{ sancionDetail[item].creador }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </ng-container>
+  <ng-container *ngIf="ready && noRows">
+    <div class="alert alert-info" role="alert" *ngIf="noRows">
+      <strong>SIN CXC</strong> El asesor no tiene CxCs registrados por aplicar.
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,74 @@
+
+<div class="container" *ngIf="!readyFlag">
+  <div class="progress" >
+    <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 40px;">Cargando Asesores</div>
+  </div>
+</div>
+
+<div class="row">
+
+  <table class="animated fadeIn" *ngIf="readyFlag">
+    <thead>
+      <tr>
+        <th>Asesor</th>
+        <th>Horario</th>
+        <th>Comida</th>
+        <th>Extra 1</th>
+        <th>Extra 2</th>
+        <th class="text-center" *ngFor="let time of hours">{{ time/2 | number:".0-1" }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let asesor of asesores | keys">
+        <td style="white-space: nowrap">{{ asesores[asesor]['name'] }}</td>
+        <!-- Horario Con Ausentismo-->
+        <td *ngIf="asesores[asesor]['ausentismo'] != ''">
+          <select #selectedHorario ngModel (ngModelChange)="horarioChange($event, asesor)" [attr.id]="'selHorario_'+asesor">
+            <option value="" selected>{{ asesores[asesor]['ausentismo'] }}</option>
+          </select>
+        </td>
+        <!-- Horario Sin Ausentismo-->
+        <td *ngIf="asesores[asesor]['ausentismo'] == ''">
+          <select #selectedHorario ngModel (ngModelChange)="horarioChange($event, asesor)" [attr.id]="'selHorario_'+asesor" [attr.class]="seHorarioSelectable">
+            <option *ngFor="let c of horarios | keys" [ngValue]="horarios[c]" [attr.horarioIndex]="c" [attr.line]="asesor" [attr.class]="'l'+asesor+'_'+horarios[c].value">{{ horarios[c].name }}</option>
+          </select>
+        </td>
+        <!-- Comida -->
+        <td>
+          <select #selectedComida ngModel (ngModelChange)="comidaChange($event, asesor)" [attr.id]="'selComida_'+asesor">
+            <option *ngFor="let c of asesores[asesor].comidas" [ngValue]="c"  [attr.line]="asesor">{{ c.name }}</option>
+          </select>
+        </td>
+        <!-- Extra 1 -->
+        <td>
+          <select #selectedExtra1 ngModel (ngModelChange)="extraChange($event, asesor, 1)">
+            <option *ngFor="let c of asesores[asesor].extra1" [ngValue]="c"  [attr.line]="asesor">{{ c.name }}</option>
+          </select>
+        </td>
+        <!-- Extra 2 -->
+        <td>
+          <select #selectedExtra2 ngModel (ngModelChange)="extraChange($event, asesor, 2)">
+            <option *ngFor="let c of asesores[asesor].extra2" [ngValue]="c"  [attr.line]="asesor">{{ c.name }}</option>
+          </select>
+        </td>
+        <!-- Input de Horarios -->
+        <td class="text-center" *ngFor="let time of hours">
+          <input
+            style="width: 30px" class="text-center" type="text"
+            [attr.class]="'time_' + time +' line_' + asesor + ' time_' + time +'_line_' + asesor"
+            value=0 readonly>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">Total</td>
+        <td class="text-center" *ngFor="let time of hours">
+          <input
+            style="width: 30px" class="text-center" type="text"
+            [attr.class]="'total total_' + time"
+            value=0 readonly>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
