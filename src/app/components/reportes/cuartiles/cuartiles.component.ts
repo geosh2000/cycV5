@@ -36,6 +36,7 @@ export class CuartilesComponent implements OnInit {
   smartTableSettings = {
     columns: {
       Nombre:               { title: 'Nombre'},
+      user:                 { title: 'Usuario'},
       Supervisor:           { title: 'Supervisor'},
       LocsPeriodo:          { title: 'Locs Periodo'},
       FC:                   { title: 'FC',
