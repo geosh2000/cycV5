@@ -1,32 +1,30 @@
-# CycNew
+# ComeyCome v2
+Esta versión está hecha con el framework de AngularCLI con la finalidad de añadir mejoras en el performance y seguridad de la aplicación
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.1.
+## Releases
+* Vista de detalle por asesor
+* Tabla de Contratos
+* Tabla de salarios
+* Integración de CxC's a cierre de nómina (con flow de autorización)
+* Módulos de cambios de puesto y bajas mejorados, con flujo de autorización
+* Módulo de vacantes mejorado
+* Módulo de CXC mejorado
+* Nuevos cuartiles (Agosto '17) para Inbound
 
-##
-Proyecto agregado al GitHub
 
-## Development server
+## To Do's
+### RRHH
+* Módulo de autorización de vacantes
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### GTR
+* Módolos de monitoreo en tiempo real
+* Módulos de control de asistencia (PYA)
+* Monitor de PYA
 
-## Code scaffolding
+### Reportes
+* Cuartiles BO
+* Tabla f BO
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-# comeycome
+### Pantallas
+* Performance por equipos con fotos
+* Nueva versión de pantallas para CC
