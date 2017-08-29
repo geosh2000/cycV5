@@ -22,7 +22,7 @@ export class BitacoraSupersComponent implements OnInit {
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
 
   showContents:boolean = false
-  mainCredential='tabla_f'
+  mainCredential='tablas_f'
 
   formBitacoraSuper:FormGroup
 
