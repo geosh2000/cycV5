@@ -152,7 +152,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="form-group" [formGroup]="formApprobeBaja">
+        <form class="form-group" [formGroup]="formApprobeBaja" *ngIf="tipoAprobacion == 2">
 
           <div class="form-group row" [ngClass]="{ 'has-danger': !formApprobeBaja.controls[item].valid && !formApprobeBaja.controls[item].pristine}" *ngFor="let item of formApprobeBajaDetail | keys" >
             <ng-container *ngIf="formApprobeBajaDetail[item].show">
