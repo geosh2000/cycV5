@@ -26,6 +26,7 @@ export class AprobacionesComponent implements OnInit {
 
   formChangeStatus:FormGroup
   formApprobeBaja:FormGroup
+  formApprobeCambio:FormGroup
 
   formApprobeBajaDetail:any = {
     id:                 { tipo: 'text',   title: 'Solicitud', icon: 'fa fa-hashtag fa-fw',     show: true, required: false, readonly: true,  pattern: ''},
@@ -37,6 +38,13 @@ export class AprobacionesComponent implements OnInit {
     solicitud:              { tipo: 'text',   icon: 'fa fa-hashtag fa-fw',     show: true, required: true, readonly: true,  pattern: ''},
     comentarios:             { tipo: 'text',   icon: 'fa fa-comment fa-fw',   show: true, required: true, readonly: false,  pattern: ''},
   }
+
+  formApprobeCambioDetail:any = {
+    id:                 { tipo: 'text',   title: 'Solicitud', icon: 'fa fa-hashtag fa-fw',     show: true, required: false, readonly: true,  pattern: ''},
+    fechaBaja:          { tipo: 'date',   title: 'Fecha Cambio', icon: 'fa fa-calendar fa-fw',   show: true, required: false, readonly: false,  pattern: ''},
+    comentariosRRHH:    { tipo: 'text',   title: 'Comentarios', icon: 'fa fa-comment fa-fw',   show: true, required: false, readonly: false,  pattern: ''}
+  }
+
 
   aprobaciones:any
   aprobacionIndex:any
@@ -99,6 +107,7 @@ export class AprobacionesComponent implements OnInit {
       solicitud: new FormControl(''),
       approbe: new FormControl('')
     })
+
 
   }
 

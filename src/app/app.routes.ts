@@ -11,6 +11,7 @@ import { CxcComponent } from './components/rrhh/cxc.component';
 import { ApplyAllCxcComponent } from './components/formularios/apply-all-cxc.component';
 import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.component';
 import { PrecisionComponent } from './components/reportes/precision/precision.component';
+import { PorIntervaloComponent } from './components/reportes/precision/por-intervalo.component';
 import { TestComponent } from './test/test/test.component';
 
 const APP_ROUTES: Routes = [
@@ -42,6 +43,7 @@ const APP_ROUTES: Routes = [
   // Reportes
   { path: 'cuartiles', component: CuartilesComponent },
   { path: 'precisionPronostico', component: PrecisionComponent },
+  { path: 'precisionPorIntervalo', component: PorIntervaloComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },
