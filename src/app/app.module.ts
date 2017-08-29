@@ -57,6 +57,8 @@ import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.co
 import { PrecisionComponent } from './components/reportes/precision/precision.component';
 import { ButtonSaveDirective } from './directives/button-save.directive';
 import { PorIntervaloComponent } from './components/reportes/precision/por-intervalo.component';
+import { BitacoraSupervisoresComponent } from './components/fomrularios/bitacora-supervisores.component';
+import { BitacoraSupersComponent } from './components/formularios/bitacora-supers/bitacora-supers.component';
 
 declare let jQuery : Object;
 
@@ -97,7 +99,9 @@ declare let jQuery : Object;
     CuartilesComponent,
     PrecisionComponent,
     ButtonSaveDirective,
-    PorIntervaloComponent
+    PorIntervaloComponent,
+    BitacoraSupervisoresComponent,
+    BitacoraSupersComponent
   ],
   imports: [
     BrowserModule,

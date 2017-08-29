@@ -9,6 +9,7 @@ import { AprobacionesComponent } from './components/rrhh/aprobaciones.component'
 import { NominaComponent } from './components/rrhh/nomina.component';
 import { CxcComponent } from './components/rrhh/cxc.component';
 import { ApplyAllCxcComponent } from './components/formularios/apply-all-cxc.component';
+import { BitacoraSupersComponent } from './components/formularios/bitacora-supers/bitacora-supers.component';
 import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.component';
 import { PrecisionComponent } from './components/reportes/precision/precision.component';
 import { PorIntervaloComponent } from './components/reportes/precision/por-intervalo.component';
@@ -44,6 +45,9 @@ const APP_ROUTES: Routes = [
   { path: 'cuartiles', component: CuartilesComponent },
   { path: 'precisionPronostico', component: PrecisionComponent },
   { path: 'precisionPorIntervalo', component: PorIntervaloComponent },
+
+  //Bitacoras
+  { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },
