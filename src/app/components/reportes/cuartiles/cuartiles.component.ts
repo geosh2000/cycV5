@@ -13,6 +13,7 @@ declare var jQuery:any;
 
 
 import { ApiService } from '../../../services/api.service';
+import { InitService } from '../../../services/init.service';
 
 @Component({
   selector: 'app-cuartiles',
@@ -21,6 +22,8 @@ import { ApiService } from '../../../services/api.service';
 })
 export class CuartilesComponent implements OnInit {
 
+  mainCredential:string     = 'asesor_cuartiles'
+  showContents:boolean = false
   ready:boolean = false
   loadingCuartiles:boolean = false
   errorFlag:boolean = false
@@ -200,10 +203,12 @@ export class CuartilesComponent implements OnInit {
 
 
   constructor(
-              private _api:ApiService
+              private _api:ApiService,
+              private _init:InitService,
               ) {
 
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.currentUser = this._init.getUserInfo()
+    this.showContents = this._init.checkCredential( this.mainCredential, true )
 
   }
 
