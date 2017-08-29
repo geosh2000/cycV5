@@ -56,6 +56,7 @@ import { ApplyAllCxcComponent } from './components/formularios/apply-all-cxc.com
 import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.component';
 import { PrecisionComponent } from './components/reportes/precision/precision.component';
 import { ButtonSaveDirective } from './directives/button-save.directive';
+import { PorIntervaloComponent } from './components/reportes/precision/por-intervalo.component';
 
 declare let jQuery : Object;
 
@@ -95,7 +96,8 @@ declare let jQuery : Object;
     ApplyAllCxcComponent,
     CuartilesComponent,
     PrecisionComponent,
-    ButtonSaveDirective
+    ButtonSaveDirective,
+    PorIntervaloComponent
   ],
   imports: [
     BrowserModule,
