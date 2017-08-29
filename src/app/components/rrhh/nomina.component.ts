@@ -94,7 +94,7 @@ export class NominaComponent implements OnInit {
       delete: false
     },
     pager: {
-      perPage: 50
+      perPage: 500000
     }
   }
 

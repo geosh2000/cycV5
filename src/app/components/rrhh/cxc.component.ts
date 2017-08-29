@@ -119,7 +119,7 @@ export class CxcComponent implements OnInit {
       delete: false
     },
     pager: {
-      perPage: 50
+      perPage: 50000000
     }
   }
 

@@ -58,7 +58,7 @@ export class PrecisionComponent implements OnInit {
       delete: false
     },
     pager: {
-      perPage: 100
+      perPage: 10000
     }
   }
 

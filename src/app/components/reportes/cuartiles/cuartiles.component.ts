@@ -191,7 +191,7 @@ export class CuartilesComponent implements OnInit {
       delete: false
     },
     pager: {
-      perPage: 100
+      perPage: 100000
     }
   }
 
