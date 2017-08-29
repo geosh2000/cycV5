@@ -73,7 +73,7 @@ export class PorIntervaloComponent implements OnInit {
                                   result = null
                                 }else{
                                   let percent = (parseFloat(cell)*100).toFixed(2)
-                                  result = `${percent} %`
+                                  result = `${percent}%`
                                 }
 
                                 return result
@@ -86,7 +86,7 @@ export class PorIntervaloComponent implements OnInit {
                                   result = null
                                 }else{
                                   let percent = (parseFloat(cell)*100).toFixed(2)
-                                  result = `${percent} %`
+                                  result = `${percent}%`
                                 }
 
                                 return result
@@ -102,7 +102,7 @@ export class PorIntervaloComponent implements OnInit {
                                   result = null
                                 }else{
                                   let percent = (parseFloat(cell)*100).toFixed(2)
-                                  result = `${percent} %`
+                                  result = `${percent}%`
                                 }
 
                                 return result
