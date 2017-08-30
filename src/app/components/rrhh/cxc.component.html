@@ -1,7 +1,9 @@
 <div class="container-fluid">
-
+  <div class="alert alert-success" role="alert" *ngIf="showMsg">
+    {{ addedMsg }}
+  </div>
   <div class="d-flex justify-content-start">
-    <div class="form-group">
+    <div class="form-group p-2">
 
         <div
             class="input-group"
@@ -12,7 +14,29 @@
             </span>
         </div>
     </div>
-    <button type="button" class="btn btn-outline-warning ml-auto" *ngIf="ready" (click)="downloadXLS('listCxc', 'listCxc')">Descargar</button>
+    <div class="form-group row p-2">
+      <div class="col-sm-12 input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-user-o fa-fw"></i>
+        </span>
+        <ng2-completer
+          class="form-control customComplete"
+          [(ngModel)]="searchStrName"
+          [datasource]="dataServiceName"
+          [minSearchLength]="0"
+          [clearSelected]="true"
+          (selected)="onSelected($event)"
+          placeholder="Agregar CXC">
+        </ng2-completer>
+      </div>
+    </div>
+    <div class="p-2 ml-auto">
+
+
+      <button type="button" class="btn btn-outline-warning" *ngIf="ready" (click)="downloadXLS('listCxc', 'listCxc')">Descargar</button>
+    </div>
+
+
   </div>
   <hr>
   <p *ngIf="loadingCxc">Cargando CxCs...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
@@ -105,6 +129,23 @@
         <div class="container" *ngIf="applyFlag">
           <app-apply-cxc></app-apply-cxc>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Add CxC -->
+<div class="modal hide fade" id="form_addCxc" tabindex="-1" role="dialog" aria-labelledby="form_addCxc" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="form_addCxcLabel">Registrar CxC <small>{{ nameAsesor }}</small></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-agregar-cxc (closeDialog)="showDialogReturnParent($event)" (save)="addedCXC($event)"></app-agregar-cxc>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <form class="form-group" [formGroup]="formAddCxc" (ngSubmit)="submit()">
 
-  <div class="form-group row" [ngClass]="{ 'has-danger': !formAddCxc.controls[item].valid && !formAddCxc.controls[item].pristine}" *ngFor="let item of addCxCDetailsForm | keys" >
+  <div class="form-group row" [ngClass]="{ 'is-invalid': !formAddCxc.controls[item].valid && !formAddCxc.controls[item].pristine}" *ngFor="let item of addCxCDetailsForm | keys" >
     <ng-container *ngIf="addCxCDetailsForm[item].tipo!='checkbox'; else elseBlock">
       <label class="col-4 col-form-label">{{ item | capitalizado }} <span *ngIf="addCxCDetailsForm[item].required">*</span></label>
       <div class="col-8 input-group">
@@ -35,10 +35,10 @@
           <option *ngFor="let k of listStatus | keys" [value]="listStatus[k]?.id">{{ listStatus[k].name }}</option>
         </select>
       </div>
-      <div class="col-12 form-control-feedback" *ngIf="formAddCxc.controls[item].errors?.pattern && !formAddCxc.controls[item].pristine">
+      <div class="col-12 text-danger" *ngIf="formAddCxc.controls[item].errors?.pattern && !formAddCxc.controls[item].pristine">
         <div><small [innerHTML]="addCxCDetailsForm[item].pattern"></small></div>
       </div>
-      <div class="col-12 form-control-feedback" *ngIf="formAddCxc.controls[item].errors?.required && !formAddCxc.controls[item].pristine">
+      <div class="col-12 text-danger" *ngIf="formAddCxc.controls[item].errors?.required && !formAddCxc.controls[item].pristine">
         <div><small>Campo Obligatorio</small></div>
       </div>
     </ng-container>
@@ -53,7 +53,7 @@
             <span class="custom-control-description">{{ item | capitalizado }}</span>
           </label>
         </div>
-        <div class="col-12 form-control-feedback" [ngClass]="{ 'has-danger': !formAddCxc.controls[item].valid && !formAddCxc.pristine}" *ngIf="formAddCxc.controls[item]._errors?.indeterminate">
+        <div class="col-12 text-danger" [ngClass]="{ 'is-invalid': !formAddCxc.controls[item].valid && !formAddCxc.pristine}" *ngIf="formAddCxc.controls[item]._errors?.indeterminate">
           <div><small class='text-danger'>Elige si el asesor ya ha firmado su CxC</small></div>
         </div>
 

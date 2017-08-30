@@ -126,7 +126,7 @@ export class AgregarCxcComponent implements OnInit {
               this.submitting = false
               if( res['status'] ){
 
-                this.save.emit({form: "#form_addCxc", status: true})
+                this.save.emit({form: "#form_addCxc", status: true, date: this.formAddCxc.controls['fecha_aplicacion'].value})
                 this.formAddCxc.reset()
 
               }else{

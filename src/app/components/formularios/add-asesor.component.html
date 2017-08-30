@@ -15,17 +15,17 @@
                 [formControlName]="item"
                 [options]="singlePicker"
                 (selected)="setVal($event.start, item)"
-                [ngClass]="{ 'text-danger': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
+                [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
                 class="form-control uneditable-input" type="text" value="" [readonly]="asesorDetailsForm[item].readonly">
               <input
                 *ngIf="asesorDetailsForm[item].tipo=='text'"
                 [formControlName]="item"
-                [ngClass]="{ 'text-danger': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
+                [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
                 class="form-control" type="text" value="" [readonly]="asesorDetailsForm[item].readonly">
               <select
                       *ngIf="asesorDetailsForm[item].tipo=='select' && listProfileLoaded"
                       class="custom-select" style="max-width: 257px; min-width: 257px;"
-                      [ngClass]="{ 'text-danger': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
+                      [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
                       [formControlName]="item"
                       >
                 <option value="">Selecciona...</option>
@@ -34,7 +34,7 @@
               <select
                       *ngIf="asesorDetailsForm[item].tipo=='select2' && listProfileLoaded"
                       class="custom-select" style="max-width: 257px; min-width: 257px;"
-                      [ngClass]="{ 'text-danger': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
+                      [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
                       [formControlName]="item"
                       >
                 <option value="">Selecciona...</option>
@@ -157,7 +157,7 @@
               <input class="form-control uneditable-input"  type="text" [value]="formAddAsesor.controls['puesto'].value['salario']" readonly>
             </div>
           </div>
-          <div class="form-group row" [ngClass]="{ 'text-danger': !formAddAsesor.controls['factor'].valid && !formAddAsesor.controls['factor'].pristine }" *ngIf="formAddAsesor.controls['puesto'].valid">
+          <div class="form-group row" [ngClass]="{ 'is-invalid': !formAddAsesor.controls['factor'].valid && !formAddAsesor.controls['factor'].pristine }" *ngIf="formAddAsesor.controls['puesto'].valid">
             <label class="col-4 col-form-label">Factor Salarial</label>
             <div class="col-8 input-group">
               <span class="input-group-addon">

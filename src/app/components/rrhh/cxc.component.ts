@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import {ApplyCxcComponent} from '../formularios/apply-cxc.component';
 
@@ -10,12 +11,17 @@ import { Ng2SmartTableModule, LocalDataSource, ViewCell } from 'ng2-smart-table'
 import { saveAs } from 'file-saver';
 import { utils, write, WorkBook } from 'xlsx';
 
+import * as Globals from '../../globals';
 import * as moment from 'moment';
 declare var jQuery:any;
 
+import { CompleterService, CompleterData } from 'ng2-completer';
+
+import { AgregarCxcComponent } from '../formularios/agregar-cxc.component';
 
 import { ApiService } from '../../services/api.service';
 import { InitService } from '../../services/init.service';
+
 
 @Component({
   selector: 'app-cxc',
@@ -25,9 +31,14 @@ import { InitService } from '../../services/init.service';
 export class CxcComponent implements OnInit {
 
   @ViewChild(ApplyCxcComponent) _applyCxc:ApplyCxcComponent
+  @ViewChild(AgregarCxcComponent) addCxc:AgregarCxcComponent
 
   showContents:boolean = false
   mainCredential:string = 'cxc_read'
+
+  nameAsesor:string
+  addedMsg:string
+  showMsg:boolean = false
 
   cxcPendientes:boolean = false
   listCortesFlag:boolean = false
@@ -49,7 +60,7 @@ export class CxcComponent implements OnInit {
   listCxc:any
   errorMsg:any
 
-  searchStart:any
+  searchStart:any = moment()
   searchEnd:any
 
   smartTableSettings = {
@@ -128,13 +139,28 @@ export class CxcComponent implements OnInit {
     opens: "left"
   }
 
+  // Autocomplete
+  protected searchStrName:string;
+  protected asesorSelected:string;
+  protected dataServiceName:CompleterData;
+
+
   constructor(
               private _api:ApiService,
-              private _init:InitService
+              private _init:InitService,
+              public toastr: ToastsManager,
+              private completerService:CompleterService
               ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
+
+    let now = moment()
+    this.searchEnd = now.format("YYYY-MM-DD")
+
+    if(this.currentUser != null){
+      this.dataServiceName = this.completerService.remote(`${ Globals.APISERV }/ng2/json/listAsesores.json.php?tipo=name&token=${this.currentUser.token}&usn=${this.currentUser.username}&udn=${ this.currentUser.hcInfo['hc_udn']}&puesto=${ this.currentUser.hcInfo['hc_puesto_clave'] }&area=${ this.currentUser.hcInfo['hc_area'] }&dep=${ this.currentUser.hcInfo['hc_dep'] }&viewAll=${ this.currentUser.credentials['view_all_agents'] }&term=`, 'name,user,ncorto', 'name')
+    }
 
     this.formEditCxc = new FormGroup({
       id: new FormControl('', [ Validators.required ] ),
@@ -272,6 +298,33 @@ export class CxcComponent implements OnInit {
     checkCredential( credential, test:boolean = false ){
 
       return this._init.checkCredential( credential, false, test )
+    }
+
+    onSelected( event ){
+
+      this.nameAsesor = event.title
+
+      jQuery("#form_addCxc").modal('show')
+
+      this.addCxc.buildForm( { idAsesor: event.originalObject.id } )
+    }
+
+    addedCXC(event){
+      jQuery("#form_addCxc").modal('hide')
+      this.showMsg = true;
+      this.addedMsg = "CXC cargado correctamente"
+      this.searchStart = event.date;
+      this.searchEnd = event.date;
+      this.getCxc(this.searchStart, this.searchEnd)
+      setTimeout(()=>{
+        this.showMsg = false
+      },5000)
+
+    }
+
+    testToastr(){
+      console.log("print toast")
+      this.toastr.success("CXC guardado correctamente", 'Aprobada!');
     }
 
 
