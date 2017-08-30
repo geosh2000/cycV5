@@ -1,0 +1,81 @@
+<div class="container" *ngIf="!ready">
+  <h2 class="text-center">Loading...</h2>
+  <div class="progress">
+        <div
+          class="progress-bar bg-info progress-bar-striped progress-bar-animated"
+          role="progressbar"
+          aria-valuenow="75"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          style="width: 100%">
+        </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="ready">
+  <div class="card-columns">
+
+    <!-- Solicitudes -->
+    <div class="card animated fadeOut" style="width: 20rem;" *ngFor="let item of aprobaciones | keys">
+
+        <div class="card-header">
+          <p>{{ aprobaciones[item]['UDN_nombre'] }}</p>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-center"># {{ aprobaciones[item]['id'] }}</h5>
+
+          <!-- Solicitud -->
+          <div class="card border-info mb-3 text-center">
+            <div class="card-body">
+              <blockquote class="card-bodyquote">
+                <div class="alert alert-success" role="alert">
+                  <small>
+                    {{ aprobaciones[item]['UDN_nombre'] }}<br>
+                    {{ aprobaciones[item]['Area_nombre'] }}<br>
+                    {{ aprobaciones[item]['Departamento_nombre'] }}<br>
+                    {{ aprobaciones[item]['Puesto_nombre'] }}<br>
+                    {{ aprobaciones[item]['Ciudad'] }}<br>
+                    {{ aprobaciones[item]['PDV'] }}<br>
+                  </small>
+                </div>
+
+                <hr>
+                <p>Solicitado por: {{ aprobaciones[item]['Creador'] }}</p>
+                <hr>
+                <p>"{{ aprobaciones[item]['comentarios'] }}"</p>
+
+              </blockquote>
+            </div>
+          </div>
+
+
+
+          <hr>
+          <div class="d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-danger"
+              (click)="submitChg( false, aprobaciones[item]['id'] )"
+              [disabled]="submitting"
+              >
+              Declinar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-success"
+              (click)="submitChg( true, aprobaciones[item]['id'] )"
+              [disabled]="submitting"
+              >
+              Aprobar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i>
+            </button>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Fecha Solicitud: {{ aprobaciones[item]['FechaSolicitud'] }}</small>
+        </div>
+
+    </div>
+
+  </div>
+</div>

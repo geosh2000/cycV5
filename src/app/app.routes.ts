@@ -8,6 +8,7 @@ import { VacantesComponent } from './components/hc/vacantes.component';
 import { AprobacionesComponent } from './components/rrhh/aprobaciones.component';
 import { NominaComponent } from './components/rrhh/nomina.component';
 import { CxcComponent } from './components/rrhh/cxc.component';
+import { AprobarVacantesComponent } from './components/rrhh/aprobar-vacantes.component';
 import { ApplyAllCxcComponent } from './components/formularios/apply-all-cxc.component';
 import { BitacoraSupersComponent } from './components/formularios/bitacora-supers/bitacora-supers.component';
 import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.component';
@@ -40,6 +41,7 @@ const APP_ROUTES: Routes = [
   // RRHH
   { path: 'aprobaciones_rrhh', component: AprobacionesComponent },
   { path: 'nomina', component: NominaComponent },
+  { path: 'aprobarVacantes', component: AprobarVacantesComponent },
 
   // Reportes
   { path: 'cuartiles', component: CuartilesComponent },
