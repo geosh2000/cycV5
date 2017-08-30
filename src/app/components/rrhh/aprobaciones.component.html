@@ -203,8 +203,34 @@
             <span>Por favor notifícalo a WFM</span>
           </div>
         </form>
-        <form class="form-group"  *ngIf="tipoAprobacion == 1">
-
+        <form class="form-group" [formGroup]="formChangeStatus" *ngIf="tipoAprobacion == 1">
+          <div class="form-group row" [ngClass]="{ 'has-danger': !formChangeStatus.controls[item].valid && !formChangeStatus.controls[item].pristine}" *ngFor="let item of formChangeStatusDetail | keys" >
+            <ng-container *ngIf="formChangeStatusDetail[item].show">
+              <label class="col-4 col-form-label">{{ formChangeStatusDetail[item].title }} <span *ngIf="formChangeStatusDetail[item].required">*</span></label>
+              <div class="col-8 input-group">
+                <span class="input-group-addon">
+                  <i class="{{ formChangeStatusDetail[item].icon }}"></i>
+                </span>
+                <input
+                  *ngIf="formChangeStatusDetail[item].tipo=='date'"
+                  daterangepicker
+                  [formControlName]="item"
+                  [options]="singlePicker"
+                  (selected)="setVal($event.start, item)"
+                  class="form-control uneditable-input" type="text" value="" [readonly]="formChangeStatusDetail[item].readonly">
+                <input
+                  *ngIf="formChangeStatusDetail[item].tipo=='text'"
+                  [formControlName]="item"
+                  class="form-control" type="text" value="" [readonly]="formChangeStatusDetail[item].readonly">
+              </div>
+              <div class="col-12 form-control-feedback" *ngIf="formChangeStatus.controls[item].errors?.pattern && !formChangeStatus.controls[item].pristine">
+                <div><small [innerHTML]="formChangeStatusDetail[item].pattern"></small></div>
+              </div>
+              <div class="col-12 form-control-feedback" *ngIf="formChangeStatus.controls[item].errors?.required && !formChangeStatus.controls[item].pristine">
+                <div><small>Campo Obligatorio</small></div>
+              </div>
+            </ng-container>
+          </div>
           <div class="d-flex justify-content-around align-self-center" *ngIf="tipoAprobacion == 1 && aprobacionAction">
             <div>
               Validación Puesto Nuevo:
@@ -231,13 +257,13 @@
         </form>
       </div>
       <div class="modal-footer">
-        <!-- <button
+        <button
                 *ngIf="tipoAprobacion == 1"
-                [disabled]="formApprobeBaja.invalid || submitting || !validacionStatus"
-                [ngClass]="{ 'btn-outline-secondary': formApprobeBaja.invalid  || !validacionStatus, 'btn-success': !formApprobeBaja.invalid }"
+                [disabled]="formChangeStatus.invalid || submitting || !validacionStatus"
+                [ngClass]="{ 'btn-outline-secondary': formChangeStatus.invalid  || !validacionStatus, 'btn-success': !formChangeStatus.invalid }"
                 class="btn"
                 (click)="submitChg()"
-                >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button> -->
+                >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
 
         <button
                 *ngIf="tipoAprobacion == 2"

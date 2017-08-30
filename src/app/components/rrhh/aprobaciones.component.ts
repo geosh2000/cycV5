@@ -35,8 +35,8 @@ export class AprobacionesComponent implements OnInit {
   }
 
   formChangeStatusDetail:any = {
-    solicitud:              { tipo: 'text',   icon: 'fa fa-hashtag fa-fw',     show: true, required: true, readonly: true,  pattern: ''},
-    comentarios:             { tipo: 'text',   icon: 'fa fa-comment fa-fw',   show: true, required: true, readonly: false,  pattern: ''},
+    solicitud:              { tipo: 'text',   title: "id", icon: 'fa fa-hashtag fa-fw',     show: true, required: true, readonly: true,  pattern: ''},
+    comentarios:             { tipo: 'text',  title: "Comentarios",  icon: 'fa fa-comment fa-fw',   show: true, required: true, readonly: false,  pattern: ''},
   }
 
   formApprobeCambioDetail:any = {
@@ -224,7 +224,30 @@ submitChg(){
   this.submitting = true
 
   if(this.tipoAprobacion == 1){
-    console.log("Cambio", this.formApprobeBaja)
+
+    this._api.restfulPut( this.formChangeStatus.value, 'SolicitudBC/approbeChange' )
+            .subscribe( res => {
+              this.submitting = false
+
+              if(res['status']){
+
+                jQuery('#form_changeStatus').modal('hide')
+
+                if(this.aprobacionAction){
+                  this.toastr.success(`El cambio de ${ this.aprobaciones[this.aprobacionIndex].NombreAsesor } fue Aprobado y Procesado`, 'Aprobado!');
+                }else{
+                  this.toastr.info(`El cambio de ${ this.aprobaciones[this.aprobacionIndex].NombreAsesor } fue Denegado`, 'Declinado!');
+                }
+
+                this.getSolicitudes()
+
+              }else{
+                console.error( res )
+                this.toastr.error('Hubo un error al procesar el cambio', 'Error');
+              }
+            })
+
+
   }else{
 
     let comments = this.formApprobeBaja.controls['comentariosRRHH'].value
@@ -261,7 +284,7 @@ submitChg(){
                 if(this.aprobacionAction){
                   this.toastr.success(`La baja de ${ this.aprobaciones[this.aprobacionIndex].NombreAsesor } fue Aprobada y Procesada`, 'Aprobada!');
                 }else{
-                  this.toastr.info(`La baja de ${ this.aprobaciones[this.aprobacionIndex].NombreAsesor } fue Denegada`, 'Aprobada!');
+                  this.toastr.info(`La baja de ${ this.aprobaciones[this.aprobacionIndex].NombreAsesor } fue Denegada`, 'Declinada!');
                 }
 
                 this.getSolicitudes()
