@@ -34,11 +34,16 @@
                 <span class="d-flex justify-content-between" *ngIf="menu[2][menu[1][menu[0][0][key].id][key2].id]">
                     <span>{{ menu[1][menu[0][0][key].id][key2].title }}</span><span><i class="fa fa-chevron-right fa-fw"></i></span>
                 </span>
-                <span *ngIf="!menu[2][menu[1][menu[0][0][key].id][key2].id]"
+                <span *ngIf="!menu[2][menu[1][menu[0][0][key].id][key2].id] && menu[1][menu[0][0][key].id][key2].v2Active == '1'"
                     [routerLink]="[menu[1][menu[0][0][key].id][key2].v2link]"
                     >
                   {{ menu[1][menu[0][0][key].id][key2].title }}
                 </span>
+                <a *ngIf="!menu[2][menu[1][menu[0][0][key].id][key2].id] && menu[1][menu[0][0][key].id][key2].v2Active != '1'"
+                    [href]="menu[1][menu[0][0][key].id][key2].href"
+                    >
+                  {{ menu[1][menu[0][0][key].id][key2].title }} (v1.0)
+                </a>
               </span>
             </ng-container>
           </div>
@@ -75,10 +80,15 @@
   <ul class="nav navbar-nav">
     <ng-container *ngFor="let key3 of l2menu | keys">
       <li class="nav-item" *ngIf="l2menu[key3].allow">
-        <a
+        <a *ngIf="l2menu[key3].v2Active == '1'"
           class="nav-link" href="#"
           role="button" [routerLink]="[l2menu[key3].v2link]">
           <i class="fa fa-link"></i> {{ l2menu[key3].title }}
+        </a>
+        <a *ngIf="l2menu[key3].v2Active != '1'"
+          class="nav-link"
+          role="button" [href]="l2menu[key3].href">
+          <i class="fa fa-link"></i> {{ l2menu[key3].title }} (v1.0)
         </a>
       </li>
     </ng-container>
