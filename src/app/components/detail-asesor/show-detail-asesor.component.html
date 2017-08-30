@@ -147,7 +147,7 @@
                       <span *ngSwitchCase="2"><span class='badge badge-pill badge-info'>{{ asesor.histo_solicitudes[item].status }}</span></span>
                       <span *ngSwitchCase="3"><span class='badge badge-pill badge-danger'>{{ asesor.histo_solicitudes[item].status }}</span></span>
                       <span *ngSwitchCase="4">
-                        <span class='badge badge-pill badge-default'>{{ asesor.histo_solicitudes[item].status }}</span>
+                        <span class='badge badge-pill badge-secondary'>{{ asesor.histo_solicitudes[item].status }}</span>
                         <span *ngIf="_init.checkSingleCredential('allmighty')"
                               class='badge badge-pill badge-danger' style="cursor: pointer;" (click)='deleteSol(1, asesor.histo_solicitudes[item].id)'>Borrar</span>
                         <div class="alert alert-warning" role="alert" *ngIf="solicitudConfirmFlag && warning == asesor.histo_solicitudes[item].id">
@@ -176,7 +176,7 @@
                       <span *ngSwitchDefault>NA</span>
 
                       <ng-container *ngIf="asesor.histo_solicitudes[item].tipo == 'Baja'">
-                        <span class="badge badge-default" *ngIf="asesor.histo_solicitudes[item].recontratable == '' || asesor.histo_solicitudes[item].recontratable == NULL">Sin Información</span>
+                        <span class="badge badge-secondary" *ngIf="asesor.histo_solicitudes[item].recontratable == '' || asesor.histo_solicitudes[item].recontratable == NULL">Sin Información</span>
                         <span class="badge badge-danger"  *ngIf="asesor.histo_solicitudes[item].recontratable == 0">No Recontratable</span>
                         <span class="badge badge-success" *ngIf="asesor.histo_solicitudes[item].recontratable == 1">Recontratable</span>
                       </ng-container>
@@ -264,7 +264,7 @@
             </td>
             <td class="text-center"  *ngIf="asesor.status=='Inactivo'">{{ asesor.egreso | date:"dd MMMM yyyy" }}</td>
             <td class="text-center"  *ngIf="asesor.status=='Inactivo'">
-              <span class="badge badge-default" *ngIf="asesor.recontratable == '' || asesor.recontratable == NULL">Sin Información</span>
+              <span class="badge badge-secondary" *ngIf="asesor.recontratable == '' || asesor.recontratable == NULL">Sin Información</span>
               <span class="badge badge-danger"  *ngIf="asesor.recontratable == 0">No Recontratable</span>
               <span class="badge badge-success" *ngIf="asesor.recontratable == 1">Recontratable</span>
             </td>
