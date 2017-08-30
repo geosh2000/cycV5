@@ -119,7 +119,8 @@ export class BitacoraSupersComponent implements OnInit {
               if( res['status'] ){
 
                 this.toastr.success("Bitacora guardada correctamente", 'Aprobada!');
-                this.formBitacoraSuper.reset({asesor: this.currentUser.hcInfo.id})
+                this.formBitacoraSuper.reset()
+                this.formBitacoraSuper.controls['asesor'].setValue(this.currentUser.hcInfo.id)
 
               }else{
                 this.saveAlert = true

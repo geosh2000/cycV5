@@ -93,7 +93,7 @@ export class AddAsesorComponent implements OnInit {
               private _dateRangeOptions: DaterangepickerConfig,
               private route:Router,
               private _api:ApiService,
-              public toastr: ToastsManager, vcr: ViewContainerRef
+              public toastr: ToastsManager, vcr: ViewContainerRef,
               ) {
       this.toastr.setRootViewContainerRef(vcr);
 
@@ -374,8 +374,8 @@ export class AddAsesorComponent implements OnInit {
               // console.log("API", res)
 
               if(res['status']){
-                jQuery('#form_addAsesor').modal('hide')
-                this.route.navigateByUrl(`/detail-asesor/${ res['new_id'] }/1`);
+                
+                this.save.emit({status: true})
 
               }else{
                 this.saveAlert = true

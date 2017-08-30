@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, Output, ViewContainerRef, EventEmitter } from '@angular/core';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription'
 import { AsesoresService } from '../../services/asesores.service';
 
@@ -204,11 +205,14 @@ export class DetailAsesorComponent implements OnInit {
                 private route:Router,
                 private completerService:CompleterService,
                 private _credential:CredentialsService,
+                public toastr: ToastsManager, vcr: ViewContainerRef,
                 private activatedRoute:ActivatedRoute
               ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
+
+    this.toastr.setRootViewContainerRef(vcr);
 
     if(this.currentUser != null){
       let currentUser = this.currentUser
@@ -372,6 +376,13 @@ export class DetailAsesorComponent implements OnInit {
   showAddAsesor( ){
     jQuery("#form_addAsesor").modal('show');
     this.addAsesor.buildForm()
+  }
+
+  showConfirmationAdd( event ){
+    if(event){
+      jQuery('#form_addAsesor').modal('hide')
+      this.toastr.success("Asesor agregado correctamente", 'Guardado!');
+    }
   }
 
 }

@@ -281,7 +281,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <app-add-asesor (showDialog)="showAsesorChildDialog($event)"></app-add-asesor>
+        <app-add-asesor (showDialog)="showAsesorChildDialog($event)" (save)="showConfirmationAdd($event)"></app-add-asesor>
       </div>
     </div>
   </div>
