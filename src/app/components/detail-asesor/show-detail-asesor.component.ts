@@ -82,7 +82,7 @@ export class ShowDetailAsesorComponent implements OnInit {
             }
 
             this.asesor = respuesta;
-            console.log(respuesta)
+            // console.log(respuesta)
           })
   }
 

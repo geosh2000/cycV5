@@ -307,6 +307,7 @@ export class CambioPuestoComponent implements OnInit {
             .subscribe( res => {
               this.retrieving = false
               if(res['status']){
+                this.formCambioPuesto.reset()
                 this.save.emit({form: "#form_cambioPuesto", status: true})
               }else{
                 this.saveAlert = true
