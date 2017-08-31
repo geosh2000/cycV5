@@ -55,13 +55,14 @@ export class CuartilesComponent implements OnInit {
                                 return result
                               }
                             },
+      FCQ:                  { title: 'Cuartil FC'},
       TotalSesion:          { title: 'Total Sesion',
                               valuePrepareFunction: function(cell){
                                 let result
                                 if(cell == null){
                                   result = null
                                 }else{
-                                  result = parseFloat(cell).toLocaleString('es-MX', {minimumFractionDigits: 0})+" seg."
+                                  result = parseFloat(cell).toLocaleString('es-MX', {minimumFractionDigits: 0})
                                 }
                                 return result
                               }
@@ -86,7 +87,7 @@ export class CuartilesComponent implements OnInit {
                                 if(cell == null){
                                   result = null
                                 }else{
-                                  result = parseFloat(cell).toLocaleString('es-MX', {minimumFractionDigits: 0})+" seg."
+                                  result = parseFloat(cell).toLocaleString('es-MX', {minimumFractionDigits: 0})
                                 }
                                 return result
                               }
@@ -97,7 +98,7 @@ export class CuartilesComponent implements OnInit {
                                 if(cell == null){
                                   result = null
                                 }else{
-                                  result = parseFloat(cell).toLocaleString('es-MX', {minimumFractionDigits: 0})+" seg."
+                                  result = parseFloat(cell).toLocaleString('es-MX', {minimumFractionDigits: 0})
                                 }
                                 return result
                               }
@@ -135,6 +136,7 @@ export class CuartilesComponent implements OnInit {
                                 return result
                               }
                             },
+      MontoTotalQ:          { title: 'Cuartil Monto Total'},
       ShortCalls_Absoluto:  { title: 'ShortCalls Absoluto'},
       ShortCalls_Relativo:  { title: 'ShortCalls Relativo',
                               valuePrepareFunction: function(cell){
@@ -155,18 +157,19 @@ export class CuartilesComponent implements OnInit {
                                 if(cell == null){
                                   result = null
                                 }else{
-                                  result = parseFloat(cell).toFixed(2) + " seg."
+                                  result = parseFloat(cell).toFixed(2)
                                 }
                                 return result
                               }
                             },
+      AHTQ:                  { title: 'Cuartil AHT'},
       ACW_Absoluto:         { title: 'ACW Absoluto',
                               valuePrepareFunction: function(cell){
                                 let result
                                 if(cell == null){
                                   result = null
                                 }else{
-                                  result = parseFloat(cell).toLocaleString('es-MX', {minimumFractionDigits: 0})+" seg."
+                                  result = parseFloat(cell).toLocaleString('es-MX', {minimumFractionDigits: 0})
                                 }
                                 return result
                               }
@@ -240,7 +243,6 @@ export class CuartilesComponent implements OnInit {
               this.ready = true
 
               if(res['status']){
-                console.log( res )
                 this.listCuartiles = res['data']
 
               }else{
@@ -258,7 +260,7 @@ export class CuartilesComponent implements OnInit {
 
   toXls( sheets, title ){
 
-    let wb = utils.table_to_book(document.getElementById(sheets), {raw: true});
+    let wb = utils.table_to_book(document.getElementById(sheets), {raw: false});
     let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
 'binary' });
 
