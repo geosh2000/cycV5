@@ -22,12 +22,23 @@ export class LoginService {
     return this.http.post( this.getTokenUrl, body, { headers } )
       .map( res => {
         if(res.json().status==1){
+
+          let usn
+
+          if(logInfo.usn.indexOf('@')>0){
+            usn = logInfo.usn.substr(0,logInfo.usn.indexOf('@'))
+          }else{
+            usn = logInfo.usn
+          }
+
+
+
           localStorage.setItem(
                                 'currentUser',
                                 JSON.stringify({
                                                 token: res.json().token,
                                                 tokenExpire: res.json().tokenExpire,
-                                                username: logInfo.usn, hcInfo: res.json().hcInfo,
+                                                username: usn, hcInfo: res.json().hcInfo,
                                                 credentials: res.json().credentials
                                               })
                               );
