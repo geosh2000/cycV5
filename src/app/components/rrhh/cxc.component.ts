@@ -140,9 +140,9 @@ export class CxcComponent implements OnInit {
   }
 
   // Autocomplete
-  protected searchStrName:string;
-  protected asesorSelected:string;
-  protected dataServiceName:CompleterData;
+   searchStrName:string;
+   asesorSelected:string;
+   dataServiceName:CompleterData;
 
 
   constructor(
