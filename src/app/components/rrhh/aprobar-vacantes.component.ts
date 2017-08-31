@@ -24,7 +24,7 @@ export class AprobarVacantesComponent implements OnInit {
 
   formChangeStatus:FormGroup
 
-  aprobaciones:any
+  aprobaciones:any = {}
   aprobacionIndex:any
   aprobacionAction:any
   statusAction:string
@@ -100,7 +100,7 @@ submitChg( action, id ){
   this.formChangeStatus.controls['applier'].setValue( this.currentUser.hcInfo.id )
   this.formChangeStatus.controls['accion'].setValue( action )
 
-  this._api.restfulPut( this.formChangeStatus.value, 'SolicitudRH/approbeVacante' )
+  this._api.restfulPut( this.formChangeStatus.value, 'SolicitudesRH/approbeVacante' )
           .subscribe( res => {
             this.submitting = false
 
@@ -108,7 +108,7 @@ submitChg( action, id ){
 
               jQuery('#form_changeStatus').modal('hide')
 
-              if(this.aprobacionAction){
+              if(action){
                 this.toastr.success(`La vacante ${ this.formChangeStatus.controls['solicitud'].value } fue Aprobada`, 'Aprobada!');
               }else{
                 this.toastr.info(`La vacante ${ this.formChangeStatus.controls['solicitud'].value } fue Denegada`, 'Declinada!');

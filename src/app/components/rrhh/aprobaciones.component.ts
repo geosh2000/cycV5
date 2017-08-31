@@ -5,7 +5,6 @@ import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepi
 
 import {ToastsManager} from 'ng2-toastr/ng2-toastr';
 
-import { DetailAsesorComponent } from '../detail-asesor/detail-asesor.component';
 declare var jQuery:any;
 
 
@@ -22,7 +21,6 @@ export class AprobacionesComponent implements OnInit {
   showContents:boolean = false
   mainCredential:string = 'hc_cambios_aprobacion'
 
-  @ViewChild(DetailAsesorComponent) detailAsesor:DetailAsesorComponent
 
   formChangeStatus:FormGroup
   formApprobeBaja:FormGroup
@@ -46,7 +44,7 @@ export class AprobacionesComponent implements OnInit {
   }
 
 
-  aprobaciones:any
+  aprobaciones:any  = {}
   aprobacionIndex:any
   aprobacionAction:any
   statusAction:string
@@ -129,9 +127,6 @@ export class AprobacionesComponent implements OnInit {
 viewDetail( asesor ){
     this.showDetail = true
     setTimeout( () => {
-      this.detailAsesor.listFlag = false
-      this.detailAsesor.showFilters = false
-      this.detailAsesor.getAsesorDetail( asesor )
       jQuery('#detailWindow').children('button').hide()
       this.route.navigate(['/aprobaciones_rrhh'], {fragment: 'detalle'})
     },500)
@@ -144,7 +139,7 @@ closeDetail(){
 
 changeStatus( action, id, tipo, index ){
 
-  console.log(this.aprobaciones[index])
+  // console.log(this.aprobaciones[index])
 
   if(this.aprobaciones[index].tipo == "2"){
 

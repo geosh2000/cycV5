@@ -13,6 +13,11 @@
 </div>
 
 <div class="container" *ngIf="ready">
+
+  <div class="alert alert-info" role="alert" *ngIf="aprobaciones.length == 0">
+    No existen vacantes pendientes por aprobar
+  </div>
+
   <div class="card-columns">
 
     <!-- Solicitudes -->

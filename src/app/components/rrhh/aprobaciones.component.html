@@ -12,12 +12,8 @@
   </div>
 </div>
 
-<div class="container-fluid animated fadeIn" style="border: 1px solid black" *ngIf="showDetail" name="detalle">
-  <div class="d-flex justify-content-end">
-    <button type="button" class="btn btn-danger btn-block" (click)="closeDetail()">Click aquí para cerrar ventana<i class="fa fa-times fa-fw"></i></button>
-  </div>
-
-  <app-detail-asesor id='detailWindow'></app-detail-asesor>
+<div class="alert alert-info" role="alert" *ngIf="aprobaciones.length == 0">
+  No existen cambios o bajas pendientes por aprobar
 </div>
 
 <div class="container" *ngIf="ready">
@@ -121,13 +117,6 @@
               (click)="changeStatus( true, aprobaciones[item]['id'], aprobaciones[item]['tipo'], item )"
               >
               Aprobar
-            </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-warning"
-              (click) = "viewDetail(aprobaciones[item]['asesor'])"
-              >
-              Ver Detalle
             </button>
           </div>
 
