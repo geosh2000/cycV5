@@ -159,7 +159,7 @@
                     </cite></footer>
                   </blockquote>
                   <p class="d-flex justify-content-end">
-                    <small><span class="badge badge-default">{{ infoVacantesSliced[status][id].oficina }}</span></small>
+                    <small><span class="badge badge-secondary ">{{ infoVacantesSliced[status][id].oficina }}</span></small> 
                     <small class="ml-auto" *ngIf="currentUser.credentials['vacant_editar'] == 1 || currentUser.credentials['vacant_solicitar'] == 1">
                       <button
                               type="button"

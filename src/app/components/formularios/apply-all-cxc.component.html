@@ -1,6 +1,6 @@
-<p *ngIf="!ready">Cargando Prenómina...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
-<div class="container-fluid" *ngIf="ready && !noRows">
-  <table class="table-responsive table-striped table-bordered table-hover table-sm">
+<p *ngIf="!ready">Cargando Cxc...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
+<div class="container" *ngIf="ready && !noRows">
+  <table class="table-responsive table-bordered table-hover table-sm">
     <thead class="thead-default">
       <tr>
         <th>#</th>
@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <ng-container *ngFor="let item of formApplyCxcDetail | keys">
-        <tr [ngClass]="{ 'alert-warning': formApplyCxcDetail[item].flagApply }">
+        <tr class='p-2' [ngClass]="{ 'alert-warning': formApplyCxcDetail[item].flagApply }">
           <th scope="row">{{ formApplyCxcDetail[item].id }}</th>
           <td>{{ formApplyCxcDetail[item].nombreAsesor }}</td>
           <td><a target="_blank" href="https://rsv.pricetravel.com.mx/reservations/show/{{ formApplyCxcDetail[item].localizador }}">{{ formApplyCxcDetail[item].localizador }}</a></td>
