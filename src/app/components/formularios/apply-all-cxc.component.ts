@@ -193,7 +193,7 @@ export class ApplyAllCxcComponent implements OnInit {
               this.submitting = false
               if( res['status'] ){
 
-                this.save.emit({form: "#form_applyCxc", status: true})
+                this.buildForm()
                 this.formApplyCxc.reset()
 
                 // console.log( res['msg'] )
