@@ -24,7 +24,7 @@ export class ApplyAllCxcComponent implements OnInit {
   formApplyCxc:FormGroup
   formApplyCxcDetail:Object
 
-  filter:number
+  filter:any
 
   submitting:boolean = false
   applying:boolean = false
@@ -44,11 +44,11 @@ export class ApplyAllCxcComponent implements OnInit {
   listFechas = []
 
   constructor(
-                private _dateRangeOptions: DaterangepickerConfig,
-                private _api:ApiService,
+                public _dateRangeOptions: DaterangepickerConfig,
+                public _api:ApiService,
                 public toastr: ToastsManager, vcr: ViewContainerRef,
-                private route:Router,
-                private activatedRoute:ActivatedRoute
+                public route:Router,
+                public activatedRoute:ActivatedRoute
                 ){
 
     this.toastr.setRootViewContainerRef(vcr);
