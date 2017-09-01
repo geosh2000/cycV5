@@ -40,6 +40,8 @@ export class CxcComponent implements OnInit {
   addedMsg:string
   showMsg:boolean = false
 
+  filter:number
+
   cxcPendientes:boolean = false
   listCortesFlag:boolean = false
   ready:boolean = false
@@ -161,6 +163,8 @@ export class CxcComponent implements OnInit {
     if(this.currentUser != null){
       this.dataServiceName = this.completerService.remote(`${ Globals.APISERV }/ng2/json/listAsesores.json.php?tipo=name&token=${this.currentUser.token}&usn=${this.currentUser.username}&udn=${ this.currentUser.hcInfo['hc_udn']}&puesto=${ this.currentUser.hcInfo['hc_puesto_clave'] }&area=${ this.currentUser.hcInfo['hc_area'] }&dep=${ this.currentUser.hcInfo['hc_dep'] }&viewAll=${ this.currentUser.credentials['view_all_agents'] }&term=`, 'name,user,ncorto', 'name')
     }
+
+
 
     this.formEditCxc = new FormGroup({
       id: new FormControl('', [ Validators.required ] ),

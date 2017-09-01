@@ -14,6 +14,7 @@
   <hr>
   <div class="alert alert-danger" *ngIf="cxcPendientes">
     <strong>Importante!</strong> Existen CxCs pendientes por aplicar.
+    <button type="button" class="btn btn-sm btn-outline-info" (click)="_route.navigate(['/cxc','rrhh'])">Revisar</button>
   </div>
 
   <p *ngIf="loadingNomina">Cargando Prenómina...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>

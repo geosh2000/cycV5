@@ -55,6 +55,7 @@ const APP_ROUTES: Routes = [
   // CXC
   { path: 'cxc', component: CxcComponent },
   { path: 'cxc/rrhh', component: ApplyAllCxcComponent },
+  { path: 'cxc/rrhh/:filter', component: ApplyAllCxcComponent },
 
   // Config
   { path: 'config/addExternal', component: AddExternalUserComponent },

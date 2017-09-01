@@ -100,7 +100,8 @@ export class NominaComponent implements OnInit {
 
   constructor(
               private _api:ApiService,
-              private _init:InitService
+              private _init:InitService,
+              private _route:Router
               ) {
 
     this.currentUser = this._init.getUserInfo()

@@ -1,3 +1,10 @@
+<div class="d-flex justify-content-around">
+  <div class="p-2">
+    <button type="button" class="btn" [ngClass]="{'btn-warning': filter=='all', 'btn-outline-warning': filter != 'all'}" (click)="route.navigate(['/cxc','rrhh','all'])">All</button>
+    <button type="button" class="btn" [ngClass]="{'btn-primary': filter=='cc', 'btn-outline-primary': filter != 'cc'}" (click)="route.navigate(['/cxc','rrhh','cc'])">CC</button>
+    <button type="button" class="btn" [ngClass]="{'btn-success': filter=='pdv', 'btn-outline-success': filter != 'pdv'}" (click)="route.navigate(['/cxc','rrhh','pdv'])">PDV</button>
+  </div>
+</div>
 <p *ngIf="!ready">Cargando Cxc...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
 <div class="container" *ngIf="ready && !noRows">
   <table class="table-responsive table-bordered table-hover table-sm">

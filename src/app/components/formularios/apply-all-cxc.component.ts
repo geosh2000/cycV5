@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, O
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import * as moment from 'moment';
 declare var jQuery:any;
@@ -23,6 +24,8 @@ export class ApplyAllCxcComponent implements OnInit {
   formApplyCxc:FormGroup
   formApplyCxcDetail:Object
 
+  filter:number
+
   submitting:boolean = false
   applying:boolean = false
 
@@ -43,7 +46,9 @@ export class ApplyAllCxcComponent implements OnInit {
   constructor(
                 private _dateRangeOptions: DaterangepickerConfig,
                 private _api:ApiService,
-                public toastr: ToastsManager, vcr: ViewContainerRef
+                public toastr: ToastsManager, vcr: ViewContainerRef,
+                private route:Router,
+                private activatedRoute:ActivatedRoute
                 ){
 
     this.toastr.setRootViewContainerRef(vcr);
@@ -54,6 +59,16 @@ export class ApplyAllCxcComponent implements OnInit {
       autoUpdateInput: false,
       locale: { format: "YYYY-MM-DD" }
     }
+
+    this.activatedRoute.params.subscribe( params => {
+      if( params.filter ){
+        // console.log(this.getAsesorDetail)
+        this.filter = params.filter
+      }
+
+      this.buildForm()
+
+    });
 
     this.formApplyCxc = new FormGroup({
       id:         new FormControl( '',  [ Validators.required ] ),
@@ -68,7 +83,7 @@ export class ApplyAllCxcComponent implements OnInit {
       this.montoaPagar = this.formApplyCxc.controls['monto'].value / this.formApplyCxc.controls['quincenas'].value
     });
 
-    this.buildForm()
+
 
   }
 
@@ -129,7 +144,7 @@ export class ApplyAllCxcComponent implements OnInit {
   getCxCs( asesor ){
     let saldos:any;
 
-    this._api.restfulGet( asesor, 'Cxc/getToApply' )
+    this._api.restfulGet( '', `Cxc/getToApply/${asesor}/${this.filter}` )
             .subscribe( res => {
               this.ready = true
 
