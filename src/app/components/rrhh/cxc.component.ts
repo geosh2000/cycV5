@@ -164,6 +164,7 @@ export class CxcComponent implements OnInit {
 
     this.formEditCxc = new FormGroup({
       id: new FormControl('', [ Validators.required ] ),
+      monto: new FormControl('', [ Validators.required, Validators.pattern("^[1-9]{1}[0-9]*([.]{0,1}[0-9]{1,2}$|$)") ] ),
       comments: new FormControl( '' ),
       firmado: new FormControl( '' ),
       applier: new FormControl('', [ Validators.required ] )
@@ -244,6 +245,7 @@ export class CxcComponent implements OnInit {
 
     editCxc(){
       this.formEditCxc.controls['id'].setValue(this.actualCxc['id'])
+      this.formEditCxc.controls['monto'].setValue(this.actualCxc['monto'])
       this.formEditCxc.controls['applier'].setValue(this.currentUser.hcInfo['id'])
       this.formEditCxc.controls['comments'].setValue(this.actualCxc['comments'])
 
@@ -276,12 +278,15 @@ export class CxcComponent implements OnInit {
     }
 
     changeStatus( status ){
+
       this.submitting = true
 
       let params = {
         id: this.actualCxc['id'],
         applier: this.currentUser.hcInfo['id']
       }
+
+      console.log( params )
 
       this._api.restfulPut( params, 'Cxc/statusChange' )
               .subscribe( res => {
