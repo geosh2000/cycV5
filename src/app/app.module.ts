@@ -59,6 +59,8 @@ import { ButtonSaveDirective } from './directives/button-save.directive';
 import { PorIntervaloComponent } from './components/reportes/precision/por-intervalo.component';
 import { BitacoraSupersComponent } from './components/formularios/bitacora-supers/bitacora-supers.component';
 import { AprobarVacantesComponent } from './components/rrhh/aprobar-vacantes.component';
+import { AddExternalUserComponent } from './components/config/add-external-user.component';
+
 
 declare let jQuery : Object;
 
@@ -101,7 +103,8 @@ declare let jQuery : Object;
     ButtonSaveDirective,
     PorIntervaloComponent,
     BitacoraSupersComponent,
-    AprobarVacantesComponent
+    AprobarVacantesComponent,
+    AddExternalUserComponent
   ],
   imports: [
     BrowserModule,

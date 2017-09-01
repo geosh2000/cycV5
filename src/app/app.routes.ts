@@ -14,6 +14,7 @@ import { BitacoraSupersComponent } from './components/formularios/bitacora-super
 import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.component';
 import { PrecisionComponent } from './components/reportes/precision/precision.component';
 import { PorIntervaloComponent } from './components/reportes/precision/por-intervalo.component';
+import { AddExternalUserComponent } from './components/config/add-external-user.component';
 import { TestComponent } from './test/test/test.component';
 
 const APP_ROUTES: Routes = [
@@ -54,6 +55,9 @@ const APP_ROUTES: Routes = [
   // CXC
   { path: 'cxc', component: CxcComponent },
   { path: 'cxc/rrhh', component: ApplyAllCxcComponent },
+
+  // Config
+  { path: 'config/addExternal', component: AddExternalUserComponent },
 
   //test
   { path: 'test', component: TestComponent },
