@@ -1,0 +1,190 @@
+<!-- TITLE -->
+<div style="background: #5090e0 !important" class="jumbotron jumbotron-fluid text-white animated fadeIn">
+  <div class="container" *ngIf="selectedOK">
+    <span><h1 class="display-3">{{ selectedAsesor.Nombre }}</h1></span>
+    <p class="lead">{{ selectedAsesor.PuestoCOPC }} ({{ selectedAsesor.Puesto }}) <small> {{ dateSelected }}</small></p>
+    <p class="lead">{{ selectedAsesor.PDV }} ({{ selectedAsesor.Ciudad }})</p>
+  </div>
+  <div class="container" *ngIf="!selectedOK">
+    <span><h1 class="display-3">Cambio de PDVs</h1></span>
+    <p class="lead">Selecciona la fecha y el asesor para realizar el cambio</p>
+  </div>
+  <br>
+  <div class='container'>
+    <div class="form-row align-items-center">
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInputGroup">Username</label>
+        <div class="input-group mb-2 mb-sm-0">
+          <div class="input-group-addon"><i class="fa fa-fw fa-calendar"></i></div>
+          <input
+            id='dateSelect'
+            daterangepicker
+            [options]="singlePicker"
+            (selected)="setVal($event.start)"
+            class="form-control uneditable-input" type="text" value="">
+        </div>
+      </div>
+      <div class="col-auto " *ngIf="dateSelectedStatus">
+        <label class="sr-only" for="inlineFormInput">Name</label>
+        <ng2-completer
+          class="form-control customComplete"
+          [(ngModel)]="searchStrName"
+          [datasource]="dataServiceName"
+          [minSearchLength]="0"
+          [clearSelected]="true"
+          (selected)="onSelected($event)"
+          placeholder="Nombre"
+          >
+        </ng2-completer>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- RESULTS -->
+<div class="container animated fadeIn" *ngIf="selectedOK">
+  <div>
+    <div class="card-deck">
+
+      <!-- PDV ACTUAL -->
+      <!-- <div class="card border-success" style='max-width: 400px'>
+        <div class="card-header bg-success text-white text-center">PDV Actual</div>
+        <div class="card-body">
+          <ul>
+            <li>{{ selectedAsesor.PDV }}</li>
+            <li>{{ selectedAsesor.PuestoCOPC }}</li>
+            <li>{{ selectedAsesor.Ciudad }}</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted" *ngIf="selectedOK">{{ selectedAsesor.nCorto }}</small>
+        </div>
+      </div> -->
+
+      <!-- PDV Nuevo -->
+      <div class="card border-warning" >
+        <div class="card-header bg-warning text-white text-center">Nuevo PDV</div>
+        <div class="card-body">
+          <ng2-completer
+            class="form-control customComplete"
+            [(ngModel)]="searchPdvName"
+            [datasource]="dataServicePdv"
+            [minSearchLength]="0"
+            [clearSelected]="true"
+            (selected)="onSelectedPDV($event)"
+            placeholder="PDV"
+            >
+          </ng2-completer>
+          <hr>
+          <ng-container *ngIf="selectedPDVOK">
+            <div class="list-group">
+              <div class="list-group-item list-group-item-action" [ngClass]="{'list-group-item-primary active': placeSelected == item, 'list-group-item-success': places[item].asesor != null, 'list-group-item-secondary' : (places[item].asesor == null || (places[item].Vacante == selectedAsesor.vacante && placeSelected != null))}" *ngFor="let item of places | keys">
+                <div class="text-center">
+                  <span *ngIf="(places[item].asesor == null && placeSelected != item) || (places[item].Vacante == selectedAsesor.vacante && placeSelected != null)">Vacante</span>
+                  <span *ngIf="placeSelected == item">{{ selectedAsesor.Nombre }}</span>
+                  <span *ngIf="places[item].asesor != null && placeSelected != item && !(places[item].Vacante == selectedAsesor.vacante && placeSelected != null)">{{ places[item].Nombre }}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-around">
+                  <div class="p-2">
+                      <span><small>{{ places[item].Puesto }}</small></span>
+                      <span><small>{{ places[item].PDV }}</small></span>
+                  </div>
+                  <div class="p-2" *ngIf="places[item].Vacante != selectedAsesor.vacante">
+                      <button type="button" class="btn" (click)="placeAsesor(item)" [ngClass]="{'btn-warning': places[item].asesor != null, 'btn-success' : places[item].asesor == null}" *ngIf="placeSelected != item"><i class="fa fa-fw fa-arrow-right"></i></button>
+                      <button type="button" class="btn btn-danger" (click)="removeAsesor()" *ngIf="placeSelected == item"><i class="fa fa-fw fa-times"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted" *ngIf="placeSelected != null">Sustituye a:
+            <span *ngIf="replacedAsesor.id == null" class='text-success'>Vacante</span>
+            <span *ngIf="replacedAsesor.id != null" class='text-danger'>{{ replacedAsesor.Nombre }}</span>
+          </small>
+          <small class="text-muted" *ngIf="placeSelected == null">Nada Seleccionado</small>
+        </div>
+      </div>
+
+      <!-- Asesor Reemplazado -->
+      <div class="card border-secondary text-center animated fadeIn"  *ngIf="replacedAsesor.id != null">
+        <div class="card-header bg-secondary text-white">Switch PDV?</div>
+        <div class="card-body">
+          <h4 class="card-title">{{ replacedAsesor.Nombre }}</h4>
+          <p class="card-text">ocupará la posición que {{ selectedAsesor.nCorto }} deja libre?</p>
+          <br>
+          <div class="list-group">
+            <div class="list-group-item list-group-item-action" [ngClass]="{'list-group-item-success': replacedAsesor.selectedChoice, 'list-group-item-secondary': !replacedAsesor.selectedChoice}">
+              <div class="text-center">
+                <p>{{ selectedAsesor.PuestoCOPC }}</p>
+                <p>{{ selectedAsesor.PDV }}</p>
+                <p>{{ selectedAsesor.Ciudad }}</p>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-block" (click)='selectReplaceChoice()' [ngClass]="{'btn-primary': !replacedAsesor.selectedChoice, 'btn-warning': replacedAsesor.selectedChoice}">
+            <span *ngIf="!replacedAsesor.selectedChoice">
+              <i class='fa fa-fw fa-retweet'></i> Ocupar la vacante liberada
+            </span>
+            <span *ngIf="replacedAsesor.selectedChoice">
+              <i class='fa fa-fw fa-sign-out'></i> Dejar al agente libre
+            </span>
+          </button>
+          <br>
+          <button type='button' class='btn btn-block btn-danger' (click)="returnReplaced()"><i class='fa fa-fw fa-arrow-left'></i> Regresar a posición original</button>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Selección hecha:
+            <span *ngIf="replacedAsesor.selectedChoice" class='text-success'>Switch PDV</span>
+            <span *ngIf="!replacedAsesor.selectedChoice" class='text-danger'>Agente Libre</span>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <button
+    type="button"
+    class="btn btn-block"
+    [ngClass]="{'btn-secondary': placeSelected == null, 'btn-success': placeSelected != null}"
+    [disabled]="placeSelected == null"
+    (click)="saveChanges()"
+    data-toggle="modal" data-target="#confirmModal">
+    Guardar
+  </button>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true" *ngIf="placeSelected != null">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirma la información</h5>
+      </div>
+      <div class="modal-body">
+        <h5>{{ selectedAsesor.Nombre }}</h5>
+        <p>cambia a: <span class='text-success'>{{ places[placeSelected].Puesto }}</span></p>
+        <p>en: <span class='text-success'>{{ places[placeSelected].PDV }}</span></p>
+        <p>con fecha: <span class='text-success'>{{ dateSelected }}</span></p>
+        <hr>
+        <div *ngIf="resultParams.replaced == null">
+          La posición se encuentra Vacante
+        </div>
+        <div *ngIf="resultParams.replaced != null">
+          <p>Sustituye a {{replacedAsesor.Nombre}}</p>
+          <p *ngIf="resultParams.switch">Quien hará switch con {{ selectedAsesor.nCorto }}</p>
+          <p *ngIf="!resultParams.switch">Quien queda libre</p>
+          <p *ngIf="!resultParams.switch"><span class='text-danger'>Favor de asignar vacante despues de guardar</span></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="postChgPDV()" [disabled]="saving">Guardar <i class="fa fa-fw fa-spinner fa-pulse" *ngIf="saving"></i></button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -60,6 +60,8 @@ import { PorIntervaloComponent } from './components/reportes/precision/por-inter
 import { BitacoraSupersComponent } from './components/formularios/bitacora-supers/bitacora-supers.component';
 import { AprobarVacantesComponent } from './components/rrhh/aprobar-vacantes.component';
 import { AddExternalUserComponent } from './components/config/add-external-user.component';
+import { PyaComponent } from './components/monitors/pya.component';
+import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 
 
 declare let jQuery : Object;
@@ -104,7 +106,9 @@ declare let jQuery : Object;
     PorIntervaloComponent,
     BitacoraSupersComponent,
     AprobarVacantesComponent,
-    AddExternalUserComponent
+    AddExternalUserComponent,
+    PyaComponent,
+    CambioPdvComponent
   ],
   imports: [
     BrowserModule,

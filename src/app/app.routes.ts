@@ -15,6 +15,8 @@ import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.co
 import { PrecisionComponent } from './components/reportes/precision/precision.component';
 import { PorIntervaloComponent } from './components/reportes/precision/por-intervalo.component';
 import { AddExternalUserComponent } from './components/config/add-external-user.component';
+import { PyaComponent } from './components/monitors/pya.component';
+import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { TestComponent } from './test/test/test.component';
 
 const APP_ROUTES: Routes = [
@@ -52,6 +54,9 @@ const APP_ROUTES: Routes = [
   //Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
 
+  //Monitores
+  { path: 'pya', component: PyaComponent },
+
   // CXC
   { path: 'cxc', component: CxcComponent },
   { path: 'cxc/rrhh', component: ApplyAllCxcComponent },
@@ -59,6 +64,9 @@ const APP_ROUTES: Routes = [
 
   // Config
   { path: 'config/addExternal', component: AddExternalUserComponent },
+
+  // PDV
+  { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },
 
   //test
   { path: 'test', component: TestComponent },

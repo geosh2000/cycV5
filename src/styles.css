@@ -83,6 +83,7 @@ p{
 .customComplete div input{
   border: 0 solid white;
   background: transparent;
+  width: 100%
 }
 
 .customComplete div input:focus{
