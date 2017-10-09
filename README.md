@@ -10,6 +10,7 @@ Esta versión está hecha con el framework de AngularCLI con la finalidad de añ
 * Módulo de vacantes mejorado
 * Módulo de CXC mejorado
 * Nuevos cuartiles (Agosto '17) para Inbound
+* Módulo de cambios de PDV
 
 
 ## To Do's
