@@ -1,268 +1,281 @@
-<div class="container" *ngIf="!ready">
-  <h2 class="text-center">Loading...</h2>
-  <div class="progress">
-        <div
-          class="progress-bar bg-info progress-bar-striped progress-bar-animated"
-          role="progressbar"
-          aria-valuenow="75"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          style="width: 100%">
-        </div>
+<div *ngIf="showContents">
+
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div style="background: #5090e0 !important" class="jumbotron jumbotron-fluid text-white animated fadeIn">
+      <div class="container">
+        <span><h1 class="display-3">Aprobaciones Pendientes</h1></span>
+        <p class="lead">Cambios y bajas en espera de aprobación por parte de RRHH</p>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="alert alert-info" role="alert" *ngIf="aprobaciones.length == 0">
-  No existen cambios o bajas pendientes por aprobar
-</div>
+  <div class="container" *ngIf="!ready">
+    <h2 class="text-center">Loading...</h2>
+    <div class="progress">
+          <div
+            class="progress-bar bg-info progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            aria-valuenow="75"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width: 100%">
+          </div>
+    </div>
+  </div>
 
-<div class="container" *ngIf="ready">
-  <div class="card-columns">
+  <div class="alert alert-info" role="alert" *ngIf="aprobaciones.length == 0">
+    No existen cambios o bajas pendientes por aprobar
+  </div>
 
-    <!-- Solicitudes -->
-    <div class="card animated fadeOut" style="width: 20rem;" *ngFor="let item of aprobaciones | keys">
+  <div class="container" *ngIf="ready">
+    <div class="card-columns">
 
-        <div class="card-header">
-          <p class='text-center alert-danger' *ngIf="aprobaciones[item]['tipo'] == 2">Baja</p>
-          <p class='text-center alert-info' *ngIf="aprobaciones[item]['tipo'] == 1">Cambio Puesto</p>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title text-center"># {{ aprobaciones[item]['id'] }} -> {{ aprobaciones[item]['NombreAsesor'] }}</h5>
+      <!-- Solicitudes -->
+      <div class="card animated fadeOut" style="width: 20rem;" *ngFor="let item of aprobaciones | keys">
 
-          <!-- BAJA -->
-          <ng-container *ngIf="aprobaciones[item]['tipo'] == 2">
-            <!-- Solicitud -->
-            <div class="card border-danger mb-3 text-center">
-              <div class="card-body">
-                <blockquote class="card-bodyquote">
-                  <p>Fecha de Baja: {{ aprobaciones[item]['fecha'] }}</p>
-                  <hr>
-                  <p>Solicita: {{ aprobaciones[item]['NombreSolicitante'] }}</p>
-                  <hr>
-                  <p>"{{ aprobaciones[item]['comentarios'] }}"<br>
-                    <span class='badge badge-pill badge-warning' *ngIf="aprobaciones[item]['reemplazable'] == 1">Reemplazable</span>
-                    <span class='badge badge-pill badge-default' *ngIf="aprobaciones[item]['reemplazable'] == 0">No Reemplazable</span>
-                    <br>
-                    <span class='badge badge-pill badge-success' *ngIf="aprobaciones[item]['recontratable'] == 1">Recontratable</span>
-                    <span class='badge badge-pill badge-danger' *ngIf="aprobaciones[item]['recontratable'] == 0">No Recontratable</span>
-                  </p>
+          <div class="card-header">
+            <p class='text-center alert-danger' *ngIf="aprobaciones[item]['tipo'] == 2">Baja</p>
+            <p class='text-center alert-info' *ngIf="aprobaciones[item]['tipo'] == 1">Cambio Puesto</p>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center"># {{ aprobaciones[item]['id'] }} -> {{ aprobaciones[item]['NombreAsesor'] }}</h5>
 
-                </blockquote>
+            <!-- BAJA -->
+            <ng-container *ngIf="aprobaciones[item]['tipo'] == 2">
+              <!-- Solicitud -->
+              <div class="card border-danger mb-3 text-center">
+                <div class="card-body">
+                  <blockquote class="card-bodyquote">
+                    <p>Fecha de Baja: {{ aprobaciones[item]['fecha'] }}</p>
+                    <hr>
+                    <p>Solicita: {{ aprobaciones[item]['NombreSolicitante'] }}</p>
+                    <hr>
+                    <p>"{{ aprobaciones[item]['comentarios'] }}"<br>
+                      <span class='badge badge-pill badge-warning' *ngIf="aprobaciones[item]['reemplazable'] == 1">Reemplazable</span>
+                      <span class='badge badge-pill badge-default' *ngIf="aprobaciones[item]['reemplazable'] == 0">No Reemplazable</span>
+                      <br>
+                      <span class='badge badge-pill badge-success' *ngIf="aprobaciones[item]['recontratable'] == 1">Recontratable</span>
+                      <span class='badge badge-pill badge-danger' *ngIf="aprobaciones[item]['recontratable'] == 0">No Recontratable</span>
+                    </p>
+
+                  </blockquote>
+                </div>
               </div>
+
+              <small>{{ aprobaciones[item]['UDN'] }} - {{ aprobaciones[item]['Area'] }}<br>{{ aprobaciones[item]['Departamento'] }} - {{ aprobaciones[item]['Puesto'] }}</small>
+              <br><small>{{ aprobaciones[item]['Oficina'] }}</small>
+              <br><small>{{ aprobaciones[item]['Ciudad'] }}</small>
+            </ng-container>
+
+            <!-- Cambio -->
+            <ng-container *ngIf="aprobaciones[item]['tipo'] == 1">
+              <!-- Solicitud -->
+              <div class="card border-info mb-3 text-center">
+                <div class="card-body">
+                  <blockquote class="card-bodyquote">
+                    <div class="alert alert-warning" style="margin-down: 0px" role="alert">
+                      <small>
+                        {{ aprobaciones[item]['UDN'] }}<br>
+                        {{ aprobaciones[item]['Area'] }}<br>
+                        {{ aprobaciones[item]['Departamento'] }}<br>
+                        {{ aprobaciones[item]['Puesto'] }}<br>
+                        {{ aprobaciones[item]['Oficina'] }}<br>
+                        {{ aprobaciones[item]['Ciudad'] }}<br>
+                      </small>
+                    </div>
+                    <p class="text-center"><i class="fa fa-arrow-down fa-fw"></i></p>
+                    <div class="alert alert-success" role="alert">
+                      <small>
+                        {{ aprobaciones[item]['New_UDN'] }}<br>
+                        {{ aprobaciones[item]['New_Area'] }}<br>
+                        {{ aprobaciones[item]['New_Departamento'] }}<br>
+                        {{ aprobaciones[item]['New_Puesto'] }}<br>
+                        {{ aprobaciones[item]['New_Oficina'] }}<br>
+                        {{ aprobaciones[item]['New_Ciudad'] }}<br>
+                      </small>
+                    </div>
+
+                    <hr>
+                    <p>Fecha de Cambio: {{ aprobaciones[item]['fecha'] }}<br>Solicita: {{ aprobaciones[item]['NombreSolicitante'] }}</p>
+                    <hr>
+                    <p>"{{ aprobaciones[item]['comentarios'] }}"<br>
+                      <span class='badge badge-pill badge-warning' *ngIf="aprobaciones[item]['reemplazable'] == 1">Reemplazable</span>
+                      <span class='badge badge-pill badge-default' *ngIf="aprobaciones[item]['reemplazable'] == 0">No Reemplazable</span>
+                      <br>
+                      <span class='badge badge-pill badge-success' *ngIf="aprobaciones[item]['recontratable'] == 1">Recontratable</span>
+                      <span class='badge badge-pill badge-danger' *ngIf="aprobaciones[item]['recontratable'] == 0">No Recontratable</span>
+                    </p>
+
+                  </blockquote>
+                </div>
+              </div>
+            </ng-container>
+
+
+
+            <hr>
+            <div class="d-flex justify-content-around">
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                (click)="changeStatus( false, aprobaciones[item]['id'], aprobaciones[item]['tipo'], item )"
+                >
+                Declinar
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-success"
+                (click)="changeStatus( true, aprobaciones[item]['id'], aprobaciones[item]['tipo'], item )"
+                >
+                Aprobar
+              </button>
             </div>
 
-            <small>{{ aprobaciones[item]['UDN'] }} - {{ aprobaciones[item]['Area'] }}<br>{{ aprobaciones[item]['Departamento'] }} - {{ aprobaciones[item]['Puesto'] }}</small>
-            <br><small>{{ aprobaciones[item]['Oficina'] }}</small>
-            <br><small>{{ aprobaciones[item]['Ciudad'] }}</small>
-          </ng-container>
-
-          <!-- Cambio -->
-          <ng-container *ngIf="aprobaciones[item]['tipo'] == 1">
-            <!-- Solicitud -->
-            <div class="card border-info mb-3 text-center">
-              <div class="card-body">
-                <blockquote class="card-bodyquote">
-                  <div class="alert alert-warning" style="margin-down: 0px" role="alert">
-                    <small>
-                      {{ aprobaciones[item]['UDN'] }}<br>
-                      {{ aprobaciones[item]['Area'] }}<br>
-                      {{ aprobaciones[item]['Departamento'] }}<br>
-                      {{ aprobaciones[item]['Puesto'] }}<br>
-                      {{ aprobaciones[item]['Oficina'] }}<br>
-                      {{ aprobaciones[item]['Ciudad'] }}<br>
-                    </small>
-                  </div>
-                  <p class="text-center"><i class="fa fa-arrow-down fa-fw"></i></p>
-                  <div class="alert alert-success" role="alert">
-                    <small>
-                      {{ aprobaciones[item]['New_UDN'] }}<br>
-                      {{ aprobaciones[item]['New_Area'] }}<br>
-                      {{ aprobaciones[item]['New_Departamento'] }}<br>
-                      {{ aprobaciones[item]['New_Puesto'] }}<br>
-                      {{ aprobaciones[item]['New_Oficina'] }}<br>
-                      {{ aprobaciones[item]['New_Ciudad'] }}<br>
-                    </small>
-                  </div>
-
-                  <hr>
-                  <p>Fecha de Cambio: {{ aprobaciones[item]['fecha'] }}<br>Solicita: {{ aprobaciones[item]['NombreSolicitante'] }}</p>
-                  <hr>
-                  <p>"{{ aprobaciones[item]['comentarios'] }}"<br>
-                    <span class='badge badge-pill badge-warning' *ngIf="aprobaciones[item]['reemplazable'] == 1">Reemplazable</span>
-                    <span class='badge badge-pill badge-default' *ngIf="aprobaciones[item]['reemplazable'] == 0">No Reemplazable</span>
-                    <br>
-                    <span class='badge badge-pill badge-success' *ngIf="aprobaciones[item]['recontratable'] == 1">Recontratable</span>
-                    <span class='badge badge-pill badge-danger' *ngIf="aprobaciones[item]['recontratable'] == 0">No Recontratable</span>
-                  </p>
-
-                </blockquote>
-              </div>
-            </div>
-          </ng-container>
-
-
-
-          <hr>
-          <div class="d-flex justify-content-around">
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-danger"
-              (click)="changeStatus( false, aprobaciones[item]['id'], aprobaciones[item]['tipo'], item )"
-              >
-              Declinar
-            </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-success"
-              (click)="changeStatus( true, aprobaciones[item]['id'], aprobaciones[item]['tipo'], item )"
-              >
-              Aprobar
-            </button>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Fecha Solicitud: {{ aprobaciones[item]['fecha_solicitud'] }}</small>
           </div>
 
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">Fecha Solicitud: {{ aprobaciones[item]['fecha_solicitud'] }}</small>
-        </div>
+      </div>
 
     </div>
-
   </div>
-</div>
 
-<!-- Modal Add Asesor -->
-<div class="modal hide fade" id="form_changeStatus" tabindex="-1" role="dialog" aria-labelledby="form_changeStatus" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="form_changeStatusLabel">{{ statusAction }} Solicitud</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="form-group" [formGroup]="formApprobeBaja" *ngIf="tipoAprobacion == 2">
+  <!-- Modal Add Asesor -->
+  <div class="modal hide fade" id="form_changeStatus" tabindex="-1" role="dialog" aria-labelledby="form_changeStatus" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="form_changeStatusLabel">{{ statusAction }} Solicitud</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="form-group" [formGroup]="formApprobeBaja" *ngIf="tipoAprobacion == 2">
 
-          <div class="form-group row" [ngClass]="{ 'has-danger': !formApprobeBaja.controls[item].valid && !formApprobeBaja.controls[item].pristine}" *ngFor="let item of formApprobeBajaDetail | keys" >
-            <ng-container *ngIf="formApprobeBajaDetail[item].show">
-              <label class="col-4 col-form-label">{{ formApprobeBajaDetail[item].title }} <span *ngIf="formApprobeBajaDetail[item].required">*</span></label>
+            <div class="form-group row" [ngClass]="{ 'has-danger': !formApprobeBaja.controls[item].valid && !formApprobeBaja.controls[item].pristine}" *ngFor="let item of formApprobeBajaDetail | keys" >
+              <ng-container *ngIf="formApprobeBajaDetail[item].show">
+                <label class="col-4 col-form-label">{{ formApprobeBajaDetail[item].title }} <span *ngIf="formApprobeBajaDetail[item].required">*</span></label>
+                <div class="col-8 input-group">
+                  <span class="input-group-addon">
+                    <i class="{{ formApprobeBajaDetail[item].icon }}"></i>
+                  </span>
+                  <input
+                    *ngIf="formApprobeBajaDetail[item].tipo=='date'"
+                    daterangepicker
+                    [formControlName]="item"
+                    [options]="singlePicker"
+                    (selected)="setVal($event.start, item)"
+                    class="form-control uneditable-input" type="text" value="" [readonly]="formApprobeBajaDetail[item].readonly">
+                  <input
+                    *ngIf="formApprobeBajaDetail[item].tipo=='text'"
+                    [formControlName]="item"
+                    class="form-control" type="text" value="" [readonly]="formApprobeBajaDetail[item].readonly">
+                </div>
+                <div class="col-12 form-control-feedback" *ngIf="formApprobeBaja.controls[item].errors?.pattern && !formApprobeBaja.controls[item].pristine">
+                  <div><small [innerHTML]="formApprobeBajaDetail[item].pattern"></small></div>
+                </div>
+                <div class="col-12 form-control-feedback" *ngIf="formApprobeBaja.controls[item].errors?.required && !formApprobeBaja.controls[item].pristine">
+                  <div><small>Campo Obligatorio</small></div>
+                </div>
+              </ng-container>
+            </div>
+            <div class="form-group row" [ngClass]="{ 'has-danger': !formApprobeBaja.controls['recontratable'].valid }">
+              <label class="col-4 col-form-label"></label>
               <div class="col-8 input-group">
-                <span class="input-group-addon">
-                  <i class="{{ formApprobeBajaDetail[item].icon }}"></i>
-                </span>
-                <input
-                  *ngIf="formApprobeBajaDetail[item].tipo=='date'"
-                  daterangepicker
-                  [formControlName]="item"
-                  [options]="singlePicker"
-                  (selected)="setVal($event.start, item)"
-                  class="form-control uneditable-input" type="text" value="" [readonly]="formApprobeBajaDetail[item].readonly">
-                <input
-                  *ngIf="formApprobeBajaDetail[item].tipo=='text'"
-                  [formControlName]="item"
-                  class="form-control" type="text" value="" [readonly]="formApprobeBajaDetail[item].readonly">
+                <label class="custom-control custom-checkbox" >
+                  <input type="checkbox" class="custom-control-input"
+                          formControlName="recontratable">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Recontratable</span>
+                </label>
               </div>
-              <div class="col-12 form-control-feedback" *ngIf="formApprobeBaja.controls[item].errors?.pattern && !formApprobeBaja.controls[item].pristine">
-                <div><small [innerHTML]="formApprobeBajaDetail[item].pattern"></small></div>
+              <div class="col-12 form-control-feedback" *ngIf="formApprobeBaja.controls['recontratable'].errors?.indeterminate">
+                <div><small>Elige si el asesor será o no recontratable</small></div>
               </div>
-              <div class="col-12 form-control-feedback" *ngIf="formApprobeBaja.controls[item].errors?.required && !formApprobeBaja.controls[item].pristine">
-                <div><small>Campo Obligatorio</small></div>
-              </div>
-            </ng-container>
-          </div>
-          <div class="form-group row" [ngClass]="{ 'has-danger': !formApprobeBaja.controls['recontratable'].valid }">
-            <label class="col-4 col-form-label"></label>
-            <div class="col-8 input-group">
-              <label class="custom-control custom-checkbox" >
-                <input type="checkbox" class="custom-control-input"
-                        formControlName="recontratable">
-                <span class="custom-control-indicator"></span>
-                <span class="custom-control-description">Recontratable</span>
-              </label>
             </div>
-            <div class="col-12 form-control-feedback" *ngIf="formApprobeBaja.controls['recontratable'].errors?.indeterminate">
-              <div><small>Elige si el asesor será o no recontratable</small></div>
+            <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
+              <span><strong>Hubo un error en el proceso</strong></span><br>
+              <span>
+                {{ errorMsg }}
+              </span><br>
+              <span>Por favor notifícalo a WFM</span>
             </div>
-          </div>
-          <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
-            <span><strong>Hubo un error en el proceso</strong></span><br>
-            <span>
-              {{ errorMsg }}
-            </span><br>
-            <span>Por favor notifícalo a WFM</span>
-          </div>
-        </form>
-        <form class="form-group" [formGroup]="formChangeStatus" *ngIf="tipoAprobacion == 1">
-          <div class="form-group row" [ngClass]="{ 'has-danger': !formChangeStatus.controls[item].valid && !formChangeStatus.controls[item].pristine}" *ngFor="let item of formChangeStatusDetail | keys" >
-            <ng-container *ngIf="formChangeStatusDetail[item].show">
-              <label class="col-4 col-form-label">{{ formChangeStatusDetail[item].title }} <span *ngIf="formChangeStatusDetail[item].required">*</span></label>
-              <div class="col-8 input-group">
-                <span class="input-group-addon">
-                  <i class="{{ formChangeStatusDetail[item].icon }}"></i>
-                </span>
-                <input
-                  *ngIf="formChangeStatusDetail[item].tipo=='date'"
-                  daterangepicker
-                  [formControlName]="item"
-                  [options]="singlePicker"
-                  (selected)="setVal($event.start, item)"
-                  class="form-control uneditable-input" type="text" value="" [readonly]="formChangeStatusDetail[item].readonly">
-                <input
-                  *ngIf="formChangeStatusDetail[item].tipo=='text'"
-                  [formControlName]="item"
-                  class="form-control" type="text" value="" [readonly]="formChangeStatusDetail[item].readonly">
-              </div>
-              <div class="col-12 form-control-feedback" *ngIf="formChangeStatus.controls[item].errors?.pattern && !formChangeStatus.controls[item].pristine">
-                <div><small [innerHTML]="formChangeStatusDetail[item].pattern"></small></div>
-              </div>
-              <div class="col-12 form-control-feedback" *ngIf="formChangeStatus.controls[item].errors?.required && !formChangeStatus.controls[item].pristine">
-                <div><small>Campo Obligatorio</small></div>
-              </div>
-            </ng-container>
-          </div>
-          <div class="d-flex justify-content-around align-self-center" *ngIf="tipoAprobacion == 1 && aprobacionAction">
-            <div>
-              Validación Puesto Nuevo:
+          </form>
+          <form class="form-group" [formGroup]="formChangeStatus" *ngIf="tipoAprobacion == 1">
+            <div class="form-group row" [ngClass]="{ 'has-danger': !formChangeStatus.controls[item].valid && !formChangeStatus.controls[item].pristine}" *ngFor="let item of formChangeStatusDetail | keys" >
+              <ng-container *ngIf="formChangeStatusDetail[item].show">
+                <label class="col-4 col-form-label">{{ formChangeStatusDetail[item].title }} <span *ngIf="formChangeStatusDetail[item].required">*</span></label>
+                <div class="col-8 input-group">
+                  <span class="input-group-addon">
+                    <i class="{{ formChangeStatusDetail[item].icon }}"></i>
+                  </span>
+                  <input
+                    *ngIf="formChangeStatusDetail[item].tipo=='date'"
+                    daterangepicker
+                    [formControlName]="item"
+                    [options]="singlePicker"
+                    (selected)="setVal($event.start, item)"
+                    class="form-control uneditable-input" type="text" value="" [readonly]="formChangeStatusDetail[item].readonly">
+                  <input
+                    *ngIf="formChangeStatusDetail[item].tipo=='text'"
+                    [formControlName]="item"
+                    class="form-control" type="text" value="" [readonly]="formChangeStatusDetail[item].readonly">
+                </div>
+                <div class="col-12 form-control-feedback" *ngIf="formChangeStatus.controls[item].errors?.pattern && !formChangeStatus.controls[item].pristine">
+                  <div><small [innerHTML]="formChangeStatusDetail[item].pattern"></small></div>
+                </div>
+                <div class="col-12 form-control-feedback" *ngIf="formChangeStatus.controls[item].errors?.required && !formChangeStatus.controls[item].pristine">
+                  <div><small>Campo Obligatorio</small></div>
+                </div>
+              </ng-container>
             </div>
-            <div class="alert alert-info" role="alert" *ngIf="validando">
-              Validando... <i class="fa fa-spinner fa-pulse fa-fw"></i>
+            <div class="d-flex justify-content-around align-self-center" *ngIf="tipoAprobacion == 1 && aprobacionAction">
+              <div>
+                Validación Puesto Nuevo:
+              </div>
+              <div class="alert alert-info" role="alert" *ngIf="validando">
+                Validando... <i class="fa fa-spinner fa-pulse fa-fw"></i>
+              </div>
+              <ng-container *ngIf="!validando">
+                <div class="alert alert-success" role="alert" *ngIf="validacionStatus">
+                  Cambio Disponible <i class="fa fa-check fa-fw"></i>
+                </div>
+                <div class="alert alert-danger" role="alert" *ngIf="!validacionStatus">
+                  {{ errorMsgValidacion }} <i class="fa fa-times fa-fw"></i>
+                </div>
+              </ng-container>
             </div>
-            <ng-container *ngIf="!validando">
-              <div class="alert alert-success" role="alert" *ngIf="validacionStatus">
-                Cambio Disponible <i class="fa fa-check fa-fw"></i>
-              </div>
-              <div class="alert alert-danger" role="alert" *ngIf="!validacionStatus">
-                {{ errorMsgValidacion }} <i class="fa fa-times fa-fw"></i>
-              </div>
-            </ng-container>
-          </div>
-          <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
-            <span><strong>Hubo un error en el proceso</strong></span><br>
-            <span>
-              {{ errorMsg }}
-            </span><br>
-            <span>Por favor notifícalo a WFM</span>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button
-                *ngIf="tipoAprobacion == 1"
-                [disabled]="formChangeStatus.invalid || submitting || (aprobacionAction && !validacionStatus)"
-                [ngClass]="{ 'btn-outline-secondary': formChangeStatus.invalid  || (aprobacionAction && !validacionStatus), 'btn-success': !formChangeStatus.invalid }"
-                class="btn"
-                (click)="submitChg()"
-                >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+            <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
+              <span><strong>Hubo un error en el proceso</strong></span><br>
+              <span>
+                {{ errorMsg }}
+              </span><br>
+              <span>Por favor notifícalo a WFM</span>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+                  *ngIf="tipoAprobacion == 1"
+                  [disabled]="formChangeStatus.invalid || submitting || (aprobacionAction && !validacionStatus)"
+                  [ngClass]="{ 'btn-outline-secondary': formChangeStatus.invalid  || (aprobacionAction && !validacionStatus), 'btn-success': !formChangeStatus.invalid }"
+                  class="btn"
+                  (click)="submitChg()"
+                  >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
 
-        <button
-                *ngIf="tipoAprobacion == 2"
-                [disabled]="formApprobeBaja.invalid || submitting"
-                [ngClass]="{ 'btn-outline-secondary': formApprobeBaja.invalid, 'btn-success': !formApprobeBaja.invalid }"
-                class="btn"
-                (click)="submitChg()"
-                >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
-      </div>
+          <button
+                  *ngIf="tipoAprobacion == 2"
+                  [disabled]="formApprobeBaja.invalid || submitting"
+                  [ngClass]="{ 'btn-outline-secondary': formApprobeBaja.invalid, 'btn-success': !formApprobeBaja.invalid }"
+                  class="btn"
+                  (click)="submitChg()"
+                  >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+        </div>
 
+      </div>
     </div>
   </div>
 </div>

@@ -1,4 +1,50 @@
-<div class="container" *ngIf="showContents">
+<div *ngIf="showContents">
+
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div style="background: #5090e0 !important" class="jumbotron jumbotron-fluid text-white animated fadeIn">
+      <div class="container">
+        <span><h1 class="display-3">HeadCount</h1></span>
+        <p class="lead">Plazas por Unidad de Negocio / Area / Departamento / Puesto</p>
+      </div>
+      <br>
+      <div class='container'>
+        <div class="d-flex justify-content-start">
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false" [checked]="!viewFuture" (click)="chgViewFuture()"> Mostrar al día de Hoy
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true" [checked]="viewFuture" (click)="chgViewFuture()"> Mostrar 15 dias adelante
+            </label>
+          </div>
+        </div>
+        <div *ngIf="infoVacantes || listData">
+          <div class="d-flex justify-content-end" *ngIf="(infoVacantesSliced && !showAlias) || listFlag">
+            <div class="mr-auto">
+              <button type="button" class="btn btn-sm btn-info" (click)="showList()">
+                <ng-container *ngIf="!listFlag">
+                  Mostrar Listado
+                </ng-container>
+                <ng-container *ngIf="listFlag">
+                  Mostrar Bloques
+                </ng-container>
+              </button>
+              <button type="button" class="btn btn-sm btn-warning" (click)="downloadCSV( 'headCount' )">Descargar</button>
+              <button type="button" class="btn btn-sm btn-success" (click)="showAddVacante()" *ngIf="currentUser.credentials['vacant_solicitar'] == 1">Solicitar Vacante</button>
+            </div>
+            <div class=""><span class="badge badge-success badge-pill">HeadCount</span></div>
+            <div class=""><span class="badge badge-warning badge-pill">Vacantes</span></div>
+            <div class=""><span class="badge badge-primary badge-pill">Pendientes Aprobar</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
 
   <!-- breadcrums -->
     <nav class="breadcrumb" style="margin-bottom: 5px;">
@@ -18,38 +64,9 @@
       <button type="button" class="p-2 btn btn-sm btn-outline-primary" style="cursor: pointer">Ver Todo</button>
     </div> -->
     <!-- Actual... Futuras -->
-    <div class="d-flex justify-content-end">
-      <div class="form-check form-check-inline">
-        <label class="form-check-label">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false" [checked]="!viewFuture" (click)="chgViewFuture()"> Mostrar al día de Hoy
-        </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <label class="form-check-label">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true" [checked]="viewFuture" (click)="chgViewFuture()"> Mostrar 15 dias adelante
-        </label>
-      </div>
-    </div>
+
     <button type="button" class="btn btn-outline-primary btn-block" (click)="getVacantes()" [disabled]=" loadingVacantes " *ngIf="loadingVacantes">Loading Vacantes <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="loadingVacantes"></i></button>
     <div *ngIf="infoVacantes || listData">
-      <div class="d-flex justify-content-end" *ngIf="(infoVacantesSliced && !showAlias) || listFlag">
-        <div class="mr-auto">
-          <button type="button" class="btn btn-sm btn-outline-info" (click)="showList()">
-            <ng-container *ngIf="!listFlag">
-              Mostrar Listado
-            </ng-container>
-            <ng-container *ngIf="listFlag">
-              Mostrar Bloques
-            </ng-container>
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-warning" (click)="downloadCSV( 'headCount' )">Descargar</button>
-          <button type="button" class="btn btn-sm btn-outline-success" (click)="showAddVacante()" *ngIf="currentUser.credentials['vacant_solicitar'] == 1">Solicitar Vacante</button>
-        </div>
-        <div class=""><span class="badge badge-success badge-pill">HeadCount</span></div>
-        <div class=""><span class="badge badge-warning badge-pill">Vacantes</span></div>
-        <div class=""><span class="badge badge-primary badge-pill">Pendientes Aprobar</span></div>
-      </div>
-      <hr>
     <ng-container *ngIf="!listFlag">
       <!-- cards por Unidad de Negocio -->
       <div class="row" *ngIf="infoVacantesSliced && !showPuestos">
@@ -159,7 +176,7 @@
                     </cite></footer>
                   </blockquote>
                   <p class="d-flex justify-content-end">
-                    <small><span class="badge badge-secondary ">{{ infoVacantesSliced[status][id].oficina }}</span></small> 
+                    <small><span class="badge badge-secondary ">{{ infoVacantesSliced[status][id].oficina }}</span></small>
                     <small class="ml-auto" *ngIf="currentUser.credentials['vacant_editar'] == 1 || currentUser.credentials['vacant_solicitar'] == 1">
                       <button
                               type="button"
@@ -221,7 +238,7 @@
     </ng-container>
   </div>
 
-</div>
+  </div>
 
 <!-- Modal Asesor Detalles -->
 <div class="modal hide fade" id="detailAsesor" tabindex="-1" role="dialog" aria-labelledby="DetalleAsesor" aria-hidden="true">
@@ -411,4 +428,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

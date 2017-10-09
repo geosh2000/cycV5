@@ -1,52 +1,68 @@
-<div class="container-fluid">
+<div *ngIf="showContents">
 
-  <div class="d-flex justify-content-start" (change)="setPcrc($event.target.value)">
-    <div class="form-group p-2">
-      <select class="custom-select">
-        <option value="">Selecciona el Departamento</option>
-        <option value="7">Agencias</option>
-        <option value="4">SAC IN</option>
-        <option value="9">Tráfico MP</option>
-        <option value="8">Tráfico MT</option>
-        <option value="35">Ventas MP</option>
-        <option value="3">Ventas MT</option>
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div style="background: #5090e0 !important" class="jumbotron jumbotron-fluid text-white animated fadeIn">
+      <div class="container">
+        <span><h1 class="display-3">Cuartiles Inbound</h1></span>
+        <p class="lead">Cuartilización del periodo seleccionado</p>
+      </div>
+      <br>
+      <div class='container'>
+        <div class="d-flex justify-content-start" (change)="setPcrc($event.target.value)">
+          <div class="form-group p-2">
+            <select class="custom-select">
+              <option value="">Selecciona el Departamento</option>
+              <option value="7">Agencias</option>
+              <option value="4">SAC IN</option>
+              <option value="9">Tráfico MP</option>
+              <option value="8">Tráfico MT</option>
+              <option value="35">Ventas MP - IN</option>
+              <option value="5">Ventas MP - Híbridos</option>
+              <option value="3">Ventas MT</option>
 
-      </select>
-    </div>
-    <div class="form-group p-2">
-        <div
-            class="input-group"
-            daterangepicker (selected)="dateChange($event.start, $event.end)">
-            <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker">
-            <span class="input-group-btn">
-                <a type="button" class="btn btn-default"><i class="fa fa-calendar fa-fw"></i></a>
-            </span>
+            </select>
+          </div>
+          <div class="form-group p-2">
+              <div
+                  class="input-group"
+                  daterangepicker (selected)="dateChange($event.start, $event.end)">
+                  <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker">
+                  <span class="input-group-btn">
+                      <a type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></a>
+                  </span>
+              </div>
+          </div>
+          <div class="p-2">
+              <button type="button" class="btn btn-success" *ngIf="skill!='' && searchStart && searchEnd" (click)="getCuartiles(searchStart, searchEnd, skill)">Buscar</button>
+          </div>
+          <div class="ml-auto p-2">
+              <button type="button" class="btn btn-warning text-white" *ngIf="ready" (click)="downloadXLS('cuartiles', 'cuartiles')">Descargar</button>
+          </div>
+
         </div>
+      </div>
     </div>
-    <div class="p-2">
-        <button type="button" class="btn btn-outline-primary" *ngIf="skill!='' && searchStart && searchEnd" (click)="getCuartiles(searchStart, searchEnd, skill)">Buscar</button>
-    </div>
-    <div class="ml-auto p-2">
-        <button type="button" class="btn btn-outline-warning" *ngIf="ready" (click)="downloadXLS('cuartiles', 'cuartiles')">Descargar</button>
-    </div>
-
-  </div>
-  <hr>
-  <p *ngIf="loadingCuartiles">Cargando Cuartiles...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
-  <div class="alert alert-danger" *ngIf="errorFlag">
-    {{ errorMsg | json }}
-  </div>
-  <div class="container-fluid" *ngIf="ready">
-    <ng2-smart-table
-              id='cuartiles'
-              (edit)="viewDetails($event)"
-              class='table-responsive table-striped table-bordered table-hover table-sm'
-              [settings]="smartTableSettings"
-              [source]="listCuartiles"
-              >
-    </ng2-smart-table>
   </div>
 
+  <div class="container-fluid" style="overflow: auto">
+
+    <p *ngIf="loadingCuartiles">Cargando Cuartiles...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
+    <div class="alert alert-danger" *ngIf="errorFlag">
+      {{ errorMsg | json }}
+    </div>
+    <div class="container-fluid" *ngIf="ready">
+      <ng2-smart-table
+                id='cuartiles'
+                (edit)="viewDetails($event)"
+                class='table-responsive table-striped table-bordered table-hover table-sm'
+                [settings]="smartTableSettings"
+                [source]="listCuartiles"
+                >
+      </ng2-smart-table>
+    </div>
 
 
+
+  </div>
 </div>

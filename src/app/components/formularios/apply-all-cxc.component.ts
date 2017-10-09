@@ -9,6 +9,7 @@ declare var jQuery:any;
 declare var Noty:any;
 
 import { ApiService } from '../../services/api.service';
+import { InitService } from '../../services/init.service';
 
 @Component({
   selector: 'app-apply-all-cxc',
@@ -23,6 +24,9 @@ export class ApplyAllCxcComponent implements OnInit {
 
   formApplyCxc:FormGroup
   formApplyCxcDetail:Object
+
+  showContents:boolean = false
+  mainCredential:string = 'cxc_apply'
 
   filter:any
 
@@ -46,12 +50,16 @@ export class ApplyAllCxcComponent implements OnInit {
   constructor(
                 public _dateRangeOptions: DaterangepickerConfig,
                 public _api:ApiService,
+                private _init:InitService,
                 public toastr: ToastsManager, vcr: ViewContainerRef,
                 public route:Router,
                 public activatedRoute:ActivatedRoute
                 ){
 
     this.toastr.setRootViewContainerRef(vcr);
+
+    this.currentUser = this._init.getUserInfo()
+    this.showContents = this._init.checkCredential( this.mainCredential, true )
 
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
