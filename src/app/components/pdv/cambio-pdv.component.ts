@@ -23,7 +23,7 @@ export class CambioPdvComponent implements OnInit {
 
   showContents:boolean = false;
   credentialStatus = 5;
-  mainCredential="default"
+  mainCredential="pdv_cambioModulo"
   currentUser:any
   results:any
 
