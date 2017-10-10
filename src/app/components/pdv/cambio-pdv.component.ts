@@ -187,7 +187,9 @@ export class CambioPdvComponent implements OnInit {
   }
 
   returnReplaced(){
+    let places = this.places
     this.removeAsesor()
+    this.places = places
   }
 
   removeAsesor(){
