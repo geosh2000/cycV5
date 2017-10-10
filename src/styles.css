@@ -91,3 +91,7 @@ p{
   outline: -webkit-focus-ring-color auto 0px;
   background: transparent;
 }
+
+.blueBkg{
+  background: #003b71
+}

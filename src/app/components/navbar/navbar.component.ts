@@ -90,7 +90,7 @@ export class NavbarComponent {
             // console.log( respuesta[0][0] );
             // console.log( respuesta[1][respuesta[0][0][1].id] );
 
-            console.log( respuesta )
+            // console.log( respuesta )
             this.menu = respuesta;
             this.buildCredentials( this.menu )
             // console.log("Menu", this.menu)

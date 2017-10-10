@@ -131,7 +131,7 @@ export class ApiService {
       'Content-Type':'application/json'
     });
 
-    console.log(urlOK.changingThisBreaksApplicationSecurity)
+    // console.log(urlOK.changingThisBreaksApplicationSecurity)
 
     return this.http.get( urlOK.changingThisBreaksApplicationSecurity, { headers } )
       .map( res => {

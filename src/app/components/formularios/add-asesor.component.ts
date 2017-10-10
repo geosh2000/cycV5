@@ -106,7 +106,7 @@ export class AddAsesorComponent implements OnInit {
 
       this.formAddAsesor = new FormGroup({
         num_colaborador:    new FormControl('', [                       Validators.pattern("^[0-9]{8}$") ] ),
-        nombre:             new FormControl('', [ Validators.required,  Validators.pattern("^[A-ZÁÉÍÓÚ]{1}[a-záéíóú]+([ ]{1}[A-ZÁÉÍÓÚ]{1}[a-záéíóú]+){0,3}$") ] ),
+        nombre:             new FormControl('', [ Validators.required,  Validators.pattern("^[A-ZÁÉÍÓÚ]{1}[a-záéíóú]+([ ]{1}([A-ZÁÉÍÓÚ]{1}[a-záéíóú]+|[d]{1}[e]{1}[l]{0,1})){0,3}$") ] ),
         apellido:           new FormControl('', [ Validators.required,  Validators.pattern("^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[ ]{1}[a-záéíóúñ]{2,3}){0,5}$") ] ),
         nombre_corto:       new FormControl('', [ Validators.required,  Validators.pattern("^[A-Z]{1}[a-z]* [A-Z]{1}[a-z]*$") ], this.userExists.bind(this) ),
         profile:            new FormControl('', [ Validators.required ] ),
@@ -374,7 +374,7 @@ export class AddAsesorComponent implements OnInit {
               // console.log("API", res)
 
               if(res['status']){
-                
+
                 this.save.emit({status: true})
 
               }else{

@@ -93,7 +93,7 @@
                     </button>
                   </ng-container>
                 </div>
-                <div class="row d-flex justify-content-end" style="margin-top: 3px" *ngIf="_init.checkSingleCredential('hc_cambios_aprobacion')">
+                <div class="row d-flex justify-content-end" style="margin-top: 3px" *ngIf="_init.checkSingleCredential('hc_baja_directa')">
                   <ng-container *ngIf="asesor.status == 'Activo' && asesor.solPendiente == 0">
                     <p class="mr-auto p-2">Registrar</p>
                     <button
@@ -346,7 +346,7 @@
       </table>
       <hr>
       <!-- Salarios -->
-      <ng-container *ngIf="_init.checkSingleCredential('hc_salarios_display') && asesor.status == 'Activo' && asesor.salario['codigo'] != 'NA'">
+      <ng-container *ngIf="_init.checkSingleCredential('hc_salarios_display') && asesor.status == 'Activo' && asesor.salario['diario'] != 'NA'">
         <div class="alert alert-info" role="alert">
           <div class="d-flex justify-content-end">
             <div class="mr-auto p-2">
