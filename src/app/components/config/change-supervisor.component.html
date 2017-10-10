@@ -1,0 +1,40 @@
+<div *ngIf="showContents">
+
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <span><h1 class="display-3">Cambio de Supervisor</h1></span>
+        <p class="lead">Selecciona los asesores que deseas cambiar y asínglos a un Supervisor / Líder</p>
+        <div class="d-flex justify-content-start">
+          <div class="form-group p-2">
+
+              <div
+                  class="input-group"
+                  [options]="singlePicker"
+                  daterangepicker (selected)="dateChange($event.start)">
+                  <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker">
+                  <span class="input-group-btn">
+                      <a type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></a>
+                  </span>
+              </div>
+          </div>
+          <div class="form-group p-2">
+            <div class="col-sm-12 input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-user-o fa-fw"></i>
+              </span>
+              <select class="form-control">
+                <option value="">Selecciona un Supervisor...</option>
+                <option value="1">Albert Sanchez</option>
+                <option value="2">Lili Gomez</option>
+                <option value="3">Erick Cervantes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

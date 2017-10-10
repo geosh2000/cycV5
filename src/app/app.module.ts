@@ -62,6 +62,7 @@ import { AprobarVacantesComponent } from './components/rrhh/aprobar-vacantes.com
 import { AddExternalUserComponent } from './components/config/add-external-user.component';
 import { PyaComponent } from './components/monitors/pya.component';
 import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
+import { ChangeSupervisorComponent } from './components/config/change-supervisor.component';
 
 
 declare let jQuery : Object;
@@ -108,7 +109,8 @@ declare let jQuery : Object;
     AprobarVacantesComponent,
     AddExternalUserComponent,
     PyaComponent,
-    CambioPdvComponent
+    CambioPdvComponent,
+    ChangeSupervisorComponent
   ],
   imports: [
     BrowserModule,

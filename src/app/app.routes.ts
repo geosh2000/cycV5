@@ -15,6 +15,7 @@ import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.co
 import { PrecisionComponent } from './components/reportes/precision/precision.component';
 import { PorIntervaloComponent } from './components/reportes/precision/por-intervalo.component';
 import { AddExternalUserComponent } from './components/config/add-external-user.component';
+import { ChangeSupervisorComponent } from './components/config/change-supervisor.component';
 import { PyaComponent } from './components/monitors/pya.component';
 import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { TestComponent } from './test/test/test.component';
@@ -64,6 +65,7 @@ const APP_ROUTES: Routes = [
 
   // Config
   { path: 'config/addExternal', component: AddExternalUserComponent },
+  { path: 'config/chgSuper', component: ChangeSupervisorComponent },
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },

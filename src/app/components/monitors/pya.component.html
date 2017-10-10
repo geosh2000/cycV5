@@ -1,0 +1,42 @@
+<p *ngIf="loading">Cargando Horarios...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
+<div class="container-fluid" *ngIf="ready">
+
+  <button class="btn" [ngClass]="{'btn-outline-success': !sw.status, 'btn-success': sw.status}" (click)="chgSwitch()" >
+    {{ sw.title }}
+  </button>
+  <a class="btn" [ngClass]="{'btn-outline-primary': !totalSwitch.status, 'btn-primary': totalSwitch.status}" (click)="chgAllStatus()" data-toggle="collapse" href=".all" aria-expanded="false" aria-controls="collapseExample">
+    Seleccionar Todos los Horarios
+  </a>
+  <hr>
+  <a class="btn" [ngClass]="{'btn-outline-primary': !hour.status, 'btn-primary': hour.status}" (click)="hour.status = !hour.status" style="width: 60px" data-toggle="collapse" href=".{{ hour.class }}" aria-expanded="false" aria-controls="collapseExample" *ngFor="let hour of horas">
+        {{ hour.Hora_group }}
+  </a>
+  <hr>
+
+
+
+  <div class="collapse all {{ hour.class }}" *ngFor="let hour of horas">
+    <div class="card bg-light mb-3">
+      <div class="card-header">{{ hour.Hora_group }} hrs.</div>
+      <div class="card-body">
+        <div class="card-deck">
+          <ng-container *ngFor="let item of data">
+
+            <div class="card mb-3" [ngClass]="{'border-success': item.type == 'j', 'border-warning': item.type == 'x'}" style="max-width: 15rem; min-width: 15rem;" *ngIf="(hour.Hora_group == item.Hora_group && sw.status) || (!sw.status && hour.Hora_group == item.Hora_group && (hour.Hora_group == item.int_j || hour.Hora_group == item.int_pre || hour.Hora_group == item.int_post))">
+              <div class="card-header bg-transparent" [ngClass]="{'border-success': item.type == 'j', 'border-warning': item.type == 'x'}" >{{ item.Nombre }}</div>
+              <div class="card-body" [ngClass]="{'text-success': item.type == 'j', 'text-warning': item.type == 'x'}" >
+                <h4 class="card-title">{{ item.Jornada }}</h4>
+                <p class="card-text" *ngIf="item.Pre != NULL">Xtra1: {{ item.Pre }}</p>
+                <p class="card-text" *ngIf="item.Post != NULL">Xtra2:{{ item.Post }}</p>
+                <p class="card-text">Comida: {{ item.Comida }}</p>
+              </div>
+              <div class="card-footer bg-transparent" [ngClass]="{'border-success': item.type == 'j', 'border-warning': item.type == 'x'}" >{{ item.Departamento }}</div>
+            </div>
+
+        </ng-container>
+      </div>
+      </div>
+    </div>
+  </div>
+
+</div>
