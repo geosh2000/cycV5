@@ -19,6 +19,7 @@ import { ChangeSupervisorComponent } from './components/config/change-supervisor
 import { PyaComponent } from './components/monitors/pya.component';
 import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { TestComponent } from './test/test/test.component';
+import { LiveTabComponent } from './components/monitors/venta/live-tab.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -57,6 +58,7 @@ const APP_ROUTES: Routes = [
 
   //Monitores
   { path: 'pya', component: PyaComponent },
+  { path: 'ventaMonitor', component: LiveTabComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },

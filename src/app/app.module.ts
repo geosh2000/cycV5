@@ -63,6 +63,7 @@ import { AddExternalUserComponent } from './components/config/add-external-user.
 import { PyaComponent } from './components/monitors/pya.component';
 import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { ChangeSupervisorComponent } from './components/config/change-supervisor.component';
+import { LiveTabComponent } from './components/monitors/venta/live-tab.component';
 
 
 declare let jQuery : Object;
@@ -110,7 +111,8 @@ declare let jQuery : Object;
     AddExternalUserComponent,
     PyaComponent,
     CambioPdvComponent,
-    ChangeSupervisorComponent
+    ChangeSupervisorComponent,
+    LiveTabComponent
   ],
   imports: [
     BrowserModule,

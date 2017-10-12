@@ -1,0 +1,119 @@
+<div class="container" *ngIf="liveData">
+  <ng-container *ngFor="let canal of liveData | keys">
+    <div class="card" *ngIf="canal != 'Otro'">
+      <div (click)="showConts(canal)" class="card-header" style='cursor: pointer'>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="p-2">
+            <button (click)="showConts(canal)" class="btn btn-sm" [ngClass]="{'btn-success': !buttons[canal], 'btn-danger': buttons[canal]}" type="button" data-toggle="collapse" [attr.data-target]="'#'+canal+'_body'" aria-expanded="false" [attr.aria-controls]="canal+'_body'">
+              <i class="fa fa-fw fa-plus" *ngIf="!buttons[canal]"></i>
+              <i class="fa fa-fw fa-minus" *ngIf="buttons[canal]"></i>
+            </button>
+          </div>
+          <div class="p-2">
+            <h4>{{ chanNames[canal] }}</h4>
+          </div>
+          <div class="p-2" [ngClass]="{'text-success': (varData( canal, 'Total', 'Monto', 'YD' ))>1.05, 'text-danger': (varData( canal, 'Total', 'Monto', 'YD' ))<0.95}">
+            <h5>{{ liveData[canal].Total.TD.Monto | currency:'MXN':true:'.2-2' }}</h5>
+          </div>
+        </div>
+      </div>
+      <!-- BODY -->
+      <div class="card-body collapse" [id]="canal+'_body'">
+        <!-- LIST ITEM -->
+        <!-- <div class="list-group">
+          <ng-container *ngFor="let item of liveData[canal]['Total']['TD'] | keys">
+            <div class="list-group-item list-group-item-action flex-column align-items-start" *ngIf="shownItems( canal, item )">
+              <div class="d-flex justify-content-between">
+                <h5 class="mb-1">{{ item }}</h5>
+                <small>
+                  <span *ngIf="itemType(item); then thenBlock else elseBlock"></span>
+                  <ng-template #thenBlock>{{ liveData[canal]['Total']['TD'][item] | currency:'MXN':true:'.2-2' }}</ng-template>
+                  <ng-template #elseBlock>{{ liveData[canal]['Total']['TD'][item] }}</ng-template>
+                </small>
+              </div>
+              <br>
+              <div class="d-flex justify-content-between">
+                <small>YD</small>
+                <small>LW</small>
+              </div>
+              <div class="d-flex justify-content-between">
+                <small [ngClass]="{'text-success': (varData( canal, 'Total', item, 'YD' ))>1.05, 'text-danger': (varData( canal, 'Total', item, 'YD' ))<0.95}">
+                  <span *ngIf="itemType(item); then thensm1Block else elsesm1Block"></span>
+                    <ng-template #thensm1Block>{{ liveData[canal]['Total']['YD'][item] | currency:'MXN':true:'.2-2' }}</ng-template>
+                    <ng-template #elsesm1Block>{{ liveData[canal]['Total']['YD'][item] }}</ng-template>
+                  </small>
+                <small [ngClass]="{'text-success': (varData( canal, 'Total', item, 'LW' ))>1.05, 'text-danger': (varData( canal, 'Total', item, 'LW' ))<0.95}">
+                  <span *ngIf="itemType(item); then thensm2Block else elsesm2Block"></span>
+                    <ng-template #thensm2Block>{{ liveData[canal]['Total']['LW'][item] | currency:'MXN':true:'.2-2' }}</ng-template>
+                    <ng-template #elsesm2Block>{{ liveData[canal]['Total']['LW'][item] }}</ng-template>
+                </small>
+              </div>
+              <div class="d-flex justify-content-between">
+                <small [ngClass]="{'text-success': (varData( canal, 'Total', item, 'YD' ))>1.05, 'text-danger': (varData( canal, 'Total', item, 'YD' ))<0.95}"><span>{{ (varData( canal, 'Total', item, 'YD' ) * 100) | number:'.2-2'}}%</span></small>
+                <small [ngClass]="{'text-success': (varData( canal, 'Total', item, 'LW' ))>1.05, 'text-danger': (varData( canal, 'Total', item, 'LW' ))<0.95}"><span>{{ (liveData[canal]['Total']['TD'][item] / liveData[canal]['Total']['LW'][item] * 100) | number:'.2-2'}}%</span></small>
+              </div>
+            </div>
+          </ng-container>
+        </div> -->
+
+        <div class="card-deck">
+          <ng-container *ngFor="let item of liveData[canal]['Total']['TD'] | keys">
+            <div style= 'min-width: 270px;' class="card" *ngIf="shownItems( canal, item )">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <h5 class="mb-1">{{ item }}</h5>
+                  <small>
+                    <span *ngIf="itemType(item); then thenBlock else elseBlock"></span>
+                    <ng-template #thenBlock>{{ liveData[canal]['Total']['TD'][item] | currency:'MXN':true:'.2-2' }}</ng-template>
+                    <ng-template #elseBlock>{{ liveData[canal]['Total']['TD'][item] }}</ng-template>
+                  </small>
+                </div>
+                <br>
+                <div class="d-flex justify-content-between">
+                  <small>YD</small>
+                  <small>LW</small>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <small [ngClass]="{'text-success': (varData( canal, 'Total', item, 'YD' ))>1.05, 'text-danger': (varData( canal, 'Total', item, 'YD' ))<0.95}">
+                    <span *ngIf="itemType(item); then thensm1Block else elsesm1Block"></span>
+                      <ng-template #thensm1Block>{{ liveData[canal]['Total']['YD'][item] | currency:'MXN':true:'.2-2' }}</ng-template>
+                      <ng-template #elsesm1Block>{{ liveData[canal]['Total']['YD'][item] }}</ng-template>
+                    </small>
+                  <small [ngClass]="{'text-success': (varData( canal, 'Total', item, 'LW' ))>1.05, 'text-danger': (varData( canal, 'Total', item, 'LW' ))<0.95}">
+                    <span *ngIf="itemType(item); then thensm2Block else elsesm2Block"></span>
+                      <ng-template #thensm2Block>{{ liveData[canal]['Total']['LW'][item] | currency:'MXN':true:'.2-2' }}</ng-template>
+                      <ng-template #elsesm2Block>{{ liveData[canal]['Total']['LW'][item] }}</ng-template>
+                  </small>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <small [ngClass]="{'text-success': (varData( canal, 'Total', item, 'YD' ))>1.05, 'text-danger': (varData( canal, 'Total', item, 'YD' ))<0.95}"><span>{{ (varData( canal, 'Total', item, 'YD' ) * 100) | number:'.2-2'}}%</span></small>
+                  <small [ngClass]="{'text-success': (varData( canal, 'Total', item, 'LW' ))>1.05, 'text-danger': (varData( canal, 'Total', item, 'LW' ))<0.95}"><span>{{ (liveData[canal]['Total']['TD'][item] / liveData[canal]['Total']['LW'][item] * 100) | number:'.2-2'}}%</span></small>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+      </div>
+
+    </div>
+    <hr *ngIf="canal != 'Otro'">
+    <!-- <div class="jumbotron jumbotron-fluid" *ngIf="canal != 'Otro'">
+      <div class="container">
+        <h2 class="display-3">{{ chanNames[canal] }}</h2>
+        div
+        <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+      </div>
+    </div> -->
+  </ng-container>
+
+  <div class="alert alert-primary text-center" role="alert">
+    Last Update
+    <button type="button" class="btn btn-sm btn-success" (click)="getData()" [disabled]="loadingData"><i class="fa fa-fw fa-refresh" *ngIf="!loadingData"></i><i class="fa fa-fw fa-refresh fa-spin" *ngIf="loadingData"></i></button>
+    <p><b>DB:</b> {{ lastUpdate['LU'] }}</p>
+    <p><b>Monitor:</b> {{ lastUpdate['LC'] }}</p>
+  </div>
+</div>
+<div class="container" *ngIf="!liveData">
+  Cargando...
+</div>
