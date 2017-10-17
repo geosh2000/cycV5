@@ -30,6 +30,8 @@ export class ShowDetailAsesorComponent implements OnInit {
   asesor:any[];
   credentialStatus = 5;
 
+  asesorImage = "assets/img/no-image.png"
+
   solicitarCambios:boolean = false;
   cxcRegistro:boolean = false;
   cxcApply:boolean = false;
@@ -61,7 +63,7 @@ export class ShowDetailAsesorComponent implements OnInit {
     // console.log("Checking credentials...")
 
   }
-
+ 
   ngOnInit() {
 
   }
@@ -82,6 +84,14 @@ export class ShowDetailAsesorComponent implements OnInit {
             }
 
             this.asesor = respuesta;
+
+            if(this.asesor['numcol'] != null){
+              this.asesorImage = `assets/img/asesores/${this.asesor['numcol']}.jpg`
+            }else{
+              this.asesorImage = "assets/img/no-image.png"
+            }
+
+
             // console.log(respuesta)
           })
   }
