@@ -63,7 +63,7 @@ export class ShowDetailAsesorComponent implements OnInit {
     // console.log("Checking credentials...")
 
   }
- 
+
   ngOnInit() {
 
   }
@@ -86,7 +86,7 @@ export class ShowDetailAsesorComponent implements OnInit {
             this.asesor = respuesta;
 
             if(this.asesor['numcol'] != null){
-              this.asesorImage = `assets/img/asesores/${this.asesor['numcol']}.jpg`
+              this.asesorImage = `/img/asesores/${this.asesor['numcol']}.jpg`
             }else{
               this.asesorImage = "assets/img/no-image.png"
             }
