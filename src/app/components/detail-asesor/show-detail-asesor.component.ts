@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Directive, Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription'
+import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
 import { CredentialsService } from '../../services/credentials.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -18,7 +19,8 @@ import { InitService } from '../../services/init.service';
 })
 export class ShowDetailAsesorComponent implements OnInit {
 
-
+  uploadImage:string
+  uploader:FileUploader = new FileUploader({url: this.uploadImage});
 
   @Output() showDialog = new EventEmitter<any>()
 
@@ -46,6 +48,7 @@ export class ShowDetailAsesorComponent implements OnInit {
   modalName:string
 
   tokenSubscription: Subscription
+  uploadURL:string = `${Globals.APISERV}/api/asesor-image-upload.php?id=`
 
 
 
@@ -84,6 +87,7 @@ export class ShowDetailAsesorComponent implements OnInit {
             }
 
             this.asesor = respuesta;
+
 
             if(this.asesor['numcol'] != null){
               this.asesorImage = `/img/asesores/${this.asesor['numcol']}.jpg`
@@ -192,6 +196,14 @@ export class ShowDetailAsesorComponent implements OnInit {
         }
         break;
     }
+  }
+
+  uploadImg(){
+    this.uploader.options.url = this.uploadImage
+    this.uploader.queue[0].url = this.uploadImage
+    this.uploader.uploadAll()
+    console.log(this.uploader)
+
   }
 
 

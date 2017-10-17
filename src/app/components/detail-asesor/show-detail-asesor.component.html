@@ -20,6 +20,12 @@
               </div>
               <div class="col-sm-8 text-right">
                 <button type="button" class="btn btn-sm btn-outline-warning" (click)="showModal('#form_editDetails', '#detailAsesor', 'editDetails', asesor)">Editar</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="collapse" data-target="#addFoto" aria-expanded="false" aria-controls="addFoto">Subir Foto</button>
+              </div>
+            </div>
+            <div class="collapse" id="addFoto">
+              <div class="card card-body">
+                <iframe [src]="asesor.numcol | domseguro:uploadURL" width="" height=""></iframe>
               </div>
             </div>
           </div>

@@ -8,6 +8,7 @@ import { CustomOption } from './components/shared/toastrOptions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { FileUploadModule } from 'ng2-file-upload';
 
 //services
 import { NavbarService } from './services/navbar.service';
@@ -64,6 +65,7 @@ import { PyaComponent } from './components/monitors/pya.component';
 import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { ChangeSupervisorComponent } from './components/config/change-supervisor.component';
 import { LiveTabComponent } from './components/monitors/venta/live-tab.component';
+import { DomseguroPipe } from './pipes/domseguro.pipe';
 
 
 declare let jQuery : Object;
@@ -112,7 +114,8 @@ declare let jQuery : Object;
     PyaComponent,
     CambioPdvComponent,
     ChangeSupervisorComponent,
-    LiveTabComponent
+    LiveTabComponent,
+    DomseguroPipe
   ],
   imports: [
     BrowserModule,
@@ -125,7 +128,8 @@ declare let jQuery : Object;
     Daterangepicker,
     ToastModule.forRoot(),
     CommonModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    FileUploadModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "esMX" },
