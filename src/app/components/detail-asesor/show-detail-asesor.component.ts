@@ -198,12 +198,8 @@ export class ShowDetailAsesorComponent implements OnInit {
     }
   }
 
-  uploadImg(){
-    this.uploader.options.url = this.uploadImage
-    this.uploader.queue[0].url = this.uploadImage
-    this.uploader.uploadAll()
-    console.log(this.uploader)
-
+  updateImg(event){
+    this.asesorImage=`${Globals.APISERV}/img/asesores/${this.asesor['numcol']}.jpg`
   }
 
 

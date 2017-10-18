@@ -1,7 +1,7 @@
 <div class='container' *ngIf="showContents">
   <br>
 
-  <div class="row animated fadeIn fast" *ngIf="asesor">
+  <div class="row" *ngIf="asesor">
 
     <div class="col-md-5">
       <!-- Generales -->
@@ -18,21 +18,23 @@
                   <strong><i class="fa fa-fw fa-history"></i> Detalles</strong>
                 </p>
               </div>
-              <div class="col-sm-8 text-right">
+              <div class="col-sm-8 text-right" *ngIf="_init.checkSingleCredential('hc_edit_detalles')">
                 <button type="button" class="btn btn-sm btn-outline-warning" (click)="showModal('#form_editDetails', '#detailAsesor', 'editDetails', asesor)">Editar</button>
                 <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="collapse" data-target="#addFoto" aria-expanded="false" aria-controls="addFoto">Subir Foto</button>
               </div>
             </div>
-            <div class="collapse" id="addFoto">
+            <div class="collapse" id="addFoto" *ngIf="_init.checkSingleCredential('hc_edit_detalles')">
               <div class="card card-body">
                 <iframe [src]="asesor.numcol | domseguro:uploadURL" width="" height=""></iframe>
+                <button type="button" class="btn btn-outline-info btn-block" (click)="getAsesorDetail( actualAsesor )">Refresh</button>
               </div>
             </div>
           </div>
           <div class="row d-flex align-items-center">
             <div class='col-4'>
                 <div class='text-center align-self-center'>
-                    <img alt='image' class='img img-circle img-fluid' style='margin: auto;' [src]="asesorImage">
+                    <img alt='image' class='img rounded img-fluid' style='margin: auto; cursor: zoom-in' [src]="asesorImage" (error)="updateImg($event)"
+                          data-toggle="modal" data-target="#fotoModal">
                 </div>
             </div>
             <div class='col-8 text-xs-left'>
@@ -506,3 +508,22 @@
   </div>
 </div>
 <!-- <app-cambio-puesto></app-cambio-puesto> -->
+<!-- Modal -->
+<div class="modal fade" id="fotoModal" tabindex="-1" role="dialog" aria-labelledby="fotoModalLabel" aria-hidden="true" *ngIf="asesor">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="fotoModalLabel">{{ asesor.nombre }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img alt='image' class='img rounded img-fluid' style='margin: auto;' [src]="asesorImage" (error)="updateImg($event)">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

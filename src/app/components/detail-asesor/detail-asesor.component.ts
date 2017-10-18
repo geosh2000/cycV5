@@ -116,7 +116,14 @@ export class DetailAsesorComponent implements OnInit {
         title: 'id',
         editable: false
       },
-
+      foto:{
+        title: 'Foto',
+        type: 'html',
+        valuePrepareFunction: (cell, row) => {
+          let result = `<img alt='image' class='img rounded img-fluid' style='margin: auto;' src='${Globals.APISERV}/img/asesores/${cell}.jpg'>`
+          return result
+        }
+      },
       num_colaborador: {
         title: '#'
       },
@@ -177,6 +184,9 @@ export class DetailAsesorComponent implements OnInit {
       add: false,
       edit: true,
       delete: false
+    },
+    pager: {
+      display: false
     }
   }
 
