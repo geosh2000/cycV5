@@ -1,0 +1,359 @@
+<div *ngIf="showContents">
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <span><h1 class="display-3">Consulta de Asistencia</h1></span>
+            <p class="lead">Detalle de horarios, ausentismos, retardos, etc.</p>
+          </div>
+          <div>
+            <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+          </div>
+        </div>
+        <div class="container">
+          <div class="form-row align-items-center">
+            <div class="col-auto">
+              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" (change)="pcrcChange($event)" id="pcrc">
+                <option selected *ngIf="!deps">Loading... <i class="fa fa-fw fa-spinner fa-pulse" *ngIf="loading"></i></option>
+                <option selected *ngIf="deps">Selecciona...</option>
+                <option [value]="pcrc.id" *ngFor="let pcrc of deps">{{ pcrc.Departamento }}</option>
+                <option value='0' *ngIf="deps">Todos</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label class="sr-only" for="selectedDate">Fechas</label>
+              <div class="col-auto input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-calendar fa-fw"></i>
+                </span>
+                <input
+                  daterangepicker
+                  (selected)="setVal($event.start, $event.end)"
+                  class="form-control mb-2 mb-sm-0" type="text" [value]="searchCriteria.value" id="selectedDate">
+              </div>
+            </div>
+            <div class="col-auto" *ngIf="asistData">
+              <input
+                  class="form-control mb-2 mb-sm-0" type="text" [(ngModel)]="searchFilter" name="searchFilter" id="filterSearch" placeholder="Filtrar por">
+            </div>
+            <div class="col-auto">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="getAsistencia( searchCriteria.skill, searchCriteria.start, searchCriteria.end )"
+                [disabled]="loading || searchCriteria.skill==''">Consultar <i class="fa fa-fw fa-spinner fa-pulse" *ngIf="loading"></i></button>
+            </div>
+            <div class="col-auto">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="orderNames(asistData)"
+                >TEST</button>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="container">
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="ch_jornada" value="ch_jornada" name="ch_jornada" [(ngModel)]="showOpts.ch_jornada"> Jornada
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="ch_comida" value="ch_comida" name="ch_comida" [(ngModel)]="showOpts.ch_comida"> Comida
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="ch_x" value="ch_x" name="ch_x" [(ngModel)]="showOpts.ch_x"> Horas Extra
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="ch_excep" value="ch_excep" name="ch_excep" [(ngModel)]="showOpts.ch_excep"> Excepciones
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="ch_ret" value="ch_ret" name="ch_ret" [(ngModel)]="showOpts.ch_ret"> Retardos
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="ch_sa" value="ch_sa" name="ch_sa" [(ngModel)]="showOpts.ch_sa"> Salidas Anticipadas
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ng-container *ngIf="asistData">
+  <div class="container-fluid" >
+    <table class="table table-fluid table-striped table-bordered table-hover table-sm table-responsive">
+      <thead>
+        <tr>
+          <th>Asesor</th>
+          <th>Departamento</th>
+          <th>Puesto</th>
+          <th *ngFor="let date of datesData | keys" class="text-center">{{ date }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let rac of orederedKeys">
+          <tr *ngIf="applyFilter(asistData[rac])">
+            <td scope="row"><small>{{ asistData[rac].Nombre }}</small></td>
+            <td scope="row"><small class="text-center">{{ asistData[rac].Departamento }}</small></td>
+            <td scope="row"><small class="text-center">{{ asistData[rac].PuestoName }}</small></td>
+            <td *ngFor="let date of datesData | keys" class="text-xs-center" >
+              <div >
+                <ng-container *ngIf="!asistData[rac].data[date]">
+                      <button class="btn btn-block btn-danger"><small>Sin Contrato</small></button>
+                </ng-container>
+                <ng-container *ngIf="asistData[rac].data[date]">
+
+                  <!-- Jornada => Descanso -->
+                  <div class="d-flex justify-content-around" *ngIf="showOpts.ch_jornada">
+                    <div class="ml-auto p-1">
+                      <button class="btn btn-sm btn-outline-info" style="width: 30px"><small>j: </small></button>
+                    </div>
+                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso==1">
+                      <button class="btn btn-sm" style="width: 90px"><small>Descanso</small></button>
+                    </div>
+                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso!=1">
+                      <button class="btn btn-sm btn-info" style="width: 90px" *ngIf="asistData[rac].data[date]['jornada start']!=null"><small>{{ printTimeInterval(date, asistData[rac].data[date]['jornada start'], asistData[rac].data[date]['jornada end']) }}</small></button>
+                      <button class="btn btn-sm btn-outline-secondary" style="width: 90px" *ngIf="asistData[rac].data[date]['jornada start']==null"><small>*</small></button>
+                    </div>
+                  </div>
+
+                  <!-- Comida -->
+                  <div class="d-flex justify-content-around" *ngIf="showOpts.ch_comida">
+                    <div class="ml-auto p-1">
+                      <button class="btn btn-sm btn-outline-secondary" style="width: 30px"><small>c: </small></button>
+                    </div>
+                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso==1">
+                      <button class="btn btn-sm btn-outline-secondary" style="width: 90px"><small>NA</small></button>
+                    </div>
+                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso!=1">
+                      <button class="btn btn-sm btn-info btn-outline-warning" style="width: 90px" *ngIf="asistData[rac].data[date]['comida start']!=asistData[rac].data[date]['comida end']"><small>{{ printTimeInterval(date,asistData[rac].data[date]['comida start'],asistData[rac].data[date]['comida end']) }}</small></button>
+                      <button class="btn btn-sm btn-outline-secondary" style="width: 90px" *ngIf="asistData[rac].data[date]['comida start']==asistData[rac].data[date]['comida end']"><small>NA</small></button>
+                    </div>
+                  </div>
+
+                  <!-- X1 -->
+                  <div class="d-flex justify-content-around" *ngIf="showOpts.ch_x">
+                    <div class="ml-auto p-1">
+                      <button class="btn btn-sm btn-outline-warning" style="width: 30px"><small>x1: </small></button>
+                    </div>
+                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso==1">
+                      <button class="btn btn-sm btn-outline-secondary" style="width: 90px"><small>NA</small></button>
+                    </div>
+                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso!=1">
+                      <button class="btn btn-sm btn-info btn-warning" style="width: 90px" *ngIf="asistData[rac].data[date]['extra1 start']!=asistData[rac].data[date]['extra1 end']"><small>{{ printTimeInterval(date,asistData[rac].data[date]['extra1 start'],asistData[rac].data[date]['extra1 end']) }}</small></button>
+                      <button class="btn btn-sm btn-outline-secondary" style="width: 90px" *ngIf="asistData[rac].data[date]['extra1 start']==asistData[rac].data[date]['extra1 end']"><small>NA</small></button>
+                    </div>
+                  </div>
+
+                  <!-- X2 -->
+                  <div class="d-flex justify-content-around" *ngIf="showOpts.ch_x">
+                    <div class="ml-auto p-1">
+                      <button class="btn btn-sm btn-outline-warning" style="width: 30px"><small>x2: </small></button>
+                    </div>
+                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso==1">
+                      <button class="btn btn-sm btn-outline-secondary" style="width: 90px"><small>NA</small></button>
+                    </div>
+                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso!=1">
+                      <button class="btn btn-sm btn-info btn-warning" style="width: 90px" *ngIf="asistData[rac].data[date]['extra2 start']!=asistData[rac].data[date]['extra2 end']"><small>{{ printTimeInterval(date,asistData[rac].data[date]['extra2 start'],asistData[rac].data[date]['extra2 end']) }}</small></button>
+                      <button class="btn btn-sm btn-outline-secondary" style="width: 90px" *ngIf="asistData[rac].data[date]['extra2 start']==asistData[rac].data[date]['extra2 end']"><small>NA</small></button>
+                    </div>
+                  </div>
+
+                  <!-- Detalle -->
+                  <ng-container *ngIf="showOpts.ch_excep">
+                    <div class="d-flex justify-content-around">
+                      <!-- Asistencia -->
+                      <div class="ml-auto p-1">
+                        <button class="btn btn-sm btn-outline-success" style="width: 30px"><small>e: </small></button>
+                      </div>
+                      <ng-container *ngIf="compareDates( date )">
+                        <ng-container  *ngIf="asistData[rac].data[date].j_login!=null">
+                          <div class="p-1"
+                              *ngIf="asistData[rac].data[date].Descanso!=1 &&
+                                    ((asistData[rac].data[date].SalidaAnticipada==1 && asistData[rac].data[date].tiempoLaborado>=60) ||
+                                    asistData[rac].data[date].SalidaAnticipada!=1)">
+                            <button class="btn btn-block btn-sm btn-success" style="width: 90px"><small>A</small></button>
+                          </div>
+                          <div class="p-1" *ngIf="asistData[rac].data[date].Descanso==1"><button class="btn btn-block btn-sm btn-warning" style="width: 90px"><small>DT</small></button></div>
+                        </ng-container>
+                        <ng-container  *ngIf="asistData[rac].data[date].Asistencia!=1 || (asistData[rac].data[date].SalidaAnticipada==1 && asistData[rac].data[date].tiempoLaborado<60)">
+                          <div
+                            class="p-1"
+                            data-toggle="collapse" [attr.data-target]="'#ausDetail_'+rac+'_'+date" aria-expanded="false" [attr.aria-controls]="'#ausDetail_'+rac+'_'+date">
+                              <button
+                                class="btn btn-block btn-sm"
+                                [ngClass]="{'btn-primary':  asistData[rac].data[date].Ausentismo==1,
+                                            'btn-danger':   asistData[rac].data[date].Ausentismo!=1 && asistData[rac].data[date].Descanso!=1}"
+                                style="width: 90px">
+                                <small *ngIf="asistData[rac].data[date].Ausentismo==1">{{ asistData[rac].data[date].Code_aus }}</small>
+                                <small *ngIf="asistData[rac].data[date].Ausentismo!=1 && asistData[rac].data[date].Descanso!=1">F</small>
+                                <small *ngIf="asistData[rac].data[date].Descanso==1 && asistData[rac].data[date].Ausentismo!=1">D</small>
+                              </button>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngIf="!compareDates( date )">
+                        <div class="p-1"><button class="btn btn-block btn-sm btn-outline-secondary" style="width: 90px"><small>__</small></button></div>
+                      </ng-container>
+                    </div>
+                    <div class="collapse" id="ausDetail_{{rac}}_{{date}}" *ngIf="asistData[rac].data[date].Ausentismo==1">
+                      <div class="card card-body" style="font-size: 9px">
+                        <p class="d-flex justify-content-between">
+                          <span>Tipo: </span>
+                          <span class="text-danger" style="text-align: right">{{ asistData[rac].data[date].Aus_Nombre }}</span>
+                        </p>
+                        <p class="d-flex justify-content-between">
+                          <span>Code: </span>
+                          <span class="text-danger" style="text-align: right">{{ asistData[rac].data[date].Code_aus }}</span>
+                        </p>
+                        <ng-container *ngIf="asistData[rac].data[date].Code_aus!=null">
+                          <p class="d-flex justify-content-between">
+                            <span>Nota: </span>
+                            <span class="text-primary" style="text-align: right">{{ asistData[rac].data[date].Aus_Nota }}</span>
+                          </p>
+                          <p class="d-flex justify-content-between">
+                            <span>Caso: </span>
+                            <span class="text-primary" style="text-align: right">
+                              <a
+                                href="http://sos.pricetravel.com.mx/default.asp?{{asistData[rac].data[date].Aus_caso}}"
+                                target="_blank" *ngIf="asistData[rac].data[date].Aus_caso!=null">
+                                {{ asistData[rac].data[date].Aus_caso }} <i class="fa fa-fw fa-external-link"></i>
+                              </a>
+                            </span>
+                          </p>
+                          <p class="d-flex justify-content-between">
+                            <span>Registró: </span>
+                            <span class="text-primary" style="text-align: right">{{ asistData[rac].data[date].Aus_Register }}</span>
+                          </p>
+                          <p class="text-primary" style="text-align: right">{{ asistData[rac].data[date].Aus_LU }}</p>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- Puntualidad -->
+                  <ng-container *ngIf="showOpts.ch_ret">
+                    <div class="d-flex justify-content-around">
+                      <div class="ml-auto p-1">
+                        <button class="btn btn-sm btn-outline-primary" style="width: 30px"><small>rt: </small></button>
+                      </div>
+                      <ng-container *ngIf="compareDates( date )">
+                        <ng-container  *ngIf="asistData[rac].data[date].Descanso!=1 && asistData[rac].data[date].Retardo!=null && (asistData[rac].data[date].Ausentismo==0 || asistData[rac].data[date].Code_aus=='OF')">
+                          <div class="p-1">
+                            <button
+                              class="btn btn-block btn-sm"
+                              style="width: 90px"
+                              data-toggle="collapse" [attr.data-target]="'#rtDetail_'+rac+'_'+date" aria-expanded="false" [attr.aria-controls]="'#rtDetail_'+rac+'_'+date"
+                              [ngClass]="{'btn-warning': asistData[rac].data[date].Retardo=='RT-A' && asistData[rac].data[date].RT_Codigo==null,
+                                          'btn-danger': asistData[rac].data[date].Retardo=='RT-B' && asistData[rac].data[date].RT_Codigo==null,
+                                          'btn-primary': asistData[rac].data[date].RT_Codigo!=null}">
+                                <small *ngIf="asistData[rac].data[date].RT_Codigo==null">{{ asistData[rac].data[date].Retardo }}</small>
+                                <small *ngIf="asistData[rac].data[date].RT_Codigo!=null">{{ asistData[rac].data[date].RT_Codigo }}</small>
+                            </button>
+                          </div>
+                        </ng-container>
+                        <ng-container  *ngIf="asistData[rac].data[date].Retardo==null || (asistData[rac].data[date].Ausentismo!=0 && asistData[rac].data[date].Code_aus!='OF')">
+                          <div class="p-1"><button class="btn btn-block btn-sm btn-outline-secondary" style="width: 90px"><small>__</small></button></div>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngIf="!compareDates( date )">
+                        <div class="p-1"><button class="btn btn-block btn-sm btn-outline-secondary" style="width: 90px"><small>__</small></button></div>
+                      </ng-container>
+                    </div>
+                    <div class="collapse" id="rtDetail_{{rac}}_{{date}}" *ngIf="asistData[rac].data[date].Retardo!=null">
+                      <div class="card card-body" style="font-size: 9px">
+                        <p class="d-flex justify-content-between">
+                          <span>Login: </span>
+                          <span class="text-danger" style="text-align: right">{{ printTime(date,asistData[rac].data[date].j_login) }}</span>
+                        </p>
+                        <p class="d-flex justify-content-between">
+                          <span>Retardo: </span>
+                          <span class="text-danger" style="text-align: right">{{ asistData[rac].data[date].Retardo_time }}</span>
+                        </p>
+                        <ng-container *ngIf="asistData[rac].data[date].RT_Excepcion!=null">
+                          <p class="d-flex justify-content-between">
+                            <span>Nota: </span>
+                            <span class="text-primary" style="text-align: right">{{ asistData[rac].data[date].RT_Nota }}</span>
+                          </p>
+                          <p class="d-flex justify-content-between">
+                            <span>Caso: </span>
+                            <span class="text-primary" style="text-align: right">
+                              <a
+                                href="http://sos.pricetravel.com.mx/default.asp?{{asistData[rac].data[date].RT_caso}}"
+                                target="_blank" *ngIf="asistData[rac].data[date].RT_caso!=null">
+                                {{ asistData[rac].data[date].RT_caso }} <i class="fa fa-fw fa-external-link"></i>
+                              </a>
+                            </span>
+                          </p>
+                          <p class="d-flex justify-content-between">
+                            <span>Registró: </span>
+                            <span class="text-primary" style="text-align: right">{{ asistData[rac].data[date].RT_register }}</span>
+                          </p>
+                          <p class="text-primary" style="text-align: right">{{ asistData[rac].data[date].RT_LU }}</p>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- Salidas Anticipadas -->
+                  <ng-container  *ngIf="showOpts.ch_sa">
+                    <div class="d-flex justify-content-around">
+                      <div class="ml-auto p-1">
+                        <button class="btn btn-sm btn-outline-primary" style="width: 30px"><small>sa: </small></button>
+                      </div>
+                      <ng-container *ngIf="compareDates( date )">
+                        <ng-container *ngIf="asistData[rac].data[date].SalidaAnticipada!=0">
+                          <div class="p-1">
+                            <button class="btn btn-block btn-sm btn-danger" style="width: 90px"
+                                    data-toggle="collapse" [attr.data-target]="'#saDetail_'+rac+'_'+date" aria-expanded="false" [attr.aria-controls]="'#saDetail_'+rac+'_'+date">
+                                    <small>SA</small>
+                            </button>
+                          </div>
+                        </ng-container>
+                        <ng-container  *ngIf="asistData[rac].data[date].SalidaAnticipada==0">
+                          <div class="p-1"><button class="btn btn-block btn-sm btn-outline-secondary" style="width: 90px"><small>__</small></button></div>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngIf="!compareDates( date )">
+                        <div class="p-1"><button class="btn btn-block btn-sm btn-outline-secondary" style="width: 90px"><small>__</small></button></div>
+                      </ng-container>
+                    </div>
+                    <div class="collapse" id="saDetail_{{rac}}_{{date}}" *ngIf="asistData[rac].data[date].SalidaAnticipada!=0">
+                      <div class="card card-body" style="font-size: 9px">
+                        <p class="d-flex justify-content-between">
+                          <span>Logout: </span>
+                          <span class="text-danger">{{ printTime(date,asistData[rac].data[date].j_logout) }}</span>
+                        </p>
+                        <p class="d-flex justify-content-between">
+                          <span>Tiempo Laborado: </span>
+                          <span class="text-danger">{{ asistData[rac].data[date].tiempoLaborado | number:".0-2" }}%</span>
+                        </p>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- departamento -->
+                  <!-- <div class="border border-secondary text-sm-center" style="font-size: 10px">{{ asistData[rac].data[date].Departamento }} - {{ asistData[rac].data[date].PuestoName }}</div> -->
+                </ng-container>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

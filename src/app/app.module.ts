@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FileUploadModule } from 'ng2-file-upload';
+import { PopoverModule } from 'ngx-popover';
 
 //services
 import { NavbarService } from './services/navbar.service';
@@ -66,6 +67,7 @@ import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { ChangeSupervisorComponent } from './components/config/change-supervisor.component';
 import { LiveTabComponent } from './components/monitors/venta/live-tab.component';
 import { DomseguroPipe } from './pipes/domseguro.pipe';
+import { AsistenciaComponent } from './components/reportes/asistencia/asistencia.component';
 
 
 declare let jQuery : Object;
@@ -115,7 +117,8 @@ declare let jQuery : Object;
     CambioPdvComponent,
     ChangeSupervisorComponent,
     LiveTabComponent,
-    DomseguroPipe
+    DomseguroPipe,
+    AsistenciaComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +132,8 @@ declare let jQuery : Object;
     ToastModule.forRoot(),
     CommonModule,
     Ng2SmartTableModule,
-    FileUploadModule
+    FileUploadModule,
+    PopoverModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "esMX" },

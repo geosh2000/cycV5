@@ -20,6 +20,7 @@ import { PyaComponent } from './components/monitors/pya.component';
 import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { TestComponent } from './test/test/test.component';
 import { LiveTabComponent } from './components/monitors/venta/live-tab.component';
+import { AsistenciaComponent } from './components/reportes/asistencia/asistencia.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -52,6 +53,7 @@ const APP_ROUTES: Routes = [
   { path: 'cuartiles', component: CuartilesComponent },
   { path: 'precisionPronostico', component: PrecisionComponent },
   { path: 'precisionPorIntervalo', component: PorIntervaloComponent },
+  { path: 'asistencia', component: AsistenciaComponent },
 
   //Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
