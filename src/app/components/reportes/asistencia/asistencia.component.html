@@ -45,13 +45,6 @@
                 (click)="getAsistencia( searchCriteria.skill, searchCriteria.start, searchCriteria.end )"
                 [disabled]="loading || searchCriteria.skill==''">Consultar <i class="fa fa-fw fa-spinner fa-pulse" *ngIf="loading"></i></button>
             </div>
-            <div class="col-auto">
-              <button
-                type="button"
-                class="btn btn-primary"
-                (click)="orderNames(asistData)"
-                >TEST</button>
-            </div>
           </div>
         </div>
         <br>
@@ -98,7 +91,7 @@
     <table class="table table-fluid table-striped table-bordered table-hover table-sm table-responsive">
       <thead>
         <tr>
-          <th>Asesor</th>
+          <th style="min-width: 130px;">Asesor</th>
           <th>Departamento</th>
           <th>Puesto</th>
           <th *ngFor="let date of datesData | keys" class="text-center">{{ date }}</th>
@@ -107,7 +100,7 @@
       <tbody>
         <ng-container *ngFor="let rac of orederedKeys">
           <tr *ngIf="applyFilter(asistData[rac])">
-            <td scope="row"><small>{{ asistData[rac].Nombre }}</small></td>
+            <td scope="row"><small>{{ asistData[rac].Nombre }} <a class="cursor: pointer" [routerLink]="['/detail-asesor',rac]" target="_blank"><i class="fa fa-fw fa-info-circle"></i></a></small></td>
             <td scope="row"><small class="text-center">{{ asistData[rac].Departamento }}</small></td>
             <td scope="row"><small class="text-center">{{ asistData[rac].PuestoName }}</small></td>
             <td *ngFor="let date of datesData | keys" class="text-xs-center" >
@@ -148,14 +141,25 @@
                   <!-- X1 -->
                   <div class="d-flex justify-content-around" *ngIf="showOpts.ch_x">
                     <div class="ml-auto p-1">
-                      <button class="btn btn-sm btn-outline-warning" style="width: 30px"><small>x1: </small></button>
+                      <button class="btn btn-sm btn-outline-warning" style="width: 30px">
+                        <small>x1: </small>
+                      </button>
                     </div>
-                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso==1">
-                      <button class="btn btn-sm btn-outline-secondary" style="width: 90px"><small>NA</small></button>
-                    </div>
-                    <div class="p-1" *ngIf="asistData[rac].data[date].Descanso!=1">
-                      <button class="btn btn-sm btn-info btn-warning" style="width: 90px" *ngIf="asistData[rac].data[date]['extra1 start']!=asistData[rac].data[date]['extra1 end']"><small>{{ printTimeInterval(date,asistData[rac].data[date]['extra1 start'],asistData[rac].data[date]['extra1 end']) }}</small></button>
-                      <button class="btn btn-sm btn-outline-secondary" style="width: 90px" *ngIf="asistData[rac].data[date]['extra1 start']==asistData[rac].data[date]['extra1 end']"><small>NA</small></button>
+                    <div class="p-1">
+                      <button
+                        class="btn btn-sm"
+                        [ngClass]="{'btn-outline-secondary':  asistData[rac].data[date].Descanso==1,
+                                    'btn-warning':            asistData[rac].data[date].Descanso!=1  && (asistData[rac].data[date]['extra1 start']!=asistData[rac].data[date]['extra1 end']),
+                                    'btn-outline-secondary':  asistData[rac].data[date].Descanso!=1  && (asistData[rac].data[date]['extra1 start']==asistData[rac].data[date]['extra1 end'])}"
+                        style="width: 90px"
+                        >
+                          <small *ngIf="asistData[rac].data[date].Descanso==1">NA</small>
+                          <small *ngIf="asistData[rac].data[date].Descanso!=1 && (asistData[rac].data[date]['extra1 start']!=asistData[rac].data[date]['extra1 end'])">{{ printTimeInterval(date,asistData[rac].data[date]['extra1 start'],asistData[rac].data[date]['extra1 end']) }}</small>
+                          <small *ngIf="asistData[rac].data[date].Descanso!=1 && (asistData[rac].data[date]['extra1 start']==asistData[rac].data[date]['extra1 end'])">NA</small>
+                          <div class="progress border border-light" style="height: 5px" *ngIf="asistData[rac].data[date].Descanso!=1 && (asistData[rac].data[date]['extra1 start']!=asistData[rac].data[date]['extra1 end'])">
+                            <div class="progress-bar bg-warning" role="progressbar" [attr.style.width]="perCumplimiento( asistData[rac].data[date]['extra1 start'], asistData[rac].data[date]['extra1 end'], asistData[rac].data[date]['x1_login'], asistData[rac].data[date]['x1_logout'])" [attr.aria-valuenow]="100" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                      </button>
                     </div>
                   </div>
 
@@ -178,9 +182,17 @@
                     <div class="d-flex justify-content-around">
                       <!-- Asistencia -->
                       <div class="ml-auto p-1">
-                        <button class="btn btn-sm btn-outline-success" style="width: 30px"><small>e: </small></button>
+                          <button *ngIf="_init.checkSingleCredential('schedules_change')"
+                            class="btn btn-sm btn-outline-success" style="width: 30px"
+                            type="button" data-toggle="modal" data-target="#addAusentismoModal" (click)="_aus.initForm( rac, date )"
+                            >
+                            <small>e: </small>
+                          </button>
+                          <button class="btn btn-sm btn-outline-success" style="width: 30px" *ngIf="!_init.checkSingleCredential('schedules_change')">
+                          <small>e: </small>
+                        </button>
                       </div>
-                      <ng-container *ngIf="compareDates( date )">
+                      <ng-container *ngIf="compareDates( date ) || asistData[rac].data[date].Ausentismo==1; else excepDataCompare">
                         <ng-container  *ngIf="asistData[rac].data[date].j_login!=null">
                           <div class="p-1"
                               *ngIf="asistData[rac].data[date].Descanso!=1 &&
@@ -206,9 +218,9 @@
                           </div>
                         </ng-container>
                       </ng-container>
-                      <ng-container *ngIf="!compareDates( date )">
+                      <ng-template #excepDataCompare>
                         <div class="p-1"><button class="btn btn-block btn-sm btn-outline-secondary" style="width: 90px"><small>__</small></button></div>
-                      </ng-container>
+                      </ng-template>
                     </div>
                     <div class="collapse" id="ausDetail_{{rac}}_{{date}}" *ngIf="asistData[rac].data[date].Ausentismo==1">
                       <div class="card card-body" style="font-size: 9px">
@@ -357,3 +369,6 @@
     </table>
   </div>
 </ng-container>
+
+<!-- Ausentismos Agregar -->
+<app-add-ausentismo></app-add-ausentismo>

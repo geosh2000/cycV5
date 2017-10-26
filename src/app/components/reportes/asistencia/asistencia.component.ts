@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { PopoverModule } from 'ngx-popover';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { AddAusentismoComponent } from '../../formularios/add-ausentismo.component';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -19,6 +22,7 @@ import * as moment from 'moment-timezone';
 export class AsistenciaComponent implements OnInit {
 
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
+  @ViewChild( AddAusentismoComponent ) _aus: AddAusentismoComponent
 
   currentUser: any
   showContents:boolean = false
@@ -226,6 +230,32 @@ export class AsistenciaComponent implements OnInit {
     }
 
     this.orederedKeys = sortArray
+  }
+
+  perCumplimiento( inicio, fin, ji, jf){
+
+    if( inicio == null || fin == null || ji == null || jf == null ){
+      return 0
+    }
+    
+    let s   = this.timeDateXform( inicio )
+    let e   = this.timeDateXform( fin )
+    let js  = this.timeDateXform( ji )
+    let je  = this.timeDateXform( jf )
+
+    let total = e.diff(s, 'seconds')
+    let did = je.diff(js, 'seconds')
+    let result:number = did / total * 100
+    return (Math.floor(result))
+  }
+
+  timeDateXform( time ){
+    let td = moment(`${moment().format('YYYY-MM-DD')} ${time}`)
+    if( td < moment(`${moment().format('YYYY-MM-DD')} 05:00:00`)){
+      return td.add(1, 'days')
+    }else{
+      return td
+    }
   }
 
 }

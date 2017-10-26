@@ -5,7 +5,7 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/rx';
 
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 declare var jQuery:any;
 declare var Noty:any;
 

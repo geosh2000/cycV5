@@ -68,6 +68,7 @@ import { ChangeSupervisorComponent } from './components/config/change-supervisor
 import { LiveTabComponent } from './components/monitors/venta/live-tab.component';
 import { DomseguroPipe } from './pipes/domseguro.pipe';
 import { AsistenciaComponent } from './components/reportes/asistencia/asistencia.component';
+import { AddAusentismoComponent } from './components/formularios/add-ausentismo.component';
 
 
 declare let jQuery : Object;
@@ -118,7 +119,8 @@ declare let jQuery : Object;
     ChangeSupervisorComponent,
     LiveTabComponent,
     DomseguroPipe,
-    AsistenciaComponent
+    AsistenciaComponent,
+    AddAusentismoComponent
   ],
   imports: [
     BrowserModule,
