@@ -69,6 +69,8 @@ import { LiveTabComponent } from './components/monitors/venta/live-tab.component
 import { DomseguroPipe } from './pipes/domseguro.pipe';
 import { AsistenciaComponent } from './components/reportes/asistencia/asistencia.component';
 import { AddAusentismoComponent } from './components/formularios/add-ausentismo.component';
+import { JornadasComponent } from './components/reportes/asistencia/jornadas.component';
+import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component';
 
 
 declare let jQuery : Object;
@@ -120,7 +122,9 @@ declare let jQuery : Object;
     LiveTabComponent,
     DomseguroPipe,
     AsistenciaComponent,
-    AddAusentismoComponent
+    AddAusentismoComponent,
+    JornadasComponent,
+    CxcAdminComponent
   ],
   imports: [
     BrowserModule,

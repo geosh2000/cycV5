@@ -21,6 +21,7 @@ import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { TestComponent } from './test/test/test.component';
 import { LiveTabComponent } from './components/monitors/venta/live-tab.component';
 import { AsistenciaComponent } from './components/reportes/asistencia/asistencia.component';
+import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -64,6 +65,7 @@ const APP_ROUTES: Routes = [
 
   // CXC
   { path: 'cxc', component: CxcComponent },
+  { path: 'cxcAdmin', component: CxcAdminComponent },
   { path: 'cxc/rrhh', component: ApplyAllCxcComponent },
   { path: 'cxc/rrhh/:filter', component: ApplyAllCxcComponent },
 
