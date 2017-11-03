@@ -20,13 +20,7 @@
               </div>
               <div class="col-sm-8 text-right" *ngIf="_init.checkSingleCredential('hc_edit_detalles')">
                 <button type="button" class="btn btn-sm btn-outline-warning" (click)="showModal('#form_editDetails', '#detailAsesor', 'editDetails', asesor)">Editar</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="collapse" data-target="#addFoto" aria-expanded="false" aria-controls="addFoto">Subir Foto</button>
-              </div>
-            </div>
-            <div class="collapse" id="addFoto" *ngIf="_init.checkSingleCredential('hc_edit_detalles')">
-              <div class="card card-body">
-                <iframe [src]="asesor.numcol | domseguro:uploadURL" width="" height=""></iframe>
-                <button type="button" class="btn btn-outline-info btn-block" (click)="getAsesorDetail( actualAsesor )">Refresh</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" (click)="uploadFoto()">Subir Foto</button>
               </div>
             </div>
           </div>
@@ -527,3 +521,5 @@
     </div>
   </div>
 </div>
+
+<app-upload-image (loadResult)="upldCheck( $event )"></app-upload-image>

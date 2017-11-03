@@ -81,7 +81,7 @@ export class ApplyAllCxcComponent implements OnInit {
     this.formApplyCxc = new FormGroup({
       id:         new FormControl( '',  [ Validators.required ] ),
       created_by: new FormControl( '',  [ Validators.required ] ),
-      quincenas:  new FormControl( "1",   [ Validators.min(1), Validators.max(8), Validators.required ]),
+      quincenas:  new FormControl( "1",   [ Validators.min(1), Validators.max(15), Validators.required ]),
       inicio:     new FormControl( '',  [ Validators.required ] ),
       monto:      new FormControl( '',  [ Validators.required ] )
     })
@@ -99,7 +99,7 @@ export class ApplyAllCxcComponent implements OnInit {
   }
 
   getFechasNomina(){
-    this._api.restfulGet('','Cxc/getCalendario')
+    this._api.restfulGet('12','Cxc/getCalendario')
               .subscribe( res => {
                 if(res['status']){
                   this.listFechas = res['data']

@@ -1,0 +1,74 @@
+<div class="container-fluid">
+  <h1 *ngIf="loading">Cargando <i class="fa fa-fw fa-spinner fa-pulse"></i></h1>
+  <ng-container *ngIf="dataCxcs">
+
+    <table class="table table-sm table-responsive-sm table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="text-center" scope="col" *ngFor="let field of dataCxcs[0] | keys">{{ field | capitalizado }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataCxcs; index as i">
+          <ng-container *ngFor="let field of dataCxcs[0] | keys">
+            <th
+                style="vertical-align: middle"
+                scope="row"
+                class='text-center border-0'
+                *ngIf="field == 'sel'">
+                  <span class="d-flex justify-content-between">
+                    <input type="checkbox" [(ngModel)]="dataCxcs[i].sel">
+                    <i class="text-primary fa fa-fw fa-pencil-square-o text-blue" style="cursor: pointer"></i>
+                  </span>
+            </th>
+            <td style="vertical-align: middle"
+              [ngClass]="{'text-left': field.includes('asesor'), 'text-center': !field.includes('asesor')}"
+              *ngIf="field != 'sel'">
+              <span *ngIf="field.includes('monto')">{{ item[field] | currency:'MXN':true:'.2-2' }}</span>
+              <ng-container *ngIf="!field.includes('monto')">
+                <span [ngSwitch]="field">
+                  <div *ngSwitchCase="'cxc_Status'">
+                    <span [ngSwitch]="item[field]">
+                      <div *ngSwitchCase="1"><span class="badge badge-Primary">Enviado a RRHH</span></div>
+                      <div *ngSwitchCase="0"><span class="badge badge-danger">En revisión</span></div>
+                      <div *ngSwitchCase="2"><span class="badge badge-success">Aplicado</span></div>
+                      <div *ngSwitchDefault><span class="badge badge-secondary">Otro</span></div>
+                    </span>
+                  </div>
+                  <div *ngSwitchCase="'pago_Status'">
+                    <span [ngSwitch]="item[field]">
+                      <div *ngSwitchCase="0"><span class="badge badge-danger">Sin Cobrar</span></div>
+                      <div *ngSwitchCase="1"><span class="badge badge-success">Cobrado</span></div>
+                    </span>
+                  </div>
+                  <div *ngSwitchCase="'tipo'">
+                    <span [ngSwitch]="item[field]">
+                      <div *ngSwitchCase="0"><span class="badge badge-warning">Responsabilidad</span></div>
+                      <div *ngSwitchCase="1"><span class="badge badge-info">Colaborador</span></div>
+                    </span>
+                  </div>
+                  <div *ngSwitchCase="'localizador'">
+                    <span><a href="https://rsv.pricetravel.com.mx/reservations/show/{{ item[field] }}" target="_blank">{{ item[field] }}</a></span>
+                  </div>
+                  <div *ngSwitchCase="'cxc_ID'">
+                    <span class="text-center d-flex justify-content-between border-0"><span>{{ item[field] }}</span> <span><i class="text-primary fa fa-fw fa-external-link text-blue" style="cursor: pointer"></i></span></span>
+                  </div>
+                  <div *ngSwitchCase="'asesor'">
+                    <span>{{ item[field] | noAcentos }}</span>
+                  </div>
+                  <div *ngSwitchDefault>
+                    <span>{{ item[field] }}</span>
+                  </div>
+                </span>
+              </ng-container>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+
+    <pre>
+      {{ dataCxcs | json }}
+    </pre>
+  </ng-container>
+</div>

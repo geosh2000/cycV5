@@ -101,6 +101,25 @@ export class ApiService {
       })
   }
 
+  restfulImgPost( params, apiRoute ){
+
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}`
+    // let url = `${ this.apiRestful }${ apiRoute }`
+    let urlOK = this.transform( url )
+    // console.log( urlOK.changingThisBreaksApplicationSecurity )
+
+    // let body = JSON.stringify( params );
+    // let headers = new Headers({
+    //   'Content-Type':'application/json'
+    // });
+
+    return this.http.post( urlOK.changingThisBreaksApplicationSecurity, params )
+      .map( res => {
+        return res.json()
+      })
+  }
+
   restfulDelete( id, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));

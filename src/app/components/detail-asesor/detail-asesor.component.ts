@@ -395,4 +395,15 @@ export class DetailAsesorComponent implements OnInit {
     }
   }
 
+  toastrMsg( event ){
+    switch( event.tipo ){
+      case 'error':
+        this.toastr.error( event.msg, 'Error!')
+        break
+      case 'success':
+        this.toastr.success( event.msg, 'Success!')
+        break
+    }
+  }
+
 }

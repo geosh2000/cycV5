@@ -1,3 +1,42 @@
-<p>
-  components works!
-</p>
+<div class="showContents">
+
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <span><h1 class="display-3">Administración de CxCs</h1></span>
+            <p class="lead">Módulo de consulta y edición de CxCs aplicados y listos para aplicar</p>
+          </div>
+          <div>
+            <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class='container'>
+        <div class="d-flex justify-content-start">
+          <select class="custom-select" (change)="selectedCorte( $event )">
+            <option value="" *ngIf="!listCortesFlag">Cargando... <i class="fa fa-fw fa-spinner fa-pulse"></i></option>
+            <ng-container *ngIf="listCortesFlag">
+              <option value="">Selecciona el corte a mostrar</option>
+              <option [value]="listCortes[item]['id']" *ngFor="let item of listCortes | keys">
+                {{ listCortes[item]['name'] }}
+              </option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="showUploadModal('Subir Imagen CxC Firmado', 'cxc', 'test')">
+    Launch demo modal
+  </button>
+  <app-upload-image></app-upload-image>
+  <div class="container-fluid">
+      <app-corte (msg)="showMsg( $event )"></app-corte>
+  </div>
+
+
+</div>

@@ -1,4 +1,5 @@
 import { Directive, Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+
 import { Subscription } from 'rxjs/Subscription'
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
@@ -9,6 +10,7 @@ declare var jQuery:any;
 
 import { ApiService } from '../../services/api.service';
 import { InitService } from '../../services/init.service';
+import { UploadImageComponent } from '../formularios/upload-image.component';
 
 
 
@@ -23,6 +25,8 @@ export class ShowDetailAsesorComponent implements OnInit {
   uploader:FileUploader = new FileUploader({url: this.uploadImage});
 
   @Output() showDialog = new EventEmitter<any>()
+  @Output() showMsg = new EventEmitter<any>()
+  @ViewChild(UploadImageComponent) _image:UploadImageComponent
 
   showContents:boolean = false
   mainCredential:string = "hc_detalle_asesores"
@@ -59,6 +63,7 @@ export class ShowDetailAsesorComponent implements OnInit {
                 private activatedRoute:ActivatedRoute
               ) {
 
+
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
     this.credentials = this.currentUser
@@ -85,6 +90,8 @@ export class ShowDetailAsesorComponent implements OnInit {
             if(respuesta.idAsesor == null){
               this.showContents = false
             }
+
+            console.log(respuesta)
 
             this.asesor = respuesta;
 
@@ -199,8 +206,31 @@ export class ShowDetailAsesorComponent implements OnInit {
   }
 
   updateImg(event){
-    this.asesorImage=`${Globals.APISERV}/img/asesores/${this.asesor['numcol']}.jpg`
+    let d = new Date()
+    this.asesorImage=`${Globals.APISERV}/img/asesores/${this.asesor['numcol']}.jpg?${d.getTime()}`
   }
+
+  upldCheck( event ){
+    console.log( event )
+    if( event.ERR ){
+      this.showMsg.emit( {tipo: 'error', msg: event.msg } )
+    }else{
+      this.showMsg.emit( {tipo: 'success', msg: 'Imagen cargada' } )
+      this.updateImg( 1 )
+    }
+
+  }
+
+  uploadFoto(){
+    if( !this.asesor['numcol'] ){
+      let msg = 'No es posible asignar imagenes a asesores sin número de colaborador'
+      console.error( msg )
+      this.showMsg.emit( {tipo: 'error', msg: msg } )
+    }else{
+      this._image.build( `Foto para ${this.asesor['nombre']}`, 'asesores', this.asesor['numcol'])
+    }
+  }
+
 
 
 }

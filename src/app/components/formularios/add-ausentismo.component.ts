@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, O
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PopoverModule } from 'ngx-popover';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from '../../services/api.service';
 import { InitService } from '../../services/init.service';
@@ -18,6 +19,8 @@ import * as moment from 'moment-timezone';
 export class AddAusentismoComponent implements OnInit {
 
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
+
+  @Output() notif = new EventEmitter<any>()
 
   currentUser: any
   showContents:boolean = false
@@ -107,7 +110,19 @@ export class AddAusentismoComponent implements OnInit {
   }
 
   submit(){
-    console.log(this.formAddAusentismo.value)
+    this._api.restfulPut( this.formAddAusentismo.value, 'asistencia/setAusentismo' )
+            .subscribe( res => {
+                          console.log( res )
+                        },
+                        err => {
+                          let errores = JSON.parse( err._body )
+
+                          this.notif.emit( { msg: errores.msg, title: err.statusText} )
+                          for(let errors in errores.errores){
+                            this.notif.emit( { msg: errores.errores[errors], title: errors} )
+                          }
+                          
+                        })
   }
 
   getTipos( asesor ){

@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
 import { PopoverModule } from 'ngx-popover';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
 
 import { AddAusentismoComponent } from '../../formularios/add-ausentismo.component';
 
@@ -17,7 +19,8 @@ import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-asistencia',
   templateUrl: './asistencia.component.html',
-  styles: []
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AsistenciaComponent implements OnInit {
 
@@ -29,12 +32,17 @@ export class AsistenciaComponent implements OnInit {
   mainCredential:string = 'default'
 
   loading:boolean = false
+  showProgress:boolean = false
 
   asistData:any
   datesData:any
   deps:any
 
+  private depsSubject = new Subject<any>();
+  private asistSubject = new Subject<any>();
+
   orederedKeys:any
+  shownDom:any = []
 
   showOpts:Object = {
     ch_jornada:   true,
@@ -42,7 +50,9 @@ export class AsistenciaComponent implements OnInit {
     ch_excep:     true,
     ch_ret:       false,
     ch_sa:        false,
-    ch_x:        false
+    ch_x:        false,
+    sh_p:        false,
+    sh_d:        false
   }
 
   today:any = moment()
@@ -68,7 +78,8 @@ export class AsistenciaComponent implements OnInit {
                 private _api:ApiService,
                 private _init:InitService,
                 public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public vcr: ViewContainerRef,
+                private cd: ChangeDetectorRef
                 ) {
 
     this.toastr.setRootViewContainerRef(vcr)
@@ -82,29 +93,29 @@ export class AsistenciaComponent implements OnInit {
       locale: { format: "YYYY-MM-DD" }
     }
 
-    this.getDeps()
+    this.loadDeps()
 
   }
 
   getAsistencia( dep, inicio, fin ){
-    this.loading = true
-    this.searchFilter = ''
 
-    this._api.restfulGet( `${dep}/${inicio}/${fin}`, 'Asistencia/pya' )
-            .subscribe( res =>{
 
-              console.log(res)
+      this.loading = true
+      this.searchFilter = ''
 
-              this.asistData = res['data']
-              this.datesData = res['Fechas']
-              this.orderNames( this.asistData, 1)
-              this.loading = false
-            },
-              (err) => {
-                this.error = err
-                this.loading = false
-                this.toastr.error(`${ this.error }`, 'Error!');
-            });
+      this._api.restfulGet( `${dep}/${inicio}/${fin}`, 'Asistencia/pya' )
+              .subscribe( res =>{
+
+                this.asistSubject.next({ res })
+
+              },
+                (err) => {
+                  this.error = err
+                  this.loading = false
+                  this.toastr.error(`${ this.error }`, 'Error!');
+              });
+
+
   }
 
   compareDates( date ){
@@ -119,12 +130,21 @@ export class AsistenciaComponent implements OnInit {
 
   }
 
-  getDeps(){
+  loadDeps(){
     this._api.restfulGet( '','Headcount/deps' )
             .subscribe( res => {
-              this.deps = res
+              this.depsSubject.next({ res })
             })
   }
+
+  @Input() loadData(): Observable<any>{
+    return this.asistSubject.asObservable();
+  }
+
+  @Input() getDeps(): Observable<any>{
+    return this.depsSubject.asObservable();
+  }
+
 
   setVal( inicio, fin ){
     this.searchCriteria['start'] = inicio.format('YYYY-MM-DD')
@@ -151,6 +171,24 @@ export class AsistenciaComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.getDeps()
+        .subscribe( res => {
+          this.deps = res.res
+          console.log( res.res )
+          this.cd.markForCheck()
+        })
+
+    this.loadData()
+        .subscribe( res => {
+          this.asistData = res.res['data']
+          this.datesData = res.res['Fechas']
+          this.orderNames( this.asistData, 1)
+          this.loading = false
+
+          console.log( res.res )
+          this.cd.markForCheck()
+        })
   }
 
   printTimeInterval(date, start, end){
@@ -232,12 +270,25 @@ export class AsistenciaComponent implements OnInit {
     this.orederedKeys = sortArray
   }
 
-  perCumplimiento( inicio, fin, ji, jf){
+  ausentNotif( event ){
+    this.toastr.error(`${ event.msg }`, `${ event.title.toUpperCase() }!`);
+  }
 
-    if( inicio == null || fin == null || ji == null || jf == null ){
+  perCumplimiento( rac, date, set, log ){
+
+    let inicio = this.asistData[rac].data[date][`${set} start`]
+    let fin    = this.asistData[rac].data[date][`${set} end`]
+    let ji     = this.asistData[rac].data[date][`${log}_login`]
+    let jf     = this.asistData[rac].data[date][`${log}_logout`]
+
+
+    if( inicio == null  ||
+        fin == null     ||
+        ji == null      ||
+        jf == null ){
       return 0
     }
-    
+
     let s   = this.timeDateXform( inicio )
     let e   = this.timeDateXform( fin )
     let js  = this.timeDateXform( ji )
@@ -256,6 +307,30 @@ export class AsistenciaComponent implements OnInit {
     }else{
       return td
     }
+  }
+
+  showDom(rac, date, block){
+    if(this.checkSet(rac, date, block)){
+      this.shownDom[`${rac}_${date}_${block}`] = undefined
+    }else{
+      this.shownDom[`${rac}_${date}_${block}`] = true
+    }
+  }
+
+  checkSet(rac, date, block){
+    if(this.isset(this.shownDom,`${rac}_${date}_${block}`)){
+      return true
+    }else{
+      return false
+    }
+  }
+
+  isset (a, name ) {
+    let is = true
+    if ( a[name] === undefined || a[name] === "" || a[name] === null ) {
+            is = false
+        }
+    return is;
   }
 
 }

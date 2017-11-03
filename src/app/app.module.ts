@@ -71,6 +71,9 @@ import { AsistenciaComponent } from './components/reportes/asistencia/asistencia
 import { AddAusentismoComponent } from './components/formularios/add-ausentismo.component';
 import { JornadasComponent } from './components/reportes/asistencia/jornadas.component';
 import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component';
+import { CorteComponent } from './components/reportes/cxc/corte.component';
+import { NoAcentosPipe } from './pipes/no-acentos.pipe';
+import { UploadImageComponent } from './components/formularios/upload-image.component';
 
 
 declare let jQuery : Object;
@@ -124,7 +127,10 @@ declare let jQuery : Object;
     AsistenciaComponent,
     AddAusentismoComponent,
     JornadasComponent,
-    CxcAdminComponent
+    CxcAdminComponent,
+    CorteComponent,
+    NoAcentosPipe,
+    UploadImageComponent
   ],
   imports: [
     BrowserModule,
