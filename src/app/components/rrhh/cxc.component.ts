@@ -18,6 +18,7 @@ declare var jQuery:any;
 import { CompleterService, CompleterData } from 'ng2-completer';
 
 import { AgregarCxcComponent } from '../formularios/agregar-cxc.component';
+import { UploadImageComponent } from '../formularios/upload-image.component';
 
 import { ApiService } from '../../services/api.service';
 import { InitService } from '../../services/init.service';
@@ -30,8 +31,9 @@ import { InitService } from '../../services/init.service';
 })
 export class CxcComponent implements OnInit {
 
-  @ViewChild(ApplyCxcComponent) _applyCxc:ApplyCxcComponent
-  @ViewChild(AgregarCxcComponent) addCxc:AgregarCxcComponent
+  @ViewChild( ApplyCxcComponent ) _applyCxc:ApplyCxcComponent
+  @ViewChild( AgregarCxcComponent ) addCxc:AgregarCxcComponent
+  @ViewChild( UploadImageComponent ) _image:UploadImageComponent
 
   showContents:boolean = false
   mainCredential:string = 'cxc_read'
@@ -87,14 +89,21 @@ export class CxcComponent implements OnInit {
                       valuePrepareFunction: function(cell, row){
 
                         let show
+                        let view
 
-                        if( cell == 1){
-                          show = `<span class="badge badge-success">Firmado</span>`
+                        if( row.fileExist ){
+                          view = `<span class="p-1 badge badge-primary" style="cursor: pointer" (click)="showFormat(${ row.id })" ><i class='fa fa-fw fa-eye'></i></span>`
                         }else{
-                          show = `<span class="badge badge-danger">No Firmado</span>`
+                          view = `<span class="p-1 badge badge-warning" style="cursor: pointer" (click)="showFormat(${ row.id })" ><i class='fa fa-fw fa-upload'></i></span>`
                         }
 
-                        return show
+                        if( cell == 1){
+                          show = `<span class="p-1 badge badge-success">Firmado</span>`
+                        }else{
+                          show = `<span class="p-1 badge badge-danger">No Firmado</span>`
+                        }
+
+                        return `<div class='d-flex justify-content-between'>${ show } ${ view }</div>`
                       }
                     },
       comments: { title: 'Comentarios'},
@@ -336,6 +345,14 @@ export class CxcComponent implements OnInit {
       this.toastr.success("CXC guardado correctamente", 'Aprobada!');
     }
 
+    checkImageExists( dir, name ){
+      let imgStatus = this._image.imageExists( dir, name, 'jpg')
 
+      return !imgStatus['ERR']
+    }
+
+    showFormat( id ){
+      console.log( id )
+    }
 
 }
