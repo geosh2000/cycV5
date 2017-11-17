@@ -216,9 +216,8 @@
                       <div class="p-1">
                         <button
                           class="btn btn-sm"
-                          [ngClass]="{'btn-outline-secondary':  asistData[rac].data[date].Descanso==1,
-                                      'btn-warning':            asistData[rac].data[date].Descanso!=1  && (asistData[rac].data[date]['extra1 start']!=asistData[rac].data[date]['extra1 end']),
-                                      'btn-outline-secondary':  asistData[rac].data[date].Descanso!=1  && (asistData[rac].data[date]['extra1 start']==asistData[rac].data[date]['extra1 end'])}"
+                          [ngClass]="{'btn-outline-secondary':  asistData[rac].data[date].Descanso==1 || (asistData[rac].data[date].Descanso!=1  && asistData[rac].data[date]['extra1 start']==asistData[rac].data[date]['extra1 end']),
+                                      'btn-warning':            asistData[rac].data[date].Descanso!=1  && (asistData[rac].data[date]['extra1 start']!=asistData[rac].data[date]['extra1 end']) }"
                           style="width: 100px"
                           data-toggle="collapse" [attr.data-target]="'#x1Detail_'+rac+'_'+date" aria-expanded="false" [attr.aria-controls]="'#x1Detail_'+rac+'_'+date"
                           >
@@ -291,9 +290,8 @@
                       <div class="p-1">
                         <button
                           class="btn btn-sm"
-                          [ngClass]="{'btn-outline-secondary':  asistData[rac].data[date].Descanso==1,
-                                      'btn-warning':            asistData[rac].data[date].Descanso!=1  && (asistData[rac].data[date]['extra2 start']!=asistData[rac].data[date]['extra2 end']),
-                                      'btn-outline-secondary':  asistData[rac].data[date].Descanso!=1  && (asistData[rac].data[date]['extra2 start']==asistData[rac].data[date]['extra2 end'])}"
+                          [ngClass]="{'btn-outline-secondary':  asistData[rac].data[date].Descanso==1 || (asistData[rac].data[date].Descanso!=1  && (asistData[rac].data[date]['extra2 start']==asistData[rac].data[date]['extra2 end'])),
+                                      'btn-warning':            asistData[rac].data[date].Descanso!=1  && (asistData[rac].data[date]['extra2 start']!=asistData[rac].data[date]['extra2 end']) }"
                           style="width: 100px"
                           data-toggle="collapse" [attr.data-target]="'#x2Detail_'+rac+'_'+date" aria-expanded="false" [attr.aria-controls]="'#x2Detail_'+rac+'_'+date"
                           >

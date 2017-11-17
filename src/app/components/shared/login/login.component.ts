@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
           this.loginError=false;
           this.loginMsg="";
           jQuery("#loginModal").modal('hide');
-          this._route.navigateByUrl('/home', true)
+          this._route.navigateByUrl('/home')
           this._route.navigateByUrl(sourceUrl)
 
         }

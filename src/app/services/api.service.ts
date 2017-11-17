@@ -8,7 +8,7 @@ import 'rxjs/Rx';
 export class ApiService {
 
   apiUrl:string = `${ Globals.APISERV }/ng2/json/`;
-  apiRestful:string = `${ Globals.APISERV }/api/restful/index.php/`;
+  apiRestful:string = `${ Globals.APISERV }/api/${Globals.APIFOLDER}/index.php/`;
   apiPostUrl:string = `${ Globals.APISERV }/ng2/post/`;
 
   constructor(

@@ -6,10 +6,12 @@ import { Daterangepicker } from 'ng2-daterangepicker';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { CustomOption } from './components/shared/toastrOptions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { Ng2TableViewModule } from 'NG2TableView';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PopoverModule } from 'ngx-popover';
+import localeEsMX from '@angular/common/locales/es-MX'
 
 //services
 import { NavbarService } from './services/navbar.service';
@@ -74,9 +76,15 @@ import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component
 import { CorteComponent } from './components/reportes/cxc/corte.component';
 import { NoAcentosPipe } from './pipes/no-acentos.pipe';
 import { UploadImageComponent } from './components/formularios/upload-image.component';
+import { TableTemplateComponent } from './addon/table-template/table-template.component';
+import { ReingresoAsesorComponent } from './components/formularios/reingreso-asesor.component';
+import { HxConfigComponent } from './components/config/horarios/hx-config.component';
+import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
 
 
 declare let jQuery : Object;
+
+registerLocaleData(localeEsMX)
 
 
 @NgModule({
@@ -130,7 +138,11 @@ declare let jQuery : Object;
     CxcAdminComponent,
     CorteComponent,
     NoAcentosPipe,
-    UploadImageComponent
+    UploadImageComponent,
+    TableTemplateComponent,
+    ReingresoAsesorComponent,
+    HxConfigComponent,
+    VentaPorCanalComponent
   ],
   imports: [
     BrowserModule,
@@ -145,10 +157,11 @@ declare let jQuery : Object;
     CommonModule,
     Ng2SmartTableModule,
     FileUploadModule,
-    PopoverModule
+    PopoverModule,
+    Ng2TableViewModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: "esMX" },
+    { provide: LOCALE_ID, useValue: "Es-MX" },
     {provide: ToastOptions, useClass: CustomOption},
     NavbarService,
     AsesoresService,
