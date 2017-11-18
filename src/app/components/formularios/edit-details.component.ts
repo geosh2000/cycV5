@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, O
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { Observable } from 'rxjs/rx';
+import { Observable } from 'rxjs/Observable';
 
 import * as moment from 'moment';
 declare var jQuery:any;

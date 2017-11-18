@@ -1,12 +1,11 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import 'rxjs/Rx';
 import { saveAs } from 'file-saver';
 import { utils, write, WorkBook } from 'xlsx';
 import * as Globals from '../../globals';
 
 // -- * START Credentials Init Settings
-import { Subscription } from 'rxjs/Subscription'
+import { Subscription } from 'rxjs/subscription'
 import { TokenCheckService } from '../../services/token-check.service';
 import { CredentialsService } from '../../services/credentials.service';
 declare var jQuery:any;

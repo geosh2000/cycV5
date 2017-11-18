@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, Input, Output, ViewContainerRef, EventEmitter } from '@angular/core';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription'
+import { Subscription } from 'rxjs/subscription'
 import { AsesoresService } from '../../services/asesores.service';
 
 import { ApiService } from '../../services/api.service';

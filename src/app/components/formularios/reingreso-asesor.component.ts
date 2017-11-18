@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/rx';
+import { Observable } from 'rxjs/Observable';
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;

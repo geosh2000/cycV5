@@ -1,6 +1,6 @@
 import { Directive, Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
 
-import { Subscription } from 'rxjs/Subscription'
+import { Subscription } from 'rxjs/subscription'
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
 import { CredentialsService } from '../../services/credentials.service';

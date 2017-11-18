@@ -8,10 +8,11 @@ import { CustomOption } from './components/shared/toastrOptions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { Ng2TableViewModule } from 'NG2TableView';
+// import { Ng2TableViewModule } from 'NG2TableView';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PopoverModule } from 'ngx-popover';
 import localeEsMX from '@angular/common/locales/es-MX'
+import { UiSwitchModule } from 'ngx-ui-switch'
 
 //services
 import { NavbarService } from './services/navbar.service';
@@ -158,7 +159,8 @@ registerLocaleData(localeEsMX)
     Ng2SmartTableModule,
     FileUploadModule,
     PopoverModule,
-    Ng2TableViewModule
+    UiSwitchModule
+    // Ng2TableViewModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "Es-MX" },
