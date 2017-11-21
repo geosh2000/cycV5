@@ -1,4 +1,6 @@
 <!-- Form Cambio Puesto -->
+<div style="max-height:480px; overflow-y: auto; overflow-x:hidden">
+  <div class="container">
         <form class="form-group" [formGroup]="formAddAsesor" (ngSubmit)="askCambio()">
 
           <div class="form-group row"  *ngFor="let item of asesorDetailsForm | keys" >
@@ -24,7 +26,7 @@
                 class="form-control" type="text" value="" [readonly]="asesorDetailsForm[item].readonly">
               <select
                       *ngIf="asesorDetailsForm[item].tipo=='select' && listProfileLoaded"
-                      class="custom-select" style="max-width: 257px; min-width: 257px;"
+                      class="custom-select" style="max-width: 226px; min-width: 226px;"
                       [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
                       [formControlName]="item"
                       >
@@ -33,7 +35,7 @@
               </select>
               <select
                       *ngIf="asesorDetailsForm[item].tipo=='select2' && listProfileLoaded"
-                      class="custom-select" style="max-width: 257px; min-width: 257px;"
+                      class="custom-select" style="max-width: 226px; min-width: 226px;"
                       [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item].valid && !formAddAsesor.controls[item].pristine }"
                       [formControlName]="item"
                       >
@@ -208,3 +210,5 @@
           </div>
 
         </form>
+      </div>
+    </div>
