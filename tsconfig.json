@@ -11,6 +11,10 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "types": [
+      "node",
+      "webpack"
+    ],
     "lib": [
       "es2017",
       "dom"

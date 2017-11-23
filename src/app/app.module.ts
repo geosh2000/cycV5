@@ -13,6 +13,9 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { PopoverModule } from 'ngx-popover';
 import localeEsMX from '@angular/common/locales/es-MX'
 import { UiSwitchModule } from 'ngx-ui-switch'
+import { ChartModule } from '@gustav0ar/ngx-highcharts'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+
 
 //services
 import { NavbarService } from './services/navbar.service';
@@ -81,6 +84,8 @@ import { TableTemplateComponent } from './addon/table-template/table-template.co
 import { ReingresoAsesorComponent } from './components/formularios/reingreso-asesor.component';
 import { HxConfigComponent } from './components/config/horarios/hx-config.component';
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
+import { CumplimientoComponent } from './addon/progress/cumplimiento/cumplimiento.component';
+import { AsistenciaBadgeComponent } from './addon/buttons/asistencia-badge/asistencia-badge.component';
 
 
 declare let jQuery : Object;
@@ -143,7 +148,9 @@ registerLocaleData(localeEsMX)
     TableTemplateComponent,
     ReingresoAsesorComponent,
     HxConfigComponent,
-    VentaPorCanalComponent
+    VentaPorCanalComponent,
+    CumplimientoComponent,
+    AsistenciaBadgeComponent
   ],
   imports: [
     BrowserModule,
@@ -159,7 +166,9 @@ registerLocaleData(localeEsMX)
     Ng2SmartTableModule,
     FileUploadModule,
     PopoverModule,
-    UiSwitchModule
+    UiSwitchModule,
+    NgbModule.forRoot()
+    // ChartModule.forRoot(require('highcharts'))
     // Ng2TableViewModule
   ],
   providers: [

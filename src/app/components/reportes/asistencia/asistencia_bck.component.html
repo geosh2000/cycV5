@@ -132,9 +132,13 @@
                           [ngClass]="{'btn-info':               asistData[rac].data[date].Descanso!=1 && asistData[rac].data[date]['jornada start']!=null,
                                       'btn-outline-secondary':  asistData[rac].data[date].Descanso!=1 && asistData[rac].data[date]['jornada start']==null}"
                           style="width: 100px"
-                          data-toggle="collapse" [attr.data-target]="'#jDetail_'+rac+'_'+date" aria-expanded="false" [attr.aria-controls]="'#jDetail_'+rac+'_'+date">
+                          data-toggle="collapse" [attr.data-target]="'#jDetail_'+rac+'_'+date" aria-expanded="false" [attr.aria-controls]="'#jDetail_'+rac+'_'+date"
+                          >
                             <small *ngIf="asistData[rac].data[date].Descanso==1">Descanso</small>
-                            <small *ngIf="asistData[rac].data[date].Descanso!=1 && asistData[rac].data[date]['jornada start']!=null">{{ printTimeInterval(date, asistData[rac].data[date]['jornada start'], asistData[rac].data[date]['jornada end']) }}</small>
+                            <small *ngIf="asistData[rac].data[date].Descanso!=1 && asistData[rac].data[date]['jornada start']!=null">
+                              {{ printTimeInterval(date, asistData[rac].data[date]['jornada start'], asistData[rac].data[date]['jornada end']) }}
+                              <button type="button" placement="top" ngbPopover="Test pop" popoverTitle="titulo de popover"><i class="fa fa-fw fa-info-circle"></i></button>
+                            </small>
                             <small *ngIf="asistData[rac].data[date].Descanso!=1 && asistData[rac].data[date]['jornada start']==null">*</small>
                             <small><i *ngIf="asistData[rac].data[date].Descanso!=1 && asistData[rac].data[date]['jornada start']!=null && (perCumplimiento( rac, date, 'jornada', 'j')!=100) && showOpts.sh_d" class="fa fa-fw fa-caret-square-o-down"></i></small>
                             <div

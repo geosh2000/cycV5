@@ -3,7 +3,7 @@ import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepi
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 declare var jQuery:any;
 
 import { saveAs } from 'file-saver';
@@ -29,9 +29,14 @@ export class VentaPorCanalComponent implements OnInit {
   searchEnd:any
   soloVenta:boolean = true
   pdvType:boolean = false
+  tdInfo:boolean = false
+  prod:boolean = false
+  prodLu:string
 
   loadingData:boolean = false
   ventaData:any
+
+  options: Object
 
   constructor(
                 public _dateRangeOptions: DaterangepickerConfig,
@@ -43,6 +48,7 @@ export class VentaPorCanalComponent implements OnInit {
                 ){
 
     this.toastr.setRootViewContainerRef(vcr);
+
   }
 
   ngOnInit() {
@@ -64,6 +70,11 @@ export class VentaPorCanalComponent implements OnInit {
 
     let sv    = 1
     let type  = 1
+    let td = 1
+    let prod = 1
+
+    let inicio = moment().format('YYYY-MM-DD')
+    let fin = moment().format('YYYY-MM-DD')
 
     if(!this.soloVenta){
       sv = 0
@@ -71,10 +82,26 @@ export class VentaPorCanalComponent implements OnInit {
     if(!this.pdvType){
       type = 0
     }
+    if(!this.tdInfo){
+      td      = 0
+      inicio  = this.searchStart
+      fin     = this.searchEnd
+    }
+    if(!this.prod){
+      prod      = 0
+    }
 
-    this._api.restfulGet( `${this.searchStart}/${this.searchEnd}/${sv}/${type}`, 'venta/getVentaPorCanalSV')
+
+    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}`, 'venta/getVentaPorCanalSV')
             .subscribe( res =>{
               this.ventaData = res.data
+
+              if(this.tdInfo){
+                this.prodLu = res.lu
+              }else{
+                this.prodLu = null
+              }
+
               this.loadingData = false
             }, err => {
               if(err){
@@ -86,8 +113,15 @@ export class VentaPorCanalComponent implements OnInit {
             })
   }
 
-  printDate( date, format ){
-    let fecha = moment(date)
+  printDate( date, format, tz='mx' ){
+    let fecha
+
+    if(tz!='mx'){
+      let fechaTmp = moment.tz(date, 'America/Mexico_City')
+      fecha = fechaTmp.clone().tz("America/Bogota")
+    }else{
+      fecha = moment(date)
+    }
 
     moment.updateLocale('en', {
       weekdays : [ "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" ]
@@ -110,17 +144,32 @@ export class VentaPorCanalComponent implements OnInit {
     let wb = utils.table_to_book(document.getElementById(sheets), {raw: true});
     // console.log(wb)
 
-    for(let index in wb.Sheets['Sheet1']){
-      if( index.match( /^[C-K]([1-9][0-9]+|[2-9])$/ )){
-        if( index.match( /^[C-G,J-K][0-9]+$/ ) ){
-          wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v.substr(1,100).replace(/[,]/g,'')
-        }else{
-          wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v.replace('%','')
-          wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v/100
+    if(this.prod){
+      for(let index in wb.Sheets['Sheet1']){
+        if( index.match( /^[D-L]([1-9][0-9]+|[2-9])$/ )){
+          if( index.match( /^[D-H,K-L][0-9]+$/ ) ){
+            wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v.substr(1,100).replace(/[,]/g,'')
+          }else{
+            wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v.replace('%','')
+            wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v/100
+          }
+          wb.Sheets['Sheet1'][index].t = 'n'
         }
-        wb.Sheets['Sheet1'][index].t = 'n'
+      }
+    }else{
+      for(let index in wb.Sheets['Sheet1']){
+        if( index.match( /^[C-K]([1-9][0-9]+|[2-9])$/ )){
+          if( index.match( /^[C-G,J-K][0-9]+$/ ) ){
+            wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v.substr(1,100).replace(/[,]/g,'')
+          }else{
+            wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v.replace('%','')
+            wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v/100
+          }
+          wb.Sheets['Sheet1'][index].t = 'n'
+        }
       }
     }
+
 
 
     let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:

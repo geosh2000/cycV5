@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/subject';
 
 import { AddAusentismoComponent } from '../../formularios/add-ausentismo.component';
+import { CumplimientoComponent } from '../../../addon/progress/cumplimiento/cumplimiento.component';
+import { AsistenciaBadgeComponent } from '../../../addon/buttons/asistencia-badge/asistencia-badge.component';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -19,13 +21,15 @@ import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-asistencia',
   templateUrl: './asistencia.component.html',
-  styles: [],
+  styles: ['input[type=checkbox]{ cursor: pointer}'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AsistenciaComponent implements OnInit {
 
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
   @ViewChild( AddAusentismoComponent ) _aus: AddAusentismoComponent
+  @ViewChild( CumplimientoComponent ) _progress: CumplimientoComponent
+  @ViewChild( AsistenciaBadgeComponent ) _asist: AsistenciaBadgeComponent
 
   currentUser: any
   showContents:boolean = false
@@ -156,6 +160,8 @@ export class AsistenciaComponent implements OnInit {
   }
 
   applyFilter( rac ){
+
+
     if(this.searchFilter == ''){
       return true
     }
@@ -209,6 +215,13 @@ export class AsistenciaComponent implements OnInit {
     let result = tiempoCUN.format('HH:mm:ss')
 
     return result
+  }
+
+  formatDate(datetime, format){
+    let time = moment.tz(datetime, "America/Mexico_City")
+    let cunTime = time.clone().tz("America/Bogota")
+
+    return cunTime.format(format)
   }
 
   orderNames( data, ord=1 ){
@@ -274,13 +287,12 @@ export class AsistenciaComponent implements OnInit {
     this.toastr.error(`${ event.msg }`, `${ event.title.toUpperCase() }!`);
   }
 
-  perCumplimiento( rac, date, set, log ){
+  perCumplimiento( rac, date, log ){
 
-    let inicio = this.asistData[rac].data[date][`${set} start`]
-    let fin    = this.asistData[rac].data[date][`${set} end`]
+    let inicio = this.asistData[rac].data[date][`${log}s`]
+    let fin    = this.asistData[rac].data[date][`${log}e`]
     let ji     = this.asistData[rac].data[date][`${log}_login`]
     let jf     = this.asistData[rac].data[date][`${log}_logout`]
-
 
     if( inicio == null  ||
         fin == null     ||
@@ -289,19 +301,20 @@ export class AsistenciaComponent implements OnInit {
       return 0
     }
 
-    let s   = this.timeDateXform( inicio )
-    let e   = this.timeDateXform( fin )
-    let js  = this.timeDateXform( ji )
-    let je  = this.timeDateXform( jf )
+    let s   = moment( inicio )
+    let e   = moment( fin )
+    let js  = moment( ji )
+    let je  = moment( jf )
 
     let total = e.diff(s, 'seconds')
+
     let did = je.diff(js, 'seconds')
     let result:number = did / total * 100
     return (Math.floor(result))
   }
 
   timeDateXform( time ){
-    let td = moment(`${moment().format('YYYY-MM-DD')} ${time}`)
+    let td = moment(time)
     if( td < moment(`${moment().format('YYYY-MM-DD')} 05:00:00`)){
       return td.add(1, 'days')
     }else{
@@ -331,6 +344,28 @@ export class AsistenciaComponent implements OnInit {
             is = false
         }
     return is;
+  }
+
+  progressProps( val, originalBg = 'primary' ){
+
+    let bar: string
+    let border: string
+
+    if(val<60){
+      bar    = 'danger'
+    }else if(val<100){
+      bar    = 'warning'
+    }else{
+      bar    = 'success'
+    }
+
+    if(originalBg == bar){
+      border = 'light'
+    }else{
+      border = bar
+    }
+
+    return {bar: bar, border: border, val: val}
   }
 
 }
