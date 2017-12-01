@@ -10,6 +10,7 @@ export class ApiService {
   apiUrl:string = `${ Globals.APISERV }/ng2/json/`;
   apiRestful:string = `${ Globals.APISERV }/api/${Globals.APIFOLDER}/index.php/`;
   apiPostUrl:string = `${ Globals.APISERV }/ng2/post/`;
+  qmAPI:string = `http://queuemetrics.pricetravel.com.mx:8080/queuemetricscc/`;
 
   constructor(
                 private http:Http,
@@ -153,6 +154,47 @@ export class ApiService {
     // console.log(urlOK.changingThisBreaksApplicationSecurity)
 
     return this.http.get( urlOK.changingThisBreaksApplicationSecurity, { headers } )
+      .map( res => {
+        return res.json()
+      })
+  }
+
+  testGet(  ){
+
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let url = `${ Globals.APISERV }/api/${Globals.APIFOLDER}/test.php`
+    // let url = `${ this.apiRestful }${ apiRoute }`
+    let urlOK = this.transform( url )
+    // console.log( urlOK.changingThisBreaksApplicationSecurity )
+
+    let headers = new Headers({
+      'Content-Type':'application/json'
+    });
+
+    // console.log(urlOK.changingThisBreaksApplicationSecurity)
+
+    return this.http.get( urlOK.changingThisBreaksApplicationSecurity, { headers } )
+      .map( res => {
+        return res.json()
+      })
+  }
+
+  qmGet( params, qmModule ){
+
+    let headers = new Headers({
+      'Content-Type':'application/json'
+    });
+    // headers.append("Authorization", "Basic " + btoa('robot' + ":" + 'robot'));
+
+
+    console.log(headers)
+
+    let body = JSON.stringify( params );
+    let url = `${ this.qmAPI }${ qmModule }`
+    let urlOK = this.transform( url )
+
+
+    return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers: headers } )
       .map( res => {
         return res.json()
       })

@@ -86,6 +86,8 @@ import { HxConfigComponent } from './components/config/horarios/hx-config.compon
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
 import { CumplimientoComponent } from './addon/progress/cumplimiento/cumplimiento.component';
 import { AsistenciaBadgeComponent } from './addon/buttons/asistencia-badge/asistencia-badge.component';
+import { QueuesComponent } from './components/monitors/queues/queues.component';
+import { CallsProcesedComponent } from './components/monitors/queues/components/calls-procesed.component';
 
 
 declare let jQuery : Object;
@@ -150,7 +152,9 @@ registerLocaleData(localeEsMX)
     HxConfigComponent,
     VentaPorCanalComponent,
     CumplimientoComponent,
-    AsistenciaBadgeComponent
+    AsistenciaBadgeComponent,
+    QueuesComponent,
+    CallsProcesedComponent
   ],
   imports: [
     BrowserModule,

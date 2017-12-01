@@ -138,27 +138,19 @@ export class EditDetailsComponent implements OnInit {
     }
     this.submitting = true
 
-    this._api.postToApi( params, 'editUser' )
-      .subscribe( res => {
-        this.submitting = false
+    this._api.restfulPut( params, 'Asesores/editUser' )
+            .subscribe( res => {
+              this.submitting = false
+              this.save.emit({ form: "#form_editDetails", success: true })
+            }, err => {
+              if(err){
+                let error = err.json()
+                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                console.error(err.statusText, error.msg)
+                this.submitting = false
+              }
+            })
 
-        if( res['status'] == 1 ){
-          this.save.emit({ form: "#form_editDetails", success: true })
-        }else{
-
-          let errorMsg=""
-
-          for (let item in res['errors']){
-            errorMsg=`${errorMsg}, ${ item }`
-          }
-
-          this.toastr.error(errorMsg, 'Error!', {
-            positionClass: 'toast-top-center',
-            animate: 'fade'
-          });
-        }
-
-      })
   }
 
   buildForm( array ){

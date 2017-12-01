@@ -24,6 +24,7 @@ import { AsistenciaComponent } from './components/reportes/asistencia/asistencia
 import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component';
 import { HxConfigComponent } from './components/config/horarios/hx-config.component';
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
+import { QueuesComponent } from './components/monitors/queues/queues.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -65,6 +66,7 @@ const APP_ROUTES: Routes = [
   //Monitores
   { path: 'pya', component: PyaComponent },
   { path: 'ventaMonitor', component: LiveTabComponent },
+  { path: 'queues', component: QueuesComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },

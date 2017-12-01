@@ -7,7 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CumplimientoComponent implements OnInit {
 
-  @Input() config:Object
+  @Input() config:Object = {
+    border: '',
+    var:    '',
+    val:    ''
+  }
 
   constructor() { }
 

@@ -1,0 +1,120 @@
+<div class="container-fluid" *ngIf="calls">
+
+  <div class="alert alert-info text-center m-0" role="alert">
+    {{ printQueue( setQueue ) }}
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-3 m-1" *ngIf="waitDisplay">
+
+      <div class="card" style="max-width: 350px">
+        <div class="card-header">Llamadas en Espera</div>
+        <div class="card-body">
+          <ul class="list-group">
+            <ng-container *ngFor="let item of calls | keys">
+              <li class="list-group-item" *ngIf="calls[item].answered == '0' && calls[item].queue == setQueue">
+                <div class="d-flex justify-content-end align-items-center">
+                  <span class="mr-auto">{{ item }}</span>
+                  <span class="badge badge-primary badge-pill" [style.width.px]="75">{{ getDuration( calls[item].entered ) }}</span>
+                </div>
+                <div class="d-flex justify-content-start align-items-center">
+                  <span class="badge badge-warning badge-pill"><small>{{ printQueue( calls[item].queue ) }}</small></span>
+                </div>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col">
+
+      <div class="row">
+
+        <!-- Por Llamada -->
+        <ng-container *ngFor="let dep of orderedDeps | keys">
+          <ng-container *ngFor="let agent of orderedDeps[dep] | keys">
+            <div class="d-flex justify-content-start" *ngIf="loggedAgents[orderedDeps[dep][agent]['code']]['qs'].indexOf( printQueue( setQueue ) ) >= 0">
+
+              <div
+                class="card m-2"
+                [style.width.px]="200">
+                  <div
+                    class="card-header bg-light"
+                    style="font-size: smaller">
+                    <div class="d-flex justify-content-start align-items-center">
+                      <ng-container *ngIf="callsData.Agents[orderedDeps[dep][agent]['code']]; else ElseBlockAgent">
+                        <span>{{ callsData.Agents[orderedDeps[dep][agent]['code']].name }}</span>
+                      </ng-container>
+                      <ng-template #ElseBlockAgent>
+                        <span>{{ orderedDeps[dep][agent]['code'] }}</span>
+                      </ng-template>
+                    </div>
+                    <ng-container>
+                      <div class="d-flex justify-content-start align-items-center p-0">
+                        <div class="p-0">
+                          <span
+                          class="badge"
+                          [ngClass]="{'bg-secondary ': printDep( callsData.Agents[orderedDeps[dep][agent]['code']].name, 'color' ) == null}"
+                          [style.background]="printDep( callsData.Agents[orderedDeps[dep][agent]['code']].name, 'color' )"
+                          >
+                          <small>{{ printDep( callsData.Agents[orderedDeps[dep][agent]['code']].name ) }}</small>
+                        </span>
+                        </div>
+                        <div class="p-0">
+                          <span class="badge badge-light badge-pill ml-auto" [style.width.px]="70">x.{{ callsData.Agents[orderedDeps[dep][agent]['code']].ext }}</span>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div
+                    [ngClass]="colorHeader( orderedDeps[dep][agent]['code'] )"
+                    class="card-body p-2"
+                    style="font-size: smaller">
+
+                    <ng-container *ngIf="getInfo( orderedDeps[dep][agent]['code'], 'caller' ); else ElseBlockCaller">
+                      <div class="d-flex justify-content-end align-items-center pt-2" style="font-size: smaller">
+                        <span class="mr-auto text-white">{{ getInfo( orderedDeps[dep][agent]['code'], 'caller' ) }}</span>
+                        <span class="badge badge-danger badge-pill animated flash infinite mr-2" *ngIf="getDuration( getInfo( orderedDeps[dep][agent]['code'], 'answered' ), 's' ) > 550">AHT</span>
+                        <span class="badge badge-primary badge-pill" [style.width.px]="55">{{ getDuration( getInfo( orderedDeps[dep][agent]['code'], 'answered' ) ) }}</span>
+                      </div>
+                      <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                        <span class="mr-auto text-white">{{ printQueue( getInfo( orderedDeps[dep][agent]['code'], 'queue' ) ) }}</span>
+                      </div>
+                    </ng-container>
+                    <ng-template #ElseBlockCaller>
+                      <ng-container *ngIf="loggedAgents[orderedDeps[dep][agent]['code']]['On pause'] != '-'; else ElsePause">
+                        <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                          <span>Pausado</span>
+                          <span class="badge badge-primary badge-pill ml-auto" [style.width.px]="55">{{ getPause( orderedDeps[dep][agent]['code'], 'time' ) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                          <span>{{ getPause( orderedDeps[dep][agent]['code'], 'pause' ) }}</span>
+                        </div>
+                      </ng-container>
+                      <ng-template #ElsePause>
+                        <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                          <span>Disponible</span>
+                          <span class="badge badge-primary badge-pill ml-auto" [style.width.px]="55">{{ loggedAgents[orderedDeps[dep][agent]['code']]['Free Since'] }}</span>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                          <span></span>
+                        </div>
+                      </ng-template>
+                    </ng-template>
+                  </div>
+              </div>
+
+            </div>
+          </ng-container>
+        </ng-container>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
