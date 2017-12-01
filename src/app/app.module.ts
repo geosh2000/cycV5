@@ -88,6 +88,7 @@ import { CumplimientoComponent } from './addon/progress/cumplimiento/cumplimient
 import { AsistenciaBadgeComponent } from './addon/buttons/asistencia-badge/asistencia-badge.component';
 import { QueuesComponent } from './components/monitors/queues/queues.component';
 import { CallsProcesedComponent } from './components/monitors/queues/components/calls-procesed.component';
+import { RnComponent } from './components/monitors/venta/rn.component';
 
 
 declare let jQuery : Object;
@@ -154,7 +155,8 @@ registerLocaleData(localeEsMX)
     CumplimientoComponent,
     AsistenciaBadgeComponent,
     QueuesComponent,
-    CallsProcesedComponent
+    CallsProcesedComponent,
+    RnComponent
   ],
   imports: [
     BrowserModule,

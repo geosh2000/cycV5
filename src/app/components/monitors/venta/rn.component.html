@@ -1,0 +1,75 @@
+<div class="container-fuid" *ngIf="showContents">
+  <div class="alert alert-primary" role="alert">
+    <button type="button" class="btn btn-success" *ngIf="selectedCountry == 'MX'">Mostrando MX</button>
+    <button type="button" class="btn btn-outline-success" (click)="chgCountry()" *ngIf="selectedCountry != 'MX'">
+      <span>Cambiar a MX</span>
+    </button>
+
+    <button type="button" class="btn btn-warning ml-5" *ngIf="selectedCountry != 'MX'">Mostrando CO</button>
+    <button type="button" class="btn btn-outline-warning ml-5" (click)="chgCountry()" *ngIf="selectedCountry == 'MX'">
+      <span>Cambiar a CO</span>
+    </button>
+    <span class="ml-5" *ngIf="loading">Loading <i class="fa fa-fw fa-spinner fa-pulse"></i></span>
+    <span class="ml-5" *ngIf="!loading">Time to reload: {{ timer }} seg.</span>
+
+  </div>
+  <ng-container *ngIf="daily">
+    <div class="row d-flex justify-content-start" *ngFor="let item of total | keys">
+      <div class="d-flex justify-content-center">
+        <div class="card m-2" style="width: 350px">
+          <div class="card-header bg-success text-center text-white">
+            Total {{ item }}
+          </div>
+          <div class="card-body text-center p-3">
+            <div class="row">
+              <div class="col-sm-6 p-2 text-center">
+                <p>Today</p>
+                  <h1>{{ getTotal( item, 'daily', 'RN' ) | number:'.0-0' }} <small style="font-size: small">RN</small></h1>
+                  <p style="margin-top: -10px"><small style="font-size: small">{{ getTotal( item, 'daily', 'RN_w_xld' ) | number:'.0-0' }} c/xld</small></p>
+              </div>
+              <div class="col-sm-6 p-2 text-center">
+                <p>Total</p>
+                <h1>{{ getTotal( item, 'total', 'RN' ) | number:'.0-0' }} <small style="font-size: small">RN</small></h1>
+                <p style="margin-top: -10px"><small style="font-size: small">{{ getTotal( item, 'total', 'RN_w_xld' ) | number:'.0-0' }} c/xld</small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer bg-light text-center">
+            {{ printMoment(params.start, "DD MMM 'YY") }} - {{ printMoment(params.end, "DD MMM 'YY") }}
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center" *ngFor="let tipo of total[item] | keys">
+        <div class="card m-2" style="width: 350px">
+          <div class="card-header bg-info text-center text-white">
+            {{ item }}
+          </div>
+          <div class="card-body text-center p-3">
+            <div class="row">
+              <div class="col-sm-6 p-2 text-center">
+                <p>Today</p>
+                <ng-container *ngIf="daily[today][item] && daily[today][item][tipo]; else elseTD">
+                  <h1>{{ daily[today][item][tipo]['RN'] | number:'.0-0' }} <small style="font-size: small">RN</small></h1>
+                  <p style="margin-top: -10px"><small style="font-size: small">{{ daily[today][item][tipo]['RN_w_xld'] | number:'.0-0' }} c/xld</small></p>
+                </ng-container>
+                <ng-template #elseTD>
+                  <h1>0 <small style="font-size: small">RN</small></h1>
+                  <p style="margin-top: -10px"><small style="font-size: small">0 c/xld</small></p>
+                </ng-template>
+              </div>
+              <div class="col-sm-6 p-2 text-center">
+                <p>Total</p>
+                <h1>{{ total[item][tipo]['RN'] | number:'.0-0' }} <small style="font-size: small">RN</small></h1>
+                <p style="margin-top: -10px"><small style="font-size: small">{{ total[item][tipo]['RN_w_xld'] | number:'.0-0' }} c/xld</small></p>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer bg-light text-center">
+            {{ tipo }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</div>
