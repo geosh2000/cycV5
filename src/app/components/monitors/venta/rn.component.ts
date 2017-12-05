@@ -20,6 +20,7 @@ export class RnComponent implements OnInit {
   today:any
   selectedCountry:string = 'MX'
   timer:number = 300
+  lu:string
 
   showContents:boolean = false
   mainCredential:string = 'tablas_f'
@@ -65,6 +66,11 @@ export class RnComponent implements OnInit {
               this.daily = this.processData( res.data.dates,'daily' )
               this.total = this.processData( res.data.all,'total' )
 
+              let lu = moment.tz(res.data.lu.LU, "America/Mexico_city")
+              let luCUN = lu.clone().tz("America/Bogota")
+
+              this.lu = luCUN.format("DD MMM 'YY kk:mm:ss")
+
               this.loading = false
 
               this.timer = 300
@@ -75,6 +81,7 @@ export class RnComponent implements OnInit {
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading = false
+                this.timer = 30
               }
             })
   }
@@ -167,9 +174,9 @@ export class RnComponent implements OnInit {
 
     if( time > 0 ){
       this.timer = time
-      setTimeout( () => this.runTimer(), 1000 )
     }
 
+    setTimeout( () => this.runTimer(), 1000 )
   }
 
 }
