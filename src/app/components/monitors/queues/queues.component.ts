@@ -10,21 +10,27 @@ import * as moment from 'moment-timezone';
 })
 export class QueuesComponent implements OnInit {
 
-  loading:boolean = false
-  loadedBlock:any = {}
-  luBlock:any = {}
-  data:Object = {}
+  loading:boolean       = false
+  loadedBlock:any       = {}
+  luBlock:any           = {}
+  data:Object           = {}
   agents:Object
   queues:Object
+  queueGroups:Object
+  skillGroup:Object     = {}
   deps:Object
   lu:string
 
-  loop:boolean = false
-  loopTime:number = 5000
+  loop:boolean          = true
+  loopTime:number       = 5000
 
-  searchBlock:string = "956"
-  waitDisplay:boolean = false
-  searchedBlock:string
+  waitDisplay:boolean   = false
+  sumDisplay:boolean    = true
+  displayType:boolean   = true
+  detailDisplay:boolean = true
+  queueDisplay:boolean  = true
+  callsDisplay:boolean  = true
+  skillSelected:string  = '35'
 
   blocks = [
             "RealTimeDO.RTRiassunto",
@@ -85,7 +91,7 @@ export class QueuesComponent implements OnInit {
                 // console.log(item, data[item]['tipo'], data[item])
                 this.data[data[item]['tipo']] = this.parseJson( data[item]['json'] )
                 this.loadedBlock[data[item]['tipo']] = true
-                this.luBlock[data[item]['tipo']] = data[item]['Last_update']
+                this.lu = data[item]['Last_update']
               }
 
               this.getAgents()
@@ -93,9 +99,6 @@ export class QueuesComponent implements OnInit {
                 setTimeout( () => this.getRtCalls( block ), this.loopTime )
               }
 
-              console.log( this.data )
-
-              this.searchedBlock = block
             }, err => {
               console.log("ERROR", err)
               this.loading = false
@@ -107,7 +110,7 @@ export class QueuesComponent implements OnInit {
   }
 
   parseJson( data ){
-    let json = data.replace( /(?:u')+/gmu, "'" ).replace( /(?:&nbsp;)+/gmu, "" )
+    let json = data.replace( /(?![{\[ ])u(?=['])/gmu, "" ).replace( /(?:&nbsp;)+/gmu, "" )
     let result = JSON.parse( JSON.stringify(eval("(" + json + ")")) )
     delete result.result
 
@@ -199,12 +202,35 @@ export class QueuesComponent implements OnInit {
 
               this.loading = false
               let queues = res.data
+              let keys = []
               let result = {}
+              let group = {}
+              group[0] = []
+
               for( let item of queues ){
+
+                if( !keys.indexOf( item['monShow'] ) ){
+                  keys.push( item['monShow'] )
+                }
+
                 result[ item['queue'] ] = item
+
+                if( !group[ item['monShow'] ] ){
+                  group[ item['monShow'] ] = [item['queue']]
+                }else{
+                  group[ item['monShow'] ].push(item['queue'])
+                }
+
+                group[0].push(item['queue'])
+                this.skillGroup[0] = 'All'
+                this.skillGroup[item['monShow']] = item['Departamento']
+                group[ item['monShow'] ].sort()
               }
+              
 
               this.queues = result
+              this.queueGroups = group
+              this.queueGroups
 
             }, err => {
               console.log("ERROR", err)

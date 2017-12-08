@@ -15,6 +15,7 @@ import localeEsMX from '@angular/common/locales/es-MX'
 import { UiSwitchModule } from 'ngx-ui-switch'
 import { ChartModule } from '@gustav0ar/ngx-highcharts'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { OrderModule } from 'ngx-order-pipe'
 
 
 //services
@@ -173,7 +174,8 @@ registerLocaleData(localeEsMX)
     FileUploadModule,
     PopoverModule,
     UiSwitchModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    OrderModule
     // ChartModule.forRoot(require('highcharts'))
     // Ng2TableViewModule
   ],

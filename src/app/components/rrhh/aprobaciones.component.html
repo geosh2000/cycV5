@@ -40,7 +40,7 @@
     <div class="card-columns">
 
       <!-- Solicitudes -->
-      <div class="card animated fadeOut" style="width: 20rem;" *ngFor="let item of aprobaciones | keys">
+      <div class="card animated fadeIn" style="width: 20rem;" *ngFor="let item of aprobaciones | keys">
 
           <div class="card-header">
             <p class='text-center alert-danger' *ngIf="aprobaciones[item]['tipo'] == 2">Baja</p>

@@ -10,11 +10,35 @@ import * as moment from 'moment-timezone';
 export class CallsProcesedComponent implements OnInit {
 
   @Input() callsData:any
-  @Input() setQueue:number = 956
+  @Input() setQueue:any = []
   @Input() waitDisplay:boolean = false
+  @Input() sumDisplay:boolean = false
+  @Input() detailDisplay:boolean = false
+  @Input() queueDisplay:boolean = false
+  @Input() callsDisplay:boolean = true
   @Input() deps:any
+  @Input() title:string = 'queue'
+  @Input() queueInfo:any
+
+  summary:Object = {
+    'IN'          : 0,
+    'OUT'         : 0,
+    'Waiting'     : 0,
+    'Online'      : 0,
+    'Paused'      : 0,
+    'Busy'        : 0,
+    'Avail'       : 0
+  }
 
   orderedDeps:any
+
+  pauseLimits:Object = {
+    'Comida'                : 1800,
+    'Pausa No Productiva'   : 300,
+    'Charla con supervisor' : 900,
+    'ACW'                   : 120,
+    'Mesa de Hospitalidad'  : 2700
+  }
 
   calls:any
   loggedAgents:any
@@ -26,7 +50,7 @@ export class CallsProcesedComponent implements OnInit {
                 'tstStart'
                 ]
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
 
@@ -42,15 +66,19 @@ export class CallsProcesedComponent implements OnInit {
   }
 
   build( data ){
-
     let calls = {}
 
     // AGENTS
     this.loggedAgents = this.agentsLogged( data['AgentsLogged'] )
 
+    this.summary['IN']  = 0
+    this.summary['OUT']  = 0
+    this.summary['Waiting']   = 0
+
     // RAW CALLS
     for( let item in data.Raw ){
 
+      // Assign to agent
       if( ( calls[data.Raw[item]['caller']] && calls[data.Raw[item]['caller']].entered < data.Raw[item].entered ) || !calls[data.Raw[item]['caller']] ){
         calls[data.Raw[item]['caller']] = data.Raw[item]
 
@@ -59,6 +87,21 @@ export class CallsProcesedComponent implements OnInit {
         }
       }
 
+    }
+
+    for( let item in calls ){
+      //summary data
+      if( this.queueWait( calls[item]['queue'], this.setQueue ) ){
+        if( calls[item]['answered'] != '0' ){
+          if( this.queueInfo[calls[item]['queue']] && this.queueInfo[calls[item]['queue']]['direction'] != '1' ){
+            this.summary['OUT']++
+          }else{
+            this.summary['IN']++
+          }
+        }else{
+          this.summary['Waiting']++
+        }
+      }
     }
 
     this.calls = calls
@@ -79,9 +122,15 @@ export class CallsProcesedComponent implements OnInit {
     // return cunTime.format(format)
   }
 
-  getDuration( datetime, format='hms' ){
+  getDuration( datetime, format='hms', normal = false ){
     let now   = moment()
-    let unix  = moment.unix(datetime)
+    let unix
+
+    if( !normal ){
+      unix  = moment.unix(datetime)
+    }else{
+      return moment.duration(datetime, 'kk:mm:ss').asSeconds()
+    }
 
     let result = moment.duration(now.diff(unix));
 
@@ -119,6 +168,11 @@ export class CallsProcesedComponent implements OnInit {
 
     let agents = {}
 
+    this.summary['Online'] = 0
+    this.summary['Paused'] = 0
+    this.summary['Busy'] = 0
+    this.summary['Avail'] = 0
+
     for(let agent in data){
       let agentName:string
       if( !/\//g.test( data[agent]['Agent'] ) ){
@@ -135,6 +189,25 @@ export class CallsProcesedComponent implements OnInit {
 
     this.orderAgents(agents)
 
+    for( let item in agents ){
+      if( this.queueBelong( agents[item]['qs'], this.setQueue ) ){
+        this.summary['Online']++
+
+        if( this.getInfo( item, 'caller' ) ){
+          this.summary['Busy']++
+        }else{
+          if( agents[item]['On pause'] != "-" ){
+            this.summary['Paused']++
+          }else{
+            this.summary['Avail']++
+          }
+        }
+
+
+      }
+    }
+
+    // console.log(agents)
     return agents
   }
 
@@ -184,20 +257,28 @@ export class CallsProcesedComponent implements OnInit {
     return result
   }
 
-  colorHeader( agent ){
+  colorHeader( agent, queue='', display=false ){
+
+    if(display){
+      return 'bg-light text-dark'
+    }
 
     if( this.getInfo( agent, 'caller' ) ){
       if( this.loggedAgents[ agent ]['On pause'] != '-' ){
         return 'bg-warning text-white'
       }else{
-        return 'bg-info text-black'
+        if( this.queueInfo[queue] && this.queueInfo[queue]['direction'] != '1' ){
+          return 'bg-primary text-white'
+        }else{
+          return 'bg-info text-white'
+        }
       }
     }
 
     if( this.loggedAgents[ agent ]['On pause'] != '-' ){
       return 'bg-warning text-black'
     }else{
-      return 'bg-success text-white'
+      return 'bg-light text-black'
     }
 
 
@@ -245,6 +326,26 @@ export class CallsProcesedComponent implements OnInit {
           return null
       }
     }
+  }
+
+  queueBelong( obj, arr ){
+    for(let q of arr){
+      if( obj.indexOf( this.printQueue( q ) ) >= 0){
+        return true
+      }
+    }
+
+    return false
+  }
+
+  queueWait( obj, arr ){
+    for(let q of arr){
+      if( obj== q ){
+        return true
+      }
+    }
+
+    return false
   }
 
 

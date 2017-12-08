@@ -1,71 +1,172 @@
 <div class="container-fluid">
   <p *ngIf="loading && !data">Loading <i class="fa fa-fw fa-spinner fa-pulse"></i></p>
 
-  <div>
-    <div class="d-flex justify-content-start">
-      <button type="button" class="m-2 btn btn-success" (click)="getAgents()">Load Agents</button>
-      <button type="button" class="m-2 btn btn-success" (click)="getAll()">LoadAll</button>
-      <button type="button" class="m-2 btn btn-success" (click)="getRtCalls( searchBlock )">Load</button>
-      <button type="button" class="m-2 btn" [ngClass]="{'btn-outline-success': loop, 'btn-outline-secondary': !loop}" (click)="loopChg()"><span *ngIf="loop">ON</span><span *ngIf="!loop">OFF</span></button>
-      <input type="text" name="block" [(ngModel)]="searchBlock">
-      <div style="text-align: center" class="p-2">
-        <ui-switch
-        color="green"
-        size= "small"
-        [(ngModel)]="waitDisplay"
-        ></ui-switch>
-        <p style="margin-top: -10px">
-          <small *ngIf="waitDisplay">Wait ON</small>
-          <small *ngIf="!waitDisplay">Wait Off</small>
-        </p>
+    <div class="row d-flex justify-content-center alert alert-primary" role="alert" style="font-size: small">
+      <div class="col-auto d-flex justify-content-start alert alert-primary">
+        <div class="m-2">
+          <select name="skill" class="custom-select" [(ngModel)]="skillSelected">
+            <option [value]="skill" *ngFor="let skill of queueGroups | keys">
+              {{ skillGroup[skill] }}
+            </option>
+          </select>
+        </div>
+        <button
+          type="button"
+          class="m-2 btn"
+          [ngClass]="{'btn-success': loop, 'btn-outline-secondary': !loop}"
+          (click)="loopChg()">
+          <span *ngIf="loop">Loop ON</span>
+          <span *ngIf="!loop">Loop OFF</span>
+        </button>
       </div>
-      <p><small> <i class="fa fa-fw fa-spinner fa-pulse" *ngIf="loading"></i></small></p>
+      <div class="col-auto d-flex justify-content-start alert alert-primary">
+        <div style="text-align: center" class="p-2">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="sumDisplay"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="sumDisplay">Sum ON</small>
+            <small *ngIf="!sumDisplay">Sum Off</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="waitDisplay"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="waitDisplay">Waits ON</small>
+            <small *ngIf="!waitDisplay">Waits Off</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="displayType"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="displayType">By Queue</small>
+            <small *ngIf="!displayType">Grouped</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="callsDisplay"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="callsDisplay">Calls ON</small>
+            <small *ngIf="!callsDisplay">Calls OFF</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2" *ngIf="callsDisplay">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="detailDisplay"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="detailDisplay">Detail ON</small>
+            <small *ngIf="!detailDisplay">Detail OFF</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2" *ngIf="callsDisplay">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="queueDisplay"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="queueDisplay">Q's ON</small>
+            <small *ngIf="!queueDisplay">Q's OFF</small>
+          </p>
+        </div>
+
+      </div>
+      <div class="col-auto d-flex justify-content-start alert alert-primary">
+        <div style="text-align: center" class="ml-auto p-2">
+          <span>Last Update: {{ formatDate(lu, "DD MMM 'YY kk:mm:ss") }}</span>
+          <p *ngIf="loading"><small>Loading... <i class="fa fa-fw fa-spinner fa-pulse"></i></small></p>
+        </div>
+      </div>
     </div>
     <hr>
     <div class="container-fluid" *ngIf="data">
 
       <ng-container *ngIf="loadedBlock['RealtimeDO.RtCallsRaw']">
-        <app-calls-procesed
-          [waitDisplay]="waitDisplay"
-          [deps]="deps"
-          [setQueue]="searchBlock"
-          [callsData]="{
-              Raw: data['RealtimeDO.RtCallsRaw'],
-              Board: data['RealTimeDO.WallCallsBeingProc'],
-              AgentsLogged: data['RealtimeDO.RTAgentsLoggedIn'],
-              Queues: queues,
-              All: data,
-              Agents: agents }"
-          *ngIf="agents && queues && deps"
-              >
-        </app-calls-procesed>
-      </ng-container>
-      <!-- <ng-container *ngFor="let report of loadedBlock | keys">
-        <ng-container *ngIf="loadedBlock[report]">
-          <h1>{{ report }}</h1><p><small>Última Actualización: {{ formatDate( luBlock[report], "DD MMM 'YY kk:mm:ss" ) }}</small></p>
-
-          <table class="table table-sm table-responsive">
-            <thead>
-              <tr>
-                <th *ngFor="let item of data[report][0]">{{ item }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let row of data[report]; index as i">
-                <tr *ngIf="i!=0">
-                  <td *ngFor="let item of data[report][i]">{{ item }}</td>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
+        <ng-container *ngIf="agents && queues && deps && !displayType && skillSelected">
+          <ng-container *ngIf="skillSelected != 0; else skillAll">
+            <app-calls-procesed
+              [waitDisplay]="waitDisplay"
+              [detailDisplay]="detailDisplay"
+              [queueDisplay]="queueDisplay"
+              [sumDisplay]="sumDisplay"
+              [callsDisplay]="callsDisplay"
+              [deps]="deps"
+              [queueInfo]="queues"
+              [setQueue]="[q]"
+              [callsData]="{
+                  Raw: data['RealtimeDO.RtCallsRaw'],
+                  Board: data['RealTimeDO.WallCallsBeingProc'],
+                  AgentsLogged: data['RealtimeDO.RTAgentsLoggedIn'],
+                  Queues: queues,
+                  All: data,
+                  Agents: agents }"
+              *ngFor="let q of queueGroups[skillSelected]">
+            </app-calls-procesed>
+          </ng-container>
+          <ng-template #skillAll>
+            <ng-container *ngFor="let skillSel of queueGroups | keys">
+              <app-calls-procesed
+                [waitDisplay]="waitDisplay"
+                [detailDisplay]="detailDisplay"
+                [queueDisplay]="queueDisplay"
+                [sumDisplay]="sumDisplay"
+                [callsDisplay]="callsDisplay"
+                [deps]="deps"
+                [queueInfo]="queues"
+                [setQueue]="queueGroups[skillSel]"
+                [title]="skillGroup[skillSel]"
+                [callsData]="{
+                    Raw: data['RealtimeDO.RtCallsRaw'],
+                    Board: data['RealTimeDO.WallCallsBeingProc'],
+                    AgentsLogged: data['RealtimeDO.RTAgentsLoggedIn'],
+                    Queues: queues,
+                    All: data,
+                    Agents: agents }"
+                *ngIf="skillSel != 0">
+              </app-calls-procesed>
+          </ng-container>
+          </ng-template>
 
         </ng-container>
-      </ng-container> -->
+        <ng-container *ngIf="agents && queues && deps && displayType && skillSelected">
+          <app-calls-procesed
+            [waitDisplay]="waitDisplay"
+            [detailDisplay]="detailDisplay"
+            [queueDisplay]="queueDisplay"
+            [sumDisplay]="sumDisplay"
+            [callsDisplay]="callsDisplay"
+            [deps]="deps"
+            [queueInfo]="queues"
+            [setQueue]="queueGroups[skillSelected]"
+            [title]="skillGroup[skillSelected]"
+            [callsData]="{
+                Raw: data['RealtimeDO.RtCallsRaw'],
+                Board: data['RealTimeDO.WallCallsBeingProc'],
+                AgentsLogged: data['RealtimeDO.RTAgentsLoggedIn'],
+                Queues: queues,
+                All: data,
+                Agents: agents }">
+          </app-calls-procesed>
+        </ng-container>
+      </ng-container>
+
     </div>
-
-
-
-  </div>
-
 
 </div>
