@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<div class="jumbotron" *ngIf="!showContents">
   <h1 class="display-3">Bienvenido a ComeyCome</h1>
   <span class="lead">
     <ul>
@@ -14,4 +14,54 @@
   <hr class="my-4">
   <p>Para ingresar, es necesario estar dado de alta en el sistema y contar con una cuenta de PriceTravel.</p>
   <p>Para visitantes externos, es necesario obtener una cuenta personalizada</p>
+</div>
+
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <span><h1 class="display-3">Home - <small class="text-capitalize font-weight-light">{{ nameShow }}</small></h1></span>
+            <p class="lead">Consulta el avance de tus ventas, edita tus detalles de contacto, inscríbete a eventos próximos...</p>
+          </div>
+        </div>
+        <ng-container *ngIf="_init.checkSingleCredential('config_showAllUsersHome')">
+          <br>
+          <div class="container">
+            <div class="form-group row">
+              <div class="col-sm-12 input-group">
+                <span class="input-group-addon">
+                  <i class="fas fa-user fa-fw"></i>
+                </span>
+                <ng2-completer
+                  class="form-control customCompleteHome"
+                  [(ngModel)]="searchStrName"
+                  [datasource]="dataServiceName"
+                  [minSearchLength]="0"
+                  [clearSelected]="false"
+                  [selectOnFocus]="false"
+                  [selectOnClick]="true"
+                  [fillHighlighted]="false"
+                  (selected)="onSelected($event)"
+                  placeholder="Nombre">
+                </ng2-completer>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <br>
+        <app-event-display [asesor]='asesorShow' [original]="currentUser.hcInfo.id"></app-event-display>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de datos -->
+  <app-personal-data [asesor]='asesorShow' [name]='nameShow'></app-personal-data>
+  <br>
+  <!-- Gráficas -->
+  <div class="container" style="overflow: auto">
+    <app-grafica-ventas [asesor]='asesorShow' [name]='nameShow'></app-grafica-ventas>
+  </div>
 </div>

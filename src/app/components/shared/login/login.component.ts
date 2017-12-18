@@ -34,29 +34,37 @@ export class LoginComponent implements OnInit {
     this.loginLoad = true
     let sourceUrl = this._route.url
 
+    console.log(this.login)
     this._login.loginCyC( this.login )
-      .subscribe( respuesta =>{
-        this.loginLoad = false
-        if(respuesta['tokenInfo'].status==0){
+      .subscribe( res =>{
+
+                          this.loginLoad = false
+
+                          if( !res.status ){
+                            this.loginError=true;
+                            this.loginMsg=res.msg;
+                          }else{
+                            this.loginError=false;
+                            this.loginMsg="";
+                            jQuery("#loginModal").modal('hide');
+                            this._route.navigateByUrl('/home')
+                            this._route.navigateByUrl(sourceUrl)
+
+        }
+      }, err => {
+
+        if(err){
+          this.loginLoad = false
+          let error = err.json()
           this.loginError=true;
-          this.loginMsg=respuesta['tokenInfo'].msg;
-        }else{
-          this.loginError=false;
-          this.loginMsg="";
-          jQuery("#loginModal").modal('hide');
-          this._route.navigateByUrl('/home')
-          this._route.navigateByUrl(sourceUrl)
+          this.loginMsg=error.msg;
+
+          console.error(err.statusText, error.msg)
 
         }
       });
     // console.log(this.login);
   }
 
-  agregarNuevo( forma:NgForm ){
-
-    forma.reset({
-      casa:"Marvel"
-    });
-  }
 
 }

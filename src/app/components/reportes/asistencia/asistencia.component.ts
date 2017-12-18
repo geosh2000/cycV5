@@ -12,6 +12,7 @@ import { AsistenciaBadgeComponent } from '../../../addon/buttons/asistencia-badg
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
+import { TokenCheckService } from '../../../services/token-check.service';
 
 import * as Globals from '../../../globals';
 declare var jQuery:any;
@@ -81,6 +82,7 @@ export class AsistenciaComponent implements OnInit {
                 private _dateRangeOptions: DaterangepickerConfig,
                 private _api:ApiService,
                 private _init:InitService,
+                private _tokenCheck:TokenCheckService,
                 public toastr: ToastsManager,
                 public vcr: ViewContainerRef,
                 private cd: ChangeDetectorRef
@@ -89,6 +91,16 @@ export class AsistenciaComponent implements OnInit {
     this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
+
+    this._tokenCheck.getTokenStatus()
+        .subscribe( res => {
+
+          if( res.status ){
+            this.showContents = this._init.checkCredential( this.mainCredential, true )
+          }else{
+            this.showContents = false
+          }
+        })
 
     this.searchCriteria['value']= `${this.searchCriteria['start']} - ${this.searchCriteria['end']}`
 

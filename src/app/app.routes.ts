@@ -26,6 +26,7 @@ import { HxConfigComponent } from './components/config/horarios/hx-config.compon
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
 import { QueuesComponent } from './components/monitors/queues/queues.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
+import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -80,6 +81,7 @@ const APP_ROUTES: Routes = [
   { path: 'config/addExternal', component: AddExternalUserComponent },
   { path: 'config/chgSuper', component: ChangeSupervisorComponent },
   { path: 'config/hxConfig', component: HxConfigComponent },
+  { path: 'config/uploadTables', component: ReportUpdatesComponent },
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },

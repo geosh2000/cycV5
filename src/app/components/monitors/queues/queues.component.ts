@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ApiService } from '../../../services/api.service';
+import { InitService } from '../../../services/init.service';
+import { TokenCheckService } from '../../../services/token-check.service';
 
 import * as moment from 'moment-timezone';
 
@@ -9,6 +12,10 @@ import * as moment from 'moment-timezone';
   styles: []
 })
 export class QueuesComponent implements OnInit {
+
+  currentUser: any
+  showContents:boolean = false
+  mainCredential:string = 'monitor_gtr'
 
   loading:boolean       = false
   loadedBlock:any       = {}
@@ -50,7 +57,22 @@ export class QueuesComponent implements OnInit {
         ]
 
 
-  constructor( public _api: ApiService ) {
+  constructor( public _api: ApiService,
+                private _init:InitService, 
+                private _tokenCheck:TokenCheckService, ) {
+
+    this.currentUser = this._init.getUserInfo()
+    this.showContents = this._init.checkCredential( this.mainCredential, true )
+
+    this._tokenCheck.getTokenStatus()
+        .subscribe( res => {
+
+          if( res.status ){
+            this.showContents = this._init.checkCredential( this.mainCredential, true )
+          }else{
+            this.showContents = false
+          }
+        })
 
     for( let block of this.blocks ){
       this.loadedBlock[block] = false
@@ -226,7 +248,7 @@ export class QueuesComponent implements OnInit {
                 this.skillGroup[item['monShow']] = item['Departamento']
                 group[ item['monShow'] ].sort()
               }
-              
+
 
               this.queues = result
               this.queueGroups = group

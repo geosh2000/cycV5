@@ -62,13 +62,18 @@ export class ApiService {
 
   }
 
-  restfulPut( params, apiRoute ){
+  restfulPut( params, apiRoute, loginReq = true ){
 
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}`
-    // let url = `${ this.apiRestful }${ apiRoute }`
+    let url
+
+    if( loginReq ){
+      let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}`
+    }else{
+      url = `${ this.apiRestful }${ apiRoute }`
+    }
+
     let urlOK = this.transform( url )
-    // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
     let body = JSON.stringify( params );
     let headers = new Headers({

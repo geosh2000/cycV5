@@ -1,0 +1,38 @@
+<div class="container">
+
+  <ngb-tabset (tabChange)="getData( false, $event.nextId )">
+    <ngb-tab id="montos" title="Monto">
+      <ng-template ngbTabContent>
+        <div class="container d-flex justify-content-center">
+          <div class="p-1">
+            <chart [options]="options" (load)="saveInstance('montos', $event.context)"></chart>
+          </div>
+        </div>
+        <p *ngIf="loading">Loading <i class="fa fa-fw fa-spinner fa-pulse"></i></p>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="fc" title="FC">
+      <ng-template ngbTabContent>
+        <div class="container d-flex justify-content-center">
+          <div class="p-1">
+            <chart [options]="options" (load)="saveInstance('fc', $event.context)"></chart>
+          </div>
+        </div>
+        <p *ngIf="loading">Loading <i class="fa fa-fw fa-spinner fa-pulse"></i></p>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="calls" title="Llamadas y Rsvas">
+      <ng-template ngbTabContent>
+        <div class="container d-flex justify-content-center">
+          <div class="p-1">
+            <chart [options]="options" (load)="saveInstance('calls', $event.context)"></chart>
+          </div>
+        </div>
+        <p *ngIf="loading">Loading <i class="fa fa-fw fa-spinner fa-pulse"></i></p>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
+  <p class="text-right"><small>Reloading in {{ secReload }} sec.</small></p>
+
+</div>

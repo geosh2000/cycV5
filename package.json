@@ -23,6 +23,7 @@
     "@angular/router": "^5.0.0",
     "@gustav0ar/ngx-highcharts": "^0.6.1",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.5",
+    "@swimlane/ngx-datatable": "^11.1.5",
     "animate.css": "^3.5.2",
     "core-js": "^2.4.1",
     "file-saver": "^1.3.3",

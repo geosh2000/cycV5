@@ -1,0 +1,80 @@
+<div class="container" *ngIf="loadingFams">
+  <h3>Cargando información de eventos disponibles <i class="fas fa-spinner fa-pulse"></i></h3>
+</div>
+
+<ng-container *ngIf="!loadingFams">
+  <ngb-alert [type]="'warning'" [dismissible]="false" *ngIf="famsData.length == 0">
+    <div class="d-flex align-items-center justify-content-start">
+      <div class="p-2">
+        No hay eventos disponibles
+      </div>
+      <div class="p-2 ml-auto">
+        <button type="button" (click)="getData( true )" class="btn btn-outline-success" [disabled]="reLoadingFams">
+          <span>Refresh </span>
+          <span *ngIf="!reLoadingFams"><i class="fas fa-sync-alt text-white"></i></span>
+          <span *ngIf="reLoadingFams"><i class="fas fa-sync-alt fa-spin text-white"></i></span>
+        </button>
+      </div>
+    </div>
+  </ngb-alert>
+
+  <ngb-tabset (tabChange)="tabView($event.nextId)"  *ngIf="famsData.length > 0">
+    <ngb-tab [id]="event.id" *ngFor="let event of famsData; index as i">
+      <ng-template ngbTabTitle>
+        {{ event.titulo }}
+        <span *ngIf="event.asistira == '1'">
+          <span class="fa-layers">
+            <i class="fas fa-certificate text-success"></i>
+            <i class="fa-inverse fas fa-check" data-fa-transform="shrink-6"></i>
+          </span>
+        </span>
+        <span *ngIf="event.shown == null">
+          <span class="fa-layers fa-lg">
+            <i class="fas fa-certificate text-danger"></i>
+            <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-11.5 rotate--30" style="font-weight:900">NEW</span>
+          </span>
+        </span>
+      </ng-template>
+      <ng-template ngbTabContent>
+        <div class="d-flex justify-content-start">
+          <div class="p-2">
+            <p>{{ event.msg }}</p>
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button" class="btn btn-success" [disabled]="!checkLimit(event.date_limit_inscript, false) || subsLoading || reLoadingFams" (click)="subscribe( i, true )" *ngIf="event.asistira != '1'">
+              Inscribirme
+              <span *ngIf="subsLoading">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+            </button>
+            <button type="button" class="btn btn-danger"  [disabled]="!checkLimit(event.date_limit_xld, false) || subsLoading || reLoadingFams"       (click)="subscribe( i, false )" *ngIf="event.asistira == '1'">
+              Cancelar
+              <span *ngIf="subsLoading">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="d-flex justify-content-start align-items-baseline p-2">
+            <div>
+              <p><small *ngIf="event.showEventDate == '1'">Fecha: {{ formatDate( event.event_date, "DD MMM 'YY", false ) }}</small></p>
+              <small>
+                <span>Fecha límite de Inscripción: {{ formatDate( event.date_limit_inscript, "DD MMM 'YY hh:mm A" ) }} || </span>
+                <span>Fecha límite de Cancelación: {{ formatDate( event.date_limit_xld, "DD MMM 'YY hh:mm A" ) }}</span>
+              </small>
+            </div>
+            <div class="ml-auto">
+              <button type="button" (click)="getData( true )" class="btn btn-outline-success" [disabled]="reLoadingFams">
+                <span>Refresh </span>
+                <span *ngIf="!reLoadingFams"><i class="fas fa-sync-alt text-white"></i></span>
+                <span *ngIf="reLoadingFams"><i class="fas fa-sync-alt fa-spin text-white"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</ng-container>

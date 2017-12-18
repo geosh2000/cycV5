@@ -14,6 +14,7 @@ import { PopoverModule } from 'ngx-popover';
 import localeEsMX from '@angular/common/locales/es-MX'
 import { UiSwitchModule } from 'ngx-ui-switch'
 import { ChartModule } from '@gustav0ar/ngx-highcharts'
+import { HighchartsStatic } from '@gustav0ar/ngx-highcharts/dist/HighchartsService';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { OrderModule } from 'ngx-order-pipe'
 
@@ -90,9 +91,27 @@ import { AsistenciaBadgeComponent } from './addon/buttons/asistencia-badge/asist
 import { QueuesComponent } from './components/monitors/queues/queues.component';
 import { CallsProcesedComponent } from './components/monitors/queues/components/calls-procesed.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
+import { GraficaVentasComponent } from './components/home/grafica-ventas.component';
+import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
+import { PersonalDataComponent } from './components/home/personal-data.component';
+import { EventDisplayComponent } from './components/home/event-display.component';
 
 
 declare let jQuery : Object;
+
+declare var require: any;
+
+export function highchartsFactory() {
+    var hc = require('highcharts');
+    var hcm = require('highcharts/highcharts-more');
+    var exp = require('highcharts/modules/exporting');
+    var sg = require('highcharts/modules/solid-gauge');
+
+    hcm(hc);
+    exp(hc);
+    sg(hc);
+    return hc;
+}
 
 registerLocaleData(localeEsMX)
 
@@ -157,7 +176,11 @@ registerLocaleData(localeEsMX)
     AsistenciaBadgeComponent,
     QueuesComponent,
     CallsProcesedComponent,
-    RnComponent
+    RnComponent,
+    GraficaVentasComponent,
+    ReportUpdatesComponent,
+    PersonalDataComponent,
+    EventDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -175,13 +198,14 @@ registerLocaleData(localeEsMX)
     PopoverModule,
     UiSwitchModule,
     NgbModule.forRoot(),
-    OrderModule
-    // ChartModule.forRoot(require('highcharts'))
+    OrderModule,
+    ChartModule
     // Ng2TableViewModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "Es-MX" },
-    {provide: ToastOptions, useClass: CustomOption},
+     {provide: ToastOptions, useClass: CustomOption},
+     {provide: HighchartsStatic, useFactory: highchartsFactory},
     NavbarService,
     AsesoresService,
     LoginService,

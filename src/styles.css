@@ -92,6 +92,18 @@ p{
   background: transparent;
 }
 
+.customCompleteHome div input{
+  border: 0 solid white;
+  background: transparent;
+  width: 600px
+}
+
+.customCompleteHome div input:focus{
+  border: 0 solid white;
+  outline: -webkit-focus-ring-color auto 0px;
+  background: transparent;
+}
+
 .blueBkg{
   background: #003b71
 }

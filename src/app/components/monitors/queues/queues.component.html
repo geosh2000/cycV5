@@ -1,4 +1,7 @@
-<div class="container-fluid">
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
   <p *ngIf="loading && !data">Loading <i class="fa fa-fw fa-spinner fa-pulse"></i></p>
 
     <div class="row d-flex justify-content-center alert alert-primary" role="alert" style="font-size: small">

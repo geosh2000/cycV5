@@ -1,60 +1,39 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import * as Globals from '../globals';
 import { Observable } from 'rxjs/Observable';
+
+import { ApiService } from './api.service';
 
 @Injectable()
 export class LoginService {
 
-  getTokenUrl:string = `${ Globals.APISERV }/ng2/genToken.php`;
-
-  constructor( private http:Http ) { }
+  constructor( private _api:ApiService ) { }
 
   loginCyC( logInfo ){
 
-    let body = JSON.stringify( logInfo );
-    let headers = new Headers({
-      // 'Content-Type':'application/json'
-    });
+    let result
 
-    // console.log(body);
-
-    return this.http.post( this.getTokenUrl, body, { headers } )
+    return this._api.restfulPut( logInfo, 'Login/login', false )
       .map( res => {
-        if(res.json().status==1){
+        localStorage.setItem(
+          'currentUser',
+          JSON.stringify({
+                          token: res.token,
+                          tokenExpire: res.tokenExpire,
+                          username: res.username,
+                          hcInfo: res.hcInfo,
+                          credentials: res.credentials
+                        })
+        );
 
-          let usn
+          return { status: true, msg: 'Logueo Correcto', err: 'NA' }
+      }, err => {
 
-          if(logInfo.usn.indexOf('@')>0){
-            usn = logInfo.usn.substr(0,logInfo.usn.indexOf('@'))
-          }else{
-            usn = logInfo.usn
-          }
+        if(err){
+          let error = err.json()
+          console.error(err.statusText, error.msg)
 
-
-
-          localStorage.setItem(
-                                'currentUser',
-                                JSON.stringify({
-                                                token: res.json().token,
-                                                tokenExpire: res.json().tokenExpire,
-                                                username: usn, hcInfo: res.json().hcInfo,
-                                                credentials: res.json().credentials
-                                              })
-                              );
-        }else{
-          console.log("msg");
-          console.log(res.json().msg);
+          return { status: false, msg: error.msg, err: err.statusText }
         }
-
-        let result = {
-          tokenInfo: res.json(),
-          username: logInfo.usn
-        }
-
-        return result;
-
-
       })
 
   }
