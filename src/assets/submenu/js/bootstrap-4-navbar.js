@@ -7,7 +7,13 @@
 
 
 $( document ).ready( function () {
-    $( '.dropdown-menu a.dropdown-toggle' ).on( 'click', function ( e ) {
+
+    $( '.nav-link' ).on( 'click', function ( e ) {
+      console.log('click', e)
+    });
+
+    $( '.dropdown-menu li a.dropdown-toggle' ).on( 'click', function ( e ) {
+        console.log( 'submenu clicked' );
         var $el = $( this );
         var $parent = $( this ).offsetParent( ".dropdown-menu" );
         if ( !$( this ).next().hasClass( 'show' ) ) {
@@ -15,13 +21,13 @@ $( document ).ready( function () {
         }
         var $subMenu = $( this ).next( ".dropdown-menu" );
         $subMenu.toggleClass( 'show' );
-        
+
         $( this ).parent( "li" ).toggleClass( 'show' );
 
         $( this ).parents( 'li.nav-item.dropdown.show' ).on( 'hidden.bs.dropdown', function ( e ) {
             $( '.dropdown-menu .show' ).removeClass( "show" );
         } );
-        
+
          if ( !$parent.parent().hasClass( 'navbar-nav' ) ) {
             $el.next().css( { "top": $el[0].offsetTop, "left": $parent.outerWidth() - 4 } );
         }

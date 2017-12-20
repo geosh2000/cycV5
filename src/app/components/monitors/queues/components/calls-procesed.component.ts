@@ -133,7 +133,7 @@ export class CallsProcesedComponent implements OnInit {
 
     this.calls = calls
     this.callsAgent = callsAgent
-    console.log(this.callsAgent)
+    // console.log(this.callsAgent)
   }
 
   formatDate(datetime, format){
