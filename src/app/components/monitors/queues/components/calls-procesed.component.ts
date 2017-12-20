@@ -41,6 +41,7 @@ export class CallsProcesedComponent implements OnInit {
   }
 
   calls:any
+  callsAgent:any
   loggedAgents:any
 
 
@@ -67,6 +68,7 @@ export class CallsProcesedComponent implements OnInit {
 
   build( data ){
     let calls = {}
+    let callsAgent = {}
 
     // AGENTS
     this.loggedAgents = this.agentsLogged( data['AgentsLogged'] )
@@ -75,16 +77,41 @@ export class CallsProcesedComponent implements OnInit {
     this.summary['OUT']  = 0
     this.summary['Waiting']   = 0
 
-    // RAW CALLS
+    // console.log(data.Raw)
+
+    // OLD VER
     for( let item in data.Raw ){
 
       // Assign to agent
       if( ( calls[data.Raw[item]['caller']] && calls[data.Raw[item]['caller']].entered < data.Raw[item].entered ) || !calls[data.Raw[item]['caller']] ){
-        calls[data.Raw[item]['caller']] = data.Raw[item]
 
-        for( let field of this.dateFields ){
-          calls[data.Raw[item]['caller']][field + '_time'] = this.formatDate(calls[data.Raw[item]['caller']][field], 'kk:mm:ss')
-        }
+      let tmpArray = data.Raw[item]
+
+      for( let field of this.dateFields ){
+        tmpArray[field + '_time'] = this.formatDate(tmpArray[field], 'kk:mm:ss')
+      }
+
+      calls[data.Raw[item]['caller']] = tmpArray
+
+      }
+
+      //Current VER
+      let tmpArray = data.Raw[item]
+
+      for( let field of this.dateFields ){
+        tmpArray[field + '_time'] = this.formatDate(tmpArray[field], 'kk:mm:ss')
+      }
+
+      let tmpEnter = {}
+      tmpEnter['new'] = parseInt(tmpArray.entered)
+
+      if( callsAgent[data.Raw[item]['agent']] ){
+        tmpEnter['old'] = parseInt(callsAgent[data.Raw[item]['agent']].entered)
+      }
+
+      // console.log(data.Raw[item]['agent'], tmpArray.caller, tmpArray.entered)
+      if( ( callsAgent[data.Raw[item]['agent']] && tmpEnter['old'] < tmpEnter['new'] ) || !callsAgent[data.Raw[item]['agent']] ){
+        callsAgent[data.Raw[item]['agent']] = tmpArray
       }
 
     }
@@ -105,6 +132,8 @@ export class CallsProcesedComponent implements OnInit {
     }
 
     this.calls = calls
+    this.callsAgent = callsAgent
+    console.log(this.callsAgent)
   }
 
   formatDate(datetime, format){
@@ -155,12 +184,19 @@ export class CallsProcesedComponent implements OnInit {
   }
 
   getInfo( asesor, param ){
-    for( let i in this.calls ){
-        if (this.calls[i].agent == asesor) {
-          // console.log(`array: ${this.calls[i].agent}`, `asesor: ${asesor}`)
-            return this.calls[i][param];
-        }
+
+    if( this.callsAgent && this.callsAgent[asesor] ){
+      return this.callsAgent[asesor][param];
     }
+
+    // for( let i in this.calls ){
+    //     if (this.calls[i].agent == asesor) {
+    //       // console.log(`array: ${this.calls[i].agent}`, `asesor: ${asesor}`)
+    //         return this.calls[i][param];
+    //     }
+    // }
+
+
     return null;
   }
 

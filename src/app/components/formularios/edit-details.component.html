@@ -45,6 +45,6 @@
             type="button"
             [ngClass]="{ 'btn-outline-secondary': formDetail.invalid, 'btn-success': !formDetail.invalid }"
             class="btn"
-            (click)="submit()">Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+            (click)="submit()">Guardar <span *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
   </div>
 </form>

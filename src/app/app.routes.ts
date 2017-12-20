@@ -27,6 +27,7 @@ import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-ca
 import { QueuesComponent } from './components/monitors/queues/queues.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
+import { FamsComponent } from './components/config/fams/fams.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -82,6 +83,7 @@ const APP_ROUTES: Routes = [
   { path: 'config/chgSuper', component: ChangeSupervisorComponent },
   { path: 'config/hxConfig', component: HxConfigComponent },
   { path: 'config/uploadTables', component: ReportUpdatesComponent },
+  { path: 'config/fams', component: FamsComponent },
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },

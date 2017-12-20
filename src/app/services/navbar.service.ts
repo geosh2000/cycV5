@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser'
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as Globals from '../globals';
@@ -6,24 +7,25 @@ import * as Globals from '../globals';
 @Injectable()
 export class NavbarService {
 
-  menuUrl:string = `${ Globals.APISERV }/ng2/json/navbar.json.php`;
+  apiRestful:string = `${ Globals.APISERV }/api/${Globals.APIFOLDER}/index.php/`;
 
-  constructor( private http:Http ) { }
+  constructor( private domSanitizer:DomSanitizer, private http:Http ) { }
+
+  transform( url: string): any {
+    return this.domSanitizer.bypassSecurityTrustUrl( url );
+  }
 
   getMenu( token ){
 
-    let params = {
-      token: token
-    }
+    let url = `${ this.apiRestful }/Navbar/getMenu`
+    let urlOK = this.transform( url )
 
-    let body = JSON.stringify( params );
     let headers = new Headers({
-      // 'Content-Type':'application/json'
+      'Content-Type':'application/json'
     });
 
-    return this.http.post( this.menuUrl, body, { headers } )
+    return this.http.get( urlOK.changingThisBreaksApplicationSecurity, { headers } )
       .map( res => {
-        // console.log(res.json());
         return res.json();
       })
 

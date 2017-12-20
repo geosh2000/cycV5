@@ -95,6 +95,8 @@ import { GraficaVentasComponent } from './components/home/grafica-ventas.compone
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 import { PersonalDataComponent } from './components/home/personal-data.component';
 import { EventDisplayComponent } from './components/home/event-display.component';
+import { FamsComponent } from './components/config/fams/fams.component';
+import { UploadFilesComponent } from './components/formularios/upload-files.component';
 
 
 declare let jQuery : Object;
@@ -180,7 +182,9 @@ registerLocaleData(localeEsMX)
     GraficaVentasComponent,
     ReportUpdatesComponent,
     PersonalDataComponent,
-    EventDisplayComponent
+    EventDisplayComponent,
+    FamsComponent,
+    UploadFilesComponent
   ],
   imports: [
     BrowserModule,

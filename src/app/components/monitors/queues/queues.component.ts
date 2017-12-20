@@ -37,7 +37,7 @@ export class QueuesComponent implements OnInit {
   detailDisplay:boolean = true
   queueDisplay:boolean  = true
   callsDisplay:boolean  = true
-  skillSelected:string  = '35'
+  skillSelected:string  = '4'
 
   blocks = [
             "RealTimeDO.RTRiassunto",
@@ -58,7 +58,7 @@ export class QueuesComponent implements OnInit {
 
 
   constructor( public _api: ApiService,
-                private _init:InitService, 
+                private _init:InitService,
                 private _tokenCheck:TokenCheckService, ) {
 
     this.currentUser = this._init.getUserInfo()
