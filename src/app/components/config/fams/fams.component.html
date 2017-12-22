@@ -1,0 +1,135 @@
+<div *ngIf="showContents">
+  <div class="container-fluid">
+
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <div>
+            <span><h1 class="display-3">Configuración de Eventos</h1></span>
+            <p class="lead">Invitaciones y encuestas sencillas, con filtro para desplegar por departamento</p>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <button type="button" class="btn btn-success" (click)="getActive()" [disabled]="loading['active']">
+          <span *ngIf="loading['active']">Refresh <i class="fas fa-sync fa-spin"></i></span>
+          <span *ngIf="!loading['active']">Refresh</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid" *ngIf="colFams">
+    <ngb-tabset>
+      <ng-container *ngFor="let tipo of actualFams | keys">
+        <ngb-tab [title]="tipo" *ngIf="actualFams[tipo]">
+          <ng-template ngbTabContent>
+            <br>
+            <div class="alert alert-primary" role="alert" *ngIf="actualFams[tipo].length == 0">
+              No hay Eventos {{ tipo }}
+            </div>
+            <table style="font-size: smaller" class='table table-sm table-responsive table-hover table-bordered'>
+              <thead>
+                <tr>
+                  <th *ngFor="let field of colFams">
+                    <div class="d-flex justify-content-start align-items-baseline">
+                      <button class="btn btn-link" (click)="sortBy( field['COLUMN_NAME'] )">{{ field['COLUMN_NAME'] | capitalizado:false }}</button>
+                      <span class="ml-auto" *ngIf="order == field">
+                        <span *ngIf="reverse"><i class="fas fa-sort-up fa-xs"></i></span>
+                        <span *ngIf="!reverse"><i class="fas fa-sort-down fa-xs"></i></span>
+                      </span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of actualFams[tipo] | orderBy: order : reverse; index as i ">
+                  <td [ngClass]="{'text-center': field != 'msg'}" *ngFor="let field of item | keys">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <span>{{ item[field] }}</span>
+                      </div>
+                      <div *ngIf="field == 'id'">
+                        <button type="button" class="btn btn-link"  (click)="editEvent( item )"><i class="far fa-edit"></i></button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="tipo == 'Activos' && !newDisplay" (click)="newEvent()">
+                  <td colspan=100 class="text-secondary font-italic" style="cursor: pointer">
+                    <i class="fas fa-plus-circle"></i> Agregar Evento...
+                  </td>
+                </tr>
+                <tr *ngIf="newDisplay">
+                  <td *ngFor="let field of colFams" class='bg-info'>
+                    <div class="d-flex justify-content-center align-items-center">
+                      <div [ngSwitch]="inputTypes[field['COLUMN_NAME']]" style="width: 100%">
+                        <div *ngSwitchCase="'save'">
+                          <div>
+                            <button type="button" class="btn btn-success btn-block" (click)="saveNew()" *ngIf="!new['id']" [disabled]="loading['new']">
+                              <span *ngIf="!loading['new']"><i class="far fa-save"></i></span>
+                              <span *ngIf="loading['new']"><i class="fas fa-spinner fa-pulse"></i></span>
+                            </button>
+                            <button type="button" class="btn btn-success btn-block" (click)="saveEdit()" *ngIf="new['id']" [disabled]="loading['new']">
+                              <span *ngIf="!loading['new']"><i class="far fa-save"></i></span>
+                              <span *ngIf="loading['new']"><i class="fas fa-spinner fa-pulse"></i></span>
+                            </button>
+                          </div>
+                          <br>
+                          <div>
+                            <button type="button" class="btn btn-danger btn-block" (click)='cancelNew()' [disabled]="loading['new']">
+                              <i class="far fa-times-circle"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div *ngSwitchCase="'date'">
+                          <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd"
+                                   name="dp" [(ngModel)]="new[field['COLUMN_NAME']]" ngbDatepicker #d="ngbDatepicker">
+                            <button class="input-group-addon" (click)="d.toggle()" type="button">
+                              <i class="far fa-calendar-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div *ngSwitchCase="'multi'">
+                          <ss-multiselect-dropdown [options]="deps" [(ngModel)]="new[field['COLUMN_NAME']]" [settings]="selectorSettings" (ngModelChange)="selectorChange($event)"></ss-multiselect-dropdown>
+                        </div>
+                        <div *ngSwitchCase="'dateTime'">
+                          <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd"
+                                   name="dp" [(ngModel)]="new[field['COLUMN_NAME']]" ngbDatepicker #d="ngbDatepicker">
+                            <button class="input-group-addon" (click)="d.toggle()" type="button">
+                              <i class="far fa-calendar-alt"></i>
+                            </button>
+                          </div>
+                          <div class="d-flex justify-content-center">
+                            <ngb-timepicker [(ngModel)]="new[field['COLUMN_NAME']+'_time']"></ngb-timepicker>
+                          </div>
+                        </div>
+                        <div *ngSwitchCase="'switch'" class="d-flex justify-content-center">
+                          <div class="text-center">
+                            <ui-switch
+                            color="green"
+                            size= "medium"
+                            [(ngModel)]="new[field['COLUMN_NAME']]"
+                            ></ui-switch>
+                            <p>{{ new[field['COLUMN_NAME']] ? 'ON' : 'OFF' }}</p>
+                          </div>
+                        </div>
+                        <div *ngSwitchDefault style="width: 100%">
+                          <input type="email" class="form-control" [name]="field['COLUMN_NAME']" [(ngModel)]="new[field['COLUMN_NAME']]" style="width: 100%">
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-template>
+        </ngb-tab>
+      </ng-container>
+    </ngb-tabset>
+  </div>
+
+</div>

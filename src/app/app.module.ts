@@ -17,6 +17,7 @@ import { ChartModule } from '@gustav0ar/ngx-highcharts'
 import { HighchartsStatic } from '@gustav0ar/ngx-highcharts/dist/HighchartsService';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { OrderModule } from 'ngx-order-pipe'
+import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 
 
 //services
@@ -203,7 +204,8 @@ registerLocaleData(localeEsMX)
     UiSwitchModule,
     NgbModule.forRoot(),
     OrderModule,
-    ChartModule
+    ChartModule,
+    MultiselectDropdownModule,
     // Ng2TableViewModule
   ],
   providers: [
