@@ -185,7 +185,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" (click)="postChgPDV()" [disabled]="saving">Guardar <i class="fa fa-fw fa-spinner fa-pulse" *ngIf="saving"></i></button>
+          <button type="button" class="btn btn-primary" (click)="postChgPDV()" [disabled]="saving">Guardar <span *ngIf="saving"><i class="fa fa-fw fa-spinner fa-pulse"></i></span></button>
         </div>
       </div>
     </div>

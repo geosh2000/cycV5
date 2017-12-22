@@ -73,7 +73,7 @@
     </div> -->
     <!-- Actual... Futuras -->
 
-    <button type="button" class="btn btn-outline-primary btn-block" (click)="getVacantes()" [disabled]=" loadingVacantes " *ngIf="loadingVacantes">Loading Vacantes <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="loadingVacantes"></i></button>
+    <button type="button" class="btn btn-outline-primary btn-block" (click)="getVacantes()" [disabled]=" loadingVacantes " *ngIf="loadingVacantes">Loading Vacantes <i class="fa fa-spinner fa-pulse fa-fw"></i></button>
     <div *ngIf="infoVacantes || listData">
     <ng-container *ngIf="!listFlag">
       <!-- cards por Unidad de Negocio -->

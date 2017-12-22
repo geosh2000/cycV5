@@ -162,7 +162,7 @@
                     type="button"
                     [ngClass]="{ 'btn-outline-secondary': formCambioPuesto.invalid, 'btn-success': !formCambioPuesto.invalid }"
                     class="btn"
-                    (click)="submit()">Enviar  <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="retrieving"></i></button>
+                    (click)="submit()">Enviar  <span *ngIf="retrieving"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
           </div>
 
         </form>

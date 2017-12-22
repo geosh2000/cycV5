@@ -162,7 +162,7 @@
                                   (click)="solicitudConfirm( 1, 'del', asesor.histo_solicitudes[item].id )"
                                   >
                                   <i class="fa fa-check fa-fw" *ngIf="!solicitudConfirmRetrieving"></i>
-                                  <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="solicitudConfirmRetrieving"></i>
+                                  <span *ngIf="solicitudConfirmRetrieving"><i class="fa fa-spinner fa-pulse fa-fw"></i></span>
                             </button>
                             <button
                                   type="button"
@@ -206,7 +206,7 @@
                             (click)="solicitudConfirm( 1, 'cxl', asesor.histo_solicitudes[item].id )"
                             >
                             <i class="fa fa-check fa-fw" *ngIf="!solicitudConfirmRetrieving"></i>
-                            <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="solicitudConfirmRetrieving"></i>
+                            <span *ngIf="solicitudConfirmRetrieving"><i class="fa fa-spinner fa-pulse fa-fw"></i></span>
                       </button>
                       <button
                             type="button"

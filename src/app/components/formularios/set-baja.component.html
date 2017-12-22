@@ -115,7 +115,7 @@
                     class="btn"
                     (click)="submitBaja()"
                     [disabled]="retrieving || formSetBaja.invalid"
-                    >{{ titleSubmit }} <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="retrieving"></i></button>
+                    >{{ titleSubmit }} <span *ngIf="retrieving"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
             <!-- <button
                     [disabled]="formSetBaja.invalid"
                     type="submit"

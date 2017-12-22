@@ -20,7 +20,7 @@
             type="submit"
             [ngClass]="{ 'btn-outline-secondary': formSaldarCxc.invalid, 'btn-success': !formSaldarCxc.invalid }"
             class="btn"
-            >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+            >Guardar <span *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
   </div>
   <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
     <span><strong>Hubo un error en el proceso</strong></span><br>

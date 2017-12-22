@@ -61,20 +61,20 @@
             type="button"
             class="btn btn-warning p-2"
             style="margin-right: 5px"
-            (click)="cxl( )">Cancelar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting && accept"></i></button>
+            (click)="cxl( )">Cancelar <span *ngIf="submitting && accept"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
     <button
             [disabled]="submitting"
             *ngIf="currentUser.credentials['hc_salarios_approbe'] == 1"
             type="button"
             class="btn btn-danger p-2"
             style="margin-right: 5px"
-            (click)="approbe( false )">Declinar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting && !accept"></i></button>
+            (click)="approbe( false )">Declinar <span *ngIf="submitting && !accept"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
     <button
             [disabled]="submitting"
             *ngIf="currentUser.credentials['hc_salarios_approbe'] == 1"
             type="button"
             class="btn btn-success p-2"
-            (click)="approbe( true )">Aprobar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting && accept"></i></button>
+            (click)="approbe( true )">Aprobar <span *ngIf="submitting && accept"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
 
   </div>
 

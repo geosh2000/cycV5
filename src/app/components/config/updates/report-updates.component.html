@@ -29,7 +29,7 @@
             <small>{{ item.schedule }}.</small>
           </div>
           <div class="mb-1">
-            <button type="button" class="btn btn-success" (click)="runReport(item.repApi, item.id)" [disabled]=loading[item.id]>Run <i class="fa fa-fw fa-spinner fa-pulse" *ngIf="loading[item.id]"></i></button>
+            <button type="button" class="btn btn-success" (click)="runReport(item.repApi, item.id)" [disabled]=loading[item.id]>Run <span *ngIf="loading[item.id]"><i class="fa fa-fw fa-spinner fa-pulse"></i></spin></button>
           </div>
         </div>
       </div>

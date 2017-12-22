@@ -272,7 +272,7 @@
                   [ngClass]="{ 'btn-outline-secondary': formChangeStatus.invalid  || (aprobacionAction && !validacionStatus), 'btn-success': !formChangeStatus.invalid }"
                   class="btn"
                   (click)="submitChg()"
-                  >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+                  >Guardar <span *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
 
           <button
                   *ngIf="tipoAprobacion == 2"
@@ -280,7 +280,7 @@
                   [ngClass]="{ 'btn-outline-secondary': formApprobeBaja.invalid, 'btn-success': !formApprobeBaja.invalid }"
                   class="btn"
                   (click)="submitChg()"
-                  >Guardar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></button>
+                  >Guardar <span *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
         </div>
 
       </div>

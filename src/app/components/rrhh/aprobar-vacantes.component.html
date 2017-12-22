@@ -82,7 +82,7 @@
                 (click)="submitChg( false, aprobaciones[item]['id'] )"
                 [disabled]="submitting"
                 >
-                Declinar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i>
+                Declinar <span *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></span>
               </button>
               <button
                 type="button"
@@ -90,7 +90,7 @@
                 (click)="submitChg( true, aprobaciones[item]['id'] )"
                 [disabled]="submitting"
                 >
-                Aprobar <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i>
+                Aprobar <span *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting"></i></span>
               </button>
             </div>
 

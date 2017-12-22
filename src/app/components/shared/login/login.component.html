@@ -49,10 +49,12 @@
                   </div>
 
                   <button
-                          [disabled]="loginLoad"
-                          type="submit"
-                          class="btn btn-primary"
-                          >Submit <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="loginLoad"></i></button>
+                    [disabled]="loginLoad"
+                    type="submit"
+                    class="btn btn-primary">
+                    Submit
+                    <span *ngIf="loginLoad"><i class="fa fa-spinner fa-pulse fa-fw"></i></span>
+                  </button>
                 </div>
                 <div class="col"></div>
               </form>
