@@ -4,16 +4,30 @@
 <div class="container-fluid" *ngIf="showContents">
 
   <div class="d-flex justify-content-end align-items-center">
-    <div class="mr-auto p-2">
-      <h1>Monitor de Pausas</h1>
+    <div class="mr-auto p-2 d-flex justify-content-start">
+      <div class="">
+        <h1>Monitor de Pausas</h1>
+        <p>
+          <small>Mostrando: {{ dateMonitor }}</small>
+        </p>
+      </div>
+      <div class="form-group p-2">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="dp" [(ngModel)]="dateMonRaw" ngbDatepicker #d="ngbDatepicker">
+          <button class="input-group-addon" (click)="d.toggle()" type="button">
+            <i class="fas fa-calendar"></i>
+          </button>
+        </div>
+      </div>
+      <div class='p-2'>
+        <button type="button" class="btn btn-primary" (click)="run()" [disabled]="loading['Pauses']">
+          Run <span *ngIf="loading['Pauses']"><i class="fas fa-spinner fa-pulse"></i></span>
+        </button>
+      </div>
     </div>
     <div class="p-2" *ngIf="lu">
       Ultima actualización: {{ formatTime(lu, 'DD MMM \'YY kk:mm:ss') }}
-    </div>
-    <div class='p-2'>
-      <button type="button" class="btn btn-primary" (click)="getPauses( this.dateMonitor )" [disabled]="loading['Pauses']">
-        Run <span *ngIf="loading['Pauses']"><i class="fas fa-spinner fa-pulse"></i></span>
-      </button>
     </div>
   </div>
 

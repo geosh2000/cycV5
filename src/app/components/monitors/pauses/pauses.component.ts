@@ -23,6 +23,11 @@ export class PausesComponent implements OnInit {
 
   loading:any = {}
   dateMonitor:any
+  dateMonRaw:Object = {
+    year: '',
+    month: '',
+    day: ''
+  }
 
   flagForm:boolean = false
   flagApply:boolean = false
@@ -59,8 +64,20 @@ export class PausesComponent implements OnInit {
 
     this.dateMonitor = moment().format('YYYY-MM-DD')
 
+    this.dateMonRaw = {
+      year: parseInt(moment().format('YYYY')),
+      month: parseInt(moment().format('MM')),
+      day: parseInt(moment().format('DD'))
+    }
+
     this.getPauses( this.dateMonitor )
 
+  }
+
+  run(){
+      this.dateMonitor = moment(`${this.dateMonRaw['year']}-${this.dateMonRaw['month']}-${this.dateMonRaw['day']}`).format('YYYY-MM-DD')
+      console.log(this.dateMonitor)
+      this.getPauses( this.dateMonitor )
   }
 
   getPauses( date ){
