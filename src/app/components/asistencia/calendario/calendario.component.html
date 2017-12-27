@@ -1,3 +1,25 @@
-<p>
-  calendario works!
-</p>
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <span><h1 class="display-3">Calendario de Ausentismos</h1></span>
+            <p class="lead">Consulta fechas disponibles y has tus solicitudes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class='container '*ngIf="calendarOptions">
+      <ng-fullcalendar #ucCalendar [options]="calendarOptions" (viewRender)="viewCal( $event.detail )"></ng-fullcalendar>
+  </div>
+
+</div>
