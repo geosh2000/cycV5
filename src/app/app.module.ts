@@ -18,6 +18,7 @@ import { HighchartsStatic } from '@gustav0ar/ngx-highcharts/dist/HighchartsServi
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { OrderModule } from 'ngx-order-pipe'
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { FullCalendarModule } from 'ng-fullcalendar';
 
 
 //services
@@ -98,8 +99,8 @@ import { PersonalDataComponent } from './components/home/personal-data.component
 import { EventDisplayComponent } from './components/home/event-display.component';
 import { FamsComponent } from './components/config/fams/fams.component';
 import { UploadFilesComponent } from './components/formularios/upload-files.component';
-import { VolumeEditorComponent } from './components/forecast-programacion/volume-editor/volume-editor.component';
 import { PausesComponent } from './components/monitors/pauses/pauses.component';
+import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
 
 
 declare let jQuery : Object;
@@ -188,8 +189,8 @@ registerLocaleData(localeEsMX)
     EventDisplayComponent,
     FamsComponent,
     UploadFilesComponent,
-    VolumeEditorComponent,
-    PausesComponent
+    PausesComponent,
+    CalendarioComponent
   ],
   imports: [
     BrowserModule,
@@ -210,6 +211,7 @@ registerLocaleData(localeEsMX)
     OrderModule,
     ChartModule,
     MultiselectDropdownModule,
+    FullCalendarModule,
     // Ng2TableViewModule
   ],
   providers: [

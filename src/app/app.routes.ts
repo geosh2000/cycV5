@@ -29,7 +29,7 @@ import { PausesComponent } from './components/monitors/pauses/pauses.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 import { FamsComponent } from './components/config/fams/fams.component';
-import { VolumeEditorComponent } from './components/forecast-programacion/volume-editor/volume-editor.component';
+import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -57,6 +57,9 @@ const APP_ROUTES: Routes = [
   { path: 'aprobaciones_rrhh', component: AprobacionesComponent },
   { path: 'nomina', component: NominaComponent },
   { path: 'aprobarVacantes', component: AprobarVacantesComponent },
+
+  // Asistencia
+  { path: 'asistencia/calendario', component: CalendarioComponent },
 
   // Reportes
   { path: 'cuartiles', component: CuartilesComponent },
@@ -90,9 +93,6 @@ const APP_ROUTES: Routes = [
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },
-
-  // Forecast
-  { path: 'fc/volumes', component: VolumeEditorComponent },
 
   //test
   { path: 'test', component: TestComponent },
