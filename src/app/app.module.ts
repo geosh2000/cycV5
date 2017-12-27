@@ -98,6 +98,8 @@ import { PersonalDataComponent } from './components/home/personal-data.component
 import { EventDisplayComponent } from './components/home/event-display.component';
 import { FamsComponent } from './components/config/fams/fams.component';
 import { UploadFilesComponent } from './components/formularios/upload-files.component';
+import { VolumeEditorComponent } from './components/forecast-programacion/volume-editor/volume-editor.component';
+import { PausesComponent } from './components/monitors/pauses/pauses.component';
 
 
 declare let jQuery : Object;
@@ -185,7 +187,9 @@ registerLocaleData(localeEsMX)
     PersonalDataComponent,
     EventDisplayComponent,
     FamsComponent,
-    UploadFilesComponent
+    UploadFilesComponent,
+    VolumeEditorComponent,
+    PausesComponent
   ],
   imports: [
     BrowserModule,

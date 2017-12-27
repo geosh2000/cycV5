@@ -25,9 +25,11 @@ import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component
 import { HxConfigComponent } from './components/config/horarios/hx-config.component';
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
 import { QueuesComponent } from './components/monitors/queues/queues.component';
+import { PausesComponent } from './components/monitors/pauses/pauses.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 import { FamsComponent } from './components/config/fams/fams.component';
+import { VolumeEditorComponent } from './components/forecast-programacion/volume-editor/volume-editor.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -71,6 +73,7 @@ const APP_ROUTES: Routes = [
   { path: 'ventaMonitor', component: LiveTabComponent },
   { path: 'ventaRn', component: RnComponent },
   { path: 'queues', component: QueuesComponent },
+  { path: 'pauses', component: PausesComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },
@@ -87,6 +90,9 @@ const APP_ROUTES: Routes = [
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },
+
+  // Forecast
+  { path: 'fc/volumes', component: VolumeEditorComponent },
 
   //test
   { path: 'test', component: TestComponent },
