@@ -12,6 +12,14 @@
             <p class="lead">Consulta fechas disponibles y has tus solicitudes</p>
           </div>
         </div>
+        <br>
+        <div>
+          Departamento:
+          <select class="custom-select" [(ngModel)]="depSelected" (change)="viewCal(null, true)">
+            <option value='' selected>Selecciona...</option>
+            <option [value]="item['id']" *ngFor="let item of deps">{{ item['Departamento'] }}</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
