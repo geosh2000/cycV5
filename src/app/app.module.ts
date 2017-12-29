@@ -102,6 +102,7 @@ import { FamsComponent } from './components/config/fams/fams.component';
 import { UploadFilesComponent } from './components/formularios/upload-files.component';
 import { PausesComponent } from './components/monitors/pauses/pauses.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
+import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
 
 
 declare let jQuery : Object;
@@ -191,7 +192,8 @@ registerLocaleData(localeEsMX)
     FamsComponent,
     UploadFilesComponent,
     PausesComponent,
-    CalendarioComponent
+    CalendarioComponent,
+    AleatoriedadComponent
   ],
   imports: [
     BrowserModule,

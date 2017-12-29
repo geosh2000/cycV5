@@ -30,6 +30,7 @@ import { RnComponent } from './components/monitors/venta/rn.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 import { FamsComponent } from './components/config/fams/fams.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
+import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -67,6 +68,7 @@ const APP_ROUTES: Routes = [
   { path: 'precisionPorIntervalo', component: PorIntervaloComponent },
   { path: 'asistencia', component: AsistenciaComponent },
   { path: 'mp/ventaPorCanal', component: VentaPorCanalComponent },
+  { path: 'calidad/aleatoriedad', component: AleatoriedadComponent },
 
   //Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },

@@ -1,0 +1,110 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <span><h1 class="display-3">Aleatoriedad</h1></span>
+            <p class="lead">Consulta llamadas y/o casos aleatorios por Programa o Supervisor</p>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="container">
+        <form class="form-inline">
+          <div class="form-group">
+              <div class="input-group" daterangepicker (selected)="dateChange($event.start, $event.end)">
+                  <input type='text' class="form-control uneditable-input"  name="daterange" [(ngModel)]="datePickerVal" id="datepicker" style="width: 190px; font-size: smaller">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></button>
+                  </span>
+              </div>
+          </div>
+          <div class="form-group d-flex justify-content-between p-1">
+            <span class='p-1' [ngClass]="{'text-secondary': form['type']}">
+              Supervisor
+            </span>
+            <span class='p-1'>
+              <ui-switch (change)="typeChg( $event )" color="green" switchColor="#b2cfff" size= "small" name='type' [(ngModel)]="form['type']"></ui-switch>
+            </span>
+            <span class='p-1' [ngClass]="{'text-secondary': !form['type']}">
+              Calidad
+            </span>
+          </div>
+          <div class="form-group p-1">
+            <select name='criteria' [(ngModel)]="form['criteria']" class="custom-select custom-select-sm">
+              <option val='' selected *ngIf="!loading['criteria']">Selecciona...</option>
+              <option val='' selected *ngIf="loading['criteria']">Loading <i class="fas fa-spinner fa-pulse"></i></option>
+              <ng-container *ngIf="!loading['criteria'] && dataCriteria">
+                <option [value]="item['id']" *ngFor="let item of dataCriteria">{{ item['name'] }}</option>
+              </ng-container>
+            </select>
+          </div>
+          <div class="form-group p-1">
+            <select name='q' [(ngModel)]="form['q']" class="custom-select custom-select-sm">
+              <option [value]="i" *ngFor="let i of q">{{ i }}</option>
+            </select>
+          </div>
+          <div class="form-group p-1">
+            <button type="button" class="btn btn-success" (click)="getData()">Buscar <span *ngIf="loading['search']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class='container-fluid'>
+    <div class="row" *ngIf="dataAleatoriedad">
+      <div class="col">
+        <h1 class="display-4">Llamadas</h1>
+        <div class="row">
+          <div class="col" *ngFor="let item of dataAleatoriedad['calls']">
+            <div class="card bg-light mb-3" style="width: 410px;">
+              <div class="card-header">{{ item['nombre'] }}</div>
+              <div class="card-body">
+                <dl class="row">
+                  <ng-container *ngFor="let field of item | keys">
+                    <ng-container *ngIf="field != 'asesor' && field != 'Cola' && field != 'nombre' && filed != 'Skill'">
+                      <dt class="col-sm-6">{{ field }}</dt>
+                      <dd class="col-sm-6">{{ item[field] }}</dd>
+                    </ng-container>
+                  </ng-container>
+                </dl>
+              </div>
+              <div class="card-footer">{{ item['Cola'] }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6" *ngIf="dataAleatoriedad && dataAleatoriedad['cases'].length > 0">
+        <h1 class="display-4">Casos</h1>
+        <div class="row">
+          <div class="col" *ngFor="let item of dataAleatoriedad['cases']">
+            <div class="card bg-light mb-3" style="width: 410px;">
+              <div class="card-header">{{ item['nombre'] }}</div>
+              <div class="card-body">
+                <dl class="row">
+                  <ng-container *ngFor="let field of item | keys">
+                    <ng-container *ngIf="field != 'asesor' && field != 'areaId' && field != 'nombre' && field != 'area'">
+                      <dt class="col-sm-6">{{ field }}</dt>
+                      <dd class="col-sm-6">{{ item[field] }}</dd>
+                    </ng-container>
+                  </ng-container>
+                </dl>
+              </div>
+              <div class="card-footer">{{ item['area'] }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
