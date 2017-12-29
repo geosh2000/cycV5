@@ -226,6 +226,17 @@ export class DetailAsesorComponent implements OnInit {
 
     this.toastr.setRootViewContainerRef(vcr);
 
+    this._tokenCheck.getTokenStatus()
+        .subscribe( res => {
+
+          if( res.status ){
+            this.showContents = this._init.checkCredential( this.mainCredential, true )
+          }else{
+            this.showContents = false
+            jQuery("#loginModal").modal('show');
+          }
+        })
+
     if(this.currentUser != null){
       let currentUser = this.currentUser
       this.dataServiceName = this.completerService.remote(`${ Globals.APISERV }/ng2/json/listAsesores.json.php?tipo=name&token=${currentUser.token}&usn=${currentUser.username}&udn=${ currentUser.hcInfo['hc_udn']}&puesto=${ currentUser.hcInfo['hc_puesto_clave'] }&area=${ currentUser.hcInfo['hc_area'] }&dep=${ currentUser.hcInfo['hc_dep'] }&viewAll=${ currentUser.credentials['view_all_agents'] }&term=`, 'name,user,ncorto', 'name')
