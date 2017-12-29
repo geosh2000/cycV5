@@ -52,6 +52,9 @@
           <div class="form-group p-1">
             <button type="button" class="btn btn-success" (click)="getData()">Buscar <span *ngIf="loading['search']"><i class="fas fa-spinner fa-pulse"></i></span></button>
           </div>
+          <div class="form-group p-1">
+            <button type="button" class="btn btn-warning" (click)="downloadXLS('aleatoriedad')" *ngIf="dataAleatoriedad">Descargar</button>
+          </div>
         </form>
       </div>
     </div>

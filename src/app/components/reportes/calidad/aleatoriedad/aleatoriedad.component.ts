@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 
 import { ApiService } from '../../../../services/api.service';
 import { InitService } from '../../../../services/init.service';
 import { TokenCheckService } from '../../../../services/token-check.service';
 
-import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
+import { saveAs } from 'file-saver';
+import { utils, write, WorkBook } from 'xlsx';
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
@@ -177,6 +179,37 @@ export class AleatoriedadComponent implements OnInit {
 
 
               })
+  }
+
+  downloadXLS( title ){
+    this.toXls( title )
+
+  }
+
+  toXls( title ){
+
+    let wb = utils.book_new();
+    let ws = utils.json_to_sheet(this.dataAleatoriedad['calls']);
+
+    wb.SheetNames.push('Llamadas');
+    wb.Sheets['Llamadas'] = ws;
+
+    if( this.dataAleatoriedad['cases'].length > 0 ){
+      ws = utils.json_to_sheet(this.dataAleatoriedad['cases']);
+      wb.SheetNames.push('Casos');
+      wb.Sheets['Casos'] = ws;
+    }
+
+    let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type: 'binary' });
+
+    saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), `${title}.xlsx`)
+  }
+
+  s2ab(s) {
+    let buf = new ArrayBuffer(s.length);
+    let view = new Uint8Array(buf);
+    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
   }
 
 }
