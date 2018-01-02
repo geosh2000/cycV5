@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.loginLoad = true
     let sourceUrl = this._route.url
 
-    console.log(this.login)
+    // console.log(this.login)
     this._login.loginCyC( this.login )
       .subscribe( res =>{
 

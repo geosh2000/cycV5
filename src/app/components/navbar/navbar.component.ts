@@ -63,7 +63,7 @@ export class NavbarComponent {
           // console.log("Get Menu Again");
           this.getMenu(1);
           this.licenses = currentUser.credentials
-          console.log("Permisos", this.licenses)
+          // console.log("Permisos", this.licenses)
           this.sendTokenStatus( true )
           this.lastLog=true;
           this.expired=false;
