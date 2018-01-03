@@ -16,7 +16,7 @@ import { PrecisionComponent } from './components/reportes/precision/precision.co
 import { PorIntervaloComponent } from './components/reportes/precision/por-intervalo.component';
 import { AddExternalUserComponent } from './components/config/add-external-user.component';
 import { ChangeSupervisorComponent } from './components/config/change-supervisor.component';
-import { PyaComponent } from './components/monitors/pya.component';
+import { PyaComponent } from './components/monitors/pya/pya.component';
 import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { TestComponent } from './test/test/test.component';
 import { LiveTabComponent } from './components/monitors/venta/live-tab.component';

@@ -73,7 +73,7 @@ import { PorIntervaloComponent } from './components/reportes/precision/por-inter
 import { BitacoraSupersComponent } from './components/formularios/bitacora-supers/bitacora-supers.component';
 import { AprobarVacantesComponent } from './components/rrhh/aprobar-vacantes.component';
 import { AddExternalUserComponent } from './components/config/add-external-user.component';
-import { PyaComponent } from './components/monitors/pya.component';
+import { PyaComponent } from './components/monitors/pya/pya.component';
 import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { ChangeSupervisorComponent } from './components/config/change-supervisor.component';
 import { LiveTabComponent } from './components/monitors/venta/live-tab.component';

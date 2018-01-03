@@ -1,0 +1,49 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+
+  <div class="row" *ngIf="dataSchedules">
+
+    <!-- <div class="col" *ngFor="let item of dataSchedules | orderBy: 'nombre'"> -->
+    <ng-container *ngFor="let item of dataSchedules | orderBy: 'nombre'">
+      <div class="card m-2" style="width: 18rem;">
+        <div class="card-header">
+          {{ item.nombre }}
+        </div>
+        <div class="card-body" [ngClass]="{'bg-info text-white': item.Ausentismo != null}">
+          <ng-container *ngIf="item.Ausentismo == null; else isAusent">
+            <div class="text-center" style="font-size: small">
+              <p>j: {{ printTime( item.js, 'kk:mm' ) }} - {{ printTime( item.je, 'kk:mm' ) }} <span *ngIf="item.cs != item.ce">(c: {{ printTime( item.cs, 'kk:mm' ) }} - {{ printTime( item.ce, 'kk:mm' ) }})</span></p>
+            </div>
+            <div class="text-center" style="font-size: small" *ngIf="item.x1s != item.x1e">
+              <p>x1: {{ printTime( item.x1s, 'kk:mm' ) }} - {{ printTime( item.x1e, 'kk:mm' ) }}</p>
+              <p *ngIf="item.x2s != item.x2e">x2: {{ printTime( item.x2s, 'kk:mm' ) }} - {{ printTime( item.x2e, 'kk:mm' ) }}</p>
+            </div>
+
+            <div class='d-flex justify-content-center' *ngIf="item.js != item.je">
+              <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x1s != item.x1e">
+                <ngb-progressbar type="warning" [value]="0" [max]="timeProcess(item.x1s, item.x1e)" height=".5rem">x1s</ngb-progressbar>
+              </div>
+              <div style="width: 64%" class="p-0 border border-success rounded">
+                <ngb-progressbar type="success" [value]="0" [max]="timeProcess(item.js, item.je)" height=".5rem">j</ngb-progressbar>
+              </div>
+              <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x2s != item.x2e">
+                <ngb-progressbar type="warning" [value]="0" [max]="timeProcess(item.x2s, item.x2e)" height=".5rem">x2s</ngb-progressbar>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #isAusent>
+            <span class="text-center">{{ item.Ausentismo }}</span>
+          </ng-template>
+        </div>
+        <div class="card-footer">
+          {{ item.dep }}
+        </div>
+      </div>
+    </ng-container>
+    <!-- </div> -->
+
+  </div>
+
+</div>
