@@ -3,47 +3,114 @@
 </div>
 <div class="container-fluid" *ngIf="showContents">
 
-  <div class="row" *ngIf="dataSchedules">
-
-    <!-- <div class="col" *ngFor="let item of dataSchedules | orderBy: 'nombre'"> -->
-    <ng-container *ngFor="let item of dataSchedules | orderBy: 'nombre'">
-      <div class="card m-2" style="width: 18rem;">
-        <div class="card-header">
-          {{ item.nombre }}
+  <div class="row d-flex justify-content-end">
+    <div class="p-2 mr-auto">
+      <p><small>Last Update: {{ lu }}</small></p>
+    </div>
+    <div class="p-2">
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" [displayMonths]="2"
+                   name="dp" [(ngModel)]="dateSearch" ngbDatepicker #d="ngbDatepicker">
+            <button class="input-group-addon" (click)="d.toggle()" type="button" style="cursor: pointer">
+              <i class="fas fa-calendar"></i>
+            </button>
+          </div>
         </div>
-        <div class="card-body" [ngClass]="{'bg-info text-white': item.Ausentismo != null}">
-          <ng-container *ngIf="item.Ausentismo == null; else isAusent">
-            <div class="text-center" style="font-size: small">
-              <p>j: {{ printTime( item.js, 'kk:mm' ) }} - {{ printTime( item.je, 'kk:mm' ) }} <span *ngIf="item.cs != item.ce">(c: {{ printTime( item.cs, 'kk:mm' ) }} - {{ printTime( item.ce, 'kk:mm' ) }})</span></p>
-            </div>
-            <div class="text-center" style="font-size: small" *ngIf="item.x1s != item.x1e">
-              <p>x1: {{ printTime( item.x1s, 'kk:mm' ) }} - {{ printTime( item.x1e, 'kk:mm' ) }}</p>
-              <p *ngIf="item.x2s != item.x2e">x2: {{ printTime( item.x2s, 'kk:mm' ) }} - {{ printTime( item.x2e, 'kk:mm' ) }}</p>
-            </div>
+      </form>
+    </div>
+    <div class="p-2">
+      <button type="button" class="btn btn-success" (click)="getSchedules()" [disabled]="loading['schedules']">Horarios <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+      <button type="button" class="btn btn-info" (click)="getLogs()" [disabled]="loading['logs']">Logs <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+    </div>
+  </div>
 
-            <div class='d-flex justify-content-center' *ngIf="item.js != item.je">
-              <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x1s != item.x1e">
-                <ngb-progressbar type="warning" [value]="0" [max]="timeProcess(item.x1s, item.x1e)" height=".5rem">x1s</ngb-progressbar>
+  <pre>
+    {{dateModel | json}}
+  </pre>
+
+  <ng-container *ngIf="dataSchedules">
+    <div class="row border border-secondary" *ngFor="let hour of hrs">
+
+      <div class="col-1 d-flex justify-content-center align-items-center bg-dark">
+        <div width="55px">
+          <span class='text-white' *ngIf="hour == -1">N/A</span>
+          <span class='text-white' *ngIf="hour != -1">{{ hour/2 }} hrs</span>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="row p-2">
+
+          <!-- <div class="col" *ngFor="let item of dataSchedules | orderBy: 'nombre'"> -->
+          <ng-container *ngFor="let item of dataPerHour[hour]; index as i">
+            <div class="card m-2" style="width: 16rem;">
+              <div class="card-header text-center p-0">
+                <div class="row m-0" style="width:100%">
+                  <div class="col-8 p-0 ">
+                    <p><span>{{ item.nombre }}</span></p>
+                    <p><small>{{ item.dep }}</small></p>
+                  </div>
+                  <div class="col-lg-4  p-0 d-flex justify-content-center align-items-center bg-secondary" *ngIf="item.Ausentismo != null || item.js == item.je">
+                    <div>
+                      <h5>N/A</h5>
+                    </div>
+                  </div>
+                  <div class="col-lg-4  p-0 d-flex justify-content-center align-items-center" [ngClass]="setExcept( item.asesor, 'class' )" *ngIf="item.Ausentismo == null && item.js != item.je">
+                    <div class='text-center'>
+                      <h5 class='m-0'>{{ setExcept( item.asesor ) }}</h5>
+                      <ng-container *ngIf="dataLogs && dataLogs[item.asesor]">
+                        <small *ngIf="compareDates(item.x1s, '<', item.js)">{{ printTime(dataLogs[item.asesor]['x1']['in'], 'HH:mm:ss') }}</small>
+                        <small *ngIf="compareDates(item.x1e, '<', item.js)">{{ printTime(dataLogs[item.asesor]['x2']['in'], 'HH:mm:ss') }}</small>
+                        <small *ngIf="compareDates(item.js, '<', item.x1s)">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div style="width: 64%" class="p-0 border border-success rounded">
-                <ngb-progressbar type="success" [value]="0" [max]="timeProcess(item.js, item.je)" height=".5rem">j</ngb-progressbar>
-              </div>
-              <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x2s != item.x2e">
-                <ngb-progressbar type="warning" [value]="0" [max]="timeProcess(item.x2s, item.x2e)" height=".5rem">x2s</ngb-progressbar>
+              <div class="card-body p-1" [ngClass]="bgCards( item )">
+                <ng-container *ngIf="item.Ausentismo == null && item.js != item.je; else isAusent">
+                  <div class="text-center" style="font-size: smaller">
+                    <p>j: {{ printTime( item.js, 'HH:mm' ) }} - {{ printTime( item.je, 'HH:mm' ) }} <span *ngIf="item.cs != item.ce">(c: {{ printTime( item.cs, 'HH:mm' ) }} - {{ printTime( item.ce, 'HH:mm' ) }})</span></p>
+                  </div>
+                  <div class="text-center" style="font-size: small" *ngIf="item.x1s != item.x1e">
+                    <p>x1: {{ printTime( item.x1s, 'HH:mm' ) }} - {{ printTime( item.x1e, 'HH:mm' ) }}</p>
+                    <p *ngIf="item.x2s != item.x2e">x2: {{ printTime( item.x2s, 'HH:mm' ) }} - {{ printTime( item.x2e, 'HH:mm' ) }}</p>
+                  </div>
+
+                  <div class='d-flex justify-content-center' *ngIf="item.js != item.je && dataLogs">
+                    <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x1s != item.x1e && compareDates(item.x1s, '<', item.js)">
+                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x1')" [max]="timeProcess(item.x1s, item.x1e)" height=".5rem">x1s</ngb-progressbar>
+                    </div>
+                    <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x2s != item.x2e && compareDates(item.x2s, '<', item.js)">
+                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x2')" [max]="timeProcess(item.x2s, item.x2e)" height=".5rem">x2s</ngb-progressbar>
+                    </div>
+                    <div style="width: 64%" class="p-0 border border-success rounded">
+                      <ngb-progressbar type="success" [value]="pBarVal(item.asesor, 'j')" [max]="timeProcess(item.js, item.je)" height=".5rem">j</ngb-progressbar>
+                    </div>
+                    <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x1s != item.x1e && compareDates(item.x1e, '>', item.je)">
+                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x1')" [max]="timeProcess(item.x1s, item.x1e)" height=".5rem">x1s</ngb-progressbar>
+                    </div>
+                    <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x2s != item.x2e && compareDates(item.x2e, '>', item.je)">
+                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x2')" [max]="timeProcess(item.x2s, item.x2e)" height=".5rem">x2s</ngb-progressbar>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-template #isAusent>
+                  <div class="d-flex justify-content-center">
+                    <span class="text-center" *ngIf="item.Ausentismo != null">{{ item.Ausentismo }}</span>
+                    <span class="text-center" *ngIf="item.Ausentismo == null && item.js == null">N/A</span>
+                    <span class="text-center" *ngIf="item.Ausentismo == null && item.js != null">Descanso</span>
+                  </div>
+                </ng-template>
               </div>
             </div>
           </ng-container>
-          <ng-template #isAusent>
-            <span class="text-center">{{ item.Ausentismo }}</span>
-          </ng-template>
-        </div>
-        <div class="card-footer">
-          {{ item.dep }}
+          <!-- </div> -->
         </div>
       </div>
-    </ng-container>
-    <!-- </div> -->
 
-  </div>
-
+    </div>
+  </ng-container>
 </div>
