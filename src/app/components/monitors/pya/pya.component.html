@@ -2,16 +2,29 @@
   <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
 <div class="container-fluid" *ngIf="showContents">
-
+  <nav class="navbar fixed-bottom navbar-light bg-light d" *ngIf="dataSchedules && asesorIndex">
+      <div class="d-flex justify-content-start align-items-center" *ngFor="let type of rets | keys">
+        <div class="p-2">
+          <span *ngIf="type == 'a'">RT-A</span>
+          <span *ngIf="type == 'b'">RT-B</span>
+          <span *ngIf="type == 'sa'">SA</span>
+          <span *ngIf="type == 'fa'">Faltas</span>
+        </div>
+        <div class="p-2">
+          <span class="badge badge-pill" [ngClass]="{'badge-warning': type == 'a', 'badge-danger': type != 'a' }" *ngFor="let rt of rets[type] | orderBy: 'name'" placement="top" [ngbTooltip]="dataPerHour[asesorIndex[rt.id].h][asesorIndex[rt.id].k].dep" [routerLink]="['/pya']" fragment="card_{{ rt.id }}" style="cursor: pointer">{{ rt.name }}</span>
+        </div>
+      </div>
+  </nav>
   <div class="row d-flex justify-content-end">
     <div class="p-2 mr-auto">
-      <p><small>Last Update: {{ lu }}</small></p>
+      <p><small>Mostrando: {{ printTime(this.dateModel, 'dd DD MMM \'YY') }}</small></p>
+      <p><small>Última Actualización: {{ printTime(this.lu, 'HH:mm:ss dd DD MMM \'YY') }} || Recarga en {{ timeCount }} seg.</small></p>
     </div>
     <div class="p-2">
       <form class="form-inline">
         <div class="form-group">
           <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" [displayMonths]="2"
+            <input class="form-control" placeholder="yyyy-mm-dd" (select)="getSchedules()"
                    name="dp" [(ngModel)]="dateSearch" ngbDatepicker #d="ngbDatepicker">
             <button class="input-group-addon" (click)="d.toggle()" type="button" style="cursor: pointer">
               <i class="fas fa-calendar"></i>
@@ -21,14 +34,11 @@
       </form>
     </div>
     <div class="p-2">
-      <button type="button" class="btn btn-success" (click)="getSchedules()" [disabled]="loading['schedules']">Horarios <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-      <button type="button" class="btn btn-info" (click)="getLogs()" [disabled]="loading['logs']">Logs <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+      <button type="button" class="btn btn-success" (click)="getSchedules()" [disabled]="loading['schedules']">Ver Fecha <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+      <button type="button" class="btn btn-info" (click)="getLogs()" [disabled]="loading['logs']">Cargar Logs <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+      <button type="button" class="btn btn-info" (click)="showrts()" [disabled]="loading['logs']">Cargar rts <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span></button>
     </div>
   </div>
-
-  <pre>
-    {{dateModel | json}}
-  </pre>
 
   <ng-container *ngIf="dataSchedules">
     <div class="row border border-secondary" *ngFor="let hour of hrs">
@@ -45,25 +55,66 @@
 
           <!-- <div class="col" *ngFor="let item of dataSchedules | orderBy: 'nombre'"> -->
           <ng-container *ngFor="let item of dataPerHour[hour]; index as i">
-            <div class="card m-2" style="width: 16rem;">
+            <div class="card m-2" style="width: 16rem;"><a id="card_{{ item.asesor }}"></a>
               <div class="card-header text-center p-0">
                 <div class="row m-0" style="width:100%">
                   <div class="col-8 p-0 ">
-                    <p><span>{{ item.nombre }}</span></p>
-                    <p><small>{{ item.dep }}</small></p>
+                    <p><span *ngIf="alert['card_' + item.asesor]" class="text-danger animated flash infinite"><i class="fas fa-exclamation-circle fa-2x"></i></span><span>{{ item.nombre }}</span></p>
+                    <p style="font-size: smaller" class="m-0 p-0 text-primary"><small>{{ item.dep }}</small></p>
+                    <p style="font-size: smaller" class="m-0 p-0 text-info"><small>({{ item.puesto }})</small></p>
                   </div>
-                  <div class="col-lg-4  p-0 d-flex justify-content-center align-items-center bg-secondary" *ngIf="item.Ausentismo != null || item.js == item.je">
-                    <div>
-                      <h5>N/A</h5>
-                    </div>
-                  </div>
-                  <div class="col-lg-4  p-0 d-flex justify-content-center align-items-center" [ngClass]="setExcept( item.asesor, 'class' )" *ngIf="item.Ausentismo == null && item.js != item.je">
+                  <ng-template #tipContent>
+                    <table style="width: 170px" class="table table-sm table-responsive table-stripped" *ngIf="dataLogs && dataLogs[item.asesor]">
+                      <thead>
+                        <tr>
+                          <th>Log</th>
+                          <th>Hour</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="bg-success">J Login</td>
+                          <td>{{ printTime(dataLogs[item.asesor].j.in, 'HH:mm:ss') }}</td>
+                        </tr>
+                        <tr>
+                          <td class="bg-success">J Logout</td>
+                          <td>{{ printTime(dataLogs[item.asesor].j.out, 'HH:mm:ss') }}</td>
+                        </tr>
+                        <tr>
+                          <td class="bg-warning">x1 Login</td>
+                          <td>{{ printTime(dataLogs[item.asesor].x1.in, 'HH:mm:ss') }}</td>
+                        </tr>
+                        <tr>
+                          <td class="bg-warning">x1 Logout</td>
+                          <td>{{ printTime(dataLogs[item.asesor].x1.out, 'HH:mm:ss') }}</td>
+                        </tr>
+                        <tr>
+                          <td class="bg-info">x2 Login</td>
+                          <td>{{ printTime(dataLogs[item.asesor].x2.in, 'HH:mm:ss') }}</td>
+                        </tr>
+                        <tr>
+                          <td class="bg-info">x2 Logout</td>
+                          <td>{{ printTime(dataLogs[item.asesor].x2.out, 'HH:mm:ss') }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <span *ngIf="!dataLogs || !dataLogs[item.asesor]">Sin Logueos</span>
+                  </ng-template>
+                  <div class="col-lg-4  p-0 d-flex justify-content-center align-items-center" placement="top" [ngbPopover]="tipContent" popoverTitle="Logueos" [ngClass]="setExcept( item.asesor, 'class' )">
                     <div class='text-center'>
                       <h5 class='m-0'>{{ setExcept( item.asesor ) }}</h5>
                       <ng-container *ngIf="dataLogs && dataLogs[item.asesor]">
-                        <small *ngIf="compareDates(item.x1s, '<', item.js)">{{ printTime(dataLogs[item.asesor]['x1']['in'], 'HH:mm:ss') }}</small>
-                        <small *ngIf="compareDates(item.x1e, '<', item.js)">{{ printTime(dataLogs[item.asesor]['x2']['in'], 'HH:mm:ss') }}</small>
-                        <small *ngIf="compareDates(item.js, '<', item.x1s)">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
+                        <ng-container *ngIf="item.js == item.je || item.Ausentismo!= null">
+                          <small *ngIf="compareDates(dataLogs[item.asesor]['x1']['in'], '<', dataLogs[item.asesor]['j']['in'])">{{ printTime(dataLogs[item.asesor]['x1']['in'], 'HH:mm:ss') }}</small>
+                          <small *ngIf="compareDates(dataLogs[item.asesor]['j']['in'], '<', dataLogs[item.asesor]['x1']['in'])">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
+                          <small *ngIf="dataLogs[item.asesor]['x1']['in'] == null">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
+                        </ng-container>
+                        <ng-container *ngIf="item.Ausentismo == null && item.js != item.je">
+                          <small *ngIf="item.x1s != null && compareDates(item.x1s, '<', item.js)">{{ printTime(dataLogs[item.asesor]['x1']['in'], 'HH:mm:ss') }}</small>
+                          <small *ngIf="item.x2s != null && compareDates(item.x2s, '<', item.js)">{{ printTime(dataLogs[item.asesor]['x2']['in'], 'HH:mm:ss') }}</small>
+                          <small *ngIf="item.x1s != null && compareDates(item.js, '<', item.x1s)">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
+                          <small *ngIf="item.x1s == null">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
+                        </ng-container>
                       </ng-container>
                     </div>
                   </div>
@@ -81,19 +132,19 @@
 
                   <div class='d-flex justify-content-center' *ngIf="item.js != item.je && dataLogs">
                     <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x1s != item.x1e && compareDates(item.x1s, '<', item.js)">
-                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x1')" [max]="timeProcess(item.x1s, item.x1e)" height=".5rem">x1s</ngb-progressbar>
+                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x1')" [max]="timeProcess(item.x1s, item.x1e)" height="1rem">x1s</ngb-progressbar>
                     </div>
                     <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x2s != item.x2e && compareDates(item.x2s, '<', item.js)">
-                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x2')" [max]="timeProcess(item.x2s, item.x2e)" height=".5rem">x2s</ngb-progressbar>
+                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x2')" [max]="timeProcess(item.x2s, item.x2e)" height="1rem">x2s</ngb-progressbar>
                     </div>
                     <div style="width: 64%" class="p-0 border border-success rounded">
-                      <ngb-progressbar type="success" [value]="pBarVal(item.asesor, 'j')" [max]="timeProcess(item.js, item.je)" height=".5rem">j</ngb-progressbar>
+                      <ngb-progressbar type="success" [value]="pBarVal(item.asesor, 'j')" [max]="timeProcess(item.js, item.je)" height="1rem">j</ngb-progressbar>
                     </div>
                     <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x1s != item.x1e && compareDates(item.x1e, '>', item.je)">
-                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x1')" [max]="timeProcess(item.x1s, item.x1e)" height=".5rem">x1s</ngb-progressbar>
+                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x1')" [max]="timeProcess(item.x1s, item.x1e)" height="1rem">x1s</ngb-progressbar>
                     </div>
                     <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x2s != item.x2e && compareDates(item.x2e, '>', item.je)">
-                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x2')" [max]="timeProcess(item.x2s, item.x2e)" height=".5rem">x2s</ngb-progressbar>
+                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x2')" [max]="timeProcess(item.x2s, item.x2e)" height="1rem">x2s</ngb-progressbar>
                     </div>
                   </div>
                 </ng-container>

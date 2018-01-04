@@ -1,30 +1,33 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, Injectable} from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild, Injectable, NgZone, AfterViewInit } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import {NgbDateAdapter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
 import { TokenCheckService } from '../../../services/token-check.service';
 
 import * as moment from 'moment-timezone';
+declare var jQuery:any;
 
 @Injectable()
 export class NgbDateNativeAdapter extends NgbDateAdapter<Date> {
 
-  fromModel(date:any): NgbDateStruct {
-    let mom = moment(date)
-    return date ? {year: mom.format('YYYY'), month: mom.fomrat('MM'), day: mom.format('DD')} : null;
+  fromModel(date: Date): NgbDateStruct {
+    return (date && date.getFullYear) ? {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()} : null;
   }
 
-  toModel(date: NgbDateStruct): any {
-    return date ? moment(`${date.year}-${date.month}-${date.day}`).format('YYYY-MM-DD') : null;
+  toModel(date: NgbDateStruct): Date {
+    return date ? new Date(date.year, date.month - 1, date.day) : null;
   }
+
 }
 
 @Component({
   selector: 'app-pya',
   templateUrl: './pya.component.html',
-  styles: []
+  styles: [`a: { color: white }`],
+  providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 })
 export class PyaComponent implements OnInit {
 
@@ -33,7 +36,7 @@ export class PyaComponent implements OnInit {
   mainCredential:string = 'monitor_gtr'
 
   loading:Object = {}
-  dateSearch:string
+  dateSearch:Date
   dateModel:any
 
   dataPerHour = {}
@@ -44,10 +47,33 @@ export class PyaComponent implements OnInit {
   asesorIndex:Object = {}
   hrs:any = []
 
+  rts:Object = {
+    a: {},
+    b: {},
+    sa: {},
+    fa: {},
+  }
+  rets:Object = {
+    a: [],
+    b: [],
+    sa: [],
+    fa: [],
+  }
+
+  alert:Object = {}
+
+  fragment:string
+
+  timerFlag:boolean = false
+  timeCount:number
+  loopCount:number
+
   constructor( public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastsManager, vcr: ViewContainerRef,
+                private zone: NgZone,
+                private route: ActivatedRoute ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
@@ -64,7 +90,7 @@ export class PyaComponent implements OnInit {
           }
         })
 
-    this.dateSearch = moment().format('YYYY-MM-DD')
+    this.dateSearch = new Date()
 
     this.hrsBuild()
     this.getSchedules()
@@ -73,6 +99,34 @@ export class PyaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.fragment.subscribe(fragment => {
+      this.fragment = fragment;
+
+      let element = document.querySelector ( "#" + this.fragment )
+
+
+      if ( element ){
+        this.alert[fragment] = true
+        setTimeout(() => this.alert[fragment] = false, 3000)
+
+        let elementRect = element.getBoundingClientRect();
+        let absoluteElementTop = elementRect.top + window.pageYOffset;
+        let middle = absoluteElementTop - (window.innerHeight / 2);
+        window.scrollTo(0, middle);
+
+        // element.scrollIntoView(false)
+
+      }
+    });
+
+  }
+
+  ngAfterViewInit(): void {
+    try {
+      console.log(this.fragment)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   hrsBuild(){
@@ -82,9 +136,11 @@ export class PyaComponent implements OnInit {
   }
 
   getSchedules(){
+    this.dateModel = moment(this.dateSearch).format('YYYY-MM-DD')
     this.loading['schedules'] = true
+    this.timerFlag = false
 
-    this._api.restfulGet( this.dateSearch, 'Pya/horarios' )
+    this._api.restfulGet( this.dateModel, 'Pya/horarios' )
             .subscribe( res => {
 
               this.dataPerHour = {}
@@ -131,6 +187,8 @@ export class PyaComponent implements OnInit {
 
               this.asesorIndex = idIndex
               this.getLogs()
+              this.loopCount = 15
+              this.timeCount = 60
 
               console.log(this.dataPerHour)
               console.log(this.asesorIndex)
@@ -192,10 +250,23 @@ export class PyaComponent implements OnInit {
   getLogs(){
     this.loading['logs'] = true
 
-    this._api.restfulGet( this.dateSearch, 'Pya/sesiones' )
+    this._api.restfulGet( this.dateModel, 'Pya/sesiones' )
             .subscribe( res => {
 
               this.dataLogs = {}
+              this.rts = {
+                a: {},
+                b: {},
+                sa: {},
+                fa: {}
+              }
+
+              this.rets = {
+                a: [],
+                b: [],
+                sa: [],
+                fa: [],
+              }
 
               this.loading['logs'] = false
 
@@ -204,16 +275,25 @@ export class PyaComponent implements OnInit {
                 this.isInside( it.login, it.logout, it.asesor )
               }
 
-              this.lu = moment.tz(res.lu['lu'],'America/Mexico_city').tz('America/Bogota').format("HH:mm:ss DD MMM 'YY")
+              this.lu = res.lu['lu']
+
+              this.timeCount = 120
+              this.timerFlag = true
+              this.timerLoad()
 
               console.log(res)
-              console.log(this.dataLogs)
+              console.log( this.lu )
+              console.log("DataLogs", this.dataLogs)
 
 
             }, err => {
               console.log("ERROR", err)
 
               this.loading['logs'] = false
+
+              this.timeCount = 30
+              this.timerFlag = true
+              this.timerLoad()
 
               let error = err.json()
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
@@ -228,9 +308,26 @@ export class PyaComponent implements OnInit {
 
     let logs = {}
 
-    logs['j']   = this.compareLogsIn( login, logout, sch, 'j')
-    logs['x1']  = this.compareLogsIn( login, logout, sch, 'x1')
-    logs['x2']  = this.compareLogsIn( login, logout, sch, 'x2')
+    if( sch.js == sch.je ){
+      logs  = {
+        j: {
+          in: login,
+          out: logout
+        },
+        x1: {
+          in: null,
+          out: null
+        },
+        x2: {
+          in: null,
+          out: null
+        }
+      }
+    }else{
+      logs['j']   = this.compareLogsIn( login, logout, sch, 'j')
+      logs['x1']  = this.compareLogsIn( login, logout, sch, 'x1')
+      logs['x2']  = this.compareLogsIn( login, logout, sch, 'x2')
+    }
 
     if( this.dataLogs[asesor] ){
       this.pushCompareDates(asesor, logs, 'j', 'in')
@@ -328,7 +425,7 @@ export class PyaComponent implements OnInit {
     }
 
 
-    return parseInt( info['out'].format( 'x' ) ) - parseInt( info['js'].format( 'x' ) )
+    return parseInt( info['out'].format( 'x' ) ) - parseInt( info['in'].format( 'x' ) )
   }
 
   setExcept( asesor, type = 'exception'){
@@ -337,6 +434,8 @@ export class PyaComponent implements OnInit {
       exp   : null,
       class : null
     }
+
+    let flagAus = false
 
     if( !this.dataLogs ){
       result['exp'] = "..."
@@ -351,6 +450,7 @@ export class PyaComponent implements OnInit {
 
     let now = moment()
     let sch   = this.dataPerHour[this.asesorIndex[asesor].h][this.asesorIndex[asesor].k]
+
     let info = {
       in    : null,
       out   : null,
@@ -358,24 +458,37 @@ export class PyaComponent implements OnInit {
       je    : moment.tz(sch[`je`], 'America/Mexico_city').tz("America/Bogota"),
     }
 
+    if( sch.Ausentismo != null || sch.js == sch.je ){
+      flagAus = true
+    }
+
     if( !this.dataLogs[asesor] ){
 
-      if( now > info['js'].clone().add(1, 'minutes') ){
-        if( now >= info['js'].clone().add(13, 'minutes') ){
-          if( now > info['js'].clone().add(60, 'minutes') ){
-            result['exp'] = "FA"
-            result['class'] = "bg-danger"
+      if( !flagAus ){
+
+        if( now > info['js'].clone().add(1, 'minutes') ){
+          if( now >= info['js'].clone().add(13, 'minutes') ){
+            if( now > info['js'].clone().add(60, 'minutes') ){
+              result['exp'] = "FA"
+              result['class'] = "bg-danger"
+
+              this.listRts( type, asesor, 'fa' )
+            }else{
+              result['exp'] = "RT-B"
+              result['class'] = "bg-warning"
+            }
           }else{
-            result['exp'] = "RT-B"
+            result['exp'] = "RT-A"
             result['class'] = "bg-warning"
           }
         }else{
-          result['exp'] = "RT-A"
-          result['class'] = "bg-warning"
+          result['exp'] = "..."
+          result['class'] = ""
         }
+
       }else{
         result['exp'] = "..."
-        result['class'] = ""
+        result['class'] = "bg-secondary"
       }
 
     }else{
@@ -391,38 +504,75 @@ export class PyaComponent implements OnInit {
           result['class'] = "bg-info"
         }else{
 
-          if( now > info['js'].clone().add(1, 'minutes') ){
-            if( now >= info['js'].clone().add(13, 'minutes') ){
-              if( now > info['js'].clone().add(30, 'minutes') ){
-                result['exp'] = "FA"
-                result['class'] = "bg-danger"
+          if( !flagAus ){
+
+            if( now > info['js'].clone().add(1, 'minutes') ){
+              if( now >= info['js'].clone().add(13, 'minutes') ){
+                if( now > info['js'].clone().add(60, 'minutes') ){
+                  result['exp'] = "FA"
+                  result['class'] = "bg-danger"
+
+                  this.listRts( type, asesor, 'fa' )
+                }else{
+                  result['exp'] = "RT-B"
+                  result['class'] = "bg-warning"
+                }
               }else{
-                result['exp'] = "RT-B"
+                result['exp'] = "RT-A"
                 result['class'] = "bg-warning"
               }
             }else{
-              result['exp'] = "RT-A"
-              result['class'] = "bg-warning"
+              result['exp'] = "..."
+              result['class'] = ""
             }
+
           }else{
             result['exp'] = "..."
-            result['class'] = ""
+            result['class'] = "bg-secondary"
           }
 
         }
 
       }else{
 
-        if( info.in > info['js'].clone().add(1, 'minutes') ){
-          if( info.in >= info['js'].clone().add(13, 'minutes') ){
-            result['exp'] = "RT-B"
-            result['class'] = "bg-warning animate flash infinite"
+        if( !flagAus ){
+
+          if( info.in > info['js'].clone().add(1, 'minutes') ){
+            if( info.in >= info['js'].clone().add(13, 'minutes') ){
+              result['exp'] = "RT-B"
+              result['class'] = "bg-warning animated flash infinite"
+
+              this.listRts( type, asesor, 'b' )
+
+              if( this.checkSA( now, info.je, info.out, type, asesor ) ){
+                result['exp'] = "RT-B / SA"
+                result['class'] = "bg-danger"
+              }
+            }else{
+              result['exp'] = "RT-A"
+              result['class'] = "bg-warning"
+
+              this.listRts( type, asesor, 'a' )
+
+              if( this.checkSA( now, info.je, info.out, type, asesor ) ){
+                result['exp'] = "RT-A / SA"
+                result['class'] = "bg-danger"
+              }
+            }
           }else{
-            result['exp'] = "RT-A"
-            result['class'] = "bg-warning"
+            result['exp'] = "OK"
+            result['class'] = "bg-success"
+
+            if( this.checkSA( now, info.je, info.out, type, asesor ) ){
+              result['exp'] = "OK / SA"
+              result['class'] = "bg-danger"
+            }
           }
+
+
+
         }else{
-          result['exp'] = "OK"
+          result['exp'] = "L-In"
           result['class'] = "bg-success"
         }
 
@@ -435,6 +585,19 @@ export class PyaComponent implements OnInit {
       return result['class']
     }
 
+  }
+
+  checkSA( now, je, out, type, asesor ){
+    if( now > je && moment.tz(this.lu, 'America/Mexico_city').tz("America/Bogota") > je ){
+      if( out < je ){
+
+        this.listRts( type, asesor, 'sa' )
+
+        return true
+      }
+    }
+
+    return false
   }
 
   compareDates( a, type, b ){
@@ -476,6 +639,52 @@ export class PyaComponent implements OnInit {
 
     return false
 
+  }
+
+  timerLoad(){
+    if( this.timerFlag ){
+      if( this.timeCount == 0 ){
+        this.loopCount--
+
+        if( this.loopCount == 0 ){
+          this.getSchedules()
+        }else{
+          this.getLogs()
+        }
+      }else{
+        if( this.timeCount > 0){
+          this.timeCount--
+          setTimeout( () => {
+          this.timerLoad()
+          }, 1000 )
+        }
+      }
+    }
+  }
+
+  showrts(){
+    console.log(this.rts)
+    console.log(this.rets)
+  }
+
+  containsObject(val, compare, list) {
+    let i;
+    for (i = 0; i < list.length; i++) {
+        if (list[i][compare] == val) {
+            return true;
+        }
+    }
+
+    return false;
+  }
+
+  listRts( type, asesor, rt ){
+    if( type == 'exception' ){
+      let obj = { id: asesor, name: this.dataPerHour[this.asesorIndex[asesor].h][this.asesorIndex[asesor].k].nombre }
+      if( !this.containsObject( asesor, 'id', this.rets[rt] ) ){
+          this.rets[rt].push(obj)
+      }
+    }
   }
 
 
