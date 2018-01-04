@@ -42,6 +42,7 @@ export class PyaComponent implements OnInit {
   dataPerHour = {}
   dataLogs:any
   dataSchedules:any
+  dataExceptions:Object = {}
   lu:any
 
   asesorIndex:Object = {}
@@ -67,6 +68,9 @@ export class PyaComponent implements OnInit {
   timerFlag:boolean = false
   timeCount:number
   loopCount:number
+
+  popOvers:Object = {}
+  killProcess:boolean = false
 
   constructor( public _api: ApiService,
                 private _init:InitService,
@@ -121,13 +125,6 @@ export class PyaComponent implements OnInit {
 
   }
 
-  ngAfterViewInit(): void {
-    try {
-      console.log(this.fragment)
-    } catch (e) {
-      console.error(e)
-    }
-  }
 
   hrsBuild(){
     for(let i = -1; i < 48; i++){
@@ -139,12 +136,14 @@ export class PyaComponent implements OnInit {
     this.dateModel = moment(this.dateSearch).format('YYYY-MM-DD')
     this.loading['schedules'] = true
     this.timerFlag = false
+    this.killProcess = true
 
     this._api.restfulGet( this.dateModel, 'Pya/horarios' )
             .subscribe( res => {
 
               this.dataPerHour = {}
               this.asesorIndex = {}
+              this.dataExceptions = {}
 
               this.loading['schedules'] = false
               this.dataSchedules = res.data
@@ -248,27 +247,22 @@ export class PyaComponent implements OnInit {
   }
 
   getLogs(){
+
     this.loading['logs'] = true
+    this.timerFlag = false
+    this.killProcess = true
 
     this._api.restfulGet( this.dateModel, 'Pya/sesiones' )
             .subscribe( res => {
 
               this.dataLogs = {}
-              this.rts = {
-                a: {},
-                b: {},
-                sa: {},
-                fa: {}
-              }
-
+              this.dataExceptions = {}
               this.rets = {
                 a: [],
                 b: [],
                 sa: [],
                 fa: [],
               }
-
-              this.loading['logs'] = false
 
               for( let item in res.data ){
                 let it = res.data[item]
@@ -277,13 +271,7 @@ export class PyaComponent implements OnInit {
 
               this.lu = res.lu['lu']
 
-              this.timeCount = 120
-              this.timerFlag = true
-              this.timerLoad()
-
-              console.log(res)
-              console.log( this.lu )
-              console.log("DataLogs", this.dataLogs)
+              this.getExceptions()
 
 
             }, err => {
@@ -291,6 +279,7 @@ export class PyaComponent implements OnInit {
 
               this.loading['logs'] = false
 
+              this.killProcess = false
               this.timeCount = 30
               this.timerFlag = true
               this.timerLoad()
@@ -301,6 +290,45 @@ export class PyaComponent implements OnInit {
 
             })
   }
+
+  getExceptions(){
+    this.loading['logs'] = true
+    this.timerFlag = false
+
+    this._api.restfulGet( this.dateModel, 'Pya/exceptions' )
+            .subscribe( res => {
+
+              this.dataExceptions = {}
+
+              this.loading['logs'] = false
+
+              for( let item of res.data ){
+                this.dataExceptions[item.asesor] = item
+              }
+
+              this.killProcess =false
+              this.timeCount = 120
+              this.timerFlag = true
+              this.timerLoad()
+
+
+            }, err => {
+              console.log("ERROR", err)
+
+              this.loading['logs'] = false
+
+              this.killProcess =false
+              this.timeCount = 30
+              this.timerFlag = true
+              this.timerLoad()
+
+              let error = err.json()
+              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              console.error(err.statusText, error.msg)
+
+            })
+  }
+
 
   isInside( login, logout, asesor ){
 
@@ -582,6 +610,9 @@ export class PyaComponent implements OnInit {
     if( type == 'exception' ){
       return result['exp']
     }else{
+      if( this.dataExceptions[asesor] ){
+        return 'bg-primary text-white'
+      }
       return result['class']
     }
 
@@ -641,7 +672,12 @@ export class PyaComponent implements OnInit {
 
   }
 
-  timerLoad(){
+  timerLoad( pause = false ){
+
+    if(this.killProcess){
+      return true
+    }
+
     if( this.timerFlag ){
       if( this.timeCount == 0 ){
         this.loopCount--
@@ -659,12 +695,17 @@ export class PyaComponent implements OnInit {
           }, 1000 )
         }
       }
+    }else{
+      if( pause ){
+        setTimeout( () => {
+        this.timerLoad( true )
+        }, 1000 )
+      }
     }
   }
 
   showrts(){
-    console.log(this.rts)
-    console.log(this.rets)
+    console.log(this.dataExceptions)
   }
 
   containsObject(val, compare, list) {
@@ -685,6 +726,24 @@ export class PyaComponent implements OnInit {
           this.rets[rt].push(obj)
       }
     }
+  }
+
+  popOv( asesor, open ){
+    this.popOvers[asesor] = open
+    // console.log(this.popOvers)
+
+    for(let i in this.popOvers ){
+      if( this.popOvers[i] ){
+        this.timerFlag = false
+        this.timerLoad( true )
+        return true
+      }
+    }
+
+    setTimeout( () => {
+      this.timerFlag = true
+      return true
+    }, 1000)
   }
 
 
