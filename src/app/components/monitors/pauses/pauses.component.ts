@@ -205,13 +205,13 @@ export class PausesComponent implements OnInit {
 
     let reference = {
       'total PNP'   : 18,
-      'total Comida': 31,
+      'total Comida': 34,
       'total Mesa'  : 46,
       'PNP over 5'  : 1,
       'ACW over 2'  : 1,
-      'det Pausa No Productiva' : 6,
-      'det ACW'                 : 3,
-      'det Comida'              : 31,
+      'det Pausa No Productiva' : 9,
+      'det ACW'                 : 5,
+      'det Comida'              : 36,
       'det Mesa de Hospitalidad': 46,
       'por revisar'             : 1
     }
@@ -254,6 +254,7 @@ export class PausesComponent implements OnInit {
     let item = this.pauseData[index]
 
     this.flagForm = true
+    this.flagApply = false
 
     this.form['ix'] = index
     this.form['ixPausa'] = ixPausa
