@@ -33,7 +33,7 @@ export class PyaComponent implements OnInit {
 
   currentUser: any
   showContents:boolean = false
-  mainCredential:string = 'monitor_gtr'
+  mainCredential:string = 'monitor_pya'
 
   loading:Object = {}
   dateSearch:Date
