@@ -41,6 +41,9 @@ export class PausesComponent implements OnInit {
   pauseData:any
   lu:any
 
+  timerFlag:boolean = true
+  timeCount:number = 180
+
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
@@ -83,17 +86,24 @@ export class PausesComponent implements OnInit {
   getPauses( date ){
     // console.log('getting pauses...')
     this.loading['Pauses'] = true
+    this.timerFlag = false
 
     this._api.restfulGet( date, 'Pausemon/pauseMon' )
               .subscribe( res => {
                 this.loading['Pauses'] = false
                 this.pauseData = this.organizeData( res.data['data'] )
                 this.lu = res.data['lu']
-                // console.log( this.pauseData )
-                // console.log( res )
+
+                this.timerFlag = true
+                this.timeCount = 180
+                this.timerLoad()
 
               }, err => {
                 console.log("ERROR", err)
+
+                this.timerFlag = true
+                this.timeCount = 20
+                this.timerLoad()
 
                 let error = err.json()
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
@@ -101,7 +111,7 @@ export class PausesComponent implements OnInit {
                 this.loading['Pauses'] = false
               })
 
-    setTimeout( () => this.getPauses( this.dateMonitor ), 150000 )
+
   }
 
   organizeData( data ){
@@ -312,6 +322,25 @@ export class PausesComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  timerLoad( pause = false ){
+
+    if( this.timerFlag ){
+      if( this.timeCount == 0 ){
+
+          this.getPauses( this.dateMonitor )
+
+      }else{
+        if( this.timeCount > 0){
+          this.timeCount--
+          setTimeout( () => {
+          this.timerLoad()
+          }, 1000 )
+        }
+      }
+    }
+
   }
 
 }
