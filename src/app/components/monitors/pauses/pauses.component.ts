@@ -21,6 +21,9 @@ export class PausesComponent implements OnInit {
   processLoading:boolean = false
   mainCredential:string = 'monitor_gtr'
 
+  orderBy:string = 'nombre'
+  orderDesc:boolean = false
+
   loading:any = {}
   dateMonitor:any
   dateMonRaw:Object = {
@@ -43,6 +46,9 @@ export class PausesComponent implements OnInit {
 
   timerFlag:boolean = true
   timeCount:number = 180
+
+  collectSize:number = 0
+  page:number = 1
 
   constructor(public _api: ApiService,
                 private _init:InitService,
@@ -92,6 +98,7 @@ export class PausesComponent implements OnInit {
               .subscribe( res => {
                 this.loading['Pauses'] = false
                 this.pauseData = this.organizeData( res.data['data'] )
+                this.pagination()
                 this.lu = res.data['lu']
 
                 this.timerFlag = true
@@ -342,6 +349,47 @@ export class PausesComponent implements OnInit {
       }
     }
 
+  }
+
+  chgOrder( field ){
+    if( field == this.orderBy ){
+      this.orderDesc = !this.orderDesc
+    }else{
+      this.orderBy = field
+      this.orderDesc = false
+    }
+
+    this.pauseData = this.orderObj( this.pauseData, field, this.orderDesc )
+
+    this.pagination()
+  }
+
+  pagination(){
+    this.collectSize = this.pauseData.length
+  }
+
+  orderObj( obj, field, desc = false ){
+
+    let keys = []
+    let index = {}
+    let result = []
+
+    for( let i in obj ){
+      keys.push(`${obj[i][field]}|${obj[i]['nombre']}`)
+      index[`${obj[i][field]}|${obj[i]['nombre']}`] = i
+    }
+
+    keys.sort()
+
+    if( desc ){
+      keys.reverse()
+    }
+
+    for(let k of keys){
+      result.push(obj[index[k]])
+    }
+
+    return result
   }
 
 }

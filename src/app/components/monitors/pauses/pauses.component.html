@@ -31,18 +31,20 @@
     </div>
   </div>
 
-
+  <ngb-pagination [collectionSize]="collectSize" [(page)]="page" [boundaryLinks]="true" [pageSize]="20"></ngb-pagination>
   <table class="table table-sm table-responsive table-stripped" *ngIf="pauseData">
     <thead>
       <tr>
         <th class="text-capitalize" *ngFor="let field of pauseData[0] | keys">
-          {{ field }}
+          <button type="button" class="btn btn-link" (click)="chgOrder( field )">{{ field }}</button>
+
         </th>
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let item of pauseData | orderBy: 'nombre'; index as i" >
-        <tr>
+      <!-- <ng-container *ngFor="let item of pauseData | orderBy: 'nombre'; index as i" > -->
+      <ng-container *ngFor="let item of pauseData; index as i" >
+        <tr *ngIf="i >= (page-1)*20 && i < (page*20)">
           <ng-container *ngFor="let field of item | keys">
             <td
               class='text-center'
@@ -119,7 +121,7 @@
                         </div>
                       </div>
                     </li>
-                    <ng-container *ngIf="flagForm && form['pausa'] == pause['id']"> 
+                    <ng-container *ngIf="flagForm && form['pausa'] == pause['id']">
                       <li class="list-group-item" *ngIf="!flagApply">
                         <div class="d-flex justify-content-start align-items-center">
                           <span>Caso</span>
