@@ -1,0 +1,55 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <span><h1 class="display-3">Prenómina</h1></span>
+            <p class="lead">Consulta los resultados de prenómina para Operaciones</p>
+          </div>
+          <div>
+            <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <p>Schedules... <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="dataSchedules && !loading['schedules']">Done!</span></p>
+      <p>Asesores... <span *ngIf="loading['asesores']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="dataAsesores && !loading['asesores']">Done!</span></p>
+      <p>Logs... <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="dataSchedules && !loading['logs']">Done!</span></p>
+      <p>Ausentismos... <span *ngIf="loading['ausentismos']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="dataAusentismos && !loading['ausentismos']">Done!</span></p>
+      <p>Building Logs... <span *ngIf="loading['building']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="built && !loading['building']">Done!</span></p>
+    </div>
+
+    <div class="container-fluid" *ngIf="built">
+      <table class="table table-responsive table-sm table-stripped">
+        <thead>
+          <tr>
+            <th *ngFor="let field of dataAsesores[0] | keys">{{ field }}</th>
+            <th>H. Extra</th>
+            <th>Prenom</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rac of dataAsesores">
+            <td *ngFor="let field of rac | keys">{{ rac[field] }}</td>
+            <ng-container *ngIf="dataPrenom[rac['asesor']]; else noLog">
+              <td>{{ (dataPrenom[rac['asesor']].hx).toFixed(2) }}</td>
+              <td>
+                <pre>{{ dataPrenom[rac['asesor']] | json }}</pre>
+              </td>
+            </ng-container>
+            <ng-template #noLog>
+              <td>NA</td>
+              <td>NA</td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
