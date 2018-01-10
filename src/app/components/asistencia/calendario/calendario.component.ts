@@ -61,7 +61,7 @@ export class CalendarioComponent implements OnInit {
 
   ngOnInit() {
      this.calendarOptions = {
-        editable: true,
+        editable: false,
         eventLimit: false,
         firstDay: 1,
         fixedWeekCount: false,
