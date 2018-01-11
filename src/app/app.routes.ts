@@ -31,6 +31,7 @@ import { RnComponent } from './components/monitors/venta/rn.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 import { FamsComponent } from './components/config/fams/fams.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
+import { AusentismosComponent } from './components/asistencia/ausentismos/ausentismos.component';
 import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
 
 const APP_ROUTES: Routes = [
@@ -63,6 +64,7 @@ const APP_ROUTES: Routes = [
 
   // Asistencia
   { path: 'asistencia/calendario', component: CalendarioComponent },
+  { path: 'asistencia/ausentismos', component: AusentismosComponent },
 
   // Reportes
   { path: 'cuartiles', component: CuartilesComponent },

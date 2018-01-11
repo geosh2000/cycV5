@@ -103,7 +103,8 @@ import { UploadFilesComponent } from './components/formularios/upload-files.comp
 import { PausesComponent } from './components/monitors/pauses/pauses.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
 import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
-import { PrenominaComponent } from './components/rrhh/prenomina/prenomina.component'; 
+import { PrenominaComponent } from './components/rrhh/prenomina/prenomina.component';
+import { AusentismosComponent } from './components/asistencia/ausentismos/ausentismos.component';
 
 
 declare let jQuery : Object;
@@ -195,7 +196,8 @@ registerLocaleData(localeEsMX)
     PausesComponent,
     CalendarioComponent,
     AleatoriedadComponent,
-    PrenominaComponent
+    PrenominaComponent,
+    AusentismosComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,186 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <div class="d-flex justify-content-start align-items-baseline">
+              <span><h1 class="display-3">Ausentismos</h1></span>
+              <span *ngIf="searchStrName" class='pl-4'><h3> - {{ nameShow }}</h3></span>
+            </div>
+            <p class="lead">Registra, modifica y consulta ausentismos de los asesores</p>
+          </div>
+          <div>
+            <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="container d-flex align-items-center" *ngIf="!newShow">
+
+        <div class="input-group mb-3" >
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"><i class="fas fa-user fa-fw"></i></span>
+          </div>
+          <ng2-completer style="z-index: 100"
+            class="form-control customCompleteHome"
+            [(ngModel)]="searchStrName"
+            [datasource]="dataServiceName"
+            [minSearchLength]="0"
+            [clearSelected]="false"
+            [selectOnFocus]="false"
+            [selectOnClick]="true"
+            [fillHighlighted]="false"
+            (selected)="onSelected($event)"
+            placeholder="Nombre">
+          </ng2-completer>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container-fluid" *ngIf="newShow">
+      <p *ngIf="loading['tipos']">Loading Tipos de Ausentismo... <i class="fas fa-spinner fa-pulse"></i></p>
+
+      <div class="row" *ngIf="dataTipos">
+        <div class="col-3">
+
+          <!-- TIPO DE AUSENTISMO -->
+          <div class="row p-2" *ngIf="dataTipos">
+            <div class="d-flex align-items-center">
+              <div class="btn-group dropright">
+                <button type="button" [style.width.px]="270" class="btn btn-info text-left">Ausentismo: {{ (index['aus'] || index['aus']==0) ? dataTipos[index['aus']].Ausentismo : '' }}</button>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropright</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <button type="button" class="dropdown-item" (click)="chgType(i, 'aus')" *ngFor="let item of dataTipos; index as i">{{ item.Ausentismo }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-container *ngIf="index['aus'] || index['aus']==0">
+            <!-- Dias -->
+            <div class="row p-2">
+              <div class="d-flex align-items-center">
+                <div class="btn-group dropright animated fadeIn">
+                  <button type="button" [style.width.px]="270" class="btn btn-info text-left">Dias: {{ (index['days'] || index['days']==0) ? daysOpts[index['days']] : 0 }}</button>
+                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropright</span>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <ng-container *ngFor="let item of daysOpts; index as i">
+                      <button type="button" class="dropdown-item" (click)="chgType(i, 'days')" *ngIf="item > 0">{{ item }}</button>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- DESCANSOS -->
+            <div class="row p-2">
+              <div class="d-flex align-items-center">
+                <div class="btn-group dropright animated fadeIn">
+                  <button type="button" [style.width.px]="270" class="btn btn-info text-left">Descansos: {{ (index['descansos'] || index['descansos']==0) ? daysOpts[index['descansos']] : 0 }}</button>
+                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropright</span>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <ng-container *ngFor="let item of daysOpts; index as i">
+                      <button type="button" class="dropdown-item" (click)="chgType(i, 'descansos')" *ngIf="item <= (daysOpts[index['days']]/7 + 1)+2">{{ item }}</button>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Beneficios -->
+            <div class="row p-2">
+              <div class="d-flex align-items-center">
+                <div class="btn-group dropright animated fadeIn">
+                  <button type="button" [ngClass]="{'btn-secondary': !(dataTipos[index['aus']].Ausentismo == 'Vacaciones'), 'btn-info': (dataTipos[index['aus']].Ausentismo == 'Vacaciones')}" [style.width.px]="270" class="btn text-left">Beneficios: {{ (index['bf'] || index['bf']==0) ? daysOpts[index['bf']] : 0 }}</button>
+                  <button type="button" [ngClass]="{'btn-secondary': !(dataTipos[index['aus']].Ausentismo == 'Vacaciones'), 'btn-info': (dataTipos[index['aus']].Ausentismo == 'Vacaciones')}" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="!(dataTipos[index['aus']].Ausentismo == 'Vacaciones')">
+                    <span class="sr-only">Toggle Dropright</span>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <ng-container *ngFor="let item of daysOpts; index as i">
+                      <button type="button" class="dropdown-item" [ngClass]="{'disabled': !(dataTipos[index['aus']].Ausentismo == 'Vacaciones')}" (click)="chgType(i, 'bf')" *ngIf="item <= (daysOpts[index['days']]/5)" [disabled]="!(dataTipos[index['aus']].Ausentismo == 'Vacaciones')">{{ item }}</button>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FECHA -->
+            <div class="row p-2">
+              <div class="">
+                <button type="button" [style.width.px]="310" class="btn btn-info text-left">Fecha: {{ dateSelected }}</button>
+                <div class="d-flex justify-content-center" [style.width.px]="310">
+                  <ngb-datepicker #dp [(ngModel)]="startDate" (ngModelChange)="chgDate()" [displayMonths]="1" #d>
+                  </ngb-datepicker>
+                </div>
+              </div>
+            </div>
+
+            <!-- Configurar -->
+            <div class="row p-2">
+              <div class="d-flex align-items-center">
+                <div class="btn-group dropright animated fadeIn">
+                  <button type="button" [style.width.px]="270" class="btn btn-success text-left">Configurar</button>
+                  <button type="button" class="btn btn-success dropdown-toggle" (click)="config()" [disabled]="!validateCreate()">
+                    <span class="sr-only">Toggle Dropright</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+        </div>
+        <div class="col-9" >
+          <div class="alert alert-info text-center" role="alert">
+            Asesor: {{ nameShow | capitalizado }} || Ausentismo: {{ index['aus'] ? dataTipos[index['aus']].Ausentismo : 'por seleccionar...'}}
+          </div>
+          <div class='container' *ngIf="configShow">
+            <div class="row">
+              <div class="col-4">
+                <button type="button" class="btn btn-block btn-info">Ausentismos: {{ configDates['A'] }}</button>
+              </div>
+              <div class="col-4">
+                <button type="button" class="btn btn-block btn-warning">Descansos: {{ configDates['D'] }}</button>
+              </div>
+              <div class="col-4">
+                <button type="button" class="btn btn-block btn-primary">Beneficios: {{ configDates['B'] }}</button>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-2" *ngFor="let date of configDates['dates'] | keys">
+                <div class="card mb-3" [ngClass]="{'text-black bg-light': configDates['dates'][date] == '', 'text-white bg-info': configDates['dates'][date] == 'A', 'text-black bg-warning': configDates['dates'][date] == 'D', 'text-white bg-primary': configDates['dates'][date] == 'B'}" style="width: 10rem;">
+                  <div class="card-header text-center">{{ printDate(date,'ddd DD MMM') }}</div>
+                  <div class="card-body">
+                    <h5 class="card-title text-center">{{ configDates['dates'][date] }}</h5>
+                      <div class="d-flex justify-content-center">
+                        <div class="p-2"><button (click)="assign('A', date)" type="button" class="btn btn-sm" [ngClass]="btnClass('A',configDates['dates'][date])" [disabled]="(configDates['dates'][date] != '' && configDates['dates'][date] != 'A') || (configDates['A'] == 0 && configDates['dates'][date] != 'A') || (configDates['D']+configDates['B']) == 0">A <span *ngIf="configDates['dates'][date] == 'A' && (configDates['D']+configDates['B']) > 0"><i class="far fa-trash-alt"></i></span></button></div>
+                        <div class="p-2"><button (click)="assign('D', date)" type="button" class="btn btn-sm" [ngClass]="btnClass('D',configDates['dates'][date])" [disabled]="(configDates['dates'][date] != '' && configDates['dates'][date] != 'D') || (configDates['D'] == 0 && configDates['dates'][date] != 'D')">D <span *ngIf="configDates['dates'][date] == 'D'"><i class="far fa-trash-alt"></i></span></button></div>
+                        <div class="p-2"><button (click)="assign('B', date)" type="button" class="btn btn-sm" [ngClass]="btnClass('B',configDates['dates'][date])" [disabled]="(configDates['dates'][date] != '' && configDates['dates'][date] != 'B') || (configDates['B'] == 0 && configDates['dates'][date] != 'B')">B <span *ngIf="configDates['dates'][date] == 'B'"><i class="far fa-trash-alt"></i></span></button></div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-end">
+            <button type="button" class="p-2 m-1 btn btn-success" [disabled]="configDates['A']+configDates['B']+configDates['D']!=0">Guardar</button>
+            <button type="button" class="p-2 m-1 btn btn-danger" (click)="xld()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+
+
+  </div>
