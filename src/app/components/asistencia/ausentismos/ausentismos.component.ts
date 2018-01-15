@@ -32,14 +32,18 @@ export class AusentismosComponent implements OnInit {
 
   dataTipos:any
   daysOpts:any
+  caso:any = ''
+  notas:any = ''
 
   index:Object = {}
   startDate:any
   dateSelected:any
+  diasPendientes:any
   configDates:Object = {}
 
   configShow:boolean = false
   newShow:boolean = false
+  formData:any = []
 
 
   protected searchStrName:string;
@@ -124,6 +128,8 @@ export class AusentismosComponent implements OnInit {
               this.loading['tipos'] = false
               this.dataTipos = res.data
 
+              console.log(this.dataTipos)
+
             }, err => {
               console.log("ERROR", err)
 
@@ -147,12 +153,27 @@ export class AusentismosComponent implements OnInit {
         descansos : 0,
         bf        : 0
       }
+
+      if( this.dataTipos[index].Ausentismo == 'Descanso Pendiente' ){
+        this.getPendientes()
+      }
+    }
+
+    if( type == 'pendiente' ){
+      this.index['days'] = 0
+    }
+
+    if( type == 'days' ){
+      this.index['descansos'] = 0
+      this.index['bf'] = 0
     }
   }
 
   chgDate(){
     console.log("change")
     this.dateSelected = moment(`${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`).format('YYYY-MM-DD')
+
+    jQuery('#calendar').collapse('hide')
   }
 
   config(){
@@ -164,10 +185,12 @@ export class AusentismosComponent implements OnInit {
         totalDays = a + b + d
 
     this.configDates = {
-      A: a,
-      B: b,
-      D: d,
-      dates: {}
+      A         : a,
+      B         : b,
+      D         : d,
+      caso      : this.caso,
+      comments  : this.notas,
+      dates     : {}
     }
 
     for(let i=0; i < totalDays; i++ ){
@@ -185,9 +208,43 @@ export class AusentismosComponent implements OnInit {
       }
     }
 
-    this.configShow = true
-    this.autoFill()
+    this.validateDates()
 
+  }
+
+  validateDates(){
+    this.loading['config'] = true
+
+    let params = {
+      asesor  : this.asesorShow,
+      dates   : []
+    }
+    for(let date in this.configDates['dates']){
+      params.dates.push(date)
+    }
+
+
+    this._api.restfulPut( params, 'Asistencia/validateDates' )
+            .subscribe( res => {
+
+              this.loading['config'] = false
+              if( res.data == 0 ){
+                this.configShow = true
+                this.autoFill()
+              }else{
+                this.toastr.error( "Existe un ausentismo que cruza con las fechas seleccionadas", `Fecha no asignable` )
+              }
+
+            }, err => {
+              console.log("ERROR", err)
+
+              this.loading['config'] = false
+
+              let error = err.json()
+              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              console.error(err.statusText, error.msg)
+
+            })
   }
 
   btnClass( type, item ){
@@ -263,6 +320,103 @@ export class AusentismosComponent implements OnInit {
 
   xld(){
     this.newShow = false
+    this.caso = ''
+    this.notas= ''
+  }
+
+  save(){
+    this.loading['save'] = true
+
+    let dates = []
+    let i = 0
+
+    for( let date in this.configDates['dates'] ){
+
+      let type = {
+        a: 0,
+        b: 0,
+        d: 0
+      }
+      type[ this.configDates['dates'][date].toLowerCase() ] = 1
+
+      let arr = {
+        asesor      : this.asesorShow,
+        ausentismo  : this.dataTipos[this.index['aus']].id,
+        Fecha       : `'${date}'`,
+        a           : type['a'],
+        b           : type['b'],
+        d           : type['d'],
+        caso        : `'${this.configDates['caso']}'`,
+        comments    : `'${this.configDates['comments']}'`,
+        changed_by  : this.currentUser.hcInfo.id
+      }
+
+      dates.push(arr)
+
+      i++
+    }
+
+    this.formData = dates
+
+    this.savePut()
+  }
+
+  savePut(){
+    this.loading['save'] = true
+
+    this._api.restfulPut( this.formData, 'Asistencia/saveAus' )
+              .subscribe( res => {
+
+                this.loading['save'] = false
+                if( res.data ){
+                  this.xld()
+                  this.toastr.error( "Ausentismo guardado Correctamente", `Guardado` )
+                }else{
+                  this.toastr.error( "No se guardó correctamente", `Error` )
+                }
+
+              }, err => {
+                console.log("ERROR", err)
+
+                this.loading['save'] = false
+
+                let error = err.json()
+                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                console.error(err.statusText, error.msg)
+
+              })
+  }
+
+  getPendientes(){
+    this.loading['pendientes'] = true
+
+    this._api.restfulGet( this.asesorShow, 'Asistencia/diasPendientes' )
+            .subscribe( res => {
+
+              this.loading['pendientes'] = false
+
+              if( res.num > 0 ){
+                this.diasPendientes = res.data
+              }else{
+                this.toastr.error( "Este asesor no cuenta con días pendientes por redimir", `Sin Pendientes` )
+                this.index['aus'] = ''
+              }
+
+              // console.log(res.data)
+
+            }, err => {
+              console.log("ERROR", err)
+
+              this.loading['pendientes'] = false
+
+              let error = err.json()
+              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              console.error(err.statusText, error.msg)
+
+              this.index['aus'] = ''
+
+            })
+
   }
 
 }

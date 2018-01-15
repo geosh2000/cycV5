@@ -46,7 +46,7 @@
       <p *ngIf="loading['tipos']">Loading Tipos de Ausentismo... <i class="fas fa-spinner fa-pulse"></i></p>
 
       <div class="row" *ngIf="dataTipos">
-        <div class="col-3">
+        <div class="col-3" style="z-index: 20">
 
           <!-- TIPO DE AUSENTISMO -->
           <div class="row p-2" *ngIf="dataTipos">
@@ -64,6 +64,25 @@
           </div>
 
           <ng-container *ngIf="index['aus'] || index['aus']==0">
+
+            <!-- Pendientes -->
+            <div class="row p-2" *ngIf="dataTipos[index['aus']].Ausentismo == 'Descanso Pendiente'">
+              <div class="d-flex align-items-center">
+                <div class="btn-group dropright animated fadeIn">
+                  <button type="button" [style.width.px]="270" class="btn btn-info text-left">Pendiente: {{ (index['pendiente'] || index['pendiente']==0) ? diasPendientes[index['pendiente']].motivo : '' }}</button>
+                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only"*ngIf="!loading['pendientes']">Toggle Dropright</span>
+                    <span *ngIf="loading['pendientes']"><i class="fas fa-spinner fa-pulse"></i></span>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <ng-container *ngFor="let item of diasPendientes; index as i">
+                      <button type="button" class="dropdown-item" (click)="chgType(i, 'pendiente')">({{ item.dias_pendientes }}) - {{ item.motivo }}</button>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Dias -->
             <div class="row p-2">
               <div class="d-flex align-items-center">
@@ -74,7 +93,14 @@
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <ng-container *ngFor="let item of daysOpts; index as i">
-                      <button type="button" class="dropdown-item" (click)="chgType(i, 'days')" *ngIf="item > 0">{{ item }}</button>
+                      <ng-container *ngIf="dataTipos[index['aus']].Ausentismo == 'Descanso Pendiente' && (index['pendiente'] || index['pendiente'] == 0)">
+                        <button type="button" class="dropdown-item" (click)="chgType(i, 'days')" *ngIf="item > 0 && item <= diasPendientes[index['pendiente']].dias_pendientes">{{ item }}</button>
+                      </ng-container>
+
+                      <ng-container *ngIf="dataTipos[index['aus']].Ausentismo != 'Descanso Pendiente'">
+                        <button type="button" class="dropdown-item" (click)="chgType(i, 'days')" *ngIf="item > 0">{{ item }}</button>
+                      </ng-container>
+
                     </ng-container>
                   </div>
                 </div>
@@ -117,12 +143,45 @@
 
             <!-- FECHA -->
             <div class="row p-2">
-              <div class="">
-                <button type="button" [style.width.px]="310" class="btn btn-info text-left">Fecha: {{ dateSelected }}</button>
-                <div class="d-flex justify-content-center" [style.width.px]="310">
-                  <ngb-datepicker #dp [(ngModel)]="startDate" (ngModelChange)="chgDate()" [displayMonths]="1" #d>
-                  </ngb-datepicker>
+              <div class="btn-group">
+                <button type="button" [style.width.px]="270" class="btn btn-info text-left">Fecha: {{ dateSelected }}</button>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="collapse" data-target="#calendar" aria-expanded="false" aria-controls="calendar">
+                  <span class="sr-only">Toggle Dropright</span>
+                </button>
+                <div class="collapse" id="calendar">
+                  <div class="d-flex justify-content-center" [style.width.px]="310">
+                    <ngb-datepicker #dp [(ngModel)]="startDate" (ngModelChange)="chgDate()" [displayMonths]="1" #d>
+                    </ngb-datepicker>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            <!-- CASO -->
+            <div class="row p-2">
+              <div class="btn-group">
+                <button type="button" [style.width.px]="309" class="btn btn-info text-left">
+                  <div class="form-inline">
+                    <div class="form-group">
+                      <label for="caso">Caso:</label>
+                      <input type="text" id="caso" name="caso" [(ngModel)]="caso" class="form-control mx-sm-3">
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- NOTAS -->
+            <div class="row p-2">
+              <div class="btn-group">
+                <button type="button" [style.width.px]="309" class="btn btn-info text-left">
+                  <div class="form-inline">
+                    <div class="form-group">
+                      <label for="caso">Nota:</label>
+                      <input type="text" id="notas" name="notas" [(ngModel)]="notas" class="form-control mx-sm-3">
+                    </div>
+                  </div>
+                </button>
               </div>
             </div>
 
@@ -130,8 +189,8 @@
             <div class="row p-2">
               <div class="d-flex align-items-center">
                 <div class="btn-group dropright animated fadeIn">
-                  <button type="button" [style.width.px]="270" class="btn btn-success text-left">Configurar</button>
-                  <button type="button" class="btn btn-success dropdown-toggle" (click)="config()" [disabled]="!validateCreate()">
+                  <button type="button" [style.width.px]="270" class="btn btn-success text-left">Configurar <span *ngIf="loading['config']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                  <button type="button" class="btn btn-success dropdown-toggle" (click)="config()" [disabled]="!validateCreate() || loading['config'] || notas == '' || (dataTipos[index['aus']].needs_moper == 1 && caso == '')">
                     <span class="sr-only">Toggle Dropright</span>
                   </button>
                 </div>
@@ -140,7 +199,7 @@
           </ng-container>
 
         </div>
-        <div class="col-9" >
+        <div class="col-9"  >
           <div class="alert alert-info text-center" role="alert">
             Asesor: {{ nameShow | capitalizado }} || Ausentismo: {{ index['aus'] ? dataTipos[index['aus']].Ausentismo : 'por seleccionar...'}}
           </div>
@@ -175,12 +234,10 @@
           </div>
           <hr>
           <div class="d-flex justify-content-end">
-            <button type="button" class="p-2 m-1 btn btn-success" [disabled]="configDates['A']+configDates['B']+configDates['D']!=0">Guardar</button>
+            <button type="button" class="p-2 m-1 btn btn-success" (click)="save()" [disabled]="configDates['A']+configDates['B']+configDates['D']!=0 || loading['save']">Guardar  <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
             <button type="button" class="p-2 m-1 btn btn-danger" (click)="xld()">Cancelar</button>
           </div>
         </div>
       </div>
-
-
 
   </div>
