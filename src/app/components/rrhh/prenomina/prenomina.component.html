@@ -16,38 +16,65 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="container">
-      <p>Schedules... <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="dataSchedules && !loading['schedules']">Done!</span></p>
-      <p>Asesores... <span *ngIf="loading['asesores']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="dataAsesores && !loading['asesores']">Done!</span></p>
-      <p>Logs... <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="dataSchedules && !loading['logs']">Done!</span></p>
-      <p>Ausentismos... <span *ngIf="loading['ausentismos']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="dataAusentismos && !loading['ausentismos']">Done!</span></p>
-      <p>Building Logs... <span *ngIf="loading['building']"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="built && !loading['building']">Done!</span></p>
+      <div class="container">
+        <select class="custom-select" *ngIf="listCortesFlag" (change)="selectedCorte( $event.target.value )">
+          <option value="">Selecciona el corte a mostrar</option>
+          <option [value]="item.id" *ngFor="let item of listCortes">
+            {{ item.name }}
+          </option>
+        </select>
+        <div class="d-flex justify-content-start align-items-center">
+          <div class="p-2" *ngFor="let item of loading | keys">
+            <button type="button" class="btn btn-sm" [ngClass]="{'btn-info': loading[item], 'btn-success': !loading[item]}">{{ item }} <span *ngIf="!loading[item]"><i class="fas fa-check"></i></span><span *ngIf="loading[item]"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          </div>
+          <button type="button" class="btn btn-outline-warning ml-auto" *ngIf="built" (click)="downloadXLS('prenomina', 'prenomina')">Descargar</button>
+        </div>
+      </div>
     </div>
 
     <div class="container-fluid" *ngIf="built">
-      <table class="table table-responsive table-sm table-stripped">
+      <table class="table table-responsive table-sm table-stripped" style="font-size: smaller" id='prenomina'>
         <thead>
           <tr>
             <th *ngFor="let field of dataAsesores[0] | keys">{{ field }}</th>
             <th>H. Extra</th>
-            <th>Prenom</th>
+            <th *ngFor="let header of tableHeaders">{{ header.t }}</th>
+            <th>Descuento Empleado</th>
+            <th>Locs. Descuento Empleado</th>
+            <th>Responsabilidad</th>
+            <th>Locs. Responsabilidad</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let rac of dataAsesores">
-            <td *ngFor="let field of rac | keys">{{ rac[field] }}</td>
+          <tr *ngFor="let rac of dataAsesores | orderBy: 'CLAVE'">
+
+            <ng-container *ngFor="let field of rac | keys">
+                <td [ngSwitch]="field">
+                  <span *ngSwitchCase="'Nombre_del_empleado'">{{ rac[field] | noAcentos }}</span>
+                  <span *ngSwitchCase="'Salario'">{{ rac[field] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                  <span *ngSwitchDefault>{{ rac[field]  }}</span>
+                </td>
+            </ng-container>
+
             <ng-container *ngIf="dataPrenom[rac['asesor']]; else noLog">
               <td>{{ (dataPrenom[rac['asesor']].hx).toFixed(2) }}</td>
-              <td>
-                <pre>{{ dataPrenom[rac['asesor']] | json }}</pre>
-              </td>
+              <ng-container *ngFor="let header of tableHeaders">
+                <td *ngIf="header.type == 'd'">
+                  <span>{{ dataPrenom[rac['asesor']][header.code] ? dataPrenom[rac['asesor']][header.code].days : 0 }}</span>
+                </td>
+                <td *ngIf="header.type == 'f'">
+                  <span>{{ dataPrenom[rac['asesor']][header.code] ? printDates(dataPrenom[rac['asesor']][header.code].dates) : '-' }}</span>
+                </td>
+              </ng-container>
             </ng-container>
             <ng-template #noLog>
               <td>NA</td>
-              <td>NA</td>
+              <td *ngFor="let header of tableHeaders">NA</td>
             </ng-template>
+            <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['1'].monto : 0 ) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+            <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['1'].detail : '' ) }}</td>
+            <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['0'].monto : 0 ) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+            <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['0'].detail : '' ) }}</td>
           </tr>
         </tbody>
       </table>
