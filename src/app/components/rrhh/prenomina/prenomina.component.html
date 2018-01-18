@@ -17,6 +17,7 @@
         </div>
       </div>
       <div class="container">
+        <p *ngIf="!listCortesFlag">Obteniendo fechas de cortes... <i class="fas fa-spinner fa-pulse"></i></p>
         <select class="custom-select" *ngIf="listCortesFlag" (change)="selectedCorte( $event.target.value )">
           <option value="">Selecciona el corte a mostrar</option>
           <option [value]="item.id" *ngFor="let item of listCortes">
@@ -32,7 +33,7 @@
       </div>
     </div>
 
-    <div class="container-fluid" *ngIf="built">
+    <div class="container-fluid" *ngIf="built" style="max-height=700px; overflow: auto">
       <table class="table table-responsive table-sm table-stripped" style="font-size: smaller" id='prenomina'>
         <thead>
           <tr>

@@ -1,0 +1,192 @@
+<div class="card animated fadeIn">
+
+  <!-- CUERPO -->
+  <div class="card-body pt-0">
+    <div class="row">
+
+      <!-- IMAGEN ASESOR -->
+      <div class="col-3 d-flex align-items-center">
+        <div>
+          <div class="d-flex justify-content-center">
+            <img [src]="asesorImage" height="200" class="rounded-circle" (error)="updateImg($event)">
+          </div>
+          <div class="d-flex justify-content-center p-2 text-center">
+            <h3>{{ dataDisplay.nombre }}</h3>
+          </div>
+          <div class="d-flex justify-content-center p-2 text-center">
+            <p><small>Actualizado: {{ dataDisplay.LU }}</small></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUERPO ESTADISTICAS -->
+      <div class="col-9">
+
+        <!-- HEADERS -->
+        <div class="row">
+          <div class="col-6">
+            <p class="text-left"><small>Mensual</small></p>
+          </div>
+          <div class="col-6">
+            <p class="text-left"><small>Hoy</small></p>
+          </div>
+        </div>
+
+        <!-- MONTOS -->
+        <div class="row">
+          <div class="col-6 d-flex justify-content-center align-items-center">
+            <h1>{{ dataDisplay.mensual.total | currency:'MXN':'.2-2' }}</h1>
+          </div>
+          <div class="col-6 d-flex justify-content-center align-items-center">
+            <h1>{{ dataDisplay.hoy.total | currency:'MXN':'.2-2' }}</h1>
+          </div>
+        </div>
+
+        <!-- ALCANCE -->
+        <div class="row" *ngIf="metas">
+          <div class="col-6">
+            <p><ngb-progressbar showValue="true" type="success" [value]="alcance(dataDisplay.mensual.total, metas.Meta_Individual) | number:'.2-2'"></ngb-progressbar></p>
+          </div>
+          <div class="col-6">
+            <p><ngb-progressbar showValue="true" type="success" [value]="alcance(dataDisplay.hoy.total, metas.Meta_Diaria) | number:'.2-2'"></ngb-progressbar></p>
+          </div>
+        </div>
+
+        <!-- Montos por Producto -->
+        <div class="row p-1">
+
+          <!-- Mensual -->
+          <div class="col-6">
+            <div class="row">
+              <div class="col-sm-6">
+                <ul class="list-group">
+
+                  <!-- HOTEL -->
+                  <li class="list-group-item p-1 d-flex justify-content-start">
+                    <span><i class="far fa-building fa-fw" style="color: #7bb5ec"></i></span>
+                    <span class='ml-auto'>{{ dataDisplay.mensual.hotel | currency:'MXN':'.2-2' }}</span>
+                  </li>
+
+                  <!-- PAQUETE -->
+                  <li class="list-group-item p-1 d-flex justify-content-start">
+                    <span>
+                      <span class="fa-layers fa-fw">
+                        <i class="far fa-building fa-inverse" style="color: #434347" data-fa-transform="shrink-5 up-4 left-4"></i>
+                        <i class="fas fa-plane fa-inverse" style="color: #434347" data-fa-transform="rotate--45 shrink-5 down-4 right-4"></i>
+                      </span>
+                    </span>
+                    <span class='ml-auto'>{{ dataDisplay.mensual.paquete | currency:'MXN':'.2-2' }}</span>
+                  </li>
+
+                  <!-- VUELO -->
+                  <li class="list-group-item p-1 d-flex justify-content-start">
+                    <span><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
+                    <span class='ml-auto'>{{ dataDisplay.mensual.vuelo | currency:'MXN':'.2-2' }}</span>
+                  </li>
+
+                  <!-- OTROS -->
+                  <li class="list-group-item p-1 d-flex justify-content-start">
+                    <span><i class="fas fa-ellipsis-h fa-fw" style="color: #f4a35b"></i></span>
+                    <span class='ml-auto'>{{ dataDisplay.mensual.otros | currency:'MXN':'.2-2' }}</span>
+                  </li>
+
+                </ul>
+              </div>
+              <div class="col-sm-6 p-0">
+                <div class="p-1" [style.height.px]="135">
+                  <chart [options]="options" (load)="saveInstance('mensual', $event.context)"></chart>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hoy -->
+          <div class="col-6">
+            <div class="row">
+              <div class="col-sm-6">
+                <ul class="list-group">
+
+                  <!-- HOTEL -->
+                  <li class="list-group-item p-1 d-flex justify-content-start">
+                    <span><i class="far fa-building fa-fw" style="color: #7bb5ec"></i></span>
+                    <span class='ml-auto'>{{ dataDisplay.hoy.hotel | currency:'MXN':'.2-2' }}</span>
+                  </li>
+
+                  <!-- PAQUETE -->
+                  <li class="list-group-item p-1 d-flex justify-content-start">
+                    <span>
+                      <span class="fa-layers fa-fw">
+                        <i class="far fa-building fa-inverse" style="color: #434347" data-fa-transform="shrink-5 up-4 left-4"></i>
+                        <i class="fas fa-plane fa-inverse" style="color: #434347" data-fa-transform="rotate--45 shrink-5 down-4 right-4"></i>
+                      </span>
+                    </span>
+                    <span class='ml-auto'>{{ dataDisplay.hoy.paquete | currency:'MXN':'.2-2' }}</span>
+                  </li>
+
+                  <!-- VUELO -->
+                  <li class="list-group-item p-1 d-flex justify-content-start">
+                    <span><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
+                    <span class='ml-auto'>{{ dataDisplay.hoy.vuelo | currency:'MXN':'.2-2' }}</span>
+                  </li>
+
+                  <!-- OTROS -->
+                  <li class="list-group-item p-1 d-flex justify-content-start">
+                    <span><i class="fas fa-ellipsis-h fa-fw" style="color: #f4a35b"></i></span>
+                    <span class='ml-auto'>{{ dataDisplay.hoy.otros | currency:'MXN':'.2-2' }}</span>
+                  </li>
+
+
+                </ul>
+              </div>
+              <div class="col-sm-6">
+                <div class="p-1" [style.height.px]="135">
+                  <chart [options]="options" (load)="saveInstance('hoy', $event.context)"></chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FC y AHT -->
+        <div class="row p-1">
+
+          <!-- MENSUAL -->
+          <div class="col-6 text-center">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3>FC {{ (dataDisplay.mensual.rsvas / dataDisplay.mensual.llamadas * 100) | number:'.2-2' }} %</h3>
+              </div>
+              <div class="col-sm-6">
+                <h3>AHT {{ (dataDisplay.mensual.tt / dataDisplay.mensual.llamadas_all) | number:'.0-0' }} s.</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- HOY -->
+          <div class="col-6 text-center">
+            <div class="row">
+              <div class="col-sm-6">
+                <h2>FC {{ (dataDisplay.mensual.rsvas / dataDisplay.hoy.llamadas) | number:'.2-2' }} %</h2>
+              </div>
+              <div class="col-sm-6">
+                <h2>AHT {{ (dataDisplay.hoy.tt / dataDisplay.hoy.llamadas_all) | number:'.0-0' }} s.</h2>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ALCANCE AL DIA -->
+        <div class="row p-1 border border-bottom-0 border-left-0 border-right-0 border-primary" *ngIf="metas">
+          <div class="col-12 text-center">
+            <p><ngb-progressbar showValue="true" type="success" [value]="alcance( dataDisplay.mensual.total, metas.Meta_Diaria_Total, true ) | number:'.2-2'"></ngb-progressbar></p>
+            <p><small>Alcance al día</small></p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

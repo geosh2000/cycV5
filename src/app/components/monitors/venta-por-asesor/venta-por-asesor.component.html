@@ -1,0 +1,51 @@
+<div class="container-fluid d-flex justify-content-start">
+
+  <div class="p-2">
+    <select class="custom-select" (change)="chgDep( $event.target.value )">
+      <option value="" *ngIf="loading['deps']">Cargando departamentos... <i class="fas fa-spinner fa-pulse"></i></option>
+      <option value="" *ngIf="!loading['deps']">Selecciona Departamento...</option>
+      <option [value]="item.pcrc" *ngFor="let item of dataDeps">
+        {{ item.udn }} - {{ item.dep }}
+      </option>
+    </select>
+  </div>
+
+  <div class="p-2">
+    <select class="custom-select" *ngIf="dataSups" (change)="chgSup( $event.target.value )">
+      <option value="" *ngIf="loading['sups']">Cargando supervisores... <i class="fas fa-spinner fa-pulse"></i></option>
+      <option value="" *ngIf="!loading['sups']">Selecciona Supervisor...</option>
+      <option [value]="item.asesor" *ngFor="let item of dataSups | orderBy 'nombre'">
+        {{ item.nombre }}
+      </option>
+    </select>
+  </div>
+
+  <div class="p-2">
+    <button type="button" class="btn btn-info" (click)="chgMode( screen )">{{ screen ? 'Modo Escritorio' : 'Modo Pantalla'}}</button>
+  </div>
+
+  <div class="p-2">
+    <p><small><span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse fa-fw text-info"></i></span>Reload in {{ timeCount }} sec.</small></p>
+  </div>
+</div>
+
+<div class="container text-center" *ngIf="!dataAsesor && loading['data']">
+  <br><br><br>
+  <span><i class="fas fa-spinner fa-pulse fa-10x text-info"></i></span>
+</div>
+
+<div class="container" *ngIf="dataAsesor && !screen">
+  <app-card-asesor-estadistica *ngFor="let item of dataAsesor | keys" [asesor]="dataAsesor[item]" [metas]="dataMetas"></app-card-asesor-estadistica>
+</div>
+
+<div class="container" *ngIf="dataAsesor && screen">
+  <ngb-carousel>
+    <ng-container *ngFor="let s of slides">
+      <ng-template ngbSlide *ngIf="s < numAsesores">
+        <ng-container *ngFor="let item of dataAsesor | keys; index as i">
+          <app-card-asesor-estadistica  [asesor]="dataAsesor[item]" [metas]="dataMetas" *ngIf="i >= s && i < s+4"></app-card-asesor-estadistica>
+        </ng-container>
+      </ng-template>
+    </ng-container>
+  </ngb-carousel>
+</div>
