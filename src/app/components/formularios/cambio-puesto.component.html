@@ -5,8 +5,8 @@
           <div class="form-group row">
             <label class="col-4 col-form-label">Fecha de Cambio</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-calendar fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-calendar fa-fw"></i></span>
               </span>
               <input
                 daterangepicker
@@ -25,10 +25,10 @@
             <label class="col-4 col-form-label">Ciudad</label>
             <div class="col-8 input-group">
               <!-- <select #cPFciudad class="custom-select" id="form_cP_ciudad" ngModel name="ciudad" (ngModelChange)="puestoChange( cPFfecha.value, mainInput, 'ciudad', $event.id)"> -->
-              <span class="input-group-addon">
-                <i class="fa fa-map-marker fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-map-marker fa-fw"></i></span>
               </span>
-              <select class="custom-select" style="max-width: 257px; min-width: 257px;"
+              <select class="custom-select" style="max-width: 250px; min-width: 250px;"
                       formControlName="ciudad"
                       >
                 <option value="">Selecciona...</option>
@@ -44,10 +44,10 @@
           <div class="form-group row" *ngIf="formCambioPuesto.controls['ciudad'].valid && flagExists['oficina'] && !flagLoading['oficina']">
             <label class="col-4 col-form-label">Oficina</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-building-o fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-building-o fa-fw"></i></span>
               </span>
-              <select class="custom-select" style="max-width: 257px; min-width: 257px;"
+              <select class="custom-select" style="max-width: 250px; min-width: 250px;"
                       formControlName="oficina"
                       >
                 <option value="">Selecciona...</option>
@@ -63,10 +63,10 @@
           <div class="form-group row" *ngIf="formCambioPuesto.controls['ciudad'].valid && flagExists['departamento'] && !flagLoading['departamento']">
             <label class="col-4 col-form-label">Departamento</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-users fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-users fa-fw"></i></span>
               </span>
-              <select class="custom-select" style="max-width: 257px; min-width: 257px;"
+              <select class="custom-select" style="max-width: 250px; min-width: 250px;"
                       formControlName="departamento"
                       >
                 <option value="">Selecciona...</option>
@@ -82,10 +82,10 @@
           <div class="form-group row" *ngIf="formCambioPuesto.controls['ciudad'].valid && flagExists['puesto'] && !flagLoading['puesto']">
             <label class="col-4 col-form-label">Puesto</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-user fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-user fa-fw"></i></span>
               </span>
-              <select class="custom-select" style="max-width: 257px; min-width: 257px;"
+              <select class="custom-select" style="max-width: 250px; min-width: 250px;"
                       formControlName="puesto"
                       >
                 <option value="">Selecciona...</option>
@@ -98,8 +98,8 @@
           <div class="form-group row" [ngClass]="{ 'has-danger': !formCambioPuesto.controls['comentarios'].valid }" *ngIf="formCambioPuesto.controls['puesto'].valid">
             <label class="col-4 col-form-label">Comentarios</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-calendar-o fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-calendar-o fa-fw"></i></span>
               </span>
               <input
                 formControlName="comentarios"
@@ -114,12 +114,12 @@
           <div class="form-group row" [ngClass]="{ 'has-danger': !formCambioPuesto.controls['reemplazable'].valid }" *ngIf="formCambioPuesto.controls['puesto'].valid">
             <label class="col-4 col-form-label"></label>
             <div class="col-8 input-group">
-              <label class="custom-control custom-checkbox" >
+              <div class="custom-control custom-checkbox" >
                 <input type="checkbox" class="custom-control-input"
-                        formControlName="reemplazable" [indeterminate]="true">
+                        formControlName="reemplazable" [indeterminate]="true" id="ch2">
                 <span class="custom-control-indicator"></span>
-                <span class="custom-control-description">Reemplazable</span>
-              </label>
+                <label class="custom-control-label" for="ch2">Reemplazable</label>
+              </div>
             </div>
             <div class="col-12 form-control-feedback" *ngIf="formCambioPuesto.controls['reemplazable']._errors?.indeterminate">
               <div><small>Elige si la vacante será o no reemplazable</small></div>
@@ -132,8 +132,8 @@
           <div class="form-group row" [ngClass]="{ 'has-danger': !formCambioPuesto.controls['fechaLiberacion'].valid }" *ngIf="formCambioPuesto.controls['reemplazable'].value == true">
             <label class="col-4 col-form-label">Fecha Liberación</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-calendar-o fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-calendar-o fa-fw"></i></span>
               </span>
               <input
                 daterangepicker

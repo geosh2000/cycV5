@@ -34,8 +34,8 @@
           </div>
           <div class="form-group p-2">
             <div class="col-sm-12 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-user-o fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-user-o fa-fw"></i></span>
               </span>
               <ng2-completer
                 class="form-control customComplete"
@@ -108,8 +108,8 @@
 
                   <label class="col-4 col-form-label">Monto</label>
                   <div class="col-8 input-group">
-                    <span class="input-group-addon">
-                      <i class="fa fa-usd fa-fw"></i>
+                    <span class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-dollar-sign fa-fw"></i></span>
                     </span>
                     <input
                       [readonly]="!_init.checkSingleCredential('cxc_edit')"
@@ -128,8 +128,8 @@
 
                   <label class="col-4 col-form-label">Comentarios</label>
                   <div class="col-8 input-group">
-                    <span class="input-group-addon">
-                      <i class="fa fa-comment fa-fw"></i>
+                    <span class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-comment fa-fw"></i></span>
                     </span>
                     <input
                       [ngClass]="{ 'is-invalid': !formEditCxc.controls['comments'].valid && !formEditCxc.controls['comments'].pristine}"
@@ -144,13 +144,13 @@
               <div class="form-group row" >
                   <label class="col-4 col-form-label"></label>
                   <div class="col-8 input-group">
-                    <label class="custom-control custom-checkbox" >
+                    <div class="custom-control custom-checkbox" >
                       <input type="checkbox" class="custom-control-input"
                               [ngClass]="{ 'is-invalid': !formEditCxc.controls['firmado'].valid && !formEditCxc.controls['firmado'].pristine}"
-                              formControlName="firmado">
+                              formControlName="firmado"id="ch2">
                       <span class="custom-control-indicator"></span>
-                      <span class="custom-control-description">Firmado</span>
-                    </label>
+                      <label class="custom-control-label" for="ch2">Firmado</label>
+                    </div>
                   </div>
               </div>
 

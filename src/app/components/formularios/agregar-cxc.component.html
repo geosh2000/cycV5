@@ -1,11 +1,11 @@
 <form class="form-group" [formGroup]="formAddCxc" (ngSubmit)="submit()">
 
-  <div class="form-group row" [ngClass]="{ 'is-invalid': !formAddCxc.controls[item].valid && !formAddCxc.controls[item].pristine}" *ngFor="let item of addCxCDetailsForm | keys" >
+  <div class="form-group row" [ngClass]="{ 'is-invalid': !formAddCxc.controls[item].valid && !formAddCxc.controls[item].pristine}" *ngFor="let item of addCxCDetailsForm | keys;" >
     <ng-container *ngIf="addCxCDetailsForm[item].tipo!='checkbox'; else elseBlock">
       <label class="col-4 col-form-label">{{ item | capitalizado }} <span *ngIf="addCxCDetailsForm[item].required">*</span></label>
       <div class="col-8 input-group">
-        <span class="input-group-addon">
-          <i class="{{ addCxCDetailsForm[item].icon }}"></i>
+        <span class="input-group-prepend">
+          <span class="input-group-text"><i class="{{ addCxCDetailsForm[item].icon }}"></i></span>
         </span>
         <input
           *ngIf="addCxCDetailsForm[item].tipo=='date'"
@@ -20,7 +20,7 @@
           class="form-control" type="text" value="" [readonly]="addCxCDetailsForm[item].readonly">
         <select
                 *ngIf="addCxCDetailsForm[item].tipo=='select'"
-                class="custom-select" style="max-width: 257px; min-width: 257px;"
+                class="custom-select" style="max-width: 250px; min-width: 250px;"
                 [formControlName]="item"
                 >
           <option value="">Selecciona...</option>
@@ -28,7 +28,7 @@
         </select>
         <select
                 *ngIf="addCxCDetailsForm[item].tipo=='select2'"
-                class="custom-select" style="max-width: 257px; min-width: 257px;"
+                class="custom-select" style="max-width: 250px; min-width: 250px;"
                 [formControlName]="item"
                 >
           <option value="">Selecciona...</option>
@@ -46,12 +46,12 @@
 
         <label class="col-4 col-form-label"></label>
         <div class="col-8 input-group">
-          <label class="custom-control custom-checkbox" >
+          <div class="custom-control custom-checkbox" >
             <input type="checkbox" class="custom-control-input"
-                    [formControlName]="item" [indeterminate]="true">
+                    [formControlName]="item" [indeterminate]="true" id="ch2">
             <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">{{ item | capitalizado }}</span>
-          </label>
+            <label class="custom-control-label" for="ch2">{{ item | capitalizado }}</label>
+          </div>
         </div>
         <div class="col-12 text-danger" [ngClass]="{ 'is-invalid': !formAddCxc.controls[item].valid && !formAddCxc.pristine}" *ngIf="formAddCxc.controls[item]._errors?.indeterminate">
           <div><small class='text-danger'>Elige si el asesor ya ha firmado su CxC</small></div>

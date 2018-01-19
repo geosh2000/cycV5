@@ -5,8 +5,8 @@
           <div class="form-group row">
             <label class="col-4 col-form-label">id</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-address-card-o fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="far fa-address-card fa-fw"></i></span>
               </span>
               <input
                 formControlName="id"
@@ -18,8 +18,8 @@
           <div class="form-group row">
             <label class="col-4 col-form-label">Fecha de Baja</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-calendar fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-calendar fa-fw"></i></span>
               </span>
               <input
                 daterangepicker
@@ -34,8 +34,8 @@
           <div class="form-group row" [ngClass]="{ 'has-danger': !formSetBaja.controls['comentarios'].valid }" *ngIf="formSetBaja.controls['fechaBaja'].valid">
             <label class="col-4 col-form-label">Comentarios</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
-                <i class="fa fa-comments fa-fw"></i>
+              <span class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-comments fa-fw"></i></span>
               </span>
               <input
                 formControlName="comentarios"
@@ -50,12 +50,12 @@
           <div class="form-group row" [ngClass]="{ 'has-danger': !formSetBaja.controls['recontratable'].valid }" *ngIf="formSetBaja.controls['fechaBaja'].valid">
             <label class="col-4 col-form-label"></label>
             <div class="col-8 input-group">
-              <label class="custom-control custom-checkbox" >
+              <div class="custom-control custom-checkbox" >
                 <input type="checkbox" class="custom-control-input"
-                        formControlName="recontratable" [indeterminate]="true">
+                        formControlName="recontratable" [indeterminate]="true" id="ch1">
                 <span class="custom-control-indicator"></span>
-                <span class="custom-control-description">Recontratable</span>
-              </label>
+                <label class="custom-control-label" for="ch1">Recontratable</label>
+              </div>
             </div>
             <div class="col-12 form-control-feedback" *ngIf="formSetBaja.controls['recontratable']._errors?.indeterminate">
               <div><small>Elige si el asesor será o no recontratable</small></div>
@@ -66,12 +66,12 @@
           <div class="form-group row" [ngClass]="{ 'has-danger': !formSetBaja.controls['reemplazable'].valid }" *ngIf="formSetBaja.controls['fechaBaja'].valid">
             <label class="col-4 col-form-label"></label>
             <div class="col-8 input-group">
-              <label class="custom-control custom-checkbox" >
+              <div class="custom-control custom-checkbox" >
                 <input type="checkbox" class="custom-control-input"
-                        formControlName="reemplazable" [indeterminate]="true">
+                        formControlName="reemplazable" [indeterminate]="true" id="ch2">
                 <span class="custom-control-indicator"></span>
-                <span class="custom-control-description">Reemplazable</span>
-              </label>
+                <label class="custom-control-label" for="ch2">Reemplazable</label>
+              </div>
             </div>
             <div class="col-12 form-control-feedback" *ngIf="formSetBaja.controls['reemplazable']._errors?.indeterminate">
               <div><small>Elige si la vacante será o no reemplazable</small></div>
@@ -84,7 +84,7 @@
           <div class="form-group row" [ngClass]="{ 'has-danger': !formSetBaja.controls['fechaLiberacion'].valid }" *ngIf="formSetBaja.controls['reemplazable'].value == true">
             <label class="col-4 col-form-label">Fecha Liberación</label>
             <div class="col-8 input-group">
-              <span class="input-group-addon">
+              <span class="input-group-prepend">
                 <i class="fa fa-calendar-o fa-fw"></i>
               </span>
               <input
