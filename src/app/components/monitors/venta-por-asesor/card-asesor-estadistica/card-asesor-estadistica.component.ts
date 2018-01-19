@@ -104,8 +104,7 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
-    // this.getData()
+    this.getData()
   }
 
   saveInstance(identifier, chartInstance) {

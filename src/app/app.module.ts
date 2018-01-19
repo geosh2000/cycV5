@@ -107,6 +107,8 @@ import { PrenominaComponent } from './components/rrhh/prenomina/prenomina.compon
 import { AusentismosComponent } from './components/asistencia/ausentismos/ausentismos.component';
 import { VentaPorAsesorComponent } from './components/monitors/venta-por-asesor/venta-por-asesor.component';
 import { CardAsesorEstadisticaComponent } from './components/monitors/venta-por-asesor/card-asesor-estadistica/card-asesor-estadistica.component';
+import { ParticipacionComponent } from './components/monitors/ivr/participacion.component';
+import { PathSelectComponent } from './components/monitors/ivr/path-select/path-select.component';
 
 
 declare let jQuery : Object;
@@ -118,10 +120,12 @@ export function highchartsFactory() {
     var hcm = require('highcharts/highcharts-more');
     var exp = require('highcharts/modules/exporting');
     var sg = require('highcharts/modules/solid-gauge');
+    var sank = require('highcharts/modules/sankey');
 
     hcm(hc);
     exp(hc);
     sg(hc);
+    sank(hc);
     return hc;
 }
 
@@ -201,7 +205,9 @@ registerLocaleData(localeEsMX)
     PrenominaComponent,
     AusentismosComponent,
     VentaPorAsesorComponent,
-    CardAsesorEstadisticaComponent
+    CardAsesorEstadisticaComponent,
+    ParticipacionComponent,
+    PathSelectComponent
   ],
   imports: [
     BrowserModule,

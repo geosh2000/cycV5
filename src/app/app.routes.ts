@@ -29,6 +29,7 @@ import { QueuesComponent } from './components/monitors/queues/queues.component';
 import { PausesComponent } from './components/monitors/pauses/pauses.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
 import { VentaPorAsesorComponent } from './components/monitors/venta-por-asesor/venta-por-asesor.component';
+import { ParticipacionComponent } from './components/monitors/ivr/participacion.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 import { FamsComponent } from './components/config/fams/fams.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
@@ -85,6 +86,7 @@ const APP_ROUTES: Routes = [
   { path: 'queues', component: QueuesComponent },
   { path: 'pauses', component: PausesComponent },
   { path: 'ventaAsesor', component: VentaPorAsesorComponent },
+  { path: 'monitors/ivrParticipacion', component: ParticipacionComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },
