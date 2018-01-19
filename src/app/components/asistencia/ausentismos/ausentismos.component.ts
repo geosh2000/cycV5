@@ -23,7 +23,7 @@ export class AusentismosComponent implements OnInit {
   currentUser: any
   showContents:boolean = false
   processLoading:boolean = false
-  mainCredential:string = 'payroll_prenomina'
+  mainCredential:string = 'schedules_upload'
 
   loading:Object = {}
 

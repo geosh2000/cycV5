@@ -164,6 +164,10 @@ export class CalendarioComponent implements OnInit {
         textColor = 'white'
         break
       case 'INC':
+      case 'INC_EN':
+      case 'INC_MT':
+      case 'INC_AC':
+      case 'INC_RT':
         className = 'bg-danger'
         textColor = 'white'
         break
@@ -174,11 +178,10 @@ export class CalendarioComponent implements OnInit {
     }
 
     let event = {
-      id        : data['ausent_id'],
+      id        : data['id'],
       title     : `${data['Code']} - ${data['nombre']}`,
       allDay    : true,
-      start     : moment(data['Inicio']),
-      end       : moment(`${data['Fin']} 00:00:00`).add(1, 'days'),
+      start     : moment(data['Fecha']),
       className : className,
       textColor : textColor
     }

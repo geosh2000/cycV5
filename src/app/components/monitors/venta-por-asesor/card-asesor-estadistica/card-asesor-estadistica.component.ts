@@ -193,7 +193,7 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
         }
         data.nombre = item.nombre
         data.colab  = item.colab
-        data.lu     = moment.tz(item.Last_Update, 'America/Mexico_city').tz('America/Bogota').format('dd MMM \'YY')
+        data.lu     = moment.tz(item.Last_Update, 'America/Mexico_city').tz('America/Bogota').format('DD MM \'YY')
         data[group].total     += parseFloat(item.monto_total)
         data[group].hotel     += parseFloat(item.monto_hotel)
         data[group].paquete   += parseFloat(item.monto_paquete)
