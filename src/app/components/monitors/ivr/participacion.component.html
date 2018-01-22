@@ -13,20 +13,42 @@
         <div class="card-body">
 
           <div class="d-flex justify-content-between align-items-center">
-            <!-- Fecha -->
-            <div class="form-inline">
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd"
-                         name="dp" [(ngModel)]="startDate" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="chgDate()" [displayMonths]="1">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                      <i class="fas fa-calendar"></i>
-                    </button>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <!-- Fecha -->
+              <div class="p-2 text-center">
+                <p><ui-switch
+                  color="green"
+                  size= "small"
+                  [(ngModel)]="monitor"
+                  (change)="refresh( $event )"
+                ></ui-switch></p>
+                <p><small>Live!</small></p>
+              </div>
+              <div class="form-inline" *ngIf="!monitor">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="dp" [(ngModel)]="startDate" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="chgDate()" [displayMonths]="1">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                        <i class="fas fa-calendar"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="p-2 text-center">
+                <p><ui-switch
+                  color="green"
+                  size= "small"
+                  [(ngModel)]="porCola"
+                  (change)="getData( $event )"
+                ></ui-switch></p>
+                <p><small>Extendido</small></p>
+              </div>
             </div>
+
 
             <!-- RESUMEN -->
             <div class="d-flex justify-content-center align-items-center p-1 text-center">
@@ -34,20 +56,20 @@
             </div>
             <div class="d-flex justify-content-start align-items-center p-1">
               <span class="p-2">Ofrecidas</span>
-              <span class="badge badge-primary ml-auto" [style.width.px]="80">{{ 1000 | number:'.0-0'}}</span>
+              <span class="badge badge-primary ml-auto" [style.width.px]="80">{{ total ? total['ofrecidas'] : 0 | number:'.0-0'}}</span>
             </div>
             <div class="d-flex justify-content-start align-items-center p-1">
               <span class="p-2">Contestadas</span>
               <span class="badge badge-success ml-auto p-2" [style.width.px]="80">
-                <p>{{ 1000 | number:'.0-0'}}</p>
-                <p>{{ 90.34234 | number:'.0-2'}}%</p>
+                <p>{{ total ? total['contestadas'] : 0 | number:'.0-0'}}</p>
+                <p>{{ total ? ((total['contestadas']/total['ofrecidas']*100) | number:'.0-2') : 0 | number:'.0-2'}}%</p>
               </span>
             </div>
             <div class="d-flex justify-content-start align-items-center p-1">
               <span class="p-2">Abandonadas</span>
               <span class="badge badge-danger ml-auto p-2" [style.width.px]="80">
-                <p>{{ 100 | number:'.0-0'}}</p>
-                <p>{{ 9.65 | number:'.0-2'}}%</p>
+                <p>{{ total ? total['abandonadas'] : 0 | number:'.0-0'}}</p>
+                <p>{{ total ? ((total['abandonadas']/total['ofrecidas']*100) | number:'.0-2') : 0 | number:'.0-2'}}%</p>
               </span>
             </div>
 
@@ -55,7 +77,7 @@
 
         </div>
         <div class="card-footer text-muted">
-          Mostrando: <span *ngIf="!loading['data']">{{ dateSelected }}</span><span *ngIf="loading['data']"><i class="fas fa-spinner fa-2x fa-pulse text-primary"></i></span> || Last Update: {{ lu }}
+          Mostrando: <span *ngIf="!loading['data']">{{ dateSelected }}</span><span *ngIf="loading['data']"><i class="fas fa-spinner fa-2x fa-pulse text-primary"></i></span> || Last Update: {{ lu }} <span *ngIf="monitor">|| Reload in {{ timeCount }} seg.</span>
         </div>
       </div>
     </div>

@@ -22,7 +22,7 @@ export class PathSelectComponent implements AfterViewInit {
                     text: 'Participación por 800'
                 },
                 chart: {
-                  width: 1600,
+                  width: 1400,
                   height: 800
                 },
                 plotOptions: {
@@ -39,6 +39,12 @@ export class PathSelectComponent implements AfterViewInit {
                     dataLabels: {
                         nodeFormat: '{point.name}<br>{point.sum}',
                         useHTML: true,
+                        enabled: true,
+                        filter: {
+                            property: 'sum',
+                            operator: '>',
+                            value: 0
+                        },
                         // nodeFormat: '{point.name}: {point.sum}%',
                         padding: 20,
                         style: {
@@ -71,7 +77,6 @@ export class PathSelectComponent implements AfterViewInit {
   setData(){
     this.chart['ivr']['series'][0].setData( this.data )
     this.chart['ivr'].title.update({ text: `Participación por 800 ${ moment(this.date).format('DD MMM YYYY')}`})
-    this.chart['ivr'].redraw()
   }
 
 

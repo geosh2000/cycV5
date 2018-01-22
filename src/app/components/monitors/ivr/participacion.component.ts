@@ -27,10 +27,16 @@ export class ParticipacionComponent implements OnInit {
   dateSelected:any
 
   loading:Object = {}
+  total:any
+  monitor:boolean = true
   data:any
   date:any
   lu:any
   reload=false
+  porCola:boolean=false
+
+  timerFlag:boolean= false
+  timeCount:number= 300
 
   constructor(public _api: ApiService,
                 private _init:InitService,
@@ -54,37 +60,68 @@ export class ParticipacionComponent implements OnInit {
           }
         })
 
+    this.setToday()
+
+  }
+
+  setToday(){
     this.dateSelected = moment().subtract(0,'days').format('YYYY-MM-DD')
     this.startDate = {
       year: parseInt(moment().subtract(0,'days').format('YYYY')),
       month: parseInt(moment().subtract(0,'days').format('MM')),
       day: parseInt(moment().subtract(0,'days').format('DD'))
     }
-
   }
 
   ngOnInit() {
     this.getData()
   }
 
-  getData(){
+  getData( event:any = '', td:any = '' ){
     this.loading['data'] = true
+    let flag = false
 
-    this._api.restfulGet( this.dateSelected, 'VentaMonitor/IvrPart')
+    if( td || (td == '' && this.monitor)){
+      this.setToday()
+      flag = true
+    }
+
+    let params = this.dateSelected
+
+    if( event || (event == '' && this.porCola) ){
+      params = `${params}/1`
+    }
+
+    this.timerFlag = false
+    
+    this._api.restfulGet( params, 'VentaMonitor/IvrPart')
               .subscribe( res => {
 
                 this.loading['data'] = false
 
                 this.reload = true
 
-                this.data = res.data
+                this.data = res.data['result']
+                this.total = res.data['total']
                 this.date = this.dateSelected
                 this.lu = moment.tz(res.lu, "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
 
                 this.reload = false
 
+                if( flag ){
+                  this.timerFlag = true
+                  this.timeCount = 300
+                  this.timerLoad()
+                }else{
+                  this.timerFlag = false
+                }
+
               }, err => {
                 console.log("ERROR", err)
+
+                this.timerFlag = true
+                this.timeCount = 30
+                this.timerLoad()
 
                 this.loading['data'] = false
 
@@ -100,6 +137,34 @@ export class ParticipacionComponent implements OnInit {
 
     this.getData()
 
+  }
+
+  timerLoad( pause = false ){
+
+    if( this.timerFlag ){
+      if( this.timeCount == 0 ){
+
+        this.getData()
+
+      }else{
+        if( this.timeCount > 0){
+          this.timeCount--
+          setTimeout( () => {
+          this.timerLoad()
+          }, 1000 )
+        }
+      }
+    }else{
+      if( pause ){
+        setTimeout( () => {
+        this.timerLoad( true )
+        }, 1000 )
+      }
+    }
+  }
+
+  refresh( event ){
+    this.getData( this.porCola, event )
   }
 
 }

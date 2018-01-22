@@ -5,7 +5,7 @@
     <div class="row">
 
       <!-- IMAGEN ASESOR -->
-      <div class="col-3 d-flex justify-content-center align-items-center">
+      <div class="col-lg-3 d-flex justify-content-center align-items-center">
         <div>
           <div class="d-flex justify-content-center">
             <img [src]="asesorImage" height="200" class="rounded-circle" (error)="updateImg($event)">
@@ -20,46 +20,21 @@
       </div>
 
       <!-- CUERPO ESTADISTICAS -->
-      <div class="col-9">
-
-        <!-- HEADERS -->
-        <div class="row">
-          <div class="col-6">
-            <p class="text-left"><small>Mensual</small></p>
-          </div>
-          <div class="col-6">
-            <p class="text-left"><small>Hoy</small></p>
-          </div>
-        </div>
+      <div class="col-lg-9">
 
         <!-- MONTOS -->
         <div class="row">
-          <div class="col-6 d-flex justify-content-center align-items-center">
-            <h1>{{ dataDisplay['mensual']['total'] | currency:'MXN':'.2-2' }}</h1>
-          </div>
-          <div class="col-6 d-flex justify-content-center align-items-center">
-            <h1>{{ dataDisplay['hoy']['total'] | currency:'MXN':'.2-2' }}</h1>
-          </div>
-        </div>
-
-        <!-- ALCANCE -->
-        <div class="row" *ngIf="metas">
-          <div class="col-6">
-            <p><ngb-progressbar showValue="true" type="success" [value]="alcance(dataDisplay['mensual']['total'], metas['Meta_Individual']) | number:'.2-2'"></ngb-progressbar></p>
-          </div>
-          <div class="col-6">
-            <p><ngb-progressbar showValue="true" type="success" [value]="alcance(dataDisplay['hoy']['total'], metas['Meta_Diaria']) | number:'.2-2'"></ngb-progressbar></p>
-          </div>
-        </div>
-
-        <!-- Montos por Producto -->
-        <div class="row p-1">
-
-          <!-- Mensual -->
-          <div class="col-6">
+          <div class="col-lg-6">
+            <p class="text-left"><small>Mensual</small></p>
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+              <h1>{{ dataDisplay['mensual']['total'] | currency:'MXN':'.2-2' }}</h1>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%" *ngIf="metas">
+              <ngb-progressbar style="width: 100%" showValue="true" type="success" [value]="alcance(dataDisplay['mensual']['total'], metas['Meta_Individual']) | number:'.2-2'"></ngb-progressbar>
+            </div>
             <div class="row">
-              <div class="col-sm-6">
-                <ul class="list-group">
+              <div class="col-lg-7 d-flex justify-content-center align-items-center">
+                <ul class="list-group" style="width: 100%">
 
                   <!-- HOTEL -->
                   <li class="list-group-item p-1 d-flex justify-content-start">
@@ -92,19 +67,30 @@
 
                 </ul>
               </div>
-              <div class="col-sm-6 p-0">
+              <div class="col-lg-5 d-flex justify-content-center align-items-center">
                 <div class="p-1" [style.height.px]="135">
                   <chart [options]="options" (load)="saveInstance('mensual', $event.context)"></chart>
                 </div>
               </div>
             </div>
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+              <h3>FC {{ (dataDisplay['mensual']['rsvas'] / dataDisplay['mensual']['llamadas'] * 100) | number:'.2-2' }} %</h3>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+              <h3>AHT {{ (dataDisplay['mensual']['tt'] / dataDisplay['mensual']['llamadas_all']) | number:'.0-0' }} s.</h3>
+            </div>
           </div>
-
-          <!-- Hoy -->
-          <div class="col-6">
+          <div class="col-lg-6">
+            <p class="text-left"><small>Hoy</small></p>
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+              <h1>{{ dataDisplay['hoy']['total'] | currency:'MXN':'.2-2' }}</h1>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%" *ngIf="metas">
+              <ngb-progressbar style="width: 100%" showValue="true" type="success" [value]="alcance(dataDisplay['hoy']['total'], metas['Meta_Diaria']) | number:'.2-2'"></ngb-progressbar>
+            </div>
             <div class="row">
-              <div class="col-sm-6">
-                <ul class="list-group">
+              <div class="col-lg-7 d-flex justify-content-center align-items-center">
+                <ul class="list-group" style="width: 100%">
 
                   <!-- HOTEL -->
                   <li class="list-group-item p-1 d-flex justify-content-start">
@@ -138,42 +124,19 @@
 
                 </ul>
               </div>
-              <div class="col-sm-6">
+              <div class="col-lg-5 d-flex justify-content-center align-items-center">
                 <div class="p-1" [style.height.px]="135">
                   <chart [options]="options" (load)="saveInstance('hoy', $event.context)"></chart>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <!-- FC y AHT -->
-        <div class="row p-1">
-
-          <!-- MENSUAL -->
-          <div class="col-6 text-center">
-            <div class="row">
-              <div class="col-sm-6">
-                <h3>FC {{ (dataDisplay['mensual']['rsvas'] / dataDisplay['mensual']['llamadas'] * 100) | number:'.2-2' }} %</h3>
-              </div>
-              <div class="col-sm-6">
-                <h3>AHT {{ (dataDisplay['mensual']['tt'] / dataDisplay['mensual']['llamadas_all']) | number:'.0-0' }} s.</h3>
-              </div>
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+              <h2>FC {{ (dataDisplay['hoy']['rsvas'] / dataDisplay['hoy']['llamadas']) | number:'.2-2' }} %</h2>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+              <h2>AHT {{ (dataDisplay['hoy']['tt'] / dataDisplay['hoy']['llamadas_all']) | number:'.0-0' }} s.</h2>
             </div>
           </div>
-
-          <!-- HOY -->
-          <div class="col-6 text-center">
-            <div class="row">
-              <div class="col-sm-6">
-                <h2>FC {{ (dataDisplay['mensual']['rsvas'] / dataDisplay['hoy']['llamadas']) | number:'.2-2' }} %</h2>
-              </div>
-              <div class="col-sm-6">
-                <h2>AHT {{ (dataDisplay['hoy']['tt'] / dataDisplay['hoy']['llamadas_all']) | number:'.0-0' }} s.</h2>
-              </div>
-            </div>
-          </div>
-
         </div>
 
         <!-- ALCANCE AL DIA -->

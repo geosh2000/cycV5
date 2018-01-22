@@ -104,7 +104,9 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.getData()
+    if( this.chart['mensual'] ){
+      this.getData()
+    }
   }
 
   saveInstance(identifier, chartInstance) {
@@ -186,22 +188,32 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
       }
 
       for(let item of this.asesor){
-        let group = 'mensual'
+
         if( moment(item.Fecha).format('YYYY-MM-DD') == moment().format('YYYY-MM-DD') ){
-          group = 'hoy'
+          data['hoy'].total     += parseFloat(item.monto_total)
+          data['hoy'].hotel     += parseFloat(item.monto_hotel)
+          data['hoy'].paquete   += parseFloat(item.monto_paquete)
+          data['hoy'].vuelo     += parseFloat(item.monto_vuelo)
+          data['hoy'].otros     += parseFloat(item.monto_otros)
+          data['hoy'].rsvas     += parseFloat(item.rsvas_total)
+          data['hoy'].llamadas  += (parseInt(item.llamadas_total) - parseInt(item.llamadas_xfered))
+          data['hoy'].llamadas_all  += parseInt(item.llamadas_total)
+          data['hoy'].tt        += parseInt(item.talking_time)
         }
+        
         data.nombre = item.nombre
         data.colab  = item.colab
         data.lu     = moment.tz(item.Last_Update, 'America/Mexico_city').tz('America/Bogota').format('DD MM \'YY')
-        data[group].total     += parseFloat(item.monto_total)
-        data[group].hotel     += parseFloat(item.monto_hotel)
-        data[group].paquete   += parseFloat(item.monto_paquete)
-        data[group].vuelo     += parseFloat(item.monto_vuelo)
-        data[group].otros     += parseFloat(item.monto_otros)
-        data[group].rsvas     += parseFloat(item.rsvas_total)
-        data[group].llamadas  += (parseInt(item.llamadas_total) - parseInt(item.llamadas_xfered))
-        data[group].llamadas_all  += parseInt(item.llamadas_total)
-        data[group].tt        += parseInt(item.talking_time)
+        data['mensual'].total     += parseFloat(item.monto_total)
+        data['mensual'].hotel     += parseFloat(item.monto_hotel)
+        data['mensual'].paquete   += parseFloat(item.monto_paquete)
+        data['mensual'].vuelo     += parseFloat(item.monto_vuelo)
+        data['mensual'].otros     += parseFloat(item.monto_otros)
+        data['mensual'].rsvas     += parseFloat(item.rsvas_total)
+        data['mensual'].llamadas  += (parseInt(item.llamadas_total) - parseInt(item.llamadas_xfered))
+        data['mensual'].llamadas_all  += parseInt(item.llamadas_total)
+        data['mensual'].tt        += parseInt(item.talking_time)
+
       }
 
       this.dataDisplay = data
@@ -212,6 +224,8 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
 
     }
   }
+
+
 
   updateImg(event){
     let d = new Date()
