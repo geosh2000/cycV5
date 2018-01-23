@@ -14,7 +14,7 @@
     <select class="custom-select" *ngIf="dataSups" (change)="chgSup( $event.target.value )">
       <option value="" *ngIf="loading['sups']">Cargando supervisores... <i class="fas fa-spinner fa-pulse"></i></option>
       <option value="" *ngIf="!loading['sups']">Selecciona Supervisor...</option>
-      <option [value]="item.asesor" *ngFor="let item of dataSups | orderBy 'nombre'">
+      <option [value]="item.asesor" *ngFor="let item of dataSups | orderBy: 'nombre'">
         {{ item.nombre }}
       </option>
     </select>
