@@ -31,6 +31,7 @@ export class VentaPorCanalComponent implements OnInit {
   pdvType:boolean = false
   tdInfo:boolean = false
   prod:boolean = false
+  isPaq:boolean = false
   prodLu:string
 
   loadingData:boolean = false
@@ -92,7 +93,7 @@ export class VentaPorCanalComponent implements OnInit {
     }
 
 
-    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}`, 'venta/getVentaPorCanalSV')
+    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}`, 'venta/getVentaPorCanalSV')
             .subscribe( res =>{
               this.ventaData = res.data
 
