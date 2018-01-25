@@ -38,8 +38,8 @@
           </div>
           <div class="ml-auto p-2">
               <button type="button" class="btn btn-warning text-white" *ngIf="ready" (click)="downloadXLS('cuartiles', 'cuartiles')">Descargar</button>
+              <button type="button" class="btn btn-warning text-white" *ngIf="ready" (click)="downloadXLS('cuartiles', 'cuartiles', true)">Descargar por Fecha <span *ngIf="dataLoading"><i class="fas fa-spinner fa-fw fa-pulse"></i></span></button>
           </div>
-
         </div>
       </div>
     </div>

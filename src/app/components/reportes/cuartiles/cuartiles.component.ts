@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { Ng2SmartTableModule, LocalDataSource, ViewCell } from 'ng2-smart-table';
 
 import { saveAs } from 'file-saver';
-import { utils, write, WorkBook } from 'xlsx';
+import { utils, write, WorkBook, read } from 'xlsx';
 
 import * as moment from 'moment';
 declare var jQuery:any;
@@ -31,6 +32,7 @@ export class CuartilesComponent implements OnInit {
   searchStart:any
   searchEnd:any
   skill:any = ''
+  dataLoading:boolean = false
 
   currentUser:any
   listCuartiles:any
@@ -151,6 +153,21 @@ export class CuartilesComponent implements OnInit {
                                 return result
                               }
                             },
+      Colgadas_Absoluto:  { title: 'Colgadas Absoluto'},
+      Colgadas_Relativo:  { title: 'Colgadas Relativo',
+                              valuePrepareFunction: function(cell){
+                                let result
+                                if(cell == null){
+                                  result = null
+                                }else{
+                                  let percent = (parseFloat(cell)*100).toFixed(2)
+                                  result = `${percent} %`
+                                }
+
+                                return result
+                              }
+                            },
+      Colgadas_RelativoQ:   { title: 'Cuartil Colgadas'},
       AHT:                  { title: 'AHT',
                               valuePrepareFunction: function(cell){
                                 let result
@@ -208,8 +225,9 @@ export class CuartilesComponent implements OnInit {
   constructor(
               private _api:ApiService,
               private _init:InitService,
+              public toastr: ToastsManager, vcr: ViewContainerRef,
               ) {
-
+    this.toastr.setRootViewContainerRef(vcr);
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
@@ -242,25 +260,83 @@ export class CuartilesComponent implements OnInit {
               this.loadingCuartiles = false
               this.ready = true
 
-              if(res['status']){
-                this.listCuartiles = res['data']
+              this.listCuartiles = res['data']
 
-              }else{
-                this.errorFlag = true
-                this.errorMsg = res['error']
-                console.error( res )
-              }
+            }, err => {
+              console.log("ERROR", err)
+
+              this.loadingCuartiles = false
+
+              let error = err.json()
+              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              console.error(err.statusText, error.msg)
+              return false
+
             })
-  }
-
-  downloadXLS( id, title ){
-    this.toXls( id, title )
 
   }
 
-  toXls( sheets, title ){
+  downloadXLS( id, title, json = false ){
+    if( json ){
+      this.getDataFecha( this.searchStart, this.searchEnd, this.skill )
+    }else{
+      this.toXls( id, title, json )
+    }
+  }
 
-    let wb = utils.table_to_book(document.getElementById(sheets), {raw: false});
+  getDataFecha( inicio, fin, skill ){
+    this.dataLoading = true
+
+    this._api.restfulGet( '', `Cuartiles/getCuartilesFecha/${inicio}/${fin}/${skill}`)
+              .subscribe( res => {
+
+                this.dataLoading = false
+                let data:any = [], i = 0
+
+                for( let item of res.data ){
+                  if( i != 0){
+                    let itData: Object = {}
+                    for( let field in item ){
+                      if( field == 'Nombre' || field == 'Fecha' || field == 'user' || field == 'Supervisor' ){
+                        itData[field] = item[field]
+                      }else{
+                        if( item[field] == null || item[field] == '' ){
+                          itData[field] = parseFloat(0)
+                        }else{
+                          itData[field] = parseFloat(item[field])
+                        }
+                      }
+                    }
+                    data.push(itData)
+                  }
+                  i++
+                }
+                this.toXls( data, 'CuartilesPorFecha', true )
+
+              }, err => {
+                console.log("ERROR", err)
+
+                this.dataLoading = false
+
+                let error = err.json()
+                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                console.error(err.statusText, error.msg)
+                return false
+
+              })
+  }
+
+  toXls( sheets, title, json ){
+    let wb:any
+
+    if( json ){
+      wb = { SheetNames: [], Sheets: {} };
+      wb.SheetNames.push(title);
+      wb.Sheets[title] = utils.json_to_sheet(sheets, {cellDates: true});
+    }else{
+      wb = utils.table_to_book(document.getElementById(sheets), {raw: false});
+    }
+
     let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
 'binary' });
 
