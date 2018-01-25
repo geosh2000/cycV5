@@ -301,7 +301,7 @@ export class CuartilesComponent implements OnInit {
                         itData[field] = item[field]
                       }else{
                         if( item[field] == null || item[field] == '' ){
-                          itData[field] = parseFloat(0)
+                          itData[field] = parseFloat('0')
                         }else{
                           itData[field] = parseFloat(item[field])
                         }
