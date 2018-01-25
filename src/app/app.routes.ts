@@ -35,9 +35,11 @@ import { FamsComponent } from './components/config/fams/fams.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
 import { AusentismosComponent } from './components/asistencia/ausentismos/ausentismos.component';
 import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
+import { PyaExceptionComponent } from './components/formularios/pya-exception.component';
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'pyae', component: PyaExceptionComponent },
 
   // DetalleAsesores
   { path: 'detail-asesor', component: DetailAsesorComponent },

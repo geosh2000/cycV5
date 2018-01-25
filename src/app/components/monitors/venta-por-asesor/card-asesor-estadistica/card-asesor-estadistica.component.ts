@@ -143,8 +143,7 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
       this.chart['hoy']['series'][0].setData( td )
 
       if(this.dataDisplay['colab'] != null){
-        let d = new Date()
-        this.asesorImage = `/img/asesores/${this.dataDisplay['colab']}.jpg?${d.getTime()}`
+        this.asesorImage = `/img/asesores/${this.dataDisplay['colab']}.jpg`
       }else{
         this.asesorImage = "assets/img/no-image.png"
       }
@@ -200,7 +199,7 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
           data['hoy'].llamadas_all  += parseInt(item.llamadas_total)
           data['hoy'].tt        += parseInt(item.talking_time)
         }
-        
+
         data.nombre = item.nombre
         data.colab  = item.colab
         data.lu     = moment.tz(item.Last_Update, 'America/Mexico_city').tz('America/Bogota').format('DD MM \'YY')

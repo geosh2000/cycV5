@@ -131,7 +131,7 @@
               </div>
             </div>
             <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h2>FC {{ (dataDisplay['hoy']['rsvas'] / dataDisplay['hoy']['llamadas']) | number:'.2-2' }} %</h2>
+              <h2>FC {{ (dataDisplay['hoy']['rsvas'] / dataDisplay['hoy']['llamadas'] * 100) | number:'.2-2' }} %</h2>
             </div>
             <div class="d-flex justify-content-center align-items-center" style="width: 100%">
               <h2>AHT {{ (dataDisplay['hoy']['tt'] / dataDisplay['hoy']['llamadas_all']) | number:'.0-0' }} s.</h2>

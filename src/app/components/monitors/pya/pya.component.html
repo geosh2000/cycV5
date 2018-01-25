@@ -26,7 +26,7 @@
           <div class="input-group">
             <input class="form-control" placeholder="yyyy-mm-dd" (select)="getSchedules()"
                    name="dp" [(ngModel)]="dateSearch" ngbDatepicker #d="ngbDatepicker">
-            <button class="input-group-addon" (click)="d.toggle()" type="button" style="cursor: pointer">
+            <button class="input-group-append" (click)="d.toggle()" type="button" style="cursor: pointer">
               <i class="fas fa-calendar"></i>
             </button>
           </div>
@@ -55,154 +55,20 @@
 
           <!-- <div class="col" *ngFor="let item of dataSchedules | orderBy: 'nombre'"> -->
           <ng-container *ngFor="let item of dataPerHour[hour]; index as i">
-            <div class="card m-2" style="width: 16rem;"><a id="card_{{ item.asesor }}"></a>
-              <div class="card-header text-center p-0">
-                <div class="row m-0" style="width:100%">
-                  <div class="col-8 p-0 ">
-                    <p><span *ngIf="alert['card_' + item.asesor]" class="text-danger animated flash infinite"><i class="fas fa-exclamation-circle fa-2x"></i></span><span>{{ item.nombre }}</span></p>
-                    <p style="font-size: smaller" class="m-0 p-0 text-primary"><small>{{ item.dep }}</small></p>
-                    <p style="font-size: smaller" class="m-0 p-0 text-info"><small>({{ item.puesto }})</small></p>
-                  </div>
-                  <ng-template #tipContent>
-                    <ngb-tabset>
-                      <ngb-tab title="Logs">
-                        <ng-template ngbTabContent>
-                          <table class="table table-sm table-responsive table-stripped" *ngIf="dataLogs && dataLogs[item.asesor]">
-                            <thead>
-                              <tr>
-                                <th>Log</th>
-                                <th>Hour</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td class="bg-success">J Login</td>
-                                <td>{{ printTime(dataLogs[item.asesor].j.in, 'HH:mm:ss') }}</td>
-                              </tr>
-                              <tr>
-                                <td class="bg-success">J Logout</td>
-                                <td>{{ printTime(dataLogs[item.asesor].j.out, 'HH:mm:ss') }}</td>
-                              </tr>
-                              <tr>
-                                <td class="bg-warning">x1 Login</td>
-                                <td>{{ printTime(dataLogs[item.asesor].x1.in, 'HH:mm:ss') }}</td>
-                              </tr>
-                              <tr>
-                                <td class="bg-warning">x1 Logout</td>
-                                <td>{{ printTime(dataLogs[item.asesor].x1.out, 'HH:mm:ss') }}</td>
-                              </tr>
-                              <tr>
-                                <td class="bg-info">x2 Login</td>
-                                <td>{{ printTime(dataLogs[item.asesor].x2.in, 'HH:mm:ss') }}</td>
-                              </tr>
-                              <tr>
-                                <td class="bg-info">x2 Logout</td>
-                                <td>{{ printTime(dataLogs[item.asesor].x2.out, 'HH:mm:ss') }}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </ng-template>
-                      </ngb-tab>
-                      <ngb-tab title="Excepciones" *ngIf="dataExceptions[item.asesor]">
-                        <ng-template ngbTabContent>
-                          <table style="width: 170px" class="table table-sm table-responsive table-stripped" *ngIf="dataLogs && dataLogs[item.asesor]">
-                            <thead>
-                              <tr>
-                                <th>Concepto</th>
-                                <th>Detalle</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Tipo</td>
-                                <td>{{ dataExceptions[item.asesor].Excepcion }}</td>
-                              </tr>
-                              <tr>
-                                <td>Code</td>
-                                <td>{{ dataExceptions[item.asesor].Codigo }}</td>
-                              </tr>
-                              <tr>
-                                <td>Notas</td>
-                                <td>{{ dataExceptions[item.asesor].Nota }}</td>
-                              </tr>
-                              <tr>
-                                <td>Aplicó</td>
-                                <td>{{ dataExceptions[item.asesor].nombre }}</td>
-                              </tr>
-                              <tr>
-                                <td>LU</td>
-                                <td>{{ printTime(dataExceptions[item.asesor].Last_Update, 'HH:mm:ss DD MMM YY') }}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </ng-template>
-                      </ngb-tab>
-                    </ngb-tabset>
-                    <span *ngIf="!dataLogs || !dataLogs[item.asesor]">Sin Logueos</span>
-                  </ng-template>
-                  <div class="col-lg-4  p-0 d-flex justify-content-center align-items-center" placement="top" [ngbPopover]="tipContent" popoverTitle="Logueos" (shown)="popOv( item.asesor, true )" (hidden)="popOv( item.asesor, false )" [ngClass]="setExcept( item.asesor, 'class' )">
-                    <div class='text-center'>
-                      <ng-container *ngIf="!dataExceptions[item.asesor]">
-                        <h5 class='m-0'>{{ setExcept( item.asesor ) }}</h5>
-                      </ng-container>
-                      <ng-container *ngIf="dataExceptions[item.asesor]">
-                        <p class='m-0'><small style="font-size: 50%">{{ dataExceptions[item.asesor].Excepcion }}</small></p>
-                        <p style="margin-top: -5px"><small style="font-size: 50%">{{ setExcept( item.asesor ) }}</small></p>
-                      </ng-container>
-                      <ng-container *ngIf="dataLogs && dataLogs[item.asesor]">
-                        <ng-container *ngIf="item.js == item.je || item.Ausentismo!= null">
-                          <small *ngIf="compareDates(dataLogs[item.asesor]['x1']['in'], '<', dataLogs[item.asesor]['j']['in'])">{{ printTime(dataLogs[item.asesor]['x1']['in'], 'HH:mm:ss') }}</small>
-                          <small *ngIf="compareDates(dataLogs[item.asesor]['j']['in'], '<', dataLogs[item.asesor]['x1']['in'])">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
-                          <small *ngIf="dataLogs[item.asesor]['x1']['in'] == null">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
-                        </ng-container>
-                        <ng-container *ngIf="item.Ausentismo == null && item.js != item.je">
-                          <small *ngIf="item.x1s != null && compareDates(item.x1s, '<', item.js)">{{ printTime(dataLogs[item.asesor]['x1']['in'], 'HH:mm:ss') }}</small>
-                          <small *ngIf="item.x2s != null && compareDates(item.x2s, '<', item.js)">{{ printTime(dataLogs[item.asesor]['x2']['in'], 'HH:mm:ss') }}</small>
-                          <small *ngIf="item.x1s != null && compareDates(item.js, '<', item.x1s)">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
-                          <small *ngIf="item.x1s == null">{{ printTime(dataLogs[item.asesor]['j']['in'], 'HH:mm:ss') }}</small>
-                        </ng-container>
-                      </ng-container>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body p-1" [ngClass]="bgCards( item )">
-                <ng-container *ngIf="item.Ausentismo == null && item.js != item.je; else isAusent">
-                  <div class="text-center" style="font-size: smaller">
-                    <p>j: {{ printTime( item.js, 'HH:mm' ) }} - {{ printTime( item.je, 'HH:mm' ) }} <span *ngIf="item.cs != item.ce">(c: {{ printTime( item.cs, 'HH:mm' ) }} - {{ printTime( item.ce, 'HH:mm' ) }})</span></p>
-                  </div>
-                  <div class="text-center" style="font-size: small" *ngIf="item.x1s != item.x1e">
-                    <p>x1: {{ printTime( item.x1s, 'HH:mm' ) }} - {{ printTime( item.x1e, 'HH:mm' ) }}</p>
-                    <p *ngIf="item.x2s != item.x2e">x2: {{ printTime( item.x2s, 'HH:mm' ) }} - {{ printTime( item.x2e, 'HH:mm' ) }}</p>
-                  </div>
-
-                  <div class='d-flex justify-content-center' *ngIf="item.js != item.je && dataLogs">
-                    <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x1s != item.x1e && compareDates(item.x1s, '<', item.js)">
-                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x1')" [max]="timeProcess(item.x1s, item.x1e)" height="1rem">x1s</ngb-progressbar>
-                    </div>
-                    <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x2s != item.x2e && compareDates(item.x2s, '<', item.js)">
-                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x2')" [max]="timeProcess(item.x2s, item.x2e)" height="1rem">x2s</ngb-progressbar>
-                    </div>
-                    <div style="width: 64%" class="p-0 border border-success rounded">
-                      <ngb-progressbar type="success" [value]="pBarVal(item.asesor, 'j')" [max]="timeProcess(item.js, item.je)" height="1rem">j</ngb-progressbar>
-                    </div>
-                    <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x1s != item.x1e && compareDates(item.x1e, '>', item.je)">
-                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x1')" [max]="timeProcess(item.x1s, item.x1e)" height="1rem">x1s</ngb-progressbar>
-                    </div>
-                    <div style="width: 18%" class="p-0 border border-warning rounded" *ngIf="item.x2s != item.x2e && compareDates(item.x2e, '>', item.je)">
-                      <ngb-progressbar type="warning" [value]="pBarVal(item.asesor, 'x2')" [max]="timeProcess(item.x2s, item.x2e)" height="1rem">x2s</ngb-progressbar>
-                    </div>
-                  </div>
-                </ng-container>
-                <ng-template #isAusent>
-                  <div class="d-flex justify-content-center">
-                    <span class="text-center" *ngIf="item.Ausentismo != null">{{ item.Ausentismo }}</span>
-                    <span class="text-center" *ngIf="item.Ausentismo == null && item.js == null">N/A</span>
-                    <span class="text-center" *ngIf="item.Ausentismo == null && item.js != null">Descanso</span>
-                  </div>
-                </ng-template>
-              </div>
-            </div>
+            <app-pya-cards
+              (pop)="popTimer( $event )"
+              (exception)="_pya.build( $event.asesor, $event.nombre, $event.date, $event.showAll )"
+              [item]="item"
+              [alerta]="alert ? alert['card_' + item.asesor] : false"
+              [date]="dateModel"
+              [dataLogs]="dataLogs ? dataLogs[item.asesor] : false"
+              [dataExceptions]="dataExceptions ? dataExceptions[item.asesor] : false"
+              [asesorLogs]="asesorLogs ? asesorLogs[item.asesor] : false"
+              [dataPerHour]="dataPerHour ? dataPerHour[asesorIndex[item.asesor].h][asesorIndex[item.asesor].k] : false"
+              [popOvers]="popOvers ? popOvers[item.asesor] : false"
+              [rets]="rets"
+              [lu]="lu">
+            </app-pya-cards>
           </ng-container>
           <!-- </div> -->
         </div>
@@ -210,4 +76,5 @@
 
     </div>
   </ng-container>
+  <app-pya-exception (save)="excStatus( $event )"></app-pya-exception>
 </div>

@@ -109,6 +109,8 @@ import { VentaPorAsesorComponent } from './components/monitors/venta-por-asesor/
 import { CardAsesorEstadisticaComponent } from './components/monitors/venta-por-asesor/card-asesor-estadistica/card-asesor-estadistica.component';
 import { ParticipacionComponent } from './components/monitors/ivr/participacion.component';
 import { PathSelectComponent } from './components/monitors/ivr/path-select/path-select.component';
+import { PyaExceptionComponent } from './components/formularios/pya-exception.component';
+import { PyaCardsComponent } from './components/monitors/pya/pya-cards/pya-cards.component';
 
 
 declare let jQuery : Object;
@@ -207,7 +209,9 @@ registerLocaleData(localeEsMX)
     VentaPorAsesorComponent,
     CardAsesorEstadisticaComponent,
     ParticipacionComponent,
-    PathSelectComponent
+    PathSelectComponent,
+    PyaExceptionComponent,
+    PyaCardsComponent
   ],
   imports: [
     BrowserModule,

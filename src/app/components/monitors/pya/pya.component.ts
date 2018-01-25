@@ -7,6 +7,8 @@ import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
 import { TokenCheckService } from '../../../services/token-check.service';
 
+import { PyaExceptionComponent } from '../../formularios/pya-exception.component';
+
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
 
@@ -31,6 +33,8 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<Date> {
 })
 export class PyaComponent implements OnInit {
 
+  @ViewChild( PyaExceptionComponent ) _pya:PyaExceptionComponent
+
   currentUser: any
   showContents:boolean = false
   mainCredential:string = 'monitor_pya'
@@ -41,6 +45,8 @@ export class PyaComponent implements OnInit {
 
   dataPerHour = {}
   dataLogs:any
+  asesorLogs:any
+  rawSchedules:any
   dataSchedules:any
   dataExceptions:Object = {}
   lu:any
@@ -141,56 +147,20 @@ export class PyaComponent implements OnInit {
     this._api.restfulGet( this.dateModel, 'Pya/horarios' )
             .subscribe( res => {
 
-              this.dataPerHour = {}
-              this.asesorIndex = {}
-              this.dataExceptions = {}
-
               this.loading['schedules'] = false
               this.dataSchedules = res.data
+              this.rawSchedules = res.data
 
-              let idIndex = {}
+              this.buildSchedules( res.data, true, () => {
+                this.getLogs( true )
+                this.loopCount = 15
+                this.timeCount = 60
 
-              for( let item in res.data ){
-                let it = res.data[item]
-                let h
+                console.log(this.dataPerHour)
+                console.log(this.asesorIndex)
+                console.log(this.dataExceptions)
+              })
 
-                if( it.Ausentismo != null || it.js == null || it.js == it.je ){
-                  h = -1
-                }else{
-                  let hour = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('HH'))
-                  let minute = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('mm'))
-
-                  if( minute > 0 ){
-                    hour += 0.5
-                  }
-
-                  hour = hour * 2
-
-                  h = hour
-                }
-
-                this.dataSchedules[item]['h'] = h
-
-                if( this.dataPerHour[h] ){
-                  this.dataPerHour[h].push(it)
-
-                  let ind = this.dataPerHour[h].length
-                  idIndex[it.asesor] = { h: h, k: ind-1 }
-                }else{
-                  this.dataPerHour[h] = [ it ]
-
-                  idIndex[it.asesor] = { h: h, k: 0 }
-                }
-
-              }
-
-              this.asesorIndex = idIndex
-              this.getLogs()
-              this.loopCount = 15
-              this.timeCount = 60
-
-              console.log(this.dataPerHour)
-              console.log(this.asesorIndex)
 
 
             }, err => {
@@ -203,6 +173,77 @@ export class PyaComponent implements OnInit {
               console.error(err.statusText, error.msg)
 
             })
+  }
+
+  buildSchedules( res, flag = true, callback? ){
+    let idIndex = {}
+    this.dataExceptions = {}
+
+    if( flag ){
+      this.dataPerHour = {}
+      this.asesorIndex = {}
+    }
+
+    for( let item in res ){
+
+      let it = res[item]
+      let h
+
+      if( flag ){
+        if( (it.Ausentismo != null && it.showPya != 1) || it.js == null || it.js == it.je ){
+          h = -1
+        }else{
+          let hour = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('HH'))
+          let minute = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('mm'))
+
+          if( minute > 0 ){
+            hour += 0.5
+          }
+
+          hour = hour * 2
+
+          h = hour
+        }
+
+        this.dataSchedules[item]['h'] = h
+
+        if( this.dataPerHour[h] ){
+          this.dataPerHour[h].push(it)
+
+          let ind = this.dataPerHour[h].length
+          idIndex[it.asesor] = { h: h, k: ind-1 }
+        }else{
+          this.dataPerHour[h] = [ it ]
+
+          idIndex[it.asesor] = { h: h, k: 0 }
+        }
+      }
+
+      if( res[item].showPya == 1){
+        this.dataExceptions[it.asesor] = {
+          id    : res[item].ausent_id,
+          asesor: it.asesor,
+          Fecha : res[item].Fecha,
+          tipo  : res[item].tipoAus,
+          caso  : res[item].casoAus,
+          Nota  : res[item].notaAus,
+          Last_Update: res[item].luAus,
+          changed_by: res[item].chAus,
+          Excepcion : res[item].Ausentismo,
+          Codigo : res[item].Codigo,
+          nombre : res[item].nameChAus
+        }
+      }
+
+    }
+
+    if( flag ){
+      this.asesorIndex = idIndex
+    }
+
+    if (callback && typeof(callback) == "function") {
+      callback()
+    }
   }
 
   printTime( time, format ){
@@ -246,7 +287,7 @@ export class PyaComponent implements OnInit {
 
   }
 
-  getLogs(){
+  getLogs( flag = false ){
 
     this.loading['logs'] = true
     this.timerFlag = false
@@ -256,7 +297,7 @@ export class PyaComponent implements OnInit {
             .subscribe( res => {
 
               this.dataLogs = {}
-              this.dataExceptions = {}
+              this.asesorLogs = {}
               this.rets = {
                 a: [],
                 b: [],
@@ -264,15 +305,22 @@ export class PyaComponent implements OnInit {
                 fa: [],
               }
 
-              for( let item in res.data ){
-                let it = res.data[item]
-                this.isInside( it.login, it.logout, it.asesor )
-              }
+              this.buildSchedules( this.rawSchedules, flag, () => {
+                for( let item in res.data ){
+                  let it = res.data[item]
+                  this.isInside( it.login, it.logout, it.asesor )
 
-              this.lu = res.lu['lu']
+                  if( this.asesorLogs[res.data[item]['asesor']] ){
+                    this.asesorLogs[res.data[item]['asesor']].push({ login: res.data[item]['login'], logout: res.data[item]['logout']})
+                  }else{
+                    this.asesorLogs[res.data[item]['asesor']] = [{ login: res.data[item]['login'], logout: res.data[item]['logout']}]
+                  }
+                }
 
-              this.getExceptions()
+                this.lu = res.lu['lu']
 
+                this.getExceptions()
+              })
 
             }, err => {
               console.log("ERROR", err)
@@ -297,8 +345,6 @@ export class PyaComponent implements OnInit {
 
     this._api.restfulGet( this.dateModel, 'Pya/exceptions' )
             .subscribe( res => {
-
-              this.dataExceptions = {}
 
               this.loading['logs'] = false
 
@@ -688,20 +734,14 @@ export class PyaComponent implements OnInit {
           this.getLogs()
         }
       }else{
-        if( this.timeCount > 0){
-          this.timeCount--
-          setTimeout( () => {
-          this.timerLoad()
-          }, 1000 )
-        }
-      }
-    }else{
-      if( pause ){
-        setTimeout( () => {
-        this.timerLoad( true )
-        }, 1000 )
+        this.timeCount--
       }
     }
+
+    setTimeout( () => {
+      this.timerLoad()
+    }, 1000 )
+
   }
 
   showrts(){
@@ -735,7 +775,6 @@ export class PyaComponent implements OnInit {
     for(let i in this.popOvers ){
       if( this.popOvers[i] ){
         this.timerFlag = false
-        this.timerLoad( true )
         return true
       }
     }
@@ -744,6 +783,37 @@ export class PyaComponent implements OnInit {
       this.timerFlag = true
       return true
     }, 1000)
+  }
+
+  popTimer( event ){
+    this.popOvers[event.asesor] = event.status
+    let flag = true
+
+    for( let pops in this.popOvers ){
+      if( this.popOvers[pops] ){
+        flag = false
+      }
+    }
+
+    this.timerFlag = flag
+  }
+
+  excStatus( event ){
+    if( !event.status ){
+      let error = event.error.json()
+      this.toastr.error( error.msg, `Error ${event.error.status} - ${event.error.statusText}` )
+
+      if( error.Existente ){
+        console.error("Ausentismo existente: ", error.Existente)
+      }
+
+      if( error.errores ){
+        console.error("Ausentismo existente: ", error.errores)
+      }
+    }else{
+      this.toastr.success( event.msg, `Guardado` )
+      this.getLogs()
+    }
   }
 
 
