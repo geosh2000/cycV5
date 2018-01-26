@@ -13,22 +13,24 @@ Esta versión está hecha con el framework de AngularCLI con la finalidad de añ
 * Separación de excepciones en Asistencia y Puntualidad
 * Integración a nuevas tablas de PYA
 * Módulo independiente para su uso en distintos Módulos
+* Fix -> Correcta escritura de Ausentismo en tabla de ausentismos (a: 1)
 
 ### Monitor de PYA
-* Bug Fix -> Performance mejorado con módulos por tarjeta
+* Fix -> Performance mejorado con módulos por tarjeta
 * Integración de módulo de Excepciones para PyA
+* Reload general al ingresar excepciones de Ausentismo
 
 ### Venta por Canal
 * Se agrega la columna de Mixcoac
 * Opción para desglozar el producto de paquete en Hotel y Vuelo por separado
 
 ### Monitor Por Asesor
-* Fix de ordenamiento de supervisores
-* Fix de Responsive para celulares
-* Fix de FC% 'Hoy'
+* Fix -> ordenamiento de supervisores
+* Fix -> Responsive para celulares
+* Fix -> FC% 'Hoy'
 
 ### Estilos
-* Fix de checkboxes y button-groups con BS4
+* Fix -> checkboxes y button-groups con BS4
 
 ### Monitor de Participacion IVR (Nuevo!)
 * Participación de Dids, Colas, Horas y Grupos en MP
@@ -45,4 +47,11 @@ Esta versión está hecha con el framework de AngularCLI con la finalidad de añ
 * Carga por módulos
 * Se agregan columnas de Fechas por Ausentismos
 * Se agregan columnas de Locs por Cxc
+* Integración de nueva tabla de Ausentismos
+
+### Módulo de Asistencia (Nuevo!)
+* Fix -> corrección de función MySQL para checkLogs
+* Módulos independientes para Excepciones, Retardos y Salidas Anticipadas
+* Cálculo automático de Faltas por Salidas Anticipadas
+* Cambio de checkboxes por switches para opciones
 * Integración de nueva tabla de Ausentismos
