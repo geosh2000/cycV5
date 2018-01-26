@@ -111,6 +111,8 @@ import { ParticipacionComponent } from './components/monitors/ivr/participacion.
 import { PathSelectComponent } from './components/monitors/ivr/path-select/path-select.component';
 import { PyaExceptionComponent } from './components/formularios/pya-exception.component';
 import { PyaCardsComponent } from './components/monitors/pya/pya-cards/pya-cards.component';
+import { PuntualidadBadgeComponent } from './addon/buttons/puntualidad-badge/puntualidad-badge.component';
+import { SaBadgeComponent } from './addon/buttons/sa-badge/sa-badge.component';
 
 
 declare let jQuery : Object;
@@ -211,7 +213,9 @@ registerLocaleData(localeEsMX)
     ParticipacionComponent,
     PathSelectComponent,
     PyaExceptionComponent,
-    PyaCardsComponent
+    PyaCardsComponent,
+    PuntualidadBadgeComponent,
+    SaBadgeComponent
   ],
   imports: [
     BrowserModule,

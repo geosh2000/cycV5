@@ -25,9 +25,9 @@
             <div class="col-auto">
               <label class="sr-only" for="selectedDate">Fechas</label>
               <div class="col-auto input-group">
-                <span class="input-group-addon">
-                  <i class="fa fa-calendar fa-fw"></i>
-                </span>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-calendar fa-fw"></i></span>
+                </div>
                 <input
                   daterangepicker
                   (selected)="setVal($event.start, $event.end)"
@@ -49,45 +49,98 @@
         </div>
         <br>
         <div class="container">
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="ch_jornada" value="ch_jornada" name="ch_jornada" [(ngModel)]="showOpts.ch_jornada"> Jornada
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="ch_comida" value="ch_comida" name="ch_comida" [(ngModel)]="showOpts.ch_comida"> Comida
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="ch_x" value="ch_x" name="ch_x" [(ngModel)]="showOpts.ch_x"> Horas Extra
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="ch_excep" value="ch_excep" name="ch_excep" [(ngModel)]="showOpts.ch_excep"> Excepciones
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="ch_ret" value="ch_ret" name="ch_ret" [(ngModel)]="showOpts.ch_ret"> Retardos
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="ch_sa" value="ch_sa" name="ch_sa" [(ngModel)]="showOpts.ch_sa"> Salidas Anticipadas
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="sh_p" value="sh_p" name="sh_p" [(ngModel)]="showOpts.sh_p"> Mostrar Cumplimiento
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="sh_d" value="sh_d" name="sh_d" [(ngModel)]="showOpts.sh_d"> Mostrar Detalle
-            </label>
+          <div class="row">
+            <div class="col-lg">
+              <div style="text-align: center" class="p-2">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='ch_jornada'
+                  [(ngModel)]="showOpts.ch_jornada"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="!tdInfo">Jornada</small>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg">
+              <div style="text-align: center" class="p-2">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='ch_comida'
+                  [(ngModel)]="showOpts.ch_comida"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="!tdInfo">Comida</small>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg">
+              <div style="text-align: center" class="p-2">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='ch_x'
+                  [(ngModel)]="showOpts.ch_x"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="!tdInfo">Horas Extra</small>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg">
+              <div style="text-align: center" class="p-2">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='ch_excep'
+                  [(ngModel)]="showOpts.ch_excep"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="!tdInfo">Excepciones</small>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg">
+              <div style="text-align: center" class="p-2">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='ch_ret'
+                  [(ngModel)]="showOpts.ch_ret"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="!tdInfo">RT</small>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg">
+              <div style="text-align: center" class="p-2">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='ch_sa'
+                  [(ngModel)]="showOpts.ch_sa"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="!tdInfo">SA</small>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg">
+              <div style="text-align: center" class="p-2">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='sh_p'
+                  [(ngModel)]="showOpts.sh_p"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="!tdInfo">Cumplimiento</small>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -96,7 +149,7 @@
 
 </div>
 
-<ng-container *ngIf="asistData">
+<ng-container *ngIf="asistData && showContents">
   <div class="container-fluid" >
     <table class="table table-fluid table-striped table-bordered table-hover table-sm table-responsive">
       <thead>
@@ -114,198 +167,10 @@
             <td scope="row"><small class="text-center">{{ asistData[rac].Departamento }}</small></td>
             <td scope="row"><small class="text-center">{{ asistData[rac].PuestoName }}</small></td>
             <td *ngFor="let date of datesData | keys" class="text-xs-center" style="max-width: 180px">
-
-                <!-- Jornadas -->
-                <ng-container *ngIf="showOpts.ch_jornada && asistData[rac].data[date]">
-                  <div class='d-flex justify-content-start'>
-                    <div class="p-1 ml-auto">
-                      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" (click)="_aus.initForm( rac, date )">j:</button>
-                    </div>
-
-                    <ng-template #popContent>
-                      <ng-container *ngIf="asistData[rac].data[date]['j_login'] != null; else Other">
-                        <table class="table table-sm table-responsive table-hover" style="font-size: smaller">
-                          <thead>
-                            <tr>
-                              <th>Log</th>
-                              <th>Jornada</th>
-                              <th>Día</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td scope="row">Login:</td>
-                              <td [ngClass]="{'text-danger': asistData[rac].data[date]['Retardo']}">{{ formatDate(asistData[rac].data[date]['j_login'], 'kk:mm:ss') }}</td>
-                              <td>{{ formatDate(asistData[rac].data[date]['login'], 'kk:mm:ss') }}</td>
-                            </tr>
-                            <tr>
-                              <td scope="row">Logout:</td>
-                              <td [ngClass]="{'text-danger': asistData[rac].data[date]['SalidaAnticipada'] == 1}">{{ formatDate(asistData[rac].data[date]['j_logout'], 'kk:mm:ss') }}</td>
-                              <td>{{ formatDate(asistData[rac].data[date]['logout'], 'kk:mm:ss') }}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </ng-container>
-                      <ng-template #Other>Sin información de logueos</ng-template>
-                    </ng-template>
-                    <div class="p-1 ml-auto">
-                      <button
-                        class="btn btn-sm btn-block"
-                        style="width: 100px"
-                        [ngClass]="{'btn-secondary':        asistData[rac].data[date]['Descanso'] == 1,
-                                    'btn-primary':          asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['js'] != null,
-                                    'btn-outline-secondary': asistData[rac].data[date]['js'] == null}"
-                        placement="top" [ngbPopover]="popContent" popoverTitle="Logs de Jornada"
-                        >
-
-                            <span class="text-center">
-                              <small *ngIf="asistData[rac].data[date]['Descanso'] == 1">Descanso</small>
-                              <small *ngIf="asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['js'] != null">
-                                {{ formatDate(asistData[rac].data[date]['js'], 'kk:mm') }} - {{ formatDate(asistData[rac].data[date]['je'], 'kk:mm') }}
-                                <i class="fa fa-fw fa-info-circle"></i>
-                              </small>
-                              <small *ngIf="asistData[rac].data[date]['js'] == null">*</small>
-                            </span>
-                            <ng-container *ngIf="showOpts.sh_p">
-                              <app-cumplimiento [config]="progressProps( perCumplimiento( rac, date, 'j' ) )" *ngIf="asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['js'] != null"></app-cumplimiento>
-                            </ng-container>
-                      </button>
-                    </div>
-                  </div>
-
-                </ng-container>
-
-                <!-- Extra -->
-                <ng-container *ngIf="showOpts.ch_x && asistData[rac].data[date]">
-                  <div class='d-flex justify-content-start'>
-                    <div class="p-1 ml-auto">
-                      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">x:</button>
-                    </div>
-
-                    <ng-template #popContent>
-                      <ng-container *ngIf="asistData[rac].data[date]['login'] != null; else Other">
-                        <table class="table table-sm table-responsive table-hover" style="font-size: smaller">
-                          <thead>
-                            <tr>
-                              <th>Log</th>
-                              <th>Extra 1</th>
-                              <th *ngIf="asistData[rac].data[date]['x2s'] != asistData[rac].data[date]['x2e']">Extra 2</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td scope="row">Login:</td>
-                              <td>{{ formatDate(asistData[rac].data[date]['x1_login'], 'kk:mm:ss') }}</td>
-                              <td *ngIf="asistData[rac].data[date]['x2s'] != asistData[rac].data[date]['x2e']">{{ formatDate(asistData[rac].data[date]['x2_login'], 'kk:mm:ss') }}</td>
-                            </tr>
-                            <tr>
-                              <td scope="row">Logout:</td>
-                              <td>{{ formatDate(asistData[rac].data[date]['x1_logout'], 'kk:mm:ss') }}</td>
-                              <td *ngIf="asistData[rac].data[date]['x2s'] != asistData[rac].data[date]['x2e']">{{ formatDate(asistData[rac].data[date]['x2_logout'], 'kk:mm:ss') }}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </ng-container>
-                      <ng-template #Other>Sin información de logueos</ng-template>
-                    </ng-template>
-                    <div class="p-1 ml-auto">
-                      <button
-                        class="btn btn-sm btn-block"
-                        style="width: 100px"
-                        [ngClass]="{'btn-warning':          asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['x1s'] != asistData[rac].data[date]['x1e'],
-                                    'btn-outline-secondary': asistData[rac].data[date]['x1s'] == null || asistData[rac].data[date]['Descanso'] == 1}"
-                        placement="top" [ngbPopover]="popContent" popoverTitle="Logs de H. Extra"
-                        >
-
-                            <span class="text-center">
-                              <small *ngIf="asistData[rac].data[date]['Descanso'] == 1 || asistData[rac].data[date]['x1s'] == null">_</small>
-                              <small *ngIf="asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['x1s'] != asistData[rac].data[date]['x1e']">
-                                {{ formatDate(asistData[rac].data[date]['x1s'], 'kk:mm') }} - {{ formatDate(asistData[rac].data[date]['x1e'], 'kk:mm') }}
-                                <i class="fa fa-fw fa-info-circle"></i>
-                              </small>
-                              <small *ngIf="asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['x2s'] != asistData[rac].data[date]['x2e']"><br>
-                                {{ formatDate(asistData[rac].data[date]['x2s'], 'kk:mm') }} - {{ formatDate(asistData[rac].data[date]['x2e'], 'kk:mm') }}
-                                <i class="fa fa-fw fa-info-circle"></i>
-                              </small>
-                            </span>
-                            <ng-container *ngIf="showOpts.sh_p">
-                              <app-cumplimiento [config]="progressProps( perCumplimiento( rac, date, 'x1' ), 'warning' )" *ngIf="asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['x1s'] != asistData[rac].data[date]['x1e']"></app-cumplimiento>
-                              <p style='margin-top: 2px'><app-cumplimiento [config]="progressProps( perCumplimiento( rac, date, 'x2' ), 'warning' )" *ngIf="asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['x2s'] != asistData[rac].data[date]['x2e']"></app-cumplimiento></p>
-                            </ng-container>
-                      </button>
-                    </div>
-                  </div>
-
-                </ng-container>
-
-                <!-- Comidas -->
-                <ng-container *ngIf="showOpts.ch_comida && asistData[rac].data[date]">
-                  <div class='d-flex justify-content-start'>
-                    <div class="p-1 ml-auto">
-                      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">c:</button>
-                    </div>
-
-                    <div class="p-1 ml-auto">
-                      <button
-                        class="btn btn-sm btn-block"
-                        style="width: 100px"
-                        [ngClass]="{'btn-info':          asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['cs'] != asistData[rac].data[date]['ce'],
-                                    'btn-outline-secondary': asistData[rac].data[date]['cs'] == null || asistData[rac].data[date]['Descanso'] == 1 || asistData[rac].data[date]['cs'] == asistData[rac].data[date]['ce']}"
-                        >
-
-                            <span class="text-center">
-                              <small *ngIf="asistData[rac].data[date]['cs'] == null || asistData[rac].data[date]['Descanso'] == 1 || asistData[rac].data[date]['cs'] == asistData[rac].data[date]['ce']">_</small>
-                              <small *ngIf="asistData[rac].data[date]['Descanso'] != 1 && asistData[rac].data[date]['cs'] != asistData[rac].data[date]['ce']">
-                                {{ formatDate(asistData[rac].data[date]['cs'], 'kk:mm') }} - {{ formatDate(asistData[rac].data[date]['ce'], 'kk:mm') }}
-                                <i class="fa fa-fw fa-info-circle"></i>
-                              </small>
-                            </span>
-                      </button>
-                    </div>
-                  </div>
-
-                </ng-container>
-
-                <!-- Excepciones -->
-                <ng-container *ngIf="showOpts.ch_excep && asistData[rac].data[date]">
-                  <div class='d-flex justify-content-start'>
-                    <div class="p-1 ml-auto">
-                      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" (click)="_aus.initForm( rac, date )">e:</button>
-                    </div>
-
-                    <ng-template #popContent>
-                      <ng-container *ngIf="asistData[rac].data[date]['j_login'] != null; else Other">
-                        <table class="table table-sm table-responsive table-hover" style="font-size: smaller">
-                          <thead>
-                            <tr>
-                              <th>Log</th>
-                              <th>Jornada</th>
-                              <th>Día</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td scope="row">Login:</td>
-                              <td [ngClass]="{'text-danger': asistData[rac].data[date]['Retardo']}">{{ formatDate(asistData[rac].data[date]['j_login'], 'kk:mm:ss') }}</td>
-                              <td>{{ formatDate(asistData[rac].data[date]['login'], 'kk:mm:ss') }}</td>
-                            </tr>
-                            <tr>
-                              <td scope="row">Logout:</td>
-                              <td [ngClass]="{'text-danger': asistData[rac].data[date]['SalidaAnticipada'] == 1}">{{ formatDate(asistData[rac].data[date]['j_logout'], 'kk:mm:ss') }}</td>
-                              <td>{{ formatDate(asistData[rac].data[date]['logout'], 'kk:mm:ss') }}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </ng-container>
-                      <ng-template #Other>Sin información de logueos</ng-template>
-                    </ng-template>
-                    <div class="p-1 ml-auto">
-                      <app-asistencia-badge btnWidth=100 [dataAsesor]="asistData[rac].data[date]" [date]="date"></app-asistencia-badge>
-                    </div>
-                  </div>
-
-                </ng-container>
-
+              <app-jornadas
+                [asistData]="asistData[rac].data[date]"
+                [showOpts]="showOpts">
+              </app-jornadas>
             </td>
           </tr>
         </ng-container>

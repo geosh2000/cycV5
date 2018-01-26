@@ -811,8 +811,13 @@ export class PyaComponent implements OnInit {
         console.error("Ausentismo existente: ", error.errores)
       }
     }else{
-      this.toastr.success( event.msg, `Guardado` )
-      this.getLogs()
+      this.toastr.success( event.error.msg, `Guardado` )
+      if( event.error.tipo == 1 ){
+        this.getSchedules( )
+      }else{
+        this.getLogs( false )
+      }
+
     }
   }
 

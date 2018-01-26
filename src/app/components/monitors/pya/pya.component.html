@@ -36,7 +36,6 @@
     <div class="p-2">
       <button type="button" class="btn btn-success" (click)="getSchedules()" [disabled]="loading['schedules']">Ver Fecha <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span></button>
       <button type="button" class="btn btn-info" (click)="getLogs()" [disabled]="loading['logs']">Cargar Logs <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-      <button type="button" class="btn btn-info" (click)="showrts()" [disabled]="loading['logs']">Cargar rts <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span></button>
     </div>
   </div>
 

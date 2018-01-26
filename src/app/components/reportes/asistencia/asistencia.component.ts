@@ -205,6 +205,7 @@ export class AsistenciaComponent implements OnInit {
           this.loading = false
 
           console.log( res.res )
+          console.log( this.asistData )
           this.cd.markForCheck()
         })
   }
@@ -378,6 +379,10 @@ export class AsistenciaComponent implements OnInit {
     }
 
     return {bar: bar, border: border, val: val}
+  }
+
+  buildRts(){
+
   }
 
 }

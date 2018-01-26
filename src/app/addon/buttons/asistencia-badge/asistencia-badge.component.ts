@@ -67,12 +67,56 @@ export class AsistenciaBadgeComponent implements OnInit {
                 reg:    data.Aus_Register,
                 lu:     data.Aus_LU
               }
+
+              switch( data.Code_aus){
+                case 'F':
+                case 'SUS':
+                  this.btnClass     = 'btn-danger'
+                  this.displayText  = data.codeAus
+                  return
+                default:
+                  this.btnClass     = 'btn-info'
+                  this.displayText  = data.codeAus
+                  return
+              }
+
+            }else{
+              this.btnClass     = 'btn-success'
+              this.displayText  = 'A'
+              return
             }
 
-            this.btnClass     = 'btn-success'
-            this.displayText  = 'A'
-            return
           }else{
+
+            if( data.Aus_id == 15 || data.Aus_id == 16 || data.Aus_id == 8 ){
+              this.infoDisplay = true
+              this.infoExcep = true
+              this.infoData = {
+                code:   data.Code_aus,
+                excep:  data.Aus_Nombre,
+                nota:   data.Aus_Nota,
+                caso:   data.Aus_caso,
+                reg:    data.Aus_Register,
+                lu:     data.Aus_LU
+              }
+
+              switch( this.infoData['code'] ){
+                case 'F':
+                  this.btnClass     = 'btn-danger'
+                  this.displayText  = 'F'
+                  break
+                case 'SUS':
+                  this.btnClass     = 'btn-danger'
+                  this.displayText  = 'SUS'
+                  break
+                case 'FJ':
+                  this.btnClass     = 'btn-info'
+                  this.displayText  = 'FJ'
+                  break
+              }
+
+              return true
+            }
 
             if( data.tiempoLaborado>=60 ){
               this.btnClass     = 'btn-success'
@@ -146,7 +190,7 @@ export class AsistenciaBadgeComponent implements OnInit {
           this.displayText  = "D"
           return
         }else{
-          this.btnClass     = 'btn-primary'
+          this.btnClass     = 'btn-info'
           this.displayText  = data.Code_aus
           return
         }
