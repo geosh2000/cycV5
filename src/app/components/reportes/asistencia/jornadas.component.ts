@@ -9,7 +9,16 @@ import * as moment from 'moment-timezone';
 })
 export class JornadasComponent implements OnInit {
 
-  @Input() showOpts:Object = {}
+  @Input() showOpts:Object = {
+                              ch_jornada:   false,
+                              ch_comida:    false,
+                              ch_excep:     false,
+                              ch_ret:       false,
+                              ch_sa:        false,
+                              ch_x:         false,
+                              sh_p:         false,
+                              sh_d:         false
+                            }
   @Input() asistData:Object = {}
 
   constructor() { }

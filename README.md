@@ -3,7 +3,7 @@ Esta versión está hecha con el framework de AngularCLI con la finalidad de añ
 
 # Release History
 
-## v2.2.01
+## v2.2.1
 
 ### Cuartiles
 * Descarga de cuartiles por fecha en rango seleccionado

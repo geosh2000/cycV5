@@ -1,4 +1,4 @@
-<ng-container *ngIf="showOpts.ch_jornada && asistData">
+<ng-container *ngIf="showOpts['ch_jornada'] && asistData">
   <div class='d-flex justify-content-start'>
     <div class="p-1 ml-auto">
       <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">j:</button>
@@ -48,7 +48,7 @@
               </small>
               <small *ngIf="asistData['js'] == null">*</small>
             </span>
-            <ng-container *ngIf="showOpts.sh_p">
+            <ng-container *ngIf="showOpts['sh_p']">
               <app-cumplimiento [config]="progressProps( perCumplimiento( 'j' ) )" *ngIf="asistData['Descanso'] != 1 && asistData['js'] != null"></app-cumplimiento>
             </ng-container>
       </button>
@@ -58,7 +58,7 @@
 </ng-container>
 
 <!-- Extra -->
-<ng-container *ngIf="showOpts.ch_x && asistData">
+<ng-container *ngIf="showOpts['ch_x'] && asistData">
   <div class='d-flex justify-content-start'>
     <div class="p-1 ml-auto">
       <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">x:</button>
@@ -110,7 +110,7 @@
                 <i class="fa fa-fw fa-info-circle"></i>
               </small>
             </span>
-            <ng-container *ngIf="showOpts.sh_p">
+            <ng-container *ngIf="showOpts['sh_p']">
               <app-cumplimiento [config]="progressProps( perCumplimiento( 'x1' ), 'warning' )" *ngIf="asistData['Descanso'] != 1 && asistData['x1s'] != asistData['x1e']"></app-cumplimiento>
               <p style='margin-top: 2px'><app-cumplimiento [config]="progressProps( perCumplimiento( 'x2' ), 'warning' )" *ngIf="asistData['Descanso'] != 1 && asistData['x2s'] != asistData['x2e']"></app-cumplimiento></p>
             </ng-container>
@@ -121,7 +121,7 @@
 </ng-container>
 
 <!-- Comidas -->
-<ng-container *ngIf="showOpts.ch_comida && asistData">
+<ng-container *ngIf="showOpts['ch_comida'] && asistData">
   <div class='d-flex justify-content-start'>
     <div class="p-1 ml-auto">
       <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">c:</button>
@@ -148,7 +148,7 @@
 </ng-container>
 
 <!-- Retardos -->
-<ng-container *ngIf="showOpts.ch_ret && asistData">
+<ng-container *ngIf="showOpts['ch_ret'] && asistData">
   <div class='d-flex justify-content-start'>
     <div class="p-1 ml-auto">
       <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">r:</button>
@@ -161,7 +161,7 @@
 </ng-container>
 
 <!-- SA -->
-<ng-container *ngIf="showOpts.ch_sa && asistData">
+<ng-container *ngIf="showOpts['ch_sa'] && asistData">
   <div class='d-flex justify-content-start'>
     <div class="p-1 ml-auto">
       <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">r:</button>
@@ -174,7 +174,7 @@
 </ng-container>
 
 <!-- Excepciones -->
-<ng-container *ngIf="showOpts.ch_excep && asistData">
+<ng-container *ngIf="showOpts['ch_excep'] && asistData">
   <div class='d-flex justify-content-start'>
     <div class="p-1 ml-auto">
       <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" (click)="_aus.initForm( rac, date )">e:</button>
