@@ -72,11 +72,11 @@ export class AsistenciaBadgeComponent implements OnInit {
                 case 'F':
                 case 'SUS':
                   this.btnClass     = 'btn-danger'
-                  this.displayText  = data.codeAus
+                  this.displayText  = data.Code_aus
                   return
                 default:
                   this.btnClass     = 'btn-info'
-                  this.displayText  = data.codeAus
+                  this.displayText  = data.Code_aus
                   return
               }
 
@@ -88,7 +88,7 @@ export class AsistenciaBadgeComponent implements OnInit {
 
           }else{
 
-            if( data.Aus_id == 15 || data.Aus_id == 16 || data.Aus_id == 8 ){
+            if( data.Aus_id != null ){
               this.infoDisplay = true
               this.infoExcep = true
               this.infoData = {

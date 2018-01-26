@@ -152,13 +152,13 @@ export class PyaComponent implements OnInit {
               this.rawSchedules = res.data
 
               this.buildSchedules( res.data, true, () => {
-                this.getLogs( true )
+                this.getLogs()
                 this.loopCount = 15
                 this.timeCount = 60
 
-                console.log(this.dataPerHour)
-                console.log(this.asesorIndex)
-                console.log(this.dataExceptions)
+                // console.log(this.dataPerHour)
+                // console.log(this.asesorIndex)
+                // console.log(this.dataExceptions)
               })
 
 
@@ -177,69 +177,46 @@ export class PyaComponent implements OnInit {
 
   buildSchedules( res, flag = true, callback? ){
     let idIndex = {}
-    this.dataExceptions = {}
 
-    if( flag ){
-      this.dataPerHour = {}
-      this.asesorIndex = {}
-    }
+    this.dataPerHour = {}
+    this.asesorIndex = {}
 
     for( let item in res ){
 
       let it = res[item]
       let h
 
-      if( flag ){
-        if( (it.Ausentismo != null && it.showPya != 1) || it.js == null || it.js == it.je ){
-          h = -1
-        }else{
-          let hour = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('HH'))
-          let minute = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('mm'))
+      if( (it.Ausentismo != null && it.showPya != 1) || it.js == null || it.js == it.je ){
+        h = -1
+      }else{
+        let hour = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('HH'))
+        let minute = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('mm'))
 
-          if( minute > 0 ){
-            hour += 0.5
-          }
-
-          hour = hour * 2
-
-          h = hour
+        if( minute > 0 ){
+          hour += 0.5
         }
 
-        this.dataSchedules[item]['h'] = h
+        hour = hour * 2
 
-        if( this.dataPerHour[h] ){
-          this.dataPerHour[h].push(it)
-
-          let ind = this.dataPerHour[h].length
-          idIndex[it.asesor] = { h: h, k: ind-1 }
-        }else{
-          this.dataPerHour[h] = [ it ]
-
-          idIndex[it.asesor] = { h: h, k: 0 }
-        }
+        h = hour
       }
 
-      if( res[item].showPya == 1){
-        this.dataExceptions[it.asesor] = {
-          id    : res[item].ausent_id,
-          asesor: it.asesor,
-          Fecha : res[item].Fecha,
-          tipo  : res[item].tipoAus,
-          caso  : res[item].casoAus,
-          Nota  : res[item].notaAus,
-          Last_Update: res[item].luAus,
-          changed_by: res[item].chAus,
-          Excepcion : res[item].Ausentismo,
-          Codigo : res[item].Codigo,
-          nombre : res[item].nameChAus
-        }
+      this.dataSchedules[item]['h'] = h
+
+      if( this.dataPerHour[h] ){
+        this.dataPerHour[h].push(it)
+
+        let ind = this.dataPerHour[h].length
+        idIndex[it.asesor] = { h: h, k: ind-1 }
+      }else{
+        this.dataPerHour[h] = [ it ]
+
+        idIndex[it.asesor] = { h: h, k: 0 }
       }
 
     }
 
-    if( flag ){
-      this.asesorIndex = idIndex
-    }
+    this.asesorIndex = idIndex
 
     if (callback && typeof(callback) == "function") {
       callback()
@@ -287,7 +264,7 @@ export class PyaComponent implements OnInit {
 
   }
 
-  getLogs( flag = false ){
+  getLogs(){
 
     this.loading['logs'] = true
     this.timerFlag = false
@@ -305,22 +282,20 @@ export class PyaComponent implements OnInit {
                 fa: [],
               }
 
-              this.buildSchedules( this.rawSchedules, flag, () => {
-                for( let item in res.data ){
-                  let it = res.data[item]
-                  this.isInside( it.login, it.logout, it.asesor )
+              for( let item in res.data ){
+                let it = res.data[item]
+                this.isInside( it.login, it.logout, it.asesor )
 
-                  if( this.asesorLogs[res.data[item]['asesor']] ){
-                    this.asesorLogs[res.data[item]['asesor']].push({ login: res.data[item]['login'], logout: res.data[item]['logout']})
-                  }else{
-                    this.asesorLogs[res.data[item]['asesor']] = [{ login: res.data[item]['login'], logout: res.data[item]['logout']}]
-                  }
+                if( this.asesorLogs[res.data[item]['asesor']] ){
+                  this.asesorLogs[res.data[item]['asesor']].push({ login: res.data[item]['login'], logout: res.data[item]['logout']})
+                }else{
+                  this.asesorLogs[res.data[item]['asesor']] = [{ login: res.data[item]['login'], logout: res.data[item]['logout']}]
                 }
+              }
 
-                this.lu = res.lu['lu']
+              this.lu = res.lu['lu']
 
-                this.getExceptions()
-              })
+              this.getExceptions()
 
             }, err => {
               console.log("ERROR", err)
@@ -347,6 +322,10 @@ export class PyaComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['logs'] = false
+
+              // console.log("Excep", res.data)
+
+              this.dataExceptions = {}
 
               for( let item of res.data ){
                 this.dataExceptions[item.asesor] = item
@@ -812,11 +791,7 @@ export class PyaComponent implements OnInit {
       }
     }else{
       this.toastr.success( event.error.msg, `Guardado` )
-      if( event.error.tipo == 1 ){
-        this.getSchedules( )
-      }else{
-        this.getLogs( false )
-      }
+      this.getLogs()
 
     }
   }

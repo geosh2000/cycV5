@@ -168,7 +168,11 @@
             <td scope="row"><small class="text-center">{{ asistData[rac].PuestoName }}</small></td>
             <td *ngFor="let date of datesData | keys" class="text-xs-center" style="max-width: 180px">
               <app-jornadas
+                (exception)="_pya.build( $event.asesor, $event.nombre, $event.date, $event.showAll )"
                 [asistData]="asistData[rac].data[date]"
+                [date]="date"
+                [asesor]="rac"
+                [nombre]="asistData[rac].Nombre"
                 [showOpts]="showOpts">
               </app-jornadas>
             </td>
@@ -177,7 +181,5 @@
       </tbody>
     </table>
   </div>
+  <app-pya-exception (save)="excStatus( $event )"></app-pya-exception>
 </ng-container>
-
-<!-- Ausentismos Agregar -->
-<app-add-ausentismo (notif)="ausentNotif($event)" ></app-add-ausentismo>

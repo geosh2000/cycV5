@@ -107,22 +107,39 @@ export class CalendarioComponent implements OnInit {
     this._api.restfulGet( `${dates.inicio}/${dates.fin}/${this.depSelected}`, 'Asistencia/calendario' )
               .subscribe( res => {
 
-                // console.log( res )
+                console.log( res )
 
                 for( let item of res.data['aus'] ){
+
                   this.ucCalendar.fullCalendar( 'renderEvent', this.eventFormat( item ) );
                   // this.dataOK.push(this.eventFormat( item ))
                 }
 
+                let calendarSpace = {}
+                let iterateDate = moment(dates.inicio)
+
+                for( let i = moment(dates.inicio); i <= moment(dates.fin); i.add(1,'days') ){
+                  calendarSpace[i.format('YYYY-MM-DD')] = {
+                    Fecha       : i.format('YYYY-MM-DD'),
+                    abierto     : 0,
+                    asignados   : 0,
+                    disponibles : 0
+                  }
+                }
+
                 for( let item of res.data['q'] ){
-                  if( parseInt( item['disponibles'] ) > 0 ){
-                    for (let i = 0; i < parseInt(item['disponibles']); i++) {
-                        this.ucCalendar.fullCalendar( 'renderEvent', this.eventAvail( item ) );
-                        // this.dataOK.push(this.eventFormat( item ))
+                  calendarSpace[item.Fecha] = item
+                }
+
+                for( let dateFlag in calendarSpace ){
+                  if( parseInt( calendarSpace[dateFlag]['disponibles'] ) > 0 ){
+                    for (let i = 0; i < parseInt(calendarSpace[dateFlag]['disponibles']); i++) {
+                        this.ucCalendar.fullCalendar( 'renderEvent', this.eventAvail( calendarSpace[dateFlag] ) );
+                        // this.dataOK.push(this.eventFormat( calendarSpace[dateFlag] ))
                     }
                   }else{
-                    if( parseInt( item['espacios'] ) == 0 || item['espacios'] == null ){
-                      this.ucCalendar.fullCalendar( 'renderEvent', this.eventAvail( item, 'closed' ) );
+                    if( parseInt( calendarSpace[dateFlag]['espacios'] ) == 0 || calendarSpace[dateFlag]['espacios'] == null ){
+                      this.ucCalendar.fullCalendar( 'renderEvent', this.eventAvail( calendarSpace[dateFlag], 'closed' ) );
                     }
                   }
 

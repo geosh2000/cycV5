@@ -151,10 +151,15 @@
 <ng-container *ngIf="showOpts['ch_ret'] && asistData">
   <div class='d-flex justify-content-start'>
     <div class="p-1 ml-auto">
-      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">r:</button>
+      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()">r:</button>
     </div>
     <div class="p-1 ml-auto">
-      <app-puntualidad-badge btnWidth=100 [dataAsesor]="asistData" [date]="date"></app-puntualidad-badge>
+      <button [style.width.px]="100"  class="btn btn-block btn-outline-secondary text-warning" *ngIf="asistData['loading']">
+            <span class="text-center">
+              <i class="fas fa-spinner fa-fw fa-pulse"></i>
+            </span>
+      </button>
+      <app-puntualidad-badge btnWidth=100 [dataAsesor]="asistData" [date]="date" *ngIf="!asistData['loading']"></app-puntualidad-badge>
     </div>
   </div>
 
@@ -177,10 +182,15 @@
 <ng-container *ngIf="showOpts['ch_excep'] && asistData">
   <div class='d-flex justify-content-start'>
     <div class="p-1 ml-auto">
-      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" (click)="_aus.initForm( rac, date )">e:</button>
+      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()">e:</button>
     </div>
     <div class="p-1 ml-auto">
-      <app-asistencia-badge btnWidth=100 [dataAsesor]="asistData" [date]="date"></app-asistencia-badge>
+      <button [style.width.px]="100" class="btn btn-block btn-outline-secondary text-warning" *ngIf="asistData['loading']">
+            <span class="text-center">
+              <i class="fas fa-spinner fa-fw fa-pulse"></i>
+            </span>
+      </button>
+      <app-asistencia-badge btnWidth=100 [dataAsesor]="asistData" [date]="date" *ngIf="!asistData['loading']"></app-asistencia-badge>
     </div>
   </div>
 

@@ -88,10 +88,10 @@ export class SaBadgeComponent implements OnInit {
 
             if( data.tiempoLaborado < 60 ){
               this.btnClass     = 'btn-danger'
-              this.displayText  = `SA < 60% (${ data.tiempoLaborado })`
+              this.displayText  = `SA < 60%`
             }else{
               this.btnClass     = 'btn-warning'
-              this.displayText  = `SA > 60% (${ data.tiempoLaborado })`
+              this.displayText  = `SA > 60%`
             }
 
             return true

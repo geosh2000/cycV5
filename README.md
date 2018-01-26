@@ -3,6 +3,31 @@ Esta versión está hecha con el framework de AngularCLI con la finalidad de añ
 
 # Release History
 
+## v2.2.2
+
+### Módulo de Asistencia
+* Fix -> Cálculo de Faltas en fechas menores a *hoy*
+* Fix -> ChangeDetection Strategy -> default
+* Fix -> No se mostraba correctamente el código de ausentismo.
+* Integración de módulo de ausentismos
+* Mejora en performance de actualización de excepciones
+
+### Módulo Prenómina
+* Fix -> Obtención correcta de logueos
+
+### Módulo de Excepciones PYA
+* Adición de asesor y fecha en evento para mejora en modulos al qué se integre
+
+### Monitor de PYA
+* Mejora en performance de excepciones y reloads
+
+### Calendario
+* Fix -> Fechas que no se muestran, aparecen ya correctamente
+
+### Móduo Programacion v1.0
+* Integración de tbla nueva de ausentismos
+
+
 ## v2.2.1
 
 ### Cuartiles

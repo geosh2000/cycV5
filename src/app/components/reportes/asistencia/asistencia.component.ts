@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, Input, ChangeDetectorRef } from '@angular/core';
 import { PopoverModule } from 'ngx-popover';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -9,6 +9,7 @@ import { Subject } from 'rxjs/subject';
 import { AddAusentismoComponent } from '../../formularios/add-ausentismo.component';
 import { CumplimientoComponent } from '../../../addon/progress/cumplimiento/cumplimiento.component';
 import { AsistenciaBadgeComponent } from '../../../addon/buttons/asistencia-badge/asistencia-badge.component';
+import { PyaExceptionComponent } from '../../formularios/pya-exception.component';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -22,8 +23,7 @@ import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-asistencia',
   templateUrl: './asistencia.component.html',
-  styles: ['input[type=checkbox]{ cursor: pointer}'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: ['input[type=checkbox]{ cursor: pointer}']
 })
 export class AsistenciaComponent implements OnInit {
 
@@ -31,6 +31,7 @@ export class AsistenciaComponent implements OnInit {
   @ViewChild( AddAusentismoComponent ) _aus: AddAusentismoComponent
   @ViewChild( CumplimientoComponent ) _progress: CumplimientoComponent
   @ViewChild( AsistenciaBadgeComponent ) _asist: AsistenciaBadgeComponent
+  @ViewChild( PyaExceptionComponent ) _pya:PyaExceptionComponent
 
   currentUser: any
   showContents:boolean = false
@@ -113,16 +114,27 @@ export class AsistenciaComponent implements OnInit {
 
   }
 
-  getAsistencia( dep, inicio, fin ){
+  getAsistencia( dep, inicio, fin, asesor?:any ){
 
-
-      this.loading = true
       this.searchFilter = ''
+      let params = `${dep}/${inicio}/${fin}`
 
-      this._api.restfulGet( `${dep}/${inicio}/${fin}`, 'Asistencia/pya' )
+      if( asesor ){
+        params = `${dep}/${inicio}/${fin}/${asesor}`
+        this.asistData[asesor]['data'][inicio]['loading'] = true
+      }else{
+        this.loading = true
+      }
+
+      this._api.restfulGet( params, 'Asistencia/pya' )
               .subscribe( res =>{
 
-                this.asistSubject.next({ res })
+                if( asesor ){
+                  // console.log( res )
+                  this.singleUpdate( res )
+                }else{
+                  this.asistSubject.next({ res })
+                }
 
               },
                 (err) => {
@@ -131,6 +143,15 @@ export class AsistenciaComponent implements OnInit {
                   this.toastr.error(`${ this.error }`, 'Error!');
               });
 
+
+  }
+
+  singleUpdate( data ){
+    for( let asesor in data.data ){
+      for(let fecha in data.Fechas ){
+        this.asistData[ asesor ]['data'][ fecha ] = data.data[ asesor ][ 'data' ][ fecha ]
+      }
+    }
 
   }
 
@@ -193,7 +214,7 @@ export class AsistenciaComponent implements OnInit {
     this.getDeps()
         .subscribe( res => {
           this.deps = res.res
-          console.log( res.res )
+          // console.log( res.res )
           this.cd.markForCheck()
         })
 
@@ -204,8 +225,8 @@ export class AsistenciaComponent implements OnInit {
           this.orderNames( this.asistData, 1)
           this.loading = false
 
-          console.log( res.res )
-          console.log( this.asistData )
+          // console.log( res.res )
+          // console.log( this.asistData )
           this.cd.markForCheck()
         })
   }
@@ -239,7 +260,7 @@ export class AsistenciaComponent implements OnInit {
 
   orderNames( data, ord=1 ){
 
-    console.log(data)
+    // console.log(data)
 
     let sortArray:any   = []
     let tmpSlot:any     = []
@@ -381,8 +402,24 @@ export class AsistenciaComponent implements OnInit {
     return {bar: bar, border: border, val: val}
   }
 
-  buildRts(){
 
+  excStatus( event ){
+    if( !event.status ){
+      let error = event.error.json()
+      this.toastr.error( error.msg, `Error ${event.error.status} - ${event.error.statusText}` )
+
+      if( error.Existente ){
+        console.error("Ausentismo existente: ", error.Existente)
+      }
+
+      if( error.errores ){
+        console.error("Ausentismo existente: ", error.errores)
+      }
+    }else{
+      this.toastr.success( event.error.msg, `Guardado` )
+      this.getAsistencia( this.searchCriteria['skill'], event.fecha, event.fecha, event.asesor )
+
+    }
   }
 
 }

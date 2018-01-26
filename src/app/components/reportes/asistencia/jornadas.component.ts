@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import * as moment from 'moment-timezone';
 
@@ -20,6 +20,10 @@ export class JornadasComponent implements OnInit {
                               sh_d:         false
                             }
   @Input() asistData:Object = {}
+  @Input() date:any
+  @Input() asesor:any
+  @Input() nombre:any
+  @Output() exception = new EventEmitter<any>()
 
   constructor() { }
 
@@ -79,6 +83,15 @@ export class JornadasComponent implements OnInit {
     let did = je.diff(js, 'seconds')
     let result:number = did / total * 100
     return (Math.floor(result))
+  }
+
+  newExcept(){
+    this.exception.emit({
+      asesor  : this.asesor,
+      nombre  : this.nombre,
+      date    : this.date,
+      showAll : false
+    })
   }
 
 }
