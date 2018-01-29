@@ -14,6 +14,10 @@ Esta versión está hecha con el framework de AngularCLI con la finalidad de añ
 ### Monitor de PYA
 * Se agrega alerta **FDH** *(fuera de horario)*
 
+### Monitor de Pausas
+* Fix -> pausas duplicadas (a nivel procesos)
+* Funcionalidad para edición de tipo de pausa_id
+
 
 ## v2.2.2
 

@@ -45,10 +45,13 @@ export class PausesComponent implements OnInit {
   lu:any
 
   timerFlag:boolean = true
+  killProcess:boolean = false
   timeCount:number = 180
 
   collectSize:number = 0
   page:number = 1
+
+  pauseTypes:any
 
   constructor(public _api: ApiService,
                 private _init:InitService,
@@ -79,6 +82,7 @@ export class PausesComponent implements OnInit {
       day: parseInt(moment().format('DD'))
     }
 
+    this.getTipos()
     this.getPauses( this.dateMonitor )
 
   }
@@ -93,14 +97,17 @@ export class PausesComponent implements OnInit {
     // console.log('getting pauses...')
     this.loading['Pauses'] = true
     this.timerFlag = false
+    this.killProcess = true
 
     this._api.restfulGet( date, 'Pausemon/pauseMon' )
               .subscribe( res => {
                 this.loading['Pauses'] = false
+                this.loading['change'] = false
                 this.pauseData = this.organizeData( res.data['data'] )
                 this.pagination()
                 this.lu = res.data['lu']
 
+                this.killProcess = false
                 this.timerFlag = true
                 this.timeCount = 180
                 this.timerLoad()
@@ -108,6 +115,7 @@ export class PausesComponent implements OnInit {
               }, err => {
                 console.log("ERROR", err)
 
+                this.killProcess = false
                 this.timerFlag = true
                 this.timeCount = 20
                 this.timerLoad()
@@ -116,9 +124,26 @@ export class PausesComponent implements OnInit {
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['Pauses'] = false
+                this.loading['change'] = false
               })
 
 
+  }
+
+  getTipos(){
+    this._api.restfulGet( '', 'Pausemon/pauseTypes' )
+              .subscribe( res => {
+
+                this.pauseTypes = res.data
+
+              }, err => {
+                console.log("ERROR", err)
+
+                let error = err.json()
+                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                console.error(err.statusText, error.msg)
+                this.loading['Pauses'] = false
+              })
   }
 
   organizeData( data ){
@@ -212,13 +237,13 @@ export class PausesComponent implements OnInit {
 
     let reference = {
       'total PNP'   : 18,
-      'total Comida': 34,
+      'total Comida': 31,
       'total Mesa'  : 46,
       'PNP over 5'  : 1,
       'ACW over 2'  : 1,
-      'det Pausa No Productiva' : 9,
-      'det ACW'                 : 5,
-      'det Comida'              : 36,
+      'det Pausa No Productiva' : 6,
+      'det ACW'                 : 3,
+      'det Comida'              : 31,
       'det Mesa de Hospitalidad': 46,
       'por revisar'             : 1
     }
@@ -334,22 +359,23 @@ export class PausesComponent implements OnInit {
 
   timerLoad( pause = false ){
 
-    if( this.timerFlag ){
-      if( this.timeCount == 0 ){
-
+    if( !this.killProcess ){
+      if( this.timeCount <= 0 ){
+          this.timeCount = 180
           this.getPauses( this.dateMonitor )
 
       }else{
-        if( this.timeCount > 0){
+
+        if( this.timerFlag ){
           this.timeCount--
+        }
           setTimeout( () => {
           this.timerLoad()
           }, 1000 )
-        }
       }
     }
-
   }
+
 
   chgOrder( field ){
     if( field == this.orderBy ){
@@ -390,6 +416,34 @@ export class PausesComponent implements OnInit {
     }
 
     return result
+  }
+
+  chgPause(pausa, type){
+    let params = {
+      id        : pausa,
+      tipo      : type,
+      changed_by: this.currentUser.hcInfo.id
+    }
+
+    this.loading = {
+      change: pausa
+    }
+
+    this.timerFlag = false
+
+    this._api.restfulPut( params, 'Pausemon/pauseChange' )
+              .subscribe( res => {
+                this.getPauses( this.dateMonitor)
+              }, err => {
+                console.log("ERROR", err)
+
+                this.loading['change'] = false
+                this.timerFlag = true
+
+                let error = err.json()
+                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                console.error(err.statusText, error.msg)
+              })
   }
 
 }
