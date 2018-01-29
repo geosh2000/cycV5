@@ -35,11 +35,12 @@ import { FamsComponent } from './components/config/fams/fams.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
 import { AusentismosComponent } from './components/asistencia/ausentismos/ausentismos.component';
 import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
-import { PyaExceptionComponent } from './components/formularios/pya-exception.component';
+import { HorariosSemanaComponent } from './components/home/horarios-semana/horarios-semana.component';
+
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'pyae', component: PyaExceptionComponent },
+  { path: 'test', component: HorariosSemanaComponent },
 
   // DetalleAsesores
   { path: 'detail-asesor', component: DetailAsesorComponent },
