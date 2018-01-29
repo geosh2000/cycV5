@@ -8,7 +8,11 @@ Esta versión está hecha con el framework de AngularCLI con la finalidad de añ
 ### Módulo de Asistencia
 * Funcionalidad para descargar Información
 
+### Módulo de Excepciones PYA
+* Se agregan "helpers" para llenado de formulario
 
+### Monitor de PYA
+* Se agrega alerta **FDH** *(fuera de horario)*
 
 
 ## v2.2.2

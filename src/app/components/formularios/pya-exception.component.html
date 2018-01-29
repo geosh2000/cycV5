@@ -50,7 +50,12 @@
                     </div>
                     <div class="form-group col-md-6">
                       <label for="caso">Caso</label>
-                      <input type="text" [(ngModel)]="caso" name="caso" class="form-control" id="caso" placeholder="Caso" minlength="6" [required]="caseReq()" pattern="[1-9]{1}[0-9]+">
+                      <input type="text" [(ngModel)]="caso" name="caso" class="form-control" id="caso" placeholder="Caso" minlength="6" [required]="caseReq()" pattern="[1-9]{1}[0-9]+" #formCaso="ngModel">
+                      <div class="text-danger" *ngIf="formulario.invalid && !formulario.pristine && formCaso.invalid">
+                        <p *ngIf="formCaso.errors?.required"><small>*Debes escribir un caso</small></p>
+                        <p *ngIf="formCaso.errors?.minlength"><small>*El caso debe tener al menos 6 dígitos</small></p>
+                        <p *ngIf="formCaso.errors?.pattern"><small>*Debe contener sólo dígitos y no puede iniciar con el 0</small></p>
+                      </div>
                     </div>
 
                   </div>
@@ -60,7 +65,10 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label for="notas">Notas</label>
-                    <input type="text" [(ngModel)]="notas" name="notas" class="form-control" id="notas" placeholder="Comentarios de la excepcion..." required>
+                    <input type="text" [(ngModel)]="notas" name="notas" class="form-control" id="notas" placeholder="Comentarios de la excepcion..." required #formNotes="ngModel">
+                    <div class="text-danger" *ngIf="formulario.invalid && !formulario.pristine && formNotes.invalid">
+                      <p *ngIf="formNotes.errors?.required"><small>*Las notas son obligatorias</small></p>
+                    </div>
                   </div>
                 </div>
               </div>

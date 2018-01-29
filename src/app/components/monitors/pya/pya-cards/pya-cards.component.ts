@@ -146,6 +146,16 @@ export class PyaCardsComponent implements OnInit {
 
         }
 
+        if( logs['j'].in == null && logs['x1'].in == null && logs['x2'].in == null && this.asesorLogs != null ){
+          for( let log of this.asesorLogs ){
+            if( moment.tz(log['login'], 'America_Mexico_city').tz('America/Bogota') > moment( `${moment().format('YYYY-MM-DD 06:00:00')}` ) ){
+              result['exp'] = "FDH"
+              result['class'] = "bg-danger animated flash infinite"
+              this.listRts( type, asesor, 'fdh' )
+            }
+          }
+        }
+
       }else{
 
         if( !flagAus ){
@@ -239,7 +249,7 @@ export class PyaCardsComponent implements OnInit {
   popOv( asesor, open ){
 
     this.pop.emit({ asesor: asesor, status: open })
-    
+
   }
 
   compareDates( a, type, b ){

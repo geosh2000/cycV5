@@ -9,6 +9,7 @@
           <span *ngIf="type == 'b'">RT-B</span>
           <span *ngIf="type == 'sa'">SA</span>
           <span *ngIf="type == 'fa'">Faltas</span>
+          <span *ngIf="type == 'fdh'">FDH</span>
         </div>
         <div class="p-2">
           <span class="badge badge-pill" [ngClass]="{'badge-warning': type == 'a' && !dataExceptions[rt.id], 'badge-danger': type != 'a' && !dataExceptions[rt.id], 'bg-info': dataExceptions[rt.id] }" *ngFor="let rt of rets[type] | orderBy: 'name'" placement="top" [ngbTooltip]="dataPerHour[asesorIndex[rt.id].h][asesorIndex[rt.id].k].dep" [routerLink]="['/pya']" fragment="card_{{ rt.id }}" style="cursor: pointer">{{ rt.name }}</span>
