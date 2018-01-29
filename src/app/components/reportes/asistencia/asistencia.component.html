@@ -41,9 +41,14 @@
             <div class="col-auto">
               <button
                 type="submit"
-                class="btn btn-primary"
+                class="btn btn-primary m-1"
                 (click)="getAsistencia( searchCriteria.skill, searchCriteria.start, searchCriteria.end )"
                 [disabled]="loading || searchCriteria.skill==''">Consultar <span *ngIf="loading"><i class="fa fa-fw fa-spinner fa-pulse"></i></span></button>
+              <button
+                type="submit"
+                class="btn btn-warning m-1"
+                (click)="downloadXLS( 'ausTable', 'ausentismos_'+searchCriteria.start+'a'+searchCriteria.end )"
+                [disabled]="loading || searchCriteria.skill==''" *ngIf="asistData && showContents">Descargar</button>
             </div>
           </div>
         </div>
@@ -151,7 +156,7 @@
 
 <ng-container *ngIf="asistData && showContents">
   <div class="container-fluid" >
-    <table class="table table-fluid table-striped table-bordered table-hover table-sm table-responsive">
+    <table class="table table-fluid table-striped table-bordered table-hover table-sm table-responsive" id="ausTable">
       <thead>
         <tr>
           <th style="min-width: 130px;">Asesor</th>

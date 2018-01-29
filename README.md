@@ -3,6 +3,14 @@ Esta versión está hecha con el framework de AngularCLI con la finalidad de añ
 
 # Release History
 
+## v2.2.21
+
+### Módulo de Asistencia
+* Funcionalidad para descargar Información
+
+
+
+
 ## v2.2.2
 
 ### Módulo de Asistencia

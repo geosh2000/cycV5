@@ -15,6 +15,9 @@ import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
 import { TokenCheckService } from '../../../services/token-check.service';
 
+import { saveAs } from 'file-saver';
+import { utils, write, WorkBook, read } from 'xlsx';
+
 import * as Globals from '../../../globals';
 declare var jQuery:any;
 // import * as moment from 'moment';
@@ -420,6 +423,114 @@ export class AsistenciaComponent implements OnInit {
       this.getAsistencia( this.searchCriteria['skill'], event.fecha, event.fecha, event.asesor )
 
     }
+  }
+
+  downloadXLS( id, title ){
+    this.toXls( id, title )
+  }
+
+  toXls( sheets, title ){
+    let wb = utils.table_to_book(document.getElementById(sheets), {raw: false});
+
+    let newSheets = {
+      jornada: JSON.parse(JSON.stringify(wb.Sheets['Sheet1'])),
+      extra: JSON.parse(JSON.stringify(wb.Sheets['Sheet1'])),
+      excepciones: JSON.parse(JSON.stringify(wb.Sheets['Sheet1'])),
+      retardos: JSON.parse(JSON.stringify(wb.Sheets['Sheet1']))
+    }
+
+    for( let cell in wb.Sheets['Sheet1']){
+      let j = wb.Sheets['Sheet1'][cell].v, x2 = wb.Sheets['Sheet1'][cell].v, x1 = wb.Sheets['Sheet1'][cell].v, he = wb.Sheets['Sheet1'][cell].v, r = wb.Sheets['Sheet1'][cell].v, e = wb.Sheets['Sheet1'][cell].v
+
+      let compare = {}
+      if( cell.match(/^[A-C]{1}[0-9]*$/g) || cell.match(/^[A-Z]*[1]{1}$/g) ){
+        newSheets['jornada'][cell] = wb.Sheets['Sheet1'][cell]
+        newSheets['extra'][cell] = wb.Sheets['Sheet1'][cell]
+        newSheets['excepciones'][cell] = wb.Sheets['Sheet1'][cell]
+        newSheets['retardos'][cell] = wb.Sheets['Sheet1'][cell]
+      }else{
+        if( cell.match(/^[A-Z]*[0-9]*$/g)){
+          if( j.match(/[j]:/g) ){
+            let jornada = j.match(/(([j]:[ ]*[0-9]{2}:[0-9]{2} - [0-9]{2}:[0-9]{2})|([j]:[ ]*[a-zA-Z\-]*))/gm)
+            if( jornada ){
+              newSheets['jornada'][cell].v = jornada[0].replace('j:','').trim()
+            }else{
+              newSheets['jornada'][cell].v = '-'
+            }
+          }else{
+            newSheets['jornada'][cell].v = '*'
+          }
+
+          if( x1.match(/[x]:/g) ){
+            let extra1 = x1.match(/([x]:[ ]*[0-9]{2}:[0-9]{2} - [0-9]{2}:[0-9]{2})/gm)
+            if( extra1 ){
+              newSheets['extra'][cell].v = extra1[0].replace('x:','').trim()
+            }else{
+              newSheets['extra'][cell].v = '-'
+            }
+
+            if( x2.match(/((-->[ ]*\W[ ]*[0-9]{2}:[0-9]{2} - [0-9]{2}:[0-9]{2}))/g) ){
+              let extra2 = x2.match(/-->[ ]*\W[ ]*[0-9]{2}:[0-9]{2} - [0-9]{2}:[0-9]{2}/gm)
+              if( extra2 ){
+                newSheets['extra'][cell].v = newSheets['extra'][cell].v + '\r\n' + extra2[0].replace('-->','').trim()
+                newSheets['extra'][cell].t = 'h'
+              }
+            }
+
+          }else{
+            newSheets['extra'][cell].v = ''
+          }
+
+          if( e.match(/[e]:/g) ){
+            let excep = e.match(/[e]:[ ]*[a-zA-Z\-]*/gm)
+            if( excep ){
+              newSheets['excepciones'][cell].v = excep[0].replace('e:','').trim()
+            }else{
+              newSheets['excepciones'][cell].v = '-'
+            }
+          }else{
+            newSheets['excepciones'][cell].v = ''
+          }
+
+          if( r.match(/[r]:/g) ){
+            let rts = r.match(/[r]:[ ]*[a-zA-Z\-]*/gm)
+            if( rts ){
+              newSheets['retardos'][cell].v = rts[0].replace('r:','').trim()
+            }else{
+              newSheets['retardos'][cell].v = '-'
+            }
+          }else{
+            newSheets['retardos'][cell].v = ''
+          }
+
+        }
+      }
+    }
+
+    wb.SheetNames[0]='Jornadas'
+    delete wb.Sheets['Sheet1']
+
+    wb.SheetNames.push('Excepciones')
+    wb.SheetNames.push('Retardos')
+    wb.SheetNames.push('Extra')
+
+    wb.Sheets['Jornadas']   = newSheets['jornada']
+    wb.Sheets['Extra']   = newSheets['extra']
+    wb.Sheets['Excepciones']= newSheets['excepciones']
+    wb.Sheets['Retardos']   = newSheets['retardos']
+
+    let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
+'binary' });
+
+    saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), `${title}.xlsx`)
+  }
+
+
+  s2ab(s) {
+    let buf = new ArrayBuffer(s.length);
+    let view = new Uint8Array(buf);
+    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
   }
 
 }
