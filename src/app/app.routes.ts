@@ -35,12 +35,12 @@ import { FamsComponent } from './components/config/fams/fams.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
 import { AusentismosComponent } from './components/asistencia/ausentismos/ausentismos.component';
 import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
-import { HorariosSemanaComponent } from './components/home/horarios-semana/horarios-semana.component';
+import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
 
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'test', component: HorariosSemanaComponent },
+  { path: 'test', component: AusHistoricoComponent },
 
   // DetalleAsesores
   { path: 'detail-asesor', component: DetailAsesorComponent },

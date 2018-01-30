@@ -3,6 +3,20 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
+## v2.2.22
+
+### Módulo de Ausentismos
+* Fix -> Mensaje *success* correcto al guardar ausentismos
+* Integración de historial de ausentismos
+
+### Módulo independiente de historial Ausentismos
+* Requiere inputs de id asesor y nombre asesor
+* Default modal. Para abir requiere el jQuery('#ausHistoric').modal('show')
+* Funcionalidad de borrado de ausentismo con confirmación
+
+### Home
+* Fix -> Corrección de horarios segun TimeZone
+
 ## v2.2.21
 
 ### Módulo de Asistencia

@@ -370,7 +370,7 @@ export class AusentismosComponent implements OnInit {
                 this.loading['save'] = false
                 if( res.data ){
                   this.xld()
-                  this.toastr.error( "Ausentismo guardado Correctamente", `Guardado` )
+                  this.toastr.success( "Ausentismo guardado Correctamente", `Guardado` )
                 }else{
                   this.toastr.error( "No se guardó correctamente", `Error` )
                 }
@@ -417,6 +417,10 @@ export class AusentismosComponent implements OnInit {
 
             })
 
+  }
+
+  showHistory(){
+    jQuery('#ausHistoric').modal('show')
   }
 
 }

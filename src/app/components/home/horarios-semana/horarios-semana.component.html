@@ -27,10 +27,10 @@
               </ng-container>
 
               <ng-container *ngIf="item.js != item.je">
-                <p style='font-size: smaller' *ngIf="item.js != item.je">j: {{ printTime(item.js, 'HH:mm') }} a {{ printTime(item.je, 'HH:mm') }}</p>
-                <p style='font-size: smaller' *ngIf="item.cs != item.ce">c: {{ printTime(item.cs, 'HH:mm') }} a {{ printTime(item.ce, 'HH:mm') }}</p>
-                <p style='font-size: smaller' *ngIf="item.x1s != item.x1e">x1: {{ printTime(item.x1s, 'HH:mm') }} a {{ printTime(item.x1e, 'HH:mm') }}</p>
-                <p style='font-size: smaller' *ngIf="item.x2s != item.x2e">x2: {{ printTime(item.x2s, 'HH:mm') }} a {{ printTime(item.x2e, 'HH:mm') }}</p>
+                <p style='font-size: smaller' *ngIf="item.js != item.je">j: {{ printTime(item.js, 'HH:mm', true ) }} a {{ printTime(item.je, 'HH:mm', true ) }}</p>
+                <p style='font-size: smaller' *ngIf="item.cs != item.ce">c: {{ printTime(item.cs, 'HH:mm', true ) }} a {{ printTime(item.ce, 'HH:mm', true ) }}</p>
+                <p style='font-size: smaller' *ngIf="item.x1s != item.x1e">x1: {{ printTime(item.x1s, 'HH:mm', true ) }} a {{ printTime(item.x1e, 'HH:mm', true ) }}</p>
+                <p style='font-size: smaller' *ngIf="item.x2s != item.x2e">x2: {{ printTime(item.x2s, 'HH:mm', true ) }} a {{ printTime(item.x2e, 'HH:mm', true ) }}</p>
               </ng-container>
 
             </ng-container>

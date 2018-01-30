@@ -234,10 +234,13 @@
           </div>
           <hr>
           <div class="d-flex justify-content-end">
+            <button type="button" class="p-2 m-1 btn btn-warning" (click)="showHistory()">Historial  <i class="fas fa-history"></i></button>
             <button type="button" class="p-2 m-1 btn btn-success" (click)="save()" [disabled]="configDates['A']+configDates['B']+configDates['D']!=0 || loading['save']">Guardar  <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
             <button type="button" class="p-2 m-1 btn btn-danger" (click)="xld()">Cancelar</button>
           </div>
         </div>
       </div>
+
+      <app-aus-historico [asesor]="asesorShow" [nombre]="nameShow" (save)="notifyError( $event )"></app-aus-historico>
 
   </div>

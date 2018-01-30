@@ -114,6 +114,7 @@ import { PyaCardsComponent } from './components/monitors/pya/pya-cards/pya-cards
 import { PuntualidadBadgeComponent } from './addon/buttons/puntualidad-badge/puntualidad-badge.component';
 import { SaBadgeComponent } from './addon/buttons/sa-badge/sa-badge.component';
 import { HorariosSemanaComponent } from './components/home/horarios-semana/horarios-semana.component';
+import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
 
 
 declare let jQuery : Object;
@@ -217,7 +218,8 @@ registerLocaleData(localeEsMX)
     PyaCardsComponent,
     PuntualidadBadgeComponent,
     SaBadgeComponent,
-    HorariosSemanaComponent
+    HorariosSemanaComponent,
+    AusHistoricoComponent
   ],
   imports: [
     BrowserModule,
