@@ -1,5 +1,5 @@
 # ComeyCome v2
-Esta versión está hecha con el framework de AngularCLI con la finalidad de añadir mejoras en el performance y seguridad de la aplicación
+Esta versión está hecha con el framework de Angular con la finalidad de añadir mejoras en el performance y seguridad de la aplicación
 
 # Release History
 
@@ -18,6 +18,11 @@ Esta versión está hecha con el framework de AngularCLI con la finalidad de añ
 * Fix -> pausas duplicadas (a nivel procesos)
 * Funcionalidad para edición de tipo de pausa_id
 
+### Home
+* Se agrega módulo de horarios en home
+
+### Calendario
+* -> Fix fechas cerradas con disponibilidad en configuración
 
 ## v2.2.2
 
