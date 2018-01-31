@@ -5,7 +5,7 @@ import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-pya-cards',
   templateUrl: './pya-cards.component.html',
-  styles: [],
+  styles: [`.bg-morado { background: indigo }`],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PyaCardsComponent implements OnInit {
@@ -208,7 +208,17 @@ export class PyaCardsComponent implements OnInit {
       if( this.dataExceptions == null ){
         return result['class']
       }
-      return 'bg-primary text-white'
+      switch(this.dataExceptions['Codigo']){
+        case 'F':
+        case 'FA':
+        case 'FJ':
+          this.listRts( 'exception', asesor, 'fa' )
+          // if( this.containsObject( asesor, 'id', this.rets['sa'] ) ){
+          //     delete this.rets['sa'][this.containsObject( asesor, 'id', this.rets['sa'])]
+          // }
+          break
+      }
+      return 'bg-morado text-white'
     }
 
   }
@@ -226,7 +236,7 @@ export class PyaCardsComponent implements OnInit {
     let i;
     for (i = 0; i < list.length; i++) {
         if (list[i][compare] == val) {
-            return true;
+            return i;
         }
     }
 
@@ -237,9 +247,13 @@ export class PyaCardsComponent implements OnInit {
     if( now > je && moment.tz(this.lu, 'America/Mexico_city').tz("America/Bogota") > je ){
       if( out < je ){
 
-        this.listRts( type, asesor, 'sa' )
+        if( !(this.dataExceptions && (this.dataExceptions.Codigo == 'F' || this.dataExceptions.Codigo == 'FA' || this.dataExceptions.Codigo == 'FJ' || this.dataExceptions.Codigo == 'SUS')) ){
+          this.listRts( type, asesor, 'sa' )
+          return true
+        }else{
+          return false
+        }
 
-        return true
       }
     }
 

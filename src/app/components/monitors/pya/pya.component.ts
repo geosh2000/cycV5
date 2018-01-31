@@ -329,6 +329,13 @@ export class PyaComponent implements OnInit {
               // console.log("Excep", res.data)
 
               this.dataExceptions = {}
+              this.rets = {
+                a: [],
+                b: [],
+                sa: [],
+                fa: [],
+                fdh: []
+              }
 
               for( let item of res.data ){
                 this.dataExceptions[item.asesor] = item

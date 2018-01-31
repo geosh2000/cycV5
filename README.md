@@ -3,6 +3,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
+### Monitor de Pya
+* Cambio de color para excepciones aplicadas
+* Se muestra excepción de falta en la barra de abajo
+
 ## v2.2.22
 
 ### Módulo de Ausentismos
