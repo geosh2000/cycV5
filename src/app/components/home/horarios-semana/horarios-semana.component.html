@@ -6,7 +6,8 @@
     <thead>
       <tr>
         <th>Asesor</th>
-        <th class="text-center" *ngFor="let date of datesData">{{ printTime(date, 'dddd DD') }}</th>
+        <th class="text-center" style="font-size: smaller" *ngFor="let date of datesData">{{ printTime(date, 'dddd') }}<br>{{ printTime(date, 'DD MMM \'YY') }}</th>
+        <th class="text-center" style="font-size: smaller">Comida<br><small>{{ printTime(addTime(fdow,7,'days','YYYY-MM-DD'), 'DD MMM') }} a {{ printTime(addTime(fdow,13,'days','YYYY-MM-DD'), 'DD MMM')}}</small></th>
       </tr>
     </thead>
     <tbody *ngIf="horariosData.length > 0">
@@ -35,6 +36,16 @@
 
             </ng-container>
           </ng-container>
+        </td>
+        <td  class="text-center">
+          <span *ngIf="loading['comida']"><i class="fas fa-spinner fa-pulse fa-2x text-info"></i></span>
+          <ui-switch
+            color="green"
+            size= "small"
+            [(ngModel)]="comida"
+            (change)="chgComida($event)"
+            *ngIf="!loading['comida']"
+          ></ui-switch>
         </td>
       </tr>
     </tbody>

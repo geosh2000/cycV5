@@ -7,6 +7,14 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Cambio de color para excepciones aplicadas
 * Se muestra excepción de falta en la barra de abajo
 
+### Home
+* Se agrega funcionalidad de selección de comida
+
+### Móduo Programacion v1.0
+* Se integra nueva tabla de comidas
+* Se actualiza query de obtención de Horarios
+* Se modifica el ausentismo por descanso cuando aplique
+
 ## v2.2.22
 
 ### Módulo de Ausentismos
