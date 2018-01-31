@@ -293,7 +293,8 @@ export class FamsComponent implements OnInit {
           this.toastr.error(`La información está incompleta. Falta el campo ${field}. Por favor revisa nuevamente`, "Error!")
           return false
         }else{
-          if( this.new[field] == '' ){
+          if( this.new[field] == '' && this.new[field]!=false){
+            this.toastr.error(`La información está incompleta. Falta el campo ${field}. Por favor revisa nuevamente`, "Error!")
             return false
           }
         }

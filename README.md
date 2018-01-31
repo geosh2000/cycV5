@@ -20,6 +20,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Módulo de Asistencia
 * Activación de filtro por nombre
+* Corrección de API para correcto órden de fechas
+
+### Configuración Fams
+* Fix -> Desactivación de Fams
 
 ## v2.2.22
 
