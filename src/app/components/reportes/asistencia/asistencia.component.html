@@ -167,7 +167,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let rac of orederedKeys">
-          <tr>
+          <tr *ngIf="asistData[rac].Nombre.toLowerCase().match(searchFilter.toLowerCase())">
             <td scope="row"><small>{{ asistData[rac].Nombre }} <a class="cursor: pointer" [routerLink]="['/detail-asesor',rac]" target="_blank"><i class="fa fa-fw fa-info-circle"></i></a></small></td>
             <td scope="row"><small class="text-center">{{ asistData[rac].Departamento }}</small></td>
             <td scope="row"><small class="text-center">{{ asistData[rac].PuestoName }}</small></td>
