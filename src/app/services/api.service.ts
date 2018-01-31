@@ -26,7 +26,7 @@ export class ApiService {
   postFromApi( params, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiUrl }${ apiRoute }.json.php?token=${currentUser.token}&usn=${currentUser.username}`
+    let url = `${ this.apiUrl }${ apiRoute }.json.php?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
     let urlOK = this.transform( url )
     // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
@@ -46,7 +46,7 @@ export class ApiService {
   postToApi( params, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiPostUrl }${ apiRoute }.post.php?token=${currentUser.token}&usn=${currentUser.username}`
+    let url = `${ this.apiPostUrl }${ apiRoute }.post.php?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
     let urlOK = this.transform( url )
     // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
@@ -68,7 +68,7 @@ export class ApiService {
 
     if( loginReq ){
       let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}`
+      url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}&usid=${currentUser.hcInfo.id}`
     }else{
       url = `${ this.apiRestful }${ apiRoute }`
     }
@@ -91,7 +91,7 @@ export class ApiService {
   restfulPost( params, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}`
+    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
     // let url = `${ this.apiRestful }${ apiRoute }`
     let urlOK = this.transform( url )
     // console.log( urlOK.changingThisBreaksApplicationSecurity )
@@ -110,7 +110,7 @@ export class ApiService {
   restfulImgPost( params, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}`
+    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
     // let url = `${ this.apiRestful }${ apiRoute }`
     let urlOK = this.transform( url )
     // console.log( urlOK.changingThisBreaksApplicationSecurity )
@@ -129,7 +129,7 @@ export class ApiService {
   restfulDelete( id, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser.token}&usn=${currentUser.username}`
+    let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
     // let url = `${ this.apiRestful }${ apiRoute }`
     let urlOK = this.transform( url )
     // console.log( urlOK.changingThisBreaksApplicationSecurity )
@@ -147,7 +147,7 @@ export class ApiService {
   restfulGet( id, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser.token}&usn=${currentUser.username}`
+    let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
     // let url = `${ this.apiRestful }${ apiRoute }`
     let urlOK = this.transform( url )
     // console.log( urlOK.changingThisBreaksApplicationSecurity )
