@@ -115,6 +115,7 @@ import { PuntualidadBadgeComponent } from './addon/buttons/puntualidad-badge/pun
 import { SaBadgeComponent } from './addon/buttons/sa-badge/sa-badge.component';
 import { HorariosSemanaComponent } from './components/home/horarios-semana/horarios-semana.component';
 import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
+import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
 
 
 declare let jQuery : Object;
@@ -219,7 +220,8 @@ registerLocaleData(localeEsMX)
     PuntualidadBadgeComponent,
     SaBadgeComponent,
     HorariosSemanaComponent,
-    AusHistoricoComponent
+    AusHistoricoComponent,
+    PbxStatusComponent,
   ],
   imports: [
     BrowserModule,

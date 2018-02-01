@@ -25,6 +25,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Configuración Fams
 * Fix -> Desactivación de Fams
 
+### NavBar
+* Addon con status telefónico
+
 ## v2.2.22
 
 ### Módulo de Ausentismos

@@ -22,12 +22,17 @@ export class NavbarComponent {
   licenses:any[]
   menuCredentials:Object
 
+  currentUser:any
+
   constructor( private _navbar:NavbarService,
                 private _tokenCheck:TokenCheckService,
                 private _login:LoginService,
                 private route:Router ) {
 
                   console.clear()
+
+                  this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                  console.log(this.currentUser)
 
                 }
 
@@ -41,7 +46,7 @@ export class NavbarComponent {
   }
 
   tokenCheck(){
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let currentUser = this.currentUser;
 
     //Check token exists
     if(!currentUser){

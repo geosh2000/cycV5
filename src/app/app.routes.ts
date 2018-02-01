@@ -36,11 +36,12 @@ import { CalendarioComponent } from './components/asistencia/calendario/calendar
 import { AusentismosComponent } from './components/asistencia/ausentismos/ausentismos.component';
 import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
 import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
+import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
 
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'test', component: AusHistoricoComponent },
+  { path: 'test', component: PbxStatusComponent },
 
   // DetalleAsesores
   { path: 'detail-asesor', component: DetailAsesorComponent },

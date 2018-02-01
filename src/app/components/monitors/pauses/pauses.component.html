@@ -25,6 +25,10 @@
           Run <span *ngIf="loading['Pauses']"><i class="fas fa-spinner fa-pulse"></i></span>
         </button>
       </div>
+      <div class='p-2'>
+        <input
+            class="form-control mb-2 mb-sm-0" type="text" [(ngModel)]="searchFilter" name="searchFilter" id="filterSearch" placeholder="Filtrar por">
+      </div>
     </div>
     <div class="p-2" *ngIf="lu">
       Ultima actualización: {{ formatTime(lu, 'DD MMM \'YY kk:mm:ss') }}
@@ -45,7 +49,7 @@
       <tbody>
         <!-- <ng-container *ngFor="let item of pauseData | orderBy: 'nombre'; index as i" > -->
         <ng-container *ngFor="let item of pauseData; index as i" >
-          <tr *ngIf="i >= (page-1)*20 && i < (page*20)">
+          <tr *ngIf="(searchFilter == '' && i >= (page-1)*20 && i < (page*20)) || (searchFilter != '' && item['nombre'].toLowerCase().match(searchFilter.toLowerCase()))">
             <ng-container *ngFor="let field of item | keys">
               <td
                 class='text-center'

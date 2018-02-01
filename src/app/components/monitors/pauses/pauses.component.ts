@@ -31,6 +31,7 @@ export class PausesComponent implements OnInit {
     month: '',
     day: ''
   }
+  searchFilter:any = ''
 
   flagForm:boolean = false
   flagApply:boolean = false
