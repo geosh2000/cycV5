@@ -28,6 +28,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### NavBar
 * Addon con status telefónico
 
+### Monitor de pausas
+* Integración de filtro para búsqueda
+
 ## v2.2.22
 
 ### Módulo de Ausentismos
