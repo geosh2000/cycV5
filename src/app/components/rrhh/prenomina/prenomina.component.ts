@@ -65,8 +65,8 @@ export class PrenominaComponent implements OnInit {
       { t: 'Descansos', code: 'D', type: 'd' },
       { t: 'Asistencias', code: 'A', type: 'd' },
       { t: 'Capacitación', code: 'CA', type: 'd' },
-      { t: 'D Faltas IN', code: 'FA', type: 'd' },
-      { t: 'F Faltas IN', code: 'FA', type: 'f' },
+      { t: 'D Faltas IN', code: 'F', type: 'd' },
+      { t: 'F Faltas IN', code: 'F', type: 'f' },
       { t: 'D Faltas JUS', code: 'FJ', type: 'd' },
       { t: 'F Faltas JUS', code: 'FJ', type: 'f' },
       { t: 'D Suspension', code: 'SUS', type: 'd' },
@@ -108,6 +108,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['schedules'] = false
 
                 this.dataSchedules = res.data
+                console.log(this.dataSchedules)
 
                 this.getAsesores( nominaId )
 
@@ -464,8 +465,8 @@ export class PrenominaComponent implements OnInit {
         return result[type]
       }else{
         result = {
-          code: "FA",
-          rcode: "FA",
+          code: "F",
+          rcode: "F",
           desc: "Falta Injustificada"
         }
         return result[type]
@@ -473,16 +474,16 @@ export class PrenominaComponent implements OnInit {
     }else{
       if( this.checkSA( data.js, data.je, data.logs.j.in, data.logs.j.out ) ){
         result = {
-          code: "FA",
-          rcode: "FA",
+          code: "F",
+          rcode: "F",
           desc: "Salida Anticipada / Jornada < 60%"
         }
         return result[type]
       }else{
         if( this.checkLength( data.js, data.je, data.logs.j.in, data.logs.j.out ) ){
           result = {
-            code: "FA",
-            rcode: "FA",
+            code: "F",
+            rcode: "F",
             desc: "Jornada < 60%"
           }
           return result[type]

@@ -114,7 +114,7 @@ export class AsistenciaComponent implements OnInit {
     }
 
     this.loadDeps()
-    moment.locale('es')
+    moment.locale('es-MX')
 
   }
 
@@ -444,7 +444,7 @@ export class AsistenciaComponent implements OnInit {
       let j = wb.Sheets['Sheet1'][cell].v, x2 = wb.Sheets['Sheet1'][cell].v, x1 = wb.Sheets['Sheet1'][cell].v, he = wb.Sheets['Sheet1'][cell].v, r = wb.Sheets['Sheet1'][cell].v, e = wb.Sheets['Sheet1'][cell].v
 
       let compare = {}
-      if( cell.match(/^[A-C]{1}[0-9]*$/g) || cell.match(/^[A-Z]*[1]{1}$/g) ){
+      if( cell.match(/^[A-D]{1}[0-9]*$/g) || cell.match(/^[A-Z]*[1]{1}$/g) ){
         newSheets['jornada'][cell] = wb.Sheets['Sheet1'][cell]
         newSheets['extra'][cell] = wb.Sheets['Sheet1'][cell]
         newSheets['excepciones'][cell] = wb.Sheets['Sheet1'][cell]
