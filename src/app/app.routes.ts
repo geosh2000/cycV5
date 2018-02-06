@@ -6,7 +6,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ForecastProgramacionComponent } from './components/forecast-programacion/forecast-programacion.component';
 import { VacantesComponent } from './components/hc/vacantes.component';
 import { AprobacionesComponent } from './components/rrhh/aprobaciones.component';
-import { NominaComponent } from './components/rrhh/nomina.component';
 import { PrenominaComponent } from './components/rrhh/prenomina/prenomina.component';
 import { CxcComponent } from './components/rrhh/cxc.component';
 import { AprobarVacantesComponent } from './components/rrhh/aprobar-vacantes.component';
@@ -65,7 +64,7 @@ const APP_ROUTES: Routes = [
 
   // RRHH
   { path: 'aprobaciones_rrhh', component: AprobacionesComponent },
-  { path: 'nomina', component: NominaComponent },
+  { path: 'nomina', component: PrenominaComponent },
   { path: 'prenomina', component: PrenominaComponent },
   { path: 'aprobarVacantes', component: AprobarVacantesComponent },
 
@@ -89,7 +88,7 @@ const APP_ROUTES: Routes = [
   { path: 'ventaMonitor', component: LiveTabComponent },
   { path: 'ventaRn', component: RnComponent },
   { path: 'queues', component: QueuesComponent },
-  { path: 'pauses', component: PausesComponent },
+  { path: 'pauses', component: MonitorPausasComponent },
   { path: 'pausas', component: MonitorPausasComponent },
   { path: 'ventaAsesor', component: VentaPorAsesorComponent },
   { path: 'monitors/ivrParticipacion', component: ParticipacionComponent },

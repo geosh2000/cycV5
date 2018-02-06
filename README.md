@@ -40,6 +40,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix -> pausas editadas duplicadas
 * Fix -> alerta por pendientes de revisión
 
+### Módulo Prenómina
+* Fix -> Títulos FA y FJ
+* Fix -> Obtención de Logueos
+
 ## v2.2.22
 
 ### Módulo de Ausentismos

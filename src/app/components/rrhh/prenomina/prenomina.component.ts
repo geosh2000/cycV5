@@ -65,10 +65,10 @@ export class PrenominaComponent implements OnInit {
       { t: 'Descansos', code: 'D', type: 'd' },
       { t: 'Asistencias', code: 'A', type: 'd' },
       { t: 'Capacitación', code: 'CA', type: 'd' },
-      { t: 'D Faltas JUS', code: 'FA', type: 'd' },
-      { t: 'F Faltas JUS', code: 'FA', type: 'f' },
-      { t: 'D Faltas IN', code: 'FJ', type: 'd' },
-      { t: 'F Faltas IN', code: 'FJ', type: 'f' },
+      { t: 'D Faltas IN', code: 'FA', type: 'd' },
+      { t: 'F Faltas IN', code: 'FA', type: 'f' },
+      { t: 'D Faltas JUS', code: 'FJ', type: 'd' },
+      { t: 'F Faltas JUS', code: 'FJ', type: 'f' },
       { t: 'D Suspension', code: 'SUS', type: 'd' },
       { t: 'F Suspension', code: 'SUS', type: 'f' },
       { t: 'D Maternidad', code: 'INC_MT', type: 'd' },
@@ -157,6 +157,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['logs'] = false
 
                 this.dataLogs = res.data
+                console.log(this.dataLogs)
 
                 this.getAusentismos( nominaId )
 

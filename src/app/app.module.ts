@@ -63,7 +63,6 @@ import { AjusteSalarialComponent } from './components/formularios/ajuste-salaria
 import { EditarAjusteSalarialComponent } from './components/formularios/editar-ajuste-salarial.component';
 import { AddContratoComponent } from './components/formularios/add-contrato.component';
 import { AprobacionesComponent } from './components/rrhh/aprobaciones.component';
-import { NominaComponent } from './components/rrhh/nomina.component';
 import { CxcComponent } from './components/rrhh/cxc.component';
 import { ApplyAllCxcComponent } from './components/formularios/apply-all-cxc.component';
 import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.component';
@@ -172,7 +171,6 @@ registerLocaleData(localeEsMX)
     EditarAjusteSalarialComponent,
     AddContratoComponent,
     AprobacionesComponent,
-    NominaComponent,
     CxcComponent,
     ApplyAllCxcComponent,
     CuartilesComponent,
