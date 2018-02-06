@@ -116,6 +116,9 @@ import { SaBadgeComponent } from './addon/buttons/sa-badge/sa-badge.component';
 import { HorariosSemanaComponent } from './components/home/horarios-semana/horarios-semana.component';
 import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
 import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
+import { MonitorPausasComponent } from './components/monitors/monitor-pausas/monitor-pausas.component';
+import { PausaAsesorComponent } from './components/monitors/monitor-pausas/pausa-asesor/pausa-asesor.component';
+import { PauseDetailComponent } from './components/monitors/monitor-pausas/pause-detail/pause-detail.component';
 
 
 declare let jQuery : Object;
@@ -222,6 +225,9 @@ registerLocaleData(localeEsMX)
     HorariosSemanaComponent,
     AusHistoricoComponent,
     PbxStatusComponent,
+    MonitorPausasComponent,
+    PausaAsesorComponent,
+    PauseDetailComponent,
   ],
   imports: [
     BrowserModule,

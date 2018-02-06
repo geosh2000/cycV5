@@ -3,6 +3,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
+## v2.2.23
+
+### Cambios PDV
+* Fix -> vacantes activas
+
 ### Monitor de Pya
 * Cambio de color para excepciones aplicadas
 * Se muestra excepción de falta en la barra de abajo
@@ -30,6 +35,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Monitor de pausas
 * Integración de filtro para búsqueda
+* Mejoras en Performance
+* Ordenamiento por nombre o Pausas
+* Fix -> pausas editadas duplicadas
+* Fix -> alerta por pendientes de revisión
 
 ## v2.2.22
 

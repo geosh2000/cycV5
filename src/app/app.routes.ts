@@ -27,6 +27,7 @@ import { HxConfigComponent } from './components/config/horarios/hx-config.compon
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
 import { QueuesComponent } from './components/monitors/queues/queues.component';
 import { PausesComponent } from './components/monitors/pauses/pauses.component';
+import { MonitorPausasComponent } from './components/monitors/monitor-pausas/monitor-pausas.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
 import { VentaPorAsesorComponent } from './components/monitors/venta-por-asesor/venta-por-asesor.component';
 import { ParticipacionComponent } from './components/monitors/ivr/participacion.component';
@@ -89,6 +90,7 @@ const APP_ROUTES: Routes = [
   { path: 'ventaRn', component: RnComponent },
   { path: 'queues', component: QueuesComponent },
   { path: 'pauses', component: PausesComponent },
+  { path: 'pausas', component: MonitorPausasComponent },
   { path: 'ventaAsesor', component: VentaPorAsesorComponent },
   { path: 'monitors/ivrParticipacion', component: ParticipacionComponent },
 

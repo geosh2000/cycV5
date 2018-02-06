@@ -114,6 +114,7 @@ export class AsistenciaComponent implements OnInit {
     }
 
     this.loadDeps()
+    moment.locale('es')
 
   }
 

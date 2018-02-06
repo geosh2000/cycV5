@@ -1,0 +1,44 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="d-flex justify-content-end align-items-center">
+    <div class="mr-auto p-2 d-flex justify-content-start">
+      <div class="">
+        <h1>Monitor de Pausas</h1>
+        <p>
+          <small>Mostrando: {{ dateMonitor }} || Recargando en {{ timeCount }} seg.</small>
+        </p>
+      </div>
+      <div class="form-group p-2">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="dp" [(ngModel)]="dateMonRaw" ngbDatepicker #d="ngbDatepicker">
+          <button class="input-group-addon" (click)="d.toggle()" type="button">
+            <i class="fas fa-calendar"></i>
+          </button>
+        </div>
+      </div>
+      <div class='p-2'>
+        <button type="button" class="btn btn-primary" (click)="run()" [disabled]="loading['Pauses']">
+          Run <span *ngIf="loading['Pauses']"><i class="fas fa-spinner fa-pulse"></i></span>
+        </button>
+      </div>
+      <div class='p-2'>
+        <input
+            class="form-control mb-2 mb-sm-0" type="text" [(ngModel)]="searchFilter" name="searchFilter" id="filterSearch" placeholder="Filtrar por">
+      </div>
+    </div>
+    <div class="p-2" *ngIf="lu">
+      Ultima actualización: {{ formatTime(lu, 'DD MMM \'YY kk:mm:ss') }}
+    </div>
+  </div>
+
+     <app-pausa-asesor [title]="true" (sortBy)="sortByField( $event )"></app-pausa-asesor>
+     <div class="container text-center p-3" *ngIf="loading['Pauses']">
+       <h1><i class="fas fa-spinner fa-pulse text-info"></i> Loading... </h1>
+     </div>
+     <ng-container *ngFor="let asesor of sorted">
+       <app-pausa-asesor [asesor]="asesor['asesor']" [data]="dataPausas[asesor['asesor']]" [date]="dateSelected" [changer]="currentUser.hcInfo.id" [tipos]="pauseTypes" (error)="getError($event)" (changeP)="changePause($event)" (timer)="setTimer( $event )" *ngIf="(searchFilter.length<=3) || (searchFilter != '' && searchFilter.length>3 && asesor['nombre'].toLowerCase().match(searchFilter.toLowerCase()))"></app-pausa-asesor>
+     </ng-container>
+</div>
