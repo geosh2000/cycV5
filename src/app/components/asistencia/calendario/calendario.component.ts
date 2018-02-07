@@ -34,6 +34,8 @@ export class CalendarioComponent implements OnInit {
   dateStart:any
   dateEnd:any
 
+  loading:Object = {}
+
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
@@ -104,6 +106,7 @@ export class CalendarioComponent implements OnInit {
 
     this.ucCalendar.fullCalendar( 'refetchEvents' );
 
+    this.loading['events'] = true
     this._api.restfulGet( `${dates.inicio}/${dates.fin}/${this.depSelected}`, 'Asistencia/calendario' )
               .subscribe( res => {
 
@@ -144,14 +147,14 @@ export class CalendarioComponent implements OnInit {
                   }
 
                 }
-
+                this.loading['events'] = false
                 this.ucCalendar.fullCalendar( 'rerenderEvents' );
 
                 // console.log(this.ucCalendar)
 
               }, err => {
                 console.log("ERROR", err)
-
+                this.loading['events'] = false
                 let error = err.json()
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
@@ -252,6 +255,10 @@ export class CalendarioComponent implements OnInit {
                 console.error(err.statusText, error.msg)
 
               })
+  }
+
+  selectMonth( event ){
+    this.ucCalendar.fullCalendar('changeView', 'month', moment(`${moment().format('YYYY')}-${event}-01`).format('YYYY-MM-DD'));
   }
 
 }

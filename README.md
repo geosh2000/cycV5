@@ -50,6 +50,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix -> Obtención de Logueos
 * Fix -> Faltas con notas
 
+### Calendario Ausentismos
+* Quick pick para mes del año
+* Loading Banner
+
 ## v2.2.22
 
 ### Módulo de Ausentismos
