@@ -71,7 +71,6 @@ export class MonitorPausasComponent implements OnInit {
       day: parseInt(moment().format('DD'))
     }
 
-    this.dateMonitor = moment().subtract(2, 'days').format('YYYY-MM-DD')
     this.getPauses( this.dateMonitor )
     this.getTipos()
     this.timerLoad()

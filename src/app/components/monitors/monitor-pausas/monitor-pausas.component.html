@@ -39,6 +39,6 @@
        <h1><i class="fas fa-spinner fa-pulse text-info"></i> Loading... </h1>
      </div>
      <ng-container *ngFor="let asesor of sorted">
-       <app-pausa-asesor [asesor]="asesor['asesor']" [data]="dataPausas[asesor['asesor']]" [date]="dateSelected" [changer]="currentUser.hcInfo.id" [tipos]="pauseTypes" (error)="getError($event)" (changeP)="changePause($event)" (timer)="setTimer( $event )" *ngIf="(searchFilter.length<=3) || (searchFilter != '' && searchFilter.length>3 && asesor['nombre'].toLowerCase().match(searchFilter.toLowerCase()))"></app-pausa-asesor>
+       <app-pausa-asesor [asesor]="asesor['asesor']" [data]="dataPausas[asesor['asesor']]" [date]="dateMonitor" [changer]="currentUser.hcInfo.id" [tipos]="pauseTypes" (error)="getError($event)" (changeP)="changePause($event)" (timer)="setTimer( $event )" *ngIf="(searchFilter.length<=3) || (searchFilter != '' && searchFilter.length>3 && asesor['nombre'].toLowerCase().match(searchFilter.toLowerCase()))"></app-pausa-asesor>
      </ng-container>
 </div>
