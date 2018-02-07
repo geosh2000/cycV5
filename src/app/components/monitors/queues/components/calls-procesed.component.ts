@@ -133,7 +133,7 @@ export class CallsProcesedComponent implements OnInit {
 
     this.calls = calls
     this.callsAgent = callsAgent
-    // console.log(this.callsAgent)
+    console.log(this.callsAgent)
   }
 
   formatDate(datetime, format){
@@ -299,7 +299,7 @@ export class CallsProcesedComponent implements OnInit {
       return 'bg-light text-dark'
     }
 
-    if( this.getInfo( agent, 'caller' ) ){
+    if( this.getInfo( agent, 'callId' ) ){
       if( this.loggedAgents[ agent ]['On pause'] != '-' ){
         return 'bg-warning text-white'
       }else{

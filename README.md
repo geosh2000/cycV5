@@ -54,6 +54,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Quick pick para mes del año
 * Loading Banner
 
+### Monitor Queues
+* Fix -> Color status de llamada entrante sin caller number
+
 ## v2.2.22
 
 ### Módulo de Ausentismos
