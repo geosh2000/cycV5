@@ -1,0 +1,100 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div *ngIf="showContents">
+  <div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <span><h1 class="display-3">Reasignación de Localizadores</h1></span>
+        <p class="lead">Cambia la asignación de Localizador para reporte de Venta</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="!loading['updateGr'] && !loading['updateMon']">
+    <div class="alert alert-warning" role="alert">
+      <i class="fas fa-exclamation-triangle text-danger"></i> Recuerda modificar el creador primero en RSV, de lo contrario al actualizarse la información, regresará al creador original
+    </div>
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="form-group">
+          <label for="localizadores">Ingresa los localizadores, separados por coma</label>
+          <textarea class="form-control" id="localizadores" [(ngModel)]="locs" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="col-lg-2 text-center d-flex align-items-center">
+        <button type="button" class="btn btn-info" (click)="assign()"><i class="fas fa-arrow-circle-right fa-2x"></i></button>
+      </div>
+      <div class="col-lg-5 text-center d-flex justify-content-center align-items-center">
+            <div class="form-group row" style="width: 450px">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
+                </div>
+                <ng2-completer
+                  class="form-control customCompleteHome"
+                  [(ngModel)]="searchStrName"
+                  [datasource]="dataServiceName"
+                  [minSearchLength]="0"
+                  [clearSelected]="false"
+                  [selectOnFocus]="false"
+                  [selectOnClick]="true"
+                  [fillHighlighted]="false"
+                  (selected)="onSelected($event)"
+                  placeholder="Nombre">
+                </ng2-completer>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="container p-2 d-flex justify-content-center" *ngIf="loading['getLocs'] || (creators && creators.length > 0)">
+    <h1 class="text-center" *ngIf="loading['getLocs']"><i class="fas fa-spinner fa-pulse text-info"></i> Loading...</h1>
+    <table class="table table-sm table-striped" *ngIf="!loading['getLocs'] && (creators && creators.length > 0)">
+      <thead>
+        <tr>
+          <th>Localizador</th>
+          <th>Afiliado</th>
+          <th>Original</th>
+          <th>Nuevo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of creators">
+          <td>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="checkbox" aria-label="Checkbox for following text input" [(ngModel)]="item.check" checked>
+                </div>
+              </div>
+              <input type="text" [value]="item.Localizador" class="form-control" aria-label="Text input with checkbox" readonly>
+            </div>
+          </td>
+          <td>{{ item.Afiliado }}</td>
+          <td>{{ item.Creador }}</td>
+          <td>{{ nameShow }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="container d-flex justify-content-end" *ngIf="(creators && creators.length > 0) && !loading['getLocs']">
+    <div class="p-2">
+      <button type="button" class="btn btn-success" [disabled]="!asesorShow || loading['saveLocs']" (click)="saveAssign()">Guardar <span *ngIf="loading['saveLocs']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+    </div>
+  </div>
+  <div class="container d-flex justify-content-center" *ngIf="loading['updateGr']">
+    <div class="p-2">
+      <h1 class="text-center">Actualizando Gráficas Diarias... <i class="fas fa-spinner fa-pulse text-info" *ngIf="loading['updateGr']"></i><i class="fas fa-check text-info" *ngIf="!loading['updateGr']"></i></h1>
+    </div>
+  </div>
+  <div class="container d-flex justify-content-center" *ngIf="loading['updateMon']">
+    <div class="p-2">
+      <h1 class="text-center">Actualizando Monitor Asesores... <i class="fas fa-spinner fa-pulse text-info" *ngIf="loading['updateMon']"></i><i class="fas fa-check text-info" *ngIf="!loading['updateMon']"></i></h1>
+    </div>
+  </div>
+
+
+</div>

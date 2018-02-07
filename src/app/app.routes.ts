@@ -37,6 +37,7 @@ import { AusentismosComponent } from './components/asistencia/ausentismos/ausent
 import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
 import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
 import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
+import { CambioLocalizadorAsesorComponent } from './components/config/cambio-localizador-asesor/cambio-localizador-asesor.component';
 
 
 const APP_ROUTES: Routes = [
@@ -105,6 +106,7 @@ const APP_ROUTES: Routes = [
   { path: 'config/hxConfig', component: HxConfigComponent },
   { path: 'config/uploadTables', component: ReportUpdatesComponent },
   { path: 'config/fams', component: FamsComponent },
+  { path: 'config/reasignacionRsva', component: CambioLocalizadorAsesorComponent },
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },

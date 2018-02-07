@@ -35,8 +35,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Configuración Fams
 * Fix -> Desactivación de Fams
 
-### NavBar
+### NavBar ***desactivado***
 * Addon con status telefónico
+* Desactivado por performace
 
 ### Monitor de pausas
 * Integración de filtro para búsqueda
@@ -56,6 +57,12 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Monitor Queues
 * Fix -> Color status de llamada entrante sin caller number
+
+### Cuartiles
+* Se agregan asesores del OUT en Cuartiles In
+
+### Cambio de asignación de Localizador (**NUEVO!**)
+* Creación de Módulo para cambios de asignación en CyC
 
 ## v2.2.22
 

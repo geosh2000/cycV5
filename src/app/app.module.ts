@@ -118,6 +118,7 @@ import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
 import { MonitorPausasComponent } from './components/monitors/monitor-pausas/monitor-pausas.component';
 import { PausaAsesorComponent } from './components/monitors/monitor-pausas/pausa-asesor/pausa-asesor.component';
 import { PauseDetailComponent } from './components/monitors/monitor-pausas/pause-detail/pause-detail.component';
+import { CambioLocalizadorAsesorComponent } from './components/config/cambio-localizador-asesor/cambio-localizador-asesor.component';
 
 
 declare let jQuery : Object;
@@ -226,6 +227,7 @@ registerLocaleData(localeEsMX)
     MonitorPausasComponent,
     PausaAsesorComponent,
     PauseDetailComponent,
+    CambioLocalizadorAsesorComponent,
   ],
   imports: [
     BrowserModule,
