@@ -52,6 +52,8 @@ export class AsistenciaComponent implements OnInit {
 
   orederedKeys:any
   shownDom:any = []
+  depLoaders:any = {}
+  depLoadFlag:boolean = false
 
   showOpts:Object = {
     ch_jornada:   true,
@@ -116,6 +118,50 @@ export class AsistenciaComponent implements OnInit {
     this.loadDeps()
     moment.locale('es-MX')
 
+  }
+
+  searchAsistencia( dep, inicio, fin ){
+    if( dep != 0 ){
+      this.depLoadFlag = false
+      this.getAsistencia( dep, inicio, fin )
+    }else{
+      this.depLoadFlag = true
+      this.asistData = {}
+      this.datesData = []
+      this.depLoaders = {}
+
+      for( let pcrc of this.deps ){
+        if( pcrc.id != 29 ){
+          this.depLoaders[pcrc.Departamento] = true
+          let params = `${pcrc.id}/${inicio}/${fin}`
+          this.getAllDeps( pcrc, params, () => {
+            this.orderNames( this.asistData, 1)
+          })
+        }
+
+      }
+
+      this.orderNames( this.asistData, 1)
+    }
+  }
+
+  getAllDeps( pcrc, params, callback ){
+    this._api.restfulGet( params, 'Asistencia/pya' )
+            .subscribe( res =>{
+              this.depLoaders[pcrc.Departamento] = false
+              if( res['data'] != null ){
+                Object.assign(this.asistData,res['data']);
+                this.datesData = (res['Fechas'])
+              }
+              callback()
+
+            },
+              (err) => {
+                this.error = err
+                this.depLoaders[pcrc.Departamento] = false
+                this.toastr.error(`${ this.error }`, 'Error!');
+                callback()
+            });
   }
 
   getAsistencia( dep, inicio, fin, asesor?:any ){

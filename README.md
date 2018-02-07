@@ -26,6 +26,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Módulo de Asistencia
 * Activación de filtro por nombre
 * Corrección de API para correcto órden de fechas
+* Formato con día en encabezado de Fechas
+* Habilitada la opción "Todos"
+* Fix -> Encabezados con fechas correctas al exportar a excel
+* MaxHeight de tabla en 700px con overflow automático
+* Columna de nombre al final de la tabla para fácil lectura
 
 ### Configuración Fams
 * Fix -> Desactivación de Fams
@@ -43,6 +48,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Módulo Prenómina
 * Fix -> Títulos FA y FJ
 * Fix -> Obtención de Logueos
+* Fix -> Faltas con notas
 
 ## v2.2.22
 

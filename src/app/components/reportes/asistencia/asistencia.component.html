@@ -42,7 +42,7 @@
               <button
                 type="submit"
                 class="btn btn-primary m-1"
-                (click)="getAsistencia( searchCriteria.skill, searchCriteria.start, searchCriteria.end )"
+                (click)="searchAsistencia( searchCriteria.skill, searchCriteria.start, searchCriteria.end )"
                 [disabled]="loading || searchCriteria.skill==''">Consultar <span *ngIf="loading"><i class="fa fa-fw fa-spinner fa-pulse"></i></span></button>
               <button
                 type="submit"
@@ -148,6 +148,11 @@
             </div>
           </div>
         </div>
+        <div class="container p-2 d-flex justify-content-left" *ngIf="depLoadFlag">
+          <div class="m-1" *ngFor="let item of depLoaders | keys">
+            <button type="button" class="btn" [ngClass]="{'btn-warning': depLoaders[item], 'btn-success': !depLoaders[item]}" style="font-size: smaller"><small>{{ item }} <span *ngIf="depLoaders[item]"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="!depLoaders[item]"><i class="fas fa-check"></i></span></small></button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -156,19 +161,22 @@
 
 <ng-container *ngIf="asistData && showContents">
   <div class="container-fluid" >
-    <table class="table table-fluid table-striped table-bordered table-hover table-sm table-responsive" id="ausTable">
+    <table class="table table-fluid table-striped table-bordered table-hover table-sm table-responsive" style="max-height: 700px; overflow: auto" id="ausTable">
       <thead>
         <tr>
           <th style="min-width: 130px;">Asesor</th>
+          <th style="min-width: 130px;">Colaborador</th>
           <th>Departamento</th>
           <th>Puesto</th>
-          <th *ngFor="let date of datesData | keys" class="text-center">{{ date }}</th>
+          <th *ngFor="let date of datesData | keys" class="text-center">{{ formatDate( date + ' 10:00:00', 'ddd DD MMM \'YY') }}</th>
+          <th style="min-width: 130px;">Asesor</th>
         </tr>
       </thead>
       <tbody>
         <ng-container *ngFor="let rac of orederedKeys">
-          <tr *ngIf="asistData[rac].Nombre.toLowerCase().match(searchFilter.toLowerCase())">
+          <tr *ngIf="asistData[rac].Nombre.toLowerCase().match(searchFilter.toLowerCase()) || asistData[rac].Departamento.toLowerCase().match(searchFilter.toLowerCase()) || asistData[rac].PuestoName.toLowerCase().match(searchFilter.toLowerCase())">
             <td scope="row"><small>{{ asistData[rac].Nombre }} <a class="cursor: pointer" [routerLink]="['/detail-asesor',rac]" target="_blank"><i class="fa fa-fw fa-info-circle"></i></a></small></td>
+            <td class="text-center" scope="row"><small>{{ asistData[rac].Colaborador }}</small></td>
             <td scope="row"><small class="text-center">{{ asistData[rac].Departamento }}</small></td>
             <td scope="row"><small class="text-center">{{ asistData[rac].PuestoName }}</small></td>
             <td *ngFor="let date of datesData | keys" class="text-xs-center" style="max-width: 180px">
@@ -181,6 +189,7 @@
                 [showOpts]="showOpts">
               </app-jornadas>
             </td>
+            <td scope="row"><small>{{ asistData[rac].Nombre }} <a class="cursor: pointer" [routerLink]="['/detail-asesor',rac]" target="_blank"><i class="fa fa-fw fa-info-circle"></i></a></small></td>
           </tr>
         </ng-container>
       </tbody>
