@@ -3,7 +3,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
-## v2.2.23
+## v2.2.24
 
 ### Cambios PDV
 * Fix -> vacantes activas
