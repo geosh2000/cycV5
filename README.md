@@ -3,6 +3,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
+## v2.2.25
+
+### NavBar
+* Fix -> Servicio de logueo
+* Fix -> Servicio de tokenCheck
+* Se habilita el phoneStatus
+
 ## v2.2.24
 
 ### Cambios PDV

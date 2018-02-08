@@ -32,7 +32,6 @@ export class NavbarComponent {
                   console.clear()
 
                   this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                  console.log(this.currentUser)
 
                 }
 
@@ -46,7 +45,7 @@ export class NavbarComponent {
   }
 
   tokenCheck(){
-    let currentUser = this.currentUser;
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     //Check token exists
     if(!currentUser){
