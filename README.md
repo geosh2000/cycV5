@@ -14,6 +14,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Búsqueda a través de api restful
 * Descripción con estilo
 * Opciones de Filtros
+* Integración en Modulos de CyCv2
 
 ## v2.2.24
 
