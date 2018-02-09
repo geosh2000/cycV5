@@ -1,0 +1,18 @@
+<div class="input-group mb-3">
+  <div class="input-group-prepend" *ngIf="iconPosition!='right'">
+    <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
+  </div>
+  <ng2-completer
+    [inputClass]="'form-control completer-width'"
+    [(ngModel)]="searchStrName"
+    [datasource]="dataServiceName"
+    [minSearchLength]="3"
+    [matchClass]="'completer-match'"
+    [fillHighlighted]="false"
+    (selected)="onSelected($event)"
+    [placeholder]="placeholder">
+  </ng2-completer>
+  <div class="input-group-append" *ngIf="iconPosition=='right'">
+    <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
+  </div>
+</div>

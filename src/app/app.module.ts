@@ -119,6 +119,7 @@ import { MonitorPausasComponent } from './components/monitors/monitor-pausas/mon
 import { PausaAsesorComponent } from './components/monitors/monitor-pausas/pausa-asesor/pausa-asesor.component';
 import { PauseDetailComponent } from './components/monitors/monitor-pausas/pause-detail/pause-detail.component';
 import { CambioLocalizadorAsesorComponent } from './components/config/cambio-localizador-asesor/cambio-localizador-asesor.component';
+import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.component';
 
 
 declare let jQuery : Object;
@@ -228,6 +229,7 @@ registerLocaleData(localeEsMX)
     PausaAsesorComponent,
     PauseDetailComponent,
     CambioLocalizadorAsesorComponent,
+    SearchAsesorComponent,
   ],
   imports: [
     BrowserModule,

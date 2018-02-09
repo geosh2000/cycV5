@@ -1,2 +1,7 @@
-<button type="button" class="btn btn-warning" (click)="downloadXLS('test')">Download</button>
-<ng2-smart-table id='tableTest' class='table-responsive table-striped'[settings]="settings" [source]="data"></ng2-smart-table>
+<app-search-asesor (result)="print( $event )" [currentUser]="currentUser" [active]="1" iconPosition="left" placeholder="No Filter" ></app-search-asesor>
+<app-search-asesor (result)="print( $event )" [currentUser]="currentUser" [active]="1" iconPosition="right" placeholder="UDN MP"    [udn]="1"></app-search-asesor>
+<app-search-asesor (result)="print( $event )" [currentUser]="currentUser" [active]="1" placeholder="UDN MT"    [udn]="2"></app-search-asesor>
+<app-search-asesor (result)="print( $event )" [currentUser]="currentUser" [active]="1" placeholder="UDN Apoyo" [udn]="3"></app-search-asesor>
+<app-search-asesor (result)="print( $event )" [currentUser]="currentUser" [active]="1" placeholder="SELF"      [udn]="'self'"></app-search-asesor>
+<app-search-asesor (result)="print( $event )" [currentUser]="currentUser" [active]="2" placeholder="PDV"       [area]="3"></app-search-asesor>
+<app-search-asesor (result)="print( $event )" [currentUser]="currentUser" [active]="2" placeholder="Array"       [udn]="[2,3]"></app-search-asesor>

@@ -38,11 +38,12 @@ import { AleatoriedadComponent } from './components/reportes/calidad/aleatorieda
 import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
 import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
 import { CambioLocalizadorAsesorComponent } from './components/config/cambio-localizador-asesor/cambio-localizador-asesor.component';
+import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.component';
 
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'test', component: PbxStatusComponent },
+  { path: 'test', component: TestComponent },
 
   // DetalleAsesores
   { path: 'detail-asesor', component: DetailAsesorComponent },

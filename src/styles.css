@@ -9,6 +9,10 @@ body{
     z-index: 1041 !important;
 }
 
+.completer-width { width: 100% !important}
+.completer-match { font-weight: bolder; }
+.completer-description { font-style: italic; color: #6610f2}
+
 
 /* Animaciones */
 .animated {

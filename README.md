@@ -10,6 +10,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix -> Servicio de tokenCheck
 * Se habilita el phoneStatus
 
+### Addon de Búsqueda de Asesor
+* Búsqueda a través de api restful
+* Descripción con estilo
+* Opciones de Filtros
+
 ## v2.2.24
 
 ### Cambios PDV
