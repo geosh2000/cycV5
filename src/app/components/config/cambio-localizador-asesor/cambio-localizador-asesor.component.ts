@@ -39,7 +39,7 @@ export class CambioLocalizadorAsesorComponent implements OnInit {
 
   constructor(public _api: ApiService,
                 private _init:InitService,
-                private _tokenCheck:TokenCheckService
+                private _tokenCheck:TokenCheckService,
                 public toastr: ToastsManager, vcr: ViewContainerRef ) {
 
     this.currentUser = this._init.getUserInfo()
