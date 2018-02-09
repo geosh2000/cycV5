@@ -21,74 +21,12 @@
             <div class="row d-flex justify-content-around">
               <div class="p-2">
                 <div class="form-group row">
-                  <div class="col-sm-12 input-group">
-                    <span class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
-                    </span>
-                    <ng2-completer
-                      class="form-control customComplete"
-                      [(ngModel)]="searchStrName"
-                      [datasource]="dataServiceName"
-                      [minSearchLength]="0"
-                      [clearSelected]="true"
-                      (selected)="onSelected($event)"
-                      placeholder="Nombre">
-                    </ng2-completer>
-                  </div>
+                  <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" udn='self' placeholder="Nombre Asesor..." style="z-index: 100"></app-search-asesor>
                 </div>
               </div>
               <div class="p-2">
                 <div class="form-group row">
-                  <div class="col-sm-12 input-group">
-                    <span class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
-                    </span>
-                    <ng2-completer
-                      class="form-control customComplete"
-                      [(ngModel)]="searchStrDep"
-                      [datasource]="dataServiceDep"
-                      [minSearchLength]="0"
-                      [clearSelected]="true"
-                      (selected)="onSelected($event)"
-                      placeholder="Departamento">
-                    </ng2-completer>
-                  </div>
-                </div>
-              </div>
-              <div class="p-2">
-                <div class="form-group row">
-                  <div class="col-sm-12 input-group">
-                    <span class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
-                    </span>
-                    <ng2-completer
-                      class="form-control customComplete"
-                      [(ngModel)]="searchStrIngreso"
-                      [datasource]="dataServiceIngreso"
-                      [minSearchLength]="0"
-                      [clearSelected]="true"
-                      (selected)="onSelected($event)"
-                      placeholder="Ingreso (AA-MM)">
-                    </ng2-completer>
-                  </div>
-                </div>
-              </div>
-              <div class="p-2">
-                <div class="form-group row">
-                  <div class="col-sm-12 input-group">
-                    <span class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
-                    </span>
-                    <ng2-completer
-                      class="form-control customComplete"
-                      [(ngModel)]="searchStrEgreso"
-                      [datasource]="dataServiceEgreso"
-                      [minSearchLength]="0"
-                      [clearSelected]="true"
-                      (selected)="onSelected($event)"
-                      placeholder="Egreso (AA-MM)">
-                    </ng2-completer>
-                  </div>
+                  <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" udn='self' field="departamento_name" placeholder="Departamento..." style="z-index: 100"></app-search-asesor>
                 </div>
               </div>
             </div>

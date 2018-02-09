@@ -53,7 +53,7 @@ export class SearchAsesorComponent implements OnInit {
   filterBuild( cur, cred, input ){
     if( input && !Array.isArray(input) ){
       if( input == 'self' ){
-        if( cur['credentials']['view_all_agents'] == 10 ){
+        if( cur['credentials']['view_all_agents'] == 1 ){
           this.credentials[ cred ] = 0
         }else{
           this.credentials[ cred ] = cur['hcInfo'][`hc_${ cred }`]

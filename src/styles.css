@@ -12,6 +12,7 @@ body{
 .completer-width { width: 100% !important}
 .completer-match { font-weight: bolder; }
 .completer-description { font-style: italic; color: #6610f2}
+.completer-dropdown { max-height: 200px; overflow-y: auto;}
 
 
 /* Animaciones */

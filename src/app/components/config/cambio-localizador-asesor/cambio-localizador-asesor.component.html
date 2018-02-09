@@ -28,23 +28,7 @@
       </div>
       <div class="col-lg-5 text-center d-flex justify-content-center align-items-center">
             <div class="form-group row" style="width: 450px">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
-                </div>
-                <ng2-completer
-                  class="form-control customCompleteHome"
-                  [(ngModel)]="searchStrName"
-                  [datasource]="dataServiceName"
-                  [minSearchLength]="0"
-                  [clearSelected]="false"
-                  [selectOnFocus]="false"
-                  [selectOnClick]="true"
-                  [fillHighlighted]="false"
-                  (selected)="onSelected($event)"
-                  placeholder="Nombre">
-                </ng2-completer>
-              </div>
+              <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" [active]="2" placeholder="Asignar a Asesor..." ></app-search-asesor>
             </div>
       </div>
     </div>

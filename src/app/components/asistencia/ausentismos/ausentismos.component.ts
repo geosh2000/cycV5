@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, Injectable } from '@angular/core';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { CompleterService, CompleterData } from 'ng2-completer';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -47,10 +46,9 @@ export class AusentismosComponent implements OnInit {
 
 
   protected searchStrName:string;
-  protected dataServiceName:CompleterData;
   protected onSelected(item){
-    this.asesorShow = item.originalObject.id
-    this.nameShow = item.originalObject.ncorto
+    this.asesorShow = item.asesor
+    this.nameShow = item.Nombre
 
     this.index = {
       days      : 0,
@@ -72,7 +70,6 @@ export class AusentismosComponent implements OnInit {
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                private completerService:CompleterService,
                 public toastr: ToastsManager, vcr: ViewContainerRef ) {
 
     this.currentUser = this._init.getUserInfo()
@@ -104,10 +101,6 @@ export class AusentismosComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.currentUser != null){
-      let currentUser = this.currentUser
-      this.dataServiceName = this.completerService.remote(`${ Globals.APISERV }/ng2/json/listAsesores.json.php?tipo=name&token=${currentUser.token}&usn=${currentUser.username}&udn=${ currentUser.hcInfo['hc_udn']}&puesto=${ currentUser.hcInfo['hc_puesto_clave'] }&area=${ currentUser.hcInfo['hc_area'] }&dep=${ currentUser.hcInfo['hc_dep'] }&viewAll=${ currentUser.credentials['view_all_agents'] }&term=`, 'name,user,ncorto', 'name')
-    }
 
     this.getTipos()
 
@@ -318,7 +311,7 @@ export class AusentismosComponent implements OnInit {
     }
   }
 
-  xld(){
+  xld( reset = true ){
     this.newShow = false
     this.caso = ''
     this.notas= ''
@@ -369,7 +362,7 @@ export class AusentismosComponent implements OnInit {
 
                 this.loading['save'] = false
                 if( res.data ){
-                  this.xld()
+                  this.xld( false )
                   this.toastr.success( "Ausentismo guardado Correctamente", `Guardado` )
                 }else{
                   this.toastr.error( "No se guardó correctamente", `Error` )

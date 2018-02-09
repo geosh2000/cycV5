@@ -9,7 +9,6 @@ import { InitService } from '../../services/init.service';
 import { CredentialsService } from '../../services/credentials.service';
 import { TokenCheckService } from '../../services/token-check.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CompleterService, CompleterData } from 'ng2-completer';
 import * as Globals from '../../globals';
 declare var jQuery:any;
 
@@ -79,35 +78,11 @@ export class DetailAsesorComponent implements OnInit {
 
   gridOptions:Object = {}
 
-  // Autocomplete
-  protected searchStrName:string;
-  protected searchStrDep:string;
-  protected searchStrIngreso:string;
-  protected searchStrEgreso:string;
-  protected asesorSelected:string;
-  protected dataServiceName:CompleterData;
-  protected dataServiceDep:CompleterData;
-  protected dataServiceIngreso:CompleterData;
-  protected dataServiceEgreso:CompleterData;
-
   protected onSelected(item){
     if(item){
-      if(item.originalObject && item.originalObject.Codigo){
-        this.listFlag = true
-        this.titleSelection = item.originalObject.Codig
-        this.getListAsesores( item.originalObject.id )
-        this.route.navigateByUrl(`/detail-asesor/${item.originalObject.id}/2`);
-      }else{
-        this.listFlag = false
-        this.titleSelection = item.Nombre
-        // this.asesorSelected = `${item.title} (${item.originalObject.id})`;
-
-        this.redirectAsesor(item.asesor);
-        // this.detailAsesor.showContents = false
-      }
-
-    }else{
-      this.asesorSelected = "";
+      this.listFlag = false
+      this.titleSelection = item.Nombre
+      this.redirectAsesor(item.asesor);
     }
 
   }
@@ -215,7 +190,6 @@ export class DetailAsesorComponent implements OnInit {
                 private _api:ApiService,
                 private _init:InitService,
                 private route:Router,
-                private completerService:CompleterService,
                 private _credential:CredentialsService,
                 public toastr: ToastsManager, vcr: ViewContainerRef,
                 private activatedRoute:ActivatedRoute
@@ -237,13 +211,6 @@ export class DetailAsesorComponent implements OnInit {
           }
         })
 
-    if(this.currentUser != null){
-      let currentUser = this.currentUser
-      this.dataServiceName = this.completerService.remote(`${ Globals.APISERV }/ng2/json/listAsesores.json.php?tipo=name&token=${currentUser.token}&usn=${currentUser.username}&udn=${ currentUser.hcInfo['hc_udn']}&puesto=${ currentUser.hcInfo['hc_puesto_clave'] }&area=${ currentUser.hcInfo['hc_area'] }&dep=${ currentUser.hcInfo['hc_dep'] }&viewAll=${ currentUser.credentials['view_all_agents'] }&term=`, 'name,user,ncorto', 'name')
-      this.dataServiceDep = this.completerService.remote(`${ Globals.APISERV }/ng2/json/listAsesores.json.php?tipo=dep&token=${currentUser.token}&usn=${currentUser.username}&udn=${ currentUser.hcInfo['hc_udn']}&puesto=${ currentUser.hcInfo['hc_puesto_clave'] }&area=${ currentUser.hcInfo['hc_area'] }&dep=${ currentUser.hcInfo['hc_dep'] }&viewAll=${ currentUser.credentials['view_all_agents'] }&term=`, 'Codigo, id', 'Codigo')
-      this.dataServiceIngreso = this.completerService.remote(`${ Globals.APISERV }/ng2/json/listAsesores.json.php?tipo=ingreso&token=${currentUser.token}&usn=${currentUser.username}&udn=${ currentUser.hcInfo['hc_udn']}&puesto=${ currentUser.hcInfo['hc_puesto_clave'] }&area=${ currentUser.hcInfo['hc_area'] }&dep=${ currentUser.hcInfo['hc_dep'] }&viewAll=${ currentUser.credentials['view_all_agents'] }&term=`, 'ingreso', 'fingreso')
-      this.dataServiceEgreso = this.completerService.remote(`${ Globals.APISERV }/ng2/json/listAsesores.json.php?tipo=egreso&token=${currentUser.token}&usn=${currentUser.username}&udn=${ currentUser.hcInfo['hc_udn']}&puesto=${ currentUser.hcInfo['hc_puesto_clave'] }&area=${ currentUser.hcInfo['hc_area'] }&dep=${ currentUser.hcInfo['hc_dep'] }&viewAll=${ currentUser.credentials['view_all_agents'] }&term=`, 'egreso', 'fegreso')
-    }
 
     this.activatedRoute.params.subscribe( params => {
       if( params.id ){

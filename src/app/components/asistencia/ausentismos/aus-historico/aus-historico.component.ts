@@ -48,7 +48,7 @@ export class AusHistoricoComponent implements OnInit {
                 }
 
                 this.dataAusentismos = result
-
+                console.log(result)
               }, err => {
                 console.log("ERROR", err)
 

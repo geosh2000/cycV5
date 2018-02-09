@@ -16,8 +16,6 @@ import * as Globals from '../../globals';
 import * as moment from 'moment';
 declare var jQuery:any;
 
-import { CompleterService, CompleterData } from 'ng2-completer';
-
 import { AgregarCxcComponent } from '../formularios/agregar-cxc.component';
 import { UploadImageComponent } from '../formularios/upload-image.component';
 
@@ -82,7 +80,6 @@ export class CxcComponent implements OnInit {
   // Autocomplete
    searchStrName:string;
    asesorSelected:string;
-   dataServiceName:CompleterData;
 
    confTable:any
 
@@ -109,8 +106,7 @@ export class CxcComponent implements OnInit {
   constructor(
               private _api:ApiService,
               public _init:InitService,
-              public toastr: ToastsManager,
-              private completerService:CompleterService
+              public toastr: ToastsManager
               ) {
 
     this.currentUser = this._init.getUserInfo()
@@ -156,10 +152,6 @@ export class CxcComponent implements OnInit {
 
     let now = moment()
     this.searchEnd = now.format("YYYY-MM-DD")
-
-    if(this.currentUser != null){
-      this.dataServiceName = this.completerService.remote(`${ Globals.APISERV }/ng2/json/listAsesores.json.php?tipo=name&token=${this.currentUser.token}&usn=${this.currentUser.username}&udn=${ this.currentUser.hcInfo['hc_udn']}&puesto=${ this.currentUser.hcInfo['hc_puesto_clave'] }&area=${ this.currentUser.hcInfo['hc_area'] }&dep=${ this.currentUser.hcInfo['hc_dep'] }&viewAll=${ this.currentUser.credentials['view_all_agents'] }&term=`, 'name,user,ncorto', 'name')
-    }
 
     this.windowInHeight = (Math.floor(window.innerHeight*0.8)) + 'px'
 
@@ -328,11 +320,11 @@ export class CxcComponent implements OnInit {
 
     onSelected( event ){
 
-      this.nameAsesor = event.title
+      this.nameAsesor = event.Nombre
 
       jQuery("#form_addCxc").modal('show')
 
-      this.addCxc.buildForm( { idAsesor: event.originalObject.id } )
+      this.addCxc.buildForm( { idAsesor: event.asesor } )
     }
 
     addedCXC(event){
