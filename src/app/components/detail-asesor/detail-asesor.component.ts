@@ -92,17 +92,17 @@ export class DetailAsesorComponent implements OnInit {
 
   protected onSelected(item){
     if(item){
-      if(item.originalObject.Codigo){
+      if(item.originalObject && item.originalObject.Codigo){
         this.listFlag = true
         this.titleSelection = item.originalObject.Codig
         this.getListAsesores( item.originalObject.id )
         this.route.navigateByUrl(`/detail-asesor/${item.originalObject.id}/2`);
       }else{
         this.listFlag = false
-        this.titleSelection = item.originalObject.name
-        this.asesorSelected = `${item.title} (${item.originalObject.id})`;
+        this.titleSelection = item.Nombre
+        // this.asesorSelected = `${item.title} (${item.originalObject.id})`;
 
-        this.redirectAsesor(item.originalObject.id);
+        this.redirectAsesor(item.asesor);
         // this.detailAsesor.showContents = false
       }
 
