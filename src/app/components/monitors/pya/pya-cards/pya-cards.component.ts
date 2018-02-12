@@ -79,8 +79,8 @@ export class PyaCardsComponent implements OnInit {
 
       if( !flagAus ){
 
-        if( now > info['js'].clone().add(1, 'minutes') ){
-          if( now >= info['js'].clone().add(13, 'minutes') ){
+        if( now >= info['js'].clone().add(1, 'minutes') ){
+          if( now > info['js'].clone().add(13, 'minutes') ){
             if( now > info['js'].clone().add(60, 'minutes') ){
               result['exp'] = "FA"
               result['class'] = "bg-danger"
