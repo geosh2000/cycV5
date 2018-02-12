@@ -34,9 +34,9 @@ export class SearchAsesorComponent implements OnInit {
     puesto:   0
   }
 
-  protected searchStrName:string;
-  protected resultID:string;
-  protected dataServiceName:CompleterData;
+  searchStrName:string;
+  resultID:string;
+  dataServiceName:CompleterData;
 
   constructor(private completerService:CompleterService) {
     this.build()

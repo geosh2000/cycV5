@@ -3,6 +3,14 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
+## v2.2.26
+
+### Módulo de Asistencia
+* Fix -> No se mostraban excepciones cuando existían Logueos
+* Cambio de color a índigo para excepciones aplicadas
+* Faltas calculadas por sistema en color rojo
+
+
 ## v2.2.25
 
 ### NavBar

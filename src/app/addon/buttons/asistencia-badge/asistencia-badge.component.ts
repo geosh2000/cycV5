@@ -6,7 +6,7 @@ import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-asistencia-badge',
   templateUrl: './asistencia-badge.component.html',
-  styles: []
+  styles: [`.btn-morado { background: indigo; color: white }`]
 })
 export class AsistenciaBadgeComponent implements OnInit {
 
@@ -70,12 +70,15 @@ export class AsistenciaBadgeComponent implements OnInit {
 
               switch( data.Code_aus){
                 case 'F':
-                case 'SUS':
                   this.btnClass     = 'btn-danger'
                   this.displayText  = data.Code_aus
                   return
+                case 'SUS':
+                  this.btnClass     = 'btn-morado'
+                  this.displayText  = data.Code_aus
+                  return
                 default:
-                  this.btnClass     = 'btn-info'
+                  this.btnClass     = 'btn-morado'
                   this.displayText  = data.Code_aus
                   return
               }
@@ -106,11 +109,15 @@ export class AsistenciaBadgeComponent implements OnInit {
                   this.displayText  = 'F'
                   break
                 case 'SUS':
-                  this.btnClass     = 'btn-danger'
+                  this.btnClass     = 'btn-morado'
                   this.displayText  = 'SUS'
                   break
                 case 'FJ':
-                  this.btnClass     = 'btn-info'
+                  this.btnClass     = 'btn-morado'
+                  this.displayText  = 'FJ'
+                  break
+                default:
+                  this.btnClass     = 'btn-morado'
                   this.displayText  = 'FJ'
                   break
               }
@@ -186,11 +193,11 @@ export class AsistenciaBadgeComponent implements OnInit {
         }
 
         if( data.Code_aus == 'DT'){
-          this.btnClass     = 'btn-secondary'
+          this.btnClass     = 'btn-warning'
           this.displayText  = "D"
           return
         }else{
-          this.btnClass     = 'btn-info'
+          this.btnClass     = 'btn-morado'
           this.displayText  = data.Code_aus
           return
         }
