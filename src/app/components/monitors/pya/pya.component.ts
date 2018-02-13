@@ -366,7 +366,7 @@ export class PyaComponent implements OnInit {
 
 
   isInside( login, logout, asesor ){
-
+    if( !this.asesorIndex[asesor] ){ return false }
     let sch = this.dataPerHour[this.asesorIndex[asesor].h][this.asesorIndex[asesor].k]
 
     let logs = {}
