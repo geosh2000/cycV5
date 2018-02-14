@@ -25,6 +25,7 @@ import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component
 import { HxConfigComponent } from './components/config/horarios/hx-config.component';
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
 import { QueuesComponent } from './components/monitors/queues/queues.component';
+import { QueuesV2Component } from './components/monitors/queues-v2/queues-v2.component';
 import { PausesComponent } from './components/monitors/pauses/pauses.component';
 import { MonitorPausasComponent } from './components/monitors/monitor-pausas/monitor-pausas.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
@@ -89,7 +90,8 @@ const APP_ROUTES: Routes = [
   { path: 'pya', component: PyaComponent },
   { path: 'ventaMonitor', component: LiveTabComponent },
   { path: 'ventaRn', component: RnComponent },
-  { path: 'queues', component: QueuesComponent },
+  { path: 'queues', component: QueuesV2Component },
+  { path: 'queues2', component: QueuesV2Component },
   { path: 'pauses', component: MonitorPausasComponent },
   { path: 'pausas', component: MonitorPausasComponent },
   { path: 'ventaAsesor', component: VentaPorAsesorComponent },

@@ -10,6 +10,14 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Cambio de color a índigo para excepciones aplicadas
 * Faltas calculadas por sistema en color rojo
 
+### Monitor PYA
+* Fix -> No se reflejaban como RT-A retardos de exactamente 1 min
+* Fix -> Asesores sin horario paraban la aplicacion
+
+### Monitor Queues
+* Cambio a procesos serverSide
+* Cambio a RawData para tiempos de pausas y llamadas
+* Fix -> Llamadas transferidas y de PT US se muestran correctamente
 
 ## v2.2.25
 

@@ -1,0 +1,343 @@
+<div class="container-fluid" *ngIf="showAll">
+
+  <!-- TITULO -->
+  <div class="alert alert-info text-center m-0 d-flex justify-content-start align-items-center row" role="alert">
+    <div class="m-1">
+      <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-end align-items-center">
+        <span class="mr-auto m-1 fa-stack fa-lg">
+          <i class="fa fa-phone-square text-primary fa-2x"></i>
+        </span>
+        <span class="m-1 p-1 mr-3">
+          <span *ngIf="setQueue.length == 1" style="font-size: medium">{{ printQueue( setQueue ) }} <small class="text-info">x.{{ setQueue[0] }}</small></span>
+          <span *ngIf="setQueue.length > 1" style="font-size: medium">{{ title }}</span>
+        </span>
+      </span>
+    </div>
+    <div class="ml-auto m1 row" *ngIf="display['sum']">
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+              <i class="fa fa-sign-in fa-flip-horizontal fa-stack-1x text-info"></i>
+              <i class="fa fa-circle-o fa-stack-2x text-info"></i>
+            </span>
+            <span class="m-1">
+              {{ summary['IN'] }}
+            </span>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+              <i class="fa fa-sign-out fa-stack-1x text-primary"></i>
+              <i class="fa fa-circle-o fa-stack-2x text-primary"></i>
+            </span>
+            <span class="m-1">
+              {{ summary['OUT'] }}
+            </span>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+              <i class="fa fa-ellipsis-h fa-stack-1x text-info"></i>
+              <i class="fa fa-circle-o fa-stack-2x text-warning"></i>
+            </span>
+            <span class="animated flash infinite" *ngIf="summary['Waiting']>=3"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
+            <span class="m-1">
+              {{ summary['Waiting'] }}
+            </span>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+              <i class="fa fa-fw fa-user fa-2x text-success"></i>
+            </span>
+            <span class="m-1">
+              {{ summary['Online'] }}
+            </span>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+              <i class="fa fa-user fa-stack-1x text-secondary"></i>
+              <i class="fa fa-circle-o fa-stack-2x text-danger"></i>
+            </span>
+            <span class="m-1">
+              {{ summary['Busy'] }}
+            </span>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+              <i class="fa fa-user fa-stack-1x text-success"></i>
+              <i class="fa fa-circle-o fa-stack-2x text-primary"></i>
+            </span>
+            <span class="m-1">
+              {{ summary['Avail'] }}
+            </span>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+              <i class="fa fa-user fa-stack-1x text-success"></i>
+              <i class="fa fa-ban fa-stack-2x text-warning"></i>
+            </span>
+            <span class="animated flash infinite" *ngIf="summary['Paused']>=5"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
+            <span class="m-1">
+              {{ summary['Paused'] }}
+            </span>
+          </span>
+        </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+
+    <!-- LLAMADAS EN ESPERA -->
+    <div class="col-sm-3 m-1 mr-0" *ngIf="display['wait']">
+
+      <div class="card" style="max-width: 350px">
+        <div class="card-header">Llamadas en Espera</div>
+        <div class="card-body">
+          <ul class="list-group">
+            <ng-container *ngFor="let item of waitsOk">
+              <li class="list-group-item" *ngIf="item['c_answered'] == '0'">
+                <div class="d-flex justify-content-end align-items-center">
+                  <span class="mr-auto">{{ item['c_caller'] }}</span>
+                  <span class="badge badge-primary badge-pill" [style.width.px]="75">{{ getDuration( item['c_entered'] ) }}</span>
+                </div>
+                <div class="d-flex justify-content-start align-items-center">
+                  <span class="badge badge-warning badge-pill"><small>{{ printQueue( item['c_queue'] ) }}</small></span>
+                </div>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CALLS DISPLAY -->
+    <div class="col">
+      <div class="row pl-2">
+
+        <ng-container *ngFor="let dep of orderedDeps">
+          <ng-container *ngFor="let agent of dep">
+            <div class="card m-1" [ngClass]="{'mr-0': display['wait'], 'ml-2': !display['wait']}" [style.width.px]="200" *ngIf="queueBelong( agent['qs'], setQueue )">
+
+              <!-- HEADER -->
+              <div
+                [ngClass]="colorHeader( agent, !display['detail'] )"
+                class="card-header"
+                style="font-size: smaller">
+
+                  <!-- INFO ASESOR -->
+                  <div class="d-flex justify-content-start align-items-center">
+                    <span>{{ agent['name'] }}</span>
+                  </div>
+
+                  <!-- BADGE DEPARTAMENTO Y EXT -->
+                  <div class="d-flex justify-content-between align-items-center p-0">
+
+                    <!-- BADGE DEPARTAMENTO -->
+                    <div class="p-0">
+                      <span
+                      class="badge"
+                      [ngClass]="{'bg-secondary ': printDep( agent['name'], 'color' ) == null}"
+                      [style.background]="printDep( agent['name'], 'color' )">
+                        <small>{{ printDep( agent['name'] ) }}</small>
+                      </span>
+                    </div>
+
+                    <!-- FLAG FOR REDUCED DISPLAY -->
+                    <ng-container *ngIf="(!display['detail'] && agent['c_answered'] && getDuration( agent['c_answered'], 's' ) > 550 ) || (agent['c_answered'] && getDuration( agent['curPauseTst'], 's' ) > pauseLimits[agent['curPauseCode']])">
+                      <div class="p-0">
+                        <small *ngIf="agent['c_answered'] && getDuration( agent['c_answered'], 's' ) > 550">
+                          <span style="font-size:smaller" class="badge badge-danger badge-pill animated flash infinite mr-2">AHT</span>
+                        </small>
+                        <small *ngIf="!agent['c_answered'] && agent['c_answered'] && getDuration( agent['curPauseTst'], 's' ) > pauseLimits[agent['curPauseCode']]">
+                          <span style="font-size:smaller" class="badge badge-danger badge-pill animated flash infinite mr-2">Pausa</span>
+                        </small>
+                      </div>
+                    </ng-container>
+
+                    <!-- FLAG THIS DEP CALL -->
+                    <div class="p-0" *ngIf="setQueue.length == 1 && agent['c_queue'] == setQueue[0]">
+                        <span class="badge badge-success badge-pill ml-auto" ><i class="fa fa-fw fa-flag"></i></span>
+                    </div>
+
+                    <!-- BADGE EXT -->
+                    <div class="p-0">
+                      <span class="badge badge-light badge-pill p-1" >x.{{ agent['ext'] }}</span>
+                    </div>
+
+                  </div>
+
+                  <!-- REDUCED DISPLAY DETAIL -->
+                  <div *ngIf="!display['detail']">
+                    <ng-container *ngIf="agent['c_answered']; else ElseBlockCaller">
+
+                      <!-- LLAMANTE -->
+                      <div class="d-flex justify-content-between align-items-center pt-2" style="font-size: smaller">
+                        <span class="text-white">{{ agent['c_caller'] }}</span>
+                        <ng-container *ngIf="agent['c_answered'] != '0'">
+                          <span class="badge badge-primary badge-pill border border-info" [style.width.px]="55">{{ getDuration( agent['c_answered'] ) }}</span>
+                        </ng-container>
+                        <ng-container *ngIf="agent['c_answered'] == '0'">
+                          <span class="badge badge-primary badge-pill border border-info" [style.width.px]="55">{{ getDuration( agent['c_entered'] ) }}</span>
+                        </ng-container>
+                      </div>
+
+                      <!-- COLA -->
+                      <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                        <span class="mr-auto text-white">{{ printQueue( agent['c_queue'] ) }}</span>
+                      </div>
+                    </ng-container>
+
+                    <!-- BLOQUE SIN LLAMADA -->
+                    <ng-template #ElseBlockCaller>
+
+                      <!-- DISPLAY PAUSA -->
+                      <ng-container *ngIf="agent['curPauseCode'] != ''; else ElsePause">
+
+                        <!-- STATUS PAUSA -->
+                        <div class="d-flex justify-content-end align-items-center pt-2" style="font-size: smaller">
+                          <span class="mr-auto">Pausado</span>
+                          <span class="badge badge-danger badge-pill animated flash infinite mr-2"
+                            *ngIf="getDuration( agent['curPauseTst'], 's' ) > pauseLimits[agent['curPauseCode']]">
+                              Pausa
+                          </span>
+                          <span class="badge badge-primary badge-pill" [style.width.px]="55">{{ getDuration( agent['curPauseTst'] ) }}</span>
+                        </div>
+
+                        <!-- TIPO DE PAUSA -->
+                        <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                          <span>{{ pauses[agent['curPauseCode']]['Pausa'] }}</span>
+                        </div>
+                      </ng-container>
+
+                      <!-- DISPLAY DISPONIBLE -->
+                      <ng-template #ElsePause>
+                        <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                          <span>Disponible</span>
+                          <span class="badge badge-primary badge-pill ml-auto" [style.width.px]="55">{{ getDuration( agent['freeSincePauOrCallTst'] == 0 ? agent['logon'] : agent['freeSincePauOrCallTst'] ) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                          <span></span>
+                        </div></ng-template>
+                    </ng-template>
+                  </div>
+
+              </div>
+
+              <!-- CUERPO DE TARJETA -->
+              <div *ngIf="display['detail']"
+                [ngClass]="colorHeader( agent )"
+                class="card-body "
+                style="font-size: smaller">
+
+                <!-- BLOQUE LLAMADA -->
+                <ng-container *ngIf="agent['c_answered']; else ElseBlockCaller">
+
+                  <!-- LLAMANTE -->
+                  <div class="d-flex justify-content-between align-items-center pt-2" style="font-size: smaller">
+                    <span class="text-white">{{ agent['c_caller'] }}</span>
+                    <ng-container *ngIf="agent['c_answered'] != '0'">
+                      <span class="badge badge-danger badge-pill animated flash infinite" *ngIf="getDuration( agent['c_answered'] , 's' ) > 550">AHT</span>
+                      <span class="badge badge-primary badge-pill border border-info" [style.width.px]="55">{{ getDuration( agent['c_answered'] ) }}</span>
+                    </ng-container>
+                    <ng-container *ngIf="agent['c_answered'] == '0'">
+                      <span *ngIf="getDuration( agent['c_answered'], 's' ) > 550"><i class="fa fa-fw fa-spinner fa-pulse text-warning"></i></span>
+                      <span class="badge badge-primary badge-pill border border-info" [style.width.px]="55">{{ getDuration( agent['c_entered'] ) }}</span>
+                    </ng-container>
+                  </div>
+
+                  <!-- COLA -->
+                  <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                    <span class="mr-auto text-white">{{ printQueue( agent['c_queue'] ) }}</span>
+                  </div>
+                </ng-container>
+
+                <!-- BLOQUE SIN LLAMADA -->
+                <ng-template #ElseBlockCaller>
+
+                  <!-- DISPLAY PAUSA -->
+                  <ng-container *ngIf="agent['curPauseCode'] != ''; else ElsePause">
+
+                    <!-- STATUS PAUSA -->
+                    <div class="d-flex justify-content-end align-items-center pt-2" style="font-size: smaller">
+                      <span class="mr-auto">Pausado</span>
+                      <span class="badge badge-danger badge-pill animated flash infinite mr-2"
+                        *ngIf="getDuration( agent['curPauseTst'], 's' ) > pauseLimits[agent['curPauseCode']]">
+                          Pausa
+                      </span>
+                      <span class="badge badge-primary badge-pill" [style.width.px]="55">{{ getDuration( agent['curPauseTst'] ) }}</span>
+                    </div>
+
+                    <!-- TIPO DE PAUSA -->
+                    <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                      <span>{{ pauses[agent['curPauseCode']]['Pausa'] }}</span>
+                    </div>
+                  </ng-container>
+
+                  <!-- DISPLAY DISPONIBLE -->
+                  <ng-template #ElsePause>
+                    <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                      <span>Disponible</span>
+                      <span class="badge badge-primary badge-pill ml-auto" [style.width.px]="55">{{ getDuration( agent['freeSincePauOrCallTst'] == 0 ? agent['logon'] : agent['freeSincePauOrCallTst'] ) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-center pt-2" style="font-size: smaller">
+                      <span></span>
+                    </div></ng-template>
+                </ng-template>
+
+              </div>
+
+              <!-- FOOTER COLAS -->
+              <div class="card-footer" *ngIf="setQueue.length>1 && display['queue']">
+                <div class="row">
+
+                  <ng-container *ngFor="let qs of setQueue">
+                    <div class="d-flex justify-content-start align-items-center" *ngIf="title!= 'All' || (title == 'All' && queueBelong( agent['qs'], [qs] ))">
+                      <span
+                        placement="bottom"
+                        [ngbTooltip]="printQueue( qs )"
+                        class="badge"
+                        [ngClass]="{
+                            'bg-success': agent['c_queue'] == qs,
+                            'bg-info': agent['c_queue'] != qs && logQ( qs, agent['qs']),
+                            'bg-light text-dark border border-secondary': !logQ( qs, agent['qs'])
+                          }">
+
+                        <small>{{ qs }}</small>
+                      </span>
+                    </div>
+                  </ng-container>
+
+                </div>
+              </div>
+              <!-- {{ agent | json }} -->
+            </div>
+
+          </ng-container>
+        </ng-container>
+
+      </div>
+    </div>
+
+  <!-- CLOSE TITUTLO -->
+  </div>
+
+</div>

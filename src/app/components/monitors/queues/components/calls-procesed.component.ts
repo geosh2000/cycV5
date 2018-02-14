@@ -67,6 +67,7 @@ export class CallsProcesedComponent implements OnInit {
   }
 
   build( data ){
+    console.log( 'start' ,  data )
     let calls = {}
     let callsAgent = {}
 

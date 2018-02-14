@@ -1,0 +1,129 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <p *ngIf="loading && !data">Loading <i class="fa fa-fw fa-spinner fa-pulse"></i></p>
+
+    <div class="row d-flex justify-content-center alert alert-primary" role="alert" style="font-size: small">
+      <div class="col-auto d-flex justify-content-start alert alert-primary">
+        <div class="m-2">
+          <select name="skill" class="custom-select" [(ngModel)]="skillSelected" (change)="reloadCalls($event.target.value)">
+            <option [value]="skill" *ngFor="let skill of (queueGroups | orderBy: 'Departamento') | keys">
+              {{ skillGroup[skill] }}
+            </option>
+          </select>
+        </div>
+        <button
+          type="button"
+          class="m-2 btn"
+          [ngClass]="{'btn-success': timerFlag, 'btn-outline-secondary': !timerFlag}"
+          (click)="loopChg()">
+          <span *ngIf="loop">Loop ON</span>
+          <span *ngIf="!loop">Loop OFF</span>
+        </button>
+      </div>
+      <div class="col-auto d-flex justify-content-start alert alert-primary">
+        <div style="text-align: center" class="p-2">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="display['sum']"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="display['sum']">Sum ON</small>
+            <small *ngIf="!display['sum']">Sum Off</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="display['wait']"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="display['wait']">Waits ON</small>
+            <small *ngIf="!display['wait']">Waits Off</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="display['byQueue']"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="display['byQueue']">By Queue</small>
+            <small *ngIf="!display['byQueue']">Grouped</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="display['calls']"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="display['calls']">Calls ON</small>
+            <small *ngIf="!display['calls']">Calls OFF</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2" *ngIf="display['calls']">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="display['detail']"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="display['detail']">Detail ON</small>
+            <small *ngIf="!display['detail']">Detail OFF</small>
+          </p>
+        </div>
+        <div style="text-align: center" class="p-2" *ngIf="display['calls']">
+          <ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="display['queue']"
+          ></ui-switch>
+          <p style="margin-top: -5px">
+            <small *ngIf="display['queue']">Q's ON</small>
+            <small *ngIf="!display['queue']">Q's OFF</small>
+          </p>
+        </div>
+
+      </div>
+      <div class="col-auto d-flex justify-content-start alert alert-primary">
+        <div style="text-align: center" class="ml-auto p-2">
+          <span>Last Update: {{ formatDate(lu, "DD MMM 'YY kk:mm:ss") }}</span>
+          <p><small *ngIf="!loading">Loading in {{ count <= 0 ? 0 : count }} sec.</small><small *ngIf="loading">Loading... <i class="fa fa-fw fa-spinner fa-pulse"></i></small></p>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="container-fluid" *ngIf="data && queueGroups && skillGroup">
+      <ng-container *ngIf="!display['byQueue']; else byQueue">
+        <app-cbp
+          [setQueue]="queueGroups[skillSelected]"
+          [queues]="queues"
+          [pauses]="pauses"
+          [title]="skillGroup[skillSelected]"
+          [deps]="deps"
+          [display]="display"
+          [waits]="waits"
+          [data]="data">
+        </app-cbp>
+      </ng-container>
+      <ng-template #byQueue>
+        <app-cbp
+          [setQueue]="[q]"
+          [queues]="queues"
+          [pauses]="pauses"
+          [title]="skillGroup[skillSelected]"
+          [deps]="deps"
+          [display]="display"
+          [waits]="waits"
+          [data]="data" *ngFor="let q of queueGroups[skillSelected]">
+        </app-cbp>
+      </ng-template>
+    </div>
+
+</div>

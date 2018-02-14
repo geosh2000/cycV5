@@ -116,6 +116,8 @@ export class QueuesComponent implements OnInit {
                 this.lu = data[item]['Last_update']
               }
 
+              console.log(this.data)
+
               this.getAgents()
               if(this.loop){
                 setTimeout( () => this.getRtCalls( block ), this.loopTime )
