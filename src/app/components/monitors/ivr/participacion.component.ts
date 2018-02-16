@@ -31,9 +31,11 @@ export class ParticipacionComponent implements OnInit {
   monitor:boolean = true
   data:any
   date:any
+  dids:any
   lu:any
   reload=false
   porCola:boolean=false
+  soporte:boolean=false
 
   timerFlag:boolean= false
   timeCount:number= 300
@@ -77,24 +79,32 @@ export class ParticipacionComponent implements OnInit {
     this.getData()
   }
 
-  getData( event:any = '', td:any = '' ){
+  getData( event:boolean = false, td:boolean = true ){
     this.loading['data'] = true
     let flag = false
 
-    if( td || (td == '' && this.monitor)){
+    if( td ){
       this.setToday()
       flag = true
     }
 
-    let params = this.dateSelected
+    let params = {
+      date: this.dateSelected,
+      porCola: false,
+      soporte: false
+    }
 
-    if( event || (event == '' && this.porCola) ){
-      params = `${params}/1`
+    if( event ){
+      params['porCola'] = true
+    }
+
+    if( this.soporte ){
+      params['soporte'] = true
     }
 
     this.timerFlag = false
-    
-    this._api.restfulGet( params, 'VentaMonitor/IvrPart')
+
+    this._api.restfulPut( params, 'VentaMonitor/IvrPart')
               .subscribe( res => {
 
                 this.loading['data'] = false
@@ -103,6 +113,7 @@ export class ParticipacionComponent implements OnInit {
 
                 this.data = res.data['result']
                 this.total = res.data['total']
+                this.dids = res.data['dids']
                 this.date = this.dateSelected
                 this.lu = moment.tz(res.lu, "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
 
@@ -163,8 +174,20 @@ export class ParticipacionComponent implements OnInit {
     }
   }
 
-  refresh( event ){
-    this.getData( this.porCola, event )
+  refresh( event, tipo ){
+    switch( tipo ){
+      case 'cola':
+        this.getData( event, this.monitor )
+        break
+      case 'live':
+        this.getData( this.porCola, event )
+        break
+      case 'soporte':
+        this.soporte = event
+        this.getData( this.porCola, this.monitor )
+        break
+    }
+
   }
 
 }

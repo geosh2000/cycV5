@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewContainerRef, Input, SimpleChanges } from '@angular/core';
+import { Component, AfterViewInit, ViewContainerRef, Input, SimpleChanges, ViewChild, HostListener, ElementRef } from '@angular/core';
 
 import * as moment from 'moment-timezone';
 
@@ -8,6 +8,13 @@ import * as moment from 'moment-timezone';
   styles: []
 })
 export class PathSelectComponent implements AfterViewInit {
+
+  divWidth:number = 1200
+
+  @ViewChild('chartContainer') parentDiv:ElementRef;
+  @HostListener('window:resize') onResize() {
+    this.resizeChart()
+  }
 
   @Input() data = []
   @Input() date = []
@@ -78,6 +85,21 @@ export class PathSelectComponent implements AfterViewInit {
     console.log(this.chart)
     this.chart['ivr']['series'][0].setData( this.data )
     this.chart['ivr'].title.update({ text: `Participación por 800 ${ moment(this.date).format('DD MMM YYYY')}`})
+    this.resizeChart()
+  }
+
+  resizeChart(){
+    // guard against resize before view is rendered
+    if(this.parentDiv) {
+      this.divWidth = this.parentDiv.nativeElement.clientWidth;
+
+      if( this.chart ){
+        for( let group in this.chart ){
+          let h = this.divWidth*1000/2200
+          this.chart['ivr'].setSize(this.divWidth, h);
+        }
+      }
+    }
   }
 
 

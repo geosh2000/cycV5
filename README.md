@@ -26,6 +26,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Selector Mes
 * Selector por Fecha o Rango
 
+### Monitor IVR
+* Fix -> Responsive
+* Filtro para soporte
+* Listado llamadas soporte
+
 ## v2.2.25
 
 ### NavBar

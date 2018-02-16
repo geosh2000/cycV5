@@ -12,16 +12,16 @@
         </div>
         <div class="card-body">
 
-          <div class="d-flex justify-content-between align-items-center">
+          <div class="row">
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="col d-flex justify-content-between align-items-center">
               <!-- Fecha -->
               <div class="p-2 text-center">
                 <p><ui-switch
                   color="green"
                   size= "small"
                   [(ngModel)]="monitor"
-                  (change)="refresh( $event )"
+                  (change)="refresh( $event, 'live' )"
                 ></ui-switch></p>
                 <p><small>Live!</small></p>
               </div>
@@ -43,29 +43,38 @@
                   color="green"
                   size= "small"
                   [(ngModel)]="porCola"
-                  (change)="getData( $event )"
+                  (change)="refresh( $event, 'cola' )"
                 ></ui-switch></p>
                 <p><small>Extendido</small></p>
+              </div>
+              <div class="p-2 text-center">
+                <p><ui-switch
+                  color="green"
+                  size= "small"
+                  [(ngModel)]="soporte"
+                  (change)="refresh( $event, 'soporte' )"
+                ></ui-switch></p>
+                <p><small>{{ soporte ? 'Soporte' : 'All' }}</small></p>
               </div>
             </div>
 
 
             <!-- RESUMEN -->
-            <div class="d-flex justify-content-center align-items-center p-1 text-center">
+            <div class=" col d-flex justify-content-center align-items-center p-1 text-center">
               <h4 class='text-center'>Resumen</h4>
             </div>
-            <div class="d-flex justify-content-start align-items-center p-1">
+            <div class="col d-flex justify-content-start align-items-center p-1">
               <span class="p-2">Ofrecidas</span>
               <span class="badge badge-primary ml-auto" [style.width.px]="80">{{ total ? total['ofrecidas'] : 0 | number:'.0-0'}}</span>
             </div>
-            <div class="d-flex justify-content-start align-items-center p-1">
+            <div class="col d-flex justify-content-start align-items-center p-1">
               <span class="p-2">Contestadas</span>
               <span class="badge badge-success ml-auto p-2" [style.width.px]="80">
                 <p>{{ total ? total['contestadas'] : 0 | number:'.0-0'}}</p>
                 <p>{{ total ? ((total['contestadas']/total['ofrecidas']*100) | number:'.0-2') : 0 | number:'.0-2'}}%</p>
               </span>
             </div>
-            <div class="d-flex justify-content-start align-items-center p-1">
+            <div class="col d-flex justify-content-start align-items-center p-1">
               <span class="p-2">Abandonadas</span>
               <span class="badge badge-danger ml-auto p-2" [style.width.px]="80">
                 <p>{{ total ? total['abandonadas'] : 0 | number:'.0-0'}}</p>
@@ -85,9 +94,29 @@
   </div>
 
   <!-- CONTENIDO -->
-  <div class="row p-2" *ngIf="!reload">
-    <div class="col d-flex justify-content-center">
-      <app-path-select [data]="data" [date]="date"></app-path-select>
-    </div>
+  <app-path-select [data]="data" [date]="date"></app-path-select>
+
+  <div class="container d-flex justify-content-center" *ngIf="soporte">
+    <table class="table table-sm table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>800</th>
+          <th>Llamante</th>
+          <th>DNIS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dids">
+          <td>{{ item['Fecha'] }}</td>
+          <td>{{ item['Hora'] }}</td>
+          <td>{{ item['Origin'] }}</td>
+          <td>{{ item['Llamante'] }}</td>
+          <td>{{ item['DNIS'] }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
 </div>
