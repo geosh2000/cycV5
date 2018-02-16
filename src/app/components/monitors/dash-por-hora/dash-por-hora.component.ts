@@ -40,8 +40,8 @@ export class DashPorHoraComponent implements AfterViewInit {
   options:Object = {}
 
   monthSelected:string = `-${moment().format('MM')}`
-  dateStart:any = moment(`${moment().format(`YYYY-${this.monthSelected}`)}-01`).format('YYYY-MM-DD')
-  dateEnd:any = moment(`${moment(moment(`${moment().format(`YYYY-${this.monthSelected}`)}-01`)).add(35, 'days').format('YYYY-MM')}-01`).subtract(1, 'days').format('YYYY-MM-DD')
+  dateStart:any = moment(`${moment().format(`YYYY${this.monthSelected}`)}-01`).format('YYYY-MM-DD')
+  dateEnd:any = moment(`${moment(moment(`${moment().format(`YYYY${this.monthSelected}`)}-01`)).add(35, 'days').format('YYYY-MM')}-01`).subtract(1, 'days').format('YYYY-MM-DD')
 
   params:Object = {
     start : '',
