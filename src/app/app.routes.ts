@@ -31,6 +31,7 @@ import { MonitorPausasComponent } from './components/monitors/monitor-pausas/mon
 import { RnComponent } from './components/monitors/venta/rn.component';
 import { VentaPorAsesorComponent } from './components/monitors/venta-por-asesor/venta-por-asesor.component';
 import { ParticipacionComponent } from './components/monitors/ivr/participacion.component';
+import { DashPorHoraComponent } from './components/monitors/dash-por-hora/dash-por-hora.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 import { FamsComponent } from './components/config/fams/fams.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
@@ -96,6 +97,7 @@ const APP_ROUTES: Routes = [
   { path: 'pausas', component: MonitorPausasComponent },
   { path: 'ventaAsesor', component: VentaPorAsesorComponent },
   { path: 'monitors/ivrParticipacion', component: ParticipacionComponent },
+  { path: 'dashporhora', component: DashPorHoraComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },

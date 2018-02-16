@@ -75,6 +75,7 @@ export class PathSelectComponent implements AfterViewInit {
   }
 
   setData(){
+    console.log(this.chart)
     this.chart['ivr']['series'][0].setData( this.data )
     this.chart['ivr'].title.update({ text: `Participación por 800 ${ moment(this.date).format('DD MMM YYYY')}`})
   }

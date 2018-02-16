@@ -122,6 +122,7 @@ import { CambioLocalizadorAsesorComponent } from './components/config/cambio-loc
 import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.component';
 import { QueuesV2Component } from './components/monitors/queues-v2/queues-v2.component';
 import { CbpComponent } from './components/monitors/queues-v2/cbp/cbp.component';
+import { DashPorHoraComponent } from './components/monitors/dash-por-hora/dash-por-hora.component';
 
 
 declare let jQuery : Object;
@@ -234,6 +235,7 @@ registerLocaleData(localeEsMX)
     SearchAsesorComponent,
     QueuesV2Component,
     CbpComponent,
+    DashPorHoraComponent,
   ],
   imports: [
     BrowserModule,

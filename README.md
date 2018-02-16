@@ -19,6 +19,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Cambio a RawData para tiempos de pausas y llamadas
 * Fix -> Llamadas transferidas y de PT US se muestran correctamente
 
+### Dashboard Por Hora
+* Selector MP / MT
+* Selector MX / CO
+* Selector *Solo Venta* / *Venta y Cxl*
+* Selector Mes
+* Selector por Fecha o Rango
+
 ## v2.2.25
 
 ### NavBar
