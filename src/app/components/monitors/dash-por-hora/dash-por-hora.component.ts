@@ -25,7 +25,7 @@ export class DashPorHoraComponent implements AfterViewInit {
   showContents:boolean = false
   flag:boolean = false
   large:boolean = true
-  mainCredential:string = 'default'
+  mainCredential:string = 'tablas_f'
 
   loading:Object = {}
 
