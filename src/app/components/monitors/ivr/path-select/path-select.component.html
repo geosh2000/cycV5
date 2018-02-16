@@ -1,4 +1,4 @@
-<div class="row p-2" *ngIf="!reload">
+<div class="row p-2">
   <div class="col d-flex justify-content-center" #chartContainer>
     <chart [options]="options" (load)="saveInstance('ivr', $event.context)"></chart>
   </div>
