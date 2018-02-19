@@ -118,7 +118,7 @@ export class AsistenciaBadgeComponent implements OnInit {
                   break
                 default:
                   this.btnClass     = 'btn-morado'
-                  this.displayText  = 'FJ'
+                  this.displayText  = this.infoData['code']
                   break
               }
 
