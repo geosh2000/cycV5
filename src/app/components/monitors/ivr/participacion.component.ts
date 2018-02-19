@@ -146,7 +146,7 @@ export class ParticipacionComponent implements OnInit {
   chgDate(){
     this.dateSelected = moment(`${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`).format('YYYY-MM-DD')
 
-    this.getData()
+    this.getData( this.porCola, false )
 
   }
 

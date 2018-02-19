@@ -14,16 +14,36 @@
 
           <div class="row">
 
-            <div class="col d-flex justify-content-between align-items-center">
-              <!-- Fecha -->
-              <div class="p-2 text-center">
-                <p><ui-switch
-                  color="green"
-                  size= "small"
-                  [(ngModel)]="monitor"
-                  (change)="refresh( $event, 'live' )"
-                ></ui-switch></p>
-                <p><small>Live!</small></p>
+            <div class="col">
+              <div class="d-flex justify-content-between align-items-center">
+                <!-- Fecha -->
+                <div class="p-2 text-center">
+                  <p><ui-switch
+                    color="green"
+                    size= "small"
+                    [(ngModel)]="monitor"
+                    (change)="refresh( $event, 'live' )"
+                  ></ui-switch></p>
+                  <p><small>Live!</small></p>
+                </div>
+                <div class="p-2 text-center">
+                  <p><ui-switch
+                    color="green"
+                    size= "small"
+                    [(ngModel)]="porCola"
+                    (change)="refresh( $event, 'cola' )"
+                  ></ui-switch></p>
+                  <p><small>Extendido</small></p>
+                </div>
+                <div class="p-2 text-center">
+                  <p><ui-switch
+                    color="green"
+                    size= "small"
+                    [(ngModel)]="soporte"
+                    (change)="refresh( $event, 'soporte' )"
+                  ></ui-switch></p>
+                  <p><small>{{ soporte ? 'Soporte' : 'All' }}</small></p>
+                </div>
               </div>
               <div class="form-inline" *ngIf="!monitor">
                 <div class="form-group">
@@ -37,24 +57,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="p-2 text-center">
-                <p><ui-switch
-                  color="green"
-                  size= "small"
-                  [(ngModel)]="porCola"
-                  (change)="refresh( $event, 'cola' )"
-                ></ui-switch></p>
-                <p><small>Extendido</small></p>
-              </div>
-              <div class="p-2 text-center">
-                <p><ui-switch
-                  color="green"
-                  size= "small"
-                  [(ngModel)]="soporte"
-                  (change)="refresh( $event, 'soporte' )"
-                ></ui-switch></p>
-                <p><small>{{ soporte ? 'Soporte' : 'All' }}</small></p>
               </div>
             </div>
 
