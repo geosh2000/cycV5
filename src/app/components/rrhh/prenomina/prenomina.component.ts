@@ -31,6 +31,7 @@ export class PrenominaComponent implements OnInit {
   dataSchedules:any
   dataLogs:any
   dataAusentismos:any
+  dataFestivos:any
   dataCxc:any
   prenomCxc:any
   dataAsesores:any
@@ -63,8 +64,8 @@ export class PrenominaComponent implements OnInit {
 
     this.tableHeaders = [
       { t: 'Descansos', code: 'D', type: 'd' },
-      { t: 'Asistencias', code: 'A', type: 'd' },
-      { t: 'Capacitación', code: 'CA', type: 'd' },
+      // { t: 'Asistencias', code: 'A', type: 'd' },
+      // { t: 'Capacitación', code: 'CA', type: 'd' },
       { t: 'D Faltas IN', code: 'F', type: 'd' },
       { t: 'F Faltas IN', code: 'F', type: 'f' },
       { t: 'D Faltas JUS', code: 'FJ', type: 'd' },
@@ -110,12 +111,36 @@ export class PrenominaComponent implements OnInit {
                 this.dataSchedules = res.data
                 console.log(this.dataSchedules)
 
-                this.getAsesores( nominaId )
+                this.getFestivos( nominaId )
 
               }, err => {
                 console.log("ERROR", err)
 
                 this.loading['schedules'] = false
+
+                let error = err.json()
+                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                console.error(err.statusText, error.msg)
+
+              })
+  }
+
+  getFestivos( nominaId ){
+    this.loading['festivos'] = true
+
+    this._api.restfulGet( nominaId, 'Prenomina/festivos')
+              .subscribe( res => {
+
+                this.loading['festivos'] = false
+
+                this.dataFestivos = res.data
+
+                this.getAsesores( nominaId )
+
+              }, err => {
+                console.log("ERROR", err)
+
+                this.loading['festivos'] = false
 
                 let error = err.json()
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
@@ -409,6 +434,8 @@ export class PrenominaComponent implements OnInit {
 
     this.loading['building'] = false
     this.built = true
+
+    console.log(this.dataPrenom)
   }
 
   getExcept( data, type ){
@@ -451,6 +478,21 @@ export class PrenominaComponent implements OnInit {
         }
       }
 
+      if( result['code'] == 'DT' ){
+        if( !this.checkSA( data.js, data.je, data.logs.j.in, data.logs.j.out ) && !this.checkLength( data.js, data.je, data.logs.j.in, data.logs.j.out ) && data.logs.j.in != null ){
+          result = {
+            code: "DT",
+            rcode: "DT",
+            desc: "Descanso Trabajado"
+          }
+        }else{
+          result = {
+            code: "D",
+            rcode: "D",
+            desc: "Descanso"
+          }
+        }
+      }
 
       return result[type]
     }
@@ -495,13 +537,22 @@ export class PrenominaComponent implements OnInit {
               desc: "Domingo Trabajado"
             }
           }else{
-            result = {
-              code: "A",
-              rcode: "A",
-              desc: "Asistencia"
+            if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
+              result = {
+                code: "FES",
+                rcode: "FES",
+                desc: "Festivo Trabajado"
+              }
+            }else{
+              result = {
+                code: "A",
+                rcode: "A",
+                desc: "Asistencia"
+              }
             }
+
           }
-          return result
+          return result[type]
         }
       }
     }
