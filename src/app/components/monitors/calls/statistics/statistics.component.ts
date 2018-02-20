@@ -29,10 +29,12 @@ export class StatisticsComponent implements OnInit {
   total:any
   monitor:boolean = true
   data:any
+  locs:any
   dataH:Object = {}
   date:any
   dids:any
   lu:any
+  luLocs:any
   reload=false
 
   skill:number = 35
@@ -106,6 +108,43 @@ export class StatisticsComponent implements OnInit {
               })
   }
 
+  getLocs(){
+
+    if( !(this.skill == 3 || this.skill == 35) ){
+      return true
+    }
+
+    this.loading['data'] = true
+
+    let params = {
+      Fecha: this.dateSelected,
+      skill: this.skill
+    }
+    this._api.restfulPut( params,'Venta/fc' )
+            .subscribe( res => {
+
+              this.loading['data'] = false
+              this.locs = { All: 0 }
+              for( let fc of res.data ){
+                this.locs[fc['tipoRsva']] = parseInt(fc['locs'])
+                this.locs['All'] += parseInt(fc['locs'])
+              }
+
+            }, err => {
+              console.log("ERROR", err)
+
+              this.loading['data'] = false
+
+              let error = err.json()
+              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              console.error(err.statusText, error.msg)
+
+            })
+
+
+
+  }
+
   getData( td:boolean = true ){
     this.loading['data'] = true
     let flag = false
@@ -134,6 +173,8 @@ export class StatisticsComponent implements OnInit {
                 this.total = {
                   contestadas: 0,
                   abandonadas: 0,
+                  IN: 0,
+                  PDV: 0,
                   ofrecidas: 0
                 }
 
@@ -145,6 +186,14 @@ export class StatisticsComponent implements OnInit {
                     this.total['abandonadas'] += parseInt(call['calls'])
                   }else{
                     this.total['contestadas'] += parseInt(call['calls'])
+                    switch(call['Grupo']){
+                      case 'IN':
+                        this.total['IN'] += parseInt(call['calls'])
+                        break
+                      case 'PDV':
+                        this.total['PDV'] += parseInt(call['calls'])
+                        break
+                    }
                   }
 
                   if( !groups[call['Grupo']] ){
@@ -175,6 +224,7 @@ export class StatisticsComponent implements OnInit {
 
 
                 this.date = this.dateSelected
+                this.getLocs()
                 // this.lu = moment.tz(res.lu, "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
 
                 this.reload = false

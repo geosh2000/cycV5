@@ -37,6 +37,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Llamadas por intervalos de 30 min
 * En vivo e históricos
 * Por Canal
+* FC por grupo
 
 ### Monitor Pausas
 * Se elimina charla de revisión
