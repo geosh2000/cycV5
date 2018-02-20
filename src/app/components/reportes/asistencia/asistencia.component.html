@@ -1,5 +1,6 @@
 <div *ngIf="showContents">
   <div class="container-fluid">
+    <button type="button" (click)="tst()">Test</button>
     <!-- TITLE -->
     <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
       <div class="container">
@@ -174,7 +175,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let rac of orederedKeys">
-          <tr *ngIf="asistData[rac].Nombre.toLowerCase().match(searchFilter.toLowerCase()) || asistData[rac].Departamento.toLowerCase().match(searchFilter.toLowerCase()) || asistData[rac].PuestoName.toLowerCase().match(searchFilter.toLowerCase())">
+          <tr *ngIf="searchFilter.length <= 3 || (searchFilter.length > 3 && (sRep(asistData[rac].Nombre).match( sRep(searchFilter) ) || sRep(asistData[rac].Departamento).match( sRep(searchFilter) ) || sRep(asistData[rac].PuestoName).match( sRep(searchFilter) )))">
             <td scope="row"><small>{{ asistData[rac].Nombre }} <a class="cursor: pointer" [routerLink]="['/detail-asesor',rac]" target="_blank"><i class="fa fa-fw fa-info-circle"></i></a></small></td>
             <td class="text-center" scope="row"><small>{{ asistData[rac].Colaborador }}</small></td>
             <td scope="row"><small class="text-center">{{ asistData[rac].Departamento }}</small></td>

@@ -9,6 +9,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix -> No se mostraban excepciones cuando existían Logueos
 * Cambio de color a índigo para excepciones aplicadas
 * Faltas calculadas por sistema en color rojo
+* Filtro sin acentos
+* NA en bajas o nuevos ingresos
 
 ### Monitor PYA
 * Fix -> No se reflejaban como RT-A retardos de exactamente 1 min

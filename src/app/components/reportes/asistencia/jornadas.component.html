@@ -1,60 +1,76 @@
-<ng-container *ngIf="showOpts['ch_jornada'] && asistData">
-  <div class='d-flex justify-content-start'>
-    <div class="p-1 ml-auto">
-      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">j:</button>
+<ng-container *ngIf="showOpts['ch_jornada']">
+  <ng-container *ngIf="asistData">
+    <div class='d-flex justify-content-start'>
+      <div class="p-1 ml-auto">
+        <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">j:</button>
+      </div>
+
+      <ng-template #popContent>
+        <ng-container *ngIf="asistData['j_login'] != null; else Other">
+          <table class="table table-sm table-responsive table-hover" style="font-size: smaller">
+            <thead>
+              <tr>
+                <th>Log</th>
+                <th>Jornada</th>
+                <th>Día</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">Login:</td>
+                <td [ngClass]="{'text-danger': asistData['Retardo']}">{{ formatDate(asistData['j_login'], 'kk:mm:ss') }}</td>
+                <td>{{ formatDate(asistData['login'], 'kk:mm:ss') }}</td>
+              </tr>
+              <tr>
+                <td scope="row">Logout:</td>
+                <td [ngClass]="{'text-danger': asistData['SalidaAnticipada'] == 1}">{{ formatDate(asistData['j_logout'], 'kk:mm:ss') }}</td>
+                <td>{{ formatDate(asistData['logout'], 'kk:mm:ss') }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-template #Other>Sin información de logueos</ng-template>
+      </ng-template>
+      <div class="p-1 ml-auto">
+        <button
+          class="btn btn-sm btn-block"
+          style="width: 100px"
+          [ngClass]="{'btn-secondary':        asistData['Descanso'] == 1,
+                      'btn-primary':          asistData['Descanso'] != 1 && asistData['js'] != null,
+                      'btn-outline-secondary': asistData['js'] == null}"
+          placement="top" [ngbPopover]="popContent" popoverTitle="Logs de Jornada"
+          >
+
+              <span class="text-center">
+                <small *ngIf="asistData['Descanso'] == 1">Descanso</small>
+                <small *ngIf="asistData['Descanso'] != 1 && asistData['js'] != null">
+                  {{ formatDate(asistData['js'], 'kk:mm') }} - {{ formatDate(asistData['je'], 'kk:mm') }}
+                  <i class="fa fa-fw fa-info-circle"></i>
+                </small>
+                <small *ngIf="asistData['js'] == null">*</small>
+              </span>
+              <ng-container *ngIf="showOpts['sh_p']">
+                <app-cumplimiento [config]="progressProps( perCumplimiento( 'j' ) )" *ngIf="asistData['Descanso'] != 1 && asistData['js'] != null"></app-cumplimiento>
+              </ng-container>
+        </button>
+      </div>
     </div>
+  </ng-container>
+  <ng-container *ngIf="!asistData">
+    <div class='d-flex justify-content-start'>
+      <div class="p-1 ml-auto">
+        <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">j:</button>
+      </div>
 
-    <ng-template #popContent>
-      <ng-container *ngIf="asistData['j_login'] != null; else Other">
-        <table class="table table-sm table-responsive table-hover" style="font-size: smaller">
-          <thead>
-            <tr>
-              <th>Log</th>
-              <th>Jornada</th>
-              <th>Día</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td scope="row">Login:</td>
-              <td [ngClass]="{'text-danger': asistData['Retardo']}">{{ formatDate(asistData['j_login'], 'kk:mm:ss') }}</td>
-              <td>{{ formatDate(asistData['login'], 'kk:mm:ss') }}</td>
-            </tr>
-            <tr>
-              <td scope="row">Logout:</td>
-              <td [ngClass]="{'text-danger': asistData['SalidaAnticipada'] == 1}">{{ formatDate(asistData['j_logout'], 'kk:mm:ss') }}</td>
-              <td>{{ formatDate(asistData['logout'], 'kk:mm:ss') }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <ng-template #Other>Sin información de logueos</ng-template>
-    </ng-template>
-    <div class="p-1 ml-auto">
-      <button
-        class="btn btn-sm btn-block"
-        style="width: 100px"
-        [ngClass]="{'btn-secondary':        asistData['Descanso'] == 1,
-                    'btn-primary':          asistData['Descanso'] != 1 && asistData['js'] != null,
-                    'btn-outline-secondary': asistData['js'] == null}"
-        placement="top" [ngbPopover]="popContent" popoverTitle="Logs de Jornada"
-        >
-
-            <span class="text-center">
-              <small *ngIf="asistData['Descanso'] == 1">Descanso</small>
-              <small *ngIf="asistData['Descanso'] != 1 && asistData['js'] != null">
-                {{ formatDate(asistData['js'], 'kk:mm') }} - {{ formatDate(asistData['je'], 'kk:mm') }}
-                <i class="fa fa-fw fa-info-circle"></i>
-              </small>
-              <small *ngIf="asistData['js'] == null">*</small>
-            </span>
-            <ng-container *ngIf="showOpts['sh_p']">
-              <app-cumplimiento [config]="progressProps( perCumplimiento( 'j' ) )" *ngIf="asistData['Descanso'] != 1 && asistData['js'] != null"></app-cumplimiento>
-            </ng-container>
-      </button>
+      <div class="p-1 ml-auto">
+        <button class="btn btn-sm btn-block btn-light" style="width: 100px">
+          <span class="text-center">
+            <small>NA</small>
+          </span>
+        </button>
+      </div>
     </div>
-  </div>
-
+  </ng-container>
 </ng-container>
 
 <!-- Extra -->
@@ -179,19 +195,35 @@
 </ng-container>
 
 <!-- Excepciones -->
-<ng-container *ngIf="showOpts['ch_excep'] && asistData">
-  <div class='d-flex justify-content-start'>
-    <div class="p-1 ml-auto">
-      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()">e:</button>
+<ng-container *ngIf="showOpts['ch_excep']">
+  <ng-container *ngIf="asistData">
+    <div class='d-flex justify-content-start'>
+      <div class="p-1 ml-auto">
+        <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()">e:</button>
+      </div>
+      <div class="p-1 ml-auto">
+        <button [style.width.px]="100" class="btn btn-block btn-outline-secondary text-warning" *ngIf="asistData['loading']">
+              <span class="text-center">
+                <i class="fas fa-spinner fa-fw fa-pulse"></i>
+              </span>
+        </button>
+        <app-asistencia-badge btnWidth=100 [dataAsesor]="asistData" [date]="date" *ngIf="!asistData['loading']"></app-asistencia-badge>
+      </div>
     </div>
-    <div class="p-1 ml-auto">
-      <button [style.width.px]="100" class="btn btn-block btn-outline-secondary text-warning" *ngIf="asistData['loading']">
-            <span class="text-center">
-              <i class="fas fa-spinner fa-fw fa-pulse"></i>
-            </span>
-      </button>
-      <app-asistencia-badge btnWidth=100 [dataAsesor]="asistData" [date]="date" *ngIf="!asistData['loading']"></app-asistencia-badge>
-    </div>
-  </div>
+  </ng-container>
+  <ng-container *ngIf="!asistData">
+    <div class='d-flex justify-content-start'>
+      <div class="p-1 ml-auto">
+        <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">e:</button>
+      </div>
 
+      <div class="p-1 ml-auto">
+        <button class="btn btn-sm btn-block btn-light" style="width: 100px">
+          <span class="text-center">
+            <small>NA</small>
+          </span>
+        </button>
+      </div>
+    </div>
+  </ng-container>
 </ng-container>

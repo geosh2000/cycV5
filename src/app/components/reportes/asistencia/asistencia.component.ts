@@ -580,4 +580,18 @@ export class AsistenciaComponent implements OnInit {
     return buf;
   }
 
+  tst(){
+    console.log(this.asistData)
+  }
+
+  sRep( input ){
+    return input.toLowerCase()
+              .replace(/á/gm,'a')
+              .replace(/é/gm,'e')
+              .replace(/í/gm,'i')
+              .replace(/ó/gm,'o')
+              .replace(/ú/gm,'u')
+              .replace(/ñ/gm,'n')
+  }
+
 }
