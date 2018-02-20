@@ -123,6 +123,8 @@ import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.compo
 import { QueuesV2Component } from './components/monitors/queues-v2/queues-v2.component';
 import { CbpComponent } from './components/monitors/queues-v2/cbp/cbp.component';
 import { DashPorHoraComponent } from './components/monitors/dash-por-hora/dash-por-hora.component';
+import { StatisticsComponent } from './components/monitors/calls/statistics/statistics.component';
+import { GraphCallStatsComponent } from './components/monitors/calls/statistics/graph-call-stats/graph-call-stats.component';
 
 
 declare let jQuery : Object;
@@ -236,6 +238,8 @@ registerLocaleData(localeEsMX)
     QueuesV2Component,
     CbpComponent,
     DashPorHoraComponent,
+    StatisticsComponent,
+    GraphCallStatsComponent,
   ],
   imports: [
     BrowserModule,

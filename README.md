@@ -31,6 +31,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Filtro para soporte
 * Listado llamadas soporte
 
+### Call Statistics
+* Llamadas por intervalos de 30 min
+* En vivo e históricos
+* Por Canal
+
 ## v2.2.25
 
 ### NavBar
