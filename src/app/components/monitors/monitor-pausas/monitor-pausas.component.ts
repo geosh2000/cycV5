@@ -295,7 +295,7 @@ export class MonitorPausasComponent implements OnInit {
         'comida'      : 1860,
         'mesa'        : 2700,
         // 'charla'      : 900
-        'charla'      : 100000900
+        'charla'      : 100000900 // No incluye review
       }
 
       switch( parseInt(data['tipo']) ){
