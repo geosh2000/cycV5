@@ -36,6 +36,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * En vivo e históricos
 * Por Canal
 
+### Monitor Pausas
+* Se elimina charla de revisión
+
 ## v2.2.25
 
 ### NavBar
