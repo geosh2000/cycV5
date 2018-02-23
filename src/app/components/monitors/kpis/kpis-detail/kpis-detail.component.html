@@ -1,0 +1,90 @@
+<div class="row m-1 p-1 border">
+
+  <!-- SERVICE TITLE -->
+  <div class="col-3 d-flex align-items-center">
+    <p class="align-middle">{{ item }}:</p>
+  </div>
+
+  <!-- DATA SHOW -->
+  <div class="col-9 align-middle">
+
+    <!-- MONTO -->
+    <div class="row" *ngIf="mFlag">
+
+      <!-- TOTAL DEL DIA -->
+      <div class="col-md-6 col-sm-12 d-flex justify-content-end">
+        <p>{{ monto | currency:'MXN':'symbol-narrow':'.2-2' }}</p>
+      </div>
+
+      <!-- VARS -->
+      <div class="col-md-6 col-sm-12 d-flex justify-content-end align-items-center">
+
+        <!-- YD -->
+        <div class="ml-1">
+          <span
+            placement="bottom" ngbTooltip="{{ mYd | currency:'MXN':'symbol-narrow':'.2-2' }}"
+            class="badge badge-pill text-center ml-1"
+            [ngClass]="compare( monto, mYd, 'class' )"
+            [style.width.px]="55">
+              <small>yd: {{ compare( monto, mYd, '%' ) | number:'.0-0' }}%</small>
+          </span>
+        </div>
+
+        <!-- LY -->
+        <div class="ml-1">
+          <span
+            placement="bottom" ngbTooltip="{{ mLy | currency:'MXN':'symbol-narrow':'.2-2' }}"
+            class="badge badge-pill text-center ml-1"
+            [ngClass]="compare( monto, mLy, 'class' )"
+            [style.width.px]="55">
+              <small>ly: {{ compare( monto, mLy, '%' ) | number:'.0-0' }}%</small>
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RN -->
+    <div class="row" *ngIf="iUnit != ''">
+
+      <!-- TOTAL DEL DIA -->
+      <div class="col-md-6 col-sm-12 d-flex justify-content-end">
+        <p *ngIf="!naFlag">
+          <span *ngIf="iLoad"><i class="fas fa-spinner fa-fw fa-pulse text-success"></i></span>
+          <span *ngIf="!iLoad">{{ int | number:'.0-2' }} {{ iUnit }}</span>
+        </p>
+        <p *ngIf="naFlag">N/A</p>
+      </div>
+
+      <!-- VARS -->
+      <div class="col-md-6 col-sm-12 d-flex justify-content-end align-items-center" *ngIf="!naFlag">
+
+        <!-- YD -->
+        <div class="ml-1">
+          <span
+            placement="bottom" ngbTooltip="{{ iYd | number:'.0-2' }} {{ iUnit }}"
+            class="badge badge-pill text-center ml-1"
+            [ngClass]="compare( int, iYd, 'class' )"
+            [style.width.px]="55">
+              <small>yd: {{ compare( int, iYd, '%' ) | number:'.0-0' }}%</small>
+          </span>
+        </div>
+
+        <!-- LY -->
+        <div class="ml-1">
+          <span
+            placement="bottom" ngbTooltip="{{ iLy | number:'.0-2' }} {{ iUnit }}"
+            class="badge badge-pill text-center ml-1"
+            [ngClass]="compare( int, iLy, 'class' )"
+            [style.width.px]="55">
+              <small>ly: {{ compare( int, iLy, '%' ) | number:'.0-0' }}%</small>
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

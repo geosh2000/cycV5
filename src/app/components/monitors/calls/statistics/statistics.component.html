@@ -86,36 +86,6 @@
                 <p>{{ (total ? ((total['PDV'] ? total['PDV'] : 0) / total['contestadas'] * 100) : 0) | number:'.0-2'}}%</p>
               </span>
             </div>
-            <div class="col text-center p-1"  *ngIf="locs">
-              <p class="p-2">FC</p>
-              <span class="badge badge-warning ml-auto p-2" [style.width.px]="120">
-                <p class="d-flex justify-content-around">
-                  <span>
-                    In:
-                  </span>
-                  <span>
-                    {{ (locs && locs['IN']      ? (locs['IN']       /   (total['IN']          ? total['IN']               : 0) * 100)   : 0) | number:'.0-2' }}%
-                  </span>
-                </p>
-                <p class="d-flex justify-content-around">
-                  <span>
-                    PDV:
-                  </span>
-                  <span>
-                    {{ (locs && locs['PDV-IN']  ? (locs['PDV-IN']   /   (total['PDV']         ? total['PDV']              : 0) * 100)   : 0) | number:'.0-2' }}%
-                  </span>
-                </p>
-                <p class="d-flex justify-content-around">
-                  <span>
-                    All:
-                  </span>
-                  <span>
-                    {{ (locs && locs['All']     ? (locs['All']      /   (total['contestadas'] ? total['contestadas']      : 0) * 100)   : 0) | number:'.0-2' }}%
-                  </span>
-                </p>
-              </span>
-            </div>
-
 
           </div>
 

@@ -400,7 +400,7 @@ export class DashPorHoraComponent implements AfterViewInit {
       }
 
       // DEFINE CHANNEL
-      chan = step['gpoTipoRsva']
+      chan = step['gpoTipoRsvaOk']
 
       // DEFINE GP CHANNEL
       switch(chan){

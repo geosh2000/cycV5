@@ -125,6 +125,9 @@ import { CbpComponent } from './components/monitors/queues-v2/cbp/cbp.component'
 import { DashPorHoraComponent } from './components/monitors/dash-por-hora/dash-por-hora.component';
 import { StatisticsComponent } from './components/monitors/calls/statistics/statistics.component';
 import { GraphCallStatsComponent } from './components/monitors/calls/statistics/graph-call-stats/graph-call-stats.component';
+import { KpisComponent } from './components/monitors/kpis/kpis.component';
+import { TablesorterComponent } from './plugins/tablesorter/tablesorter.component';
+import { KpisDetailComponent } from './components/monitors/kpis/kpis-detail/kpis-detail.component';
 
 
 declare let jQuery : Object;
@@ -240,6 +243,9 @@ registerLocaleData(localeEsMX)
     DashPorHoraComponent,
     StatisticsComponent,
     GraphCallStatsComponent,
+    KpisComponent,
+    TablesorterComponent,
+    KpisDetailComponent,
   ],
   imports: [
     BrowserModule,
