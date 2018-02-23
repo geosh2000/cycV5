@@ -226,9 +226,9 @@
               <app-kpis-detail
                 [item]="'Calls'"
                 [mFlag]="false"
-                [int]="(group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' ))"
-                [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'calls' ) : getVal( canal, group, 'calls', 'yd' ))"
-                [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' ))"
+                [int]="(group == 'Total' ? getTotal(canal, 'td', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'td' ))"
+                [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'yd' ))"
+                [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'ly' ))"
                 [iUnit]="' '"
                 [iLoad]="loading['calls']"
                 [naFlag]="!callsCheck(canal, group)"
@@ -255,10 +255,14 @@
                 [monto]="(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item ))"
                 [mYd]="(group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'yd', item ))"
                 [mLy]="(group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item ))"
-                [int]="item == 'Hotel' ? (group == 'Total' ? getTotal(canal, 'td', 'newRN', item) : getVal( canal, group, 'newRN', 'td', item )) : ''"
-                [iYd]="item == 'Hotel' ? (group == 'Total' ? getTotal(canal, 'yd', 'newRN', item) : getVal( canal, group, 'newRN', 'yd', item )) : ''"
-                [iLy]="item == 'Hotel' ? (group == 'Total' ? getTotal(canal, 'ly', 'newRN', item) : getVal( canal, group, 'newRN', 'ly', item )) : ''"
-                [iUnit]="item == 'Hotel' ? 'RN' : ''"
+                [int]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'td', 'newRN', item) : getVal( canal, group, 'newRN', 'td', item )) : ''"
+                [iYd]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'yd', 'newRN', item) : getVal( canal, group, 'newRN', 'yd', item )) : ''"
+                [iLy]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'ly', 'newRN', item) : getVal( canal, group, 'newRN', 'ly', item )) : ''"
+                [iUnit]="item == 'Hotel' || item == 'Paquete' ? 'RN' : ''"
+                [xint]="(group == 'Total' ? getTotal(canal, 'td', 'Locs', item) : getVal( canal, group, 'Locs', 'td', item ))"
+                [xYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs', item) : getVal( canal, group, 'Locs', 'yd', item ))"
+                [xLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs', item) : getVal( canal, group, 'Locs', 'ly', item ))"
+                [xUnit]="'ML'"
                 *ngFor="let item of services">
               </app-kpis-detail>
             </ng-container>
@@ -269,5 +273,10 @@
 
       </div>
     </ng-container>
+  </div>
+</div>
+<div class="row">
+  <div class="col" *ngFor="let item of glosario | orderBy: 'concept'">
+    <small><span class='font-weight-light font-italic'><span class="font-weight-bold">{{ item['concept'] }}: </span>{{ item['exp'] }}</span></small>
   </div>
 </div>

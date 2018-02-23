@@ -32,7 +32,7 @@ export class KpisComponent implements OnInit {
   }
 
   colors:any = ['#7cb8e2', '#e28cd4', '#b99d68', '#ace4e4']
-  services:any = ['Hotel', 'Vuelo', 'Paquete']
+  services:any = ['Hotel', 'Paquete', 'Vuelo']
 
   dateSelected:any
   hourSelected:any = moment().tz('America/Mexico_city').format('HH:mm:ss')
@@ -48,6 +48,16 @@ export class KpisComponent implements OnInit {
     producto  : true,
     locs      : true
   }
+
+  glosario:any = [
+    {concept: 'var', exp: 'Variación'},
+    {concept: 'yd', exp: '-1 día'},
+    {concept: 'ly', exp: '-1 año (mismo día de la semana)'},
+    {concept: 'RN', exp: 'RoomNights'},
+    {concept: 'ML', exp: 'MasterLocator'},
+    {concept: 'FC', exp: 'Factor de Conversión'},
+    {concept: 'Av Tkt', exp: 'Ticket Promedio'}
+  ]
 
   constructor(public _api: ApiService,
                 private _init:InitService,
@@ -301,7 +311,8 @@ export class KpisComponent implements OnInit {
                 if( this.ventaData[canal] ){
                   if( this.ventaData[canal][gpoName] ){
                     if( this.ventaData[canal][gpoName][fechas[date]] ){
-                      this.ventaData[canal][gpoName][fechas[date]]['calls'] = parseInt(gpo['calls'])
+                      this.ventaData[canal][gpoName][fechas[date]]['callsTotal'] = parseInt(gpo['Ans']) + parseInt(gpo['Abn'])
+                      this.ventaData[canal][gpoName][fechas[date]]['calls'] = parseInt(gpo['Ans'])
                     }
                   }
                 }

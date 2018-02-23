@@ -85,6 +85,47 @@
       </div>
 
     </div>
+
+    <!-- RN2 -->
+    <div class="row" *ngIf="xUnit != ''">
+
+      <!-- TOTAL DEL DIA -->
+      <div class="col-md-6 col-sm-12 d-flex justify-content-end">
+        <p *ngIf="!naxFlag">
+          <span *ngIf="xLoad"><i class="fas fa-spinner fa-fw fa-pulse text-success"></i></span>
+          <span *ngIf="!xLoad">{{ xint | number:'.0-2' }} {{ xUnit }}</span>
+        </p>
+        <p *ngIf="naxFlag">N/A</p>
+      </div>
+
+      <!-- VARS -->
+      <div class="col-md-6 col-sm-12 d-flex justify-content-end align-items-center" *ngIf="!naFlag">
+
+        <!-- YD -->
+        <div class="ml-1">
+          <span
+            placement="bottom" ngbTooltip="{{ xYd | number:'.0-2' }} {{ xUnit }}"
+            class="badge badge-pill text-center ml-1"
+            [ngClass]="compare( xint, xYd, 'class' )"
+            [style.width.px]="55">
+              <small>yd: {{ compare( xnt, xYd, '%' ) | number:'.0-0' }}%</small>
+          </span>
+        </div>
+
+        <!-- LY -->
+        <div class="ml-1">
+          <span
+            placement="bottom" ngbTooltip="{{ xLy | number:'.0-2' }} {{ xUnit }}"
+            class="badge badge-pill text-center ml-1"
+            [ngClass]="compare( int, xLy, 'class' )"
+            [style.width.px]="55">
+              <small>ly: {{ compare( int, xLy, '%' ) | number:'.0-0' }}%</small>
+          </span>
+        </div>
+
+      </div>
+
+    </div>
   </div>
 
 </div>

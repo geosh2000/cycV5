@@ -11,8 +11,6 @@ export class KpisDetailComponent implements OnInit {
   @Input() item   :number   = 0
 
   @Input() mFlag  :boolean  = true
-  @Input() naFlag :boolean  = false
-  @Input() iLoad  :boolean  = false
 
   @Input() monto  :number   = 0
   @Input() mLy    :number   = 0
@@ -21,8 +19,16 @@ export class KpisDetailComponent implements OnInit {
   @Input() int    :number   = 0
   @Input() iLy    :number   = 0
   @Input() iYd    :number   = 0
-
+  @Input() iLoad  :boolean  = false
+  @Input() naFlag :boolean  = false
   @Input() iUnit  :string   = ''
+
+  @Input() xint    :number   = 0
+  @Input() xLy    :number   = 0
+  @Input() xYd    :number   = 0
+  @Input() xLoad  :boolean  = false
+  @Input() naxFlag :boolean  = false
+  @Input() xUnit  :string   = ''
 
   constructor() { }
 

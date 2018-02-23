@@ -7,6 +7,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Dashboard Kpis
 * Monitor de Kpis NUEVO
+* Vuelo, Hotel y paquete
+* RN y Locs
+* FC para CC-In
+* Glosario
 
 ### Call Statistics
 * Se elimina FC (Se mueve a kpis)
