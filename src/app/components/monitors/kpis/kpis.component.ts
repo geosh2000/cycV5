@@ -32,7 +32,7 @@ export class KpisComponent implements OnInit {
   }
 
   colors:any = ['#7cb8e2', '#e28cd4', '#b99d68', '#ace4e4']
-  services:any = ['Hotel', 'Vuelo']
+  services:any = ['Hotel', 'Vuelo', 'Paquete']
 
   dateSelected:any
   hourSelected:any = moment().tz('America/Mexico_city').format('HH:mm:ss')
