@@ -15,8 +15,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Call Statistics
 * Se elimina FC (Se mueve a kpis)
 
+### Monitor PYA
+* Fix -> Faltas replicadas en la barra de notificación
 
-
+### Listado Fotografías
+* Listado CC / PDV con fotos y opción de subir / cambiar
 
 ## v2.2.26
 

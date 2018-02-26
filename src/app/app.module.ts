@@ -128,6 +128,7 @@ import { GraphCallStatsComponent } from './components/monitors/calls/statistics/
 import { KpisComponent } from './components/monitors/kpis/kpis.component';
 import { TablesorterComponent } from './plugins/tablesorter/tablesorter.component';
 import { KpisDetailComponent } from './components/monitors/kpis/kpis-detail/kpis-detail.component';
+import { AsesoresFotosComponent } from './components/config/asesores-fotos/asesores-fotos.component';
 
 
 declare let jQuery : Object;
@@ -246,6 +247,7 @@ registerLocaleData(localeEsMX)
     KpisComponent,
     TablesorterComponent,
     KpisDetailComponent,
+    AsesoresFotosComponent,
   ],
   imports: [
     BrowserModule,

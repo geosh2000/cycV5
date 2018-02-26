@@ -43,6 +43,7 @@ import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-h
 import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
 import { CambioLocalizadorAsesorComponent } from './components/config/cambio-localizador-asesor/cambio-localizador-asesor.component';
 import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.component';
+import { AsesoresFotosComponent } from './components/config/asesores-fotos/asesores-fotos.component';
 
 
 const APP_ROUTES: Routes = [
@@ -53,6 +54,7 @@ const APP_ROUTES: Routes = [
   { path: 'detail-asesor', component: DetailAsesorComponent },
   { path: 'detail-asesor/:id', component: DetailAsesorComponent },
   { path: 'detail-asesor/:id/:tipo', component: DetailAsesorComponent },
+  { path: 'asesores-fotos', component: AsesoresFotosComponent },
 
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
