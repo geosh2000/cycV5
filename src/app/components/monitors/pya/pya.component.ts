@@ -765,7 +765,10 @@ export class PyaComponent implements OnInit {
           this.rets[rt].push(obj)
       }
     }
-    console.log(type, this.rets)
+  }
+
+  tst(){
+    console.log(this.rets)
   }
 
   popOv( asesor, open ){

@@ -236,7 +236,7 @@ export class PyaCardsComponent implements OnInit {
     let i;
     for (i = 0; i < list.length; i++) {
         if (list[i][compare] == val) {
-            return i;
+            return true;
         }
     }
 
