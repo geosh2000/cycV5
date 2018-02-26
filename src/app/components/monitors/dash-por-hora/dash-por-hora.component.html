@@ -1,120 +1,125 @@
-<div class="container">
-  <div class="container d-flex justify-content-between">
-    <div class="p-1">
-      <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-info">
-          <span>{{ params['marca'] }}</span>
-        </button>
-        <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" type="button" (click)="chgMarca('Marcas Propias')">Marcas Propias</button>
-          <button class="dropdown-item" type="button" (click)="chgMarca('Marcas Terceros')">Marcas Terceros</button>
-        </div>
-      </div>
-      <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-info">
-          <span>{{ params['pais'] }}</span>
-        </button>
-        <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" type="button" (click)="chgPais('MX')">MX</button>
-          <button class="dropdown-item" type="button" (click)="chgPais('CO')">CO</button>
-        </div>
-      </div>
-    </div>
-    <div class="p-1">
-      <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-info">
-          <span>{{ params['soloVenta'] ? 'Solo Venta' : 'Venta y Cxl' }}</span>
-        </button>
-        <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" type="button" (click)="chgVenta( true )">Solo Venta</button>
-          <button class="dropdown-item" type="button" (click)="chgVenta( false )">Venta y Cxl</button>
-        </div>
-      </div>
-    </div>
-    <div class="p-1">
-      <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-info">
-          <span>{{ months[monthSelected] }}</span>
-        </button>
-        <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" type="button" (click)="chgMonth( m )" *ngFor="let m of months | keys">{{ months[m] }}</button>
-        </div>
-      </div>
-    </div>
-    <div class="p-1 d-flex justify-content-between">
-      <div class="ml-1">
-        <button type="button" class="btn btn-sm btn-success" (click)="buildAll()" [disabled]="loading['data']">
-          Select All <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span>
-        </button>
-      </div>
-      <div class="ml-1">
-        <button type="button" class="btn btn-sm btn-success" (click)="build()" [disabled]="loading['data']">
-          Reload <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span>
-        </button>
-      </div>
-    </div>
-  </div>
-  <ng-container *ngIf="dates.length > 0">
-    <div class="container d-flex justify-content-between" *ngFor="let row of dates; index as i">
-      <div class="p-1" *ngFor="let item of row">
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container">
+    <div class="container d-flex justify-content-between">
+      <div class="p-1">
         <div class="btn-group">
-          <button type="button" (click)="chgView(item.format('YYYY-MM-DD'))" [style.width.px]="btnWidth"  class="btn btn-sm" [ngClass]="{'btn-light': isSelected(item.format('YYYY-MM-DD')) == 0,'btn-primary': isSelected(item.format('YYYY-MM-DD')) == 2,'btn-success': isSelected(item.format('YYYY-MM-DD')) == 1}" [disabled]="loading['data']">
-            <span *ngIf="(loading['data'] && isSelected(item.format('YYYY-MM-DD')) != 0)"><i class="fas fa-spinner fa-pulse"></i></span>
-            <span *ngIf="!(loading['data'] && isSelected(item.format('YYYY-MM-DD')) != 0)">{{ item.format(btnFormat) }}</span>
+          <button type="button" class="btn btn-sm btn-info">
+            <span>{{ params['marca'] }}</span>
           </button>
-          <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <div class="dropdown-menu">
-            <button class="dropdown-item" type="button" (click)="chgView(item.format('YYYY-MM-DD'), 'start')" [disabled]="loading['data']">Desde</button>
-            <button class="dropdown-item" type="button" (click)="chgView(item.format('YYYY-MM-DD'), 'end')" [disabled]="loading['data']">Hasta</button>
+            <button class="dropdown-item" type="button" (click)="chgMarca('Marcas Propias')">Marcas Propias</button>
+            <button class="dropdown-item" type="button" (click)="chgMarca('Marcas Terceros')">Marcas Terceros</button>
           </div>
         </div>
-        <!-- <button type="button" class="btn btn-sm" [ngClass]="{'btn-light': !(params['start'] == item.format('YYYY-MM-DD') && params['end'] == item.format('YYYY-MM-DD')), 'btn-success': (params['start'] == item.format('YYYY-MM-DD') && params['end'] == item.format('YYYY-MM-DD'))}" (click)="chgView(item.format('YYYY-MM-DD'))" [disabled]="loading['data']">
-          {{ item.format('DD MMM')}} <span *ngIf="loading['data'] && (params['start'] == item.format('YYYY-MM-DD') && params['end'] == item.format('YYYY-MM-DD'))" (click)="chgView(item.format('YYYY-MM-DD'))"><i class="fas fa-spinner fa-pulse"></i></span>
-        </button> -->
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-info">
+            <span>{{ params['pais'] }}</span>
+          </button>
+          <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu">
+            <button class="dropdown-item" type="button" (click)="chgPais('MX')">MX</button>
+            <button class="dropdown-item" type="button" (click)="chgPais('CO')">CO</button>
+          </div>
+        </div>
+      </div>
+      <div class="p-1">
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-info">
+            <span>{{ params['soloVenta'] ? 'Solo Venta' : 'Venta y Cxl' }}</span>
+          </button>
+          <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu">
+            <button class="dropdown-item" type="button" (click)="chgVenta( true )">Solo Venta</button>
+            <button class="dropdown-item" type="button" (click)="chgVenta( false )">Venta y Cxl</button>
+          </div>
+        </div>
+      </div>
+      <div class="p-1">
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-info">
+            <span>{{ months[monthSelected] }}</span>
+          </button>
+          <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu">
+            <button class="dropdown-item" type="button" (click)="chgMonth( m )" *ngFor="let m of months | keys">{{ months[m] }}</button>
+          </div>
+        </div>
+      </div>
+      <div class="p-1 d-flex justify-content-between">
+        <div class="ml-1">
+          <button type="button" class="btn btn-sm btn-success" (click)="buildAll()" [disabled]="loading['data']">
+            Select All <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span>
+          </button>
+        </div>
+        <div class="ml-1">
+          <button type="button" class="btn btn-sm btn-success" (click)="build()" [disabled]="loading['data']">
+            Reload <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span>
+          </button>
+        </div>
       </div>
     </div>
-  </ng-container>
-</div>
-<hr>
-<div class="container d-flex justify-content-end">
-  <p *ngIf="!loading['data']">Reload in {{ timerCount }} sec.</p>
-  <p *ngIf="loading['data']">Reloading <i class="fas fa-spinner fa-pulse"></i></p>
-</div>
-<hr>
-<div class="container chartCont" #chartContainer>
-  <chart [options]="options" (load)="saveInstance('Com', $event.context)"></chart>
-</div>
-<hr>
-<div class="container chartCont">
-  <chart [options]="options" (load)="saveInstance('Online', $event.context)"></chart>
-</div>
-<hr>
-<div class="container chartCont">
-  <chart [options]="options" (load)="saveInstance('In', $event.context)"></chart>
-</div>
-<hr>
-<div class="container chartCont">
-  <chart [options]="options" (load)="saveInstance('Out', $event.context)"></chart>
-</div>
-<hr>
-<div class="container chartCont" *ngIf="params['marca'] == 'Marcas Propias'">
-  <chart [options]="options" (load)="saveInstance('Presencial', $event.context)"></chart>
-</div>
-<hr>
-<div class="container chartCont">
-  <chart [options]="options" (load)="saveInstance('Total', $event.context)"></chart>
+    <ng-container *ngIf="dates.length > 0">
+      <div class="container d-flex justify-content-between" *ngFor="let row of dates; index as i">
+        <div class="p-1" *ngFor="let item of row">
+          <div class="btn-group">
+            <button type="button" (click)="chgView(item.format('YYYY-MM-DD'))" [style.width.px]="btnWidth"  class="btn btn-sm" [ngClass]="{'btn-light': isSelected(item.format('YYYY-MM-DD')) == 0,'btn-primary': isSelected(item.format('YYYY-MM-DD')) == 2,'btn-success': isSelected(item.format('YYYY-MM-DD')) == 1}" [disabled]="loading['data']">
+              <span *ngIf="(loading['data'] && isSelected(item.format('YYYY-MM-DD')) != 0)"><i class="fas fa-spinner fa-pulse"></i></span>
+              <span *ngIf="!(loading['data'] && isSelected(item.format('YYYY-MM-DD')) != 0)">{{ item.format(btnFormat) }}</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <button class="dropdown-item" type="button" (click)="chgView(item.format('YYYY-MM-DD'), 'start')" [disabled]="loading['data']">Desde</button>
+              <button class="dropdown-item" type="button" (click)="chgView(item.format('YYYY-MM-DD'), 'end')" [disabled]="loading['data']">Hasta</button>
+            </div>
+          </div>
+          <!-- <button type="button" class="btn btn-sm" [ngClass]="{'btn-light': !(params['start'] == item.format('YYYY-MM-DD') && params['end'] == item.format('YYYY-MM-DD')), 'btn-success': (params['start'] == item.format('YYYY-MM-DD') && params['end'] == item.format('YYYY-MM-DD'))}" (click)="chgView(item.format('YYYY-MM-DD'))" [disabled]="loading['data']">
+            {{ item.format('DD MMM')}} <span *ngIf="loading['data'] && (params['start'] == item.format('YYYY-MM-DD') && params['end'] == item.format('YYYY-MM-DD'))" (click)="chgView(item.format('YYYY-MM-DD'))"><i class="fas fa-spinner fa-pulse"></i></span>
+          </button> -->
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <hr>
+  <div class="container d-flex justify-content-end">
+    <p *ngIf="!loading['data']">Reload in {{ timerCount }} sec.</p>
+    <p *ngIf="loading['data']">Reloading <i class="fas fa-spinner fa-pulse"></i></p>
+  </div>
+  <hr>
+  <div class="container chartCont" #chartContainer>
+    <chart [options]="options" (load)="saveInstance('Com', $event.context)"></chart>
+  </div>
+  <hr>
+  <div class="container chartCont">
+    <chart [options]="options" (load)="saveInstance('Online', $event.context)"></chart>
+  </div>
+  <hr>
+  <div class="container chartCont">
+    <chart [options]="options" (load)="saveInstance('In', $event.context)"></chart>
+  </div>
+  <hr>
+  <div class="container chartCont">
+    <chart [options]="options" (load)="saveInstance('Out', $event.context)"></chart>
+  </div>
+  <hr>
+  <div class="container chartCont" *ngIf="params['marca'] == 'Marcas Propias'">
+    <chart [options]="options" (load)="saveInstance('Presencial', $event.context)"></chart>
+  </div>
+  <hr>
+  <div class="container chartCont">
+    <chart [options]="options" (load)="saveInstance('Total', $event.context)"></chart>
+  </div>
 </div>

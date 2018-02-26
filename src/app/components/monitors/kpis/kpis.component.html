@@ -1,282 +1,287 @@
-<div class="container-fluid">
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container-fluid">
 
-  <!-- FILTROS -->
-  <div class="row">
+    <!-- FILTROS -->
+    <div class="row">
 
-    <!-- MARCA Y PAIS -->
-    <div class="col-md-3 col-sm-12 p-1 d-flex justify-content-center">
+      <!-- MARCA Y PAIS -->
+      <div class="col-md-3 col-sm-12 p-1 d-flex justify-content-center">
 
-      <!-- MARCA -->
-      <div class="p-1 d-flex align-items-center">
-        <div class="btn-group p-1 align-middle">
-        <button type="button" class="btn btn-sm btn-info">
-          <span>{{ params['marca'] }}</span>
-        </button>
-        <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" type="button" (click)="chgMarca('Marcas Propias')">Marcas Propias</button>
-          <button class="dropdown-item" type="button" (click)="chgMarca('Marcas Terceros')">Marcas Terceros</button>
-        </div>
-      </div>
-      </div>
-
-      <!-- PAIS -->
-      <div class="p-1 d-flex align-items-center">
-        <div class="btn-group p-1 align-middle">
-        <button type="button" class="btn btn-sm btn-info">
-          <span>{{ params['pais'] }}</span>
-        </button>
-        <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" type="button" (click)="chgPais('MX')">MX</button>
-          <button class="dropdown-item" type="button" (click)="chgPais('CO')">CO</button>
-        </div>
-      </div>
-      </div>
-
-    </div>
-
-    <!-- EMPTY -->
-    <div class="col-md-3 col-sm-12 p-1">
-
-      <div class="d-flex justify-content-center align-items-center">
-
-        <!-- Detail -->
-        <div class="p-2 text-center">
-          <p><ui-switch
-            color="green"
-            size= "small"
-            [(ngModel)]="detail"
-          ></ui-switch></p>
-          <p><small>Detalle</small></p>
-        </div>
-
-        <!-- Producto -->
-        <div class="p-2 text-center animated fadeIn" *ngIf="detail">
-          <p><ui-switch
-            color="green"
-            size= "small"
-            [(ngModel)]="detailView['producto']"
-          ></ui-switch></p>
-          <p><small>Producto</small></p>
-        </div>
-
-        <!-- Locs -->
-        <div class="p-2 text-center animated fadeIn" *ngIf="detail">
-          <p><ui-switch
-            color="green"
-            size= "small"
-            [(ngModel)]="detailView['locs']"
-          ></ui-switch></p>
-          <p><small>Locs</small></p>
-        </div>
-
-        <!-- FC -->
-        <div class="p-2 text-center animated fadeIn" *ngIf="detail">
-          <p><ui-switch
-            color="green"
-            size= "small"
-            [(ngModel)]="detailView['fc']"
-          ></ui-switch></p>
-          <p><small>FC</small></p>
-        </div>
-
-        <!-- Live -->
-        <div class="p-2 text-center">
-          <p><ui-switch
-            color="green"
-            size= "small"
-            [(ngModel)]="monitor"
-            (change)="refresh( $event )"
-          ></ui-switch></p>
-          <p><small>Live!</small></p>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-center align-items-center" *ngIf="!monitor">
-        <div class="form-inline">
-          <div class="form-group">
-            <div class="input-group">
-              <input class="form-control" placeholder="yyyy-mm-dd"
-                     name="dp" [(ngModel)]="startDate" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="chgDate()" [displayMonths]="1">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                  <i class="fas fa-calendar"></i>
-                </button>
-              </div>
-            </div>
+        <!-- MARCA -->
+        <div class="p-1 d-flex align-items-center">
+          <div class="btn-group p-1 align-middle">
+          <button type="button" class="btn btn-sm btn-info">
+            <span>{{ params['marca'] }}</span>
+          </button>
+          <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu">
+            <button class="dropdown-item" type="button" (click)="chgMarca('Marcas Propias')">Marcas Propias</button>
+            <button class="dropdown-item" type="button" (click)="chgMarca('Marcas Terceros')">Marcas Terceros</button>
           </div>
         </div>
-      </div>
-
-    </div>
-
-    <!-- SOLO VENTA O VENTA Y XLD || RELOAD BUTTON-->
-    <div class="col-md-3 col-sm-12 p-1 d-flex justify-content-center">
-
-      <!-- SOLO VENTA PICKER -->
-      <div class="p-1 d-flex align-items-center">
-        <div class="btn-group p-1 align-middle">
-        <button type="button" class="btn btn-sm btn-info">
-          <span>{{ params['montoSV'] == 'MontoSV' ? 'Solo Venta' : 'Venta y Cxl' }}</span>
-        </button>
-        <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" type="button" (click)="chgSV('MontoSV')">Solo Venta</button>
-          <button class="dropdown-item" type="button" (click)="chgSV('MontoAll')">Venta y Cxl</button>
         </div>
+
+        <!-- PAIS -->
+        <div class="p-1 d-flex align-items-center">
+          <div class="btn-group p-1 align-middle">
+          <button type="button" class="btn btn-sm btn-info">
+            <span>{{ params['pais'] }}</span>
+          </button>
+          <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu">
+            <button class="dropdown-item" type="button" (click)="chgPais('MX')">MX</button>
+            <button class="dropdown-item" type="button" (click)="chgPais('CO')">CO</button>
+          </div>
+        </div>
+        </div>
+
       </div>
-      </div>
 
-      <!-- RELOAD BUTTON -->
-      <div class="p-1 d-flex align-items-center">
-        <div class="p-1 align-middle">
-        <button type="button" class="btn btn-outline-success" (click)="getData()" [disabled]="loading['venta']">{{ loading['venta'] ? 'Loading...' : 'Reload' }} <span *ngIf="loading['venta']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-      </div>
-      </div>
-    </div>
+      <!-- EMPTY -->
+      <div class="col-md-3 col-sm-12 p-1">
 
-    <!-- LAST UPDATE -->
-    <div class="col-md-3 col-sm-12 p-1">
-      <div class="text-center">
-        <span>Last Update: {{ lu }}</span>
-      </div>
-      <div class="text-center">
-        <span>Reload in {{ timerCount }} sec.</span>
-      </div>
-    </div>
+        <div class="d-flex justify-content-center align-items-center">
 
-  </div>
+          <!-- Detail -->
+          <div class="p-2 text-center">
+            <p><ui-switch
+              color="green"
+              size= "small"
+              [(ngModel)]="detail"
+            ></ui-switch></p>
+            <p><small>Detalle</small></p>
+          </div>
 
-</div>
+          <!-- Producto -->
+          <div class="p-2 text-center animated fadeIn" *ngIf="detail">
+            <p><ui-switch
+              color="green"
+              size= "small"
+              [(ngModel)]="detailView['producto']"
+            ></ui-switch></p>
+            <p><small>Producto</small></p>
+          </div>
 
-<!-- DASH BODY -->
-<div class="container-fluid">
-  <div class="row" *ngFor="let canal of ventaData | keys">
-    <ng-container *ngFor="let group of gpos">
-      <div class="col-md-3 col-sm-12 p-1" *ngIf="ventaData[canal][group] || (group == 'Total' && canal)">
+          <!-- Locs -->
+          <div class="p-2 text-center animated fadeIn" *ngIf="detail">
+            <p><ui-switch
+              color="green"
+              size= "small"
+              [(ngModel)]="detailView['locs']"
+            ></ui-switch></p>
+            <p><small>Locs</small></p>
+          </div>
 
-        <!-- CARD POR GPO Y gpoCanalKpi -->
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center p-0 pl-1" [style.backgroundColor]="ventaData[canal]['color']">
+          <!-- FC -->
+          <div class="p-2 text-center animated fadeIn" *ngIf="detail">
+            <p><ui-switch
+              color="green"
+              size= "small"
+              [(ngModel)]="detailView['fc']"
+            ></ui-switch></p>
+            <p><small>FC</small></p>
+          </div>
 
-            <!-- GPO Y gpoCanalKpi -->
-            <div class="p-2">
-              <h3 class='align-middle'>{{ group }}</h3>
-              <p><small>{{ canal }}</small></p>
-            </div>
+          <!-- Live -->
+          <div class="p-2 text-center">
+            <p><ui-switch
+              color="green"
+              size= "small"
+              [(ngModel)]="monitor"
+              (change)="refresh( $event )"
+            ></ui-switch></p>
+            <p><small>Live!</small></p>
+          </div>
+        </div>
 
-            <!-- MONTO TOTAL HEADER -->
-            <div class="p-2 d-flex justify-content-end align-items-center">
-              <div class="p-2">
-                <h3 class='align-middle text-right font-weight-bold text-light' style="-webkit-text-stroke: 1px #969696;">{{ (group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' )) | currency:'MXN':'symbol-narrow':'.2-2' }}</h3>
-                <div class="d-flex justify-content-end">
-                  <span
-                    placement="bottom" ngbTooltip="{{ (group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], 'Hotel') : getVal( canal, group, params['montoSV'], 'yd' )) | currency:'MXN':'symbol-narrow':'.2-2' }}"
-                    class="badge badge-pill text-center ml-1"
-                    [ngClass]="compare(canal, group, params['montoSV'], 'td', 'yd', 'class')"
-                    [style.width.px]="80">
-                      <small>var yd: {{ compare(canal, group, params['montoSV'], 'td', 'yd', '%') | number:'.0-0' }}%</small>
-                  </span>
-                  <span
-                    placement="bottom" ngbTooltip="{{ (group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], 'Hotel') : getVal( canal, group, params['montoSV'], 'ly' )) | currency:'MXN':'symbol-narrow':'.2-2' }}"
-                    class="badge badge-pill text-center ml-1"
-                    [ngClass]="compare(canal, group, params['montoSV'], 'td', 'ly', 'class')"
-                    [style.width.px]="80">
-                      <small>var ly: {{ compare(canal, group, params['montoSV'], 'td', 'ly', '%') | number:'.0-0' }}%</small>
-                  </span>
+        <div class="d-flex justify-content-center align-items-center" *ngIf="!monitor">
+          <div class="form-inline">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd"
+                       name="dp" [(ngModel)]="startDate" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="chgDate()" [displayMonths]="1">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="fas fa-calendar"></i>
+                  </button>
                 </div>
               </div>
             </div>
-
           </div>
+        </div>
 
-          <!-- SUMMARY BODY -->
-          <div class="card-body" *ngIf="detail">
+      </div>
 
-            <ng-container *ngIf="detailView['locs']">
-              <!-- AV TKT -->
-              <app-kpis-detail
-                [item]="'Av Tkt'"
-                [monto]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item )) / (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )))"
-                [mYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'yd', item )) / (group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' )))"
-                [mLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item )) / (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )))"
-                >
-              </app-kpis-detail>
+      <!-- SOLO VENTA O VENTA Y XLD || RELOAD BUTTON-->
+      <div class="col-md-3 col-sm-12 p-1 d-flex justify-content-center">
 
-              <!-- Locs -->
-              <app-kpis-detail
-                [item]="'Locs'"
-                [mFlag]="false"
-                [int]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' ))"
-                [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' ))"
-                [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' ))"
-                [iUnit]="' '">
-              </app-kpis-detail>
-            </ng-container>
+        <!-- SOLO VENTA PICKER -->
+        <div class="p-1 d-flex align-items-center">
+          <div class="btn-group p-1 align-middle">
+          <button type="button" class="btn btn-sm btn-info">
+            <span>{{ params['montoSV'] == 'MontoSV' ? 'Solo Venta' : 'Venta y Cxl' }}</span>
+          </button>
+          <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu">
+            <button class="dropdown-item" type="button" (click)="chgSV('MontoSV')">Solo Venta</button>
+            <button class="dropdown-item" type="button" (click)="chgSV('MontoAll')">Venta y Cxl</button>
+          </div>
+        </div>
+        </div>
 
-            <ng-container *ngIf="detailView['fc']">
-              <!-- Calls -->
-              <app-kpis-detail
-                [item]="'Calls'"
-                [mFlag]="false"
-                [int]="(group == 'Total' ? getTotal(canal, 'td', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'td' ))"
-                [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'yd' ))"
-                [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'ly' ))"
-                [iUnit]="' '"
-                [iLoad]="loading['calls']"
-                [naFlag]="!callsCheck(canal, group)"
-                >
-              </app-kpis-detail>
+        <!-- RELOAD BUTTON -->
+        <div class="p-1 d-flex align-items-center">
+          <div class="p-1 align-middle">
+          <button type="button" class="btn btn-outline-success" (click)="getData()" [disabled]="loading['venta']">{{ loading['venta'] ? 'Loading...' : 'Reload' }} <span *ngIf="loading['venta']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+        </div>
+        </div>
+      </div>
 
-              <!-- FC -->
-              <app-kpis-detail
-                [item]="'FC'"
-                [mFlag]="false"
-                [int]="(group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) / (group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) * 100"
-                [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'calls' ) : getVal( canal, group, 'calls', 'yd' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' )) / (group == 'Total' ? getTotal(canal, 'yd', 'calls' ) : getVal( canal, group, 'calls', 'yd' )) * 100"
-                [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) / (group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) * 100"
-                [iUnit]="'%'"
-                [naFlag]="!callsCheck(canal, group)"
-                >
-              </app-kpis-detail>
-            </ng-container>
+      <!-- LAST UPDATE -->
+      <div class="col-md-3 col-sm-12 p-1">
+        <div class="text-center">
+          <span>Last Update: {{ lu }}</span>
+        </div>
+        <div class="text-center">
+          <span>Reload in {{ timerCount }} sec.</span>
+        </div>
+      </div>
 
-            <ng-container *ngIf="detailView['producto']">
-              <!-- INFO POR SERVICIO -->
-              <app-kpis-detail
-                [item]="item"
-                [monto]="(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item ))"
-                [mYd]="(group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'yd', item ))"
-                [mLy]="(group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item ))"
-                [int]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'td', 'newRN', item) : getVal( canal, group, 'newRN', 'td', item )) : ''"
-                [iYd]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'yd', 'newRN', item) : getVal( canal, group, 'newRN', 'yd', item )) : ''"
-                [iLy]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'ly', 'newRN', item) : getVal( canal, group, 'newRN', 'ly', item )) : ''"
-                [iUnit]="item == 'Hotel' || item == 'Paquete' ? 'RN' : ''"
-                [xint]="(group == 'Total' ? getTotal(canal, 'td', 'Locs', item) : getVal( canal, group, 'Locs', 'td', item ))"
-                [xYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs', item) : getVal( canal, group, 'Locs', 'yd', item ))"
-                [xLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs', item) : getVal( canal, group, 'Locs', 'ly', item ))"
-                [xUnit]="'ML'"
-                *ngFor="let item of services">
-              </app-kpis-detail>
-            </ng-container>
+    </div>
+
+  </div>
+
+  <!-- DASH BODY -->
+  <div class="container-fluid">
+    <div class="row" *ngFor="let canal of ventaData | keys">
+      <ng-container *ngFor="let group of gpos">
+        <div class="col-md-3 col-sm-12 p-1" *ngIf="ventaData[canal][group] || (group == 'Total' && canal)">
+
+          <!-- CARD POR GPO Y gpoCanalKpi -->
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center p-0 pl-1" [style.backgroundColor]="ventaData[canal]['color']">
+
+              <!-- GPO Y gpoCanalKpi -->
+              <div class="p-2">
+                <h3 class='align-middle'>{{ group }}</h3>
+                <p><small>{{ canal }}</small></p>
+              </div>
+
+              <!-- MONTO TOTAL HEADER -->
+              <div class="p-2 d-flex justify-content-end align-items-center">
+                <div class="p-2">
+                  <h3 class='align-middle text-right font-weight-bold text-light' style="-webkit-text-stroke: 1px #969696;">{{ (group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' )) | currency:'MXN':'symbol-narrow':'.2-2' }}</h3>
+                  <div class="d-flex justify-content-end">
+                    <span
+                      placement="bottom" ngbTooltip="{{ (group == 'Total' ? getTotal(canal, 'yd', params['montoSV']) : getVal( canal, group, params['montoSV'], 'yd' )) | currency:'MXN':'symbol-narrow':'.2-2' }}"
+                      class="badge badge-pill text-center ml-1"
+                      [ngClass]="compare(canal, group, params['montoSV'], 'td', 'yd', 'class')"
+                      [style.width.px]="80">
+                        <small>var yd: {{ compare(canal, group, params['montoSV'], 'td', 'yd', '%') | number:'.0-0' }}%</small>
+                    </span>
+                    <span
+                      placement="bottom" ngbTooltip="{{ (group == 'Total' ? getTotal(canal, 'ly', params['montoSV']) : getVal( canal, group, params['montoSV'], 'ly' )) | currency:'MXN':'symbol-narrow':'.2-2' }}"
+                      class="badge badge-pill text-center ml-1"
+                      [ngClass]="compare(canal, group, params['montoSV'], 'td', 'ly', 'class')"
+                      [style.width.px]="80">
+                        <small>var ly: {{ compare(canal, group, params['montoSV'], 'td', 'ly', '%') | number:'.0-0' }}%</small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- SUMMARY BODY -->
+            <div class="card-body" *ngIf="detail">
+
+              <ng-container *ngIf="detailView['locs']">
+                <!-- AV TKT -->
+                <app-kpis-detail
+                  [item]="'Av Tkt'"
+                  [monto]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item )) / (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )))"
+                  [mYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'yd', item )) / (group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' )))"
+                  [mLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item )) / (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )))"
+                  >
+                </app-kpis-detail>
+
+                <!-- Locs -->
+                <app-kpis-detail
+                  [item]="'Locs'"
+                  [mFlag]="false"
+                  [int]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' ))"
+                  [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' ))"
+                  [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' ))"
+                  [iUnit]="' '">
+                </app-kpis-detail>
+              </ng-container>
+
+              <ng-container *ngIf="detailView['fc']">
+                <!-- Calls -->
+                <app-kpis-detail
+                  [item]="'Calls'"
+                  [mFlag]="false"
+                  [int]="(group == 'Total' ? getTotal(canal, 'td', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'td' ))"
+                  [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'yd' ))"
+                  [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'ly' ))"
+                  [iUnit]="' '"
+                  [iLoad]="loading['calls']"
+                  [naFlag]="!callsCheck(canal, group)"
+                  >
+                </app-kpis-detail>
+
+                <!-- FC -->
+                <app-kpis-detail
+                  [item]="'FC'"
+                  [mFlag]="false"
+                  [int]="(group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) / (group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) * 100"
+                  [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'calls' ) : getVal( canal, group, 'calls', 'yd' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' )) / (group == 'Total' ? getTotal(canal, 'yd', 'calls' ) : getVal( canal, group, 'calls', 'yd' )) * 100"
+                  [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) / (group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) * 100"
+                  [iUnit]="'%'"
+                  [naFlag]="!callsCheck(canal, group)"
+                  >
+                </app-kpis-detail>
+              </ng-container>
+
+              <ng-container *ngIf="detailView['producto']">
+                <!-- INFO POR SERVICIO -->
+                <app-kpis-detail
+                  [item]="item"
+                  [monto]="(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item ))"
+                  [mYd]="(group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'yd', item ))"
+                  [mLy]="(group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item ))"
+                  [int]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'td', 'newRN', item) : getVal( canal, group, 'newRN', 'td', item )) : ''"
+                  [iYd]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'yd', 'newRN', item) : getVal( canal, group, 'newRN', 'yd', item )) : ''"
+                  [iLy]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'ly', 'newRN', item) : getVal( canal, group, 'newRN', 'ly', item )) : ''"
+                  [iUnit]="item == 'Hotel' || item == 'Paquete' ? 'RN' : ''"
+                  [xint]="(group == 'Total' ? getTotal(canal, 'td', 'Locs', item) : getVal( canal, group, 'Locs', 'td', item ))"
+                  [xYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs', item) : getVal( canal, group, 'Locs', 'yd', item ))"
+                  [xLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs', item) : getVal( canal, group, 'Locs', 'ly', item ))"
+                  [xUnit]="'ML'"
+                  *ngFor="let item of services">
+                </app-kpis-detail>
+              </ng-container>
+
+            </div>
 
           </div>
 
         </div>
-
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col" *ngFor="let item of glosario | orderBy: 'concept'">
-    <small><span class='font-weight-light font-italic'><span class="font-weight-bold">{{ item['concept'] }}: </span>{{ item['exp'] }}</span></small>
+  <div class="row">
+    <div class="col" *ngFor="let item of glosario | orderBy: 'concept'">
+      <small><span class='font-weight-light font-italic'><span class="font-weight-bold">{{ item['concept'] }}: </span>{{ item['exp'] }}</span></small>
+    </div>
   </div>
 </div>
