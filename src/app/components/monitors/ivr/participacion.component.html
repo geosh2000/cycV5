@@ -60,24 +60,23 @@
               </div>
             </div>
 
-
             <!-- RESUMEN -->
             <div class=" col d-flex justify-content-center align-items-center p-1 text-center">
               <h4 class='text-center'>Resumen</h4>
             </div>
-            <div class="col d-flex justify-content-start align-items-center p-1">
-              <span class="p-2">Ofrecidas</span>
+            <div class="col text-center p-1">
+              <p class="p-2">Ofrecidas</p>
               <span class="badge badge-primary ml-auto" [style.width.px]="80">{{ total ? total['ofrecidas'] : 0 | number:'.0-0'}}</span>
             </div>
-            <div class="col d-flex justify-content-start align-items-center p-1">
-              <span class="p-2">Contestadas</span>
+            <div class="col text-center p-1">
+              <p class="p-2">Contestadas</p>
               <span class="badge badge-success ml-auto p-2" [style.width.px]="80">
                 <p>{{ total ? total['contestadas'] : 0 | number:'.0-0'}}</p>
                 <p>{{ total ? ((total['contestadas']/total['ofrecidas']*100) | number:'.0-2') : 0 | number:'.0-2'}}%</p>
               </span>
             </div>
-            <div class="col d-flex justify-content-start align-items-center p-1">
-              <span class="p-2">Abandonadas</span>
+            <div class="col text-center p-1">
+              <p class="p-2">Abandonadas</p>
               <span class="badge badge-danger ml-auto p-2" [style.width.px]="80">
                 <p>{{ total ? total['abandonadas'] : 0 | number:'.0-0'}}</p>
                 <p>{{ total ? ((total['abandonadas']/total['ofrecidas']*100) | number:'.0-2') : 0 | number:'.0-2'}}%</p>
