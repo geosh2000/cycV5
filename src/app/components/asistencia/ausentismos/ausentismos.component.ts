@@ -43,6 +43,7 @@ export class AusentismosComponent implements OnInit {
   configShow:boolean = false
   newShow:boolean = false
   formData:any = []
+  motivo:any
 
 
   protected searchStrName:string;
@@ -136,7 +137,7 @@ export class AusentismosComponent implements OnInit {
 
   }
 
-  chgType( index, type ){
+  chgType( index, type, motivo = '' ){
     this.index[type] = index
 
     if( type == 'aus' ){
@@ -154,6 +155,8 @@ export class AusentismosComponent implements OnInit {
 
     if( type == 'pendiente' ){
       this.index['days'] = 0
+      this.motivo = motivo
+      console.log( motivo )
     }
 
     if( type == 'days' ){
@@ -357,7 +360,8 @@ export class AusentismosComponent implements OnInit {
   savePut(){
     this.loading['save'] = true
 
-    this._api.restfulPut( this.formData, 'Asistencia/saveAus' )
+
+    this._api.restfulPut( {'data': this.formData, 'motivo': this.motivo, 'dias': this.index['days'] } , 'Asistencia/saveAus' )
               .subscribe( res => {
 
                 this.loading['save'] = false

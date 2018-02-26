@@ -58,7 +58,7 @@
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <ng-container *ngFor="let item of diasPendientes; index as i">
-                      <button type="button" class="dropdown-item" (click)="chgType(i, 'pendiente')">({{ item.dias_pendientes }}) - {{ item.motivo }}</button>
+                      <button type="button" class="dropdown-item" (click)="chgType(i, 'pendiente', item.motivo)">({{ item.dias_pendientes }}) - {{ item.motivo }}</button>
                     </ng-container>
                   </div>
                 </div>
