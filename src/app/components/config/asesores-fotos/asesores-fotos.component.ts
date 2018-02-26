@@ -29,6 +29,7 @@ export class AsesoresFotosComponent implements OnInit {
   list:any
   titles:any
   asesorImage:any
+  indexChange:any
   pdv:boolean = false
 
   constructor( public _api: ApiService,
@@ -80,8 +81,9 @@ export class AsesoresFotosComponent implements OnInit {
             })
   }
 
-  uploadFoto( num, name ){
+  uploadFoto( num, name, index ){
     this._image.build( `Foto para ${ name }`, 'asesores', num )
+    this.indexChange = index
   }
 
   upldCheck( event ){
@@ -89,6 +91,7 @@ export class AsesoresFotosComponent implements OnInit {
       this.toastr.error( event.msg, 'ERROR' )
     }else{
       this.toastr.success( 'Imagen cargada', 'OK' )
+      this.list[this.indexChange]['exists'] = true
     }
   }
 

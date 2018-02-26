@@ -41,7 +41,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let item of list | orderBy: 'Nombre'">
+        <ng-container *ngFor="let item of list | orderBy: 'Nombre'; index as i">
           <tr>
             <ng-container *ngFor="let title of titles">
               <td *ngIf="title != 'exists'">{{ item[title] }}</td>
@@ -51,7 +51,7 @@
               </td>
             </ng-container>
             <td class="text-center">
-              <button type="button" class="btn btn-sm" [ngClass]="{'btn-success': item['exists'], 'btn-warning': !item['exists']}" [style.width.px]="150" (click)="uploadFoto( item['numColaborador'], item['Nombre'] )" *ngIf="item['numColaborador'] != null && item['numColaborador'] != ''">{{ item['exists'] ? 'Cambiar Foto' : 'Subir Foto' }} <i class="fas fa-fw" [ngClass]="{'fa-upload': !item['exists'], 'fa-sync-alt': item['exists']}"></i></button>
+              <button type="button" class="btn btn-sm" [ngClass]="{'btn-success': item['exists'], 'btn-warning': !item['exists']}" [style.width.px]="150" (click)="uploadFoto( item['numColaborador'], item['Nombre'], i )" *ngIf="item['numColaborador'] != null && item['numColaborador'] != ''">{{ item['exists'] ? 'Cambiar Foto' : 'Subir Foto' }} <i class="fas fa-fw" [ngClass]="{'fa-upload': !item['exists'], 'fa-sync-alt': item['exists']}"></i></button>
               <span class="text-danger" *ngIf="item['numColaborador'] == null || item['numColaborador'] == ''">* Es mandatorio ingresar número de colaborador</span>
             </td>
           </tr>
