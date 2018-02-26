@@ -147,16 +147,16 @@ export class KpisComponent implements OnInit {
                 gpoName = gpoName == 'In' ? 'CC-In' : gpoName
                 gpoName = gpoName == 'Out' ? 'CC-Out' : gpoName
 
-                if( data[gpo['gpoCanalKpi']] ){
-                  if( data[gpo['gpoCanalKpi']][gpoName] ){
-                    data[gpo['gpoCanalKpi']][gpoName][fechas[gpo['Fecha']]] = gpo
+                if( data[gpo['gpoCanalKpiOK']] ){
+                  if( data[gpo['gpoCanalKpiOK']][gpoName] ){
+                    data[gpo['gpoCanalKpiOK']][gpoName][fechas[gpo['Fecha']]] = gpo
                   }else{
-                    data[gpo['gpoCanalKpi']][gpoName] = {
+                    data[gpo['gpoCanalKpiOK']][gpoName] = {
                       [fechas[gpo['Fecha']]] : gpo
                     }
                   }
                 }else{
-                  data[gpo['gpoCanalKpi']] = {
+                  data[gpo['gpoCanalKpiOK']] = {
                     [gpoName]: {
                       [fechas[gpo['Fecha']]]: gpo
                     },
@@ -165,10 +165,10 @@ export class KpisComponent implements OnInit {
                   x++
                 }
 
-                // if( data[gpo['gpoCanalKpi']]['Total'] ){
+                // if( data[gpo['gpoCanalKpiOK']]['Total'] ){
                 //
                 // }else{
-                //   data[gpo['gpoCanalKpi']]['Total'] = {
+                //   data[gpo['gpoCanalKpiOK']]['Total'] = {
                 //     [fechas[gpo['Fecha']]] : gpo
                 //   }
                 // }
@@ -179,18 +179,18 @@ export class KpisComponent implements OnInit {
                 gpoName = gpoName == 'In' ? 'CC-In' : gpoName
                 gpoName = gpoName == 'Out' ? 'CC-Out' : gpoName
 
-                if( data[gpo['gpoCanalKpi']] ){
-                  if( data[gpo['gpoCanalKpi']][gpoName] && data[gpo['gpoCanalKpi']][gpoName][fechas[gpo['Fecha']]] ){
-                    if( data[gpo['gpoCanalKpi']][gpoName][fechas[gpo['Fecha']]] ){
-                      data[gpo['gpoCanalKpi']][gpoName][fechas[gpo['Fecha']]][gpo['servicio']] = gpo
+                if( data[gpo['gpoCanalKpiOK']] ){
+                  if( data[gpo['gpoCanalKpiOK']][gpoName] && data[gpo['gpoCanalKpiOK']][gpoName][fechas[gpo['Fecha']]] ){
+                    if( data[gpo['gpoCanalKpiOK']][gpoName][fechas[gpo['Fecha']]] ){
+                      data[gpo['gpoCanalKpiOK']][gpoName][fechas[gpo['Fecha']]][gpo['servicio']] = gpo
                     }else{
-                      data[gpo['gpoCanalKpi']][gpoName][fechas[gpo['Fecha']]] = {
+                      data[gpo['gpoCanalKpiOK']][gpoName][fechas[gpo['Fecha']]] = {
                         [gpo['servicio']]: gpo
                       }
                     }
                   }
                 }else{
-                  data[gpo['gpoCanalKpi']] = {
+                  data[gpo['gpoCanalKpiOK']] = {
                     [gpoName]: {
                       [fechas[gpo['Fecha']]]: {
                         [gpo['servicio']]: gpo
@@ -230,6 +230,23 @@ export class KpisComponent implements OnInit {
               } )
             } )
             break
+          case 'Marcas Terceros':
+            this.getCalls( 3, this.dateSelected, 'Afiliados', () => {
+              this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
+                this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
+                  this.getCalls( 3, this.dateSelected, 'Intertours', () => {
+                    this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Intertours', () => {
+                      this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Intertours' )
+                    } )
+                  } )
+                } )
+              } )
+            } )
+            break
+        }
+        break
+      case 'CO':
+        switch( this.params['marca'] ){
           case 'Marcas Terceros':
             this.getCalls( 3, this.dateSelected, 'Afiliados', () => {
               this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
