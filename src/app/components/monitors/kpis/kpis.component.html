@@ -8,7 +8,7 @@
     <div class="row">
 
       <!-- MARCA Y PAIS -->
-      <div class="col-md-3 col-sm-12 p-1 d-flex justify-content-center">
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-1 d-flex justify-content-center">
 
         <!-- MARCA -->
         <div class="p-1 d-flex align-items-center">
@@ -45,7 +45,7 @@
       </div>
 
       <!-- EMPTY -->
-      <div class="col-md-3 col-sm-12 p-1">
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
 
         <div class="d-flex justify-content-center align-items-center">
 
@@ -129,7 +129,7 @@
       </div>
 
       <!-- SOLO VENTA O VENTA Y XLD || RELOAD BUTTON-->
-      <div class="col-md-3 col-sm-12 p-1 d-flex justify-content-center">
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 d-flex justify-content-center">
 
         <!-- SOLO VENTA PICKER -->
         <div class="p-1 d-flex align-items-center">
@@ -156,7 +156,7 @@
       </div>
 
       <!-- LAST UPDATE -->
-      <div class="col-md-3 col-sm-12 p-1">
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
         <div class="text-center">
           <span>Last Update: {{ lu }}</span>
         </div>
@@ -173,7 +173,7 @@
   <div class="container-fluid">
     <div class="row" *ngFor="let canal of ventaData | keys">
       <ng-container *ngFor="let group of gpos">
-        <div class="col-md-3 col-sm-12 p-1" *ngIf="ventaData[canal][group] || (group == 'Total' && canal)">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="ventaData[canal][group] || (group == 'Total' && canal)">
 
           <!-- CARD POR GPO Y gpoCanalKpi -->
           <div class="card">
