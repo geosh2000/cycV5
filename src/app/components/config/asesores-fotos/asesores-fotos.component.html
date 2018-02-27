@@ -17,7 +17,7 @@
 
     </div>
     <br>
-    <div class='container'>
+    <div class='container d-flex justify-content-center'>
       <div class="p-2 text-center">
         <p><ui-switch
           color="green"
@@ -26,6 +26,14 @@
           (change)="getData( $event )"
         ></ui-switch></p>
         <p><small>Mostrar PDV</small></p>
+      </div>
+      <div class="p-2 text-center">
+        <p><ui-switch
+          color="green"
+          size= "small"
+          [(ngModel)]="missing"
+        ></ui-switch></p>
+        <p><small>Solo Faltantes</small></p>
       </div>
     </div>
   </div>
@@ -42,7 +50,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let item of list | orderBy: 'Nombre'; index as i">
-          <tr>
+          <tr *ngIf="!missing || (missing && !item['exists'])">
             <ng-container *ngFor="let title of titles">
               <td *ngIf="title != 'exists'">{{ item[title] }}</td>
               <td class="text-center" *ngIf="title == 'exists'">

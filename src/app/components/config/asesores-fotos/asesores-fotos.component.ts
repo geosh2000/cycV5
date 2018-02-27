@@ -31,6 +31,7 @@ export class AsesoresFotosComponent implements OnInit {
   asesorImage:any
   indexChange:any
   pdv:boolean = false
+  missing:boolean = false
 
   constructor( public _api: ApiService,
                 private _init:InitService,
