@@ -1,0 +1,24 @@
+<ng-container *ngIf="formatTime('dias') <= 9">
+  <div class="d-flex justify-content-center p-0">
+    <p class="pt-0"><small class="text-center text-danger" style="font-size: smaller">Modo Cierre</small></p>
+  </div>
+  <div class="d-flex justify-content-center p-0">
+    <div>
+      <span [style.width.px]="18" class="badge badge-light border text-primary">{{ formatTime('dias') }}</span><br>
+      <p class="text-center text-primary"><small style="font-size: smaller">d</small></p>
+    </div>
+    <div>
+      <span [style.width.px]="30" class="badge badge-light border">{{ formatTime('horas') }}</span><br>
+      <p class="text-light text-center"><small style="font-size: smaller">h</small></p>
+    </div>
+    <div>
+      <span [style.width.px]="30" class="badge badge-light border">{{ formatTime('minutos') }}</span>
+      <p class="text-light text-center"><small style="font-size: smaller">m</small></p>
+    </div>
+    <div>
+      <span [style.width.px]="30" class="badge badge-light text-danger border">{{ formatTime('segundos') }}</span><br>
+      <p class="text-danger text-center"><small style="font-size: smaller">s</small></p>
+    </div>
+
+  </div>
+</ng-container>

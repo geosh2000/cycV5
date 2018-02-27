@@ -5,7 +5,12 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ## v2.2.3
 
+### CountDown
+* CountDown modo cierre en NavBar
+
 ### Dashboard Kpis
+* Fix -> Monto por producto ok
+* Paquetes desglozados
 * Monitor de Kpis NUEVO
 * Vuelo, Hotel y paquete
 * RN y Locs

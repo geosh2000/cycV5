@@ -129,6 +129,7 @@ import { KpisComponent } from './components/monitors/kpis/kpis.component';
 import { TablesorterComponent } from './plugins/tablesorter/tablesorter.component';
 import { KpisDetailComponent } from './components/monitors/kpis/kpis-detail/kpis-detail.component';
 import { AsesoresFotosComponent } from './components/config/asesores-fotos/asesores-fotos.component';
+import { CountdownComponent } from './addon/countdown/countdown.component';
 
 
 declare let jQuery : Object;
@@ -248,6 +249,7 @@ registerLocaleData(localeEsMX)
     TablesorterComponent,
     KpisDetailComponent,
     AsesoresFotosComponent,
+    CountdownComponent,
   ],
   imports: [
     BrowserModule,
