@@ -46,6 +46,7 @@ export class KpisComponent implements OnInit {
   detailView:Object = {
     fc        : true,
     producto  : true,
+    paq       : false,
     locs      : true
   }
 
@@ -112,13 +113,14 @@ export class KpisComponent implements OnInit {
     this.timerLoad()
   }
 
-  getData(){
+  getData( paq = this.detailView['paq'] ){
     this.loading['venta'] = true
     let params = {
       Fecha : this.dateSelected,
       Hora  : moment().tz('America/Mexico_city').format('HH:mm:ss'),
       pais  : this.params['pais'],
       marca : this.params['marca'],
+      paq   : paq ? 1 : 0
     }
 
     if( this.dateSelected != moment().format('YYYY-MM-DD') ){
@@ -501,9 +503,13 @@ export class KpisComponent implements OnInit {
     this.params['pais'] = pais
   }
 
+  chgPaq( event ){
+    this.getData( event )
+  }
+
   timerLoad(){
     if( this.timerCount == 0 ){
-      this.getData()
+      this.refresh( this.monitor )
       this.timerCount = this.timeToReload
     }else{
       this.timerCount--

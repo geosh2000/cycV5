@@ -68,6 +68,15 @@
             ></ui-switch></p>
             <p><small>Producto</small></p>
           </div>
+          <div class="p-2 text-center animated fadeIn" *ngIf="detail">
+            <p><ui-switch
+              color="green"
+              size= "small"
+              [(ngModel)]="detailView['paq']"
+              (change)="chgPaq( $event )"
+            ></ui-switch></p>
+            <p><small>Paq Desg</small></p>
+          </div>
 
           <!-- Locs -->
           <div class="p-2 text-center animated fadeIn" *ngIf="detail">
@@ -253,22 +262,24 @@
               </ng-container>
 
               <ng-container *ngIf="detailView['producto']">
-                <!-- INFO POR SERVICIO -->
-                <app-kpis-detail
-                  [item]="item"
-                  [monto]="(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item ))"
-                  [mYd]="(group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'yd', item ))"
-                  [mLy]="(group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item ))"
-                  [int]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'td', 'newRN', item) : getVal( canal, group, 'newRN', 'td', item )) : ''"
-                  [iYd]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'yd', 'newRN', item) : getVal( canal, group, 'newRN', 'yd', item )) : ''"
-                  [iLy]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'ly', 'newRN', item) : getVal( canal, group, 'newRN', 'ly', item )) : ''"
-                  [iUnit]="item == 'Hotel' || item == 'Paquete' ? 'RN' : ''"
-                  [xint]="(group == 'Total' ? getTotal(canal, 'td', 'Locs', item) : getVal( canal, group, 'Locs', 'td', item ))"
-                  [xYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs', item) : getVal( canal, group, 'Locs', 'yd', item ))"
-                  [xLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs', item) : getVal( canal, group, 'Locs', 'ly', item ))"
-                  [xUnit]="'ML'"
-                  *ngFor="let item of services">
-                </app-kpis-detail>
+                <ng-container *ngFor="let item of services">
+                  <!-- INFO POR SERVICIO -->
+                  <app-kpis-detail
+                    [item]="item"
+                    [monto]="(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item ))"
+                    [mYd]="(group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'yd', item ))"
+                    [mLy]="(group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item ))"
+                    [int]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'td', 'newRN', item) : getVal( canal, group, 'newRN', 'td', item )) : ''"
+                    [iYd]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'yd', 'newRN', item) : getVal( canal, group, 'newRN', 'yd', item )) : ''"
+                    [iLy]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'ly', 'newRN', item) : getVal( canal, group, 'newRN', 'ly', item )) : ''"
+                    [iUnit]="item == 'Hotel' || item == 'Paquete' ? 'RN' : ''"
+                    [xint]="(group == 'Total' ? getTotal(canal, 'td', 'Locs', item) : getVal( canal, group, 'Locs', 'td', item ))"
+                    [xYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs', item) : getVal( canal, group, 'Locs', 'yd', item ))"
+                    [xLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs', item) : getVal( canal, group, 'Locs', 'ly', item ))"
+                    [xUnit]="'ML'"
+                    *ngIf="!detailView['paq'] || (detailView['paq'] && item != 'Paquete')">
+                  </app-kpis-detail>
+                </ng-container>
               </ng-container>
 
             </div>
