@@ -33,6 +33,7 @@ import { VentaPorAsesorComponent } from './components/monitors/venta-por-asesor/
 import { ParticipacionComponent } from './components/monitors/ivr/participacion.component';
 import { DashPorHoraComponent } from './components/monitors/dash-por-hora/dash-por-hora.component';
 import { StatisticsComponent } from './components/monitors/calls/statistics/statistics.component';
+import { SlaComponent } from './components/monitors/sla/sla.component';
 import { KpisComponent } from './components/monitors/kpis/kpis.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 import { FamsComponent } from './components/config/fams/fams.component';
@@ -104,6 +105,7 @@ const APP_ROUTES: Routes = [
   { path: 'monitors/callStatistics', component: StatisticsComponent },
   { path: 'dashporhora', component: DashPorHoraComponent },
   { path: 'kpis', component: KpisComponent },
+  { path: 'sla', component: SlaComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },
