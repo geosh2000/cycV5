@@ -6,18 +6,18 @@
   </div>
 
   <!-- DATA SHOW -->
-  <div class="col-9 align-middle">
+  <div class="col-9 pl-0 align-middle">
 
     <!-- MONTO -->
-    <div class="row" *ngIf="mFlag">
+    <div class="d-flex justify-content-end flex-wrap" *ngIf="mFlag">
 
       <!-- TOTAL DEL DIA -->
-      <div class="col-md-6 col-sm-12 d-flex justify-content-end">
+      <div class="d-flex justify-content-end" [style.width.px]="100">
         <p>{{ monto | currency:'MXN':'symbol-narrow':'.2-2' }}</p>
       </div>
 
       <!-- VARS -->
-      <div class="col-md-6 col-sm-12 d-flex justify-content-end align-items-center">
+      <div class="d-flex justify-content-between align-items-center" [style.width.px]="130">
 
         <!-- YD -->
         <div class="ml-1">
@@ -46,10 +46,10 @@
     </div>
 
     <!-- RN -->
-    <div class="row" *ngIf="iUnit != ''">
+    <div class="d-flex justify-content-end flex-wrap" *ngIf="iUnit != ''">
 
       <!-- TOTAL DEL DIA -->
-      <div class="col-md-6 col-sm-12 d-flex justify-content-end">
+      <div class="d-flex justify-content-end" [style.width.px]="100">
         <p *ngIf="!naFlag">
           <span *ngIf="iLoad"><i class="fas fa-spinner fa-fw fa-pulse text-success"></i></span>
           <span *ngIf="!iLoad">{{ int | number:'.0-2' }} {{ iUnit }}</span>
@@ -58,7 +58,7 @@
       </div>
 
       <!-- VARS -->
-      <div class="col-md-6 col-sm-12 d-flex justify-content-end align-items-center" *ngIf="!naFlag">
+      <div class="d-flex justify-content-between align-items-center" [style.width.px]="130" *ngIf="!naFlag">
 
         <!-- YD -->
         <div class="ml-1">
@@ -87,10 +87,10 @@
     </div>
 
     <!-- RN2 -->
-    <div class="row" *ngIf="xUnit != ''">
+    <div class="d-flex justify-content-end flex-wrap" *ngIf="xUnit != ''">
 
       <!-- TOTAL DEL DIA -->
-      <div class="col-md-6 col-sm-12 d-flex justify-content-end">
+      <div class="d-flex justify-content-end" [style.width.px]="100">
         <p *ngIf="!naxFlag">
           <span *ngIf="xLoad"><i class="fas fa-spinner fa-fw fa-pulse text-success"></i></span>
           <span *ngIf="!xLoad">{{ xint | number:'.0-2' }} {{ xUnit }}</span>
@@ -99,7 +99,7 @@
       </div>
 
       <!-- VARS -->
-      <div class="col-md-6 col-sm-12 d-flex justify-content-end align-items-center" *ngIf="!naFlag">
+      <div class="d-flex justify-content-between align-items-center" [style.width.px]="130" *ngIf="!naxFlag">
 
         <!-- YD -->
         <div class="ml-1">

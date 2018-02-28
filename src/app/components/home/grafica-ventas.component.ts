@@ -51,7 +51,6 @@ export class GraficaVentasComponent implements OnInit {
                     },
                     yAxis: [{
 
-                        max: 2200000,
                         min:0,
                         tickInterval: null,
                         title: {

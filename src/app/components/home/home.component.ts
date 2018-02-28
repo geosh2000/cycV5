@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
 
   protected onSelected( item ){
     this.asesorShow = item.asesor
-    this.nameShow = item.ncorto
+    this.nameShow = item.Nombre
   }
 
   constructor( private _api:ApiService,
