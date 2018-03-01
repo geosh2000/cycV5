@@ -16,7 +16,7 @@ export class KpisComponent implements OnInit {
 
   currentUser: any
   showContents:boolean = false
-  mainCredential:string = 'tablas_f'
+  mainCredential:string = 'default'
 
   ventaData:any
 
