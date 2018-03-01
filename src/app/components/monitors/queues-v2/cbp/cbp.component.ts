@@ -5,15 +5,33 @@ import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-cbp',
   templateUrl: './cbp.component.html',
-  styles: [],
+  styles: [`
+    .r90 {
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -o-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      transform: rotate(90deg);
+    }
+
+    .r270 {
+      -webkit-transform: rotate(270deg);
+      -moz-transform: rotate(270deg);
+      -o-transform: rotate(270deg);
+      -ms-transform: rotate(270deg);
+      transform: rotate(270deg);
+    }`
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CbpComponent implements OnInit {
 
   @Input() setQueue:any = []
   @Input() queues:any
+  @Input() monitor:boolean = false
   @Input() title:string = 'queue'
   @Input() data:any
+  @Input() lu:any
   @Input() waits:any
   @Input() deps:any
   @Input() pauses:any

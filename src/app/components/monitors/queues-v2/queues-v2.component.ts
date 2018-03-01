@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
 import { TokenCheckService } from '../../../services/token-check.service';
+import { GlobalServicesService } from '../../../services/global-services.service'
 
 import * as moment from 'moment-timezone';
+declare var jQuery:any;
 
 @Component({
   selector: 'app-queues-v2',
@@ -13,10 +16,13 @@ import * as moment from 'moment-timezone';
 })
 export class QueuesV2Component implements OnInit {
 
+  @Output() monitor = new EventEmitter<any>()
+
   currentUser: any
   showContents:boolean = false
   mainCredential:string = 'monitor_gtr'
 
+  displayFilter:boolean       = true
   loading:boolean       = false
   data:Object           = {}
   waits:Object           = {}
@@ -33,8 +39,8 @@ export class QueuesV2Component implements OnInit {
 
   display:Object = {
     wait: false,
-    detail: true,
-    queue: true,
+    detail: false,
+    queue: false,
     sum: true,
     calls: true,
     byQueue: false
@@ -48,7 +54,9 @@ export class QueuesV2Component implements OnInit {
 
   constructor( public _api: ApiService,
                 private _init:InitService,
-                private _tokenCheck:TokenCheckService, ) {
+                private _tokenCheck:TokenCheckService,
+                private _global: GlobalServicesService,
+                private route:Router, private activatedRoute:ActivatedRoute) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
@@ -63,6 +71,22 @@ export class QueuesV2Component implements OnInit {
           }
         })
 
+
+    this.activatedRoute.params.subscribe( params => {
+      if( params.skill ){
+        this.skillSelected = params.skill
+        jQuery('#qSel').val(this.skillSelected)
+      }
+
+      if( params.monitor == 1 ){
+        this.displayFilter = false
+        this._global.displayMonitor( true )
+      }else{
+        this.displayFilter = true
+        this._global.displayMonitor( false )
+      }
+    })
+
     this.getInitials()
   }
 
@@ -74,6 +98,7 @@ export class QueuesV2Component implements OnInit {
     this.getQueues()
     this.getPauseTypes()
     this.getDeps()
+    console.log(this.skillSelected)
     setTimeout( () => this.getRtCalls( this.skillSelected, true ), 3000)
   }
 
@@ -107,6 +132,7 @@ export class QueuesV2Component implements OnInit {
               this.loading = false
               this.data=res.data['data']
               this.waits=res.data['waits']
+              this.lu= res.data['lu']
 
               this.count = this.timeToReload
               this.timerFlag = true

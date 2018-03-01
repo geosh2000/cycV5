@@ -17,7 +17,7 @@ export class CountdownComponent implements OnInit {
   }
 
   setTarget(){
-    this.target = moment.tz(moment().format('YYYY-MM-DD'), 'America/Bogota').tz('America/Mexico_city').add(1, 'months').format('YYYY-MM-01 00:00:00')
+    this.target = moment.tz(moment().format('YYYY-MM-DD HH:mm:ss'), 'America/Bogota').tz('America/Mexico_city').add(1, 'months').format('YYYY-MM-01 00:00:00')
   }
 
   formatTime( type ){
