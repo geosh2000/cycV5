@@ -95,6 +95,11 @@ export class GraphCallStatsComponent implements AfterViewInit {
                     dashStyle: 'ShortDot',
                     color: '#ef9300'
                 },{
+                    name: 'Mixcoac',
+                    data: [1],
+                    dashStyle: 'ShortDot',
+                    color: '#ef9300'
+                },{
                     name: 'IN',
                     data: [1],
                     dashStyle: 'ShortDot',
@@ -139,8 +144,12 @@ export class GraphCallStatsComponent implements AfterViewInit {
         this.chart['calls']['series'][3].update( { name: this.data['PDV']['name'], color: this.data['PDV']['color'], data: this.data['PDV']['data'] })
       }
 
+      if( this.data && this.data['Mixcoac'] && this.data['Mixcoac']['name'] ){
+        this.chart['calls']['series'][4].update( { name: this.data['Mixcoac']['name'], color: this.data['Mixcoac']['color'], data: this.data['Mixcoac']['data'] })
+      }
+
       if( this.data && this.data['IN'] && this.data['IN']['name'] ){
-        this.chart['calls']['series'][4].update( { name: this.data['IN']['name'], color: this.data['IN']['color'], data: this.data['IN']['data'] })
+        this.chart['calls']['series'][5].update( { name: this.data['IN']['name'], color: this.data['IN']['color'], data: this.data['IN']['data'] })
       }
 
       this.chart['calls'].title.update({ text: `Llamadas ${ moment(this.date).format('DD MMM YYYY')}`})

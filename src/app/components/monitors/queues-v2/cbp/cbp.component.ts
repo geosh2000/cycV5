@@ -183,7 +183,13 @@ export class CbpComponent implements OnInit {
 
     for(let agent in data){
       let depName = this.printDep( agent )
-      if( depName == 'PDV' ){ depName = `z${ depName }` }
+      if( depName.includes("PDV") ){
+        if( depName.includes(" ") ){ 
+          depName = `y${ depName }`
+        }else{
+          depName = `z${ depName }`
+        }
+      }
 
       if( !deps[ depName ] ){
         deps[ depName ] = {}
@@ -229,7 +235,7 @@ export class CbpComponent implements OnInit {
     if( this.deps[agent] ){
       switch(tipo){
         case 'dep':
-          return this.deps[agent].Departamento
+          return this.deps[agent].depCC
         case 'color':
           return this.deps[agent].color
       }

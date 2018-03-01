@@ -139,6 +139,7 @@ export class StatisticsComponent implements OnInit {
                   abandonadas: 0,
                   IN: 0,
                   PDV: 0,
+                  Mixcoac: 0,
                   ofrecidas: 0
                 }
 
@@ -156,6 +157,9 @@ export class StatisticsComponent implements OnInit {
                         break
                       case 'PDV':
                         this.total['PDV'] += parseInt(call['calls'])
+                        break
+                      case 'Mixcoac':
+                        this.total['Mixcoac'] += parseInt(call['calls'])
                         break
                     }
                   }
@@ -183,6 +187,10 @@ export class StatisticsComponent implements OnInit {
                               IN      : { name  : 'IN',
                                           color : '#0f7500',
                                           data  : groups['IN'] ? groups['IN']['data'] : []
+                                        },
+                              Mixcoac : { name  : 'Mixcoac',
+                                          color : '#a78116',
+                                          data  : groups['Mixcoac'] ? groups['Mixcoac']['data'] : []
                                         }
                               }
 
