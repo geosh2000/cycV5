@@ -31,6 +31,7 @@ export class CbpComponent implements OnInit {
   @Input() monitor:boolean = false
   @Input() title:string = 'queue'
   @Input() data:any
+  @Input() all:boolean = false
   @Input() lu:any
   @Input() waits:any
   @Input() deps:any
@@ -98,7 +99,7 @@ export class CbpComponent implements OnInit {
 
   printQueue( queue ){
     if( this.queues ){
-      return this.queues[queue].Cola
+      return this.queues[queue] ? this.queues[queue].Cola : queue
     }else{
       return queue
     }
@@ -124,6 +125,7 @@ export class CbpComponent implements OnInit {
     this.summary['Online'] = 0
     this.summary['Paused'] = 0
     this.summary['Busy'] = 0
+    this.summary['tt'] = 0
     this.summary['Avail'] = 0
     this.summary['IN']  = 0
     this.summary['OUT']  = 0
@@ -147,6 +149,14 @@ export class CbpComponent implements OnInit {
 
         if( agents[item]['c_answered'] ){
           this.summary['Busy']++
+
+          if( this.setQueue.length > 1){
+            this.summary['tt'] += parseInt(moment().format('X')) - parseInt(agents[item]['c_answered'])
+          }else{
+            if( agents[item]['c_queue'] == this.setQueue[0] ){
+              this.summary['tt'] += parseInt(moment().format('X')) - parseInt(agents[item]['c_answered'])
+            }
+          }
 
           if( this.queues[agents[item]['c_queue']] && this.queues[agents[item]['c_queue']]['direction'] != '1' ){
             this.summary['OUT']++
@@ -184,7 +194,7 @@ export class CbpComponent implements OnInit {
     for(let agent in data){
       let depName = this.printDep( agent )
       if( depName.includes("PDV") ){
-        if( depName.includes(" ") ){ 
+        if( depName.includes(" ") ){
           depName = `y${ depName }`
         }else{
           depName = `z${ depName }`

@@ -89,6 +89,14 @@
               <small *ngIf="!display['queue']">Q's OFF</small>
             </p>
           </div>
+          <div class="p-2">
+            <button
+              type="button"
+              class="m-2 btn btn-warning"
+              (click)="activateMonitor()">
+              <span >Monitor</span>
+            </button>
+          </div>
 
         </div>
         <div class="col-auto d-flex justify-content-start alert alert-primary">
@@ -131,18 +139,19 @@
           </app-cbp>
         </ng-container>
         <ng-container *ngIf="skillSelected == 0">
-          <ng-container *ngFor="let q of queueGroups | keys">
+          <ng-container *ngFor="let q of ordG | orderBy: 'name'">
             <app-cbp
-              [setQueue]="queueGroups[q]"
+              [setQueue]="queueGroups[q.index]"
               [queues]="queues"
               [pauses]="pauses"
-              [title]="skillGroup[q]"
+              [title]="q.name"
               [deps]="deps"
               [display]="display"
               [waits]="waits"
+              [all]="true"
               [lu]="formatDate(lu, 'DD MMM \'YY kk:mm:ss')"
               [monitor]="!displayFilter"
-              [data]="data" *ngIf="q != 0">
+              [data]="data" *ngIf="q.index != 0">
             </app-cbp>
           </ng-container>
         </ng-container>

@@ -3,13 +3,18 @@
   <!-- TITULO -->
   <div class="alert alert-info text-center m-0 d-flex justify-content-start align-items-center row" role="alert">
     <div class="m-1 d-flex justify-content-start align-items-center">
-      <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-end align-items-center">
-        <span class="mr-auto m-1 fa-stack fa-lg">
-          <i class="fa fa-phone-square text-primary fa-2x"></i>
+      <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-start align-items-center" style="min-width: 230px">
+        <span class="m-1 align-items-center">
+          <span class="m-1 fa-stack fa-lg align-middle">
+            <i class="fa fa-phone-square text-primary fa-2x"></i>
+          </span>
+          <span class="m-1 p-1 align-middle">
+            <span *ngIf="setQueue.length == 1" style="font-size: medium">{{ printQueue( setQueue ) }}</span>
+            <span *ngIf="setQueue.length > 1" style="font-size: medium">{{ title }}</span>
+          </span>
         </span>
-        <span class="m-1 p-1 mr-3">
-          <span *ngIf="setQueue.length == 1" style="font-size: medium">{{ printQueue( setQueue ) }} <small class="text-info">x.{{ setQueue[0] }}</small></span>
-          <span *ngIf="setQueue.length > 1" style="font-size: medium">{{ title }}</span>
+        <span class="m-1 ml-auto" *ngIf="setQueue.length == 1">
+          <small class="text-info">x.{{ setQueue[0] }}</small>
         </span>
       </span>
       <span *ngIf="monitor"><small>{{ lu }}</small></span>
@@ -22,9 +27,9 @@
               <i class="fa fa-sign-in fa-flip-horizontal fa-stack-1x text-info"></i>
               <i class="fa fa-circle-o fa-stack-2x text-info"></i>
             </span>
-            <span class="m-1">
+            <h3 class="m-1">
               {{ summary['IN'] }}
-            </span>
+            </h3>
           </span>
         </div>
 
@@ -34,9 +39,9 @@
               <i class="fa fa-sign-out fa-stack-1x text-primary"></i>
               <i class="fa fa-circle-o fa-stack-2x text-primary"></i>
             </span>
-            <span class="m-1">
+            <h3 class="m-1">
               {{ summary['OUT'] }}
-            </span>
+            </h3>
           </span>
         </div>
 
@@ -47,9 +52,9 @@
               <i class="fa fa-circle-o fa-stack-2x text-warning"></i>
             </span>
             <span class="animated flash infinite" *ngIf="summary['Waiting']>=3"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
-            <span class="m-1">
+            <h3 class="m-1">
               {{ summary['Waiting'] }}
-            </span>
+            </h3>
           </span>
         </div>
 
@@ -58,9 +63,9 @@
             <span class="m-1 fa-stack fa-lg">
               <i class="fa fa-fw fa-user fa-2x text-success"></i>
             </span>
-            <span class="m-1">
+            <h3 class="m-1">
               {{ summary['Online'] }}
-            </span>
+            </h3>
           </span>
         </div>
 
@@ -70,9 +75,9 @@
               <i class="fa fa-user fa-stack-1x text-secondary"></i>
               <i class="fa fa-circle-o fa-stack-2x text-danger"></i>
             </span>
-            <span class="m-1">
+            <h3 class="m-1">
               {{ summary['Busy'] }}
-            </span>
+            </h3>
           </span>
         </div>
 
@@ -82,9 +87,9 @@
               <i class="fa fa-user fa-stack-1x text-success"></i>
               <i class="fa fa-circle-o fa-stack-2x text-primary"></i>
             </span>
-            <span class="m-1">
+            <h3 class="m-1">
               {{ summary['Avail'] }}
-            </span>
+            </h3>
           </span>
         </div>
 
@@ -95,16 +100,28 @@
               <i class="fa fa-ban fa-stack-2x text-warning"></i>
             </span>
             <span class="animated flash infinite" *ngIf="summary['Paused']>=5"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
-            <span class="m-1">
+            <h3 class="m-1">
               {{ summary['Paused'] }}
+            </h3>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+                <i class="far fa-clock fa-2x text-success"></i>
             </span>
+            <span class="animated flash infinite" *ngIf="(summary['Busy'] != 0 && (summary['tt'] / summary['Busy']) > 550)"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
+            <h3 class="m-1">
+              {{ (summary['Busy'] == 0 ? 0 : (summary['tt'] / summary['Busy'])) | number:'.0-0' }}
+            </h3>
           </span>
         </div>
 
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf="display['calls']">
 
     <!-- LLAMADAS EN ESPERA -->
     <div class="col m-1 mr-0" style="min-width: 350px!important; max-width: 350px!important;" *ngIf="display['wait']">
@@ -209,7 +226,11 @@
                           <h6 class="m-0" style="width: 100%" *ngIf="monitor">
                             <span style="width: 100%" class="badge badge-primary badge-pill border border-info">
                               <span>
-                                {{ getDuration( agent['c_answered'] ) }}<br><small>{{ agent['c_caller'] }}</small>
+                                {{ getDuration( agent['c_answered'] ) }}
+                                <small class="ml-1" *ngIf="agent['c_answered'] && getDuration( agent['c_answered'], 's' ) > 550">
+                                  <span style="font-size:smaller" class="badge badge-danger badge-pill animated flash infinite mr-2">AHT</span>
+                                </small><br>
+                                <small>{{ agent['c_caller'] }}</small>
                               </span>
                             </span>
                           </h6>
@@ -272,10 +293,13 @@
                   </div>
 
                   <div class="p-0 m-0 d-flex justify-content-center" *ngIf="monitor">
-                    <small><span class="badge"
+                    <small class='ml-1'><span class="badge"
                       [ngClass]="{'bg-secondary ': printDep( agent['name'], 'color' ) == null}"
                       [style.background]="printDep( agent['name'], 'color' )">
                         <small class="text-light" style='font-size: smaller'>{{ printDep( agent['name'] ) }}</small>
+                    </span></small>
+                    <small class='ml-1'><span class="badge bg-light" *ngIf="agent['c_answered']">
+                        <small class="text-dark" style='font-size: smaller'>{{ printQueue( agent['c_queue'] ) }}</small>
                     </span></small>
                   </div>
 

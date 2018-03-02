@@ -32,6 +32,7 @@ export class QueuesV2Component implements OnInit {
   queueGroups:Object
   skillGroup:Object     = {}
   deps:Object
+  ordG:any
   lu:string
 
   loop:boolean          = true
@@ -177,6 +178,7 @@ export class QueuesV2Component implements OnInit {
               let keys = []
               let result = {}
               let group = {}
+              let dispSum = {}
               group[0] = []
 
               for( let item of queues ){
@@ -193,6 +195,8 @@ export class QueuesV2Component implements OnInit {
                   group[ item['monShow'] ].push(item['queue'])
                 }
 
+                dispSum[ item['monShow'] ] = item['displaySum']
+
                 group[0].push(item['queue'])
                 this.skillGroup[0] = 'All'
                 this.skillGroup[item['monShow']] = item['Departamento']
@@ -204,8 +208,16 @@ export class QueuesV2Component implements OnInit {
               this.queueGroups = group
               this.queueGroups
 
-              // console.log(this.queueGroups)
-              // console.log(this.queues)
+              let ordG = []
+              for( let q in this.queueGroups ){
+                if( q != "0" && dispSum[q] == "1" ){
+                  ordG.push( { index: q, name: this.skillGroup[q] } )
+                }
+              }
+
+              ordG.sort()
+              this.ordG = ordG
+
 
             }, err => {
               console.log("ERROR", err)
@@ -266,6 +278,10 @@ export class QueuesV2Component implements OnInit {
     }
 
     setTimeout( () => this.timerLoad(), 1000 )
+  }
+
+  activateMonitor(){
+    this.displayFilter = false
   }
 
 }
