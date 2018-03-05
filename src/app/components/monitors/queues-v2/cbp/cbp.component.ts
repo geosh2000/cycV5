@@ -151,21 +151,24 @@ export class CbpComponent implements OnInit {
           this.summary['Busy']++
 
           if( this.setQueue.length > 1){
-            if( this.queues[agents[item]['c_queue']] && this.queues[agents[item]['c_queue']]['direction'] != '1' ){
-              this.summary['OUT']++
-            }else{
-              this.summary['IN']++
+            if( this.queueBelong( this.setQueue, [agents[item]['c_queue']] ) ){
+              if( this.queues[agents[item]['c_queue']] && this.queues[agents[item]['c_queue']]['direction'] != '1' ){
+                this.summary['OUT']++
+              }else{
+                this.summary['IN']++
+                this.summary['tt'] += parseInt(moment().format('X')) - parseInt(agents[item]['c_answered'])
+              }
             }
+            
 
-            this.summary['tt'] += parseInt(moment().format('X')) - parseInt(agents[item]['c_answered'])
           }else{
             if( agents[item]['c_queue'] == this.setQueue[0] ){
               if( this.queues[agents[item]['c_queue']] && this.queues[agents[item]['c_queue']]['direction'] != '1' ){
                 this.summary['OUT']++
               }else{
                 this.summary['IN']++
+                this.summary['tt'] += parseInt(moment().format('X')) - parseInt(agents[item]['c_answered'])
               }
-              this.summary['tt'] += parseInt(moment().format('X')) - parseInt(agents[item]['c_answered'])
             }
           }
 

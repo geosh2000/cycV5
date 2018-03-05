@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
@@ -42,6 +43,7 @@ export class PrenominaComponent implements OnInit {
   tableHeaders:any = []
 
   constructor(public _api: ApiService,
+                private titleService: Title,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastsManager, vcr: ViewContainerRef ) {
@@ -93,6 +95,7 @@ export class PrenominaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.titleService.setTitle('CyC - Prenomina');
     this.getCortes()
   }
 

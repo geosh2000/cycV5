@@ -9,6 +9,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix -> gráficas
 
 ### Queue Monitor
+* Fix -> AHT
 * Modo Monitor para pantallas del CC
 * Resumen mejorado para Monitores
 
