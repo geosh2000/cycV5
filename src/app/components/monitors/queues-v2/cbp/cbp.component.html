@@ -113,7 +113,7 @@
             </span>
             <span class="animated flash infinite" *ngIf="(summary['Busy'] != 0 && (summary['tt'] / summary['Busy']) > 550)"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
             <h3 class="m-1">
-              {{ (summary['Busy'] == 0 ? 0 : (summary['tt'] / summary['Busy'])) | number:'.0-0' }}
+              {{ (summary['IN'] == 0 ? 0 : (summary['tt'] / summary['IN'])) | number:'.0-0' }}
             </h3>
           </span>
         </div>

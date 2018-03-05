@@ -8,6 +8,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### General
 * Fix -> gráficas
 
+### Queue Monitor
+* Modo Monitor para pantallas del CC
+* Resumen mejorado para Monitores
+
 ### CountDown
 * CountDown modo cierre en NavBar
 
@@ -67,6 +71,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Monitor Pausas
 * Se elimina charla de revisión
+
+### Prenomina
+* Se igualan columnas a formato de rrhh
+* Corrección de Fechas a Formato DD/MM/YY
 
 ## v2.2.25
 
