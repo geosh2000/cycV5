@@ -37,8 +37,9 @@
       <table class="table table-responsive table-sm table-stripped" style="font-size: smaller" id='prenomina'>
         <thead>
           <tr>
-            <th *ngFor="let field of dataAsesores[0] | keys">{{ field }}</th>
-            <th>H. Extra</th>
+            <ng-container *ngFor="let field of dataAsesores[0] | keys">
+              <th *ngIf="field != 'asesor'">{{ field }}</th>
+            </ng-container>
             <th *ngFor="let header of tableHeaders">{{ header.t }}</th>
             <th>Reservas Empleado</th>
             <th>Locs. Reservas Empleado</th>
@@ -58,10 +59,11 @@
             </ng-container>
 
             <ng-container *ngIf="dataPrenom[rac['asesor']]; else noLog">
-              <td>{{ (dataPrenom[rac['asesor']].hx).toFixed(2) }}</td>
               <ng-container *ngFor="let header of tableHeaders">
                 <td *ngIf="header.type == 'd'">
-                  <span>{{ dataPrenom[rac['asesor']][header.code] ? dataPrenom[rac['asesor']][header.code].days : 0 }}</span>
+                  <span *ngIf="header.code == 'hx'">{{ (dataPrenom[rac['asesor']].hx).toFixed(2) }}</span>
+                  <span *ngIf="header.code != 'hx' && header.code != null">{{ dataPrenom[rac['asesor']][header.code] ? dataPrenom[rac['asesor']][header.code].days : 0 }}</span>
+                  <span *ngIf="header.code == null"></span>
                 </td>
                 <td *ngIf="header.type == 'f'">
                   <span>{{ dataPrenom[rac['asesor']][header.code] ? printDates(dataPrenom[rac['asesor']][header.code].dates) : '-' }}</span>

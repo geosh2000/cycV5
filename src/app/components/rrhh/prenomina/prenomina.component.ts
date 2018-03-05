@@ -63,35 +63,31 @@ export class PrenominaComponent implements OnInit {
         })
 
     this.tableHeaders = [
-      { t: 'Descansos', code: 'D', type: 'd' },
-      // { t: 'Asistencias', code: 'A', type: 'd' },
-      // { t: 'Capacitación', code: 'CA', type: 'd' },
-      { t: 'D Faltas IN', code: 'F', type: 'd' },
-      { t: 'F Faltas IN', code: 'F', type: 'f' },
       { t: 'D Faltas JUS', code: 'FJ', type: 'd' },
       { t: 'F Faltas JUS', code: 'FJ', type: 'f' },
+      { t: 'D Faltas IN', code: 'F', type: 'd' },
+      { t: 'F Faltas IN', code: 'F', type: 'f' },
       { t: 'D Suspension', code: 'SUS', type: 'd' },
       { t: 'F Suspension', code: 'SUS', type: 'f' },
-      { t: 'D Maternidad', code: 'INC_MT', type: 'd' },
-      { t: 'F Maternidad', code: 'INC_MT', type: 'f' },
-      { t: 'D Enfermedad', code: 'INC_EN', type: 'd' },
-      { t: 'F Enfermedad', code: 'INC_EN', type: 'f' },
-      { t: 'D Accidente', code: 'INC_AC', type: 'd' },
-      { t: 'F Accidente', code: 'INC_AC', type: 'f' },
-      { t: 'D Acc por Riesgo', code: 'INC_RT', type: 'd' },
-      { t: 'F Acc por Riesgo', code: 'INC_RT', type: 'f' },
+      { t: 'Maternidad', code: 'INC_MT', type: 'd' },
+      { t: 'Enfermedad', code: 'INC_EN', type: 'd' },
+      { t: 'Accidente', code: 'INC_AC', type: 'd' },
+      { t: 'Acc por Riesgo', code: 'INC_RT', type: 'd' },
       { t: 'D Permiso sin g', code: 'PS', type: 'd' },
       { t: 'F Permiso sin g', code: 'PS', type: 'f' },
       { t: 'D Permiso con g', code: 'PC', type: 'd' },
       { t: 'F Permiso con g', code: 'PC', type: 'f' },
       { t: 'D Vacaciones', code: 'VAC', type: 'd' },
       { t: 'F Vacaciones', code: 'VAC', type: 'f' },
-      { t: 'D Descanso Trabajado', code: 'DT', type: 'd' },
-      { t: 'F Descanso Trabajado', code: 'DT', type: 'f' },
-      { t: 'D Día Festivo', code: 'FES', type: 'd' },
-      { t: 'F Día Festivo', code: 'FES', type: 'f' },
-      { t: 'D Domingos Trabajados', code: 'DOM', type: 'd' },
-      { t: 'F Domingos Trabajados', code: 'DOM', type: 'f' }
+      { t: 'Prima Vacacional', code: null, type: 'd' },
+      { t: 'Dias de Prima Vacacional', code: null, type: 'd' },
+      { t: 'Horas Extra', code: 'hx', type: 'd' },
+      { t: 'Horas Extra 2', code: null, type: 'd' },
+      { t: 'Horas Extra 3', code: null, type: 'd' },
+      { t: 'Dias Pendientes', code: null, type: 'd' },
+      { t: 'Descanso Trabajado', code: 'DT', type: 'd' },
+      { t: 'Día Festivo', code: 'FES', type: 'd' },
+      { t: 'Prima Dominical', code: 'DOM', type: 'd' }
     ]
 
   }
@@ -530,28 +526,32 @@ export class PrenominaComponent implements OnInit {
           }
           return result[type]
         }else{
-          if( moment(data.Fecha).format('E') == 7 ){
+
+          if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
             result = {
-              code: "DOM",
-              rcode: "DOM",
-              desc: "Domingo Trabajado"
+              code: "FES",
+              rcode: "FES",
+              desc: "Festivo Trabajado"
             }
           }else{
-            if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
-              result = {
-                code: "FES",
-                rcode: "FES",
-                desc: "Festivo Trabajado"
-              }
-            }else{
-              result = {
-                code: "A",
-                rcode: "A",
-                desc: "Asistencia"
-              }
+            result = {
+              code: "A",
+              rcode: "A",
+              desc: "Asistencia"
             }
 
+            if( moment(data.Fecha).format('E') == 7 ){
+
+              if( data.js != data.je ){
+                result = {
+                  code: "DOM",
+                  rcode: "DOM",
+                  desc: "Domingo Trabajado"
+                }
+              }
+            }
           }
+
           return result[type]
         }
       }
@@ -760,9 +760,9 @@ export class PrenominaComponent implements OnInit {
       }
 
       if( dates.inicio == dates.fin ){
-        result = `${result} ${moment(dates.inicio).format('DD/MM')}`
+        result = `${result} ${moment(dates.inicio).format('DD/MM/YYYY')}`
       }else{
-        result = `${result} ${moment(dates.inicio).format('DD/MM')} a ${moment(dates.fin).format('DD/MM')}`
+        result = `${result} ${moment(dates.inicio).format('DD/MM/YYYY')} a ${moment(dates.fin).format('DD/MM/YYYY')}`
       }
     }
 
