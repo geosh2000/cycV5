@@ -8,6 +8,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### General
 * Fix -> gráficas
 
+### Módulo Upload SMD
+* PEC (Controlable)
+* FCR
+
 ### Queue Monitor
 * Fix -> AHT
 * Modo Monitor para pantallas del CC

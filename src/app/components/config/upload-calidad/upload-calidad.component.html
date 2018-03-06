@@ -1,0 +1,31 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container-fluid">
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <span><h1 class="display-3">Reportes de Calidad</h1></span>
+            <p class="lead">Reportes mensuales, para su conexión con resultados de performance y bonos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <div class="card-body d-flex justify-content-between">
+        <span>FCR: </span><span *ngIf="loading['uploading'] || loading['csv']"><i class="fas fa-spinner fa-pulse text-info"></i> Procesando</span>
+        <app-csv title="FCR File" name="fcr" dir="tmp" btnClass='btn-warning' (loadResult)="csvResult($event, 'fcr')"></app-csv>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body d-flex justify-content-between">
+        <span>PEC: </span><span *ngIf="loading['uploading_pec'] || loading['csv_pec']"><i class="fas fa-spinner fa-pulse text-info"></i> Procesando</span>
+        <app-csv title="PEC File" name="pec" dir="tmp" btnClass='btn-warning' (loadResult)="csvResult($event, 'pec')"></app-csv>
+      </div>
+    </div>
+  </div>
+</div>

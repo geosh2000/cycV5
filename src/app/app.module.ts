@@ -133,6 +133,8 @@ import { AsesoresFotosComponent } from './components/config/asesores-fotos/aseso
 import { CountdownComponent } from './addon/countdown/countdown.component';
 import { SlaComponent } from './components/monitors/sla/sla.component';
 import { CountdownMetaComponent } from './addon/countdown-meta/countdown-meta.component';
+import { CsvComponent } from './addon/upload/csv/csv.component';
+import { UploadCalidadComponent } from './components/config/upload-calidad/upload-calidad.component';
 
 
 declare let jQuery : Object;
@@ -255,6 +257,8 @@ registerLocaleData(localeEsMX)
     CountdownComponent,
     SlaComponent,
     CountdownMetaComponent,
+    CsvComponent,
+    UploadCalidadComponent,
   ],
   imports: [
     BrowserModule,

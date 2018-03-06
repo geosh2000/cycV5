@@ -1,6 +1,9 @@
 import {Component, ViewContainerRef} from '@angular/core';
 import {ToastsManager} from 'ng2-toastr';
 
+import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+
 import { GlobalServicesService } from './services/global-services.service'
 
 @Component({
@@ -17,6 +20,7 @@ export class AppComponent {
   private viewContainerRef: ViewContainerRef;
 
   public constructor(
+          private router: Router, private titleService: Title,
           private _global: GlobalServicesService,
           public toastr: ToastsManager,
           viewContainerRef: ViewContainerRef) {

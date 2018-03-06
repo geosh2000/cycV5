@@ -45,6 +45,7 @@ import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
 import { CambioLocalizadorAsesorComponent } from './components/config/cambio-localizador-asesor/cambio-localizador-asesor.component';
 import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.component';
 import { AsesoresFotosComponent } from './components/config/asesores-fotos/asesores-fotos.component';
+import { UploadCalidadComponent } from './components/config/upload-calidad/upload-calidad.component';
 
 
 const APP_ROUTES: Routes = [
@@ -121,6 +122,7 @@ const APP_ROUTES: Routes = [
   { path: 'config/uploadTables', component: ReportUpdatesComponent },
   { path: 'config/fams', component: FamsComponent },
   { path: 'config/reasignacionRsva', component: CambioLocalizadorAsesorComponent },
+  { path: 'config/uploadCalidad', component: UploadCalidadComponent },
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },
