@@ -26,7 +26,7 @@
             class="badge badge-pill text-center ml-1"
             [ngClass]="compare( monto, mYd, 'class' )"
             [style.width.px]="55">
-              <small>yd: {{ compare( monto, mYd, '%' ) | number:'.0-0' }}%</small>
+              <small>{{ yd ? 'yd' : 'lw' }}: {{ compare( monto, mYd, '%' ) | number:'.0-0' }}%</small>
           </span>
         </div>
 
@@ -67,7 +67,7 @@
             class="badge badge-pill text-center ml-1"
             [ngClass]="compare( int, iYd, 'class' )"
             [style.width.px]="55">
-              <small>yd: {{ compare( int, iYd, '%' ) | number:'.0-0' }}%</small>
+              <small>{{ yd ? 'yd' : 'lw' }}: {{ compare( int, iYd, '%' ) | number:'.0-0' }}%</small>
           </span>
         </div>
 
@@ -108,7 +108,7 @@
             class="badge badge-pill text-center ml-1"
             [ngClass]="compare( xint, xYd, 'class' )"
             [style.width.px]="55">
-              <small>yd: {{ compare( xint, xYd, '%' ) | number:'.0-0' }}%</small>
+              <small>{{ yd ? 'yd' : 'lw' }}: {{ compare( xint, xYd, '%' ) | number:'.0-0' }}%</small>
           </span>
         </div>
 

@@ -23,6 +23,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Vuelo, Hotel y paquete
 * RN y Locs
 * FC para CC-In
+* Var yd, lw y yd
 * Glosario
 
 ### Call Statistics

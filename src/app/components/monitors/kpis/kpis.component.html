@@ -54,6 +54,17 @@
             <p><ui-switch
               color="green"
               size= "small"
+              [(ngModel)]="yd"
+              (change)="chgCompare( $event )"
+            ></ui-switch></p>
+            <p><small>Var {{ params['compare'] }}</small></p>
+          </div>
+
+          <!-- Detail -->
+          <div class="p-2 text-center">
+            <p><ui-switch
+              color="green"
+              size= "small"
               [(ngModel)]="detail"
             ></ui-switch></p>
             <p><small>Detalle</small></p>
@@ -191,11 +202,11 @@
                   <h3 class='align-middle text-right font-weight-bold text-light' style="-webkit-text-stroke: 1px #969696;">{{ (group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' )) | currency:'MXN':'symbol-narrow':'.2-2' }}</h3>
                   <div class="d-flex justify-content-end">
                     <span
-                      placement="bottom" ngbTooltip="{{ (group == 'Total' ? getTotal(canal, 'yd', params['montoSV']) : getVal( canal, group, params['montoSV'], 'yd' )) | currency:'MXN':'symbol-narrow':'.2-2' }}"
+                      placement="bottom" ngbTooltip="{{ (group == 'Total' ? getTotal(canal, params['compare'], params['montoSV']) : getVal( canal, group, params['montoSV'], params['compare'] )) | currency:'MXN':'symbol-narrow':'.2-2' }}"
                       class="badge badge-pill text-center ml-1"
-                      [ngClass]="compare(canal, group, params['montoSV'], 'td', 'yd', 'class')"
+                      [ngClass]="compare(canal, group, params['montoSV'], 'td', params['compare'], 'class')"
                       [style.width.px]="80">
-                        <small>var yd: {{ compare(canal, group, params['montoSV'], 'td', 'yd', '%') | number:'.0-0' }}%</small>
+                        <small>var {{ params['compare'] }}: {{ compare(canal, group, params['montoSV'], 'td', params['compare'], '%') | number:'.0-0' }}%</small>
                     </span>
                     <span
                       placement="bottom" ngbTooltip="{{ (group == 'Total' ? getTotal(canal, 'ly', params['montoSV']) : getVal( canal, group, params['montoSV'], 'ly' )) | currency:'MXN':'symbol-narrow':'.2-2' }}"
@@ -218,8 +229,9 @@
                 <app-kpis-detail
                   [item]="'Av Tkt'"
                   [monto]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item )) / (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )))"
-                  [mYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'yd', item )) / (group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' )))"
+                  [mYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, params['compare'], params['montoSV'], item) : getVal( canal, group, params['montoSV'], params['compare'], item )) / (group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )))"
                   [mLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item )) / (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )))"
+                  [yd]="yd"
                   >
                 </app-kpis-detail>
 
@@ -227,8 +239,9 @@
                 <app-kpis-detail
                   [item]="'Locs'"
                   [mFlag]="false"
+                  [yd]="yd"
                   [int]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' ))"
-                  [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' ))"
+                  [iYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] ))"
                   [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' ))"
                   [iUnit]="' '">
                 </app-kpis-detail>
@@ -239,8 +252,9 @@
                 <app-kpis-detail
                   [item]="'Calls'"
                   [mFlag]="false"
+                  [yd]="yd"
                   [int]="(group == 'Total' ? getTotal(canal, 'td', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'td' ))"
-                  [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'yd' ))"
+                  [iYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'callsTotal' ) : getVal( canal, group, 'callsTotal', params['compare'] ))"
                   [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'ly' ))"
                   [iUnit]="' '"
                   [iLoad]="loading['calls']"
@@ -252,8 +266,9 @@
                 <app-kpis-detail
                   [item]="'FC'"
                   [mFlag]="false"
+                  [yd]="yd"
                   [int]="(group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) / (group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) * 100"
-                  [iYd]="(group == 'Total' ? getTotal(canal, 'yd', 'calls' ) : getVal( canal, group, 'calls', 'yd' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'yd', 'Locs' ) : getVal( canal, group, 'Locs', 'yd' )) / (group == 'Total' ? getTotal(canal, 'yd', 'calls' ) : getVal( canal, group, 'calls', 'yd' )) * 100"
+                  [iYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'calls' ) : getVal( canal, group, 'calls', params['compare'] )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )) / (group == 'Total' ? getTotal(canal, params['compare'], 'calls' ) : getVal( canal, group, 'calls', params['compare'] )) * 100"
                   [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) / (group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) * 100"
                   [iUnit]="'%'"
                   [naFlag]="!callsCheck(canal, group)"
@@ -266,15 +281,16 @@
                   <!-- INFO POR SERVICIO -->
                   <app-kpis-detail
                     [item]="item"
+                    [yd]="yd"
                     [monto]="(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item ))"
-                    [mYd]="(group == 'Total' ? getTotal(canal, 'yd', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'yd', item ))"
+                    [mYd]="(group == 'Total' ? getTotal(canal, params['compare'], params['montoSV'], item) : getVal( canal, group, params['montoSV'], params['compare'], item ))"
                     [mLy]="(group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item ))"
                     [int]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'td', 'newRN', item) : getVal( canal, group, 'newRN', 'td', item )) : ''"
-                    [iYd]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'yd', 'newRN', item) : getVal( canal, group, 'newRN', 'yd', item )) : ''"
+                    [iYd]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, params['compare'], 'newRN', item) : getVal( canal, group, 'newRN', params['compare'], item )) : ''"
                     [iLy]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'ly', 'newRN', item) : getVal( canal, group, 'newRN', 'ly', item )) : ''"
                     [iUnit]="item == 'Hotel' || item == 'Paquete' ? 'RN' : ''"
                     [xint]="(group == 'Total' ? getTotal(canal, 'td', 'Locs', item) : getVal( canal, group, 'Locs', 'td', item ))"
-                    [xYd]="(group == 'Total' ? getTotal(canal, 'yd', 'Locs', item) : getVal( canal, group, 'Locs', 'yd', item ))"
+                    [xYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs', item) : getVal( canal, group, 'Locs', params['compare'], item ))"
                     [xLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs', item) : getVal( canal, group, 'Locs', 'ly', item ))"
                     [xUnit]="'ML'"
                     *ngIf="!detailView['paq'] || (detailView['paq'] && item != 'Paquete')">

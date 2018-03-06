@@ -26,6 +26,7 @@ export class KpisComponent implements OnInit {
   lu:any
 
   params:Object = {
+    compare   : 'yd',
     montoSV   : 'MontoSV',
     marca     : 'Marcas Propias',
     pais      : 'MX'
@@ -41,6 +42,7 @@ export class KpisComponent implements OnInit {
   timerCount:any    = this.timeToReload
 
   startDate:any
+  yd:boolean = true
   monitor:boolean = true
   detail:boolean  = true
   detailView:Object = {
@@ -53,6 +55,7 @@ export class KpisComponent implements OnInit {
   glosario:any = [
     {concept: 'var', exp: 'Variación'},
     {concept: 'yd', exp: '-1 día'},
+    {concept: 'lw', exp: '-7 días (mismo día de la semana)'},
     {concept: 'ly', exp: '-1 año (mismo día de la semana)'},
     {concept: 'RN', exp: 'RoomNights'},
     {concept: 'ML', exp: 'MasterLocator'},
@@ -138,6 +141,7 @@ export class KpisComponent implements OnInit {
               let fechas = {
                 [this.dateSelected] : 'td',
                 [moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD')] : 'yd',
+                [moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD')] : 'lw',
                 [moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD')] : 'ly'
               }
               let data = {}
@@ -228,19 +232,25 @@ export class KpisComponent implements OnInit {
           case 'Marcas Propias':
             this.getCalls( 35, this.dateSelected, 'PT.com', () => {
               this.getCalls( 35, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'PT.com', () => {
-                this.getCalls( 35, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'PT.com' )
+                this.getCalls( 35, moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD'), 'PT.com', () => {
+                  this.getCalls( 35, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'PT.com' )
+                } )
               } )
             } )
             break
           case 'Marcas Terceros':
             this.getCalls( 3, this.dateSelected, 'Afiliados', () => {
               this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
-                this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
-                  this.getCalls( 3, this.dateSelected, 'Intertours', () => {
-                    this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Intertours', () => {
-                      this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Intertours' )
+                this.getCalls( 3, moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
+                  this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
+                    this.getCalls( 3, this.dateSelected, 'Intertours', () => {
+                      this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Intertours', () => {
+                        this.getCalls( 3, moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD'), 'Intertours', () => {
+                          this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Intertours' )
+                        } )
+                      } )
                     } )
-                  } )
+                  })
                 } )
               } )
             } )
@@ -252,10 +262,14 @@ export class KpisComponent implements OnInit {
           case 'Marcas Terceros':
             this.getCalls( 3, this.dateSelected, 'Afiliados', () => {
               this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
-                this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
-                  this.getCalls( 3, this.dateSelected, 'Intertours', () => {
-                    this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Intertours', () => {
-                      this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Intertours' )
+                this.getCalls( 3, moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
+                  this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
+                    this.getCalls( 3, this.dateSelected, 'Intertours', () => {
+                      this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Intertours', () => {
+                        this.getCalls( 3, moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD'), 'Intertours', () => {
+                          this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Intertours' )
+                        } )
+                      } )
                     } )
                   } )
                 } )
@@ -319,6 +333,7 @@ export class KpisComponent implements OnInit {
               let fechas = {
                 [this.dateSelected] : 'td',
                 [moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD')] : 'yd',
+                [moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD')] : 'lw',
                 [moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD')] : 'ly'
               }
               let data = {}
@@ -497,6 +512,15 @@ export class KpisComponent implements OnInit {
 
   chgMarca( marca ){
     this.params['marca'] = marca
+  }
+
+  chgCompare( event ){
+    if( event ){
+      this.params['compare'] = 'yd'
+    }else{
+      this.params['compare'] = 'lw'
+    }
+
   }
 
   chgPais( pais ){

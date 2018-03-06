@@ -16,6 +16,7 @@ export class KpisDetailComponent implements OnInit {
   @Input() mLy    :number   = 0
   @Input() mYd    :number   = 0
 
+  @Input() yd     :boolean  = true
   @Input() int    :number   = 0
   @Input() iLy    :number   = 0
   @Input() iYd    :number   = 0
