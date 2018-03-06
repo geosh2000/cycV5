@@ -51,11 +51,13 @@
           <tr *ngFor="let rac of dataAsesores | orderBy: 'CLAVE'">
 
             <ng-container *ngFor="let field of rac | keys">
+              <ng-container *ngIf="field != 'asesor'">
                 <td [ngSwitch]="field">
                   <span *ngSwitchCase="'Nombre_del_empleado'">{{ rac[field] | noAcentos }}</span>
                   <span *ngSwitchCase="'Salario'">{{ rac[field] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
                   <span *ngSwitchDefault>{{ rac[field]  }}</span>
                 </td>
+              </ng-container>
             </ng-container>
 
             <ng-container *ngIf="dataPrenom[rac['asesor']]; else noLog">
