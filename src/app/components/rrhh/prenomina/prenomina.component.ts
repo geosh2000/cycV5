@@ -785,7 +785,7 @@ export class PrenominaComponent implements OnInit {
 
       let match = cell.match(/^[A-Z]+[1]{1}$/g)
       if( !match ){
-        if( cell.match(/^(?:(([A,B,J,N-R,T,V,X,Z]{1})|([A]{1}[B,D,F,H,J,L,N,P]{1})))(?=[1-9]{1}[0-9]*)/g) ){
+        if( cell.match(/^(?:(([A,M,O,Q,S-W,Y]{1})|([A]{1}[A,E,I-K]{1})))(?=[1-9]{1}[0-9]*)/g) ){
           if( wb.Sheets.Sheet1[cell].v != 'NA' ){
             wb.Sheets.Sheet1[cell].t = 'n'
             wb.Sheets.Sheet1[cell].v = wb.Sheets.Sheet1[cell].v.trim()

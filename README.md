@@ -3,6 +3,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
+## v2.2.4
+
+### Módulo Bonos
+* Implementación de bonos automatizados
+
 ## v2.2.3
 
 ### General

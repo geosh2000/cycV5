@@ -40,6 +40,7 @@ import { FamsComponent } from './components/config/fams/fams.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
 import { AusentismosComponent } from './components/asistencia/ausentismos/ausentismos.component';
 import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
+import { BonosComponent } from './components/reportes/bonos/bonos.component';
 import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
 import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
 import { CambioLocalizadorAsesorComponent } from './components/config/cambio-localizador-asesor/cambio-localizador-asesor.component';
@@ -89,6 +90,7 @@ const APP_ROUTES: Routes = [
   { path: 'asistencia', component: AsistenciaComponent },
   { path: 'mp/ventaPorCanal', component: VentaPorCanalComponent },
   { path: 'calidad/aleatoriedad', component: AleatoriedadComponent },
+  { path: 'bonosCUN', component: BonosComponent },
 
   //Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },

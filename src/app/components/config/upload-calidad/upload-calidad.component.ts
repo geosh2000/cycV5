@@ -169,7 +169,7 @@ export class UploadCalidadComponent implements OnInit {
 
               this.loading[loader] = false
               this.uploadResult = res.data
-              console.log(res.data)
+              console.log(res)
               this.toastr.success( `${res.data['UPL_OK']}: Exitosos`, `${res.data['Registros']} Registros` )
 
             }, err => {
