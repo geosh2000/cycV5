@@ -193,7 +193,7 @@
                     <!-- FLAG FOR REDUCED DISPLAY -->
                     <ng-container *ngIf="(!display['detail'] && agent['c_answered'] && getDuration( agent['c_answered'], 's' ) > 550 ) || (agent['c_answered'] && getDuration( agent['curPauseTst'], 's' ) > pauseLimits[agent['curPauseCode']])">
                       <div class="p-0">
-                        <small *ngIf="agent['c_answered'] && getDuration( agent['c_answered'], 's' ) > 550">
+                        <small *ngIf="agent['c_answered'] != 0 && getDuration( agent['c_answered'], 's' ) > 550">
                           <span style="font-size:smaller" class="badge badge-danger badge-pill animated flash infinite mr-2">AHT</span>
                         </small>
                         <small *ngIf="!agent['c_answered'] && agent['c_answered'] && getDuration( agent['curPauseTst'], 's' ) > pauseLimits[agent['curPauseCode']]">
@@ -227,7 +227,7 @@
                             <span style="width: 100%" class="badge badge-primary badge-pill border border-info">
                               <span>
                                 {{ getDuration( agent['c_answered'] ) }}
-                                <small class="ml-1" *ngIf="agent['c_answered'] && getDuration( agent['c_answered'], 's' ) > 550">
+                                <small class="ml-1" *ngIf="agent['c_answered'] != 0 && getDuration( agent['c_answered'], 's' ) > 550">
                                   <span style="font-size:smaller" class="badge badge-danger badge-pill animated flash infinite mr-2">AHT</span>
                                 </small><br>
                                 <small>{{ agent['c_caller'] }}</small>

@@ -28,6 +28,7 @@ export class PrenominaComponent implements OnInit {
   loading:Object = {}
 
   listCortes:any
+  opsList:any
   listCortesFlag:boolean = false
   dataSchedules:any
   dataLogs:any
@@ -41,6 +42,8 @@ export class PrenominaComponent implements OnInit {
   built:any
 
   tableHeaders:any = []
+
+  params:Object = { corte: '', op: '' }
 
   constructor(public _api: ApiService,
                 private titleService: Title,
@@ -99,10 +102,10 @@ export class PrenominaComponent implements OnInit {
     this.getCortes()
   }
 
-  getSchedules( nominaId ){
+  getSchedules(){
     this.loading['schedules'] = true
 
-    this._api.restfulGet( nominaId, 'Prenomina/schedules')
+    this._api.restfulPut( this.params, 'Prenomina/schedules')
               .subscribe( res => {
 
                 this.loading['schedules'] = false
@@ -110,7 +113,7 @@ export class PrenominaComponent implements OnInit {
                 this.dataSchedules = res.data
                 console.log(this.dataSchedules)
 
-                this.getFestivos( nominaId )
+                this.getFestivos()
 
               }, err => {
                 console.log("ERROR", err)
@@ -124,17 +127,17 @@ export class PrenominaComponent implements OnInit {
               })
   }
 
-  getFestivos( nominaId ){
+  getFestivos(){
     this.loading['festivos'] = true
 
-    this._api.restfulGet( nominaId, 'Prenomina/festivos')
+    this._api.restfulPut( this.params, 'Prenomina/festivos')
               .subscribe( res => {
 
                 this.loading['festivos'] = false
 
                 this.dataFestivos = res.data
 
-                this.getAsesores( nominaId )
+                this.getAsesores()
 
               }, err => {
                 console.log("ERROR", err)
@@ -148,10 +151,10 @@ export class PrenominaComponent implements OnInit {
               })
   }
 
-  getAsesores( nominaId ){
+  getAsesores(){
     this.loading['asesores'] = true
 
-    this._api.restfulGet( nominaId, 'Prenomina/asesores')
+    this._api.restfulPut( this.params, 'Prenomina/asesores')
               .subscribe( res => {
 
                 this.loading['asesores'] = false
@@ -159,7 +162,7 @@ export class PrenominaComponent implements OnInit {
                 this.dataAsesores = res.data
                 console.log(res.data)
 
-                this.getLogs( nominaId )
+                this.getLogs()
 
               }, err => {
                 console.log("ERROR", err)
@@ -173,10 +176,10 @@ export class PrenominaComponent implements OnInit {
               })
   }
 
-  getLogs( nominaId ){
+  getLogs( ){
     this.loading['logs'] = true
 
-    this._api.restfulGet( nominaId, 'Prenomina/logs')
+    this._api.restfulPut( this.params, 'Prenomina/logs')
               .subscribe( res => {
 
                 this.loading['logs'] = false
@@ -184,7 +187,7 @@ export class PrenominaComponent implements OnInit {
                 this.dataLogs = res.data
                 console.log(this.dataLogs)
 
-                this.getAusentismos( nominaId )
+                this.getAusentismos( )
 
               }, err => {
                 console.log("ERROR", err)
@@ -198,17 +201,17 @@ export class PrenominaComponent implements OnInit {
               })
   }
 
-  getAusentismos( nominaId ){
+  getAusentismos( ){
     this.loading['ausentismos'] = true
 
-    this._api.restfulGet( nominaId, 'Prenomina/ausentismos')
+    this._api.restfulPut( this.params, 'Prenomina/ausentismos')
               .subscribe( res => {
 
                 this.loading['ausentismos'] = false
 
                 this.dataAusentismos = res.data
 
-                this.getCxc(nominaId)
+                this.getCxc()
 
 
               }, err => {
@@ -223,11 +226,11 @@ export class PrenominaComponent implements OnInit {
               })
   }
 
-  getCxc( nominaId ){
+  getCxc( ){
     this.loading['cxc'] = true
     this.prenomCxc = {}
 
-    this._api.restfulGet( nominaId, 'Prenomina/cxc')
+    this._api.restfulPut( this.params, 'Prenomina/cxc')
               .subscribe( res => {
 
                 this.loading['cxc'] = false
@@ -735,6 +738,7 @@ export class PrenominaComponent implements OnInit {
 
               this.listCortesFlag = true
               this.listCortes = res.data
+              this.opsList = res.ops
 
 
             }, err => {
@@ -749,8 +753,8 @@ export class PrenominaComponent implements OnInit {
             })
   }
 
-  selectedCorte( event ){
-    this.getSchedules( event )
+  selectedCorte(){
+    this.getSchedules()
   }
 
   printDates( item ){

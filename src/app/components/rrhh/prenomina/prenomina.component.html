@@ -17,13 +17,29 @@
         </div>
       </div>
       <div class="container">
-        <p *ngIf="!listCortesFlag">Obteniendo fechas de cortes... <i class="fas fa-spinner fa-pulse"></i></p>
-        <select class="custom-select" *ngIf="listCortesFlag" (change)="selectedCorte( $event.target.value )">
-          <option value="">Selecciona el corte a mostrar</option>
-          <option [value]="item.id" *ngFor="let item of listCortes">
-            {{ item.name }}
-          </option>
-        </select>
+        <div class="row">
+          <div class="col-md-5 col-12">
+            <p *ngIf="!listCortesFlag">Obteniendo fechas de cortes... <i class="fas fa-spinner fa-pulse"></i></p>
+            <select class="custom-select" *ngIf="listCortesFlag" [(ngModel)]="params['corte']">
+              <option value="">Selecciona el corte a mostrar</option>
+              <option [value]="item.id" *ngFor="let item of listCortes">
+                {{ item.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-5 col-12">
+            <p *ngIf="!listCortesFlag">Obteniendo operación... <i class="fas fa-spinner fa-pulse"></i></p>
+            <select class="custom-select" *ngIf="listCortesFlag" [(ngModel)]="params['op']">
+              <option value="">Selecciona la operación a mostrar</option>
+              <option [value]="item.id" *ngFor="let item of opsList | orderBy: 'Operacion'">
+                {{ item.Operacion }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-2 col-12">
+            <button type="button" class="btn btn-success" (click)="selectedCorte( $event.target.value )">Consultar</button>
+          </div>
+        </div>
         <div class="d-flex justify-content-start align-items-center">
           <div class="p-2" *ngFor="let item of loading | keys">
             <button type="button" class="btn btn-sm" [ngClass]="{'btn-info': loading[item], 'btn-success': !loading[item]}">{{ item }} <span *ngIf="!loading[item]"><i class="fas fa-check"></i></span><span *ngIf="loading[item]"><i class="fas fa-spinner fa-pulse"></i></span></button>

@@ -117,9 +117,9 @@
           <span
             placement="bottom" ngbTooltip="{{ xLy | number:'.0-2' }} {{ xUnit }}"
             class="badge badge-pill text-center ml-1"
-            [ngClass]="compare( int, xLy, 'class' )"
+            [ngClass]="compare( xint, xLy, 'class' )"
             [style.width.px]="55">
-              <small>ly: {{ compare( int, xLy, '%' ) | number:'.0-0' }}%</small>
+              <small>ly: {{ compare( xint, xLy, '%' ) | number:'.0-0' }}%</small>
           </span>
         </div>
 

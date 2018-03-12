@@ -186,8 +186,8 @@ export class CallsProcesedComponent implements OnInit {
 
   getInfo( asesor, param ){
 
-    if( this.callsAgent && this.callsAgent[asesor] ){
-      return this.callsAgent[asesor][param];
+    if( asesor ){
+      return asesor[param];
     }
 
     // for( let i in this.calls ){

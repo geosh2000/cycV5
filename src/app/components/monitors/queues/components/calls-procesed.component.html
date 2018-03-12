@@ -176,8 +176,8 @@
 
                       <!-- FLAG FOR REDUCED DISPLAY -->
                       <div class="p-0" *ngIf="!detailDisplay &&
-                      ( (getInfo( orderedDeps[dep][agent]['code'], 'caller' ) && getDuration( getInfo( orderedDeps[dep][agent]['code'], 'answered' ), 's' ) > 550) || (!getInfo( orderedDeps[dep][agent]['code'], 'caller' ) && getDuration( getPause( orderedDeps[dep][agent]['code'], 'time' ), 's', true ) > pauseLimits[getPause( orderedDeps[dep][agent]['code'], 'pause' )]) )">
-                      <small *ngIf="getInfo( orderedDeps[dep][agent]['code'], 'caller' ) && getDuration( getInfo( orderedDeps[dep][agent]['code'], 'answered' ), 's' ) > 550">
+                      ( (getInfo( orderedDeps[dep][agent]['code'], 'caller' ) && getDuration( getInfo( orderedDeps[dep][agent]['code'], 'c_answered' ), 's' ) > 550) || (!getInfo( orderedDeps[dep][agent]['code'], 'caller' ) && getDuration( getPause( orderedDeps[dep][agent]['code'], 'time' ), 's', true ) > pauseLimits[getPause( orderedDeps[dep][agent]['code'], 'pause' )]) )">
+                      <small *ngIf="getInfo( orderedDeps[dep][agent]['code'], 'c_answered' )!= '0' && (getInfo( orderedDeps[dep][agent]['code'], 'caller' ) && getDuration( getInfo( orderedDeps[dep][agent]['code'], 'c_answered' ), 's' ) > 550)">
                         <span style="font-size:smaller" class="badge badge-danger badge-pill animated flash infinite mr-2">AHT</span>
                       </small>
                       <small *ngIf="!getInfo( orderedDeps[dep][agent]['code'], 'caller' ) && getDuration( getPause( orderedDeps[dep][agent]['code'], 'time' ), 's', true ) > pauseLimits[getPause( orderedDeps[dep][agent]['code'], 'pause' )]">
@@ -212,12 +212,12 @@
                       <!-- LLAMANTE -->
                       <div class="d-flex justify-content-between align-items-center pt-2" style="font-size: smaller">
                         <span class="text-white">{{ getInfo( orderedDeps[dep][agent]['code'], 'caller' ) }}</span>
-                        <ng-container *ngIf="getInfo( orderedDeps[dep][agent]['code'], 'answered' ) != '0'">
-                          <span class="badge badge-danger badge-pill animated flash infinite" *ngIf="getDuration( getInfo( orderedDeps[dep][agent]['code'], 'answered' ), 's' ) > 550">AHT</span>
-                          <span class="badge badge-primary badge-pill border border-info" [style.width.px]="55">{{ getDuration( getInfo( orderedDeps[dep][agent]['code'], 'answered' ) ) }}</span>
+                        <ng-container *ngIf="getInfo( orderedDeps[dep][agent]['code'], 'c_answered' ) != '0'">
+                          <span class="badge badge-danger badge-pill animated flash infinite" *ngIf="getInfo( orderedDeps[dep][agent]['code'], 'c_answered' ) != '0' && (getDuration( getInfo( orderedDeps[dep][agent]['code'], 'c_answered' ), 's' ) > 550)">AHT</span>
+                          <span class="badge badge-primary badge-pill border border-info" [style.width.px]="55">{{ getDuration( getInfo( orderedDeps[dep][agent]['code'], 'c_answered' ) ) }}</span>
                         </ng-container>
-                        <ng-container *ngIf="getInfo( orderedDeps[dep][agent]['code'], 'answered' ) == '0'">
-                          <span *ngIf="getDuration( getInfo( orderedDeps[dep][agent]['code'], 'answered' ), 's' ) > 550"><i class="fa fa-fw fa-spinner fa-pulse text-warning"></i></span>
+                        <ng-container *ngIf="getInfo( orderedDeps[dep][agent]['code'], 'c_answered' ) == '0'">
+                          <span><i class="fa fa-fw fa-spinner fa-pulse text-warning"></i></span>
                           <span class="badge badge-primary badge-pill border border-info" [style.width.px]="55">{{ getDuration( getInfo( orderedDeps[dep][agent]['code'], 'entered' ) ) }}</span>
                         </ng-container>
                       </div>
