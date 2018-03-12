@@ -42,7 +42,7 @@
     <!-- RESULTADOS -->
     <ng-container *ngFor="let dep of bonosData | keys">
         <ngb-tab>
-          <ng-template ngbTabTitle>{{ dep }}</ng-template>
+          <ng-template ngbTabTitle>{{ depsData[dep] }}</ng-template>
           <ng-template ngbTabContent>
             <ng-container *ngFor="let puesto of bonosData[dep] | keys">
 

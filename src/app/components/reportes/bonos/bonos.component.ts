@@ -33,6 +33,7 @@ export class BonosComponent implements OnInit {
   detalleData:any
   paramsData:any
   metasData:any
+  depsData:any
 
   total:Object = {}
 
@@ -80,6 +81,7 @@ export class BonosComponent implements OnInit {
               this.detalleData = res.data['detalle']
               this.paramsData = res.params['params']
               this.metasData = res.params['metas']
+              this.depsData = res.params['deps']
 
               this.sumAll(res.data['resultado'])
 
