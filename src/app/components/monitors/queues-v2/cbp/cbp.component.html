@@ -220,7 +220,7 @@
 
                       <!-- LLAMANTE -->
                       <div class="d-flex align-items-center pt-2" [ngClass]="{'justify-content-between': !monitor, 'justify-content-center p-0 m-0': monitor}" style="font-size: smaller">
-                        <span class="text-white" *ngIf="!monitor">{{ agent['c_caller'] }}</span>
+                        <span class="text-white" *ngIf="!monitor">{{ agent['c_caller'] == '' ? agent['c_dnis'] + ':' : agent['c_caller'] }}</span>
                         <ng-container *ngIf="agent['c_answered'] != '0'">
                           <span *ngIf="!monitor" class="badge badge-primary badge-pill border border-info" [style.width.px]="55">{{ getDuration( agent['c_answered'] ) }}</span>
                           <h6 class="m-0" style="width: 100%" *ngIf="monitor">
@@ -230,7 +230,7 @@
                                 <small class="ml-1" *ngIf="agent['c_answered'] != 0 && getDuration( agent['c_answered'], 's' ) > 550">
                                   <span style="font-size:smaller" class="badge badge-danger badge-pill animated flash infinite mr-2">AHT</span>
                                 </small><br>
-                                <small>{{ agent['c_caller'] }}</small>
+                                <small>{{ agent['c_caller'] == '' ? agent['c_dnis'] + ':' : agent['c_dnis'] + ': ' + agent['c_caller'] }}</small>
                               </span>
                             </span>
                           </h6>
@@ -240,7 +240,7 @@
                           <h6 class="m-0" style="width: 100%" *ngIf="monitor">
                             <span style="width: 100%" class="badge badge-primary badge-pill border border-info">
                               <span>
-                                {{ getDuration( agent['c_entered'] ) }}<br><small>{{ agent['c_caller'] }}</small>
+                                {{ getDuration( agent['c_entered'] ) }}<br><small>{{ agent['c_caller'] == '' ? agent['c_dnis'] + ':' : agent['c_caller'] }}</small>
                               </span>
                             </span>
                           </h6>
@@ -316,7 +316,7 @@
 
                   <!-- LLAMANTE -->
                   <div class="d-flex justify-content-between align-items-center pt-2" style="font-size: smaller">
-                    <span class="text-white">{{ agent['c_caller'] }}</span>
+                    <span class="text-white">{{ agent['c_caller'] == '' ? agent['c_dnis'] + ':' : agent['c_caller'] }}</span>
                     <ng-container *ngIf="agent['c_answered'] != '0'">
                       <span class="badge badge-danger badge-pill animated flash infinite" *ngIf="getDuration( agent['c_answered'] , 's' ) > 550">AHT</span>
                       <span class="badge badge-primary badge-pill border border-info" [style.width.px]="55">{{ getDuration( agent['c_answered'] ) }}</span>

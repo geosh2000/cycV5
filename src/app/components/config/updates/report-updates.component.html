@@ -2,6 +2,7 @@
   <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
 <div class="container-fluid" *ngIf="showContents">
+  <app-upload-files (loadResult)="uploaded($event)"></app-upload-files>
   <div class="container-fluid">
     <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
       <div class="container">
@@ -84,7 +85,6 @@
                   <span *ngIf="(upl['ans'] != '' && upl['unans'] != '') && processLoading">Procesando... <i class="fas fa-spinner fa-pulse"></i></span>
                 </button>
               </p>
-            <app-upload-files (loadResult)="uploaded($event)"></app-upload-files>
           </div>
         </div>
       </div>
