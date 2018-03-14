@@ -47,6 +47,7 @@ import { CambioLocalizadorAsesorComponent } from './components/config/cambio-loc
 import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.component';
 import { AsesoresFotosComponent } from './components/config/asesores-fotos/asesores-fotos.component';
 import { UploadCalidadComponent } from './components/config/upload-calidad/upload-calidad.component';
+import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
 
 
 const APP_ROUTES: Routes = [
@@ -91,6 +92,7 @@ const APP_ROUTES: Routes = [
   { path: 'mp/ventaPorCanal', component: VentaPorCanalComponent },
   { path: 'calidad/aleatoriedad', component: AleatoriedadComponent },
   { path: 'bonosCUN', component: BonosComponent },
+  { path: 'tablaf', component: TablafComponent },
 
   //Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },

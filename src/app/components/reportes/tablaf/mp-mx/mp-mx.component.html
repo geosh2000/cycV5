@@ -1,0 +1,71 @@
+<h1 *ngIf="loading['data']">Loading <i class="fas fa-spinner fa-pulse"></i></h1>
+<div class="container-fluid" *ngIf="dataTable">
+
+  <!-- TABS -->
+  <ul class="nav nav-tabs" id="Tab" role="tablist">
+    <li class="nav-item" *ngFor="let skills of dataTable | orderBy: 'dep'">
+      <a class="nav-link" [ngClass]="{'active': skills['dep']=='Ventas MP' || skills['dep']=='Ventas MT - IN'}" [id]="skills['dep']+'-tab'" data-toggle="tab" [href]="'#'+skills['dep']" role="tab" [attr.aria-controls]="skills['dep']" aria-selected="false">{{ skills['dep'] }}</a>
+    </li>
+  </ul>
+
+  <!-- CONTAINERS -->
+  <div class="tab-content" id="TabContent">
+    <div class="tab-pane fade" [ngClass]="{'show active': skills['dep']=='Ventas MP' || skills['dep']=='Ventas MT - IN'}" [id]="skills['dep']" role="tabpanel" [attr.aria-labelledby]="skills['dep']" *ngFor="let skills of dataTable | orderBy: 'dep'">
+      <br>
+
+      <!-- TABS -->
+      <ul class="nav nav-tabs" id="TabSub" role="tablist">
+        <ng-container *ngFor="let group of skills['data'] | orderBy: 'group'">
+          <li class="nav-item" *ngIf="skills['data'].length > 2 || group['group']=='all'">
+            <a class="nav-link" [ngClass]="{'active': group['group']=='all'}" [id]="'sub-'+skills['dep']+'-'+group['group']+'-tab'" data-toggle="tab" [href]="'#sub-'+skills['dep']+'-'+group['group']" role="tab" [attr.aria-controls]="'sub-'+skills['dep']+'-'+group['group']" aria-selected="false">{{ group['group'] }}</a>
+          </li>
+        </ng-container>
+      </ul>
+
+      <!-- CONTAINERS -->
+      <div class="tab-content" id="TabContentSub">
+        <ng-container *ngFor="let group of skills['data'] | orderBy: 'group'">
+
+          <div style="overflow-x: auto" class="tab-pane fade" [ngClass]="{'show active': group['group']=='all'}" [id]="'sub-'+skills['dep']+'-'+group['group']" role="tabpanel" [attr.aria-labelledby]="'sub-'+skills['dep']+'-'+group['group']">
+
+            <table style="font-size: smaller" class='table table-sm table-bordered table-striped'>
+              <thead class="thead-light">
+                <tr>
+                  <th *ngFor="let item of fields"  class='text-center'>{{ item['name'] }}</th>
+                </tr>
+              </thead>
+              <thead>
+                <ng-container *ngFor="let date of group['data'] | orderBy: 'date'">
+                  <tr *ngIf="date['date'] != 'Total'">
+                    <td *ngFor="let item of fields" class='text-center'>
+                      <span [ngSwitch]="item['tipo']">
+                        <span *ngSwitchCase="'fecha'">{{ date['date'] }}</span>
+                        <span *ngSwitchCase="'monto'">{{ date['data'][item['field']] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                        <span *ngSwitchCase="'perc'">{{ (date['data'][item['field']] * 100) | number:'.0-2' }}%</span>
+                        <span *ngSwitchCase="'numero'">{{ date['data'][item['field']] | number:'.0-2' }}</span>
+                        <span *ngSwitchCase="'texto'">{{ date['data'][item['field']] }}</span>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class='table-primary' *ngIf="date['date'] == 'Total'">
+                    <th *ngFor="let item of fields"  class='text-center'>
+                      <span [ngSwitch]="item['tipo']">
+                        <span *ngSwitchCase="'fecha'">{{ date['date'] }}</span>
+                        <span *ngSwitchCase="'monto'">{{ date['data'][item['field']] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                        <span *ngSwitchCase="'perc'">{{ (date['data'][item['field']] * 100) | number:'.0-2' }}%</span>
+                        <span *ngSwitchCase="'numero'">{{ date['data'][item['field']] | number:'.0-2' }}</span>
+                        <span *ngSwitchCase="'texto'"></span>
+                      </span>
+                    </th>
+                  </tr>
+                </ng-container>
+              </thead>
+            </table>
+
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+  </div>
+</div>

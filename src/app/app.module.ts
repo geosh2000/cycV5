@@ -136,6 +136,8 @@ import { CountdownMetaComponent } from './addon/countdown-meta/countdown-meta.co
 import { CsvComponent } from './addon/upload/csv/csv.component';
 import { UploadCalidadComponent } from './components/config/upload-calidad/upload-calidad.component';
 import { BonosComponent } from './components/reportes/bonos/bonos.component';
+import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
+import { MpMxComponent } from './components/reportes/tablaf/mp-mx/mp-mx.component';
 
 
 declare let jQuery : Object;
@@ -261,6 +263,8 @@ registerLocaleData(localeEsMX)
     CsvComponent,
     UploadCalidadComponent,
     BonosComponent,
+    TablafComponent,
+    MpMxComponent,
   ],
   imports: [
     BrowserModule,

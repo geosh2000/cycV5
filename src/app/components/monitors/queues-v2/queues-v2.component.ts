@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -54,6 +55,7 @@ export class QueuesV2Component implements OnInit {
   count:number = 5
 
   constructor( public _api: ApiService,
+                private titleService: Title,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
                 private _global: GlobalServicesService,
@@ -162,7 +164,7 @@ export class QueuesV2Component implements OnInit {
   }
 
   ngOnInit() {
-
+    this.titleService.setTitle('CyC - Call Statistics');
   }
 
 

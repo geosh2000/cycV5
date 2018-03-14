@@ -8,6 +8,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Módulo Bonos
 * Implementación de bonos automatizados
 
+### Tabla F
+* Tabla F para MP y MT
+
 ## v2.2.3
 
 ### General
