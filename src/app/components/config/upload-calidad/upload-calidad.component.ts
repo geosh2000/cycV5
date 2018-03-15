@@ -114,6 +114,8 @@ export class UploadCalidadComponent implements OnInit {
         id    : item['id'],
         smd_id: item['identificador de empleado'].toLowerCase(),
         fecha : moment(item['fecha de evaluacion'], 'DD-MM-YYYY HH:mm').format('YYYY-MM-DD HH:mm:ss'),
+        mes   : this.pec['month'],
+        anio  : this.pec['year'],
         fcr   : item['resuelve la solicitud (euce)'].match(/si/gi) ? 1 : 0,
         bi    : item['subatributos_1'].match(/^~~no corresponde al rac/gi) ? 0 : 1
       }
