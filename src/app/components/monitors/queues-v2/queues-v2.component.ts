@@ -164,7 +164,7 @@ export class QueuesV2Component implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('CyC - Call Statistics');
+    this.titleService.setTitle('CyC - Queue Monitor');
   }
 
 

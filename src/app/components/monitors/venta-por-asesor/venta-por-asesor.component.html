@@ -35,7 +35,7 @@
 </div>
 
 <div class="container" *ngIf="dataAsesor && !screen">
-  <app-card-asesor-estadistica *ngFor="let item of dataAsesor | keys" [asesor]="dataAsesor[item]" [metas]="dataMetas"></app-card-asesor-estadistica>
+  <app-card-asesor-estadistica *ngFor="let item of dataAsesor | keys" [asesor]="dataAsesor[item]" [dept]="dep" [metas]="dataMetas"></app-card-asesor-estadistica>
 </div>
 
 <div class="container" *ngIf="dataAsesor && screen">
@@ -43,7 +43,7 @@
     <ng-container *ngFor="let s of slides">
       <ng-template ngbSlide *ngIf="s < numAsesores">
         <ng-container *ngFor="let item of dataAsesor | keys; index as i">
-          <app-card-asesor-estadistica  [asesor]="dataAsesor[item]" [metas]="dataMetas" *ngIf="i >= s && i < s+4"></app-card-asesor-estadistica>
+          <app-card-asesor-estadistica  [asesor]="dataAsesor[item]" [metas]="dataMetas" [dept]="dep" *ngIf="i >= s && i < s+4"></app-card-asesor-estadistica>
         </ng-container>
       </ng-template>
     </ng-container>

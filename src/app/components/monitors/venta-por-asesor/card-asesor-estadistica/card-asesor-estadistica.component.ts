@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewContainerRef, Input, SimpleChanges } from '@angular/core';
+import { Component, AfterViewInit, ViewContainerRef, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import * as moment from 'moment-timezone';
 
@@ -11,10 +11,12 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
 
   @Input() asesor:any
   @Input() metas:any
+  @Input() dept:any
 
   chart:Object = {}
   options:Object = {}
 
+  depto:any
   asesorImage = "assets/img/no-image.png"
   dataDisplay:Object = {
     nombre: '',
@@ -25,22 +27,30 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
       hotel   : 0,
       paquete : 0,
       vuelo   : 0,
+      tour    :0,
+      transfer: 0,
       otros   : 0,
       rsvas   : 0,
       llamadas: 0,
       llamadas_all : 0,
-      tt      : 0
+      tt      : 0,
+      ttOut   :0,
+      llamadasOut : 0
     },
     hoy: {
       total   : 0,
       hotel   : 0,
       paquete : 0,
       vuelo   : 0,
+      tour    : 0,
+      transfer: 0,
       otros   : 0,
       rsvas   : 0,
       llamadas: 0,
       llamadas_all : 0,
-      tt      : 0
+      tt      : 0,
+      ttOut   :0,
+      llamadasOut : 0
     }
   }
 
@@ -118,7 +128,9 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
 
     this.buildData( () => {
       // console.log(this.chart)
-
+      this.depto = this.dept
+      console.log(this.dept)
+      console.log(this.metas)
       let mensual = this.dataDisplay['mensual']
       let hoy = this.dataDisplay['hoy']
 
@@ -127,15 +139,15 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
 
       let mes = [
         {y: (mensual.hotel / totalMes * 100),   name: 'Hotel', sliced: true, select: true },
-        {y: (mensual.paquete / totalMes * 100), name: 'Paquete' },
-        {y: (mensual.vuelo / totalMes * 100),  name: 'Vuelos' },
+        {y: ((this.dept != 50 ? mensual.paquete : mensual.tour) / totalMes * 100),  name: this.dept != 50 ? 'Paquete' : 'Tour' },
+        {y: ((this.dept != 50 ? mensual.vuelo : mensual.transfer) / totalMes * 100),  name: this.dept != 50 ? 'Vuelo' : 'Transfer' },
         {y: (mensual.otros / totalMes * 100),   name: 'Otros' }
       ]
 
       let td = [
         {y: (hoy.hotel / totalHoy * 100),   name: 'Hotel', sliced: true, select: true },
-        {y: (hoy.paquete / totalHoy * 100), name: 'Paquete' },
-        {y: (hoy.vuelo / totalHoy * 100),  name: 'Vuelos' },
+        {y: ((this.dept != 50 ? hoy.paquete : hoy.tour) / totalHoy * 100),  name: this.dept != 50 ? 'Paquete' : 'Tour' },
+        {y: ((this.dept != 50 ? hoy.vuelo : hoy.transfer) / totalHoy * 100),  name: this.dept != 50 ? 'Vuelo' : 'Transfer' },
         {y: (hoy.otros / totalHoy * 100),   name: 'Otros' }
       ]
 
@@ -167,22 +179,30 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
           hotel   : 0,
           paquete : 0,
           vuelo   : 0,
+          tour    : 0,
+          transfer: 0,
           otros   : 0,
           rsvas   : 0,
           llamadas: 0,
           llamadas_all : 0,
-          tt      : 0
+          tt      : 0,
+          ttOut   : 0,
+          llamadasOut : 0
         },
         hoy: {
           total   : 0,
           hotel   : 0,
           paquete : 0,
           vuelo   : 0,
+          tour    : 0,
+          transfer: 0,
           otros   : 0,
           rsvas   : 0,
           llamadas: 0,
           llamadas_all : 0,
-          tt      : 0
+          tt      : 0,
+          ttOut   : 0,
+          llamadasOut : 0
         }
       }
 
@@ -193,11 +213,15 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
           data['hoy'].hotel     += parseFloat(item.monto_hotel)
           data['hoy'].paquete   += parseFloat(item.monto_paquete)
           data['hoy'].vuelo     += parseFloat(item.monto_vuelo)
+          data['hoy'].tour     += parseFloat(item.monto_tours)
+          data['hoy'].transfer     += parseFloat(item.monto_transfer)
           data['hoy'].otros     += parseFloat(item.monto_otros)
           data['hoy'].rsvas     += parseFloat(item.rsvas_total)
-          data['hoy'].llamadas  += (parseInt(item.llamadas_total) - parseInt(item.llamadas_xfered))
+          data['hoy'].llamadas  += parseInt(item.llamadas_total)
           data['hoy'].llamadas_all  += parseInt(item.llamadas_total)
           data['hoy'].tt        += parseInt(item.talking_time)
+          data['hoy'].ttOut        += parseInt(item.talking_timeOut)
+          data['hoy'].llamadasOut        += parseInt(item.llamadasOut)
         }
 
         data.nombre = item.nombre
@@ -207,11 +231,15 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
         data['mensual'].hotel     += parseFloat(item.monto_hotel)
         data['mensual'].paquete   += parseFloat(item.monto_paquete)
         data['mensual'].vuelo     += parseFloat(item.monto_vuelo)
+        data['mensual'].tour     += parseFloat(item.monto_tours)
+        data['mensual'].transfer     += parseFloat(item.monto_transfer)
         data['mensual'].otros     += parseFloat(item.monto_otros)
         data['mensual'].rsvas     += parseFloat(item.rsvas_total)
-        data['mensual'].llamadas  += (parseInt(item.llamadas_total) - parseInt(item.llamadas_xfered))
+        data['mensual'].llamadas  += parseInt(item.llamadas_total)
         data['mensual'].llamadas_all  += parseInt(item.llamadas_total)
         data['mensual'].tt        += parseInt(item.talking_time)
+        data['mensual'].ttOut        += parseInt(item.talking_timeOut)
+        data['mensual'].llamadasOut        += parseInt(item.llamadasOut)
 
       }
 

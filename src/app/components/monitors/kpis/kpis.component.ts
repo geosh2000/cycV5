@@ -242,15 +242,7 @@ export class KpisComponent implements OnInit {
             this.getCalls( 3, this.dateSelected, 'Afiliados', () => {
               this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
                 this.getCalls( 3, moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
-                  this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Afiliados', () => {
-                    this.getCalls( 3, this.dateSelected, 'Intertours', () => {
-                      this.getCalls( 3, moment(this.dateSelected).subtract(1, 'days').format('YYYY-MM-DD'), 'Intertours', () => {
-                        this.getCalls( 3, moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD'), 'Intertours', () => {
-                          this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Intertours' )
-                        } )
-                      } )
-                    } )
-                  })
+                  this.getCalls( 3, moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'Afiliados' )
                 } )
               } )
             } )

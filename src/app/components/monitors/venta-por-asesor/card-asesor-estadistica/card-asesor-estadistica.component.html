@@ -45,18 +45,20 @@
                   <!-- PAQUETE -->
                   <li class="list-group-item p-1 d-flex justify-content-start">
                     <span>
-                      <span class="fa-layers fa-fw">
+                      <span class="fa-layers fa-fw" *ngIf="depto != 50">
                         <i class="far fa-building fa-inverse" style="color: #434347" data-fa-transform="shrink-5 up-4 left-4"></i>
                         <i class="fas fa-plane fa-inverse" style="color: #434347" data-fa-transform="rotate--45 shrink-5 down-4 right-4"></i>
                       </span>
+                      <span *ngIf="depto == 50"><i class="fas fa-bicycle fa-fw" style="color: #434347"></i></span>
                     </span>
-                    <span class='ml-auto'>{{ dataDisplay['mensual']['paquete'] | currency:'MXN':'.2-2' }}</span>
+                    <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['mensual']['paquete'] : dataDisplay['mensual']['tour']) | currency:'MXN':'.2-2' }}</span>
                   </li>
 
                   <!-- VUELO -->
                   <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
-                    <span class='ml-auto'>{{ dataDisplay['mensual']['vuelo'] | currency:'MXN':'.2-2' }}</span>
+                    <span *ngIf="depto != 50"><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
+                    <span *ngIf="depto == 50"><i class="fas fa-truck fa-fw" style="color: #8fed7c"></i></span>
+                    <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['mensual']['vuelo'] : dataDisplay['mensual']['transfer']) | currency:'MXN':'.2-2' }}</span>
                   </li>
 
                   <!-- OTROS -->
@@ -74,10 +76,11 @@
               </div>
             </div>
             <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h3>FC {{ (dataDisplay['mensual']['rsvas'] / dataDisplay['mensual']['llamadas'] * 100) | number:'.2-2' }} %</h3>
+              <h3 *ngIf="depto != 5 && depto != 50 && depto != 52">FC {{ (dataDisplay['mensual']['rsvas'] / dataDisplay['mensual']['llamadas'] * 100) | number:'.2-2' }} %</h3>
+              <h3 *ngIf="depto == 5 || depto == 50 || depto == 52">Calls {{ dataDisplay['mensual']['llamadasOut'] }}</h3>
             </div>
             <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h3>AHT {{ (dataDisplay['mensual']['tt'] / dataDisplay['mensual']['llamadas_all']) | number:'.0-0' }} s.</h3>
+              <h3>AHT {{ ((depto == 5 || depto == 50 || depto == 52 ? dataDisplay['mensual']['ttOut'] : dataDisplay['mensual']['tt']) / (depto == 5 || depto == 50 || depto == 52 ? dataDisplay['mensual']['llamadasOut'] : dataDisplay['mensual']['llamadas_all'])) | number:'.0-0' }} s.</h3>
             </div>
           </div>
           <div class="col-lg-6">
@@ -101,18 +104,20 @@
                   <!-- PAQUETE -->
                   <li class="list-group-item p-1 d-flex justify-content-start">
                     <span>
-                      <span class="fa-layers fa-fw">
+                      <span class="fa-layers fa-fw" *ngIf="depto != 50">
                         <i class="far fa-building fa-inverse" style="color: #434347" data-fa-transform="shrink-5 up-4 left-4"></i>
                         <i class="fas fa-plane fa-inverse" style="color: #434347" data-fa-transform="rotate--45 shrink-5 down-4 right-4"></i>
                       </span>
+                      <span *ngIf="depto == 50"><i class="fas fa-bicycle fa-fw" style="color: #434347"></i></span>
                     </span>
-                    <span class='ml-auto'>{{ dataDisplay['hoy']['paquete'] | currency:'MXN':'.2-2' }}</span>
+                    <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['hoy']['paquete'] : dataDisplay['hoy']['tour']) | currency:'MXN':'.2-2' }}</span>
                   </li>
 
                   <!-- VUELO -->
                   <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
-                    <span class='ml-auto'>{{ dataDisplay['hoy']['vuelo'] | currency:'MXN':'.2-2' }}</span>
+                    <span *ngIf="depto != 50"><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
+                    <span *ngIf="depto == 50"><i class="fas fa-truck fa-fw" style="color: #8fed7c"></i></span>
+                    <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['hoy']['vuelo'] : dataDisplay['hoy']['transfer']) | currency:'MXN':'.2-2' }}</span>
                   </li>
 
                   <!-- OTROS -->
@@ -131,10 +136,11 @@
               </div>
             </div>
             <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h2>FC {{ (dataDisplay['hoy']['rsvas'] / dataDisplay['hoy']['llamadas'] * 100) | number:'.2-2' }} %</h2>
+              <h3 *ngIf="depto != 5 && depto != 50 && depto != 52">FC {{ (dataDisplay['hoy']['rsvas'] / dataDisplay['hoy']['llamadas'] * 100) | number:'.2-2' }} %</h3>
+              <h3 *ngIf="depto == 5 || depto == 50 || depto == 52">Calls {{ dataDisplay['hoy']['llamadasOut'] }}</h3>
             </div>
             <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h2>AHT {{ (dataDisplay['hoy']['tt'] / dataDisplay['hoy']['llamadas_all']) | number:'.0-0' }} s.</h2>
+              <h3>AHT {{ ((depto == 5 || depto == 50 || depto == 52 ? dataDisplay['hoy']['ttOut'] : dataDisplay['hoy']['tt']) / (depto == 5 || depto == 50 || depto == 52 ? dataDisplay['hoy']['llamadasOut'] : dataDisplay['hoy']['llamadas_all'])) | number:'.0-0' }} s.</h3>
             </div>
           </div>
         </div>

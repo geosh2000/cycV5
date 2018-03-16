@@ -27,6 +27,8 @@ export class MpMxComponent implements OnInit {
     { name: 'Depto',      field: 'Dep',         tipo: 'texto' },
     { name: 'Monto',      field: 'monto',       tipo: 'monto' },
     { name: 'Monto Hotel',field: 'monto_hotel', tipo: 'monto' },
+    { name: 'Monto Tour',field: 'monto_tour', tipo: 'monto' },
+    { name: 'Monto Transfer',field: 'monto_transfer', tipo: 'monto' },
     { name: 'Margen',     field: 'margen',      tipo: 'monto' },
     { name: 'RN',         field: 'RN',          tipo: 'numero' },
     { name: 'Locs In',    field: 'LocsIn',      tipo: 'numero' },
@@ -115,7 +117,7 @@ export class MpMxComponent implements OnInit {
         books[titleOK]=data
       }
     }
-    
+
     this.toXls( books, title )
   }
 
