@@ -24,6 +24,7 @@ export class JornadasComponent implements OnInit {
   @Input() asesor:any
   @Input() nombre:any
   @Output() exception = new EventEmitter<any>()
+  @Output() saveHx = new EventEmitter<any>()
 
   constructor() { }
 
@@ -92,6 +93,10 @@ export class JornadasComponent implements OnInit {
       date    : this.date,
       showAll : false
     })
+  }
+
+  hxSave(event){
+    this.saveHx.emit( event )
   }
 
 }

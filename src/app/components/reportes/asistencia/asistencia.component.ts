@@ -59,9 +59,11 @@ export class AsistenciaComponent implements OnInit {
     ch_jornada:   true,
     ch_comida:    false,
     ch_excep:     true,
+    ch_excep_p:    false,
     ch_ret:       false,
     ch_sa:        false,
     ch_x:        false,
+    ch_x_p:        false,
     sh_p:        false,
     sh_d:        false
   }
@@ -592,6 +594,14 @@ export class AsistenciaComponent implements OnInit {
               .replace(/ó/gm,'o')
               .replace(/ú/gm,'u')
               .replace(/ñ/gm,'n')
+  }
+
+  hxSave( event ){
+    if( event.status ){
+      this.toastr.success(`${ event.msg }`, 'Success!');
+    }else{
+      this.toastr.error(`${ event.msg }`, 'Error!');
+    }
   }
 
 }

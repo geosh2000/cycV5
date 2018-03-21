@@ -138,6 +138,7 @@ import { UploadCalidadComponent } from './components/config/upload-calidad/uploa
 import { BonosComponent } from './components/reportes/bonos/bonos.component';
 import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
 import { MpMxComponent } from './components/reportes/tablaf/mp-mx/mp-mx.component';
+import { ExtraSwitchComponent } from './addon/buttons/extra-switch/extra-switch.component';
 
 
 declare let jQuery : Object;
@@ -265,6 +266,7 @@ registerLocaleData(localeEsMX)
     BonosComponent,
     TablafComponent,
     MpMxComponent,
+    ExtraSwitchComponent,
   ],
   imports: [
     BrowserModule,

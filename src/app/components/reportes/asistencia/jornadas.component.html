@@ -133,6 +133,9 @@
       </button>
     </div>
   </div>
+  <div class='d-flex justify-content-center' *ngIf="showOpts['ch_x_p']">
+    <app-extra-switch [pago]="asistData['phx']" [id]="asistData['h_id']"  [fecha]="asistData['js']" [tipo]="'hx'" (save)="hxSave($event)"></app-extra-switch>
+  </div>
 
 </ng-container>
 
@@ -209,6 +212,9 @@
         </button>
         <app-asistencia-badge btnWidth=100 [dataAsesor]="asistData" [date]="date" *ngIf="!asistData['loading']"></app-asistencia-badge>
       </div>
+    </div>
+    <div class='d-flex justify-content-center' *ngIf="showOpts['ch_excep_p']">
+      <app-extra-switch [pago]="asistData['pdt']" [id]="asistData['ausentismoId']" [fecha]="asistData['js']" [code]="asistData['Code_aus']" [tipo]="'dt'" (save)="hxSave($event)"></app-extra-switch>
     </div>
   </ng-container>
   <ng-container *ngIf="!asistData">

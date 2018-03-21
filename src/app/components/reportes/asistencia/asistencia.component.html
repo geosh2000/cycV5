@@ -94,6 +94,17 @@
                   <small *ngIf="!tdInfo">Horas Extra</small>
                 </p>
               </div>
+              <div style="text-align: center" class="p-2" *ngIf="showOpts.ch_x">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='ch_x_p'
+                  [(ngModel)]="showOpts.ch_x_p"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="!tdInfo">Pago Extra</small>
+                </p>
+              </div>
             </div>
             <div class="col-lg">
               <div style="text-align: center" class="p-2">
@@ -107,7 +118,19 @@
                   <small *ngIf="!tdInfo">Excepciones</small>
                 </p>
               </div>
+              <div style="text-align: center" class="p-2" *ngIf="showOpts.ch_excep">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='ch_x_p'
+                  [(ngModel)]="showOpts.ch_excep_p"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="!tdInfo">Pago DT</small>
+                </p>
+              </div>
             </div>
+
             <div class="col-lg">
               <div style="text-align: center" class="p-2">
                 <ui-switch
@@ -187,6 +210,7 @@
                 [date]="date"
                 [asesor]="rac"
                 [nombre]="asistData[rac].Nombre"
+                (saveHx)="hxSave($event)"
                 [showOpts]="showOpts">
               </app-jornadas>
             </td>
