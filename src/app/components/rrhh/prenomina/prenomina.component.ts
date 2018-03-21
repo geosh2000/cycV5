@@ -37,6 +37,7 @@ export class PrenominaComponent implements OnInit {
   dataCxc:any
   prenomCxc:any
   dataAsesores:any
+  dataBonos:any
   dataShow:any
   dataPrenom:any
   built:any
@@ -210,6 +211,33 @@ export class PrenominaComponent implements OnInit {
                 this.loading['ausentismos'] = false
 
                 this.dataAusentismos = res.data
+                console.log(res.data)
+
+                this.getBonos()
+
+
+              }, err => {
+                console.log("ERROR", err)
+
+                this.loading['ausentismos'] = false
+
+                let error = err.json()
+                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                console.error(err.statusText, error.msg)
+
+              })
+  }
+
+  getBonos( ){
+    this.loading['bonos'] = true
+
+    this._api.restfulPut( this.params, 'Bonos/prenomina')
+              .subscribe( res => {
+
+                this.loading['bonos'] = false
+
+                this.dataBonos = res.data
+                console.log(res.data)
 
                 this.getCxc()
 
@@ -217,7 +245,7 @@ export class PrenominaComponent implements OnInit {
               }, err => {
                 console.log("ERROR", err)
 
-                this.loading['ausentismos'] = false
+                this.loading['bonos'] = false
 
                 let error = err.json()
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
@@ -342,6 +370,7 @@ export class PrenominaComponent implements OnInit {
 
       if( dataPrenom[item.asesor] ){
 
+        dataPrenom[item.asesor]['bono'] = this.dataBonos[item.asesor]
         dataPrenom[item.asesor]['hx'] += item['hx']
 
         if( dataPrenom[item.asesor][item.rcode] ){
@@ -481,7 +510,7 @@ export class PrenominaComponent implements OnInit {
       }
 
       if( result['code'] == 'DT' ){
-        if( !this.checkSA( data.js, data.je, data.logs.j.in, data.logs.j.out ) && !this.checkLength( data.js, data.je, data.logs.j.in, data.logs.j.out ) && data.logs.j.in != null ){
+        if( !this.checkSA( data.js, data.je, data.logs.j.in, data.logs.j.out ) && parseInt(this.dataAusentismos[data.Fecha][data.asesor].pdt) == 1 && !this.checkLength( data.js, data.je, data.logs.j.in, data.logs.j.out ) && data.logs.j.in != null ){
           result = {
             code: "DT",
             rcode: "DT",
@@ -712,6 +741,10 @@ export class PrenominaComponent implements OnInit {
   checkLengthHX( item ){
 
     let x1 = 0, x2 = 0
+
+    if(item.phx == 0){
+      return 0
+    }
 
     if( (item.x1s != item.x1e) && item.logs.x1.in != null ){
       x1 = moment(item.logs.x1.out).diff(moment(item.logs.x1.in), 'seconds')

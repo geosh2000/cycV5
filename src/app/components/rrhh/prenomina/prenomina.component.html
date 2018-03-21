@@ -61,6 +61,7 @@
             <th>Locs. Reservas Empleado</th>
             <th>CxC</th>
             <th>Locs. CxC</th>
+            <th>Incentivo</th>
           </tr>
         </thead>
         <tbody>
@@ -89,13 +90,13 @@
               </ng-container>
             </ng-container>
             <ng-template #noLog>
-              <td>NA</td>
               <td *ngFor="let header of tableHeaders">NA</td>
             </ng-template>
             <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['1'].monto : 0 ) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
             <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['1'].detail : '' ) }}</td>
             <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['0'].monto : 0 ) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
             <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['0'].detail : '' ) }}</td>
+            <td class="text-left">{{ ( (dataBonos[rac['asesor']] ? dataBonos[rac['asesor']] : 0) | currency:'MXN':'symbol-narrow':'.2-2' ) }}</td>
           </tr>
         </tbody>
       </table>
