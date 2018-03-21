@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from '../../../services/api.service';
@@ -35,6 +36,9 @@ export class BonosComponent implements OnInit {
   metasData:any
   depsData:any
 
+  paramsDataAsk:any
+  reload:Object = {}
+
   total:Object = {}
 
   parList = [1,2,3,4]
@@ -42,6 +46,7 @@ export class BonosComponent implements OnInit {
   constructor(
                 private _api:ApiService,
                 private _init:InitService,
+                private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastsManager,
                 public vcr: ViewContainerRef
@@ -68,6 +73,7 @@ export class BonosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.titleService.setTitle('CyC - Incentivos');
   }
 
   getBonos(){
@@ -82,6 +88,7 @@ export class BonosComponent implements OnInit {
               this.paramsData = res.params['params']
               this.metasData = res.params['metas']
               this.depsData = res.params['deps']
+              this.paramsDataAsk = res.params['searchedParams']
 
               this.sumAll(res.data['resultado'])
 
@@ -142,37 +149,43 @@ export class BonosComponent implements OnInit {
     this.total = {}
 
     for( let dep in data ){
-
+      this.total[dep] = {}
       if( this.paramsData[dep] ){
         for( let puesto in data[dep] ){
+          this.total[dep][puesto] = 0
           if( this.paramsData[dep][puesto] ){
 
             for( let asesor in data[dep][puesto] ){
-              if(this.bonosData[dep][puesto][asesor]['aplica'] != 0){
-                let monto = 0, red = 0
 
-                for( let item in this.bonosData[dep][puesto][asesor]['bono'] ){
-                  monto += this.bonosData[dep][puesto][asesor]['bono'][item]
-                }
+              if( typeof data[dep][puesto][asesor] === 'object' ){
+                if(this.bonosData[dep][puesto][asesor]['aplica'] != 0 && parseInt(this.bonosData[dep][puesto][asesor]['aprobacion']['status']) == 1){
 
-                for( let item in this.bonosData[dep][puesto][asesor]['reductores'] ){
-                  red += this.bonosData[dep][puesto][asesor]['reductores'][item]
-                }
 
-                red = red < (-1) ? -1 : red
+                  let monto = 0, red = 0
 
-                let tot = monto + (monto*red)
-
-                if( this.total[dep] ){
-                  if( this.total[dep][puesto] ){
-                    this.total[dep][puesto] += tot
-                  }else{
-                      this.total[dep][puesto] = tot
+                  for( let item in this.bonosData[dep][puesto][asesor]['bono'] ){
+                    monto += this.bonosData[dep][puesto][asesor]['bono'][item]
                   }
-                }else{
-                  this.total[dep] = { [puesto]: tot }
-                }
 
+                  for( let item in this.bonosData[dep][puesto][asesor]['reductores'] ){
+                    red += this.bonosData[dep][puesto][asesor]['reductores'][item]
+                  }
+
+                  red = red < (-1) ? -1 : red
+
+                  let tot = monto + (monto*red)
+
+                  if( this.total[dep] ){
+                    if( this.total[dep][puesto] ){
+                        this.total[dep][puesto] += tot
+                    }else{
+                        this.total[dep][puesto] = tot
+                    }
+                  }else{
+                      this.total[dep] = { [puesto]: tot }
+                  }
+
+                }
               }
             }
           }
@@ -180,7 +193,6 @@ export class BonosComponent implements OnInit {
       }
     }
 
-    console.log(this.total)
   }
 
   percMatch( item ){
@@ -202,5 +214,23 @@ export class BonosComponent implements OnInit {
 
   titleize(title){
     return title.replace(/^c_/gm, 'Cumplimiento ' ).replace(/_/gm, ' ')
+  }
+
+  paySave( event, dep, puesto ){
+    if( event['status'] ){
+      this.toastr.success( event['msg'], 'Guardado' )
+      this.bonosData[dep][puesto][event['chg']['asesor']]['aprobacion']['status'] = parseInt(event['chg']['status'])
+      if( event['chg']['review'] ){
+        this.bonosData[dep][puesto][event['chg']['asesor']]['aprobacion']['review'] = parseInt(event['chg']['review'])
+      }
+      this.sumAll( this.bonosData )
+    }else{
+      this.toastr.error( event['msg'], 'Error' )
+    }
+
+    setInterval( () => {
+      this.reload[event['asesor']]=moment()
+    },2000)
+
   }
 }

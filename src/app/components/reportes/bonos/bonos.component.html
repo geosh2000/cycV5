@@ -8,7 +8,7 @@
     <div class="container">
       <div class="d-flex justify-content-between">
         <div>
-          <span><h1 class="display-3">Reporte de Bonos Cancún</h1></span>
+          <span><h1 class="display-3">Reporte de Incentivos Cancún</h1></span>
           <p class="lead">Parámetros, resultados y consulta de bonos</p>
         </div>
       </div>
@@ -113,7 +113,9 @@
                       </ng-container>
                       <td class='text-right'>{{ (sumBono(dep, puesto, asesor, 'bono')) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
                       <td class='text-danger text-right'>{{ sumBono(dep, puesto, asesor, 'red') | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                      <th class='text-right'>{{ sumBono(dep, puesto, asesor, 'total') | currency:'MXN':'symbol-narrow':'.2-2' }}</th>
+                      <th class='text-right'>
+                        <app-bono-approve (save)="paySave($event, dep, puesto)" [reload]="reload[asesor]" [total]="sumBono(dep, puesto, asesor, 'total')" [status]="bonosData[dep][puesto][asesor]['aprobacion']" [params]="paramsDataAsk" [nombre]="bonosData[dep][puesto][asesor]['detalle']['Nombre']" [asesor]="asesor" ></app-bono-approve>
+                      </th>
                     </tr>
                   </ng-container>
                 </tbody>

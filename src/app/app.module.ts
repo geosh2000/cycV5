@@ -139,6 +139,7 @@ import { BonosComponent } from './components/reportes/bonos/bonos.component';
 import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
 import { MpMxComponent } from './components/reportes/tablaf/mp-mx/mp-mx.component';
 import { ExtraSwitchComponent } from './addon/buttons/extra-switch/extra-switch.component';
+import { BonoApproveComponent } from './addon/buttons/bono-approve/bono-approve.component';
 
 
 declare let jQuery : Object;
@@ -267,6 +268,7 @@ registerLocaleData(localeEsMX)
     TablafComponent,
     MpMxComponent,
     ExtraSwitchComponent,
+    BonoApproveComponent,
   ],
   imports: [
     BrowserModule,
