@@ -11,9 +11,11 @@ export class CountdownComponent implements OnInit {
 
   counter:any
   target:any
+  thisDay:any
 
   constructor( ) {
     this.setTarget()
+    this.thisDay = parseInt(moment().format('DD'))
   }
 
   setTarget(){
