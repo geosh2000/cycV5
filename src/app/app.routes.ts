@@ -48,6 +48,7 @@ import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.compo
 import { AsesoresFotosComponent } from './components/config/asesores-fotos/asesores-fotos.component';
 import { UploadCalidadComponent } from './components/config/upload-calidad/upload-calidad.component';
 import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
+import { TablafSoporteComponent } from './components/reportes/tablaf/tablaf-soporte.component';
 
 
 const APP_ROUTES: Routes = [
@@ -93,6 +94,7 @@ const APP_ROUTES: Routes = [
   { path: 'calidad/aleatoriedad', component: AleatoriedadComponent },
   { path: 'bonosCUN', component: BonosComponent },
   { path: 'tablaf', component: TablafComponent },
+  { path: 'tablafSoporte', component: TablafSoporteComponent },
 
   //Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },

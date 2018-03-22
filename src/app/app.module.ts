@@ -140,6 +140,8 @@ import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
 import { MpMxComponent } from './components/reportes/tablaf/mp-mx/mp-mx.component';
 import { ExtraSwitchComponent } from './addon/buttons/extra-switch/extra-switch.component';
 import { BonoApproveComponent } from './addon/buttons/bono-approve/bono-approve.component';
+import { SoporteMxComponent } from './components/reportes/tablaf/soporte-mx/soporte-mx.component';
+import { TablafSoporteComponent } from './components/reportes/tablaf/tablaf-soporte.component';
 
 
 declare let jQuery : Object;
@@ -269,6 +271,8 @@ registerLocaleData(localeEsMX)
     MpMxComponent,
     ExtraSwitchComponent,
     BonoApproveComponent,
+    SoporteMxComponent,
+    TablafSoporteComponent,
   ],
   imports: [
     BrowserModule,
