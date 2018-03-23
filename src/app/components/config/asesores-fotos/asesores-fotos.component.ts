@@ -22,7 +22,7 @@ export class AsesoresFotosComponent implements OnInit {
 
   currentUser: any
   showContents:boolean = false
-  mainCredential:string = 'hc_edit_detalles'
+  mainCredential:string = 'hc_fotos_asesores'
 
   loading:Object = {}
 

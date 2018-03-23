@@ -20,6 +20,10 @@ import * as moment from 'moment-timezone';
       -o-transform: rotate(270deg);
       -ms-transform: rotate(270deg);
       transform: rotate(270deg);
+    }
+
+    .bg-out{
+      background: #a83e8c
     }`
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -159,7 +163,7 @@ export class CbpComponent implements OnInit {
                 this.summary['tt'] += parseInt(moment().format('X')) - parseInt(agents[item]['c_answered'])
               }
             }
-            
+
 
           }else{
             if( agents[item]['c_queue'] == this.setQueue[0] ){
@@ -298,7 +302,7 @@ export class CbpComponent implements OnInit {
         return 'bg-warning text-white'
       }else{
         if( this.queues[agent['c_queue']] && this.queues[agent['c_queue']]['direction'] != '1' ){
-          return 'bg-primary text-white'
+          return 'bg-out text-white'
         }else{
           return 'bg-info text-white'
         }

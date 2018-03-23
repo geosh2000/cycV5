@@ -10,7 +10,7 @@
       name='extra'
       (change)="chgPayment( $event )"
       [(ngModel)]="payment"
-      [disabled]="loading['change'] || !(tipo=='dt' && code == 'DT')"
+      [disabled]="loading['change'] || (tipo=='dt' && code != 'DT')"
     ></ui-switch>
   </div>
 </div>
