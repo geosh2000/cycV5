@@ -21,7 +21,7 @@ export class TestComponent implements OnInit {
   currentUser: any
   showContents:boolean = false
   processLoading:boolean = false
-  mainCredential:string = 'default'
+  mainCredential:string = 'tabla_f'
 
   loading:Object = {}
   LU:any

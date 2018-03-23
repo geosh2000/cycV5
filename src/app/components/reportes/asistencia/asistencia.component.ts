@@ -38,7 +38,7 @@ export class AsistenciaComponent implements OnInit {
 
   currentUser: any
   showContents:boolean = false
-  mainCredential:string = 'default'
+  mainCredential:string = 'tablas_f'
 
   loading:boolean = false
   showProgress:boolean = false
