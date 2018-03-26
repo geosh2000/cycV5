@@ -39,7 +39,7 @@ export class GraphCallStatsComponent implements AfterViewInit {
                   type: 'datetime',
                   crosshair: true
                 },
-                yAxis: {
+                yAxis: [{
                     min: 0,
                     title: {
                         text: 'Total de llamadas'
@@ -50,7 +50,19 @@ export class GraphCallStatsComponent implements AfterViewInit {
                             fontWeight: 'bold'
                         }
                     }
-                },
+                },{
+                    min: 0,
+                    title: {
+                        text: 'AHT'
+                    },
+                    stackLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: 'bold'
+                        }
+                    },
+                    opposite: true
+                }],
                 legend: {
                     align: 'right',
                     x: -30,
@@ -104,6 +116,30 @@ export class GraphCallStatsComponent implements AfterViewInit {
                     data: [1],
                     dashStyle: 'ShortDot',
                     color: '#ef9300'
+                },{
+                    name: 'AHT - PDV',
+                    data: [1],
+                    dashStyle: 'ShortDot',
+                    color: '#ef9300',
+                    visible: false
+                },{
+                    name: 'AHT - Mixcoac',
+                    data: [1],
+                    dashStyle: 'ShortDot',
+                    color: '#ef9300',
+                    visible: false
+                },{
+                    name: 'AHT - IN',
+                    data: [1],
+                    dashStyle: 'ShortDot',
+                    color: '#ef9300',
+                    visible: false
+                },{
+                    name: 'Forecast',
+                    data: [1],
+                    dashStyle: 'ShortDot',
+                    color: '#ef9300',
+                    visible: false
                 }]
 
             }
@@ -150,6 +186,23 @@ export class GraphCallStatsComponent implements AfterViewInit {
 
       if( this.data && this.data['IN'] && this.data['IN']['name'] ){
         this.chart['calls']['series'][5].update( { name: this.data['IN']['name'], color: this.data['IN']['color'], data: this.data['IN']['data'] })
+      }
+
+      if( this.data && this.data['Forecast'] && this.data['Forecast']['name'] ){
+        this.chart['calls']['series'][9].update( { name: this.data['Forecast']['name'], color: this.data['Forecast']['color'], data: this.data['Forecast']['data'], type: 'line' })
+      }
+      // AHT
+
+      if( this.data && this.data['PDV'] && this.data['PDV']['name'] ){
+        this.chart['calls']['series'][6].update( { name: `AHT - ${this.data['PDV']['name']}`, color: this.data['PDV']['color'], data: this.data['PDV']['aht'], type: 'line', yAxis: 1 })
+      }
+
+      if( this.data && this.data['Mixcoac'] && this.data['Mixcoac']['name'] ){
+        this.chart['calls']['series'][7].update( { name: `AHT - ${this.data['Mixcoac']['name']}`, color: this.data['Mixcoac']['color'], data: this.data['Mixcoac']['aht'], type: 'line', yAxis: 1 })
+      }
+
+      if( this.data && this.data['IN'] && this.data['IN']['name'] ){
+        this.chart['calls']['series'][8].update( { name: `AHT - ${this.data['IN']['name']}`, color: this.data['IN']['color'], data: this.data['IN']['aht'], type: 'line', yAxis: 1 })
       }
 
       this.chart['calls'].title.update({ text: `Llamadas ${ moment(this.date).format('DD MMM YYYY')}`})

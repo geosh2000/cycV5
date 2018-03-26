@@ -27,6 +27,7 @@ export class StatisticsComponent implements OnInit {
 
   loading:Object = {}
   total:any
+  aht:any
   monitor:boolean = true
   data:any
   locs:any
@@ -167,12 +168,26 @@ export class StatisticsComponent implements OnInit {
                   if( !groups[call['Grupo']] ){
                     groups[call['Grupo']] = {
                       name: call['Grupo'],
-                      data: [[parseInt(this.unixTime(call['H'])), parseInt(call['calls'])]]
+                      data: [[parseInt(this.unixTime(call['H'])), parseInt(call['calls'])]],
+                      aht:  [[parseInt(this.unixTime(call['H'])), parseFloat(call['AHT'])]]
                     }
-
-
                   }else{
                     groups[call['Grupo']]['data'].push([parseInt(this.unixTime(call['H'])), parseInt(call['calls'])])
+                    groups[call['Grupo']]['aht'].push([parseInt(this.unixTime(call['H'])), parseFloat(call['AHT'])])
+                  }
+                }
+
+                for( let call of res.forecast ){
+
+                  this.total['forecast'] += parseInt(call['calls'])
+
+                  if( !groups['Forecast'] ){
+                    groups['Forecast'] = {
+                      name: 'Forecast',
+                      data: [[parseInt(this.unixTime(call['hora'])), parseInt(call['calls'])]]
+                    }
+                  }else{
+                    groups['Forecast']['data'].push([parseInt(this.unixTime(call['hora'])), parseInt(call['calls'])])
                   }
                 }
 
@@ -182,19 +197,26 @@ export class StatisticsComponent implements OnInit {
                                         },
                               PDV     : { name  : 'PDV',
                                           color : '#008bd1',
-                                          data  : groups['PDV'] ? groups['PDV']['data'] : []
+                                          data  : groups['PDV'] ? groups['PDV']['data'] : [],
+                                          aht   : groups['PDV'] ? groups['PDV']['aht'] : []
                                         },
                               IN      : { name  : 'IN',
                                           color : '#0f7500',
-                                          data  : groups['IN'] ? groups['IN']['data'] : []
+                                          data  : groups['IN'] ? groups['IN']['data'] : [],
+                                          aht   : groups['IN'] ? groups['IN']['aht'] : []
                                         },
                               Mixcoac : { name  : 'Mixcoac',
                                           color : '#a78116',
-                                          data  : groups['Mixcoac'] ? groups['Mixcoac']['data'] : []
-                                        }
+                                          data  : groups['Mixcoac'] ? groups['Mixcoac']['data'] : [],
+                                          aht   : groups['Mixcoac'] ? groups['Mixcoac']['aht'] : []
+                                        },
+                              Forecast: { name  : 'Forecast',
+                                          color : '#f442ce',
+                                          data  : groups['Forecast'] ? groups['Forecast']['data'] : []
+                                        },
                               }
 
-
+                console.log(this.data)
                 this.date = this.dateSelected
                 // this.lu = moment.tz(res.lu, "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
 
