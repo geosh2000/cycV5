@@ -96,7 +96,8 @@
             <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['1'].detail : '' ) }}</td>
             <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['0'].monto : 0 ) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
             <td>{{ ( prenomCxc[rac['asesor']] ? prenomCxc[rac['asesor']]['0'].detail : '' ) }}</td>
-            <td class="text-left">{{ ( (dataBonos[rac['asesor']] ? dataBonos[rac['asesor']] : 0) | currency:'MXN':'symbol-narrow':'.2-2' ) }}</td>
+            <td class="text-left" *ngIf="dataBonos">{{ ( (dataBonos[rac['asesor']] ? dataBonos[rac['asesor']] : 0) | currency:'MXN':'symbol-narrow':'.2-2' ) }}</td>
+            <td class="text-left" *ngIf="!dataBonos">{{ 0 | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
           </tr>
         </tbody>
       </table>
