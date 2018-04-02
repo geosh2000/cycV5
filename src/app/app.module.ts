@@ -142,6 +142,7 @@ import { ExtraSwitchComponent } from './addon/buttons/extra-switch/extra-switch.
 import { BonoApproveComponent } from './addon/buttons/bono-approve/bono-approve.component';
 import { SoporteMxComponent } from './components/reportes/tablaf/soporte-mx/soporte-mx.component';
 import { TablafSoporteComponent } from './components/reportes/tablaf/tablaf-soporte.component';
+import { UploadLogsPdvComponent } from './components/config/upload-logs-pdv.component';
 
 
 declare let jQuery : Object;
@@ -273,6 +274,7 @@ registerLocaleData(localeEsMX)
     BonoApproveComponent,
     SoporteMxComponent,
     TablafSoporteComponent,
+    UploadLogsPdvComponent,
   ],
   imports: [
     BrowserModule,

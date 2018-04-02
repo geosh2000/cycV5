@@ -1,0 +1,30 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container-fluid">
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <span><h1 class="display-3">Logs PDV (RSV)</h1></span>
+            <p class="lead">Sube los logs de PDV en RSV para control de asistencia y nómina</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" *ngIf="loading['pdvList']">
+    <h3>Loading PDV Headcount Info <i class='fas fa-spinner fa-pulse text-info'></i></h3>
+  </div>
+  <div class="container" *ngIf="pdvListData">
+
+    <div class="card">
+      <div class="card-body d-flex justify-content-between">
+        <span>Logs: </span><span *ngIf="loading['uploading_logs'] || loading['csv_logs']"><i class="fas fa-spinner fa-pulse text-info"></i> Procesando</span>
+        <app-csv title="Logs File" name="logsPDV" dir="tmp" btnClass='btn-warning' (loadResult)="csvResult($event)"></app-csv>
+      </div>
+    </div>
+  </div>
+
+</div>

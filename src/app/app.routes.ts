@@ -47,6 +47,7 @@ import { CambioLocalizadorAsesorComponent } from './components/config/cambio-loc
 import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.component';
 import { AsesoresFotosComponent } from './components/config/asesores-fotos/asesores-fotos.component';
 import { UploadCalidadComponent } from './components/config/upload-calidad/upload-calidad.component';
+import { UploadLogsPdvComponent } from './components/config/upload-logs-pdv.component';
 import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
 import { TablafSoporteComponent } from './components/reportes/tablaf/tablaf-soporte.component';
 
@@ -129,6 +130,7 @@ const APP_ROUTES: Routes = [
   { path: 'config/fams', component: FamsComponent },
   { path: 'config/reasignacionRsva', component: CambioLocalizadorAsesorComponent },
   { path: 'config/uploadCalidad', component: UploadCalidadComponent },
+  { path: 'config/uploadLogsPdv', component: UploadLogsPdvComponent },
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },

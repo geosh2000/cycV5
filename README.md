@@ -5,11 +5,43 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ## v2.2.4
 
-### Módulo Bonos
-* Implementación de bonos automatizados
+### Módulo para subir logueos de pdv
+* Acepta archivos csv
+* Actualización automática en base de datos
+
+### Módulo Incentivos
+* Implementación de incentivos automatizados
+* Integración de incentivos en Prenómina
+* Módulo de autorización de incentivos y excepciones
 
 ### Tabla F
 * Tabla F para MP y MT
+* Tabla F para Areas de Apoyo
+
+### CallStatistics
+* Línea de Forecast
+* Línea de AHT
+
+### Queue Monitor
+* Cambio de color de llamadas OUT
+* Llamadas OUT sobre llamadas IN ocultas
+
+### Monitor Pausas
+* Fix -> Pausas excedidas 0 tolerancia
+
+### Monitor por Equipo
+* Mejoras en resultados
+* Implementación de Tours y transfers para Tag
+* Muestra llamadas efectivas OUT y AHT
+
+### Prenómina
+* Filtro para nómina por Unidad de Negocio
+* Integración del pago de Incentivos
+* Omisión de Horas Extra y DTs seleccionadas para pagarse con tiempo
+
+### Asistencia
+* Selección de pago de DTs en nómina o acumulación de dias
+* Selección de pago de Horas Extra en nómina o acumulación de dias
 
 ## v2.2.3
 
