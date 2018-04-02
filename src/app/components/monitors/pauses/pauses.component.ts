@@ -237,20 +237,20 @@ export class PausesComponent implements OnInit {
   alertClass( field, value, bool = false ){
 
     let reference = {
-      'total PNP'   : 18,
-      'total Comida': 31,
-      'total Mesa'  : 46,
-      'PNP over 5'  : 1,
-      'ACW over 2'  : 1,
-      'det Pausa No Productiva' : 6,
-      'det ACW'                 : 3,
-      'det Comida'              : 31,
-      'det Mesa de Hospitalidad': 46,
-      'por revisar'             : 1
+      'total PNP'   : 17,
+      'total Comida': 30,
+      'total Mesa'  : 45,
+      'PNP over 5'  : 0,
+      'ACW over 2'  : 0,
+      'det Pausa No Productiva' : 5,
+      'det ACW'                 : 2,
+      'det Comida'              : 30,
+      'det Mesa de Hospitalidad': 45,
+      'por revisar'             : 0
     }
 
     if( reference[field] ){
-      if( value >= reference[field] ){
+      if( value > reference[field] ){
         if( field == 'por revisar'){
 
           if( bool ){
