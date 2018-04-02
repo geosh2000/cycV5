@@ -21,7 +21,7 @@ export class QueuesV2Component implements OnInit {
 
   currentUser: any
   showContents:boolean = false
-  mainCredential:string = 'monitor_gtr'
+  mainCredential:string = 'default'
 
   displayFilter:boolean       = true
   loading:boolean       = false
