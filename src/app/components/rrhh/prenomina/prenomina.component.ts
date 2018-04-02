@@ -112,7 +112,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['schedules'] = false
 
                 this.dataSchedules = res.data
-                console.log(this.dataSchedules)
+                // console.log(this.dataSchedules)
 
                 this.getFestivos()
 
@@ -161,7 +161,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['asesores'] = false
 
                 this.dataAsesores = res.data
-                console.log(res.data)
+                // console.log(res.data)
 
                 this.getLogs()
 
@@ -186,7 +186,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['logs'] = false
 
                 this.dataLogs = res.data
-                console.log(this.dataLogs)
+                // console.log(this.dataLogs)
 
                 this.getAusentismos( )
 
@@ -211,7 +211,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['ausentismos'] = false
 
                 this.dataAusentismos = res.data
-                console.log(res.data)
+                // console.log(res.data)
 
                 this.getBonos()
 
@@ -237,7 +237,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['bonos'] = false
 
                 this.dataBonos = res.data
-                console.log(res.data)
+                // console.log(res.data)
 
                 this.getCxc()
 
@@ -370,7 +370,9 @@ export class PrenominaComponent implements OnInit {
 
       if( dataPrenom[item.asesor] ){
 
-        dataPrenom[item.asesor]['bono'] = this.dataBonos[item.asesor]
+        if(this.dataBonos){
+          dataPrenom[item.asesor]['bono'] = this.dataBonos[item.asesor]
+        }
         dataPrenom[item.asesor]['hx'] += item['hx']
 
         if( dataPrenom[item.asesor][item.rcode] ){
@@ -466,7 +468,7 @@ export class PrenominaComponent implements OnInit {
     this.loading['building'] = false
     this.built = true
 
-    console.log(this.dataPrenom)
+    // console.log(this.dataPrenom)
   }
 
   getExcept( data, type ){
