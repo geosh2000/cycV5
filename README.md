@@ -5,6 +5,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ## v2.2.4
 
+### Cuartiles asesores
+* Módulo de Cuartiles
+* KPIs cuartilizados
+* Descargable Acumulado y por fecha
+
 ### Módulo para subir logueos de pdv
 * Acepta archivos csv
 * Actualización automática en base de datos

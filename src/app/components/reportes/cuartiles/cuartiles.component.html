@@ -4,23 +4,17 @@
     <!-- TITLE -->
     <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
       <div class="container">
-        <span><h1 class="display-3">Cuartiles Inbound</h1></span>
+        <span><h1 class="display-3">Cuartiles</h1></span>
         <p class="lead">Cuartilización del periodo seleccionado</p>
       </div>
       <br>
       <div class='container'>
-        <div class="d-flex justify-content-start" (change)="setPcrc($event.target.value)">
+        <div class="d-flex justify-content-start">
           <div class="form-group p-2">
-            <select class="custom-select">
-              <option value="">Selecciona el Departamento</option>
-              <option value="7">Agencias</option>
-              <option value="4">SAC IN</option>
-              <option value="9">Tráfico MP</option>
-              <option value="8">Tráfico MT</option>
-              <option value="35">Ventas MP - IN</option>
-              <option value="5">Ventas MP - Híbridos</option>
-              <option value="3">Ventas MT</option>
-
+            <select class="custom-select" [(ngModel)]="pcrcSelected">
+              <option value="" *ngIf="!loading['pcrcs']">Selecciona el Departamento</option>
+              <option value="" *ngIf="loading['pcrcs']"><i class="fas fa-spinner fa-pulse"></i> Loading PCRCs</option>
+              <option [value]="dept.dep" *ngFor="let dept of pcrcList | orderBy: 'Departamento'">{{ dept.Departamento }}</option>
             </select>
           </div>
           <div class="form-group p-2">
@@ -34,35 +28,67 @@
               </div>
           </div>
           <div class="p-2">
-              <button type="button" class="btn btn-success" *ngIf="skill!='' && searchStart && searchEnd" (click)="getCuartiles(searchStart, searchEnd, skill)">Buscar</button>
+              <button type="button" class="btn btn-success" *ngIf="skill!='' && searchStart && searchEnd" (click)="getCuartiles(searchStart, searchEnd, skill)" [disabled]="loading['cuartiles']">Buscar <span *ngIf="loading['cuartiles']"><i class="fas fa-spinner fa-pulse"></i></span></button>
           </div>
           <div class="ml-auto p-2">
-              <button type="button" class="btn btn-warning text-white" *ngIf="ready" (click)="downloadXLS('cuartiles', 'cuartiles')">Descargar</button>
-              <button type="button" class="btn btn-warning text-white" *ngIf="ready" (click)="downloadXLS('cuartiles', 'cuartiles', true)">Descargar por Fecha <span *ngIf="dataLoading"><i class="fas fa-spinner fa-fw fa-pulse"></i></span></button>
+              <button type="button" class="btn btn-warning text-white" *ngIf="builtData" (click)="downloadXLS( 'cuartiles', 'cuartiles', builtData )">Descargar</button>
+              <button type="button" class="btn btn-warning text-white" *ngIf="builtData" (click)="downloadXLS( 'cuartilesPorFecha', 'cuartilesPorFecha', allData )">Descargar por día</button>
           </div>
         </div>
+        <div class='container'>
+          <div class="d-flex justify-content-start">
+            <div style="text-align: center" class="p-2">
+              <ui-switch
+                color="green"
+                size= "small"
+                [(ngModel)]="par['SV']"
+              ></ui-switch>
+              <p style="margin-top: -10px">
+                <small *ngIf="par['SV']">Solo Venta</small>
+                <small *ngIf="!par['SV']">Venta y Cxl</small>
+              </p>
+            </div>
+            <div style="text-align: center" class="p-2">
+              <ui-switch
+                color="green"
+                size= "small"
+                [(ngModel)]="par['Paq']"
+              ></ui-switch>
+              <p style="margin-top: -10px">
+                <small *ngIf="!par['Paq']">Paq Desglozado</small>
+                <small *ngIf="par['Paq']">Paquete</small>
+              </p>
+            </div>
+          </div>
       </div>
     </div>
   </div>
+  <br>
+  <h3 *ngIf="loading['cuartiles']" class="text-info">Loading <i class="fas fa-spinner fa-pulse"></i></h3>
 
-  <div class="container-fluid" style="overflow: auto">
-
-    <p *ngIf="loadingCuartiles">Cargando Cuartiles...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
-    <div class="alert alert-danger" *ngIf="errorFlag">
-      {{ errorMsg | json }}
-    </div>
-    <div class="container-fluid" *ngIf="ready">
-      <ng2-smart-table
-                id='cuartiles'
-                (edit)="viewDetails($event)"
-                class='table-responsive table-striped table-bordered table-hover table-sm'
-                [settings]="smartTableSettings"
-                [source]="listCuartiles"
-                >
-      </ng2-smart-table>
-    </div>
-
-
-
+  <div class="container-fluid" style="overflow: auto" *ngIf="cData">
+    <table class="table table-sm table-striped table-hover table-bordered" style="font-size:smaller">
+      <thead>
+        <tr>
+          <th class="text-center" *ngFor="let titles of tableConfig" [innerHTML]="titles.t.replace(' ','<br>')"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of builtData | orderBy: 'Asesor'">
+          <ng-container *ngFor="let field of tableConfig">
+            <ng-container *ngIf="field.show">
+              <ng-container [ngSwitch]="field.type">
+                <td [class]="field.class" *ngSwitchCase="'text'">{{ item[field.t] }}</td>
+                <td [class]="field.class" *ngSwitchCase="'num'">{{ item[field.t] | number:'.0-0' }}</td>
+                <td class='text-center' [ngClass]="{'text-danger': item[field.t]==4,'text-warning': item[field.t]==3,'text-info': item[field.t]==2,'text-success': item[field.t]==1,'text-secondary': item[field.t]=='NA'}" *ngSwitchCase="'q'">{{ item[field.t] }}</td>
+                <td [class]="field.class" *ngSwitchCase="'dec'">{{ item[field.t] | number:'.2-2' }}</td>
+                <td [class]="field.class" *ngSwitchCase="'%'">{{ item[field.t] | number:'.2-2' }}%</td>
+                <td [class]="field.class" *ngSwitchCase="'$'">{{ item[field.t] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
