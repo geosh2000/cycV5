@@ -16,12 +16,29 @@
         <div class="container">
           <div class="form-row align-items-center">
             <div class="col-auto">
+              <div style="text-align: center" class="p-2">
+                <ui-switch
+                  color="green"
+                  size= "small"
+                  name='ch_jornada'
+                  [(ngModel)]="searchBy"
+                ></ui-switch>
+                <p style="margin-top: -10px">
+                  <small *ngIf="searchBy">Depto</small>
+                  <small *ngIf="!searchBy">Asesor</small>
+                </p>
+              </div>
+            </div>
+            <div class="col-auto" *ngIf="searchBy">
               <select class="custom-select mb-2 mr-sm-2 mb-sm-0" (change)="pcrcChange($event)" id="pcrc">
                 <option selected *ngIf="!deps">Loading... <span *ngIf="loading"><i class="fa fa-fw fa-spinner fa-pulse"></i></span></option>
                 <option selected *ngIf="deps">Selecciona...</option>
                 <option [value]="pcrc.id" *ngFor="let pcrc of deps">{{ pcrc.Departamento }}</option>
                 <option value='0' *ngIf="deps">Todos</option>
               </select>
+            </div>
+            <div class="col-auto d-flex align-items-center"  *ngIf="!searchBy">
+              <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" udn='self' placeholder="Nombre Asesor..." style="z-index: 100"></app-search-asesor>
             </div>
             <div class="col-auto">
               <label class="sr-only" for="selectedDate">Fechas</label>
@@ -40,11 +57,16 @@
                   class="form-control mb-2 mb-sm-0" type="text" [(ngModel)]="searchFilter" name="searchFilter" id="filterSearch" placeholder="Filtrar por">
             </div>
             <div class="col-auto">
-              <button
+              <button *ngIf="searchBy"
                 type="submit"
                 class="btn btn-primary m-1"
                 (click)="searchAsistencia( searchCriteria.skill, searchCriteria.start, searchCriteria.end )"
                 [disabled]="loading || searchCriteria.skill==''">Consultar <span *ngIf="loading"><i class="fa fa-fw fa-spinner fa-pulse"></i></span></button>
+              <button *ngIf="!searchBy"
+                type="submit"
+                class="btn btn-primary m-1"
+                (click)="getAsistencia( 0, searchCriteria.start, searchCriteria.end, asesorSelected, true )"
+                [disabled]="loading || !asesorSelected">Consultar <span *ngIf="loading"><i class="fa fa-fw fa-spinner fa-pulse"></i></span></button>
               <button
                 type="submit"
                 class="btn btn-warning m-1"

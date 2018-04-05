@@ -46,6 +46,8 @@ export class AsistenciaComponent implements OnInit {
   asistData:any
   datesData:any
   deps:any
+  asesorSelected:any
+  searchBy:boolean = true
 
   private depsSubject = new Subject<any>();
   private asistSubject = new Subject<any>();
@@ -84,6 +86,13 @@ export class AsistenciaComponent implements OnInit {
   ]
 
   error:string = null
+
+  protected onSelected(item){
+    if(item){
+      this.asesorSelected = item.asesor;
+    }
+
+  }
 
 
   constructor(
@@ -166,14 +175,18 @@ export class AsistenciaComponent implements OnInit {
             });
   }
 
-  getAsistencia( dep, inicio, fin, asesor?:any ){
+  getAsistencia( dep, inicio, fin, asesor?:any, flag=false ){
 
       this.searchFilter = ''
       let params = `${dep}/${inicio}/${fin}`
 
       if( asesor ){
         params = `${dep}/${inicio}/${fin}/${asesor}`
-        this.asistData[asesor]['data'][inicio]['loading'] = true
+        if( !flag ){
+          this.asistData[asesor]['data'][inicio]['loading'] = true
+        }else{
+          this.loading = true
+        }
       }else{
         this.loading = true
       }
@@ -181,7 +194,7 @@ export class AsistenciaComponent implements OnInit {
       this._api.restfulGet( params, 'Asistencia/pya' )
               .subscribe( res =>{
 
-                if( asesor ){
+                if( asesor && !flag){
                   // console.log( res )
                   this.singleUpdate( res )
                 }else{
