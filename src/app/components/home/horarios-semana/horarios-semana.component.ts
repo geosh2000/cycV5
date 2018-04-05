@@ -19,6 +19,7 @@ export class HorariosSemanaComponent implements OnInit {
   datesData:any = []
   fdow:any
   comida:boolean = true
+  comidaSelect:boolean = true
 
   constructor(public _api: ApiService) {
     moment.locale('es');
@@ -53,6 +54,12 @@ export class HorariosSemanaComponent implements OnInit {
               let error = err.json()
               this.horarios.emit( {status: false, info: err} )
             })
+
+            if( parseInt(moment().format('E')) < 4 ){
+              this.comidaSelect = true
+            }else{
+              this.comidaSelect = false
+            }
 
   }
 

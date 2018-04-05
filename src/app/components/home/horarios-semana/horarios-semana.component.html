@@ -45,7 +45,7 @@
             [(ngModel)]="comida"
             (change)="chgComida($event)"
             *ngIf="!loading['comida']"
-            [disabled]="true"
+            [disabled]="!comidaSelect"
           ></ui-switch>
         </td>
       </tr>
