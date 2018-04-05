@@ -200,6 +200,7 @@ export class CuartilesComponent implements OnInit {
       { show: this.pcrcSelected == 6 ? false : true, op: null, field: ['tour','Monto Tour',true], t: 'QMonto Tour',     type: 'q',       class: 'text-right' },
       { show: this.pcrcSelected == 6 ? false : true, op: null, field: 'LocsIn',          t: 'Locs In',         type: 'num',    class: 'text-center' },
       { show: true, op: null, field: 'callsIn',         t: 'Calls In',        type: 'num',    class: 'text-center' },
+      { show: this.pcrcSelected == 6 ? false : true, op: "/",  field: ['LocsIn', 'callsIn'], t: 'FC',          type: '%',      class: 'text-right' },
       { show: true, op: null, field: ['fc','FC',true],       t: 'QFC',             type: 'q',       class: 'text-right' },
       { show: true, op: "/",  field: ['TTIn', 'callsIn'], t: 'AHT In',        type: 'dec',    class: 'text-right' },
       { show: true, op: null, field: ['ahtIn','AHT In',false],  t: 'QAHT In',         type: 'q',     class: 'text-right' },
@@ -215,7 +216,6 @@ export class CuartilesComponent implements OnInit {
       { show: true, op: null, field: 'FA',              t: 'Fa',              type: 'num', class: 'text-center' },
       { show: true, op: null, field: 'RTA',              t: 'RT-A',              type: 'num', class: 'text-center' },
       { show: true, op: null, field: 'RTB',              t: 'RT-B',              type: 'num', class: 'text-center' },
-      { show: this.pcrcSelected == 6 ? false : true, op: "/",  field: ['LocsIn', 'callsIn'], t: 'FC',          type: '%',      class: 'text-right' },
       { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['Mailing_Total','Mailing'],        t: 'Eficiencia Mailing',       type: 'dec',    class: 'text-right' },
       { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['Confirming_Total','Confirming'],        t: 'Eficiencia Confirming',       type: 'dec',    class: 'text-right' },
       { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['Reembolsos_Total','Reembolsos'],        t: 'Eficiencia Reembolsos',       type: 'dec',    class: 'text-right' },
@@ -294,37 +294,41 @@ export class CuartilesComponent implements OnInit {
 
       let td = {}
       for( let field of this.tableConfig ){
-        if( field.type == 'q' ){
-          if( parseFloat(item['Sesion']) >= parseFloat(avgSes) ){
-            if( field.field[2] ){
-              if( td[field.field[1]] < qs[field.field[0]]['q'][3] ){
-                td[field.t] = 4
-              }else if( td[field.field[1]] < qs[field.field[0]]['q'][2] ){
-                td[field.t] = 3
-              }else if( td[field.field[1]] < qs[field.field[0]]['q'][1] ){
-                td[field.t] = 2
+
+        if( field.show ){
+          if( field.type == 'q' ){
+            if( parseFloat(item['Sesion']) >= parseFloat(avgSes) ){
+              if( field.field[2] ){
+                if( td[field.field[1]] < qs[field.field[0]]['q'][3] ){
+                  td[field.t] = 4
+                }else if( td[field.field[1]] < qs[field.field[0]]['q'][2] ){
+                  td[field.t] = 3
+                }else if( td[field.field[1]] < qs[field.field[0]]['q'][1] ){
+                  td[field.t] = 2
+                }else{
+                  td[field.t] = 1
+                }
               }else{
-                td[field.t] = 1
+                if( td[field.field[1]] > qs[field.field[0]]['q'][3] ){
+                  td[field.t] = 4
+                }else if( td[field.field[1]] > qs[field.field[0]]['q'][2] ){
+                  td[field.t] = 3
+                }else if( td[field.field[1]] > qs[field.field[0]]['q'][1] ){
+                  td[field.t] = 2
+                }else{
+                  td[field.t] = 1
+                }
               }
             }else{
-              if( td[field.field[1]] > qs[field.field[0]]['q'][3] ){
-                td[field.t] = 4
-              }else if( td[field.field[1]] > qs[field.field[0]]['q'][2] ){
-                td[field.t] = 3
-              }else if( td[field.field[1]] > qs[field.field[0]]['q'][1] ){
-                td[field.t] = 2
-              }else{
-                td[field.t] = 1
-              }
+              td[field.t] = "NA"
             }
-          }else{
-            td[field.t] = "NA"
-          }
 
-        }else{
-          td[field.t] = field.type == 'text' ? (item[field.field] ? item[field.field] : '') : this.showData( item, field.op, field.field, field.type)
+          }else{
+            td[field.t] = field.type == 'text' ? (item[field.field] ? item[field.field] : '') : this.showData( item, field.op, field.field, field.type)
+          }
         }
       }
+
       result.push(td)
     }
 

@@ -8,6 +8,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Modulo Asistencia
 * Filtro por asesor
 
+### Cuartiles asesores
+* Fix exportación de columnas visibles
+
 ## v2.2.5
 
 ### Cuartiles asesores
