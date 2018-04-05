@@ -223,9 +223,20 @@ export class BonosComponent implements OnInit {
       if( event['chg']['review'] ){
         this.bonosData[dep][puesto][event['chg']['asesor']]['aprobacion']['review'] = parseInt(event['chg']['review'])
       }
+
+      for( let par in event['meta'] ){
+        this.bonosData[dep][puesto][event['chg']['asesor']]['aprobacion'][par]=event['meta'][par]
+      }
       this.sumAll( this.bonosData )
     }else{
-      this.toastr.error( event['msg'], 'Error' )
+      if( event['saved'] ){
+        this.toastr.error( event['msg'], 'Error' )
+      }else{
+        this.toastr.warning(event['msg'], 'Alerta!');
+        for( let par in event['meta'] ){
+          this.bonosData[dep][puesto][event['chg']['asesor']]['aprobacion'][par]=event['meta'][par]
+        }
+      }
     }
 
     setInterval( () => {

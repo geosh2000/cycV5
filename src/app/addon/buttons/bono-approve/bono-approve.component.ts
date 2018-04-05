@@ -26,6 +26,7 @@ export class BonoApproveComponent implements OnInit {
 
   enableEdit:boolean = true
   reviewComments:any
+  alertMsg:any
   loading:Object = {}
 
   constructor( private _api:ApiService ) {
@@ -53,12 +54,27 @@ export class BonoApproveComponent implements OnInit {
       params['review_notes'] = this.reviewComments
     }
 
-    this._api.restfulPut( params, 'Bonos/chgStatus' )
+    let meta = {
+      reviewer: 'Yo',
+      comments: params['review_notes'],
+      lu: moment().format('YYYY-MM-DD HH:mm:ss')
+    }
+
+    this._api.restfulPut( {params: params, lu: this.status['lu']}, 'Bonos/chgStatus' )
             .subscribe( res => {
 
               this.loading['change'] = false
-              this.save.emit({status: true, msg: 'Status Guardado', asesor: this.asesor, chg: params})
+
               jQuery('#exampleModal'+this.asesor).modal('hide')
+              if(res.data['status']){
+                this.save.emit({status: true, msg: 'Status Guardado', asesor: this.asesor, chg: params, meta: meta})
+              }else{
+                this.alertMsg = res.data['msg']
+                this.save.emit({status: false, msg: res.data['msg'], asesor: this.asesor, chg: params, meta: res.meta})
+                jQuery('#alertModal'+this.asesor).modal('show')
+              }
+
+
 
             }, err => {
               console.log("ERROR", err)
@@ -66,9 +82,13 @@ export class BonoApproveComponent implements OnInit {
               this.loading['change'] = false
 
               let error = err.json()
-              this.save.emit({status: false, msg: error.msg, asesor: this.asesor})
+              this.save.emit({status: false, saved: true, msg: error.msg, asesor: this.asesor})
 
 
             })
+  }
+
+  printTime(time, format){
+    return moment.tz(time, 'America/Mexico_City').tz('America/Bogota').format(format)
   }
 }

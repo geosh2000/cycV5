@@ -49,7 +49,7 @@
             <div class="container" *ngIf="paramsData[dep] && paramsData[dep][puesto]">
               <div class="alert alert-primary" role="alert">
                 <div class="m-1">
-                  <p><span class="font-weight-bold">{{ bonosData[dep][puesto]['depName'] }}</span> ({{ bonosData[dep][puesto]['puestoName'] }}) -> {{ bonosData[dep][puesto]['montoBono'] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                  <p><span class="font-weight-bold">{{ bonosData[dep][puesto]['depName'] }}</span> ({{ bonosData[dep][puesto]['puestoName'] }}) -> {{ paramsData[dep][puesto]['monto'] | currency:'MXN':'symbol-narrow':'.2-2' }}
                   <br>
                   <div class="m-1 p-0 container bg-light">
                     <table style="font-size: smaller" class="table table-sm table-striped table-bordered">
@@ -71,7 +71,7 @@
                             <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['cum_'+i] * 100 | number:'.2-2') }}%</td>
                             <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['tope_'+i] == 1 ? 'Sí' : 'No') }}</td>
                             <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['perc_'+i] * 100 | number:'.2-2') }}%</td>
-                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : (paramsData[dep][puesto]['perc_'+i] * bonosData[dep][puesto]['montoBono']) | currency:'MXN':'symbol-narrow':'.2-2') }}</td>
+                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : (paramsData[dep][puesto]['perc_'+i] * paramsData[dep][puesto]['monto']) | currency:'MXN':'symbol-narrow':'.2-2') }}</td>
                             <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_par_'+i]) }}</td>
                             <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_op_'+i] + ' ' + paramsData[dep][puesto]['red_comp_'+i] ) }}</td>
                             <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_xInc_'+i] == 1 ? 'Sí' : 'No') }}</td>

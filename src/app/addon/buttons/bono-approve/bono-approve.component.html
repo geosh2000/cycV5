@@ -2,14 +2,21 @@
   <div class="p-1">
     {{ total | currency:'MXN':'symbol-narrow':'.2-2' }}
   </div>
-  <div class="ml-auto p-1">
+  <ng-template #tipContent>
+    <p  class="font-italic" *ngIf="status['status'] != 1 && status['status'] != 2 && status['review'] == 1">"{{ status['comments'] }}"</p>
+    <p  class="font-weight-bold text-success" *ngIf="status['status'] == 1">Aprobado por: {{ status['reviewer'] }}</p>
+    <p  class="font-weight-bold text-danger" *ngIf="status['status'] == 2">Cancelado por: {{ status['reviewer'] }}</p>
+    <p  class="font-weight-bold text-info" *ngIf="status['status'] != 1 && status['status'] != 2 && status['review'] == 1">Solicitado por: {{ status['reviewer'] }}</p>
+    <p *ngIf="status['status'] == 1 || status == 2 || status['review'] == 1">{{ printTime(status['lu'],'DD MM \'YY HH:mm:ss') }}</p>
+  </ng-template>
+  <div class="ml-auto p-1" [ngbTooltip]="tipContent" container="body">
     <span class="badge badge-pill"
       [ngClass]="{
         'badge-danger': status['status']==2,
         'badge-success': status['status']==1,
         'badge-info': (status['status']== null || status['status']== 3) && status['review']==1, 'badge-secondary': status['review']!=1 && status['status'] == null}"
       >
-      {{ status['status'] == 1 ? 'Pago' : status['status'] == 2 ? 'No-Pago' : status['review'] == 1 ? 'Review' : 'Pendiente' }}</span>
+      {{ status['status'] == 1 ? 'Pago' : status['status'] == 2 ? 'No-Pago' : status['review'] == 1 ? 'Review' : 'Pendiente' }} <span *ngIf="status['status'] == 1"><i class="far fa-question-circle"></i></span></span>
   </div>
 </div>
 <div class="d-flex justify-content-center" *ngIf="loading['change']">
@@ -44,6 +51,26 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="loading['change']">Close</button>
         <button type="button" class="btn btn-primary" (click)="chgStatus(3)" [disabled]="loading['change']">Save changes <span *ngIf="loading['change']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div class="modal fade" id="alertModal{{ asesor }}" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">Cambio no Guardado!</h5>
+      </div>
+      <div class="modal-body">
+        <h3 class='text-italic text-left'>{{ alertMsg }}</h3>
+        <br>
+        <p class="text-danger">No se realizó ningún cambio.</p>
+        <p class="text-info">La información ha sido actualizada, favor de revisar nuevamente.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="loading['change']">Close</button>
       </div>
     </div>
   </div>

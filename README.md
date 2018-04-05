@@ -18,6 +18,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Implementación de incentivos automatizados
 * Integración de incentivos en Prenómina
 * Módulo de autorización de incentivos y excepciones
+* Tooltip con comentarios para revision y nombre y fecha de última modificación
+* Validación de última aprobación (evita sobreponer aprobaciones)
 
 ### Tabla F
 * Tabla F para MP y MT
