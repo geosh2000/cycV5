@@ -34,7 +34,7 @@ export class BonoApproveComponent implements OnInit {
   }
 
   ngOnInit() {
-    if( moment() > moment(`${this.params['anio']}-${(parseInt(this.params['mes'])+1)}-18`) ){
+    if( moment() > moment(`${this.params['anio']}-${(parseInt(this.params['mes'])+1)}-16`) ){
       this.enableEdit = false
     }
   }
