@@ -17,6 +17,7 @@ export class PbxStatusComponent implements OnInit {
   data:any
   agents:any
   loading:Object = {}
+  pauses:Object = {}
 
   constructor( private _api:ApiService ) {
     this.getStatus()
@@ -56,13 +57,18 @@ export class PbxStatusComponent implements OnInit {
       this.timerFlag = false
       this.loading['status'] = true
 
-      this._api.restfulPost( 'RealtimeDO.RTAgentsLoggedIn', 'Queuemetrics/rtMonitor' )
+      let params = {
+        block: 'RealtimeDO.RTAgentsLoggedIn'
+      }
+
+      this._api.restfulPut( params, 'Queuemetrics/pbxStatus' )
               .subscribe( res => {
 
                 let data = res.data
                 let info
                 let result = {}
                 this.loading['status'] = false
+                this.pauses = res.pausas
 
                 for(let item in data){
                   this.data = this.parseJson( data[item]['json'] )

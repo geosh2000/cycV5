@@ -1,3 +1,11 @@
-<span class="badge badge-pill badge-light" *ngIf="data && !data['Agent']"><i class="fas fa-phone fa-fw"></i> Offline</span>
-<span class="badge badge-pill badge-success" *ngIf="data && data['Agent'] && data['On pause'] == '-'"><i class="fas fa-phone fa-fw"></i> Online</span>
-<span class="badge badge-pill badge-warning" placement="bottom" [ngbTooltip]="data['On pause']" *ngIf="data && data['Agent'] && data['On pause'] != '-'"><i class="fas fa-phone fa-fw"></i> Away</span>
+<div class="d-flex justify-content-between">
+  <div class="p-1">
+    <span class="badge badge-pill badge-light" *ngIf="data && !data['Agent']"><i class="fas fa-phone fa-fw"></i> Offline</span>
+    <span class="badge badge-pill badge-success" *ngIf="data && data['Agent'] && data['On pause'] == '-'"><i class="fas fa-phone fa-fw"></i> Online</span>
+    <span class="badge badge-pill badge-warning" placement="bottom" [ngbTooltip]="data['On pause']" *ngIf="data && data['Agent'] && data['On pause'] != '-'"><i class="fas fa-phone fa-fw"></i> Away</span>
+  </div>
+  <div class="p-1">
+    <p><span class="badge badge-pill badge-warning" [style.width.px]="100"><i class="fas fa-utensils fa-fw"></i> {{ pauses['Comida'] | number:'.2-2' }}</span></p>
+    <p><span class="badge badge-pill badge-warning" [style.width.px]="100"><i class="far fa-pause-circle"></i> {{ pauses['PNP'] | number:'.2-2' }}</span></p>
+  </div>
+</div>
