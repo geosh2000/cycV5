@@ -5,7 +5,7 @@
     <span class="badge badge-pill badge-warning" placement="bottom" [ngbTooltip]="data['On pause']" *ngIf="data && data['Agent'] && data['On pause'] != '-'"><i class="fas fa-phone fa-fw"></i> Away</span>
   </div>
   <div class="p-1">
-    <p><span class="badge badge-pill badge-warning" [style.width.px]="100"><i class="fas fa-utensils fa-fw"></i> {{ pauses['Comida'] | number:'.2-2' }}</span></p>
-    <p><span class="badge badge-pill badge-warning" [style.width.px]="100"><i class="far fa-pause-circle"></i> {{ pauses['PNP'] | number:'.2-2' }}</span></p>
+    <p><span placement="left" ngbTooltip="Comida" class="badge badge-pill badge-warning" [style.width.px]="80"><i class="fas fa-utensils fa-fw"></i> {{ (pauses['Comida'] ? pauses['Comida'] : 0) | number:'.2-2' }}</span></p>
+    <p><span placement="left" ngbTooltip="PNP" class="badge badge-pill badge-warning" [style.width.px]="80"><i class="fas fa-pause fa-fw"></i> {{ (pauses['PNP'] ? pauses['PNP'] : 0) | number:'.2-2' }}</span></p>
   </div>
 </div>
