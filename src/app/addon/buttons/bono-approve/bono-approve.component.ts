@@ -51,7 +51,7 @@ export class BonoApproveComponent implements OnInit {
 
     if( chg == 3 ){
       params['review'] = 1
-      params['review_notes'] = this.reviewComments
+      params['review_notes'] = this.status['comments']
     }
 
     let meta = {

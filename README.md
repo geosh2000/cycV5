@@ -11,6 +11,12 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Cuartiles asesores
 * Fix exportación de columnas visibles
 
+## Módulo incentivos
+* Review de incentivos con comentarios
+
+## Menu
+* Badge de tiempos no productivos en menú
+
 ## v2.2.5
 
 ### Cuartiles asesores
