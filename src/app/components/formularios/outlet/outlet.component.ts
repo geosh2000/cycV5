@@ -20,10 +20,12 @@ import { TokenCheckService } from '../../../services/token-check.service';
 export class OutletComponent implements OnInit {
 
   showContents:boolean = false
+  edit:boolean = false
   mainCredential:string = 'default'
   currentUser:any
 
   confirmation:Object = {}
+  folioSelected:any
 
   loading:Object = {}
   form:Object = {
@@ -42,6 +44,7 @@ export class OutletComponent implements OnInit {
 
   timerLoad:number = 15
   timeToLoad:number = 15
+  folios:any
 
   constructor(
                 private _api:ApiService,
@@ -83,6 +86,7 @@ export class OutletComponent implements OnInit {
     this.valid = false
     this.validation = {}
     this.slotsGet()
+    this.edit = false
   }
 
   select(tipo, val){
@@ -180,16 +184,18 @@ export class OutletComponent implements OnInit {
                 this.loading['slots'] = false
                 this.slotsBusy = res.data
 
-                if( this.form['fecha'] && this.form['fecha'] != '' ){
-                  if( this.form['hora'] && this.form['hora'] != '' ){
-                    if( this.form['espacio'] <= res.data[this.form['fecha']][this.form['hora']] ){
-                      if( res.data[this.form['fecha']][this.form['hora']] >= 10 ){
-                        this.toastr.error( `Los espacios para el ${ moment(this.form['fecha']).format('DD MMM')} a las ${moment(`${this.form['fecha']} ${this.form['hora']}`).format('HH:mm')} se han agotado. Por favor elige otro horario`, `Espacios Agotados` )
-                        this.form['espacio'] = ''
-                        this.form['hora'] = ''
-                        this.validate('espacio')
-                      }else{
-                        this.form['espacio'] = parseInt(res.data[this.form['fecha']][this.form['hora']])+1
+                if(!this.edit){
+                  if( this.form['fecha'] && this.form['fecha'] != '' ){
+                    if( this.form['hora'] && this.form['hora'] != '' ){
+                      if( this.form['espacio'] <= res.data[this.form['fecha']][this.form['hora']] ){
+                        if( res.data[this.form['fecha']][this.form['hora']] >= 10 ){
+                          this.toastr.error( `Los espacios para el ${ moment(this.form['fecha']).format('DD MMM')} a las ${moment(`${this.form['fecha']} ${this.form['hora']}`).format('HH:mm')} se han agotado. Por favor elige otro horario`, `Espacios Agotados` )
+                          this.form['espacio'] = ''
+                          this.form['hora'] = ''
+                          this.validate('espacio')
+                        }else{
+                          this.form['espacio'] = parseInt(res.data[this.form['fecha']][this.form['hora']])+1
+                        }
                       }
                     }
                   }
@@ -222,11 +228,11 @@ export class OutletComponent implements OnInit {
     return moment(`2018-05-11 ${time}`).format(format)
   }
 
-  save(){
+  save( update = false ){
     this.validate()
 
     if(this.valid){
-      let params = {
+      let pm = {
         Nombre      : this.form['name'],
         Localizador : this.form['localizador'],
         correo      : this.form['correo'],
@@ -240,7 +246,17 @@ export class OutletComponent implements OnInit {
 
       this.loading['save'] = true
 
-      this._api.restfulPut( params, 'Outlet/cita' )
+      let api = 'Outlet/cita'
+      let params = pm
+      if(update){
+        api = 'Outlet/citaUpdate'
+        params = {
+          params: pm,
+          folio: this.folioSelected
+        }
+      }
+
+      this._api.restfulPut( params, api )
               .subscribe( res => {
 
                 this.loading['save'] = false
@@ -249,6 +265,7 @@ export class OutletComponent implements OnInit {
                 this.confirmation['folio'] = res.data
                 jQuery('#confirmModal').modal('show')
                 this.reset()
+
 
               }, err => {
                 console.log("ERROR", err)
@@ -261,6 +278,125 @@ export class OutletComponent implements OnInit {
 
               })
     }
+  }
+
+  download( dwl = false ){
+    let title = 'citasOutlet'
+    this.loading['download'] = true
+
+    this._api.restfulGet( '', 'Outlet/download' )
+            .subscribe( res => {
+
+              this.loading['download'] = false
+
+              if( dwl ){
+                let folios = {}
+
+                for( let item of res.data ){
+                  folios[item['id']] = item
+                }
+
+                this.folios = folios
+              }else{
+                let wb:any
+
+                wb = { SheetNames: [], Sheets: {} };
+                wb.SheetNames.push(title);
+                wb.Sheets[title] = utils.json_to_sheet(res.data, {cellDates: true});
+
+                let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
+                'binary' });
+
+                saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), `${title}.xlsx`)
+              }
+
+            }, err => {
+              console.log("ERROR", err)
+
+              this.loading['download'] = false
+
+              let error = err.json()
+              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              console.error(err.statusText, error.msg)
+
+            })
+
+  }
+
+  s2ab(s) {
+    let buf = new ArrayBuffer(s.length);
+    let view = new Uint8Array(buf);
+    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+  }
+
+  editMode( flag ){
+    this.edit = !this.edit
+
+    if( flag ){
+      this.download( true )
+    }else{
+      this.reset()
+    }
+  }
+
+  load( folio ){
+    this.download(true)
+    let data = this.folios[folio]
+
+    this.folioSelected = folio
+    this.form = {
+      name: data['Nombre'],
+      correo: data['correo'],
+      telefono: data['telefono'],
+      localizador: data['Localizador'],
+      destino: {
+        destino: data['destination']
+        tipo: data['destino'].split('|')
+      },
+      producto: data['producto'].split('|'),
+      fecha: data['Fecha'],
+      hora: data['Hora']
+    }
+
+    if( this.slotsBusy[data['Fecha']] ){
+      if( this.slotsBusy[data['Fecha']][data['Hora']] ){
+        this.form['espacio'] = parseInt(this.slotsBusy[data['Fecha']][data['Hora']])
+      }else{
+        this.form['espacio'] = 1
+      }
+    }else{
+      this.form['espacio'] = 1
+    }
+
+    this.validate()
+    console.log(this.form)
+    console.log(this.slotsBusy[data['Fecha']][data['Hora']])
+  }
+
+  delete( ){
+    let title = 'citasOutlet'
+    this.loading['delete'] = true
+
+    this._api.restfulGet( this.folioSelected, 'Outlet/citaDelete' )
+            .subscribe( res => {
+
+              this.loading['delete'] = false
+              this.reset()
+              this.toastr.success( `Folio ${res.data} Eliminado`, `Eliminado` )
+
+
+            }, err => {
+              console.log("ERROR", err)
+
+              this.loading['delete'] = false
+
+              let error = err.json()
+              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              console.error(err.statusText, error.msg)
+
+            })
+
   }
 
 }
