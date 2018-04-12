@@ -17,6 +17,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ## Menu
 * Badge de tiempos no productivos en menú
 
+## Citas Outlet
+* Módulo para agendar citas para Outlet VyV2018
+* Auto actualización de slots ocupados
+
+
 ## v2.2.5
 
 ### Cuartiles asesores

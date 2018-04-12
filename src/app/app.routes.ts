@@ -50,11 +50,13 @@ import { UploadCalidadComponent } from './components/config/upload-calidad/uploa
 import { UploadLogsPdvComponent } from './components/config/upload-logs-pdv.component';
 import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
 import { TablafSoporteComponent } from './components/reportes/tablaf/tablaf-soporte.component';
+import { SetHorariosComponent } from './components/config/set-horarios/set-horarios.component';
+import { OutletComponent } from './components/formularios/outlet/outlet.component';
 
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'test', component: TestComponent },
+  { path: 'test', component: SetHorariosComponent },
 
   // DetalleAsesores
   { path: 'detail-asesor', component: DetailAsesorComponent },
@@ -134,6 +136,9 @@ const APP_ROUTES: Routes = [
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },
+
+  // Formularios
+  { path: 'citas-outlet', component: OutletComponent },
 
   //test
   { path: 'test', component: TestComponent },

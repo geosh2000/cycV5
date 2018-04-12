@@ -97,7 +97,7 @@
                         <i class="fas fa-sign-in-alt"></i>
                       </button>
                       <button
-                          (click)="logOut()"
+                          data-toggle="modal" data-target="#logOutModal"
                           type="button" class="btn btn-danger" *ngIf="token">
                         <i class="fas fa-sign-out-alt"></i>
                       </button>

@@ -1,0 +1,55 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+
+  <!-- TITLE -->
+  <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+    <div class="container">
+      <div class="d-flex justify-content-between">
+        <div>
+          <span><h1 class="display-3">Editor de Horarios</h1></span>
+          <p class="lead">Edita horarios y pdvs por asesor(es)</p>
+        </div>
+      </div>
+      <div class="container d-flex justify-content-left align-items-center">
+        <div class="p-2">
+          <button type="button" class="btn btn-outline-warning" (click)="filterExpanded = !filterExpanded"
+            [attr.aria-expanded]="filterExpanded" aria-controls="filterAsesores">
+            {{ selectedAsesores.length > 0 ? (selectedAsesores.length + (selectedAsesores.length > 1 ? ' seleccionados' : ' seleccionado')) : 'Asesores' }}
+            <span *ngIf="!filterExpanded"><i class="fas fa-caret-down"></i></span>
+            <span *ngIf="filterExpanded"><i class="fas fa-caret-up"></i></span>
+          </button>
+        </div>
+        <div class="p-2 align-middle">
+            <div
+                class="input-group"
+                daterangepicker (selected)="dateChange($event.start, $event.end)">
+                <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker">
+                <span class="input-group-btn">
+                    <a type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></a>
+                </span>
+            </div>
+        </div>
+        <div class="p-2">
+          <button type="button" class="btn btn-success" (click)="getBonos()" [disabled]="loading['bonos']">Consultar <span *ngIf="loading['bonos']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+        </div>
+        <div class="p-2" *ngIf="bonosData">
+          <button type="button" class="btn btn-warning">Descargar</button>
+        </div>
+      </div>
+      <div class="pt-2" id="filterAsesores" [ngbCollapse]="!filterExpanded">
+        <div class="card">
+          <div class="card-body">
+            <app-asesor-filter [currentUser]="currentUser" [udn]="'self'" [area]="'self'" (close)="filterExpanded=!$event" (result)="selectedAsesores=$event"></app-asesor-filter>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<br>
+<p>Filter Expanded: {{ filterExpanded }}</p>
+<pre>{{ selectedAsesores | json }}</pre>

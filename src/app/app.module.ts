@@ -143,6 +143,10 @@ import { BonoApproveComponent } from './addon/buttons/bono-approve/bono-approve.
 import { SoporteMxComponent } from './components/reportes/tablaf/soporte-mx/soporte-mx.component';
 import { TablafSoporteComponent } from './components/reportes/tablaf/tablaf-soporte.component';
 import { UploadLogsPdvComponent } from './components/config/upload-logs-pdv.component';
+import { AsesorFilterComponent } from './addon/filters/asesor-filter/asesor-filter.component';
+import { SetHorariosComponent } from './components/config/set-horarios/set-horarios.component';
+import { LogoutComponent } from './components/shared/logout/logout.component';
+import { OutletComponent } from './components/formularios/outlet/outlet.component';
 
 
 declare let jQuery : Object;
@@ -275,6 +279,10 @@ registerLocaleData(localeEsMX)
     SoporteMxComponent,
     TablafSoporteComponent,
     UploadLogsPdvComponent,
+    AsesorFilterComponent,
+    SetHorariosComponent,
+    LogoutComponent,
+    OutletComponent,
   ],
   imports: [
     BrowserModule,
