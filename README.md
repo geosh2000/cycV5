@@ -21,6 +21,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Módulo para agendar citas para Outlet VyV2018
 * Auto actualización de slots ocupados
 
+## PBX Status
+* Se agrega el tiempo en pausa de comida y pnp
+
 
 ## v2.2.5
 

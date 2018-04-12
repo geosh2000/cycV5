@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { ApiService } from '../../services/api.service';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-pbx-status',
@@ -155,6 +156,13 @@ export class PbxStatusComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  printT( time ){
+    let min = Math.floor(time)
+    let sec = Math.floor( (time - min)*60 );
+    return `${min}:${ sec < 10 ? "0" + sec : sec }`
+
   }
 
 }
