@@ -34,13 +34,13 @@ export class BonoApproveComponent implements OnInit {
   }
 
   ngOnInit() {
-    if( moment() > moment(`${this.params['anio']}-${(parseInt(this.params['mes'])+1)}-16`) ){
+    if( moment() > moment(`${this.params['anio']}-${(parseInt(this.params['mes'])+1)}-19`) ){
       this.enableEdit = false
     }
   }
 
   chgStatus( chg ){
-    this.loading['change'] = true
+    this.loading['change'] = true;
 
     let params = {
       asesor: this.asesor,

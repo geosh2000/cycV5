@@ -30,6 +30,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ## Logout
 * Logout con confirmación de horarios
 
+## Bonos
+* Fix -> Modificación de fecha límite para aprobaciones
+
 ## v2.2.5
 
 ### Cuartiles asesores
