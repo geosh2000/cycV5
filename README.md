@@ -22,6 +22,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Auto actualización de slots ocupados
 * Edicion y borrado
 * Lista descargable
+* Base de datos con status editables
 
 ## PBX Status
 * Se agrega el tiempo en pausa de comida y pnp

@@ -247,13 +247,16 @@ export class OutletComponent implements OnInit {
       this.loading['save'] = true
 
       let api = 'Outlet/cita'
-      let params = pm
+      let params
+
       if(update){
         api = 'Outlet/citaUpdate'
         params = {
           params: pm,
           folio: this.folioSelected
         }
+      }else{
+        params = pm
       }
 
       this._api.restfulPut( params, api )
@@ -351,7 +354,7 @@ export class OutletComponent implements OnInit {
       telefono: data['telefono'],
       localizador: data['Localizador'],
       destino: {
-        destino: data['destination']
+        destino: data['destination'],
         tipo: data['destino'].split('|')
       },
       producto: data['producto'].split('|'),
