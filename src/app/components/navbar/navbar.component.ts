@@ -218,8 +218,8 @@ export class NavbarComponent {
   }
 
   logout(){
-    // this._logout.logout( this.currentUser['hcInfo']['id'] )
-    this._logout.logout( 6 )
+    this._logout.logout( this.currentUser['hcInfo']['id'] )
+    // this._logout.logout( 6 )
   }
 
   confirmLO( h ){

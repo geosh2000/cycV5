@@ -140,6 +140,7 @@ const APP_ROUTES: Routes = [
 
   // Formularios
   { path: 'citas-outlet', component: OutletComponent },
+  { path: 'db-outlet', component: DbOutletComponent },
 
   //test
   { path: 'test', component: TestComponent },
