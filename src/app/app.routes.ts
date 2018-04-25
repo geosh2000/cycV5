@@ -52,11 +52,12 @@ import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
 import { TablafSoporteComponent } from './components/reportes/tablaf/tablaf-soporte.component';
 import { SetHorariosComponent } from './components/config/set-horarios/set-horarios.component';
 import { OutletComponent } from './components/formularios/outlet/outlet.component';
+import { DbOutletComponent } from './components/formularios/outlet/db/db-outlet.component';
 
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'test', component: SetHorariosComponent },
+  { path: 'test', component: DbOutletComponent },
 
   // DetalleAsesores
   { path: 'detail-asesor', component: DetailAsesorComponent },

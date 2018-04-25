@@ -27,6 +27,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Se agrega el tiempo en pausa de comida y pnp
 * Tiempo en min y sec
 
+## Logout
+* Logout con confirmación de horarios
 
 ## v2.2.5
 

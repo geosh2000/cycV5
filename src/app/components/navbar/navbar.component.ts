@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavbarService } from '../../services/navbar.service';
 import { LoginService } from '../../services/login.service';
 import { TokenCheckService } from '../../services/token-check.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { LogoutComponent } from '../shared/logout/logout.component';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +11,8 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+  @ViewChild(LogoutComponent) private _logout:LogoutComponent
 
   menu:any[] = [];
   test:string="NavBar Component success";
@@ -214,7 +217,16 @@ export class NavbarComponent {
     this._tokenCheck.sendTokenStatus( status )
   }
 
+  logout(){
+    // this._logout.logout( this.currentUser['hcInfo']['id'] )
+    this._logout.logout( 6 )
+  }
 
+  confirmLO( h ){
+    if( h ){
+      this.tokenCheck();
+    }
+  }
 
 
 }

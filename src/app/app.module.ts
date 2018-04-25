@@ -147,6 +147,7 @@ import { AsesorFilterComponent } from './addon/filters/asesor-filter/asesor-filt
 import { SetHorariosComponent } from './components/config/set-horarios/set-horarios.component';
 import { LogoutComponent } from './components/shared/logout/logout.component';
 import { OutletComponent } from './components/formularios/outlet/outlet.component';
+import { DbOutletComponent } from './components/formularios/outlet/db/db-outlet.component';
 
 
 declare let jQuery : Object;
@@ -283,6 +284,7 @@ registerLocaleData(localeEsMX)
     SetHorariosComponent,
     LogoutComponent,
     OutletComponent,
+    DbOutletComponent,
   ],
   imports: [
     BrowserModule,

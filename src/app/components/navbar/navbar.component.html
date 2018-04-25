@@ -97,8 +97,7 @@
                         <i class="fas fa-sign-in-alt"></i>
                       </button>
                       <button
-                          data-toggle="modal" data-target="#logOutModal"
-                          type="button" class="btn btn-danger" *ngIf="token">
+                          type="button" class="btn btn-danger" (click)="logout()" *ngIf="token">
                         <i class="fas fa-sign-out-alt"></i>
                       </button>
                     </div>
@@ -109,3 +108,4 @@
   <strong>Tu sesión ha expirado</strong> Para continuar, haz click en el ícono <i class="fa fa-sign-in"></i> del menú
   <p>Expiration Info: {{ expiration }}</p>
 </div>
+<app-logout (confirm)="confirmLO($event)" ></app-logout>
