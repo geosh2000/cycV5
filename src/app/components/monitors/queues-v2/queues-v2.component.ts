@@ -54,6 +54,10 @@ export class QueuesV2Component implements OnInit {
   timerFlag:boolean = true
   count:number = 5
 
+  slaTimer:number = 30
+
+  slaData:any = []
+
   constructor( public _api: ApiService,
                 private titleService: Title,
                 private _init:InitService,
@@ -91,6 +95,8 @@ export class QueuesV2Component implements OnInit {
     })
 
     this.getInitials()
+    this.getSLA()
+    this.timerSLA()
   }
 
   loopChg(){
@@ -284,6 +290,29 @@ export class QueuesV2Component implements OnInit {
 
   activateMonitor(){
     this.displayFilter = false
+  }
+
+  getSLA(){
+
+    this._api.restfulGet( '', 'RtMonitor/getSLA' )
+            .subscribe( res => {
+              this.slaData = res.data
+              console.log(res.data)
+
+            }, err => {
+              console.log("ERROR", err)
+            })
+  }
+
+  timerSLA(){
+    if( this.slaTimer == 0){
+      this.slaTimer = 30
+      this.getSLA()
+    }else{
+      this.slaTimer--
+    }
+
+    setTimeout( () => this.timerSLA(), 1000)
   }
 
 }

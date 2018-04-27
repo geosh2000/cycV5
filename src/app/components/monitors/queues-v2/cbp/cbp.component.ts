@@ -40,6 +40,7 @@ export class CbpComponent implements OnInit {
   @Input() waits:any
   @Input() deps:any
   @Input() pauses:any
+  @Input() sla:any = []
   @Input() display:Object = {
     wait: false,
     detail: true,
@@ -75,6 +76,14 @@ export class CbpComponent implements OnInit {
   loggedAgents:any
   showAll:boolean = false
 
+  slaInfo:Object = {
+    total: 0,
+    sla20: 0,
+    sla30: 0
+  }
+
+
+
   constructor() { }
 
   ngOnInit() {
@@ -90,6 +99,25 @@ export class CbpComponent implements OnInit {
     if( !this.showAll ){
       this.showAll = (Object.keys(data).length > 0) ? true : false
       if(!this.showAll) return false
+    }
+
+    //SLA
+    this.slaInfo = {
+      total: 0,
+      sla20: 0,
+      sla30: 0
+    }
+
+    console.log( this.setQueue )
+    for( let q of this.setQueue ){
+      let index = this.sla.map(function(e) { return e.queue; }).indexOf(q);
+      this.slaInfo['total'] += this.sla[index] ? parseInt(this.sla[index]['calls']) : 0
+      this.slaInfo['sla20'] += this.sla[index] ? parseInt(this.sla[index]['sla20']) : 0
+      this.slaInfo['sla30'] += this.sla[index] ? parseInt(this.sla[index]['sla30']) : 0
+
+      console.log(q, index)
+      console.log(this.sla)
+      console.log(this.slaInfo)
     }
 
     // console.log(this.queues)

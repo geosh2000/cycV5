@@ -109,7 +109,31 @@
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
             <span class="m-1 fa-stack fa-lg">
-                <i class="far fa-clock fa-2x text-success"></i>
+              <i class="fa fa-layers-text fa-stack-1x text-info">20</i>
+              <i class="fa fa-circle-o fa-stack-2x text-warning"></i>
+            </span>
+            <h3 class="m-1">
+              {{ (slaInfo['total'] == 0 ? 0 : (slaInfo['sla20'] / slaInfo['total'])*100) | number:'.0-2' }}
+            </h3>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+              <i class="fa fa-layers-text fa-stack-1x text-info">30</i>
+              <i class="fa fa-circle-o fa-stack-2x text-warning"></i>
+            </span>
+            <h3 class="m-1">
+              {{ (slaInfo['total'] == 0 ? 0 : (slaInfo['sla30'] / slaInfo['total'])*100) | number:'.0-2' }}
+            </h3>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
+            <span class="m-1 fa-stack fa-lg">
+              <i class="fa fa-clock fa-2x text-success"></i>
             </span>
             <span class="animated flash infinite" *ngIf="(summary['Busy'] != 0 && (summary['tt'] / summary['Busy']) > 550)"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
             <h3 class="m-1">
