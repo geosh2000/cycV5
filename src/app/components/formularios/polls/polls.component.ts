@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
@@ -24,6 +25,9 @@ export class PollsComponent implements OnInit {
   showContents:boolean = false
   processLoading:boolean = false
   mainCredential:string = 'default'
+
+  showImage:any = ''
+  showTitle:any = ''
 
   loading:Object = {
     '1': {},
@@ -86,7 +90,8 @@ export class PollsComponent implements OnInit {
                 private titleService: Title,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastsManager, vcr: ViewContainerRef,
+                private modalService: NgbModal ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
@@ -191,6 +196,22 @@ export class PollsComponent implements OnInit {
                 console.error(err.statusText, error.msg)
 
               })
+  }
+
+  openModal(content, item) {
+    this.showImage = item['src']
+    this.showTitle = item['name']
+    this.modalService.open(content, { size: 'lg', centered: true })
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
 }

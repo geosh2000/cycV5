@@ -14,7 +14,7 @@
 <div class="container-fluid" *ngIf="!loading['curSel'] && flagCurSel">
   <div class="d-flex flex-wrap justify-content-center">
     <div class="card m-2" style="width: 18rem;" *ngFor="let item of elements">
-      <img class="card-img-top" [src]="item['src']" alt="Card {{ item['name'] }}">
+      <img class="card-img-top" style="cursor: zoom-in" width="286px" height="161px" [src]="item['src']" alt="Card {{ item['name'] }}" (click)='openModal(content, item)'>
       <div class="card-body" [ngClass]="{'bg-success': choice['1'] == item['name'],'bg-info': choice['2'] == item['name'],'bg-warning': choice['3'] == item['name']}">
         <h4 class="card-text text-center" [ngClass]="{'text-light': (choice['1'] == item['name'] || choice['2'] == item['name'] || choice['3'] == item['name']),'text-info': !(choice['1'] == item['name'] || choice['2'] == item['name'] || choice['3'] == item['name'])}">{{ item['name'] | capitalizado:true }}</h4>
       </div>
@@ -28,3 +28,18 @@
     </div>
   </div>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ showTitle | capitalizado:true }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img [src]="showImage" width="764px">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
