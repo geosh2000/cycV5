@@ -148,6 +148,8 @@ import { SetHorariosComponent } from './components/config/set-horarios/set-horar
 import { LogoutComponent } from './components/shared/logout/logout.component';
 import { OutletComponent } from './components/formularios/outlet/outlet.component';
 import { DbOutletComponent } from './components/formularios/outlet/db/db-outlet.component';
+import { ProReportComponent } from './components/reportes/pro-report/pro-report.component';
+import { PollsComponent } from './components/formularios/polls/polls.component';
 
 
 declare let jQuery : Object;
@@ -285,6 +287,8 @@ registerLocaleData(localeEsMX)
     LogoutComponent,
     OutletComponent,
     DbOutletComponent,
+    ProReportComponent,
+    PollsComponent,
   ],
   imports: [
     BrowserModule,

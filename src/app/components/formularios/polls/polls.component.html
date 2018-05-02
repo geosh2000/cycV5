@@ -1,0 +1,30 @@
+<!-- TITLE -->
+<div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      <div>
+        <span><h1 class="display-3">Votación Antifaz</h1></span>
+        <p class="lead">Vota por los 3 que más te gústen. Dale 3 puntos al mejor, 2 al segundo mejor y 1 al tercero.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1 *ngIf="loading['curSel']">Loading <i class="fas fa-spinner fa-pulse text-info"></i></h1>
+<div class="container-fluid" *ngIf="!loading['curSel'] && flagCurSel">
+  <div class="d-flex flex-wrap justify-content-center">
+    <div class="card m-2" style="width: 18rem;" *ngFor="let item of elements">
+      <img class="card-img-top" [src]="item['src']" alt="Card {{ item['name'] }}">
+      <div class="card-body" [ngClass]="{'bg-success': choice['1'] == item['name'],'bg-info': choice['2'] == item['name'],'bg-warning': choice['3'] == item['name']}">
+        <h4 class="card-text text-center" [ngClass]="{'text-light': (choice['1'] == item['name'] || choice['2'] == item['name'] || choice['3'] == item['name']),'text-info': !(choice['1'] == item['name'] || choice['2'] == item['name'] || choice['3'] == item['name'])}">{{ item['name'] | capitalizado:true }}</h4>
+      </div>
+      <div class="card-footer">
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-sm" [ngClass]="{'btn-success': choice['1'] == item['name'], 'btn-outline-success': choice['1'] != item['name']}" (click)="choose(item['name'],'1')" [disabled]="disabled()"><small>1º (3 ptos)</small> <span *ngIf="loading['1'][item['name']]"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          <button type="button" class="btn btn-sm" [ngClass]="{'btn-info'   : choice['2'] == item['name'], 'btn-outline-info'   : choice['2'] != item['name']}" (click)="choose(item['name'],'2')" [disabled]="disabled()"><small>2º (2 ptos)</small> <span *ngIf="loading['2'][item['name']]"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          <button type="button" class="btn btn-sm" [ngClass]="{'btn-warning': choice['3'] == item['name'], 'btn-outline-warning': choice['3'] != item['name']}" (click)="choose(item['name'],'3')" [disabled]="disabled()"><small>3º (1 pto)</small> <span *ngIf="loading['3'][item['name']]"><i class="fas fa-spinner fa-pulse"></i></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

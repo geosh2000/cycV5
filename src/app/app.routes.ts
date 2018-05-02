@@ -53,11 +53,13 @@ import { TablafSoporteComponent } from './components/reportes/tablaf/tablaf-sopo
 import { SetHorariosComponent } from './components/config/set-horarios/set-horarios.component';
 import { OutletComponent } from './components/formularios/outlet/outlet.component';
 import { DbOutletComponent } from './components/formularios/outlet/db/db-outlet.component';
+import { ProReportComponent } from './components/reportes/pro-report/pro-report.component';
+import { PollsComponent } from './components/formularios/polls/polls.component';
 
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'test', component: DbOutletComponent },
+  { path: 'test', component: PollsComponent },
 
   // DetalleAsesores
   { path: 'detail-asesor', component: DetailAsesorComponent },
@@ -141,6 +143,9 @@ const APP_ROUTES: Routes = [
   // Formularios
   { path: 'citas-outlet', component: OutletComponent },
   { path: 'db-outlet', component: DbOutletComponent },
+
+  // Polls
+  { path: 'polls/antifaz2018', component: PollsComponent },
 
   //test
   { path: 'test', component: TestComponent },
