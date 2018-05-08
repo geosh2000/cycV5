@@ -24,6 +24,7 @@ export class PollsComponent implements OnInit {
   currentUser: any
   showContents:boolean = false
   processLoading:boolean = false
+  saving:boolean = false
   mainCredential:string = 'default'
 
   showImage:any = ''
@@ -129,6 +130,7 @@ export class PollsComponent implements OnInit {
       }else{
         if( this.choice[item] == name){
           this.choice[item] = ''
+          this.saveSel(item, '')
         }
       }
     }
@@ -173,6 +175,7 @@ export class PollsComponent implements OnInit {
 
   saveSel( sel, name ){
     this.loading[sel][name] = true
+    this.saving = true
 
     let params = {
       data: {[`sel${sel}`]: name},
@@ -183,12 +186,14 @@ export class PollsComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading[sel][name] = false
+                this.saving = false
 
 
               }, err => {
                 console.log("ERROR", err)
 
                 this.loading[sel][name] = false
+                this.saving = false
                 this.choice[sel] = ''
 
                 let error = err.json()

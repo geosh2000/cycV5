@@ -101,6 +101,7 @@ const APP_ROUTES: Routes = [
   { path: 'bonosCUN', component: BonosComponent },
   { path: 'tablaf', component: TablafComponent },
   { path: 'tablafSoporte', component: TablafSoporteComponent },
+  { path: 'proReport', component: ProReportComponent },
 
   //Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },

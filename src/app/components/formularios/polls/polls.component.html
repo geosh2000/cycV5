@@ -20,9 +20,9 @@
       </div>
       <div class="card-footer">
         <div class="d-flex justify-content-between">
-          <button type="button" class="btn btn-sm" [ngClass]="{'btn-success': choice['1'] == item['name'], 'btn-outline-success': choice['1'] != item['name']}" (click)="choose(item['name'],'1')" [disabled]="disabled()"><small>1º (3 ptos)</small> <span *ngIf="loading['1'][item['name']]"><i class="fas fa-spinner fa-pulse"></i></span></button>
-          <button type="button" class="btn btn-sm" [ngClass]="{'btn-info'   : choice['2'] == item['name'], 'btn-outline-info'   : choice['2'] != item['name']}" (click)="choose(item['name'],'2')" [disabled]="disabled()"><small>2º (2 ptos)</small> <span *ngIf="loading['2'][item['name']]"><i class="fas fa-spinner fa-pulse"></i></span></button>
-          <button type="button" class="btn btn-sm" [ngClass]="{'btn-warning': choice['3'] == item['name'], 'btn-outline-warning': choice['3'] != item['name']}" (click)="choose(item['name'],'3')" [disabled]="disabled()"><small>3º (1 pto)</small> <span *ngIf="loading['3'][item['name']]"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          <button type="button" class="btn btn-sm" [ngClass]="{'btn-success': choice['1'] == item['name'], 'btn-outline-success': choice['1'] != item['name']}" (click)="choose(item['name'],'1')" [disabled]="disabled() || saving"><small>1º (3 ptos)</small> <span *ngIf="loading['1'][item['name']]"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          <button type="button" class="btn btn-sm" [ngClass]="{'btn-info'   : choice['2'] == item['name'], 'btn-outline-info'   : choice['2'] != item['name']}" (click)="choose(item['name'],'2')" [disabled]="disabled() || saving"><small>2º (2 ptos)</small> <span *ngIf="loading['2'][item['name']]"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          <button type="button" class="btn btn-sm" [ngClass]="{'btn-warning': choice['3'] == item['name'], 'btn-outline-warning': choice['3'] != item['name']}" (click)="choose(item['name'],'3')" [disabled]="disabled() || saving"><small>3º (1 pto)</small> <span *ngIf="loading['3'][item['name']]"><i class="fas fa-spinner fa-pulse"></i></span></button>
         </div>
       </div>
     </div>
