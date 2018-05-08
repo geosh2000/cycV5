@@ -31,6 +31,11 @@ export class KpisDetailComponent implements OnInit {
   @Input() naxFlag :boolean  = false
   @Input() xUnit  :string   = ''
 
+  @Input() pais:string = ''
+  @Input() marca:string = ''
+
+  suf:string = ''
+
   constructor() { }
 
   ngOnInit() {
@@ -73,6 +78,24 @@ export class KpisDetailComponent implements OnInit {
         }
     }
 
+  }
+
+  currencyDisp( ammount ){
+    if( this.marca == 'Marcas Propias' && this.pais == 'CO'){
+
+      let monto = ammount * 146.741
+      this.suf = ''
+      if( monto > 1000000 ){
+        monto = monto / 1000
+        this.suf = 'K'
+      }
+
+      return monto
+
+    }else{
+      this.suf = ''
+      return ammount
+    }
   }
 
 }

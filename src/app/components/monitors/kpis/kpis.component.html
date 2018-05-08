@@ -199,17 +199,17 @@
               <!-- MONTO TOTAL HEADER -->
               <div class="p-2 d-flex justify-content-end align-items-center">
                 <div class="p-2">
-                  <h3 class='align-middle text-right font-weight-bold text-light' style="-webkit-text-stroke: 1px #969696;">{{ (group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' )) | currency:'MXN':'symbol-narrow':'.2-2' }}</h3>
+                  <h3 class='align-middle text-right font-weight-bold text-light' style="-webkit-text-stroke: 1px #969696;">{{ currencyDispl(group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}</h3>
                   <div class="d-flex justify-content-end">
                     <span
-                      placement="bottom" ngbTooltip="{{ (group == 'Total' ? getTotal(canal, params['compare'], params['montoSV']) : getVal( canal, group, params['montoSV'], params['compare'] )) | currency:'MXN':'symbol-narrow':'.2-2' }}"
+                      placement="bottom" ngbTooltip="{{ currencyDispl(group == 'Total' ? getTotal(canal, params['compare'], params['montoSV']) : getVal( canal, group, params['montoSV'], params['compare'] )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
                       class="badge badge-pill text-center ml-1"
                       [ngClass]="compare(canal, group, params['montoSV'], 'td', params['compare'], 'class')"
                       [style.width.px]="80">
                         <small>var {{ params['compare'] }}: {{ compare(canal, group, params['montoSV'], 'td', params['compare'], '%') | number:'.0-0' }}%</small>
                     </span>
                     <span
-                      placement="bottom" ngbTooltip="{{ (group == 'Total' ? getTotal(canal, 'ly', params['montoSV']) : getVal( canal, group, params['montoSV'], 'ly' )) | currency:'MXN':'symbol-narrow':'.2-2' }}"
+                      placement="bottom" ngbTooltip="{{ currencyDispl(group == 'Total' ? getTotal(canal, 'ly', params['montoSV']) : getVal( canal, group, params['montoSV'], 'ly' )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
                       class="badge badge-pill text-center ml-1"
                       [ngClass]="compare(canal, group, params['montoSV'], 'td', 'ly', 'class')"
                       [style.width.px]="80">
@@ -227,6 +227,8 @@
               <ng-container *ngIf="detailView['locs']">
                 <!-- AV TKT -->
                 <app-kpis-detail
+  [marca]="params['marca']"
+  [pais]="params['pais']"
                   [item]="'Av Tkt'"
                   [monto]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item )) / (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )))"
                   [mYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, params['compare'], params['montoSV'], item) : getVal( canal, group, params['montoSV'], params['compare'], item )) / (group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )))"
@@ -237,6 +239,8 @@
 
                 <!-- Locs -->
                 <app-kpis-detail
+  [marca]="params['marca']"
+  [pais]="params['pais']"
                   [item]="'Locs'"
                   [mFlag]="false"
                   [yd]="yd"
@@ -250,6 +254,8 @@
               <ng-container *ngIf="detailView['fc']">
                 <!-- Calls -->
                 <app-kpis-detail
+  [marca]="params['marca']"
+  [pais]="params['pais']"
                   [item]="'Calls'"
                   [mFlag]="false"
                   [yd]="yd"
@@ -264,6 +270,8 @@
 
                 <!-- FC -->
                 <app-kpis-detail
+  [marca]="params['marca']"
+  [pais]="params['pais']"
                   [item]="'FC'"
                   [mFlag]="false"
                   [yd]="yd"
@@ -280,6 +288,8 @@
                 <ng-container *ngFor="let item of services">
                   <!-- INFO POR SERVICIO -->
                   <app-kpis-detail
+  [marca]="params['marca']"
+  [pais]="params['pais']"
                     [item]="item"
                     [yd]="yd"
                     [monto]="(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item ))"

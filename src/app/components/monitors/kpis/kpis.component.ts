@@ -32,6 +32,8 @@ export class KpisComponent implements OnInit {
     pais      : 'MX'
   }
 
+  suf:string  = ''
+
   colors:any = ['#7cb8e2', '#e28cd4', '#b99d68', '#ace4e4']
   services:any = ['Hotel', 'Paquete', 'Vuelo']
 
@@ -533,6 +535,24 @@ export class KpisComponent implements OnInit {
 
     setTimeout( () => this.timerLoad(), 1000 )
 
+  }
+
+  currencyDispl( ammount ){
+    if( this.params['marca'] == 'Marcas Propias' && this.params['pais'] == 'CO'){
+
+      let monto = ammount * 146.741
+      this.suf = ''
+      if( monto > 1000000 ){
+        monto = monto / 1000
+        this.suf = 'K'
+      }
+
+      return monto
+
+    }else{
+      this.suf = ''
+      return ammount
+    }
   }
 
 }

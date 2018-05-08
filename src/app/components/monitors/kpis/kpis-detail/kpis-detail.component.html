@@ -13,7 +13,7 @@
 
       <!-- TOTAL DEL DIA -->
       <div class="d-flex justify-content-end" [style.width.px]="100">
-        <p>{{ monto | currency:'MXN':'symbol-narrow':'.2-2' }}</p>
+        <p>{{ currencyDisp(monto) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}</p>
       </div>
 
       <!-- VARS -->
@@ -22,7 +22,7 @@
         <!-- YD -->
         <div class="ml-1">
           <span
-            placement="bottom" ngbTooltip="{{ mYd | currency:'MXN':'symbol-narrow':'.2-2' }}"
+            placement="bottom" ngbTooltip="{{ currencyDisp(mYd) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
             class="badge badge-pill text-center ml-1"
             [ngClass]="compare( monto, mYd, 'class' )"
             [style.width.px]="55">
@@ -33,7 +33,7 @@
         <!-- LY -->
         <div class="ml-1">
           <span
-            placement="bottom" ngbTooltip="{{ mLy | currency:'MXN':'symbol-narrow':'.2-2' }}"
+            placement="bottom" ngbTooltip="{{ currencyDisp(mLy) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
             class="badge badge-pill text-center ml-1"
             [ngClass]="compare( monto, mLy, 'class' )"
             [style.width.px]="55">
