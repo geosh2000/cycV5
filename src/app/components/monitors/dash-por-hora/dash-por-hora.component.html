@@ -122,4 +122,8 @@
   <div class="container chartCont">
     <chart [options]="options" (load)="saveInstance('Total', $event.context)"></chart>
   </div>
+  <hr>
+  <div class="container chartCont">
+    <chart [options]="options" (load)="saveInstance('Outlet', $event.context)"></chart>
+  </div>
 </div>

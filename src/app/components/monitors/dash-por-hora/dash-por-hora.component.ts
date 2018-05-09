@@ -72,7 +72,8 @@ export class DashPorHoraComponent implements AfterViewInit {
     Presencial  : "PDV",
     Online      : "Online",
     Total       : "Total",
-    Com         : ".COM"
+    Com         : ".COM",
+    Outlet         : "Outlet"
   }
 
   dates:any = []
@@ -288,6 +289,7 @@ export class DashPorHoraComponent implements AfterViewInit {
               this.lu = moment(res.lu['lu']).format("DD MMM 'YY HH:mm:ss")
               this.buildData( res.data )
               this.timerCount = this.timeToReload
+              console.log(res.data)
 
             }, err => {
               console.log("ERROR", err)
