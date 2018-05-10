@@ -55,6 +55,7 @@ import { OutletComponent } from './components/formularios/outlet/outlet.componen
 import { DbOutletComponent } from './components/formularios/outlet/db/db-outlet.component';
 import { ProReportComponent } from './components/reportes/pro-report/pro-report.component';
 import { PollsComponent } from './components/formularios/polls/polls.component';
+import { DashOutletComponent } from './components/monitors/dash-outlet/dash-outlet.component';
 
 
 const APP_ROUTES: Routes = [
@@ -121,6 +122,7 @@ const APP_ROUTES: Routes = [
   { path: 'dashporhora', component: DashPorHoraComponent },
   { path: 'kpis', component: KpisComponent },
   { path: 'sla', component: SlaComponent },
+  { path: 'ovv2018', component: DashOutletComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },

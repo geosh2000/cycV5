@@ -150,6 +150,8 @@ import { OutletComponent } from './components/formularios/outlet/outlet.componen
 import { DbOutletComponent } from './components/formularios/outlet/db/db-outlet.component';
 import { ProReportComponent } from './components/reportes/pro-report/pro-report.component';
 import { PollsComponent } from './components/formularios/polls/polls.component';
+import { DashOutletComponent } from './components/monitors/dash-outlet/dash-outlet.component';
+import { GraphOutletComponent } from './components/monitors/dash-outlet/graph-outlet/graph-outlet.component';
 
 
 declare let jQuery : Object;
@@ -289,6 +291,8 @@ registerLocaleData(localeEsMX)
     DbOutletComponent,
     ProReportComponent,
     PollsComponent,
+    DashOutletComponent,
+    GraphOutletComponent,
   ],
   imports: [
     BrowserModule,

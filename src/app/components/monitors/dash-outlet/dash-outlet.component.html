@@ -1,0 +1,24 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container">
+    <div class="btn-group">
+      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ selDate }}
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-10'">10 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-11'">11 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-12'">12 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-13'">13 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = 'Todo'">Todo</button>
+      </div>
+    </div>
+    <p><small>Reload in {{ timerCount }} sec.</small></p>
+  </div>
+  <!-- CONTENIDO -->
+  <app-graph-outlet [data]="allData" [date]="selDate"></app-graph-outlet>
+
+
+</div>
