@@ -155,7 +155,7 @@ export class GraphOutletComponent implements AfterViewInit {
 
       }
 
-      this.chart['outlet'].title.update({ text: `Outlet ${ moment(this.date).format('DD MMM YYYY')}`})
+      this.chart['outlet'].title.update({ text: `Outlet ${ this.date == 'Todo' ? '10 al 13 de Mayo' : moment(this.date).format('DD MMM YYYY')}`})
       // this.chart['calls'].subtitle.update({ text: `$${this.totals[group].toLocaleString('es-MX')} (Last Update: ${ this.lu })`})
       this.resizeChart()
     }
@@ -169,7 +169,7 @@ export class GraphOutletComponent implements AfterViewInit {
       if( this.chart ){
         for( let group in this.chart ){
           let h = this.divWidth*1000/2200
-          this.chart['calls'].setSize(this.divWidth, h);
+          this.chart['outlet'].setSize(this.divWidth, h);
         }
       }
     }
