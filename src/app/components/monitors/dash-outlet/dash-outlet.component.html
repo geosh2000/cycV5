@@ -15,7 +15,7 @@
         <button class="dropdown-item" type="button" (click)="selDate = 'Todo'">Todo</button>
       </div>
     </div>
-    <p><small>Reload in {{ timerCount }} sec.</small></p>
+    <p><small><span class="text-info">Last Update: {{ lu }}</span> Reload in {{ timerCount }} sec.</small></p>
   </div>
   <!-- CONTENIDO -->
   <app-graph-outlet [data]="allData" [date]="selDate"></app-graph-outlet>

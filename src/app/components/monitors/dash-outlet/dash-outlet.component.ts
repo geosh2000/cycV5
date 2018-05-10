@@ -19,6 +19,7 @@ import * as Globals from '../../../globals';
 export class DashOutletComponent implements OnInit {
 
   allData:any
+  lu:any
   selDate:any = '2018-05-10'
   timerCount = 300
 
@@ -84,7 +85,7 @@ export class DashOutletComponent implements OnInit {
 
       for( let item of data[date] ){
         for( let it in allData[date] ){
-          allData[date][it].push([parseInt(this.unixTime(`${date} ${item['time']}`).format('x')), item[it]])
+          allData[date][it].push([parseInt(this.unixTime(`${item['time']}`).format('x')), item[it]])
         }
       }
     }
@@ -104,6 +105,7 @@ export class DashOutletComponent implements OnInit {
 
                 this.loading['data'] = false
                 this.buildData(res.data)
+                this.lu = res.lu['LU']
               }, err => {
                 console.log("ERROR", err)
 
