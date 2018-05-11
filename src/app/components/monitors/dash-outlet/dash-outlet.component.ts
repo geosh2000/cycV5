@@ -19,6 +19,7 @@ import * as Globals from '../../../globals';
 export class DashOutletComponent implements OnInit {
 
   allData:any
+  canalData:Object = {}
   lu:any
   selDate:any = '2018-05-10'
   timerCount = 300
@@ -90,11 +91,7 @@ export class DashOutletComponent implements OnInit {
       }
     }
 
-    this.allData = allData
-
-    console.log(this.allData)
-
-
+    return allData
   }
 
   getData(){
@@ -104,8 +101,15 @@ export class DashOutletComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['data'] = false
-                this.buildData(res.data)
+                this.allData = this.buildData(res.data['all'])
                 this.lu = res.lu['LU']
+                this.canalData = {}
+                this.loading['data'] = false
+                for(let canal in res.data['canal']){
+                  this.canalData[canal] = this.buildData(res.data['canal'][canal])
+                }
+                console.log(res.data)
+                console.log(this.canalData)
               }, err => {
                 console.log("ERROR", err)
 

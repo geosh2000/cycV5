@@ -14,12 +14,14 @@ export class GraphOutletComponent implements AfterViewInit {
 
   @ViewChild('chartContainer') parentDiv:ElementRef;
   @HostListener('window:resize') onResize() {
-    this.resizeChart()
+    // this.resizeChart()
   }
 
   @Input() data = []
   @Input() h = []
   @Input() date:string
+  @Input() goal:boolean=false
+  @Input() title:string = 'Todo'
 
   chart:Object = {}
   options:Object = {}
@@ -28,8 +30,8 @@ export class GraphOutletComponent implements AfterViewInit {
 
     this.options = {
                     chart: {
-                      width: 1400,
-                      height: 800
+                      width: 1200,
+                      height: 400
                     },
                     title: {
                         text: 'Loading...'
@@ -97,22 +99,6 @@ export class GraphOutletComponent implements AfterViewInit {
                         type: 'spline',
                         name: '3',
                         data: []
-                    },{
-                        type: 'column',
-                        name: '4',
-                        data: []
-                    },{
-                        type: 'spline',
-                        name: '5',
-                        data: []
-                    },{
-                        type: 'spline',
-                        name: '6',
-                        data: []
-                    },{
-                        type: 'spline',
-                        name: '7',
-                        data: []
                     }]
                 }
 
@@ -131,6 +117,12 @@ export class GraphOutletComponent implements AfterViewInit {
 
   saveInstance(identifier, chartInstance) {
       this.chart[identifier] = chartInstance;
+      if( this.goal ){
+        this.chart[identifier].addSeries({type: 'spline', name: '4', data: []})
+        this.chart[identifier].addSeries({type: 'spline', name: '5', data: []})
+        this.chart[identifier].addSeries({type: 'spline', name: '6', data: []})
+        this.chart[identifier].addSeries({type: 'spline', name: '7', data: []})
+      }
       // console.log(this.chart)
   }
 
@@ -144,20 +136,23 @@ export class GraphOutletComponent implements AfterViewInit {
           { name: 'Current', data: this.data[this.date]['ty'], type: 'spline' } )
         this.chart['outlet']['series'][2].update(
           { name: 'Hotel', data: this.data[this.date]['hotel'], type: 'spline' } )
-        this.chart['outlet']['series'][3].update(
-          { name: 'Meta 2018', data: this.data[this.date]['meta'], type: 'line', marker: { enabled: false}, dashStyle: 'ShortDot' } )
-        this.chart['outlet']['series'][4].update(
-          { name: 'Meta Hotel', data: this.data[this.date]['meta_hotel'], type: 'line', marker: { enabled: false}, dashStyle: 'ShortDot' } )
-        this.chart['outlet']['series'][5].update(
-          { name: 'Meta BI 2018', data: this.data[this.date]['meta_bi'], type: 'line', marker: { enabled: false}, dashStyle: 'ShortDot' } )
-        this.chart['outlet']['series'][6].update(
-          { name: 'Meta BI Hotel', data: this.data[this.date]['meta_bi_hoteles'], type: 'line', marker: { enabled: false}, dashStyle: 'ShortDot' } )
+
+        if( this.goal ){
+          this.chart['outlet']['series'][3].update(
+            { name: 'Meta 2018', data: this.data[this.date]['meta'], type: 'line', marker: { enabled: false}, dashStyle: 'ShortDot' } )
+          this.chart['outlet']['series'][4].update(
+            { name: 'Meta Hotel', data: this.data[this.date]['meta_hotel'], type: 'line', marker: { enabled: false}, dashStyle: 'ShortDot' } )
+          this.chart['outlet']['series'][5].update(
+            { name: 'Meta BI 2018', data: this.data[this.date]['meta_bi'], type: 'line', marker: { enabled: false}, dashStyle: 'ShortDot' } )
+          this.chart['outlet']['series'][6].update(
+            { name: 'Meta BI Hotel', data: this.data[this.date]['meta_bi_hoteles'], type: 'line', marker: { enabled: false}, dashStyle: 'ShortDot' } )
+        }
 
       }
 
-      this.chart['outlet'].title.update({ text: `Outlet ${ this.date == 'Todo' ? '10 al 13 de Mayo' : moment(this.date).format('DD MMM YYYY')}`})
+      this.chart['outlet'].title.update({ text: `Outlet ${ this.date == 'Todo' ? '10 al 13 de Mayo' : moment(this.date).format('DD MMM YYYY')} (canal: ${this.title})`})
       // this.chart['calls'].subtitle.update({ text: `$${this.totals[group].toLocaleString('es-MX')} (Last Update: ${ this.lu })`})
-      this.resizeChart()
+      // this.resizeChart()
     }
   }
 
@@ -168,7 +163,7 @@ export class GraphOutletComponent implements AfterViewInit {
 
       if( this.chart ){
         for( let group in this.chart ){
-          let h = this.divWidth*1000/2200
+          let h = this.divWidth*400/1200
           this.chart['outlet'].setSize(this.divWidth, h);
         }
       }

@@ -18,7 +18,8 @@
     <p><small><span class="text-info">Last Update: {{ lu }}</span> Reload in {{ timerCount }} sec.</small></p>
   </div>
   <!-- CONTENIDO -->
-  <app-graph-outlet [data]="allData" [date]="selDate"></app-graph-outlet>
+  <app-graph-outlet [data]="canalData[canal]" [title]="canal" [date]="selDate" [goal]="false" *ngFor="let canal of canalData | keys"></app-graph-outlet>
+  <app-graph-outlet [data]="allData" [date]="selDate" [goal]="true"></app-graph-outlet>
 
 
 </div>
