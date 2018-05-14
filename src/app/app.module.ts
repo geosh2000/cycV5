@@ -152,6 +152,7 @@ import { ProReportComponent } from './components/reportes/pro-report/pro-report.
 import { PollsComponent } from './components/formularios/polls/polls.component';
 import { DashOutletComponent } from './components/monitors/dash-outlet/dash-outlet.component';
 import { GraphOutletComponent } from './components/monitors/dash-outlet/graph-outlet/graph-outlet.component';
+import { Ovirtual2018Component } from './components/monitors/dash-outlet/ovirtual2018.component';
 
 
 declare let jQuery : Object;
@@ -293,6 +294,7 @@ registerLocaleData(localeEsMX)
     PollsComponent,
     DashOutletComponent,
     GraphOutletComponent,
+    Ovirtual2018Component,
   ],
   imports: [
     BrowserModule,

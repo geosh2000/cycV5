@@ -56,6 +56,7 @@ import { DbOutletComponent } from './components/formularios/outlet/db/db-outlet.
 import { ProReportComponent } from './components/reportes/pro-report/pro-report.component';
 import { PollsComponent } from './components/formularios/polls/polls.component';
 import { DashOutletComponent } from './components/monitors/dash-outlet/dash-outlet.component';
+import { Ovirtual2018Component } from './components/monitors/dash-outlet/ovirtual2018.component';
 
 
 const APP_ROUTES: Routes = [
@@ -123,6 +124,7 @@ const APP_ROUTES: Routes = [
   { path: 'kpis', component: KpisComponent },
   { path: 'sla', component: SlaComponent },
   { path: 'ovv2018', component: DashOutletComponent },
+  { path: 'oVirtual2018', component: Ovirtual2018Component },
 
   // CXC
   { path: 'cxc', component: CxcComponent },

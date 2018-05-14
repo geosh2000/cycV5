@@ -150,7 +150,7 @@ export class GraphOutletComponent implements AfterViewInit {
 
       }
 
-      this.chart['outlet'].title.update({ text: `Outlet ${ this.date == 'Todo' ? '10 al 13 de Mayo' : moment(this.date).format('DD MMM YYYY')} (canal: ${this.title})`})
+      this.chart['outlet'].title.update({ text: `Outlet ${ this.date == 'Todo' ? 'Todo el evento' : moment(this.date).format('DD MMM YYYY')} (canal: ${this.title})`})
       // this.chart['calls'].subtitle.update({ text: `$${this.totals[group].toLocaleString('es-MX')} (Last Update: ${ this.lu })`})
       // this.resizeChart()
     }

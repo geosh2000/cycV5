@@ -1,0 +1,35 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+  <div class="container">
+    <div class="d-flex justify-content-start">
+      <div class="p-1">
+        <div class="btn-group">
+      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ selDate }}
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-14'">14 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-15'">15 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-16'">16 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-17'">17 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-18'">18 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-19'">19 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = '2018-05-20'">20 Mayo 2018</button>
+        <button class="dropdown-item" type="button" (click)="selDate = 'Todo'">Todo</button>
+      </div>
+    </div>
+      </div>
+      <div class="p-1">
+        <button type="button" class="btn btn-warning" (click)="timerCount=0">Reload <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+      </div>
+    </div>
+    <p><small><span class="text-info">Last Update: {{ lu }}</span> Reload in {{ timerCount }} sec.</small></p>
+  </div>
+  <!-- CONTENIDO -->
+  <app-graph-outlet [data]="canalData[canal]" [title]="canal" [date]="selDate" [goal]="false" *ngFor="let canal of canalData | keys"></app-graph-outlet>
+  <app-graph-outlet [data]="allData" [date]="selDate" [goal]="true"></app-graph-outlet>
+
+
+</div>
