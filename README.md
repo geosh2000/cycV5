@@ -11,28 +11,61 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Cuartiles asesores
 * Fix exportación de columnas visibles
 
-## Módulo incentivos
+### Módulo incentivos
 * Review de incentivos con comentarios
 
-## Menu
+### Menu
 * Badge de tiempos no productivos en menú
 
-## Citas Outlet
+### Citas Outlet
 * Módulo para agendar citas para Outlet VyV2018
 * Auto actualización de slots ocupados
 * Edicion y borrado
 * Lista descargable
 * Base de datos con status editables
 
-## PBX Status
+### PBX Status
 * Se agrega el tiempo en pausa de comida y pnp
 * Tiempo en min y sec
 
-## Logout
+### Logout
 * Logout con confirmación de horarios
 
-## Bonos
+### Bonos
 * Fix -> Modificación de fecha límite para aprobaciones
+
+### Prenómina
+* Fix -> Corrección de faltas en festivos
+
+### Tabla F
+* Separación del canal Outlet de los resultados
+
+### Venta por Canal
+* Separación del canal Outlet de los resultados
+
+### Dashboard por Hora
+* Se agrega el canal Outlet
+
+### Dashboard por Hora OVV2018
+* Por día por hora para el ovv2018
+* Metas de BI y por dia ajustables desde base de datos
+
+### Dashboard por Hora OVirtual2018
+* Por día por hora para el ovv2018
+* Metas de BI y por dia ajustables desde base de datos
+
+### Monitor Kpis
+* Monto en COPS para MP CO
+
+### Reporte Personalizado
+* Filtros múltiples para búsquedas por GpoCanal, Servicio, Branch, asesor, etc
+* Agrupación y visualización opcional
+* Todos los canales y Marcas
+* Todos los servicios
+* Todos los asesores
+
+### Módulo de encuestas
+* Encuestas personalizables
 
 ## v2.2.5
 
