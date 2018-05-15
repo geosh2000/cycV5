@@ -482,11 +482,23 @@ export class PrenominaComponent implements OnInit {
     if( this.dataAusentismos[data.Fecha] && this.dataAusentismos[data.Fecha][data.asesor] ){
 
       if( this.dataAusentismos[data.Fecha][data.asesor].a == 1 ){
+
         result = {
           code: this.dataAusentismos[data.Fecha][data.asesor]['Code'],
           rcode: this.dataAusentismos[data.Fecha][data.asesor]['Code'],
           desc: this.dataAusentismos[data.Fecha][data.asesor]['a_name']
         }
+
+        if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
+          if( this.dataAusentismos[data.Fecha][data.asesor]['Code'] == 'F' || this.dataAusentismos[data.Fecha][data.asesor]['Code'] == 'FJ'){
+            result = {
+              code: "D",
+              rcode: "D",
+              desc: "Descanso por Festivo"
+            }
+          }
+        }
+
       }else{
         if( this.dataAusentismos[data.Fecha][data.asesor].d == 1 ){
           result = {
@@ -539,27 +551,51 @@ export class PrenominaComponent implements OnInit {
         }
         return result[type]
       }else{
-        result = {
-          code: "F",
-          rcode: "F",
-          desc: "Falta Injustificada"
+        if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
+          result = {
+            code: "D",
+            rcode: "D",
+            desc: "Descanso por Festivo"
+          }
+        }else{
+          result = {
+            code: "F",
+            rcode: "F",
+            desc: "Falta Injustificada"
+          }
         }
         return result[type]
       }
     }else{
       if( this.checkSA( data.js, data.je, data.logs.j.in, data.logs.j.out ) ){
-        result = {
-          code: "F",
-          rcode: "F",
-          desc: "Salida Anticipada / Jornada < 60%"
+        if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
+          result = {
+            code: "D",
+            rcode: "D",
+            desc: "Descanso por Festivo"
+          }
+        }else{
+          result = {
+            code: "F",
+            rcode: "F",
+            desc: "Salida Anticipada Jornada < 60%"
+          }
         }
         return result[type]
       }else{
         if( this.checkLength( data.js, data.je, data.logs.j.in, data.logs.j.out ) ){
-          result = {
-            code: "F",
-            rcode: "F",
-            desc: "Jornada < 60%"
+          if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
+            result = {
+              code: "D",
+              rcode: "D",
+              desc: "Descanso por Festivo"
+            }
+          }else{
+            result = {
+              code: "F",
+              rcode: "F",
+              desc: "Jornada < 60%"
+            }
           }
           return result[type]
         }else{
