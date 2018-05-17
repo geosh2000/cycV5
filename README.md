@@ -7,6 +7,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Modulo Asistencia
 * Filtro por asesor
+* Bug Fix -> Recargar excepcion cuando se modifica desde filtro de asesor
 
 ### Cuartiles asesores
 * Fix exportación de columnas visibles
@@ -66,6 +67,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Módulo de encuestas
 * Encuestas personalizables
+
+### Módulo de Días Pendientes
+* Carga de dias pendientes nuevos
+* Opción de carga de horas negativas
+* Consulta de todos los asesores con dias Pendientes
+* Detalle de resutado de días disponibles
+* Flujo de aprobación para dias pendientes
 
 ## v2.2.5
 

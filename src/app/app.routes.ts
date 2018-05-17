@@ -57,6 +57,7 @@ import { ProReportComponent } from './components/reportes/pro-report/pro-report.
 import { PollsComponent } from './components/formularios/polls/polls.component';
 import { DashOutletComponent } from './components/monitors/dash-outlet/dash-outlet.component';
 import { Ovirtual2018Component } from './components/monitors/dash-outlet/ovirtual2018.component';
+import { DiasPendientesComponent } from './components/asistencia/dias-pendientes/dias-pendientes.component';
 
 
 const APP_ROUTES: Routes = [
@@ -92,6 +93,7 @@ const APP_ROUTES: Routes = [
   // Asistencia
   { path: 'asistencia/calendario', component: CalendarioComponent },
   { path: 'asistencia/ausentismos', component: AusentismosComponent },
+  { path: 'asistencia/diasPendientes', component: DiasPendientesComponent },
 
   // Reportes
   { path: 'cuartiles', component: CuartilesComponent },

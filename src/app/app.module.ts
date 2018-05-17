@@ -153,6 +153,8 @@ import { PollsComponent } from './components/formularios/polls/polls.component';
 import { DashOutletComponent } from './components/monitors/dash-outlet/dash-outlet.component';
 import { GraphOutletComponent } from './components/monitors/dash-outlet/graph-outlet/graph-outlet.component';
 import { Ovirtual2018Component } from './components/monitors/dash-outlet/ovirtual2018.component';
+import { DiasPendientesComponent } from './components/asistencia/dias-pendientes/dias-pendientes.component';
+import { AprobacionDpComponent } from './components/asistencia/dias-pendientes/aprobacion-dp/aprobacion-dp.component';
 
 
 declare let jQuery : Object;
@@ -295,6 +297,8 @@ registerLocaleData(localeEsMX)
     DashOutletComponent,
     GraphOutletComponent,
     Ovirtual2018Component,
+    DiasPendientesComponent,
+    AprobacionDpComponent,
   ],
   imports: [
     BrowserModule,

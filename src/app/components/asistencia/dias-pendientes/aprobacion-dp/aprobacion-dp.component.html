@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-center">
+  <div class="p-1" *ngIf="!showContents">
+    <button type="button" class="btn btn-secondary btn-sm" [disabled]="true">Pendiente</button>
+  </div>
+  <div class="p-1" *ngIf="showContents">
+    <button type="button" class="btn btn-danger btn-sm" (click)="setApprobe(item, 2)" [disabled]="loading['toApprobe']"><span *ngIf="!loading['toApprobe']"><i class="far fa-thumbs-down"></i></span><span *ngIf="loading['toApprobe']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+  </div>
+  <div class="p-1" *ngIf="showContents">
+    <button type="button" class="btn btn-success btn-sm" (click)="setApprobe(item, 1)" [disabled]="loading['toApprobe']"><span *ngIf="!loading['toApprobe']"><i class="far fa-thumbs-up"></i></span><span *ngIf="loading['toApprobe']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+  </div>
+</div>
