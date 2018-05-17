@@ -387,16 +387,17 @@ export class AusentismosComponent implements OnInit {
   getPendientes(){
     this.loading['pendientes'] = true
 
-    this._api.restfulGet( this.asesorShow, 'Asistencia/diasPendientes' )
+    this._api.restfulGet( this.asesorShow, 'Diaspendientes/getSummary' )
             .subscribe( res => {
 
               this.loading['pendientes'] = false
 
-              if( res.num > 0 ){
-                this.diasPendientes = res.data
+              if( parseInt(res.data.disponibles) > 0 ){
+                this.diasPendientes = parseInt(res.data.disponibles)
+                this.chgType(0, 'pendiente', 'Descanso Pendiente')
               }else{
-                this.toastr.error( "Este asesor no cuenta con días pendientes por redimir", `Sin Pendientes` )
-                this.index['aus'] = ''
+                this.toastr.error( "Este asesor no cuenta con días pendientes por redimir o no alcanza los suficientes para cubrir 1 día", `Sin Pendientes` )
+                this.index['aus'] = null
               }
 
               // console.log(res.data)
@@ -410,7 +411,7 @@ export class AusentismosComponent implements OnInit {
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
-              this.index['aus'] = ''
+              this.index['aus'] = null
 
             })
 

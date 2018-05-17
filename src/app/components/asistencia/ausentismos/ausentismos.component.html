@@ -50,17 +50,8 @@
             <!-- Pendientes -->
             <div class="row p-2" *ngIf="dataTipos[index['aus']].Ausentismo == 'Descanso Pendiente'">
               <div class="d-flex align-items-center">
-                <div class="btn-group dropright animated fadeIn">
-                  <button type="button" [style.width.px]="270" class="btn btn-info text-left">Pendiente: {{ (index['pendiente'] || index['pendiente']==0) ? diasPendientes[index['pendiente']].motivo : '' }}</button>
-                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only"*ngIf="!loading['pendientes']">Toggle Dropright</span>
-                    <span *ngIf="loading['pendientes']"><i class="fas fa-spinner fa-pulse"></i></span>
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <ng-container *ngFor="let item of diasPendientes; index as i">
-                      <button type="button" class="dropdown-item" (click)="chgType(i, 'pendiente', item.motivo)">({{ item.dias_pendientes }}) - {{ item.motivo }}</button>
-                    </ng-container>
-                  </div>
+                <div class="btn-block dropright animated fadeIn">
+                  <button type="button" [style.width.px]="309" class="btn btn-info animated fadeIn text-left">Pendientes: {{ diasPendientes ? diasPendientes : 0 }}</button>
                 </div>
               </div>
             </div>
@@ -76,7 +67,7 @@
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <ng-container *ngFor="let item of daysOpts; index as i">
                       <ng-container *ngIf="dataTipos[index['aus']].Ausentismo == 'Descanso Pendiente' && (index['pendiente'] || index['pendiente'] == 0)">
-                        <button type="button" class="dropdown-item" (click)="chgType(i, 'days')" *ngIf="item > 0 && item <= diasPendientes[index['pendiente']].dias_pendientes">{{ item }}</button>
+                        <button type="button" class="dropdown-item" (click)="chgType(i, 'days')" *ngIf="item > 0 && item <= diasPendientes">{{ item }}</button>
                       </ng-container>
 
                       <ng-container *ngIf="dataTipos[index['aus']].Ausentismo != 'Descanso Pendiente'">

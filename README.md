@@ -5,18 +5,14 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ## v2.2.6
 
-### Modulo Asistencia
-* Filtro por asesor
+### Ausentismos
+* Integración de módulo de dias pendientes para ausentismos
+
+### Asistencia
 * Bug Fix -> Recargar excepcion cuando se modifica desde filtro de asesor
-
-### Cuartiles asesores
-* Fix exportación de columnas visibles
-
-### Módulo incentivos
-* Review de incentivos con comentarios
-
-### Menu
-* Badge de tiempos no productivos en menú
+* Filtro por asesor
+* Selección de pago de DTs en nómina o acumulación de dias
+* Selección de pago de Horas Extra en nómina o acumulación de dias
 
 ### Citas Outlet
 * Módulo para agendar citas para Outlet VyV2018
@@ -25,24 +21,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Lista descargable
 * Base de datos con status editables
 
-### PBX Status
-* Se agrega el tiempo en pausa de comida y pnp
-* Tiempo en min y sec
-
-### Logout
-* Logout con confirmación de horarios
-
-### Bonos
-* Fix -> Modificación de fecha límite para aprobaciones
-
-### Prenómina
-* Fix -> Corrección de faltas en festivos
-
-### Tabla F
-* Separación del canal Outlet de los resultados
-
-### Venta por Canal
-* Separación del canal Outlet de los resultados
+### Cuartiles
+* Fix exportación de columnas visibles
 
 ### Dashboard por Hora
 * Se agrega el canal Outlet
@@ -55,8 +35,35 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Por día por hora para el ovv2018
 * Metas de BI y por dia ajustables desde base de datos
 
+### Días Pendientes
+* Carga de dias pendientes nuevos
+* Opción de carga de horas negativas
+* Consulta de todos los asesores con dias Pendientes
+* Detalle de resutado de días disponibles
+* Flujo de aprobación para dias pendientes
+
+### Encuestas
+* Encuestas personalizables
+
+### Incentivos
+* Review de incentivos con comentarios
+* Fix -> Modificación de fecha límite para aprobaciones
+
+### Logout
+* Logout con confirmación de horarios
+
+### Menu
+* Badge de tiempos no productivos en menú
+
 ### Monitor Kpis
 * Monto en COPS para MP CO
+
+### PBX Status
+* Se agrega el tiempo en pausa de comida y pnp
+* Tiempo en min y sec
+
+### Prenómina
+* Fix -> Corrección de faltas en festivos
 
 ### Reporte Personalizado
 * Filtros múltiples para búsquedas por GpoCanal, Servicio, Branch, asesor, etc
@@ -65,15 +72,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Todos los servicios
 * Todos los asesores
 
-### Módulo de encuestas
-* Encuestas personalizables
+### Tabla F
+* Separación del canal Outlet de los resultados
 
-### Módulo de Días Pendientes
-* Carga de dias pendientes nuevos
-* Opción de carga de horas negativas
-* Consulta de todos los asesores con dias Pendientes
-* Detalle de resutado de días disponibles
-* Flujo de aprobación para dias pendientes
+### Venta por Canal
+* Separación del canal Outlet de los resultados
 
 ## v2.2.5
 
@@ -118,9 +121,6 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Integración del pago de Incentivos
 * Omisión de Horas Extra y DTs seleccionadas para pagarse con tiempo
 
-### Asistencia
-* Selección de pago de DTs en nómina o acumulación de dias
-* Selección de pago de Horas Extra en nómina o acumulación de dias
 
 ## v2.2.3
 

@@ -302,4 +302,8 @@ export class DiasPendientesComponent implements OnInit {
               })
   }
 
+  replaceStr( text ){
+    return text.replace( /_/gm, ' ')
+  }
+
 }
