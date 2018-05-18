@@ -221,7 +221,7 @@
                     <div class="col">
                       <div class="p-2 d-flex justify-content-between flex-wrap">
                         <h3 class='align-middle text-right font-weight-bold text-dark' >{{ currencyDispl(group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}</h3>
-                        <div class="d-flex justify-content-between" [style.height.px]="20" [style.height.px]="170">
+                        <div class="d-flex justify-content-between" [style.height.px]="20" [style.width.px]="170">
                           <span
                             placement="bottom" ngbTooltip="{{ currencyDispl(group == 'Total' ? getTotal(canal, params['compare'], params['montoSV']) : getVal( canal, group, params['montoSV'], params['compare'] )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
                             class="badge badge-pill text-center ml-1"

@@ -58,6 +58,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Monitor Kpis
 * Monto en COPS para MP CO
 
+### Monitor Kpis PDV
+* Monitoreo de venta por ciudad / PDV
+
 ### PBX Status
 * Se agrega el tiempo en pausa de comida y pnp
 * Tiempo en min y sec
