@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import * as moment from 'moment-timezone';
+import { OrderPipe } from 'ngx-order-pipe';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { ApiService } from '../../../services/api.service';
@@ -9,11 +10,11 @@ import { TokenCheckService } from '../../../services/token-check.service';
 declare var jQuery:any;
 
 @Component({
-  selector: 'app-kpis',
-  templateUrl: './kpis.component.html',
+  selector: 'app-kpis-pdv',
+  templateUrl: './kpis-pdv.component.html',
   styles: []
 })
-export class KpisComponent implements OnInit {
+export class KpisPdvComponent implements OnInit {
 
   currentUser: any
   showContents:boolean = false
@@ -47,9 +48,9 @@ export class KpisComponent implements OnInit {
   startDate:any
   yd:boolean = true
   monitor:boolean = true
-  detail:boolean  = true
+  detail:boolean  = false
   detailView:Object = {
-    fc        : true,
+    fc        : false,
     producto  : true,
     paq       : false,
     locs      : true
@@ -66,10 +67,12 @@ export class KpisComponent implements OnInit {
     {concept: 'Av Tkt', exp: 'Ticket Promedio'}
   ]
 
+
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
+                private orderPipe: OrderPipe,
                 public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
@@ -116,7 +119,7 @@ export class KpisComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('CyC - KPIs Live!')
+    this.titleService.setTitle('CyC - KPIs PDV');
     this.getData()
     this.timerLoad()
   }
@@ -137,7 +140,7 @@ export class KpisComponent implements OnInit {
       params['h'] = 0
     }
 
-    this._api.restfulPut( params,'Venta/kpis' )
+    this._api.restfulPut( params,'Venta/kpisPdv' )
             .subscribe( res => {
 
               this.loading['venta'] = false
@@ -152,11 +155,9 @@ export class KpisComponent implements OnInit {
               let data = {}
               let x=0
 
-              for(let gpo of res.data['locs']){
+              for(let gpo of this.orderPipe.transform(this.orderPipe.transform(res.data['locs'], 'gpoTipoRsvaOk'), 'gpoCanalKpiOK')){
 
-                let gpoName = gpo['gpoTipoRsvaOk'] == 'Presencial' ? 'PDV' : gpo['gpoTipoRsvaOk']
-                gpoName = gpoName == 'In' ? 'CC-In' : gpoName
-                gpoName = gpoName == 'Out' ? 'CC-Out' : gpoName
+                let gpoName = gpo['gpoTipoRsvaOk']
 
                 if( data[gpo['gpoCanalKpiOK']] ){
                   if( data[gpo['gpoCanalKpiOK']][gpoName] ){
@@ -166,12 +167,21 @@ export class KpisComponent implements OnInit {
                       [fechas[gpo['Fecha']]] : gpo
                     }
                   }
+
+                  if( fechas[gpo['Fecha']] == 'td' ){
+                    data[gpo['gpoCanalKpiOK']]['extra']['totalSV'] += parseFloat(gpo['MontoSV'])
+                    data[gpo['gpoCanalKpiOK']]['extra']['totalAll'] += parseFloat(gpo['MontoAll'])
+                  }
                 }else{
                   data[gpo['gpoCanalKpiOK']] = {
                     [gpoName]: {
                       [fechas[gpo['Fecha']]]: gpo
                     },
-                    color: this.colors[x]
+                    extra: {
+                      color: this.randColor(),
+                      totalSV: fechas[gpo['Fecha']] == 'td' ? parseFloat(gpo['MontoSV']) : 0,
+                      totalAll: fechas[gpo['Fecha']] == 'td' ? parseFloat(gpo['MontoAll']) : 0,
+                    }
                   }
                   x++
                 }
@@ -207,7 +217,7 @@ export class KpisComponent implements OnInit {
                         [gpo['servicio']]: gpo
                       }
                     },
-                    color: this.colors[x]
+                    color: this.randColor()
                   }
                   x++
                 }
@@ -556,6 +566,12 @@ export class KpisComponent implements OnInit {
       this.suf = ''
       return ammount
     }
+  }
+
+  randColor(){
+    return "hsl(" + 360 * Math.random() + ',' +
+                 (25 + 70 * Math.random()) + '%,' +
+                 (85 + 10 * Math.random()) + '%)'
   }
 
 }

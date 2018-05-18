@@ -155,6 +155,7 @@ import { GraphOutletComponent } from './components/monitors/dash-outlet/graph-ou
 import { Ovirtual2018Component } from './components/monitors/dash-outlet/ovirtual2018.component';
 import { DiasPendientesComponent } from './components/asistencia/dias-pendientes/dias-pendientes.component';
 import { AprobacionDpComponent } from './components/asistencia/dias-pendientes/aprobacion-dp/aprobacion-dp.component';
+import { KpisPdvComponent } from './components/monitors/kpis-pdv/kpis-pdv.component';
 
 
 declare let jQuery : Object;
@@ -299,6 +300,7 @@ registerLocaleData(localeEsMX)
     Ovirtual2018Component,
     DiasPendientesComponent,
     AprobacionDpComponent,
+    KpisPdvComponent,
   ],
   imports: [
     BrowserModule,

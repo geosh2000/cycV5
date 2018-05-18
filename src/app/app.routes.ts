@@ -35,6 +35,7 @@ import { DashPorHoraComponent } from './components/monitors/dash-por-hora/dash-p
 import { StatisticsComponent } from './components/monitors/calls/statistics/statistics.component';
 import { SlaComponent } from './components/monitors/sla/sla.component';
 import { KpisComponent } from './components/monitors/kpis/kpis.component';
+import { KpisPdvComponent } from './components/monitors/kpis-pdv/kpis-pdv.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
 import { FamsComponent } from './components/config/fams/fams.component';
 import { CalendarioComponent } from './components/asistencia/calendario/calendario.component';
@@ -124,6 +125,7 @@ const APP_ROUTES: Routes = [
   { path: 'monitors/callStatistics', component: StatisticsComponent },
   { path: 'dashporhora', component: DashPorHoraComponent },
   { path: 'kpis', component: KpisComponent },
+  { path: 'kpisPDV', component: KpisPdvComponent },
   { path: 'sla', component: SlaComponent },
   { path: 'ovv2018', component: DashOutletComponent },
   { path: 'oVirtual2018', component: Ovirtual2018Component },
