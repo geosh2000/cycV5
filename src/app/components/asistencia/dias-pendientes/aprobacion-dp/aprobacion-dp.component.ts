@@ -49,7 +49,6 @@ export class AprobacionDpComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
           }
         })
 
