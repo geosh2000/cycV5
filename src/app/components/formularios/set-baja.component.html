@@ -17,16 +17,8 @@
           <!-- Fecha Baja -->
           <div class="form-group row">
             <label class="col-4 col-form-label">Fecha de Baja</label>
-            <div class="col-8 input-group">
-              <span class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-calendar fa-fw"></i></span>
-              </span>
-              <input
-                daterangepicker
-                formControlName="fechaBaja"
-                [options]="singlePicker"
-                (selected)="setVal($event.start, 'fechaBaja')"
-                class="form-control uneditable-input" type="text" value="">
+            <div class="col-8 text-center">
+              <ngb-datepicker (select)="setValDP($event, 'fechaBaja')"></ngb-datepicker>
             </div>
           </div>
 
@@ -83,21 +75,13 @@
           <!-- <div class="form-group row"> -->
           <div class="form-group row" [ngClass]="{ 'has-danger': !formSetBaja.controls['fechaLiberacion'].valid }" *ngIf="formSetBaja.controls['reemplazable'].value == true">
             <label class="col-4 col-form-label">Fecha Liberación</label>
-            <div class="col-8 input-group">
-              <span class="input-group-prepend">
-                <i class="fa fa-calendar-o fa-fw"></i>
-              </span>
-              <input
-                daterangepicker
-                formControlName="fechaLiberacion"
-                [options]="singlePicker"
-                (selected)="setVal($event.start, 'fechaLiberacion')"
-                class="form-control uneditable-input" type="text" value="">
+            <div class="col-8 text-center">
+              <ngb-datepicker (select)="setValDP($event, 'fechaLiberacion')"></ngb-datepicker>
             </div>
-            <div class="col-12 form-control-feedback" *ngIf="formSetBaja.controls['fechaLiberacion']._errors?.required">
+            <div class="col-12 is-invalid" *ngIf="formSetBaja.controls['fechaLiberacion']._errors?.required">
               <div><small>La fecha de liberación es requerida cuando la vacante es reemplazable</small></div>
             </div>
-            <div class="col-12 form-control-feedback" *ngIf="formSetBaja.controls['fechaLiberacion']._errors?.lessFechaLiberacion">
+            <div class="col-12 is-invalid" *ngIf="formSetBaja.controls['fechaLiberacion']._errors?.lessFechaLiberacion">
               <div><small>La fecha de liberación debe ser menor o igual a la fecha de Baja</small></div>
             </div>
           </div>
@@ -108,20 +92,27 @@
             </span><br>
             <span>Por favor notifícalo a WFM</span>
           </div>
-          <div class="d-flex flex-row-reverse">
+          <div class="d-flex justify-content-end">
             <button
                     type="submit"
                     [ngClass]="{ 'btn-outline-secondary': formSetBaja.invalid, 'btn-success': !formSetBaja.invalid }"
                     class="btn"
-                    (click)="submitBaja()"
+                    (click)="formSetBaja['value']['reemplazable'] ? submitBaja() : confirmReemp = true"
                     [disabled]="retrieving || formSetBaja.invalid"
+                    *ngIf="!confirmReemp"
                     >{{ titleSubmit }} <span *ngIf="retrieving"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
-            <!-- <button
-                    [disabled]="formSetBaja.invalid"
-                    type="submit"
-                    [ngClass]="{ 'btn-outline-secondary': formSetBaja.invalid, 'btn-success': !formSetBaja.invalid }"
-                    class="btn"
-                    >{{ titleSubmit }}</button> -->
+            <div class="col-12 animated flipInX" *ngIf="confirmReemp">
+              <div class="alert alert-warning d-flex justify-content-end" role="alert">
+                <div class="" style="font-size:smaller">
+                  <p>Al seleccionar la opción de <b>No Reemplazable</b> la plaza se desactivará, haciendo que el HeadCount se reduzca</p>
+                  <p>¿Deseas continuar?</p>
+                </div>
+                <div class="ml-auto">
+                  <button type="button" class="btn btn-block btn-danger" (click)="confirmReemp = false"><i class="fas fa-times"></i></button>
+                  <button type="button" class="btn btn-block btn-success" (click)="submitBaja()"><i class="fas fa-check"></i></button>
+                </div>
+              </div>
+            </div>
           </div>
 
         </form>

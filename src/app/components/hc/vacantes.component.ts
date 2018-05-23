@@ -12,7 +12,7 @@ declare var jQuery:any;
 // -- * END Credentials Init Settings
 
 import { ApiService } from '../../services/api.service';
-import { ShowDetailAsesorComponent } from '../detail-asesor/show-detail-asesor.component';
+// import { ShowDetailAsesorComponent } from '../detail-asesor/show-detail-asesor.component';
 import { CambioPuestoComponent } from '../formularios/cambio-puesto.component';
 import { EditDetailsComponent } from '../formularios/edit-details.component';
 import { SetBajaComponent } from '../formularios/set-baja.component';
@@ -68,7 +68,7 @@ export class VacantesComponent implements OnInit {
 
   currentUser:any
 
-  @ViewChild(ShowDetailAsesorComponent) detailAsesor:ShowDetailAsesorComponent
+  // @ViewChild(ShowDetailAsesorComponent) detailAsesor:ShowDetailAsesorComponent
   @ViewChild(CambioPuestoComponent) cambioPuesto:CambioPuestoComponent
   @ViewChild(EditDetailsComponent) editDetails:EditDetailsComponent
   @ViewChild(SetBajaComponent) setBaja:SetBajaComponent
@@ -311,51 +311,51 @@ export class VacantesComponent implements OnInit {
     this.deactivateVacante.buildForm( id, this.currentUser.hcInfo['id'] )
   }
 
-  showAsesorChildDialog( array ){
-    jQuery(array.open).modal('show')
-    jQuery(array.parent).modal('hide')
-
-    if(array.name){
-      switch(array.name){
-        case 'editDetails':
-          this.editDetails.buildForm(array.extraValue)
-          break
-        case 'setBaja':
-          this.setBaja.tipo = 'set'
-          this.setBaja.titleSubmit = 'Guardar'
-          this.setBaja.buildForm(array.extraValue)
-          this.titleBaja = array.extraValue['corto']
-          break
-        case 'askBaja':
-          this.setBaja.tipo = 'ask'
-          this.setBaja.titleSubmit = 'Solicitar'
-          this.setBaja.buildForm(array.extraValue)
-          this.titleBaja = array.extraValue['corto']
-          break
-        case 'askCambio':
-          this.cambioPuesto.buildForm(array.extraValue, array.tipo)
-          break
-        case 'addCxc':
-          this.addCxc.buildForm(array.extraValue)
-          break
-        case 'saldarCxc':
-          this.saldarCxc.buildForm(array.extraValue)
-          break
-        case 'applyCxc':
-          this.applyCxc.buildForm(array.extraValue)
-          break
-        case 'detalleSanciones':
-          this.detalleSanciones.buildForm(array.extraValue)
-          break
-        case 'addVacante':
-          this.addVacante.buildForm()
-          break
-
-      }
-    }
-
-    this.parentModal=array
-  }
+  // showAsesorChildDialog( array ){
+  //   jQuery(array.open).modal('show')
+  //   jQuery(array.parent).modal('hide')
+  //
+  //   if(array.name){
+  //     switch(array.name){
+  //       case 'editDetails':
+  //         this.editDetails.buildForm(array.extraValue)
+  //         break
+  //       case 'setBaja':
+  //         this.setBaja.tipo = 'set'
+  //         this.setBaja.titleSubmit = 'Guardar'
+  //         this.setBaja.buildForm(array.extraValue)
+  //         this.titleBaja = array.extraValue['corto']
+  //         break
+  //       case 'askBaja':
+  //         this.setBaja.tipo = 'ask'
+  //         this.setBaja.titleSubmit = 'Solicitar'
+  //         this.setBaja.buildForm(array.extraValue)
+  //         this.titleBaja = array.extraValue['corto']
+  //         break
+  //       case 'askCambio':
+  //         this.cambioPuesto.buildForm(array.extraValue, array.tipo)
+  //         break
+  //       case 'addCxc':
+  //         this.addCxc.buildForm(array.extraValue)
+  //         break
+  //       case 'saldarCxc':
+  //         this.saldarCxc.buildForm(array.extraValue)
+  //         break
+  //       case 'applyCxc':
+  //         this.applyCxc.buildForm(array.extraValue)
+  //         break
+  //       case 'detalleSanciones':
+  //         this.detalleSanciones.buildForm(array.extraValue)
+  //         break
+  //       case 'addVacante':
+  //         this.addVacante.buildForm()
+  //         break
+  //
+  //     }
+  //   }
+  //
+  //   this.parentModal=array
+  // }
 
   showDialogReturnParent( actualDialog ){
     jQuery(actualDialog).modal('hide')
@@ -364,7 +364,7 @@ export class VacantesComponent implements OnInit {
 
   retrieveAgain( event ){
     this.showDialogReturnParent( event['form'] )
-    this.detailAsesor.getAsesorDetail(this.shownAsesor)
+    // this.detailAsesor.getAsesorDetail(this.shownAsesor)
   }
 
   setViewAll(){

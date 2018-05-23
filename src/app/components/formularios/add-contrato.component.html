@@ -1,54 +1,120 @@
-<form class="form-group" [formGroup]="formAddContrato" (ngSubmit)="submit()">
-
-  <div class="form-group row" [ngClass]="{ 'has-danger': !formAddContrato.controls[item].valid && !formAddContrato.controls[item].pristine}" *ngFor="let item of formAddContratoDetail | keys" >
-    <ng-container *ngIf="formAddContratoDetail[item].show">
-      <label class="col-4 col-form-label">{{ item | capitalizado }} <span *ngIf="formAddContratoDetail[item].required">*</span></label>
-      <div class="col-8 input-group">
-        <span class="input-group-addon">
-          <i class="{{ formAddContratoDetail[item].icon }}"></i>
-        </span>
-        <input
-          *ngIf="formAddContratoDetail[item].tipo=='date'"
-          daterangepicker
-          [formControlName]="item"
-          [options]="singlePicker"
-          (selected)="setVal($event.start, item)"
-          class="form-control uneditable-input" type="text" value="" [readonly]="formAddContratoDetail[item].readonly">
-        <input
-          *ngIf="formAddContratoDetail[item].tipo=='text'"
-          [formControlName]="item"
-          class="form-control" type="text" value="" [readonly]="formAddContratoDetail[item].readonly">
-        <select
-                *ngIf="formAddContratoDetail[item].tipo=='select'"
-                class="custom-select" style="max-width: 257px; min-width: 257px;"
-                [formControlName]="item"
-                >
-          <option value="">Selecciona...</option>
-          <option value="1">Temporal</option>
-          <option value="2">Indefinido</option>
-        </select>
+<ng-container *ngIf="contratos.length > 0">
+  <div class="row">
+    <div class="col-2">
+      <p><b>Activo</b></p>
+    </div>
+    <div class="col-4 text-center">
+      <p><b>Tipo</b></p>
+    </div>
+    <div class="col-3 text-center">
+      <p><b>Inicio</b></p>
+    </div>
+    <div class="col-3 text-center">
+      <p><b>Fin</b></p>
+    </div>
+  </div>
+  <div class="row" *ngFor="let item of contratos">
+    <ng-container *ngIf="delete != item['id']">
+      <div class="col-1  animated flipInX"></div>
+      <div class="col-1  animated flipInX">
+        <input class="form-check-input" type="radio" name="contrato" (change)="inputChg(item['id'])" [(ngModel)]="formData['activo']" [value]="item['id']">
       </div>
-      <div class="col-12 form-control-feedback" *ngIf="formAddContrato.controls[item].errors?.pattern && !formAddContrato.controls[item].pristine">
-        <div><small [innerHTML]="formAddContratoDetail[item].pattern"></small></div>
+      <div class="col-4  animated flipInX d-flex justify-content-around">
+        <div class="">
+          <span class="badge badge-pill" [ngClass]="{'badge-secondary': item.tipo != 1 &&item.tipo != 2,'badge-warning': item.tipo == 1,'badge-success': item.tipo == 2}">{{ item.tipo == 1 ? 'Temporal' : item.tipo == 2 ? 'Indefinido' : 'N/A' }}</span>
+        </div>
+        <div class="">
+          <span *ngIf="loading['active']"><i class="fas fa-spinner fa-pulse fa-fw text-info"></i></span>
+          <button class="btn btn-sm btn-link" [ngClass]="{'text-danger': formData['activo'] != item['id'], 'text-secondary': formData['activo'] == item['id']}" (click)="delete = item['id']" [disabled]="formData['activo'] == item['id']" *ngIf="!loading['active']"><i class="far fa-trash-alt"></i></button>
+        </div>
       </div>
-      <div class="col-12 form-control-feedback" *ngIf="formAddContrato.controls[item].errors?.required && !formAddContrato.controls[item].pristine">
-        <div><small>Campo Obligatorio</small></div>
+      <div class="col-3  animated flipInX text-center">
+        <p>{{ item['inicio'] ? printDate( item['inicio'], 'DD MMM \'YY' ) : '-' }}</p>
+      </div>
+      <div class="col-3  animated flipInX text-center">
+      <p>{{ item['fin'] ? printDate( item['fin'], 'DD MMM \'YY' ) : '-' }}</p>
+    </div>
+    </ng-container>
+    <ng-container *ngIf="delete == item['id']">
+      <div class="col-12 animated flipInX">
+        <div class="alert alert-warning d-flex justify-content-end" role="alert">
+          <div class="" style="font-size:smaller">
+            ¿Realmente deseas eliminar este contrato?
+          </div>
+          <div class="ml-auto">
+            <button type="button" class="btn btn-danger" [disabled]="loading['delete']" (click)="delete = ''"><i class="fas fa-times"></i></button>
+            <button type="button" class="btn btn-success" [disabled]="loading['delete']" (click)="confDelete(item['id'])"><i class="fas fa-check"></i><span *ngIf="loading['delete']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          </div>
+        </div>
       </div>
     </ng-container>
   </div>
-  <div class="d-flex flex-row-reverse">
-    <button
-            [disabled]="formAddContrato.invalid || submitting"
-            type="submit"
-            [ngClass]="{ 'btn-outline-secondary': formAddContrato.invalid, 'btn-success': !formAddContrato.invalid }"
-            class="btn"
-            >Guardar <span *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
+</ng-container>
+<div class="alert alert-warning" role="alert" *ngIf="contratos.length == 0">
+  No hay contratos registrados
+</div>
+<hr>
+<div class="d-flex justify-content-end animated flipInX" *ngIf="!addForm">
+  <div class="p-1">
+    <button type="button" class="btn btn-secondary" (click)="close()">Cerrar</button>
   </div>
-  <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
-    <span><strong>Hubo un error en el proceso</strong></span><br>
-    <span>
-      {{ errorMsg }}
-    </span><br>
-    <span>Por favor notifícalo a WFM</span>
+  <div class="p-1">
+    <button type="button" class="btn btn-success" (click)="addForm = true" [disabled]="loading['active'] || loading['delete']">Agregar <i class="fas fa-plus"></i></button>
   </div>
-</form>
+</div>
+<div class="alert alert-primary animated flipInX" role="alert" *ngIf="addForm">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-4 text-center">
+      <span class="badge badge-pill" [ngClass]="{'badge-light text-secondary': formData['tipo'],'badge-success': !formData['tipo']}" [style.width.px]="100">Temporal</span>
+    </div>
+    <div class="col-2 text-center">
+      <ui-switch
+        color="green"
+        size= "small"
+        [(ngModel)]="formData['tipo']"
+        (change)="formData['inicio']=null; formData['fin']=null"
+      ></ui-switch>
+    </div>
+    <div class="col-4 text-center">
+      <span class="badge badge-pill" [ngClass]="{'badge-light text-secondary': !formData['tipo'],'badge-success': formData['tipo']}" [style.width.px]="100">Indefinido</span>
+    </div>
+    <div class="col-1"></div>
+  </div>
+  <div class="d-flex justify-content-center pt-1" *ngIf="!formData['tipo']">
+    <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"></ngb-datepicker>
+
+    <ng-template #t let-date="date" let-focused="focused">
+      <span class="custom-day"
+            [class.focused]="focused"
+            [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+            [class.faded]="isHovered(date) || isInside(date)"
+            (mouseenter)="hoveredDate = date"
+            (mouseleave)="hoveredDate = null">
+        {{ date.day }}
+      </span>
+    </ng-template>
+  </div>
+  <div class="d-flex justify-content-center pt-1" *ngIf="formData['tipo']">
+    <ngb-datepicker (select)="setValDP($event, 'inicio')"></ngb-datepicker>
+  </div>
+  <div class="d-flex justify-content-center p-1">
+    <span><b>{{ formData['inicio'] ? printDate(formData['inicio'], 'DD MMM \'YY') : '-' }}</b>   a   <b>{{ formData['fin'] ? printDate(formData['fin'], 'DD MMM \'YY') : '-' }}</b></span>
+  </div>
+  <div class="d-flex justify-content-center p-1">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="formData['thisActive']" id="activate">
+      <label class="form-check-label" for="activate">
+        Marcar contrato como activo
+      </label>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <div class="p-1">
+      <button type="button" class="btn btn-secondary" (click)="addForm = false">Cancelar</button>
+    </div>
+    <div class="p-1">
+      <button type="button" class="btn btn-success" (click)="addContract()" [disabled]="(!formData['tipo'] && !formData['fin']) || (formData['tipo'] && !formData['inicio'])">Guardar <span *ngIf="loading['add']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+    </div>
+  </div>
+</div>

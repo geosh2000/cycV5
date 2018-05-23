@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
+import { Component, SimpleChanges, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
@@ -15,8 +15,10 @@ import { ApiService } from '../../services/api.service';
   templateUrl: './edit-details.component.html',
   styles: []
 })
-export class EditDetailsComponent implements OnInit {
+export class EditDetailsComponent implements OnChanges {
 
+  @Input() data:any
+  @Input() element:any
   @Output() closeDialog = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
@@ -44,19 +46,19 @@ export class EditDetailsComponent implements OnInit {
   }
 
   asesorDetailsForm:Object = {
-    id: { tipo: 'text', icon: 'fa fa-address-card-o fa-fw', readonly: true, pattern: ''},
-    num_colaborador: { tipo: 'text', icon: 'fa fa-address-book-o fa-fw', readonly: false, pattern: 'El número de colaborador está compuesto por 8 dígitos'},
-    nombre: { tipo: 'text', icon: 'fa fa-user-circle-o fa-fw', readonly: false, pattern: 'La primer letra de cada nombre debe ser mayúscula<br>Revisa que no exista más de un espacio entre cada nombre'},
-    apellido: { tipo: 'text', icon: 'fa fa-user-circle fa-fw', readonly: false, pattern: 'La primer letra de cada apellido debe ser mayúscula<br>Revisa que no exista más de un espacio entre cada apellido'},
-    nombre_corto: { tipo: 'text', icon: 'fa fa-drivers-license-o fa-fw', readonly: false, pattern: 'El formato debe ser con Mayúsculas y Minúsculas sin acentos<br>Sólo 1 Nombre y 1 Apellido<br>El formato debe coincidir con: "Nombre Apellido"'},
-    profile: { tipo: 'select', icon: 'fa fa-product-hunt fa-fw', readonly: false, pattern: ''},
-    tel1: { tipo: 'text', icon: 'fa fa-phone fa-fw', readonly: false, pattern: '10 dígitos sin espacios ni símbolos'},
-    tel2: { tipo: 'text', icon: 'fa fa-mobile fa-fw', readonly: false, pattern: '10 dígitos sin espacios ni símbolos'},
-    correo: { tipo: 'text', icon: 'fa fa-envelope-o fa-fw', readonly: false, pattern: "El Formato no coincide con un correo correcto"},
-    pasaporte: { tipo: 'date', icon: 'fa fa-suitcase fa-fw', readonly: false, pattern: ''},
-    visa: { tipo: 'date', icon: 'fa fa-telegram fa-fw', readonly: false, pattern: ''},
-    rfc: { tipo: 'text', icon: 'fa fa-address-book fa-fw', readonly: false, pattern: 'El RFC debe estar en mayúsculas<br>El Formato debe coincidir con AAAA######HHH'},
-    nacimiento: { tipo: 'date', icon: 'fa fa-birthday-cake fa-fw', readonly: false, pattern: ''}
+    id: { tipo: 'text', icon: 'fas fa-user-tag', readonly: true, pattern: ''},
+    num_colaborador: { tipo: 'text', icon: 'far fa-address-card', readonly: false, pattern: 'El número de colaborador está compuesto por 8 dígitos'},
+    nombre: { tipo: 'text', icon: 'fas fa-user', readonly: false, pattern: 'La primer letra de cada nombre debe ser mayúscula<br>Revisa que no exista más de un espacio entre cada nombre'},
+    apellido: { tipo: 'text', icon: 'far fa-user', readonly: false, pattern: 'La primer letra de cada apellido debe ser mayúscula<br>Revisa que no exista más de un espacio entre cada apellido'},
+    nombre_corto: { tipo: 'text', icon: 'fas fa-user-ninja', readonly: false, pattern: 'El formato debe ser con Mayúsculas y Minúsculas sin acentos<br>Sólo 1 Nombre y 1 Apellido<br>El formato debe coincidir con: "Nombre Apellido"'},
+    profile: { tipo: 'select', icon: 'fas fa-key', readonly: false, pattern: ''},
+    tel1: { tipo: 'text', icon: 'fas fa-phone', readonly: false, pattern: '10 dígitos sin espacios ni símbolos'},
+    tel2: { tipo: 'text', icon: 'fas fa-mobile-alt', readonly: false, pattern: '10 dígitos sin espacios ni símbolos'},
+    correo: { tipo: 'text', icon: 'far fa-envelope-open', readonly: false, pattern: "El Formato no coincide con un correo correcto"},
+    pasaporte: { tipo: 'date', icon: 'far fa-address-book', readonly: false, pattern: ''},
+    visa: { tipo: 'date', icon: 'far fa-paper-plane', readonly: false, pattern: ''},
+    rfc: { tipo: 'text', icon: 'fas fa-qrcode', readonly: false, pattern: 'El RFC debe estar en mayúsculas<br>El Formato debe coincidir con AAAA######HHH'},
+    nacimiento: { tipo: 'date', icon: 'fas fa-birthday-cake', readonly: false, pattern: ''}
   }
 
   asesorDetailsQueryNames = {
@@ -94,7 +96,7 @@ export class EditDetailsComponent implements OnInit {
       this.formDetail = new FormGroup({
         id: new FormControl(this.asesorDetails['id'], [ Validators.required ] ),
         num_colaborador: new FormControl(this.asesorDetails['num_colaborador'], [ Validators.pattern("^[0-9]{8}$") ] ),
-        nombre: new FormControl(this.asesorDetails['nombre'], [ Validators.required, Validators.pattern("^[A-ZÁÉÍÓÚ]{1}[a-záéíóú]+([ ]{1}([A-ZÁÉÍÓÚ]{1}[a-záéíóú]+|[d]{1}[e]{1}[l]{0,1})){0,3}$") ] ),
+        nombre: new FormControl(this.asesorDetails['nombre'], [ Validators.required, Validators.pattern("^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}([A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[dD]{1}[e]{1}[l]{0,1})){0,3}$") ] ),
         apellido: new FormControl(this.asesorDetails['apellido'], [ Validators.required, Validators.pattern("^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[ ]{1}[a-záéíóúñ]{2,3}){0,5}$") ] ),
         nombre_corto: new FormControl(this.asesorDetails['nombre_corto'], [ Validators.required, Validators.pattern("^[A-Z]{1}[a-z]* [A-Z]{1}[a-z]*$") ], this.userExists.bind(this) ),
         profile: new FormControl(this.asesorDetails['profile'], [ Validators.required ] ),
@@ -109,7 +111,8 @@ export class EditDetailsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnChanges( changes: SimpleChanges ) {
+    this.buildForm( this.data )
   }
 
   populateProfiles(){
@@ -142,6 +145,7 @@ export class EditDetailsComponent implements OnInit {
             .subscribe( res => {
               this.submitting = false
               this.save.emit({ form: "#form_editDetails", success: true })
+              jQuery(this.element).modal('hide')
             }, err => {
               if(err){
                 let error = err.json()
@@ -155,19 +159,19 @@ export class EditDetailsComponent implements OnInit {
 
   buildForm( array ){
     this.asesorDetails = {
-      id: array.idAsesor,
-      num_colaborador: array.numcol,
-      nombre: array.nom,
-      apellido: array.ape,
-      nombre_corto: array.ncorto,
-      profile: array.profileID,
-      tel1: array.tel,
-      tel2: array.tel1,
-      correo: array.correoPersonal,
-      pasaporte: array.pasaporte,
-      visa: array.visa,
-      rfc: array.rfc,
-      nacimiento: array.fnacimiento
+      id: array.id,
+      num_colaborador: array.num_colaborador,
+      nombre: array.Nombre_Separado,
+      apellido: array.Apellidos_Separado,
+      nombre_corto: array['N Corto'],
+      profile: array.profile_id,
+      tel1: array.Telefono1,
+      tel2: array.Telefono2,
+      correo: array.correo_personal,
+      pasaporte: !array.Vigencia_Pasaporte || array.Vigencia_Pasaporte == '0000-00-00' ? null : array.Vigencia_Pasaporte,
+      visa: !array.Vigencia_Visa || array.Vigencia_Visa == '0000-00-00' ? null : array.Vigencia_Visa,
+      rfc: array['RFC'],
+      nacimiento: !array.Fecha_Nacimiento || array.Fecha_Nacimiento == '0000-00-00' ? null : array.Fecha_Nacimiento
     }
     this.formDetail.reset(this.asesorDetails)
   }

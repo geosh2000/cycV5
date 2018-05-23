@@ -1,5 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
-import { DetailAsesorComponent } from './components/detail-asesor/detail-asesor.component';
+// import { DetailAsesorComponent } from './components/detail-asesor/detail-asesor.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/shared/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -59,6 +59,7 @@ import { PollsComponent } from './components/formularios/polls/polls.component';
 import { DashOutletComponent } from './components/monitors/dash-outlet/dash-outlet.component';
 import { Ovirtual2018Component } from './components/monitors/dash-outlet/ovirtual2018.component';
 import { DiasPendientesComponent } from './components/asistencia/dias-pendientes/dias-pendientes.component';
+import { DetalleAsesoresComponent } from './components/hc/detalle-asesores/detalle-asesores.component';
 
 
 const APP_ROUTES: Routes = [
@@ -66,10 +67,14 @@ const APP_ROUTES: Routes = [
   { path: 'test', component: PollsComponent },
 
   // DetalleAsesores
-  { path: 'detail-asesor', component: DetailAsesorComponent },
-  { path: 'detail-asesor/:id', component: DetailAsesorComponent },
-  { path: 'detail-asesor/:id/:tipo', component: DetailAsesorComponent },
+  { path: 'detail-asesor', component: DetalleAsesoresComponent },
+  { path: 'detail-asesor/:id', component: DetalleAsesoresComponent },
+  { path: 'detail-asesor/:id/:tipo', component: DetalleAsesoresComponent },
   { path: 'asesores-fotos', component: AsesoresFotosComponent },
+  { path: 'detalle-asesores', component: DetalleAsesoresComponent },
+  { path: 'detalle-asesores/:id', component: DetalleAsesoresComponent },
+  { path: 'detalle-asesores/:id/:tipo', component: DetalleAsesoresComponent },
+
 
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },

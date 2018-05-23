@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
@@ -17,6 +17,8 @@ import { ApiService } from '../../services/api.service';
   styleUrls: []
 })
 export class AddAsesorComponent implements OnInit {
+
+  @Input() modal:any
 
   @Output() closeDialog = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()

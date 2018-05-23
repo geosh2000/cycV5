@@ -1,11 +1,9 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 import * as moment from 'moment';
 declare var jQuery:any;
-declare var Noty:any;
 
 import { ApiService } from '../../services/api.service';
 
@@ -15,24 +13,21 @@ import { ApiService } from '../../services/api.service';
   templateUrl: './set-baja.component.html',
   styles: []
 })
-export class SetBajaComponent implements OnInit {
+export class SetBajaComponent implements OnChanges {
+
+  @Input() asesor:any
+  @Input() modal:any
+  @Input() tipo:boolean
 
   @Output() closeDialog = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()
-  @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
+  @Output() error = new EventEmitter<any>()
 
   formSetBaja:FormGroup;
+  confirmReemp:boolean = false
 
-  bajaData
-
-  tipo:string
+  bajaData:any
   titleSubmit:string
-
-  public singlePicker = {
-    singleDatePicker: true,
-    showDropdowns: true,
-    opens: "left"
-  }
 
   parentModal:string
   retrieving:boolean = false
@@ -41,16 +36,9 @@ export class SetBajaComponent implements OnInit {
 
 
   constructor(
-              private _dateRangeOptions: DaterangepickerConfig,
-              private _api:ApiService,
-              public toastr: ToastsManager, vcr: ViewContainerRef
+              private _api:ApiService
               ) {
-      this.toastr.setRootViewContainerRef(vcr);
 
-      this._dateRangeOptions.settings = {
-        autoUpdateInput: false,
-        locale: { format: "YYYY-MM-DD" }
-      }
 
       this.formSetBaja = new FormGroup({
         tipo: new FormControl(this.tipo, [ Validators.required ]),
@@ -59,8 +47,7 @@ export class SetBajaComponent implements OnInit {
         comentarios: new FormControl('', [ Validators.required ] ),
         recontratable: new FormControl('indeterminate', [ this.checkChange ]),
         reemplazable: new FormControl('indeterminate', [ this.checkChange ]),
-        fechaLiberacion: new FormControl(''),
-        applier: new FormControl('')
+        fechaLiberacion: new FormControl('')
       })
 
       //reemplazable
@@ -80,14 +67,15 @@ export class SetBajaComponent implements OnInit {
 
         this.formSetBaja.get('fechaLiberacion').updateValueAndValidity();
       })
+
+      this.titleSubmit = this.tipo ? 'Registrar' : 'Solicitar'
   }
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.buildForm()
   }
 
   closeModal(){
-
-    // console.log(this.parentModal)
 
     if(this.parentModal == null || this.parentModal == ''){
       jQuery("#form_setBaja").modal('hide')
@@ -100,20 +88,11 @@ export class SetBajaComponent implements OnInit {
 
   setVal( val, control ){
     this.formSetBaja.controls[control].setValue( val.format("YYYY-MM-DD") )
+    console.log('trig')
   }
-
 
   resetForm(){
-    this.formSetBaja.reset()
-  }
-
-  test( something ){
-
-    console.log(something)
-  }
-
-  submit (  ){
-    // console.log( this.formSetBaja )
+    this.formSetBaja.reset(this.bajaData)
   }
 
   //Validación Fecha Liberación
@@ -144,28 +123,27 @@ export class SetBajaComponent implements OnInit {
 
   }
 
-  buildForm( array ){
-
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  buildForm(){
 
     this.bajaData = {
-      tipo: this.tipo,
-      id: array.idAsesor,
-      fechaBaja: '',
-      comentarios: '',
-      reemplazable: 'indeterminate',
-      fechaLiberacion: '',
-      applier: currentUser.hcInfo['id'],
+      tipo:             this.tipo ? '' : 'ask',
+      id:               this.asesor,
+      fechaBaja:        '',
+      comentarios:      '',
+      reemplazable:     'indeterminate',
+      fechaLiberacion:  ''
     }
+
     this.formSetBaja.reset(this.bajaData)
   }
 
-  // submitBaja(){
-  //   console.log(this.formSetBaja.value)
-  //
-  //
-  // }
+
+  setValDP(date: NgbDateStruct, field){
+    this.formSetBaja.controls[field].setValue(moment({year: date['year'], month: date['month']-1, day: date['day']}).format('YYYY-MM-DD'))
+  }
+
   submitBaja(){
+    this.confirmReemp = false
     // console.log("sending")
     this.retrieving = true
     let api:string
@@ -182,12 +160,11 @@ export class SetBajaComponent implements OnInit {
         this.retrieving = false
 
         if( res['status'] ){
-
-          this.save.emit({form: "#form_setBaja", status: true})
-          // console.log( res )
+          this.save.emit({form: this.modal, status: true})
+          jQuery(this.modal).modal('hide')
+          this.resetForm()
         }else{
-          this.saveAlert = true
-          this.errorMsg = `code: ${res['msg'].code} error: ${res['msg'].message}`
+          this.error.emit({code: res['msg'].code, msg: res['msg'].message})
         }
 
       })

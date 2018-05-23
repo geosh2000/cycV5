@@ -42,13 +42,13 @@ import { NgSwitchComponent } from './components/ng-switch/ng-switch.component';
 import { Ng2CompleterModule } from 'ng2-completer';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { DetailAsesorComponent } from './components/detail-asesor/detail-asesor.component';
+// import { DetailAsesorComponent } from './components/detail-asesor/detail-asesor.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { LoginComponent } from './components/shared/login/login.component';
 import { CambioPuestoComponent } from './components/formularios/cambio-puesto.component';
 import { ForecastProgramacionComponent } from './components/forecast-programacion/forecast-programacion.component';
 import { VacantesComponent } from './components/hc/vacantes.component';
-import { ShowDetailAsesorComponent } from './components/detail-asesor/show-detail-asesor.component';
+// import { ShowDetailAsesorComponent } from './components/detail-asesor/show-detail-asesor.component';
 import { EditDetailsComponent } from './components/formularios/edit-details.component';
 import { SetBajaComponent } from './components/formularios/set-baja.component';
 import { AgregarCxcComponent } from './components/formularios/agregar-cxc.component';
@@ -156,6 +156,9 @@ import { Ovirtual2018Component } from './components/monitors/dash-outlet/ovirtua
 import { DiasPendientesComponent } from './components/asistencia/dias-pendientes/dias-pendientes.component';
 import { AprobacionDpComponent } from './components/asistencia/dias-pendientes/aprobacion-dp/aprobacion-dp.component';
 import { KpisPdvComponent } from './components/monitors/kpis-pdv/kpis-pdv.component';
+import { DetalleAsesoresComponent } from './components/hc/detalle-asesores/detalle-asesores.component';
+import { DetDetalleComponent } from './components/hc/detalle-asesores/det-detalle/det-detalle.component';
+import { DetContratoComponent } from './components/hc/detalle-asesores/det-contrato/det-contrato.component';
 
 
 declare let jQuery : Object;
@@ -187,13 +190,13 @@ registerLocaleData(localeEsMX)
     KeysPipe,
     CapitalizadoPipe,
     NavbarComponent,
-    DetailAsesorComponent,
+    // DetailAsesorComponent,
     NotFoundComponent,
     LoginComponent,
     CambioPuestoComponent,
     ForecastProgramacionComponent,
     VacantesComponent,
-    ShowDetailAsesorComponent,
+    // ShowDetailAsesorComponent,
     EditDetailsComponent,
     SetBajaComponent,
     AgregarCxcComponent,
@@ -301,6 +304,9 @@ registerLocaleData(localeEsMX)
     DiasPendientesComponent,
     AprobacionDpComponent,
     KpisPdvComponent,
+    DetalleAsesoresComponent,
+    DetDetalleComponent,
+    DetContratoComponent,
   ],
   imports: [
     BrowserModule,

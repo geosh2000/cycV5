@@ -1,123 +1,225 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { Component, OnChanges, Input, Output, EventEmitter, ViewChild, ViewContainerRef } from '@angular/core';
+import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+const equals = (one: NgbDateStruct, two: NgbDateStruct) => one && two && two.year === one.year && two.month === one.month && two.day === one.day;
+const before = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day ? false : one.day < two.day : one.month < two.month : one.year < two.year;
+const after = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day ? false : one.day > two.day : one.month > two.month : one.year > two.year;
 
 import * as moment from 'moment';
 declare var jQuery:any;
-declare var Noty:any;
 
 import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-add-contrato',
   templateUrl: './add-contrato.component.html',
-  styles: []
+  styles: [`
+    .custom-day {
+      text-align: center;
+      padding: 0.185rem 0.25rem;
+      display: inline-block;
+      height: 2rem;
+      width: 2rem;
+    }
+    .custom-day.focused {
+      background-color: #e6e6e6;
+    }
+    .custom-day.range, .custom-day:hover {
+      background-color: rgb(2, 117, 216);
+      color: white;
+    }
+    .custom-day.faded {
+      background-color: rgba(2, 117, 216, 0.5);
+    }
+  `]
 })
-export class AddContratoComponent implements OnInit {
+export class AddContratoComponent implements OnChanges {
 
-  @Output() closeDialog = new EventEmitter<any>()
+  @Input() asesor:any
+  @Input() contratos:any = []
+  @Input() modal:any
+
+  @Output() error = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()
-  @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
 
-  formAddContrato:FormGroup
-
-  formAddContratoDetail:any = {
-    tipo:             { tipo: 'select',   icon: 'fa fa-indent fa-fw',     show: true, required: true, readonly: false,  pattern: ''},
-    inicio:           { tipo: 'date',     icon: 'fa fa-calendar-o fa-fw', show: true, required: true, readonly: false,  pattern: 'Ingresa un formato de fecha correcto YYYY-MM-DD'},
-    fin:              { tipo: 'date',     icon: 'fa fa-calendar fa-fw',   show: false, required: true, readonly: false,  pattern: 'Ingresa un formato de fecha correcto YYYY-MM-DD'}
-  }
-
+  hoveredDate: NgbDateStruct
+  fromDate: NgbDateStruct
+  toDate: NgbDateStruct
 
   submitting:boolean = false
-
   currentUser:any
 
   saveAlert:boolean = false
+  addForm:boolean = false
   errorMsg:string = ""
 
-  public singlePicker = {
-    singleDatePicker: true,
-    showDropdowns: true,
-    opens: "left"
+  formData:Object = {
+    thisActive: true
   }
+  originalActive:any
+  delete:any = ''
+
+  loading:Object = {}
 
   constructor(
-                private _dateRangeOptions: DaterangepickerConfig,
-                private _api:ApiService,
-                public toastr: ToastsManager, vcr: ViewContainerRef
+                private _api:ApiService, calendar: NgbCalendar
                 ){
 
-    this.toastr.setRootViewContainerRef(vcr);
+  }
 
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  ngOnChanges() {
+    this.build()
+    this.formData['thisActive'] = true
+    this.delete = ''
+  }
 
-    this._dateRangeOptions.settings = {
-      autoUpdateInput: false,
-      locale: { format: "YYYY-MM-DD" }
+  setValDP(date: NgbDateStruct, field){
+    this.formData[field] = moment({year: date['year'], month: date['month']-1, day: date['day']}).format('YYYY-MM-DD')
+    if(field == 'inicio'){
+      this.formData['fin'] = ''
     }
+  }
 
-    this.formAddContrato = new FormGroup({
-      asesor: new FormControl('', [ Validators.required ] ),
-      inicio: new FormControl('', [ Validators.required, Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
-      fin: new FormControl(''),
-      tipo: new FormControl('', [ Validators.required ] )
-    })
-
-    // Cambio en Ciudad -- Load Oficina
-    this.formAddContrato.controls['tipo'].valueChanges.subscribe( res => {
-      switch(res){
-        case '2':
-
-         this.formAddContrato.get('fin').setValidators([ Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ])
-         this.formAddContrato.get('fin').reset()
-         this.formAddContratoDetail.fin['show'] = false
-         break
-        case '1':
-
-          this.formAddContrato.get('fin').setValidators([ Validators.required, Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ])
-          this.formAddContratoDetail.fin['show'] = true
-          break
-        default:
-          break
+  build(){
+    for( let item of this.contratos ){
+      if( parseInt(item['activo']) ){
+        this.formData['activo'] = item['id']
+        this.originalActive = item['id']
       }
-
-    });
-
+    }
   }
 
-  ngOnInit() {
+  onDateSelection(date: NgbDateStruct ) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date
+      this.formData['inicio'] = moment({year: date.year, month: date.month-1, day: date.day}).format('YYYY-MM-DD')
+    } else if (this.fromDate && !this.toDate && after(date, this.fromDate)) {
+      this.toDate = date
+      this.formData['fin'] = moment({year: date.year, month: date.month-1, day: date.day}).format('YYYY-MM-DD')
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+      this.formData['inicio'] = moment({year: date.year, month: date.month-1, day: date.day}).format('YYYY-MM-DD')
+      this.formData['fin'] = null
+    }
   }
 
-
-  setVal( val, control ){
-    this.formAddContrato.controls[control].setValue( val.format("YYYY-MM-DD") )
-  }
-
-  buildForm( array ){
-    this.formAddContrato.reset()
-
-    this.formAddContrato.controls['asesor'].setValue( array.idAsesor )
-
-    this.submitting = false
-  }
+  isHovered = date => this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate);
+  isInside = date => after(date, this.fromDate) && before(date, this.toDate);
+  isFrom = date => equals(date, this.fromDate);
+  isTo = date => equals(date, this.toDate);
 
   submit(){
     this.submitting = true
-    this._api.restfulPut( this.formAddContrato.value, "SolicitudBC/addContrato" )
-            .subscribe( res => {
-              this.submitting = false
-              if( res['status'] ){
 
-                this.save.emit({form: "#form_addContrato", status: true})
-                this.formAddContrato.reset()
+    this._api.restfulGet( this.formData, "SolicitudBC/addContrato" )
+              .subscribe( res => {
 
-              }else{
-                this.saveAlert = true
-                this.errorMsg = `code: ${res['msg'].code} error: ${res['msg'].message}`
-                console.error( res )
-              }
-            })
+                this.submitting = false
+                this.save.emit({form: this.modal, status: true})
+                jQuery(this.modal).modal('hide')
+                this.formData = {}
+
+              }, err => {
+                console.log("ERROR", err)
+
+                this.submitting = false
+
+                let error = err.json()
+                this.error.emit({code: err.statusText, msg: err.msg})
+                console.error(err.statusText, error.msg)
+
+              })
+  }
+
+  chgActive( id, original ){
+    this.loading['active'] = true
+
+    this._api.restfulGet( `${this.asesor}/${id}`, "SolicitudBC/contrato_chgActive" )
+              .subscribe( res => {
+
+                this.loading['active'] = false
+                this.save.emit({toastrOff: true, status: true})
+                this.delete=''
+
+              }, err => {
+                console.log("ERROR", err)
+
+                this.loading['active'] = false
+                this.formData['activo'] = original
+
+                let error = err.json()
+                this.error.emit({code: err.statusText, msg: `${error.msg} -> ${error.error.message}`})
+                console.error(err.statusText, error.msg)
+
+              })
+  }
+
+  confDelete( id ){
+    this.loading['delete'] = true
+
+    this._api.restfulGet( id, "SolicitudBC/contrato_delete" )
+              .subscribe( res => {
+
+                this.loading['delete'] = false
+                this.save.emit({status: true})
+                this.delete=''
+
+              }, err => {
+                console.log("ERROR", err)
+
+                this.loading['delete'] = false
+
+                let error = err.json()
+                this.error.emit({code: err.statusText, msg: `${error.msg} -> ${error.error.message}`})
+                console.error(err.statusText, error.msg)
+
+              })
+  }
+
+  printDate(date, format){
+    return moment(date).format(format)
+  }
+
+  inputChg( id ){
+    this.chgActive( id, this.originalActive )
+  }
+
+  close(){
+    jQuery(this.modal).modal('hide')
+  }
+
+  addContract(){
+    this.loading['add'] = true
+
+    let params = {
+      asesor: this.asesor,
+      tipo: this.formData['tipo'] ? 2 : 1,
+      inicio: this.formData['inicio'],
+      activo: this.formData['thisActive'] ? 1 : 0
+    }
+
+    if( !this.formData['tipo'] ){
+      params['fin'] = this.formData['fin']
+    }
+
+    this._api.restfulPut( params, "SolicitudBC/contrato_add" )
+              .subscribe( res => {
+
+                this.loading['add'] = false
+                this.save.emit({status: true})
+                this.delete=''
+                this.addForm=false
+
+              }, err => {
+                console.log("ERROR", err)
+
+                this.loading['add'] = false
+
+                let error = err.json()
+                this.error.emit({code: err.statusText, msg: `${error.msg} -> ${error.error.message}`})
+                console.error(err.statusText, error.msg)
+
+              })
   }
 
 }
