@@ -96,7 +96,9 @@ export class SearchAsesorComponent implements OnInit {
   }
 
   onSelected(event){
-    this.result.emit(event.originalObject)
+    if(event){
+      this.result.emit(event.originalObject)
+    }
   }
 
 }
