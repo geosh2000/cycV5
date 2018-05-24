@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
+import { Component, Injectable, OnInit, Input, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {NgbDateAdapter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,10 +11,27 @@ declare var jQuery:any;
 
 import { ApiService } from '../../services/api.service';
 
+@Injectable()
+export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
+
+  fromModel(date: string): NgbDateStruct {
+    console.log(date)
+    let tmp = new Date(parseInt(moment(date).format('YYYY')), parseInt(moment(date).format('MM')), parseInt(moment(date).format('DD')))
+    console.log(tmp)
+    return (date && tmp.getFullYear) ? {year: tmp.getFullYear(), month: tmp.getMonth(), day: tmp.getDate()} : null;
+  }
+
+  toModel(date: NgbDateStruct): string {
+    // return date ? new Date(date) : null;
+    return date ? moment({year: date.year, month: date.month - 1, day:date.day}).format('YYYY-MM-DD') : null;
+  }
+}
+
 @Component({
   selector: 'app-add-asesor',
   templateUrl: './add-asesor.component.html',
-  styleUrls: []
+  styleUrls: [],
+  providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 })
 export class AddAsesorComponent implements OnChanges {
 
