@@ -26,6 +26,8 @@ export class DetalleAsesoresComponent implements OnInit {
   large:boolean = true
   mainCredential:string = 'tablas_f'
 
+  now:any = moment()
+
   loading:Object = {}
   selected:Object = {}
 
@@ -79,6 +81,10 @@ export class DetalleAsesoresComponent implements OnInit {
       if(item){
         this.route.navigateByUrl(`/detalle-asesores/${item.asesor}/1`);
       }
+  }
+
+  sendNow(){
+    this.now = moment()
   }
 
 }

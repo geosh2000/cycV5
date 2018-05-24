@@ -33,7 +33,7 @@
           </div>
           <div class="d-flex justify-content-end">
             <div class="p-2">
-              <button type="button" class="btn btn-sm btn-success" *ngIf="_init.checkSingleCredential('hc_agregar_asesore')" data-toggle="modal" data-target="#addAsesor">Agregar Asesor</button>
+              <button type="button" class="btn btn-sm btn-success" *ngIf="_init.checkSingleCredential('hc_agregar_asesore')" data-toggle="modal" data-target="#addAsesor" (click)="sendNow()">Agregar Asesor</button>
             </div>
             <div class="p-2">
               <button type="button" class="btn btn-sm btn-info" *ngIf="listFlag" (click)="downloadXLS( params.id, 'listAsesores' )">Descargar</button>
@@ -61,7 +61,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <app-add-asesor modal='#addAsesor' (save)="saved( $event )"></app-add-asesor>
+          <app-add-asesor modal='#addAsesor' [time]="now" (save)="saved( $event )"></app-add-asesor>
         </div>
       </div>
     </div>

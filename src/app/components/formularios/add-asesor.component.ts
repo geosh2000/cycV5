@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Observable';
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
-declare var Noty:any;
 
 import { ApiService } from '../../services/api.service';
 
@@ -16,9 +15,10 @@ import { ApiService } from '../../services/api.service';
   templateUrl: './add-asesor.component.html',
   styleUrls: []
 })
-export class AddAsesorComponent implements OnInit {
+export class AddAsesorComponent implements OnChanges {
 
   @Input() modal:any
+  @Input() time:any
 
   @Output() closeDialog = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()
@@ -46,15 +46,15 @@ export class AddAsesorComponent implements OnInit {
     fecha_solicitud: ""
   };
 
-  asesorDetailsForm:any = {
-    num_colaborador:      { tipo: 'text',     icon: 'fa fa-address-book-o fa-fw',     show: true,   readonly: false,  pattern: 'El número de colaborador está compuesto por 8 dígitos'},
-    nombre:               { tipo: 'text',     icon: 'fa fa-user-circle-o fa-fw',      show: true,   readonly: false,  pattern: 'La primer letra de cada nombre debe ser mayúscula<br>Revisa que no exista más de un espacio entre cada nombre'},
-    apellido:             { tipo: 'text',     icon: 'fa fa-user-circle fa-fw',        show: true,   readonly: false,  pattern: 'La primer letra de cada apellido debe ser mayúscula<br>Revisa que no exista más de un espacio entre cada apellido'},
-    nombre_corto:         { tipo: 'text',     icon: 'fa fa-drivers-license-o fa-fw',  show: true,   readonly: false,  pattern: 'El formato debe ser con Mayúsculas y Minúsculas sin acentos<br>Sólo 1 Nombre y 1 Apellido<br>El formato debe coincidir con: "Nombre Apellido"'},
-    profile:              { tipo: 'select',   icon: 'fa fa-product-hunt fa-fw',       show: true,   readonly: false,  pattern: ''},
-    tipo_contrato:        { tipo: 'select2',  icon: 'fa fa-indent fa-fw',             show: true,   readonly: false,  pattern: ''},
-    fin_contrato:         { tipo: 'date',     icon: 'fa fa-calendar fa-fw',           show: false,  readonly: false,  pattern: 'Debe coincidir con el formato YYY-MM-DD'},
-  }
+  asesorDetailsForm:any = [
+    { name: 'nombre',           tipo: 'text',     icon: 'fa fa-user-circle-o fa-fw',      show: true,   readonly: false,  pattern: 'La primer letra de cada nombre debe ser mayúscula<br>Revisa que no exista más de un espacio entre cada nombre'},
+    { name: 'apellido',         tipo: 'text',     icon: 'fa fa-user-circle fa-fw',        show: true,   readonly: false,  pattern: 'La primer letra de cada apellido debe ser mayúscula<br>Revisa que no exista más de un espacio entre cada apellido'},
+    { name: 'nombre_corto',     tipo: 'text',     icon: 'fa fa-drivers-license-o fa-fw',  show: true,   readonly: false,  pattern: 'El formato debe ser con Mayúsculas y Minúsculas sin acentos<br>Sólo 1 Nombre y 1 Apellido<br>El formato debe coincidir con: "Nombre Apellido"'},
+    { name: 'profile',          tipo: 'select',   icon: 'fa fa-product-hunt fa-fw',       show: true,   readonly: false,  pattern: ''},
+    { name: 'num_colaborador',  tipo: 'text',     icon: 'fa fa-address-book-o fa-fw',     show: true,   readonly: false,  pattern: 'El número de colaborador está compuesto por 8 dígitos'},
+    { name: 'tipo_contrato',    tipo: 'select2',  icon: 'fa fa-indent fa-fw',             show: true,   readonly: false,  pattern: ''},
+    { name: 'fin_contrato',     tipo: 'date',     icon: 'fa fa-calendar fa-fw',           show: false,  readonly: false,  pattern: 'Debe coincidir con el formato YYY-MM-DD'},
+  ]
 
   public singlePicker = {
     singleDatePicker: true,
@@ -170,12 +170,12 @@ export class AddAsesorComponent implements OnInit {
 
            this.formAddAsesor.get('fin_contrato').setValidators([ Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ])
            this.formAddAsesor.get('fin_contrato').reset()
-           this.asesorDetailsForm.fin_contrato['show'] = false
+           this.asesorDetailsForm[6]['show'] = false
            break
           case '1':
 
             this.formAddAsesor.get('fin_contrato').setValidators([ Validators.required, Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ])
-            this.asesorDetailsForm.fin_contrato['show'] = true
+            this.asesorDetailsForm[6]['show'] = true
             break
           default:
             break
@@ -186,14 +186,9 @@ export class AddAsesorComponent implements OnInit {
   }
 
   ngOnChanges(){
-
+    this.buildForm()
   }
 
-  ngOnInit() {
-
-
-
-  }
 
   askCambio(){
 
