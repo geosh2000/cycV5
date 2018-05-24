@@ -159,6 +159,7 @@ import { KpisPdvComponent } from './components/monitors/kpis-pdv/kpis-pdv.compon
 import { DetalleAsesoresComponent } from './components/hc/detalle-asesores/detalle-asesores.component';
 import { DetDetalleComponent } from './components/hc/detalle-asesores/det-detalle/det-detalle.component';
 import { DetContratoComponent } from './components/hc/detalle-asesores/det-contrato/det-contrato.component';
+import { VentaPorCanalPdvComponent } from './components/reportes/venta/venta-por-canal-pdv.component';
 
 
 declare let jQuery : Object;
@@ -307,6 +308,7 @@ registerLocaleData(localeEsMX)
     DetalleAsesoresComponent,
     DetDetalleComponent,
     DetContratoComponent,
+    VentaPorCanalPdvComponent,
   ],
   imports: [
     BrowserModule,

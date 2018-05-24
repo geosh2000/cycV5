@@ -24,6 +24,7 @@ import { AsistenciaComponent } from './components/reportes/asistencia/asistencia
 import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component';
 import { HxConfigComponent } from './components/config/horarios/hx-config.component';
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
+import { VentaPorCanalPdvComponent } from './components/reportes/venta/venta-por-canal-pdv.component';
 import { QueuesComponent } from './components/monitors/queues/queues.component';
 import { QueuesV2Component } from './components/monitors/queues-v2/queues-v2.component';
 import { PausesComponent } from './components/monitors/pauses/pauses.component';
@@ -107,6 +108,7 @@ const APP_ROUTES: Routes = [
   { path: 'precisionPorIntervalo', component: PorIntervaloComponent },
   { path: 'asistencia', component: AsistenciaComponent },
   { path: 'mp/ventaPorCanal', component: VentaPorCanalComponent },
+  { path: 'mp/ventaPorPdv', component: VentaPorCanalPdvComponent },
   { path: 'calidad/aleatoriedad', component: AleatoriedadComponent },
   { path: 'bonosCUN', component: BonosComponent },
   { path: 'tablaf', component: TablafComponent },
