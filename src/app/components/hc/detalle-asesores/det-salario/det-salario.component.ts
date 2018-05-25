@@ -10,21 +10,18 @@ declare var jQuery:any;
 import * as moment from 'moment-timezone';
 
 @Component({
-  selector: 'app-det-contrato',
-  templateUrl: './det-contrato.component.html',
+  selector: 'app-det-salario',
+  templateUrl: './det-salario.component.html',
   styles: []
 })
-export class DetContratoComponent implements OnChanges {
+export class DetSalarioComponent implements OnChanges {
 
   @Input() asesor:any
-  @Input() time:any
   @Output() error = new EventEmitter<any>()
-  @Output() reload = new EventEmitter<any>()
 
   loading:Object = {}
   data:Object = {}
   contratos:Object = {}
-  solicitudes:any
 
   constructor(public _api: ApiService,
               public toastr: ToastsManager, vcr: ViewContainerRef,
@@ -48,7 +45,6 @@ export class DetContratoComponent implements OnChanges {
                 this.loading['data'] = false
                 this.data = res.data['actual']
                 this.contratos = res.data['contratos']
-                this.solicitudes = res.pendientes
 
               }, err => {
                 console.log("ERROR", err)
@@ -72,7 +68,6 @@ export class DetContratoComponent implements OnChanges {
   succ( data ){
     if( !data.toastrOff ){
       this.toastr.success( 'Solicitud guardada correctamente', 'Guardado!')
-      this.reload.emit( true )
     }
     this.getData()
   }

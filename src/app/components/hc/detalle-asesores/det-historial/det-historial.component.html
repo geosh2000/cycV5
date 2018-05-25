@@ -1,0 +1,134 @@
+<div class="container">
+  <div class="card border-0">
+    <div class="card-body">
+      <div class="d-flex align-items-center justify-content-between flex-wrap bg-info">
+        <div class="align-middle p-1">
+          <h3 class="align-middle text-light">Historial de Puestos</h3>
+        </div>
+        <ng-container *ngIf="dataHistorial">
+          <div class="d-flex justify-content-end flex-wrap" *ngIf="activo == 1">
+            
+          </div>
+        </ng-container>
+      </div>
+      <ng-container *ngIf="!loading['historial']">
+        <div class="d-flex justify-content-center pt-1" style="font-size: smaller" *ngIf="dataHistorial && dataHistorial.length > 0">
+          <table class="table table-sm" style="font-size: smaller">
+            <thead>
+              <tr>
+                <th></th>
+                <th class='text-center'><h5>Inicio</h5></th>
+                <th class='text-center'><h5>Vacante</h5></th>
+                <th class='text-center'><h5>ID Mov</h5></th>
+                <th class='text-left'><h5>Departamento</h5></th>
+                <th class='text-left'><h5>Puesto</h5></th>
+                <th class='text-left'><h5>Oficina</h5></th>
+                <th class='text-left'><h5>Ciudad</h5></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of dataHistorial; index as i">
+                <td class='text-center'><span *ngIf="i == 0 && activo == 1"><i class="fas fa-angle-double-right fa-fw text-success"></i></span></td>
+                <td class='text-center'>{{ printDate(item.Fecha, 'DD MMM \'YY') }}</td>
+                <td class='text-center'>{{ item.vacante }}</td>
+                <td class='text-center'>{{ item.move_id }}</td>
+                <td class='text-left text-primary'>{{ item.Departamento }}</td>
+                <td class='text-left text-primary'>{{ item.Puesto }}</td>
+                <td class='text-left text-danger'>{{ item.PDV }}</td>
+                <td class='text-left'>{{ item.Ciudad }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-center flex-wrap p-4" *ngIf="!dataHistorial || dataHistorial.length == 0">
+          <div class="alert alert-primary" role="alert">
+            No existe información de puestos para este asesor
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="loading['historial']">
+        <div class="text-center p-4">
+          <h3>Cargando Historial <i class="fas fa-spinner fa-pulse text-info"></i></h3>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="card border-0" *ngIf="_init.checkSingleCredential('hc_cambio_solicitud')">
+    <div class="card-body">
+      <div class="d-flex align-items-center justify-content-between flex-wrap bg-info">
+        <div class="align-middle p-1">
+          <h3 class="align-middle text-light">Historial de Solicitudes</h3>
+        </div>
+      </div>
+      <ng-container *ngIf="!loading['solicitudes']">
+        <div class="d-flex justify-content-center flex-wrap" *ngIf="dataSolicitudes && dataSolicitudes.length > 0">
+          <table class="table table-sm" style="font-size: smaller">
+            <thead>
+              <tr>
+                <th></th>
+                <th class='text-center'><h5>Tipo</h5></th>
+                <th class='text-center'><h5>Fecha<br>Solicitada</h5></th>
+                <th class='text-center'><h5>Id<br>Solicitud</h5></th>
+                <th class='text-left'><h5>Movimiento</h5></th>
+                <th class='text-center'><h5>Vacante</h5></th>
+                <th class='text-left'><h5>Oficina</h5></th>
+                <th class='text-left'><h5>Solicitante</h5></th>
+                <th class='text-left'><h5>Status</h5></th>
+                <th class='text-left'><h5>Aprobante</h5></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of dataSolicitudes; index as i">
+                <td class='text-center'>
+                  <button class="btn btn-sm btn-link" *ngIf="i == 0 && (item.status == 0 || item.status == 4) && (curAsesor == item.solicitente_id || _init.checkSingleCredential('allmighty'))" data-toggle="modal" data-target="#confirmCancel" (click)="deleteItem = {id: item.id_sol, tipo: item.status == 0 ? 4 : 5}"><span *ngIf="item.status == 0"><i class="fas fa-ban text-warning"></i></span><span *ngIf="item.status == 4"><i class="far fa-trash-alt text-danger"></i></span></button></td>
+                <td class='text-center'><span class="badge badge-pill" [ngClass]="{'badge-danger': item.tipo == 2, 'badge-primary': item.tipo == 1}">{{ item.tipo == 1 ? 'Cambio' : 'Baja' }}</span></td>
+                <td class='text-center'>{{ printDate(item.Fecha_Cambio, 'DD MMM \'YY') }}</td>
+                <td class='text-center'>{{ item.id_sol }}</td>
+                <td class='text-left' [ngClass]="{'text-danger': item.Departamento == 'Baja', 'text-primary': item.Departamento != 'Baja'}">{{ item.Departamento }}<br>{{ item.Puesto }}</td>
+                <td class='text-center'>{{ item.vacante_solicitada }}</td>
+                <td class='text-left'><span class='text-danger'>{{ item.PDV }}</span><br>{{ item.Ciudad }}</td>
+                <td class='text-left'>{{ item.solicitante }}<br>{{ printDate( item.Fecha_Solicitud, 'DD MMM \'YY') }}<br><span class="font-italic text-info">{{ item.com_solicitante }}</span></td>
+                <td class='text-center'><span class="badge badge-pill" [ngClass]="{'badge-danger': item.status == 3, 'badge-success': item.status == 1, 'badge-info': item.status == 0, 'badge-secondary': item.status == 4}">{{ item.status == 1 ? 'Aprobada' : item.status == 4 ? 'Cancelada' : item.status == 3 ? 'Declinada' : item.status == 0 ? 'Pendiente' : 'NA' }}</span></td>
+                <td class='text-left'>{{ item.aprobante }}<br>{{ printDate( item.Fecha_Aprobacion, 'DD MMM \'YY') }}<br><span class="font-italic text-info">{{ item.com_aprobante }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-center flex-wrap p-4" *ngIf="!dataSolicitudes || dataSolicitudes == 0">
+          <div class="alert alert-primary" role="alert">
+            No existen solicitudes para este asesor
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="loading['solicitudes']">
+        <div class="text-center p-4">
+          <h3>Cargando Solicitudes <i class="fas fa-spinner fa-pulse text-info"></i></h3>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container *ngIf="activo">
+    <!-- CancelSol -->
+    <div class="modal fade" id="confirmCancel" tabindex="-1" role="dialog" aria-labelledby="confirmCancelLabel" aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmCancelLabel">{{ deleteItem && deleteItem['tipo'] == 4 ? 'Cancelar' : 'Borrar' }} Solicitud</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ¿Realmente deseas {{ deleteItem && deleteItem['tipo'] == 4 ? 'Cancelar' : 'Borrar' }} esta solicitud?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-danger" (click)=deleteSol()>{{ deleteItem && deleteItem['tipo'] == 4 ? 'Cancelar' : 'Borrar' }} Solicitud <span *ngIf="loading['delete']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

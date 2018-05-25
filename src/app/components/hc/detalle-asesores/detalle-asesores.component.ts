@@ -83,6 +83,10 @@ export class DetalleAsesoresComponent implements OnInit {
       }
   }
 
+  reload(){
+    this.sendNow()
+  }
+
   sendNow(){
     this.now = moment()
   }

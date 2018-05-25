@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit, Input, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {NgbDateAdapter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -15,9 +15,9 @@ import { ApiService } from '../../services/api.service';
 export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
 
   fromModel(date: string): NgbDateStruct {
-    console.log(date)
+
     let tmp = new Date(parseInt(moment(date).format('YYYY')), parseInt(moment(date).format('MM')), parseInt(moment(date).format('DD')))
-    console.log(tmp)
+
     return (date && tmp.getFullYear) ? {year: tmp.getFullYear(), month: tmp.getMonth(), day: tmp.getDate()} : null;
   }
 

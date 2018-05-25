@@ -1,27 +1,48 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Injectable, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 declare var jQuery:any;
 declare var Noty:any;
 
 import { ApiService } from '../../services/api.service';
 
+@Injectable()
+export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
+
+  fromModel(date: string): NgbDateStruct {
+
+    let tmp = new Date(parseInt(moment(date).format('YYYY')), parseInt(moment(date).format('MM')), parseInt(moment(date).format('DD')))
+
+    return (date && tmp.getFullYear) ? {year: tmp.getFullYear(), month: tmp.getMonth(), day: tmp.getDate()} : null;
+  }
+
+  toModel(date: NgbDateStruct): string {
+    // return date ? new Date(date) : null;
+    return date ? moment({year: date.year, month: date.month - 1, day:date.day}).format('YYYY-MM-DD') : null;
+  }
+}
 
 @Component({
   selector: 'app-cambio-puesto',
   templateUrl: './cambio-puesto.component.html',
-  styles: []
+  styles: [],
+  providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 })
-export class CambioPuestoComponent implements OnInit {
+export class CambioPuestoComponent implements OnChanges {
 
-  @Output() closeDialog = new EventEmitter<any>()
+  @Input() asesor:any
+  @Input() element:any
+
+  @Output() error = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
 
   formCambioPuesto:FormGroup;
+  confirmCambio:boolean = false
 
   flagLoading = {
     ciudad: false,
@@ -152,7 +173,7 @@ export class CambioPuestoComponent implements OnInit {
   }
 
   ngOnChanges(){
-
+    this.buildForm( this.asesor )
   }
 
   ngOnInit() {
@@ -165,13 +186,13 @@ export class CambioPuestoComponent implements OnInit {
 
   }
 
-  buildForm( array, tipo ){
+  buildForm( asesor, tipo='ask' ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     this.defaultForm = {
       tipo: tipo,
-      asesor: array.idAsesor,
+      asesor: asesor,
       applier: currentUser.hcInfo['id']
     }
     // this.formCambioPuesto.reset()
@@ -182,7 +203,6 @@ export class CambioPuestoComponent implements OnInit {
     // if(this.parentModal){
     //   jQuery(this.parentModal).modal('show')
     // }
-    this.closeDialog.emit("#form_cambioPuesto")
 
   }
 
@@ -289,7 +309,7 @@ export class CambioPuestoComponent implements OnInit {
   }
 
   submit (  ){
-
+    this.confirmCambio=false
     this.retrieving = true
     this.formCambioPuesto.controls['asesor'].setValue(this.defaultForm['asesor'])
     this.formCambioPuesto.controls['applier'].setValue(this.defaultForm['applier'])
@@ -307,12 +327,11 @@ export class CambioPuestoComponent implements OnInit {
             .subscribe( res => {
               this.retrieving = false
               if(res['status']){
+                this.save.emit({form: this.element, status: true, reload: true})
+                jQuery(this.element).modal('hide')
                 this.formCambioPuesto.reset()
-                this.save.emit({form: "#form_cambioPuesto", status: true})
               }else{
-                this.saveAlert = true
-                this.errorMsg = `code: ${res['msg'].code} error: ${res['msg'].message}`
-                console.error( res )
+                this.error.emit({code: res['msg'].code, msg: res['msg'].message})
               }
 
             })

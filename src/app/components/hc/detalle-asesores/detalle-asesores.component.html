@@ -46,8 +46,9 @@
   <br>
   <div class="container" *ngIf="selected['id']">
     <app-det-detalle [asesor]="selected['id']" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-detalle>
-    <app-det-contrato [asesor]="selected['id']" *ngIf="_init.checkSingleCredential('hc_contratos_view')"></app-det-contrato>
-    <pre>{{ selected | json }}</pre>
+    <app-det-contrato [asesor]="selected['id']" (reload)="reload()" *ngIf="_init.checkSingleCredential('hc_contratos_view')" [time]="now"></app-det-contrato>
+    <!-- <app-det-salario [asesor]="selected['id']" *ngIf="_init.checkSingleCredential('hc_salarios_display')"></app-det-salario> -->
+    <app-det-historial [asesor]="selected['id']" (reload)="reload()" [curAsesor]="currentUser.hcInfo['id']" [time]="now" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-historial>
   </div>
 
   <!-- AGREGAR ASESOR -->

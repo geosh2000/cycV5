@@ -160,6 +160,8 @@ import { DetalleAsesoresComponent } from './components/hc/detalle-asesores/detal
 import { DetDetalleComponent } from './components/hc/detalle-asesores/det-detalle/det-detalle.component';
 import { DetContratoComponent } from './components/hc/detalle-asesores/det-contrato/det-contrato.component';
 import { VentaPorCanalPdvComponent } from './components/reportes/venta/venta-por-canal-pdv.component';
+import { DetSalarioComponent } from './components/hc/detalle-asesores/det-salario/det-salario.component';
+import { DetHistorialComponent } from './components/hc/detalle-asesores/det-historial/det-historial.component';
 
 
 declare let jQuery : Object;
@@ -309,6 +311,8 @@ registerLocaleData(localeEsMX)
     DetDetalleComponent,
     DetContratoComponent,
     VentaPorCanalPdvComponent,
+    DetSalarioComponent,
+    DetHistorialComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,26 +1,41 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
+import { Component, Injectable, OnInit, Input, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
+import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
-declare var Noty:any;
 
 import { ApiService } from '../../services/api.service';
+
+@Injectable()
+export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
+
+  fromModel(date: string): NgbDateStruct {
+    let tmp = new Date(parseInt(moment(date).format('YYYY')), parseInt(moment(date).format('MM')), parseInt(moment(date).format('DD')))
+    return (date && tmp.getFullYear) ? {year: tmp.getFullYear(), month: tmp.getMonth(), day: tmp.getDate()} : null;
+  }
+
+  toModel(date: NgbDateStruct): string {
+    return date ? moment({year: date.year, month: date.month - 1, day:date.day}).format('YYYY-MM-DD') : null;
+  }
+}
 
 @Component({
   selector: 'app-reingreso-asesor',
   templateUrl: './reingreso-asesor.component.html',
-  styleUrls: []
+  styleUrls: [],
+  providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 })
-export class ReingresoAsesorComponent implements OnInit {
+export class ReingresoAsesorComponent implements OnChanges {
+
+  @Input() asesor:any
+  @Input() element:any
 
   @Output() closeDialog = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()
-  @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
 
   formAddAsesor:FormGroup;
   listProfiles
@@ -44,20 +59,11 @@ export class ReingresoAsesorComponent implements OnInit {
     fecha_solicitud: ""
   };
 
-  asesorDetailsForm:any = {
-    profile:              { tipo: 'select',   icon: 'fa fa-product-hunt fa-fw',       show: true,   readonly: false,  pattern: ''},
-    tipo_contrato:        { tipo: 'select2',  icon: 'fa fa-indent fa-fw',             show: true,   readonly: false,  pattern: ''},
-    fin_contrato:         { tipo: 'date',     icon: 'fa fa-calendar fa-fw',           show: false,  readonly: false,  pattern: 'Debe coincidir con el formato YYY-MM-DD'},
-  }
-
-  public singlePicker = {
-    singleDatePicker: true,
-    showDropdowns: true,
-    opens: "left",
-    ranges: {
-               'Today': [moment(), moment()]
-            }
-  }
+  asesorDetailsForm:any = [
+    { name: 'profile', tipo: 'select',   icon: 'fa fa-product-hunt fa-fw',       show: true,   readonly: false,  pattern: ''},
+    { name: 'tipo_contrato', tipo: 'select2',  icon: 'fa fa-indent fa-fw',             show: true,   readonly: false,  pattern: ''},
+    { name: 'fin_contrato', tipo: 'date',     icon: 'fa fa-calendar fa-fw',           show: false,  readonly: false,  pattern: 'Debe coincidir con el formato YYY-MM-DD'},
+  ]
 
   //Populate lists
   listOptions = {
@@ -87,7 +93,6 @@ export class ReingresoAsesorComponent implements OnInit {
   errorMsg:string
 
   constructor(
-              private _dateRangeOptions: DaterangepickerConfig,
               private route:Router,
               private _api:ApiService,
               public toastr: ToastsManager, vcr: ViewContainerRef,
@@ -95,11 +100,6 @@ export class ReingresoAsesorComponent implements OnInit {
       this.toastr.setRootViewContainerRef(vcr);
 
       this.populateProfiles()
-
-      this._dateRangeOptions.settings = {
-        autoUpdateInput: false,
-        locale: { format: "YYYY-MM-DD" }
-      }
 
       this.formAddAsesor = new FormGroup({
         asesor:             new FormControl('', [ Validators.required ] ),
@@ -162,12 +162,12 @@ export class ReingresoAsesorComponent implements OnInit {
 
            this.formAddAsesor.get('fin_contrato').setValidators([ Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ])
            this.formAddAsesor.get('fin_contrato').reset()
-           this.asesorDetailsForm.fin_contrato['show'] = false
+           this.asesorDetailsForm[2]['show'] = false
            break
           case '1':
 
             this.formAddAsesor.get('fin_contrato').setValidators([ Validators.required, Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ])
-            this.asesorDetailsForm.fin_contrato['show'] = true
+            this.asesorDetailsForm[2]['show'] = true
             break
           default:
             break
@@ -178,13 +178,7 @@ export class ReingresoAsesorComponent implements OnInit {
   }
 
   ngOnChanges(){
-
-  }
-
-  ngOnInit() {
-
-
-
+    this.buildForm()
   }
 
   askCambio(){
@@ -229,12 +223,12 @@ export class ReingresoAsesorComponent implements OnInit {
     return promesa
   }
 
-  buildForm( asesor ){
+  buildForm(){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     this.defaultForm = {
-      asesor: asesor.idAsesor,
+      asesor: this.asesor,
       applier: currentUser.hcInfo['id'],
       factor: '1'
     }
