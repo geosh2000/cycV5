@@ -23,9 +23,9 @@
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-sign-in fa-flip-horizontal fa-stack-1x text-info"></i>
-              <i class="fa fa-circle-o fa-stack-2x text-info"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="far fa-circle text-info"></i>
+              <i class="fas fa-sign-in-alt text-info" data-fa-transform="flip-h shrink-7"></i>
             </span>
             <h3 class="m-1">
               {{ summary['IN'] }}
@@ -35,9 +35,9 @@
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-sign-out fa-stack-1x text-primary"></i>
-              <i class="fa fa-circle-o fa-stack-2x text-primary"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="far fa-circle text-primary"></i>
+              <i class="fas fa-sign-out-alt text-primary" data-fa-transform="shrink-7"></i>
             </span>
             <h3 class="m-1">
               {{ summary['OUT'] }}
@@ -47,9 +47,9 @@
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-ellipsis-h fa-stack-1x text-info"></i>
-              <i class="fa fa-circle-o fa-stack-2x text-warning"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="far fa-circle text-warning"></i>
+              <i class="fas fas fa-ellipsis-h text-info" data-fa-transform="shrink-7"></i>
             </span>
             <span class="animated flash infinite" *ngIf="summary['Waiting']>=3"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
             <h3 class="m-1">
@@ -60,8 +60,8 @@
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-fw fa-user fa-2x text-success"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="far fas fa-user text-success"></i>
             </span>
             <h3 class="m-1">
               {{ summary['Online'] }}
@@ -71,9 +71,9 @@
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-user fa-stack-1x text-secondary"></i>
-              <i class="fa fa-circle-o fa-stack-2x text-danger"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="far fa-circle text-danger"></i>
+              <i class="fas fas fa-user text-secondary" data-fa-transform="shrink-7"></i>
             </span>
             <h3 class="m-1">
               {{ summary['Busy'] }}
@@ -83,9 +83,9 @@
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-user fa-stack-1x text-success"></i>
-              <i class="fa fa-circle-o fa-stack-2x text-primary"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="far fa-circle text-primary"></i>
+              <i class="fas fas fa-user text-success" data-fa-transform="shrink-7"></i>
             </span>
             <h3 class="m-1">
               {{ summary['Avail'] }}
@@ -95,9 +95,9 @@
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-user fa-stack-1x text-success"></i>
-              <i class="fa fa-ban fa-stack-2x text-warning"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="fas fas fa-user text-success" data-fa-transform="shrink-7"></i>
+              <i class="fas fa-ban text-warning"></i>
             </span>
             <span class="animated flash infinite" *ngIf="summary['Paused']>=5"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
             <h3 class="m-1">
@@ -108,32 +108,34 @@
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-layers-text fa-stack-1x text-info">20</i>
-              <i class="fa fa-circle-o fa-stack-2x text-warning"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="far fa-circle text-warning"></i>
+              <span class="fa-layers-text text-info" data-fa-transform="shrink-12 up-3">%</span>
+              <span class="fa-layers-text text-info" data-fa-transform="shrink-10 down-2">20</span>
             </span>
             <h3 class="m-1">
-              {{ (slaInfo['total'] == 0 ? 0 : (slaInfo['sla20'] / slaInfo['total'])*100) | number:'.0-2' }}
+              {{ (slaInfo['total'] == 0 ? 0 : (slaInfo['sla20'] / slaInfo['total'])*100) | number:'.0-0' }}
             </h3>
           </span>
         </div>
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-layers-text fa-stack-1x text-info">30</i>
-              <i class="fa fa-circle-o fa-stack-2x text-warning"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="far fa-circle text-warning"></i>
+              <span class="fa-layers-text text-info" data-fa-transform="shrink-12 up-3">%</span>
+              <span class="fa-layers-text text-info" data-fa-transform="shrink-10 down-2">30</span>
             </span>
             <h3 class="m-1">
-              {{ (slaInfo['total'] == 0 ? 0 : (slaInfo['sla30'] / slaInfo['total'])*100) | number:'.0-2' }}
+              {{ (slaInfo['total'] == 0 ? 0 : (slaInfo['sla30'] / slaInfo['total'])*100) | number:'.0-0' }}
             </h3>
           </span>
         </div>
 
         <div class="d-flex justify-content-start align-items-center">
           <span class="ml-auto  badge badge-light border border-info badge-pill d-flex justify-content-around align-items-center" [style.width.px]="120">
-            <span class="m-1 fa-stack fa-lg">
-              <i class="fa fa-clock fa-2x text-success"></i>
+            <span class="m-1 fa-layers fa-3x">
+              <i class="far fa-clock text-success"></i>
             </span>
             <span class="animated flash infinite" *ngIf="(summary['Busy'] != 0 && (summary['tt'] / summary['Busy']) > 550)"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span>
             <h3 class="m-1">

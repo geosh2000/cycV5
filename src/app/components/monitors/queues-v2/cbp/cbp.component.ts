@@ -108,16 +108,16 @@ export class CbpComponent implements OnInit {
       sla30: 0
     }
 
-    console.log( this.setQueue )
+    // console.log( this.setQueue )
     for( let q of this.setQueue ){
       let index = this.sla.map(function(e) { return e.queue; }).indexOf(q);
       this.slaInfo['total'] += this.sla[index] ? parseInt(this.sla[index]['calls']) : 0
       this.slaInfo['sla20'] += this.sla[index] ? parseInt(this.sla[index]['sla20']) : 0
       this.slaInfo['sla30'] += this.sla[index] ? parseInt(this.sla[index]['sla30']) : 0
 
-      console.log(q, index)
-      console.log(this.sla)
-      console.log(this.slaInfo)
+      // console.log(q, index)
+      // console.log(this.sla)
+      // console.log(this.slaInfo)
     }
 
     // console.log(this.queues)
@@ -127,6 +127,9 @@ export class CbpComponent implements OnInit {
     // AGENTS
     this.loggedAgents = this.agentsLogged( data )
     this.waitsInQ()
+
+    console.log(this.slaInfo)
+    console.log(this.sla)
   }
 
   printQueue( queue ){

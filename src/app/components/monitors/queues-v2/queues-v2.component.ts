@@ -23,6 +23,7 @@ export class QueuesV2Component implements OnInit {
   showContents:boolean = false
   mainCredential:string = 'default'
   timeout:any
+  timeoutSLA:any
 
   displayFilter:boolean       = true
   loading:boolean       = false
@@ -108,12 +109,14 @@ export class QueuesV2Component implements OnInit {
     this.getQueues()
     this.getPauseTypes()
     this.getDeps()
-    console.log(this.skillSelected)
+    // console.log(this.skillSelected)
     setTimeout( () => this.getRtCalls( this.skillSelected, true ), 3000)
   }
 
   test(){
-    this._api.testGet().subscribe( res => console.log(res))
+    this._api.testGet().subscribe( res => {
+      // console.log(res)
+    })
   }
 
   getAll(){
@@ -146,7 +149,7 @@ export class QueuesV2Component implements OnInit {
 
               this.count = this.timeToReload
               this.timerFlag = true
-              console.log(res)
+              // console.log(res)
 
 
               // console.log(this.data)
@@ -176,6 +179,7 @@ export class QueuesV2Component implements OnInit {
 
   ngOnDestroy(){
     clearTimeout(this.timeout)
+    clearTimeout(this.timeoutSLA)
   }
 
 
@@ -290,7 +294,7 @@ export class QueuesV2Component implements OnInit {
       this.count--
     }
 
-    setTimeout( () => this.timerLoad(), 1000 )
+    this.timeout = setTimeout( () => this.timerLoad(), 1000 )
   }
 
   activateMonitor(){
@@ -302,7 +306,6 @@ export class QueuesV2Component implements OnInit {
     this._api.restfulGet( '', 'RtMonitor/getSLA' )
             .subscribe( res => {
               this.slaData = res.data
-              console.log(res.data)
 
             }, err => {
               console.log("ERROR", err)
@@ -317,7 +320,7 @@ export class QueuesV2Component implements OnInit {
       this.slaTimer--
     }
 
-    this.timeout = setTimeout( () => this.timerSLA(), 1000)
+    this.timeoutSLA = setTimeout( () => this.timerSLA(), 1000)
   }
 
 }
