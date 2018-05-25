@@ -31,7 +31,7 @@ export class DetHistorialComponent implements OnChanges {
 
   constructor(public _api: ApiService,
               public toastr: ToastsManager, vcr: ViewContainerRef,
-              private _init:InitService) {
+              public _init:InitService) {
 
     this.toastr.setRootViewContainerRef(vcr);
 
