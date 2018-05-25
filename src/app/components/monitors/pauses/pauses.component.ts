@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-
+import { Component, OnDestroy, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from '../../../services/api.service';
@@ -20,6 +20,7 @@ export class PausesComponent implements OnInit {
   showContents:boolean = false
   processLoading:boolean = false
   mainCredential:string = 'monitor_gtr'
+  timeout:any
 
   orderBy:string = 'nombre'
   orderDesc:boolean = false
@@ -56,6 +57,7 @@ export class PausesComponent implements OnInit {
 
   constructor(public _api: ApiService,
                 private _init:InitService,
+                private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastsManager, vcr: ViewContainerRef ) {
 
@@ -356,6 +358,11 @@ export class PausesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.titleService.setTitle('CyC - Monitor Pausas');
+  }
+
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
   }
 
   timerLoad( pause = false ){
@@ -370,7 +377,7 @@ export class PausesComponent implements OnInit {
         if( this.timerFlag ){
           this.timeCount--
         }
-          setTimeout( () => {
+          this.timeout = setTimeout( () => {
           this.timerLoad()
           }, 1000 )
       }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -22,6 +22,7 @@ export class QueuesV2Component implements OnInit {
   currentUser: any
   showContents:boolean = false
   mainCredential:string = 'default'
+  timeout:any
 
   displayFilter:boolean       = true
   loading:boolean       = false
@@ -173,6 +174,10 @@ export class QueuesV2Component implements OnInit {
     this.titleService.setTitle('CyC - Queue Monitor');
   }
 
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
+  }
+
 
   getQueues(){
 
@@ -312,7 +317,7 @@ export class QueuesV2Component implements OnInit {
       this.slaTimer--
     }
 
-    setTimeout( () => this.timerSLA(), 1000)
+    this.timeout = setTimeout( () => this.timerSLA(), 1000)
   }
 
 }

@@ -253,7 +253,7 @@ export class VentaPorCanalPdvComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('CyC - ProReports');
+    this.titleService.setTitle('CyC - Reportes PDV');
 
     for( let group in this.apiData ){
       for( let field in this.apiData[group] ){

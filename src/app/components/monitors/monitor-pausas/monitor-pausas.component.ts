@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-
+import { Title } from '@angular/platform-browser';
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
 import { TokenCheckService } from '../../../services/token-check.service';
@@ -19,6 +19,7 @@ export class MonitorPausasComponent implements OnInit {
   showContents:boolean = false
   processLoading:boolean = false
   mainCredential:string = 'monitor_gtr'
+  timeout:any
 
   loading:Object = {}
 
@@ -44,6 +45,7 @@ export class MonitorPausasComponent implements OnInit {
 
   constructor(public _api: ApiService,
                 private _init:InitService,
+                private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastsManager, vcr: ViewContainerRef) {
 
@@ -78,6 +80,11 @@ export class MonitorPausasComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.titleService.setTitle('CyC - Monitor Pausas');
+  }
+
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
   }
 
   run(){
@@ -452,14 +459,14 @@ export class MonitorPausasComponent implements OnInit {
       }else{
         if( this.timeCount > 0){
           this.timeCount--
-          setTimeout( () => {
+          this.timeout = setTimeout( () => {
           this.timerLoad()
           }, 1000 )
         }
       }
     }else{
       if( pause ){
-        setTimeout( () => {
+        this.timeout = setTimeout( () => {
         this.timerLoad( true )
         }, 1000 )
       }

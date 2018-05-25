@@ -24,7 +24,7 @@ export class DetalleAsesoresComponent implements OnInit {
   showContents:boolean = false
   flag:boolean = false
   large:boolean = true
-  mainCredential:string = 'tablas_f'
+  mainCredential:string = 'hc_detalle_asesores'
 
   now:any = moment()
 

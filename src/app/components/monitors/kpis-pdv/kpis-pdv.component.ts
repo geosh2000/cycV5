@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import * as moment from 'moment-timezone';
 import { OrderPipe } from 'ngx-order-pipe';
@@ -19,6 +19,7 @@ export class KpisPdvComponent implements OnInit {
   currentUser: any
   showContents:boolean = false
   mainCredential:string = 'default'
+  timeout:any
 
   ventaData:any
 
@@ -122,6 +123,10 @@ export class KpisPdvComponent implements OnInit {
     this.titleService.setTitle('CyC - KPIs PDV');
     this.getData()
     this.timerLoad()
+  }
+
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
   }
 
   getData( paq = this.detailView['paq'] ){
@@ -546,7 +551,7 @@ export class KpisPdvComponent implements OnInit {
       this.timerCount--
     }
 
-    setTimeout( () => this.timerLoad(), 1000 )
+    this.timeout = setTimeout( () => this.timerLoad(), 1000 )
 
   }
 

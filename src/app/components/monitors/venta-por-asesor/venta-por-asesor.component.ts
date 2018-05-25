@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from '../../../services/api.service';
@@ -22,6 +22,7 @@ export class VentaPorAsesorComponent implements OnInit {
   showContents:boolean = false
   processLoading:boolean = false
   mainCredential:string = 'default'
+  timeout:any
 
   loading:Object = {}
   LU:any
@@ -70,6 +71,10 @@ export class VentaPorAsesorComponent implements OnInit {
 
   ngOnInit() {
     this.getDeps()
+  }
+
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
   }
 
   getDeps( ){
@@ -220,7 +225,7 @@ export class VentaPorAsesorComponent implements OnInit {
       }else{
         if( this.timeCount > 0){
           this.timeCount--
-          setTimeout( () => {
+          this.timeout = setTimeout( () => {
           this.timerLoad()
           }, 1000 )
         }

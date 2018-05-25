@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, Injectable } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, Injectable } from '@angular/core';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
@@ -21,6 +21,8 @@ export class StatisticsComponent implements OnInit {
   currentUser: any
   showContents:boolean = false
   mainCredential:string = 'monitor_participacion_cc'
+
+  timeout:any
 
   startDate:any
   dateSelected:any
@@ -83,6 +85,11 @@ export class StatisticsComponent implements OnInit {
 
   ngOnInit() {
     setTimeout( () => { this.chgDate( true ) }, 1500 )
+
+  }
+
+  ngOnDestroy() {
+    clearTimeout(this.timeout)
 
   }
 
@@ -327,7 +334,7 @@ export class StatisticsComponent implements OnInit {
       }else{
         if( this.timeCount > 0){
           this.timeCount--
-          setTimeout( () => {
+          this.timeout = setTimeout( () => {
           this.timerLoad()
           }, 1000 )
         }

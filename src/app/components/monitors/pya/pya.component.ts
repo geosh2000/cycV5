@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, Injectable, NgZone, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewContainerRef, ViewChild, Injectable, NgZone, AfterViewInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { NgbDateStruct, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
@@ -38,6 +39,7 @@ export class PyaComponent implements OnInit {
   currentUser: any
   showContents:boolean = false
   mainCredential:string = 'monitor_pya'
+  timeout:any
 
   loading:Object = {}
   dateSearch:Date
@@ -82,6 +84,7 @@ export class PyaComponent implements OnInit {
 
   constructor( public _api: ApiService,
                 private _init:InitService,
+                private titleService:Title,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastsManager, vcr: ViewContainerRef,
                 private zone: NgZone,
@@ -131,6 +134,11 @@ export class PyaComponent implements OnInit {
       }
     });
 
+    this.titleService.setTitle('CyC - PyA');
+  }
+
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
   }
 
 
@@ -737,7 +745,7 @@ export class PyaComponent implements OnInit {
       }
     }
 
-    setTimeout( () => {
+    this.timeout = setTimeout( () => {
       this.timerLoad()
     }, 1000 )
 

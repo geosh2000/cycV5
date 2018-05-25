@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, Injectable } from '@angular/core';
-
+import { Component, OnDestroy, OnInit, ViewContainerRef, ViewChild, Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 
@@ -22,6 +22,7 @@ export class ParticipacionComponent implements OnInit {
   showContents:boolean = false
   processLoading:boolean = false
   mainCredential:string = 'monitor_participacion_cc'
+  timeout:any
 
   startDate:any
   dateSelected:any
@@ -42,6 +43,7 @@ export class ParticipacionComponent implements OnInit {
 
   constructor(public _api: ApiService,
                 private _init:InitService,
+                private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 private completerService:CompleterService,
                 public toastr: ToastsManager, vcr: ViewContainerRef ) {
@@ -66,6 +68,15 @@ export class ParticipacionComponent implements OnInit {
 
   }
 
+  ngOnInit() {
+    this.titleService.setTitle('CyC - IVR MP');
+    this.getData()
+  }
+
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
+  }
+
   setToday(){
     this.dateSelected = moment().subtract(0,'days').format('YYYY-MM-DD')
     this.startDate = {
@@ -75,9 +86,6 @@ export class ParticipacionComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.getData()
-  }
 
   getData( event:boolean = false, td:boolean = true ){
     this.loading['data'] = true
@@ -160,14 +168,14 @@ export class ParticipacionComponent implements OnInit {
       }else{
         if( this.timeCount > 0){
           this.timeCount--
-          setTimeout( () => {
+          this.timeout = setTimeout( () => {
           this.timerLoad()
           }, 1000 )
         }
       }
     }else{
       if( pause ){
-        setTimeout( () => {
+        this.timeout = setTimeout( () => {
         this.timerLoad( true )
         }, 1000 )
       }

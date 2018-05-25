@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef } from '@angular/core';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { Title } from '@angular/platform-browser';
@@ -31,6 +31,7 @@ export class DashOutletComponent implements OnInit {
   mainCredential:string = 'tablas_f'
 
   loading:Object = {}
+  timeout:any
 
   constructor(public _api: ApiService,
                 private _init:InitService,
@@ -58,6 +59,10 @@ export class DashOutletComponent implements OnInit {
     this.titleService.setTitle('CyC - Outlet VV 2018');
     this.getData()
     this.timerLoad()
+  }
+
+  ngOnDestroy() {
+    clearTimeout(this.timeout)
   }
 
   unixTime( time ){
@@ -130,7 +135,7 @@ export class DashOutletComponent implements OnInit {
       this.timerCount--
     }
 
-    setTimeout( () => this.timerLoad(), 1000)
+    this.timeout = setTimeout( () => this.timerLoad(), 1000)
   }
 
 }

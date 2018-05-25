@@ -1,4 +1,6 @@
-import { Component, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+
 import * as moment from 'moment-timezone';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
@@ -26,6 +28,7 @@ export class DashPorHoraComponent implements AfterViewInit {
   flag:boolean = false
   large:boolean = true
   mainCredential:string = 'tablas_f'
+  timeout:any
 
   loading:Object = {}
 
@@ -82,6 +85,7 @@ export class DashPorHoraComponent implements AfterViewInit {
   btnFormat:string = "ddd DD MMM"
 
   constructor(public _api: ApiService,
+                private titleService: Title,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -242,6 +246,13 @@ export class DashPorHoraComponent implements AfterViewInit {
 
   }
 
+  ngOnInit() {
+    this.titleService.setTitle('CyC - Venta Por Hora');
+  }
+
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
+  }
 
   buildDates(){
     this.dates = []
@@ -564,7 +575,7 @@ export class DashPorHoraComponent implements AfterViewInit {
       this.timerCount--
     }
 
-    setTimeout( () => this.timerLoad(), 1000 )
+    this.timeout = setTimeout( () => this.timerLoad(), 1000 )
 
   }
 
