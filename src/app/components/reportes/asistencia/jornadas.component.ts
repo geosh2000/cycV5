@@ -23,6 +23,7 @@ export class JornadasComponent implements OnInit {
   @Input() date:any
   @Input() asesor:any
   @Input() nombre:any
+  @Input() editable:boolean = true
   @Output() exception = new EventEmitter<any>()
   @Output() saveHx = new EventEmitter<any>()
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Input, OnChanges, Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 declare var jQuery:any;
@@ -10,8 +10,11 @@ import { ApiService } from '../../services/api.service';
   templateUrl: './upload-image.component.html',
   styles: []
 })
-export class UploadImageComponent implements OnInit {
+export class UploadImageComponent implements OnChanges {
 
+  @Input() num:any
+  @Input() name:any
+  @Input() dir:any
   @Output() loadResult = new EventEmitter<any>()
 
   title:string
@@ -37,11 +40,16 @@ export class UploadImageComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnChanges() {
+    if(this.num && this.name && this.dir){
+      this.build( this.title, this.dir, this.num, false )
+    }
   }
 
-  build( title, dir, name ){
-    jQuery("#formUploadImageComponent").modal('show')
+  build( title, dir, name, open = true ){
+    if( open ){
+      jQuery("#formUploadImageComponent").modal('show')
+    }
     this.title = title
     this.imageForm.controls['fname'].setValue(name)
     this.imageForm.controls['dir'].setValue(dir)

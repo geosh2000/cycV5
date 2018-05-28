@@ -49,6 +49,7 @@
     <app-det-contrato [asesor]="selected['id']" (reload)="reload()" *ngIf="_init.checkSingleCredential('hc_contratos_view')" [time]="now"></app-det-contrato>
     <!-- <app-det-salario [asesor]="selected['id']" *ngIf="_init.checkSingleCredential('hc_salarios_display')"></app-det-salario> -->
     <app-det-historial [asesor]="selected['id']" (reload)="reload()" [curAsesor]="currentUser.hcInfo['id']" [time]="now" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-historial>
+    <app-det-horario [asesor]="selected['id']" (reload)="reload()" [time]="now" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-horario>
   </div>
 
   <!-- AGREGAR ASESOR -->

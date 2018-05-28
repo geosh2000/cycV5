@@ -100,7 +100,7 @@ export class DetDetalleComponent implements OnChanges {
       console.error( msg )
       this.toastr.error( msg, 'Error!' )
     }else{
-      this._image.build( `Foto para ${this.asesor['nombre']}`, 'asesores', this.asesor['numcol'])
+      this._image.build( `Foto para ${this.data['Nombre']}`, 'asesores', this.data['num_colaborador'])
     }
   }
 

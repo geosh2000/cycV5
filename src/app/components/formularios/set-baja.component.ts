@@ -126,7 +126,7 @@ export class SetBajaComponent implements OnChanges {
   buildForm(){
 
     this.bajaData = {
-      tipo:             this.tipo ? '' : 'ask',
+      tipo:             this.tipo ? 'else' : 'ask',
       id:               this.asesor,
       fechaBaja:        '',
       comentarios:      '',

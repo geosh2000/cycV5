@@ -170,7 +170,7 @@
 <ng-container *ngIf="showOpts['ch_ret'] && asistData">
   <div class='d-flex justify-content-start'>
     <div class="p-1 ml-auto">
-      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()">r:</button>
+      <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()" [disabled]="!editable">r:</button>
     </div>
     <div class="p-1 ml-auto">
       <button [style.width.px]="100"  class="btn btn-block btn-outline-secondary text-warning" *ngIf="asistData['loading']">
@@ -202,7 +202,7 @@
   <ng-container *ngIf="asistData">
     <div class='d-flex justify-content-start'>
       <div class="p-1 ml-auto">
-        <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()">e:</button>
+        <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()"  [disabled]="!editable">e:</button>
       </div>
       <div class="p-1 ml-auto">
         <button [style.width.px]="100" class="btn btn-block btn-outline-secondary text-warning" *ngIf="asistData['loading']">

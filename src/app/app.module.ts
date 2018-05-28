@@ -162,6 +162,7 @@ import { DetContratoComponent } from './components/hc/detalle-asesores/det-contr
 import { VentaPorCanalPdvComponent } from './components/reportes/venta/venta-por-canal-pdv.component';
 import { DetSalarioComponent } from './components/hc/detalle-asesores/det-salario/det-salario.component';
 import { DetHistorialComponent } from './components/hc/detalle-asesores/det-historial/det-historial.component';
+import { DetHorarioComponent } from './components/hc/detalle-asesores/det-horario/det-horario.component';
 
 
 declare let jQuery : Object;
@@ -313,6 +314,7 @@ registerLocaleData(localeEsMX)
     VentaPorCanalPdvComponent,
     DetSalarioComponent,
     DetHistorialComponent,
+    DetHorarioComponent,
   ],
   imports: [
     BrowserModule,
