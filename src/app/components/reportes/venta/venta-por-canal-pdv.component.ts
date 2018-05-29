@@ -53,7 +53,7 @@ export class VentaPorCanalPdvComponent implements OnInit {
                                         "groupBy":false,
                                         "name":"gpoCanalKpi",
                                         "searchType":"in",
-                                        "params":[ "PDV" ]
+                                        "params":[ ]
                                     },
                         "gpoCanal":{
                                         "status":false,
@@ -136,7 +136,7 @@ export class VentaPorCanalPdvComponent implements OnInit {
                         },
                         "genGroup":{
                                         "Asesor":{
-                                                        "status":false,
+                                                        "status":true,
                                                         "showCol":false,
                                                         "groupBy":false,
                                                         "name":"asesor",
@@ -150,6 +150,14 @@ export class VentaPorCanalPdvComponent implements OnInit {
                                                         "name":"branchName",
                                                         "searchType":"in",
                                                         "params":[ ]
+                                                },
+                                        "dep":{
+                                                        "status":false,
+                                                        "showCol":false,
+                                                        "groupBy":false,
+                                                        "name":"dep",
+                                                        "searchType":"in",
+                                                        "params":[ 29 ]
                                                 }
                                   },
                         "branchId":{
