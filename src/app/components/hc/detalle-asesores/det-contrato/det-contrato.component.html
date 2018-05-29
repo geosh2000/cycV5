@@ -22,7 +22,7 @@
                 <button type="button" class="align-middle btn btn-sm btn-warning" data-toggle="modal" data-target="#cambioPuesto">Cambio de Puesto</button>
               </div>
             </div>
-            <div class="d-flex align-items-center justify-content-start flex-wrap" *ngIf="_init.checkSingleCredential('hc_cambio_solicitud') && data.activeSol == 1">
+            <div class="d-flex align-items-center justify-content-start flex-wrap" *ngIf="(_init.checkSingleCredential('hc_cambio_solicitud') || _init.checkSingleCredential('hc_baja_directa')) && data.activeSol == 1">
               <div class="align-middle p-1">
                 <div class="alert alert-warning align-middle" role="alert">
                   <span class="align-middle"><i class="fas fa-exclamation-triangle text-danger"></i> Solicitudes pendientes de aprobación</span>
