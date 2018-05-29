@@ -169,7 +169,8 @@ export class KpisPdvComponent implements OnInit {
                     data[gpo['gpoCanalKpiOK']][gpoName][fechas[gpo['Fecha']]] = gpo
                   }else{
                     data[gpo['gpoCanalKpiOK']][gpoName] = {
-                      [fechas[gpo['Fecha']]] : gpo
+                      [fechas[gpo['Fecha']]] : gpo,
+                      'ciudad': gpo['city']
                     }
                   }
 
@@ -180,7 +181,8 @@ export class KpisPdvComponent implements OnInit {
                 }else{
                   data[gpo['gpoCanalKpiOK']] = {
                     [gpoName]: {
-                      [fechas[gpo['Fecha']]]: gpo
+                      [fechas[gpo['Fecha']]]: gpo,
+                      'ciudad': gpo['city']
                     },
                     extra: {
                       color: this.randColor(),
@@ -220,7 +222,8 @@ export class KpisPdvComponent implements OnInit {
                     [gpoName]: {
                       [fechas[gpo['Fecha']]]: {
                         [gpo['servicio']]: gpo
-                      }
+                      },
+                      'ciudad': gpo['city']
                     },
                     color: this.randColor()
                   }
