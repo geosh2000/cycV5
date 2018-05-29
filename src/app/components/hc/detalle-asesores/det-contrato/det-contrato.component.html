@@ -54,11 +54,16 @@
             <h5>Status</h5>
             <p><span class="badge badge-pill" [ngClass]="{'badge-success': data.activo == 1,'badge-danger': data.activo == 0}">{{ data.activo == 1 ? 'Activo' : 'Inactivo'}}</span></p>
           </div>
-          <div class="m-2 p-1 text-center ">
+          <div class="m-2 p-1 text-center "  *ngIf="data.activo == 1">
+            <h5>Antigüedad</h5>
+            <p>{{ printOld(data.old_years,data.old_months,data.old_days ) }}</p>
+          </div>
+          <div class="m-2 p-1 text-center "  *ngIf="data.activo == 0">
             <h5>Egreso</h5>
             <p>{{ data.activo == 1 ? '-' : printDate(data.Egreso, 'DD MMM \'YY') }}</p>
+            <p>({{ printOld(data.old_years,data.old_months,data.old_days ) }})</p>
           </div>
-          <div class="m-2 p-1 text-center ">
+          <div class="m-2 p-1 text-center " *ngIf="data.activo == 0">
             <h5>Recontratable</h5>
             <p *ngIf="data.activo==1">-</p>
             <p *ngIf="data.activo==0"><span class="badge badge-pill" [ngClass]="{'badge-success': data.recontratable == 1,'badge-danger': data.recontratable == 0,'badge-secondary': data.recontratable == null}">{{ data.recontratable == 1 ? 'Recontratable' : data.recontratable == 0 ? 'No-recontratable' : 'Sin Información'}}</span></p>

@@ -7,7 +7,7 @@
         </div>
         <ng-container *ngIf="dataHistorial">
           <div class="d-flex justify-content-end flex-wrap" *ngIf="activo == 1">
-            
+
           </div>
         </ng-container>
       </div>
@@ -27,8 +27,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of dataHistorial; index as i">
-                <td class='text-center'><span *ngIf="i == 0 && activo == 1"><i class="fas fa-angle-double-right fa-fw text-success"></i></span></td>
+              <tr *ngFor="let item of dataHistorial; index as ind">
+                <td class='text-center'><span *ngIf="ind == 0"><i class="fas fa-angle-double-right fa-fw text-success"></i></span></td>
                 <td class='text-center'>{{ printDate(item.Fecha, 'DD MMM \'YY') }}</td>
                 <td class='text-center'>{{ item.vacante }}</td>
                 <td class='text-center'>{{ item.move_id }}</td>
@@ -79,18 +79,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of dataSolicitudes; index as i">
+              <tr *ngFor="let itemSol of dataSolicitudes; index as i">
                 <td class='text-center'>
-                  <button class="btn btn-sm btn-link" *ngIf="i == 0 && (item.status == 0 || item.status == 4) && (curAsesor == item.solicitente_id || _init.checkSingleCredential('allmighty'))" data-toggle="modal" data-target="#confirmCancel" (click)="deleteItem = {id: item.id_sol, tipo: item.status == 0 ? 4 : 5}"><span *ngIf="item.status == 0"><i class="fas fa-ban text-warning"></i></span><span *ngIf="item.status == 4"><i class="far fa-trash-alt text-danger"></i></span></button></td>
-                <td class='text-center'><span class="badge badge-pill" [ngClass]="{'badge-danger': item.tipo == 2, 'badge-primary': item.tipo == 1}">{{ item.tipo == 1 ? 'Cambio' : 'Baja' }}</span></td>
-                <td class='text-center'>{{ printDate(item.Fecha_Cambio, 'DD MMM \'YY') }}</td>
-                <td class='text-center'>{{ item.id_sol }}</td>
-                <td class='text-left' [ngClass]="{'text-danger': item.Departamento == 'Baja', 'text-primary': item.Departamento != 'Baja'}">{{ item.Departamento }}<br>{{ item.Puesto }}</td>
-                <td class='text-center'>{{ item.vacante_solicitada }}</td>
-                <td class='text-left'><span class='text-danger'>{{ item.PDV }}</span><br>{{ item.Ciudad }}</td>
-                <td class='text-left'>{{ item.solicitante }}<br>{{ printDate( item.Fecha_Solicitud, 'DD MMM \'YY') }}<br><span class="font-italic text-info">{{ item.com_solicitante }}</span></td>
-                <td class='text-center'><span class="badge badge-pill" [ngClass]="{'badge-danger': item.status == 3, 'badge-success': item.status == 1, 'badge-info': item.status == 0, 'badge-secondary': item.status == 4}">{{ item.status == 1 ? 'Aprobada' : item.status == 4 ? 'Cancelada' : item.status == 3 ? 'Declinada' : item.status == 0 ? 'Pendiente' : 'NA' }}</span></td>
-                <td class='text-left'>{{ item.aprobante }}<br>{{ printDate( item.Fecha_Aprobacion, 'DD MMM \'YY') }}<br><span class="font-italic text-info">{{ item.com_aprobante }}</span></td>
+                  <button class="btn btn-sm btn-link" *ngIf="i == 0 && (itemSol.status == 0 || itemSol.status == 4) && (curAsesor == itemSol.solicitente_id || _init.checkSingleCredential('allmighty'))" data-toggle="modal" data-target="#confirmCancel" (click)="deleteitemSol = {id: itemSol.id_sol, tipo: itemSol.status == 0 ? 4 : 5}"><span *ngIf="itemSol.status == 0"><i class="fas fa-ban text-warning"></i></span><span *ngIf="itemSol.status == 4"><i class="far fa-trash-alt text-danger"></i></span></button></td>
+                <td class='text-center'><span class="badge badge-pill" [ngClass]="{'badge-danger': itemSol.tipo == 2, 'badge-primary': itemSol.tipo == 1}">{{ itemSol.tipo == 1 ? 'Cambio' : 'Baja' }}</span></td>
+                <td class='text-center'>{{ printDate(itemSol.Fecha_Cambio, 'DD MMM \'YY') }}</td>
+                <td class='text-center'>{{ itemSol.id_sol }}</td>
+                <td class='text-left' [ngClass]="{'text-danger': itemSol.Departamento == 'Baja', 'text-primary': itemSol.Departamento != 'Baja'}">{{ itemSol.Departamento }}<br>{{ itemSol.Puesto }}</td>
+                <td class='text-center'>{{ itemSol.vacante_solicitada }}</td>
+                <td class='text-left'><span class='text-danger'>{{ itemSol.PDV }}</span><br>{{ itemSol.Ciudad }}</td>
+                <td class='text-left'>{{ itemSol.solicitante }}<br>{{ printDate( itemSol.Fecha_Solicitud, 'DD MMM \'YY') }}<br><span class="font-italic text-info">{{ itemSol.com_solicitante }}</span></td>
+                <td class='text-center'><span class="badge badge-pill" [ngClass]="{'badge-danger': itemSol.status == 3, 'badge-success': itemSol.status == 1, 'badge-info': itemSol.status == 0, 'badge-secondary': itemSol.status == 4}">{{ itemSol.status == 1 ? 'Aprobada' : itemSol.status == 4 ? 'Cancelada' : itemSol.status == 3 ? 'Declinada' : itemSol.status == 0 ? 'Pendiente' : 'NA' }}</span></td>
+                <td class='text-left'>{{ itemSol.aprobante }}<br>{{ printDate( itemSol.Fecha_Aprobacion, 'DD MMM \'YY') }}<br><span class="font-italic text-info">{{ itemSol.com_aprobante }}</span></td>
               </tr>
             </tbody>
           </table>

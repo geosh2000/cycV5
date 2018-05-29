@@ -77,4 +77,18 @@ export class DetContratoComponent implements OnChanges {
     this.getData()
   }
 
+  printOld(years, months, days){
+    let m = parseInt(months) - (parseInt(years)*12)
+
+    if( parseInt(years) > 0 ){
+      return `${years} ${ parseInt(years) > 0 ? 'años' : 'año' } ${ m > 0 ? m : ''}${ m > 1 ? ' meses' : m > 1 ? ' mes' : ''}`
+    }else{
+      if( m > 3 ){
+        return `${m} meses`
+      }else{
+        return `${days} ${ parseInt(days) > 1 ? 'dias' : 'día'}`
+      }
+    }
+  }
+
 }

@@ -6,7 +6,7 @@
             <div class="col-6" *ngFor="let item of asesorDetailsForm" >
               <div class="form-group">
                 <ng-container *ngIf="item.show">
-                  <label>{{ item.name | capitalizado }}</label>
+                  <label>{{ item.showName | capitalizado }}</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <div class="input-group-text"><i class="{{ item.icon }}"></i></div>
