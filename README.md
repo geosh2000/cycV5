@@ -35,6 +35,14 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Por día por hora para el ovv2018
 * Metas de BI y por dia ajustables desde base de datos
 
+### Detalle Asesores
+* Modularización de componente
+* Mejora en permisos y privacidad
+* Mejora en formularios
+* Corrección de pantallas modales y servicios para actualización de DB
+* Nuevo módulo de contratos
+* Consulta de horarios y excepciones desde Detalle
+
 ### Días Pendientes
 * Carga de dias pendientes nuevos
 * Opción de carga de horas negativas
@@ -59,7 +67,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Monto en COPS para MP CO
 
 ### Monitor Kpis PDV
-* Monitoreo de venta por ciudad / PDV
+* Monitoreo de venta por Supervisor / PDV
 
 ### PBX Status
 * Se agrega el tiempo en pausa de comida y pnp
@@ -67,6 +75,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Prenómina
 * Fix -> Corrección de faltas en festivos
+
+### Reporte PDV
+* Filtros múltiples para búsquedas por Servicio, Branch, asesor, etc
+* Agrupación y visualización opcional
+* Todos los canales
+* Todos los servicios
+* Todos los asesores
 
 ### Reporte Personalizado
 * Filtros múltiples para búsquedas por GpoCanal, Servicio, Branch, asesor, etc
@@ -80,6 +95,12 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Venta por Canal
 * Separación del canal Outlet de los resultados
+
+### General CyC
+* Mejoras en rendimiento de monitores (destroy timeouts al cambiar componente)
+* Automatización de correos de notificación de contratos vencidos
+* Automatización de correos de notificación de cumpleaños
+* Historial de correos enviados (automatizados)
 
 ## v2.2.5
 
