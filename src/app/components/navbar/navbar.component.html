@@ -3,7 +3,8 @@
 
                 <!-- HOME AND RESPONSIVE MENU BUTTON -->
                 <a class="navbar-brand" [routerLink]="['/home']" style="cursor: pointer">
-                  <img src="assets/img/CyC.png" width="30" height="30" alt="">
+                  <img src="assets/img/CyC.png" width="30" height="30" alt="" *ngIf="!bd || bd == 0">
+                  <img src="assets/img/birthday.png" height="50" alt="" *ngIf="bd && bd == 1">
                 </a>
                 <div class="navbar-toggler">
                   <app-countdown></app-countdown>

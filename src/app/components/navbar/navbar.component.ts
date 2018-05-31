@@ -4,6 +4,7 @@ import { LoginService } from '../../services/login.service';
 import { TokenCheckService } from '../../services/token-check.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LogoutComponent } from '../shared/logout/logout.component';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-navbar',
@@ -24,12 +25,14 @@ export class NavbarComponent {
   expiration
   licenses:any[]
   menuCredentials:Object
+  bd:any
 
   currentUser:any
 
   constructor( private _navbar:NavbarService,
                 private _tokenCheck:TokenCheckService,
                 private _login:LoginService,
+                private _api:ApiService,
                 private route:Router ) {
 
                   console.clear()
@@ -45,6 +48,17 @@ export class NavbarComponent {
 
     setInterval(()=>{ this.tokenCheck() }  ,1000);
 
+  }
+
+  getBD(){
+    this._api.restfulGet( '','Asesores/bd' )
+              .subscribe( res =>{
+                this.bd = res['data']
+              },
+                (err) => {
+                  let error = err
+                  console.error(`${ error }`);
+              });
   }
 
   tokenCheck(){
@@ -104,6 +118,7 @@ export class NavbarComponent {
             this.buildCredentials( this.menu )
             // console.log("Menu", this.menu)
           });
+    this.getBD()
   }
 
   buildCredentials( menu ){
