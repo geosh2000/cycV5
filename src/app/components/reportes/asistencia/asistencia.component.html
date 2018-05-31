@@ -71,7 +71,7 @@
                 type="submit"
                 class="btn btn-warning m-1"
                 (click)="downloadXLS( 'ausTable', 'ausentismos_'+searchCriteria.start+'a'+searchCriteria.end )"
-                [disabled]="loading || searchCriteria.skill==''" *ngIf="asistData && showContents">Descargar</button>
+                [disabled]="loading || !asistData" *ngIf="asistData && showContents">Descargar</button>
             </div>
           </div>
         </div>
