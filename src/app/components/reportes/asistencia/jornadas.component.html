@@ -18,13 +18,13 @@
             <tbody>
               <tr>
                 <td scope="row">Login:</td>
-                <td [ngClass]="{'text-danger': asistData['Retardo']}">{{ formatDate(asistData['j_login'], 'kk:mm:ss') }}</td>
-                <td>{{ formatDate(asistData['login'], 'kk:mm:ss') }}</td>
+                <td [ngClass]="{'text-danger': asistData['Retardo']}">{{ formatDate(asistData['j_login'], 'HH:mm:ss') }}</td>
+                <td>{{ formatDate(asistData['login'], 'HH:mm:ss') }}</td>
               </tr>
               <tr>
                 <td scope="row">Logout:</td>
-                <td [ngClass]="{'text-danger': asistData['SalidaAnticipada'] == 1}">{{ formatDate(asistData['j_logout'], 'kk:mm:ss') }}</td>
-                <td>{{ formatDate(asistData['logout'], 'kk:mm:ss') }}</td>
+                <td [ngClass]="{'text-danger': asistData['SalidaAnticipada'] == 1}">{{ formatDate(asistData['j_logout'], 'HH:mm:ss') }}</td>
+                <td>{{ formatDate(asistData['logout'], 'HH:mm:ss') }}</td>
               </tr>
             </tbody>
           </table>
@@ -44,7 +44,7 @@
               <span class="text-center">
                 <small *ngIf="asistData['Descanso'] == 1">Descanso</small>
                 <small *ngIf="asistData['Descanso'] != 1 && asistData['js'] != null">
-                  {{ formatDate(asistData['js'], 'kk:mm') }} - {{ formatDate(asistData['je'], 'kk:mm') }}
+                  {{ formatDate(asistData['js'], 'HH:mm') }} - {{ formatDate(asistData['je'], 'HH:mm') }}
                   <i class="fa fa-fw fa-info-circle"></i>
                 </small>
                 <small *ngIf="asistData['js'] == null">*</small>
@@ -93,13 +93,13 @@
           <tbody>
             <tr>
               <td scope="row">Login:</td>
-              <td>{{ formatDate(asistData['x1_login'], 'kk:mm:ss') }}</td>
-              <td *ngIf="asistData['x2s'] != asistData['x2e']">{{ formatDate(asistData['x2_login'], 'kk:mm:ss') }}</td>
+              <td>{{ formatDate(asistData['x1_login'], 'HH:mm:ss') }}</td>
+              <td *ngIf="asistData['x2s'] != asistData['x2e']">{{ formatDate(asistData['x2_login'], 'HH:mm:ss') }}</td>
             </tr>
             <tr>
               <td scope="row">Logout:</td>
-              <td>{{ formatDate(asistData['x1_logout'], 'kk:mm:ss') }}</td>
-              <td *ngIf="asistData['x2s'] != asistData['x2e']">{{ formatDate(asistData['x2_logout'], 'kk:mm:ss') }}</td>
+              <td>{{ formatDate(asistData['x1_logout'], 'HH:mm:ss') }}</td>
+              <td *ngIf="asistData['x2s'] != asistData['x2e']">{{ formatDate(asistData['x2_logout'], 'HH:mm:ss') }}</td>
             </tr>
           </tbody>
         </table>
@@ -118,11 +118,11 @@
             <span class="text-center">
               <small *ngIf="asistData['Descanso'] == 1 || asistData['x1s'] == null">_</small>
               <small *ngIf="asistData['Descanso'] != 1 && asistData['x1s'] != asistData['x1e']">
-                {{ formatDate(asistData['x1s'], 'kk:mm') }} - {{ formatDate(asistData['x1e'], 'kk:mm') }}
+                {{ formatDate(asistData['x1s'], 'HH:mm') }} - {{ formatDate(asistData['x1e'], 'HH:mm') }}
                 <i class="fa fa-fw fa-info-circle"></i>
               </small>
               <small *ngIf="asistData['Descanso'] != 1 && asistData['x2s'] != asistData['x2e']"><br>
-                {{ formatDate(asistData['x2s'], 'kk:mm') }} - {{ formatDate(asistData['x2e'], 'kk:mm') }}
+                {{ formatDate(asistData['x2s'], 'HH:mm') }} - {{ formatDate(asistData['x2e'], 'HH:mm') }}
                 <i class="fa fa-fw fa-info-circle"></i>
               </small>
             </span>
@@ -157,7 +157,7 @@
             <span class="text-center">
               <small *ngIf="asistData['cs'] == null || asistData['Descanso'] == 1 || asistData['cs'] == asistData['ce']">_</small>
               <small *ngIf="asistData['Descanso'] != 1 && asistData['cs'] != asistData['ce']">
-                {{ formatDate(asistData['cs'], 'kk:mm') }} - {{ formatDate(asistData['ce'], 'kk:mm') }}
+                {{ formatDate(asistData['cs'], 'HH:mm') }} - {{ formatDate(asistData['ce'], 'HH:mm') }}
               </small>
             </span>
       </button>
