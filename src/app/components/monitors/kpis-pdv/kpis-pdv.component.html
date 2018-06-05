@@ -1,16 +1,35 @@
+<!-- ================================================================== -->
+<!-- START NoPermiso -->
+<!-- ================================================================== -->
 <div class="alert alert-danger" role="alert" *ngIf="!showContents">
   <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
+<!-- ================================================================== -->
+<!-- END NoPermiso -->
+<!-- ================================================================== -->
+
+<!-- ================================================================== -->
+<!-- START Display -->
+<!-- ================================================================== -->
 <div class="container-fluid" *ngIf="showContents">
+  <!-- ================================================================== -->
+  <!-- START Jumbotron -->
+  <!-- ================================================================== -->
   <div class="container-fluid">
 
-    <!-- FILTROS -->
+    <!-- ================================================================== -->
+    <!-- START Filtros -->
+    <!-- ================================================================== -->
     <div class="row">
 
-      <!-- MARCA Y PAIS -->
+      <!-- ================================================================== -->
+      <!-- START Filtros Marca/Pais -->
+      <!-- ================================================================== -->
       <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-1 d-flex justify-content-center">
 
-        <!-- MARCA -->
+        <!-- ================================================================== -->
+        <!-- START Marca -->
+        <!-- ================================================================== -->
         <div class="p-1 d-flex align-items-center">
           <div class="btn-group p-1 align-middle">
           <button type="button" class="btn btn-sm btn-info">
@@ -25,31 +44,48 @@
           </div>
         </div>
         </div>
+        <!-- ================================================================== -->
+        <!-- END Marca -->
+        <!-- ================================================================== -->
 
-        <!-- PAIS -->
+        <!-- ================================================================== -->
+        <!-- START Pais -->
+        <!-- ================================================================== -->
         <div class="p-1 d-flex align-items-center">
           <div class="btn-group p-1 align-middle">
-          <button type="button" class="btn btn-sm btn-info">
-            <span>{{ params['pais'] }}</span>
-          </button>
-          <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <div class="dropdown-menu">
-            <button class="dropdown-item" type="button" (click)="chgPais('MX')">MX</button>
-            <button class="dropdown-item" type="button" (click)="chgPais('CO')">CO</button>
+            <button type="button" class="btn btn-sm btn-info">
+              <span>{{ params['pais'] }}</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <button class="dropdown-item" type="button" (click)="chgPais('MX')">MX</button>
+              <button class="dropdown-item" type="button" (click)="chgPais('CO')">CO</button>
+            </div>
           </div>
         </div>
-        </div>
-
+        <!-- ================================================================== -->
+        <!-- END Pais -->
+        <!-- ================================================================== -->
       </div>
+      <!-- ================================================================== -->
+      <!-- END Filtros Marca/Pais -->
+      <!-- ================================================================== -->
 
-      <!-- EMPTY -->
+      <!-- ================================================================== -->
+      <!-- START Filtros Switches -->
+      <!-- ================================================================== -->
       <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
 
+        <!-- ================================================================== -->
+        <!-- START Switches Group -->
+        <!-- ================================================================== -->
         <div class="d-flex justify-content-center align-items-center">
 
-          <!-- Detail -->
+          <!-- ================================================================== -->
+          <!-- START Switch VarLY/YD -->
+          <!-- ================================================================== -->
           <div class="p-2 text-center">
             <p><ui-switch
               color="green"
@@ -59,8 +95,13 @@
             ></ui-switch></p>
             <p><small>Var {{ params['compare'] }}</small></p>
           </div>
+          <!-- ================================================================== -->
+          <!-- END Switch VarLY/YD -->
+          <!-- ================================================================== -->
 
-          <!-- Detail -->
+          <!-- ================================================================== -->
+          <!-- START Switch Detalle -->
+          <!-- ================================================================== -->
           <div class="p-2 text-center">
             <p><ui-switch
               color="green"
@@ -69,8 +110,13 @@
             ></ui-switch></p>
             <p><small>Detalle</small></p>
           </div>
+          <!-- ================================================================== -->
+          <!-- END Switch Detalle -->
+          <!-- ================================================================== -->
 
-          <!-- Producto -->
+          <!-- ================================================================== -->
+          <!-- START Switch Producto -->
+          <!-- ================================================================== -->
           <div class="p-2 text-center animated fadeIn" *ngIf="detail">
             <p><ui-switch
               color="green"
@@ -79,6 +125,13 @@
             ></ui-switch></p>
             <p><small>Producto</small></p>
           </div>
+          <!-- ================================================================== -->
+          <!-- END Switch Producto -->
+          <!-- ================================================================== -->
+
+          <!-- ================================================================== -->
+          <!-- START Switch Paquete -->
+          <!-- ================================================================== -->
           <div class="p-2 text-center animated fadeIn" *ngIf="detail">
             <p><ui-switch
               color="green"
@@ -88,8 +141,13 @@
             ></ui-switch></p>
             <p><small>Paq Desg</small></p>
           </div>
+          <!-- ================================================================== -->
+          <!-- END Switch Paquete -->
+          <!-- ================================================================== -->
 
-          <!-- Locs -->
+          <!-- ================================================================== -->
+          <!-- START Switch Locs -->
+          <!-- ================================================================== -->
           <div class="p-2 text-center animated fadeIn" *ngIf="detail">
             <p><ui-switch
               color="green"
@@ -98,8 +156,13 @@
             ></ui-switch></p>
             <p><small>Locs</small></p>
           </div>
+          <!-- ================================================================== -->
+          <!-- END Switch Locs -->
+          <!-- ================================================================== -->
 
-          <!-- FC -->
+          <!-- ================================================================== -->
+          <!-- START Switch FC -->
+          <!-- ================================================================== -->
           <div class="p-2 text-center animated fadeIn" *ngIf="detail">
             <p><ui-switch
               color="green"
@@ -108,8 +171,13 @@
             ></ui-switch></p>
             <p><small>FC</small></p>
           </div>
+          <!-- ================================================================== -->
+          <!-- END Switch FC -->
+          <!-- ================================================================== -->
 
-          <!-- Live -->
+          <!-- ================================================================== -->
+          <!-- START Switch Live -->
+          <!-- ================================================================== -->
           <div class="p-2 text-center">
             <p><ui-switch
               color="green"
@@ -119,8 +187,17 @@
             ></ui-switch></p>
             <p><small>Live!</small></p>
           </div>
+          <!-- ================================================================== -->
+          <!-- END Switch Live -->
+          <!-- ================================================================== -->
         </div>
+        <!-- ================================================================== -->
+        <!-- END Switches Group -->
+        <!-- ================================================================== -->
 
+        <!-- ================================================================== -->
+        <!-- START Fecha Historic -->
+        <!-- ================================================================== -->
         <div class="d-flex justify-content-center align-items-center" *ngIf="!monitor">
           <div class="form-inline">
             <div class="form-group">
@@ -136,8 +213,13 @@
             </div>
           </div>
         </div>
-
+        <!-- ================================================================== -->
+        <!-- END Fecha Historic -->
+        <!-- ================================================================== -->
       </div>
+      <!-- ================================================================== -->
+      <!-- END Filtros Switches -->
+      <!-- ================================================================== -->
 
       <!-- SOLO VENTA O VENTA Y XLD || RELOAD BUTTON-->
       <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 d-flex justify-content-center">
@@ -177,173 +259,308 @@
       </div>
 
     </div>
+    <!-- ================================================================== -->
+    <!-- END Filtros -->
+    <!-- ================================================================== -->
 
   </div>
+  <!-- ================================================================== -->
+  <!-- END Jumbotron -->
+  <!-- ================================================================== -->
 
-  <!-- DASH BODY -->
+  <!-- ================================================================== -->
+  <!-- START Main Body -->
+  <!-- ================================================================== -->
   <div class="container-fluid">
+
+    <!-- ================================================================== -->
+    <!-- START For each CANAL -->
+    <!-- ================================================================== -->
     <ng-container *ngFor="let canal of ventaData | keys; index as c">
-      <div class="d-flex justify-content-between flex-wrap">
-        <div class="p-1">
-          <h2>{{ canal }}:</h2>
-        </div>
-        <div class="p-1">
-          <h2>{{ (params['montoSV'] == 'MontoSV' ? ventaData[canal]['extra']['totalSV'] : ventaData[canal]['extra']['totalAll']) | currency:'MXN':'symbol-narrow':'.2-2' }}</h2>
-        </div>
-        <!-- <hr> -->
-      </div>
-      <div class="row border border-primary mb-2">
-        <ng-container *ngFor="let group of ventaData[canal] | keys">
-          <ng-container *ngIf="group != 'extra'">
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-1" *ngIf="ventaData[canal][group] || (group == 'Total' && canal)">
 
-              <!-- CARD POR GPO Y gpoCanalKpi -->
-              <div class="card">
-                <div class="card-header align-items-center p-0 pl-1" [style.backgroundColor]="ventaData[canal]['extra']['color']">
+      <!-- ================================================================== -->
+      <!-- START Restrict view if not tablas_f credential -->
+      <!-- ================================================================== -->
+      <ng-container *ngIf="_init.checkSingleCredential( 'tablas_f') || sup == canal">
 
-                  <!-- GPO Y gpoCanalKpi -->
-                  <div class="row">
-                    <div class="col">
-                      <div class="p-2 d-flex justify-content-between flex-wrap">
-                        <div class="p-1">
-                          <h5 class='align-middle'>{{ group }}</h5>
-                        </div>
-                        <div class="p-1">
-                          <p class="text-right"><small>{{ ventaData[canal][group]['ciudad'] }}</small></p>
+        <!-- ================================================================== -->
+        <!-- START Group Title (Canal) -->
+        <!-- ================================================================== -->
+        <div class="d-flex justify-content-between flex-wrap">
+          <div class="p-1">
+            <h2 class="m-0">{{ canal }}:</h2>
+          </div>
+          <div class="p-1">
+            <h2 class="text-right">{{ (params['montoSV'] == 'MontoSV' ? ventaData[canal]['extra']['totalSV'] : ventaData[canal]['extra']['totalAll']) | currency:'MXN':'symbol-narrow':'.2-2' }}</h2>
+            <div class="p-1 d-flex justify-content-between">
+              <span class="badge badge-success">Online: {{ (params['montoSV'] == 'MontoSV' ? ventaData[canal]['extra']['NoShopSV'] : ventaData[canal]['extra']['NoShopAll']) | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+              <span class="badge badge-info">part: {{ (params['montoSV'] == 'MontoSV' ? ventaData[canal]['extra']['totalSV'] : ventaData[canal]['extra']['totalAll']) == 0 ? 0 : ((params['montoSV'] == 'MontoSV' ? ventaData[canal]['extra']['NoShopSV'] : ventaData[canal]['extra']['NoShopAll'])/(params['montoSV'] == 'MontoSV' ? ventaData[canal]['extra']['totalSV'] : ventaData[canal]['extra']['totalAll'])*100) | number:'.2-2' }}%</span>
+            </div>
+          </div>
+          <!-- <hr> -->
+        </div>
+        <!-- ================================================================== -->
+        <!-- END Group Title (Canal) -->
+        <!-- ================================================================== -->
+
+        <!-- ================================================================== -->
+        <!-- START Group Row -->
+        <!-- ================================================================== -->
+        <div class="row border border-primary mb-2">
+
+          <!-- ================================================================== -->
+          <!-- START For Each Card (Group) -->
+          <!-- ================================================================== -->
+          <ng-container *ngFor="let group of ventaData[canal] | keys">
+            <ng-container *ngIf="group != 'extra'">
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-1" *ngIf="ventaData[canal][group] || (group == 'Total' && canal)">
+                <div class="card">
+
+                  <!-- ================================================================== -->
+                  <!-- START CARD HEADER -->
+                  <!-- ================================================================== -->
+                  <div class="card-header align-items-center p-0 pl-1" [style.backgroundColor]="ventaData[canal]['extra']['color']">
+
+                    <!-- ================================================================== -->
+                    <!-- START ROW Title / Subtitle -->
+                    <!-- ================================================================== -->
+                    <div class="row" style="height: 60px;">
+                      <div class="col">
+                        <div class="p-2 row">
+                          <div class="pl-3 p-1 col-7">
+                            <h5 class='align-middle'>{{ group }}</h5>
+                          </div>
+                          <div class="pr-4 p-1 col-5">
+                            <p class="text-right" *ngFor="let asesor of ventaData[canal][group]['asesores']"><small><span class="badge badge-primary">{{ asesor }}</span></small></p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                    <!-- ================================================================== -->
+                    <!-- END ROW Title / Subtitle -->
+                    <!-- ================================================================== -->
 
-
-                  <!-- MONTO TOTAL HEADER -->
-                  <div class="row">
-                    <div class="col">
-                      <div class="p-2 d-flex justify-content-between flex-wrap">
-                        <h3 class='align-middle text-right font-weight-bold text-dark' >{{ currencyDispl(group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}</h3>
-                        <div class="d-flex justify-content-between" [style.height.px]="20" [style.width.px]="170">
-                          <span
-                            placement="bottom" ngbTooltip="{{ currencyDispl(group == 'Total' ? getTotal(canal, params['compare'], params['montoSV']) : getVal( canal, group, params['montoSV'], params['compare'] )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
-                            class="badge badge-pill text-center ml-1"
-                            [ngClass]="compare(canal, group, params['montoSV'], 'td', params['compare'], 'class')"
-                            [style.width.px]="80">
-                              <small>var {{ params['compare'] }}: {{ compare(canal, group, params['montoSV'], 'td', params['compare'], '%') | number:'.0-0' }}%</small>
-                          </span>
-                          <span
-                            placement="bottom" ngbTooltip="{{ currencyDispl(group == 'Total' ? getTotal(canal, 'ly', params['montoSV']) : getVal( canal, group, params['montoSV'], 'ly' )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
-                            class="badge badge-pill text-center ml-1"
-                            [ngClass]="compare(canal, group, params['montoSV'], 'td', 'ly', 'class')"
-                            [style.width.px]="80">
-                              <small>var ly: {{ compare(canal, group, params['montoSV'], 'td', 'ly', '%') | number:'.0-0' }}%</small>
-                          </span>
+                    <!-- ================================================================== -->
+                    <!-- START MONTO / VAR -->
+                    <!-- ================================================================== -->
+                    <div class="row">
+                      <div class="col">
+                        <div class="p-2 d-flex justify-content-between flex-wrap">
+                          <div class="p-0">
+                            <h3 class='align-middle text-left font-weight-bold text-dark m-0' >{{ currencyDispl(group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}</h3>
+                            <p>Online: {{ currencyDispl(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], 'MontoNoShop') : getVal( canal, group, params['montoSV'], 'td', '', 'MontoNoShop' )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}</p>
+                          </div>
+                          <div class="p-1">
+                            <div class="d-flex justify-content-between" [style.height.px]="20" [style.width.px]="170">
+                              <span
+                                placement="bottom" ngbTooltip="{{ currencyDispl(group == 'Total' ? getTotal(canal, params['compare'], params['montoSV']) : getVal( canal, group, params['montoSV'], params['compare'] )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
+                                class="badge badge-pill text-center ml-1"
+                                [ngClass]="compare(canal, group, params['montoSV'], 'td', params['compare'], 'class')"
+                                [style.width.px]="80">
+                                  <small>var {{ params['compare'] }}: {{ compare(canal, group, params['montoSV'], 'td', params['compare'], '%') | number:'.0-0' }}%</small>
+                              </span>
+                              <span
+                                placement="bottom" ngbTooltip="{{ currencyDispl(group == 'Total' ? getTotal(canal, 'ly', params['montoSV']) : getVal( canal, group, params['montoSV'], 'ly' )) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
+                                class="badge badge-pill text-center ml-1"
+                                [ngClass]="compare(canal, group, params['montoSV'], 'td', 'ly', 'class')"
+                                [style.width.px]="80">
+                                  <small>var ly: {{ compare(canal, group, params['montoSV'], 'td', 'ly', '%') | number:'.0-0' }}%</small>
+                              </span>
+                            </div>
+                            <div class="d-flex justify-content-center p-2" [style.width.px]="170">
+                              <span
+                                class="badge badge-pill text-center ml-1"
+                                [ngClass]="{'badge-success': getVal( canal, group, params['montoSV'], 'td', '', 'MontoNoShop' )>0, 'badge-info': getVal( canal, group, params['montoSV'], 'td', '', 'MontoNoShop' ) <= 0 }"
+                                [style.width.px]="160">
+                                  <small>part. Online: {{ (group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'td', params['montoSV'], 'MontoNoShop') : getVal( canal, group, params['montoSV'], 'td', '', 'MontoNoShop' ))/(group == 'Total' ? getTotal(canal, 'td', params['montoSV']) : getVal( canal, group, params['montoSV'], 'td' ))*100 | number:'.0-0' }}%</small>
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <!-- ================================================================== -->
+                    <!-- END MONTO / VAR -->
+                    <!-- ================================================================== -->
+
                   </div>
+                  <!-- ================================================================== -->
+                  <!-- END CARD HEADER -->
+                  <!-- ================================================================== -->
 
-
-                </div>
-
-                <!-- SUMMARY BODY -->
-                <div class="card-body" *ngIf="detail">
-
-                  <ng-container *ngIf="detailView['locs']">
-                    <!-- AV TKT -->
-                    <app-kpis-detail
-      [marca]="params['marca']"
-      [pais]="params['pais']"
-                      [item]="'Av Tkt'"
-                      [monto]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item )) / (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )))"
-                      [mYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, params['compare'], params['montoSV'], item) : getVal( canal, group, params['montoSV'], params['compare'], item )) / (group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )))"
-                      [mLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item )) / (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )))"
-                      [yd]="yd"
-                      >
-                    </app-kpis-detail>
-
-                    <!-- Locs -->
-                    <app-kpis-detail
-      [marca]="params['marca']"
-      [pais]="params['pais']"
-                      [item]="'Locs'"
-                      [mFlag]="false"
-                      [yd]="yd"
-                      [int]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' ))"
-                      [iYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] ))"
-                      [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' ))"
-                      [iUnit]="' '">
-                    </app-kpis-detail>
-                  </ng-container>
-
-                  <ng-container *ngIf="detailView['fc']">
-                    <!-- Calls -->
-                    <app-kpis-detail
-      [marca]="params['marca']"
-      [pais]="params['pais']"
-                      [item]="'Calls'"
-                      [mFlag]="false"
-                      [yd]="yd"
-                      [int]="(group == 'Total' ? getTotal(canal, 'td', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'td' ))"
-                      [iYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'callsTotal' ) : getVal( canal, group, 'callsTotal', params['compare'] ))"
-                      [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'ly' ))"
-                      [iUnit]="' '"
-                      [iLoad]="loading['calls']"
-                      [naFlag]="!callsCheck(canal, group)"
-                      >
-                    </app-kpis-detail>
-
-                    <!-- FC -->
-                    <app-kpis-detail
-      [marca]="params['marca']"
-      [pais]="params['pais']"
-                      [item]="'FC'"
-                      [mFlag]="false"
-                      [yd]="yd"
-                      [int]="(group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) / (group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) * 100"
-                      [iYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'calls' ) : getVal( canal, group, 'calls', params['compare'] )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )) / (group == 'Total' ? getTotal(canal, params['compare'], 'calls' ) : getVal( canal, group, 'calls', params['compare'] )) * 100"
-                      [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) / (group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) * 100"
-                      [iUnit]="'%'"
-                      [naFlag]="!callsCheck(canal, group)"
-                      >
-                    </app-kpis-detail>
-                  </ng-container>
-
-                  <ng-container *ngIf="detailView['producto']">
-                    <ng-container *ngFor="let item of services">
-                      <!-- INFO POR SERVICIO -->
+                  <!-- ================================================================== -->
+                  <!-- START BODY DETAILS -->
+                  <!-- ================================================================== -->
+                  <div class="card-body" *ngIf="detail">
+                    <!-- ================================================================== -->
+                    <!-- START BODY DETALLE LOCS -->
+                    <!-- ================================================================== -->
+                    <ng-container *ngIf="detailView['locs']">
+                      <!-- ================================================================== -->
+                      <!-- START AVG TICKET -->
+                      <!-- ================================================================== -->
                       <app-kpis-detail
-      [marca]="params['marca']"
-      [pais]="params['pais']"
-                        [item]="item"
+                        [marca]="params['marca']"
+                        [pais]="params['pais']"
+                        [item]="'Av Tkt'"
+                        [monto]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item )) / (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )))"
+                        [mYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, params['compare'], params['montoSV'], item) : getVal( canal, group, params['montoSV'], params['compare'], item )) / (group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )))"
+                        [mLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) == 0 ? 0 : ((group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item )) / (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )))"
                         [yd]="yd"
-                        [monto]="(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item ))"
-                        [mYd]="(group == 'Total' ? getTotal(canal, params['compare'], params['montoSV'], item) : getVal( canal, group, params['montoSV'], params['compare'], item ))"
-                        [mLy]="(group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item ))"
-                        [int]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'td', 'newRN', item) : getVal( canal, group, 'newRN', 'td', item )) : ''"
-                        [iYd]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, params['compare'], 'newRN', item) : getVal( canal, group, 'newRN', params['compare'], item )) : ''"
-                        [iLy]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'ly', 'newRN', item) : getVal( canal, group, 'newRN', 'ly', item )) : ''"
-                        [iUnit]="item == 'Hotel' || item == 'Paquete' ? 'RN' : ''"
-                        [xint]="(group == 'Total' ? getTotal(canal, 'td', 'Locs', item) : getVal( canal, group, 'Locs', 'td', item ))"
-                        [xYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs', item) : getVal( canal, group, 'Locs', params['compare'], item ))"
-                        [xLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs', item) : getVal( canal, group, 'Locs', 'ly', item ))"
-                        [xUnit]="'ML'"
-                        *ngIf="!detailView['paq'] || (detailView['paq'] && item != 'Paquete')">
+                        >
                       </app-kpis-detail>
+                      <!-- ================================================================== -->
+                      <!-- END AVG TICKET -->
+                      <!-- ================================================================== -->
+
+                      <!-- ================================================================== -->
+                      <!-- START LOCS -->
+                      <!-- ================================================================== -->
+                      <app-kpis-detail
+                        [marca]="params['marca']"
+                        [pais]="params['pais']"
+                        [item]="'Locs'"
+                        [mFlag]="false"
+                        [yd]="yd"
+                        [int]="(group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' ))"
+                        [iYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] ))"
+                        [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' ))"
+                        [iUnit]="' '">
+                      </app-kpis-detail>
+                      <!-- ================================================================== -->
+                      <!-- END LOCS -->
+                      <!-- ================================================================== -->
                     </ng-container>
-                  </ng-container>
+                    <!-- ================================================================== -->
+                    <!-- END BODY DETALLE LOCS -->
+                    <!-- ================================================================== -->
+
+                    <!-- ================================================================== -->
+                    <!-- START BODY DETALLE FC -->
+                    <!-- ================================================================== -->
+                    <ng-container *ngIf="detailView['fc']">
+                      <!-- ================================================================== -->
+                      <!-- START CALLS -->
+                      <!-- ================================================================== -->
+                      <app-kpis-detail
+                        [marca]="params['marca']"
+                        [pais]="params['pais']"
+                        [item]="'Calls'"
+                        [mFlag]="false"
+                        [yd]="yd"
+                        [int]="(group == 'Total' ? getTotal(canal, 'td', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'td' ))"
+                        [iYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'callsTotal' ) : getVal( canal, group, 'callsTotal', params['compare'] ))"
+                        [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'callsTotal' ) : getVal( canal, group, 'callsTotal', 'ly' ))"
+                        [iUnit]="' '"
+                        [iLoad]="loading['calls']"
+                        [naFlag]="!callsCheck(canal, group)"
+                        >
+                      </app-kpis-detail>
+                      <!-- ================================================================== -->
+                      <!-- END CALLS -->
+                      <!-- ================================================================== -->
+
+                      <!-- ================================================================== -->
+                      <!-- START FC -->
+                      <!-- ================================================================== -->
+                      <app-kpis-detail
+                        [marca]="params['marca']"
+                        [pais]="params['pais']"
+                        [item]="'FC'"
+                        [mFlag]="false"
+                        [yd]="yd"
+                        [int]="(group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'td', 'Locs' ) : getVal( canal, group, 'Locs', 'td' )) / (group == 'Total' ? getTotal(canal, 'td', 'calls' ) : getVal( canal, group, 'calls', 'td' )) * 100"
+                        [iYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'calls' ) : getVal( canal, group, 'calls', params['compare'] )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, params['compare'], 'Locs' ) : getVal( canal, group, 'Locs', params['compare'] )) / (group == 'Total' ? getTotal(canal, params['compare'], 'calls' ) : getVal( canal, group, 'calls', params['compare'] )) * 100"
+                        [iLy]="(group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) == 0 ? 0 : (group == 'Total' ? getTotal(canal, 'ly', 'Locs' ) : getVal( canal, group, 'Locs', 'ly' )) / (group == 'Total' ? getTotal(canal, 'ly', 'calls' ) : getVal( canal, group, 'calls', 'ly' )) * 100"
+                        [iUnit]="'%'"
+                        [naFlag]="!callsCheck(canal, group)"
+                        >
+                      </app-kpis-detail>
+                      <!-- ================================================================== -->
+                      <!-- END FC -->
+                      <!-- ================================================================== -->
+                    </ng-container>
+                    <!-- ================================================================== -->
+                    <!-- END BODY DETALLE FC -->
+                    <!-- ================================================================== -->
+
+                    <!-- ================================================================== -->
+                    <!-- START BODY DETALLE PRODUCTO -->
+                    <!-- ================================================================== -->
+                    <ng-container *ngIf="detailView['producto']">
+                      <!-- ================================================================== -->
+                      <!-- START DETALLE POR SERVICIO -->
+                      <!-- ================================================================== -->
+                      <ng-container *ngFor="let item of services">
+                        <app-kpis-detail
+                          [marca]="params['marca']"
+                          [pais]="params['pais']"
+                          [item]="item"
+                          [yd]="yd"
+                          [monto]="(group == 'Total' ? getTotal(canal, 'td', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'td', item ))"
+                          [mYd]="(group == 'Total' ? getTotal(canal, params['compare'], params['montoSV'], item) : getVal( canal, group, params['montoSV'], params['compare'], item ))"
+                          [mLy]="(group == 'Total' ? getTotal(canal, 'ly', params['montoSV'], item) : getVal( canal, group, params['montoSV'], 'ly', item ))"
+                          [int]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'td', 'newRN', item) : getVal( canal, group, 'newRN', 'td', item )) : ''"
+                          [iYd]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, params['compare'], 'newRN', item) : getVal( canal, group, 'newRN', params['compare'], item )) : ''"
+                          [iLy]="item == 'Hotel' || item == 'Paquete' ? (group == 'Total' ? getTotal(canal, 'ly', 'newRN', item) : getVal( canal, group, 'newRN', 'ly', item )) : ''"
+                          [iUnit]="item == 'Hotel' || item == 'Paquete' ? 'RN' : ''"
+                          [xint]="(group == 'Total' ? getTotal(canal, 'td', 'Locs', item) : getVal( canal, group, 'Locs', 'td', item ))"
+                          [xYd]="(group == 'Total' ? getTotal(canal, params['compare'], 'Locs', item) : getVal( canal, group, 'Locs', params['compare'], item ))"
+                          [xLy]="(group == 'Total' ? getTotal(canal, 'ly', 'Locs', item) : getVal( canal, group, 'Locs', 'ly', item ))"
+                          [xUnit]="'ML'"
+                          *ngIf="!detailView['paq'] || (detailView['paq'] && item != 'Paquete')">
+                        </app-kpis-detail>
+                      </ng-container>
+                      <!-- ================================================================== -->
+                      <!-- END DETALLE POR SERVICIO -->
+                      <!-- ================================================================== -->
+                    </ng-container>
+                    <!-- ================================================================== -->
+                    <!-- END BODY DETALLE PRODUCTO -->
+                    <!-- ================================================================== -->
+                  </div>
+                  <!-- ================================================================== -->
+                  <!-- END BODY DETAILS -->
+                  <!-- ================================================================== -->
 
                 </div>
 
               </div>
-
-            </div>
+            </ng-container>
           </ng-container>
-        </ng-container>
-      </div>
+          <!-- ================================================================== -->
+          <!-- END For Each Card (Group) -->
+          <!-- ================================================================== -->
+        </div>
+        <!-- ================================================================== -->
+        <!-- END Group Row -->
+        <!-- ================================================================== -->
+      </ng-container>
+      <!-- ================================================================== -->
+      <!-- END Restrict view if not tablas_f credential -->
+      <!-- ================================================================== -->
     </ng-container>
+    <!-- ================================================================== -->
+    <!-- END For each CANAL -->
+    <!-- ================================================================== -->
+
   </div>
+  <!-- ================================================================== -->
+  <!-- END Main Body -->
+  <!-- ================================================================== -->
+
+  <!-- ================================================================== -->
+  <!-- START Glosario -->
+  <!-- ================================================================== -->
   <div class="row">
     <div class="col" *ngFor="let item of glosario | orderBy: 'concept'">
       <small><span class='font-weight-light font-italic'><span class="font-weight-bold">{{ item['concept'] }}: </span>{{ item['exp'] }}</span></small>
     </div>
   </div>
+  <!-- ================================================================== -->
+  <!-- END Glosario -->
+  <!-- ================================================================== -->
 </div>
+<!-- ================================================================== -->
+<!-- END Display -->
+<!-- ================================================================== -->

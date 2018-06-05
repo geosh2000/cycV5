@@ -10,6 +10,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Asistencia
 * Bug Fix -> Recargar excepcion cuando se modifica desde filtro de asesor
+* Bug Fix -> Corrección de formato de horas en módulo de jornadas
 * Filtro por asesor
 * Selección de pago de DTs en nómina o acumulación de dias
 * Selección de pago de Horas Extra en nómina o acumulación de dias
@@ -68,6 +69,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Monitor Kpis PDV
 * Monitoreo de venta por Supervisor / PDV
+* Asesores asignados a cada PdvAsesor
+* Mostrar todos los PDVs aunque no tengan venta
+* Monto vendido en canal ONLINE diferenciado
+* Permiso de visualización por zona (supervisor)
+* Permiso de tablas_f muestra todas las zonas
 
 ### PBX Status
 * Se agrega el tiempo en pausa de comida y pnp
@@ -101,6 +107,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Automatización de correos de notificación de contratos vencidos
 * Automatización de correos de notificación de cumpleaños
 * Historial de correos enviados (automatizados)
+* Personalización de NavBar en fecha de cumplaños
 
 ## v2.2.5
 

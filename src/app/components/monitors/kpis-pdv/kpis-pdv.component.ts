@@ -46,6 +46,8 @@ export class KpisPdvComponent implements OnInit {
   timeToReload:any  = 300
   timerCount:any    = this.timeToReload
 
+  sup:any = ''
+
   startDate:any
   yd:boolean = true
   monitor:boolean = true
@@ -70,7 +72,7 @@ export class KpisPdvComponent implements OnInit {
 
 
   constructor(public _api: ApiService,
-                private _init:InitService,
+                public _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 private orderPipe: OrderPipe,
@@ -92,6 +94,27 @@ export class KpisPdvComponent implements OnInit {
         })
 
     this.setToday()
+    this.getSup()
+
+  }
+
+  getSup(){
+
+    this._api.restfulGet( '','Venta/getSup' )
+            .subscribe( res => {
+
+              this.sup = res['data']['sup']
+
+            }, err => {
+              console.log("ERROR", err)
+
+              this.loading['venta'] = false
+
+              let error = err.json()
+              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              console.error(err.statusText, error.msg)
+
+            })
 
   }
 
@@ -165,42 +188,63 @@ export class KpisPdvComponent implements OnInit {
                 let gpoName = gpo['gpoTipoRsvaOk']
 
                 if( data[gpo['gpoCanalKpiOK']] ){
+
                   if( data[gpo['gpoCanalKpiOK']][gpoName] ){
                     data[gpo['gpoCanalKpiOK']][gpoName][fechas[gpo['Fecha']]] = gpo
                   }else{
                     data[gpo['gpoCanalKpiOK']][gpoName] = {
                       [fechas[gpo['Fecha']]] : gpo,
-                      'ciudad': gpo['city']
+                      'ciudad': gpo['city'],
+                      'asesores' : []
                     }
                   }
 
-                  if( fechas[gpo['Fecha']] == 'td' ){
-                    data[gpo['gpoCanalKpiOK']]['extra']['totalSV'] += parseFloat(gpo['MontoSV'])
-                    data[gpo['gpoCanalKpiOK']]['extra']['totalAll'] += parseFloat(gpo['MontoAll'])
-                  }
                 }else{
                   data[gpo['gpoCanalKpiOK']] = {
                     [gpoName]: {
                       [fechas[gpo['Fecha']]]: gpo,
-                      'ciudad': gpo['city']
+                      'ciudad': gpo['city'],
+                      'asesores': []
                     },
                     extra: {
-                      color: this.randColor(),
-                      totalSV: fechas[gpo['Fecha']] == 'td' ? parseFloat(gpo['MontoSV']) : 0,
-                      totalAll: fechas[gpo['Fecha']] == 'td' ? parseFloat(gpo['MontoAll']) : 0,
+                      color     : this.randColor(),
+                      totalSV   : 0,
+                      totalAll  : 0,
+                      NoShopAll : 0,
+                      NoShopSV  : 0,
                     }
                   }
                   x++
                 }
 
-                // if( data[gpo['gpoCanalKpiOK']]['Total'] ){
-                //
-                // }else{
-                //   data[gpo['gpoCanalKpiOK']]['Total'] = {
-                //     [fechas[gpo['Fecha']]] : gpo
-                //   }
-                // }
+                // =======================================================
+                // START Listar Asesores por PDV
+                // =======================================================
+                if( data[gpo['gpoCanalKpiOK']][gpoName]['asesores'].indexOf(gpo['PdvAsesor']) < 0 ){
+                  data[gpo['gpoCanalKpiOK']][gpoName]['asesores'].push(gpo['PdvAsesor'])
+                }
+                // =======================================================
+                // START Listar Asesores por PDV
+                // =======================================================
+
               }
+
+              // =======================================================
+              // START SUMARIZADO POR GPO PRINCIPAL
+              // =======================================================
+                for( let sup in data ){
+                  for( let pdv in data[sup] ){
+                    if( pdv != 'extra' ){
+                      data[sup]['extra']['totalSV'] += parseFloat(data[sup][pdv]['td'] ? data[sup][pdv]['td']['MontoSV'] : 0)
+                      data[sup]['extra']['totalAll'] += parseFloat(data[sup][pdv]['td'] ? data[sup][pdv]['td']['MontoAll'] : 0)
+                      data[sup]['extra']['NoShopSV'] += parseFloat(data[sup][pdv]['td'] ? data[sup][pdv]['td']['MontoNoShopMontoSV'] : 0)
+                      data[sup]['extra']['NoShopAll'] += parseFloat(data[sup][pdv]['td'] ? data[sup][pdv]['td']['MontoNoShopMontoAll'] : 0)
+                    }
+                  }
+                }
+              // =======================================================
+              // END SUMARIZADO POR GPO PRINCIPAL
+              // =======================================================
 
               for( let gpo of res.data['servicios'] ){
                 let gpoName = gpo['gpoTipoRsvaOk'] == 'Presencial' ? 'PDV' : gpo['gpoTipoRsvaOk']
@@ -467,7 +511,7 @@ export class KpisPdvComponent implements OnInit {
 
   }
 
-  getTotal( canal, date, concept, servicio = ''){
+  getTotal( canal, date, concept, servicio = '', prefix = ''){
     let r = 0
     let source
 
@@ -485,7 +529,7 @@ export class KpisPdvComponent implements OnInit {
         }
 
         if( source != '' ){
-          r += parseFloat(source[concept])
+          r += parseFloat(source[prefix + concept])
         }
       }
     }
@@ -493,12 +537,12 @@ export class KpisPdvComponent implements OnInit {
     return r
   }
 
-  getVal( canal, group, concept, date, service = '' ){
+  getVal( canal, group, concept, date, service = '', prefix = '' ){
 
     let a
 
     if( group == 'Total' ){
-      a = this.getTotal(canal, date, concept, service)
+      a = this.getTotal(canal, date, prefix + concept, service)
     }else{
 
       if( !this.ventaData[canal][group] ){
@@ -506,10 +550,10 @@ export class KpisPdvComponent implements OnInit {
       }
 
       if( service == '' ){
-        a = this.ventaData[canal][group][date] ? ( this.ventaData[canal][group][date][concept] ? this.ventaData[canal][group][date][concept] : 0 ) : 0
+        a = this.ventaData[canal][group][date] ? ( this.ventaData[canal][group][date][prefix + concept] ? this.ventaData[canal][group][date][prefix + concept] : 0 ) : 0
       }else{
         if( this.ventaData[canal][group][date] && this.ventaData[canal][group][date][service] ){
-          a = this.ventaData[canal][group][date][service][concept] ? this.ventaData[canal][group][date][service][concept] : 0
+          a = this.ventaData[canal][group][date][service][prefix + concept] ? this.ventaData[canal][group][date][service][prefix + concept] : 0
         }else{
           a = 0
         }
