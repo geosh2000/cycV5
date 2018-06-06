@@ -70,7 +70,7 @@ export class AddAsesorComponent implements OnChanges {
     { name: 'nombre_corto',     showName: 'nombre_corto',     tipo: 'text',     icon: 'fas fa-user-ninja fa-fw',  show: true,   readonly: false,  pattern: 'El formato debe ser con Mayúsculas y Minúsculas sin acentos<br>Sólo 1 Nombre y 1 Apellido<br>El formato debe coincidir con: "Nombre Apellido"'},
     { name: 'profile',          showName: 'profile',          tipo: 'select',   icon: 'fas fa-key fa-fw',       show: true,   readonly: false,  pattern: ''},
     { name: 'num_colaborador',  showName: 'número_colaborador',  tipo: 'text',     icon: 'far fa-address-card fa-fw',     show: true,   readonly: false,  pattern: 'El número de colaborador está compuesto por 8 dígitos'},
-    { name: 'Fecha_Nacimiento', showName: 'Fecha de Nacimiento (opcional)', tipo: 'date',     icon: 'fas fa-birthday-cake fa-fw',     show: true,   readonly: false,  pattern: 'Debe coincidir con el formato YYYY-MM-DD'},
+    { name: 'Fecha_Nacimiento', showName: 'Fecha de Nacimiento', tipo: 'date',     icon: 'fas fa-birthday-cake fa-fw',     show: true,   readonly: false,  pattern: 'Debe coincidir con el formato YYYY-MM-DD'},
     { name: 'tipo_contrato',    showName: 'tipo de contrato',    tipo: 'select2',  icon: 'fa fa-indent fa-fw',             show: true,   readonly: false,  pattern: ''},
     { name: 'fin_contrato',     showName: 'fin de contrato',     tipo: 'date',     icon: 'fa fa-calendar fa-fw',           show: false,  readonly: false,  pattern: 'Debe coincidir con el formato YYYY-MM-DD'},
   ]
@@ -133,7 +133,7 @@ export class AddAsesorComponent implements OnChanges {
         profile:            new FormControl('', [ Validators.required ] ),
         fechaCambio:        new FormControl('', [ Validators.required,  Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
         fin_contrato:       new FormControl('', [ Validators.required,  Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
-        Fecha_Nacimiento:   new FormControl('', [                       Validators.pattern("^([2]{1}[0]{1}[0-2]{1}[0-9]{1})|([1]{1}[9]{1}[0-9]{1}[0-9]{1})[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
+        Fecha_Nacimiento:   new FormControl('', [ Validators.required,  Validators.pattern("^([2]{1}[0]{1}[0-2]{1}[0-9]{1})|([1]{1}[9]{1}[0-9]{1}[0-9]{1})[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
         ciudad:             new FormControl('', [ Validators.required ] ),
         oficina:            new FormControl('', [ Validators.required ] ),
         departamento:       new FormControl('', [ Validators.required ] ),
