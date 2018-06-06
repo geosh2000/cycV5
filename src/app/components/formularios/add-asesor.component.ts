@@ -387,22 +387,16 @@ export class AddAsesorComponent implements OnChanges {
     this._api.restfulPut( this.formAddAsesor.value, restfulController )
             .subscribe( res => {
               this.retrieving = false
+              this.save.emit({status: true, msg: 'Asesor guardado con id ' + res.asesor_id, title: 'Guardado!'})
+              jQuery(this.modal).modal('hide')
+            }, err => {
+              console.log("ERROR", err)
 
-              // console.log("API", res)
-
-              if(res['status']){
-
-                this.save.emit({status: true})
-
-              }else{
-                this.saveAlert = true
-                this.errorMsg = `code: ${res['msg'].code} error: ${res['msg'].message}`
-                console.error( res )
-              }
-
+              this.retrieving = false
+              let error = err.json()
+              this.save.emit({status: false, msg: error.msg, title: err.statusText})
+              console.error(err.statusText, error.msg)
             })
-
-    // console.log( this.formAddAsesor.value )
   }
 
 

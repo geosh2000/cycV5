@@ -91,4 +91,12 @@ export class DetalleAsesoresComponent implements OnInit {
     this.now = moment()
   }
 
+  saved( data ){
+    if( data.status ){
+      this.toastr.success( data.msg, data.title )
+    }else{
+      this.toastr.error( data.msg, data.title )
+    }
+  }
+
 }
