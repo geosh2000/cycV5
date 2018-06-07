@@ -3,7 +3,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
-## v2.2.6
+## v2.3
 
 ### Ausentismos
 * Integración de módulo de dias pendientes para ausentismos
