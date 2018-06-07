@@ -21,10 +21,15 @@
     <!-- TITLE -->
     <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
       <div class="container">
-        <div class="d-flex justify-content-between">
-          <div>
-            <span><h1 class="display-3">Home - <small class="text-capitalize font-weight-light">{{ nameShow }}</small></h1></span>
-            <p class="lead">Consulta el avance de tus ventas, edita tus detalles de contacto, inscríbete a eventos próximos...</p>
+        <div class="row">
+          <div class="col-8">
+            <div>
+              <span><h1 class="display-3">Home - <small class="text-capitalize font-weight-light">{{ nameShow }}</small></h1></span>
+              <p class="lead">Consulta el avance de tus ventas, edita tus detalles de contacto, inscríbete a eventos próximos...</p>
+            </div>
+          </div>
+          <div class="col-4" *ngIf="birthday && birthday == 1">
+              <img src="assets/img/bd.gif" alt="" height="200px">
           </div>
         </div>
         <ng-container *ngIf="_init.checkSingleCredential('config_showAllUsersHome')">

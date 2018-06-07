@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   currentUser:any
   showContents:boolean = false
   mainCredential:string = 'default'
+  birthday = false
 
   @Input() tokenStatus:boolean
 
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
   protected onSelected( item ){
     this.asesorShow = item.asesor
     this.nameShow = item.Nombre
+    this.getBD( item.asesor )
   }
 
   constructor( private _api:ApiService,
@@ -59,6 +61,8 @@ export class HomeComponent implements OnInit {
           }
         })
 
+      this.getBD()
+
   }
 
   ngOnInit() {
@@ -77,6 +81,17 @@ export class HomeComponent implements OnInit {
   userToName( user ){
     let name = user.replace( /[\.]/gmu, ' ')
     return name
+  }
+
+  getBD( asesor? ){
+    this._api.restfulGet( asesor ? asesor : '','Asesores/bd' )
+              .subscribe( res =>{
+                this.birthday = res['data']
+              },
+                (err) => {
+                  let error = err
+                  console.error(`${ error }`);
+              });
   }
 
 }
