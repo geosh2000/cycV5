@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+ import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
@@ -613,8 +613,10 @@ export class PrenominaComponent implements OnInit {
               desc: "Asistencia"
             }
 
-            if( moment(data.Fecha).format('E') == 7 ){
-
+            // ==========================================
+            // START Evaluación de Descansos Trabajados
+            // ==========================================
+            if( ( moment(data.Fecha).format('E') == 7 && parseInt( moment(data.js).format('HH') ) <= 21 ) || ( moment(data.Fecha).format('E') == 6 && parseInt( moment(data.js).format('HH') ) >= 22 ) ){
               if( data.js != data.je ){
                 result = {
                   code: "DOM",
@@ -623,6 +625,9 @@ export class PrenominaComponent implements OnInit {
                 }
               }
             }
+            // ==========================================
+            // END Evaluación de Descansos Trabajados
+            // ==========================================
           }
 
           return result[type]

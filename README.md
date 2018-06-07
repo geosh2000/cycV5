@@ -43,6 +43,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Corrección de pantallas modales y servicios para actualización de DB
 * Nuevo módulo de contratos
 * Consulta de horarios y excepciones desde Detalle
+* Campo de Fecha de Nacimiento en alta de asesores
 
 ### Días Pendientes
 * Carga de dias pendientes nuevos
@@ -81,6 +82,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Prenómina
 * Fix -> Corrección de faltas en festivos
+* Fix -> Corrección de primas dominicales para horarios de sábado en la noche
 
 ### Reporte PDV
 * Filtros múltiples para búsquedas por Servicio, Branch, asesor, etc
@@ -97,6 +99,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Todos los asesores
 
 ### Tabla F
+* BUG FIX -> "Monto Otros" en in de MT (Ventas en CLO de COOMEVA)
 * Separación del canal Outlet de los resultados
 
 ### Venta por Canal
@@ -107,7 +110,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Automatización de correos de notificación de contratos vencidos
 * Automatización de correos de notificación de cumpleaños
 * Historial de correos enviados (automatizados)
-* Personalización de NavBar en fecha de cumplaños
+* Personalización de NavBar en fecha de cumpleaños
+* Personalización de HOME en fecha de cumpleaños
 
 ## v2.2.5
 
