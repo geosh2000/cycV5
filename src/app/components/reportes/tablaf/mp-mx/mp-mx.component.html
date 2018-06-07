@@ -1,19 +1,40 @@
+<!-- ================================================= -->
+<!-- START Lazy Loader -->
+<!-- ================================================= -->
 <h1 *ngIf="loading['data']">Loading <i class="fas fa-spinner fa-pulse"></i></h1>
+<!-- ================================================= -->
+<!-- END Lazy Loader -->
+<!-- ================================================= -->
+
+<!-- ================================================= -->
+<!-- START Main Container -->
+<!-- ================================================= -->
 <div class="container-fluid" *ngIf="dataTable">
 
-  <!-- TABS -->
+  <!-- ================================================= -->
+  <!-- START TABS FOR RESULTS -->
+  <!-- ================================================= -->
   <ul class="nav nav-tabs" id="Tab" role="tablist">
     <li class="nav-item" *ngFor="let skills of dataTable | orderBy: 'dep'">
       <a class="nav-link" [ngClass]="{'active': skills['dep']=='Ventas MP' || skills['dep']=='Ventas MT - IN'}" [id]="skills['dep']+'-tab'" data-toggle="tab" [href]="'#'+skills['dep']" role="tab" [attr.aria-controls]="skills['dep']" aria-selected="false">{{ skills['dep'] }}</a>
     </li>
   </ul>
+  <!-- ================================================= -->
+  <!-- END TABS FOR RESULTS -->
+  <!-- ================================================= -->
 
-  <!-- CONTAINERS -->
+  <!-- ================================================= -->
+  <!-- START TAB CONTENTS -->
+  <!-- ================================================= -->
   <div class="tab-content" id="TabContent">
+    <!-- ================================================= -->
+    <!-- START TAB PANES -->
+    <!-- ================================================= -->
     <div class="tab-pane fade" [ngClass]="{'show active': skills['dep']=='Ventas MP' || skills['dep']=='Ventas MT - IN'}" [id]="skills['dep']" role="tabpanel" [attr.aria-labelledby]="skills['dep']" *ngFor="let skills of dataTable | orderBy: 'dep'">
       <br>
-
-      <!-- TABS -->
+      <!-- ================================================= -->
+      <!-- START SUBTAB CONTENTS -->
+      <!-- ================================================= -->
       <ul class="nav nav-tabs" id="TabSub" role="tablist">
         <ng-container *ngFor="let group of skills['data'] | orderBy: 'group'">
           <li class="nav-item" *ngIf="skills['data'].length > 2 || group['group']=='all'">
@@ -21,21 +42,43 @@
           </li>
         </ng-container>
       </ul>
+      <!-- ================================================= -->
+      <!-- END SUBTAB CONTENTS -->
+      <!-- ================================================= -->
 
-      <!-- CONTAINERS -->
+      <!-- ================================================= -->
+      <!-- START TAB CONTAINER -->
+      <!-- ================================================= -->
       <div class="tab-content" id="TabContentSub">
+        <!-- ================================================= -->
+        <!-- START LOOP FOR CONTAINERS -->
+        <!-- ================================================= -->
         <ng-container *ngFor="let group of skills['data'] | orderBy: 'group'">
-
           <div style="overflow-x: auto" class="tab-pane fade" [ngClass]="{'show active': group['group']=='all'}" [id]="'sub-'+skills['dep']+'-'+group['group']" role="tabpanel" [attr.aria-labelledby]="'sub-'+skills['dep']+'-'+group['group']">
 
+            <!-- ================================================= -->
+            <!-- START RESULT TABLE -->
+            <!-- ================================================= -->
             <table style="font-size: smaller" class='table table-sm table-bordered table-striped'>
+              <!-- ================================================= -->
+              <!-- START TABLE HEADERS -->
+              <!-- ================================================= -->
               <thead class="thead-light">
                 <tr>
                   <th *ngFor="let item of fields"  class='text-center'>{{ item['name'] }}</th>
                 </tr>
               </thead>
-              <thead>
+              <!-- ================================================= -->
+              <!-- END TABLE HEADERS -->
+              <!-- ================================================= -->
+              <!-- ================================================= -->
+              <!-- START TABLE BODY -->
+              <!-- ================================================= -->
+              <tbody>
                 <ng-container *ngFor="let date of group['data'] | orderBy: 'date'">
+                  <!-- ================================================= -->
+                  <!-- START DATA ROWS -->
+                  <!-- ================================================= -->
                   <tr *ngIf="date['date'] != 'Total'">
                     <td *ngFor="let item of fields" class='text-center'>
                       <span [ngSwitch]="item['tipo']">
@@ -47,6 +90,13 @@
                       </span>
                     </td>
                   </tr>
+                  <!-- ================================================= -->
+                  <!-- END DATA ROWS -->
+                  <!-- ================================================= -->
+
+                  <!-- ================================================= -->
+                  <!-- START TOTALS ROW -->
+                  <!-- ================================================= -->
                   <tr class='table-primary' *ngIf="date['date'] == 'Total'">
                     <th *ngFor="let item of fields"  class='text-center'>
                       <span [ngSwitch]="item['tipo']">
@@ -58,14 +108,36 @@
                       </span>
                     </th>
                   </tr>
+                  <!-- ================================================= -->
+                  <!-- END TOTALS ROW -->
+                  <!-- ================================================= -->
                 </ng-container>
-              </thead>
+              </tbody>
+              <!-- ================================================= -->
+              <!-- END TABLE BODY -->
+              <!-- ================================================= -->
             </table>
-
+            <!-- ================================================= -->
+            <!-- END RESULT TABLE -->
+            <!-- ================================================= -->
           </div>
         </ng-container>
+        <!-- ================================================= -->
+        <!-- END LOOP FOR CONTAINERS -->
+        <!-- ================================================= -->
       </div>
-
+      <!-- ================================================= -->
+      <!-- END TAB CONTAINER -->
+      <!-- ================================================= -->
     </div>
+    <!-- ================================================= -->
+    <!-- END TAB PANES -->
+    <!-- ================================================= -->
   </div>
+  <!-- ================================================= -->
+  <!-- END TAB CONTENTS -->
+  <!-- ================================================= -->
 </div>
+<!-- ================================================= -->
+<!-- END Main Container -->
+<!-- ================================================= -->
