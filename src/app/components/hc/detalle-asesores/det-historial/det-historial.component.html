@@ -81,7 +81,7 @@
             <tbody>
               <tr *ngFor="let itemSol of dataSolicitudes; index as i">
                 <td class='text-center'>
-                  <button class="btn btn-sm btn-link" *ngIf="i == 0 && (itemSol.status == 0 || itemSol.status == 4) && (curAsesor == itemSol.solicitente_id || _init.checkSingleCredential('allmighty'))" data-toggle="modal" data-target="#confirmCancel" (click)="deleteitemSol = {id: itemSol.id_sol, tipo: itemSol.status == 0 ? 4 : 5}"><span *ngIf="itemSol.status == 0"><i class="fas fa-ban text-warning"></i></span><span *ngIf="itemSol.status == 4"><i class="far fa-trash-alt text-danger"></i></span></button></td>
+                  <button class="btn btn-sm btn-link" *ngIf="i == 0 && (itemSol.status == 0 || itemSol.status == 4) && (curAsesor == itemSol.solicitente_id || _init.checkSingleCredential('allmighty'))" data-toggle="modal" data-target="#confirmCancel" (click)="deleteItem = {id: itemSol.id_sol, tipo: itemSol.status == 0 ? 4 : 5}"><span *ngIf="itemSol.status == 0"><i class="fas fa-ban text-warning"></i></span><span *ngIf="itemSol.status == 4"><i class="far fa-trash-alt text-danger"></i></span></button></td>
                 <td class='text-center'><span class="badge badge-pill" [ngClass]="{'badge-danger': itemSol.tipo == 2, 'badge-primary': itemSol.tipo == 1}">{{ itemSol.tipo == 1 ? 'Cambio' : 'Baja' }}</span></td>
                 <td class='text-center'>{{ printDate(itemSol.Fecha_Cambio, 'DD MMM \'YY') }}</td>
                 <td class='text-center'>{{ itemSol.id_sol }}</td>

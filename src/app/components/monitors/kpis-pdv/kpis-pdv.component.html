@@ -279,9 +279,9 @@
     <ng-container *ngFor="let canal of ventaData | keys; index as c">
 
       <!-- ================================================================== -->
-      <!-- START Restrict view if not tablas_f credential -->
+      <!-- START Restrict view if not public_navigation credential -->
       <!-- ================================================================== -->
-      <ng-container *ngIf="_init.checkSingleCredential( 'tablas_f') || sup == canal">
+      <ng-container *ngIf="_init.checkSingleCredential( 'public_navigation') || sup == canal">
 
         <!-- ================================================================== -->
         <!-- START Group Title (Canal) -->
@@ -537,7 +537,7 @@
         <!-- ================================================================== -->
       </ng-container>
       <!-- ================================================================== -->
-      <!-- END Restrict view if not tablas_f credential -->
+      <!-- END Restrict view if not public_navigation credential -->
       <!-- ================================================================== -->
     </ng-container>
     <!-- ================================================================== -->
