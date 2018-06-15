@@ -1,0 +1,12 @@
+<div class="container">
+  <table>
+    <ng-container *ngFor="let item of fifa['Results']">
+      <tr>
+        <td>UPDATE mundial2018_partidos SET idMatch={{ item.IdMatch }} WHERE equipo={{ equiposOK[item.Home['TeamName'][0]['Description']] }} AND Fecha='{{ printDate(item.Date, 'YYYY-MM-DD HH:mm:ss', true) }}';</td>
+      </tr>
+      <tr>
+        <td>UPDATE mundial2018_partidos SET idMatch={{ item.IdMatch }} WHERE equipo={{ equiposOK[item.Away['TeamName'][0]['Description']] }} AND Fecha='{{ printDate(item.Date, 'YYYY-MM-DD HH:mm:ss', true) }}';</td>
+      </tr>
+    </ng-container>
+  </table>
+</div>

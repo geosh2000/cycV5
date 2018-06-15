@@ -5,6 +5,7 @@ import { LoginComponent } from './components/shared/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ForecastProgramacionComponent } from './components/forecast-programacion/forecast-programacion.component';
 import { VacantesComponent } from './components/hc/vacantes.component';
+import { HeadcountComponent } from './components/hc/headcount.component';
 import { AprobacionesComponent } from './components/rrhh/aprobaciones.component';
 import { PrenominaComponent } from './components/rrhh/prenomina/prenomina.component';
 import { CxcComponent } from './components/rrhh/cxc.component';
@@ -61,11 +62,14 @@ import { DashOutletComponent } from './components/monitors/dash-outlet/dash-outl
 import { Ovirtual2018Component } from './components/monitors/dash-outlet/ovirtual2018.component';
 import { DiasPendientesComponent } from './components/asistencia/dias-pendientes/dias-pendientes.component';
 import { DetalleAsesoresComponent } from './components/hc/detalle-asesores/detalle-asesores.component';
+import { StepsComponent } from './addon/steps/steps.component';
+import { QuinielaComponent } from './components/mundial/quiniela/quiniela.component';
+import { ResultadosMundialComponent } from './components/mundial/resultados-mundial/resultados-mundial.component';
 
 
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'test', component: PollsComponent },
+  { path: 'test', component: StepsComponent },
 
   // DetalleAsesores
   { path: 'detail-asesor', component: DetalleAsesoresComponent },
@@ -162,9 +166,9 @@ const APP_ROUTES: Routes = [
 
   // Polls
   { path: 'polls/antifaz2018', component: PollsComponent },
+  { path: 'polls/quiniela2018', component: QuinielaComponent },
+  { path: 'polls/resultadosMundial2018', component: ResultadosMundialComponent },
 
-  //test
-  { path: 'test', component: TestComponent },
 
   { path: '**', pathMatch: 'full', redirectTo: 'notFound' }
 ];

@@ -1,0 +1,163 @@
+<!-- ======================================================================== -->
+<!-- START NO CREDENTIALS -->
+<!-- ======================================================================== -->
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<!-- ======================================================================== -->
+<!-- END NO CREDENTIALS -->
+<!-- ======================================================================== -->
+
+<!-- ======================================================================== -->
+<!-- START MAIN CONTENT -->
+<!-- ======================================================================== -->
+<div *ngIf="showContents">
+
+  <!-- ======================================================================== -->
+  <!-- START TITLE AND FILTERS -->
+  <!-- ======================================================================== -->
+  <div class="container-fluid">
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div>
+            <span><h1 class="display-3">HeadCount</h1></span>
+            <p class="lead">Plazas por Unidad de Negocio / Area / Departamento / Puesto</p>
+          </div>
+          <div>
+            <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+          </div>
+        </div>
+
+      </div>
+      <br>
+      <div class='container'>
+        <div class="d-flex justify-content-start">
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false" [checked]="!viewFuture" (click)="chgViewFuture()"> Mostrar al día de Hoy
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true" [checked]="viewFuture" (click)="chgViewFuture()"> Mostrar 15 dias adelante
+            </label>
+          </div>
+        </div>
+        <div *ngIf="infoVacantes || listData">
+          <div class="d-flex justify-content-end" *ngIf="(infoVacantesSliced && !showAlias) || listFlag">
+            <div class="mr-auto">
+              <button type="button" class="btn btn-sm btn-info" (click)="showList()">
+                <ng-container *ngIf="!listFlag">
+                  Mostrar Listado
+                </ng-container>
+                <ng-container *ngIf="listFlag">
+                  Mostrar Bloques
+                </ng-container>
+              </button>
+              <button type="button" class="btn btn-sm btn-warning" (click)="downloadCSV( 'headCount' )">Descargar</button>
+              <button type="button" class="btn btn-sm btn-success" (click)="showAddVacante()" *ngIf="currentUser.credentials['vacant_solicitar'] == 1">Solicitar Vacante</button>
+            </div>
+            <div class=""><span class="badge badge-success badge-pill">HeadCount</span></div>
+            <div class=""><span class="badge badge-warning badge-pill">Vacantes</span></div>
+            <div class=""><span class="badge badge-primary badge-pill">Pendientes Aprobar</span></div>
+          </div>
+          <div class="d-flex justify-content-start flex-wrap">
+            <button type="button" class="btn" [ngClass]="{'btn-outline-success': !filters['Activo'],'btn-success': filters['Activo']}" (click)="filter('Activo')">Activos</button>
+            <button type="button" class="btn" [ngClass]="{'btn-outline-success': !filters['Vacantes'],'btn-success': filters['Vacantes']}" (click)="filter('Vacantes')">Vacantes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ======================================================================== -->
+  <!-- END TITLE AND FILTERS -->
+  <!-- ======================================================================== -->
+
+  <!-- ======================================================================== -->
+  <!-- START MODULES CONTENT -->
+  <!-- ======================================================================== -->
+  <div class="container-fluid d-flex justify-content-center flex-wrap">
+    <div class="card m-2" *ngFor="let item of data" [style.width.px]="350">
+
+      <div class="card-header">
+        <div class="d-flex justify-content-between m-0">
+          <h5 class="m-0">{{ item.copcDep }}</h5>
+          <h5 class="m-0"> - </h5>
+          <h5 class="m-0">{{ item.Puesto }}</h5>
+        </div>
+        <div class="d-flex justify-content-between m-0">
+          <small>{{ item.copcPuesto }}</small>
+          <small *ngIf="item.Activo == 1"><span class="badge" [ngClass]="{'badge-success': item.cubiertaPor, 'badge-warning': !item.cubiertaPor }">{{ item.cubiertaPor ? 'Cubierta' : 'Vacante' }}</span></small>
+        </div>
+      </div>
+
+      <div class="card-body p-1">
+        <div class="d-flex justify-content-between pb-1">
+          <small><span class="badge badge-primary">#{{ item.id }}</span></small>
+          <small><span class="badge badge-secondary">{{ item.MainDep }}</span></small>
+          <small><span class="badge" [ngClass]="{'badge-success': item.Activo == 1, 'badge-danger': item.Activo == 0}">{{ item.Activo == 1 ? 'Activo' : 'Inactivo' }}</span></small>
+          <small>
+            <span class="badge" [ngClass]="{'badge-success': item.Activo == 1, 'badge-danger': item.Activo == 0}">
+              <span *ngIf="item.Activo == 1"><i class="fas fa-check"></i></span>
+              <span *ngIf="item.Activo == 0"><i class="fas fa-times"></i></span>
+               <small>{{ printDate(item.Activo == 1 ? item.inicio : item.fin, 'DD MMM \'YY') }}</small>
+            </span>
+          </small>
+        </div>
+        <div class="container pt-4" [style.height.px]="90" *ngIf="item.Activo == 1">
+          <ng-container *ngIf="item.cubiertaPor">
+            <p class="text-center text-primary">{{ item.cubiertaPor }}</p>
+            <p class="text-center"><small>Cubierta: {{ printDate(item.dtCubierta, 'DD MMM \'YY') }}</small></p>
+          </ng-container>
+          <ng-container *ngIf="!item.cubiertaPor">
+            <p class="text-center text-danger">{{ item.liberadaPor }}</p>
+            <p class="text-center"><small>Liberada: {{ printDate(item.dtLiberada, 'DD MMM \'YY') }}</small></p>
+          </ng-container>
+        </div>
+        <div class="container pt-2" [style.height.px]="90" *ngIf="item.Activo == 0">
+          <p class="text-center text-danger">{{ item.liberadaPor }}</p>
+          <p class="text-center"><small>Desactivada: {{ printDate(item.date_deactivated, 'DD MMM \'YY') }} por {{ item.desactivadaPor }}</small></p>
+          <p class="text-center text-italic"><small>{{ item.deactivation_comments }}</small></p>
+        </div>
+        <div class="d-flex justify-content-between pb-0">
+          <small><span class="badge badge-secondary">{{ item.Codigo }}</span></small>
+          <small><span class="badge badge-info">Aprobador: {{ item.aprobadaPor }}</span></small>
+        </div>
+        <div class="d-flex justify-content-between pb-0">
+          <small><span class="badge badge-secondary">{{ item.Ciudad }}</span></small>
+          <small><span class="badge badge-secondary">{{ item.Oficina }}</span></small>
+        </div>
+
+      </div>
+
+      <div class="card-footer p-0">
+        <div class="progress" [style.height.px]="6">
+          <div
+            class="progress-bar progress-bar-striped"
+            [ngClass]="{'bg-danger': item.Activo == 0, 'bg-success': item.Activo == 1 && item.cubiertaPor, 'bg-warning': item.Activo == 1 && !item.cubiertaPor }"
+            role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" [style.height.px]="3"></div>
+        </div>
+        <div class="row m-0">
+            <div class="col-4 m-0 text-center">
+              <small><span class="m-0 text-center">{{ item.UDN }}</span></small>
+            </div>
+            <div class="col-4 m-0 text-center">
+              <small><span class="m-0 text-center">{{ item.Area }}</span></small>
+            </div>
+            <div class="col-4 m-0 text-center">
+              <small><span class="m-0 text-center">{{ item.Departamento }}</span></small>
+            </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- ======================================================================== -->
+  <!-- END MODULES CONTENT -->
+  <!-- ======================================================================== -->
+
+</div>
+<!-- ======================================================================== -->
+<!-- END MAIN CONTENT -->
+<!-- ======================================================================== -->

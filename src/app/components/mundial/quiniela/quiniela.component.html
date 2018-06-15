@@ -1,0 +1,97 @@
+<!-- TITLE -->
+<div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+  <div class="container">
+    <div class="row m-0 align-items-center">
+      <div class="col-12">
+        <span><h1 class="display-3 text-center">Quiniela Rusia 2018</h1></span>
+        <div class="d-flex justify-content-center">
+          <div class="" [style.width.px]="700">
+            <div class="row">
+              <div class="col-4">
+                <img src="assets/img/mundial/wc.png" height="200px">
+              </div>
+              <div class="col-8">
+                <h3>Top 5</h3>
+                <table [style.width.px]="350" *ngIf="!loading['Posiciones']">
+                  <ng-container *ngFor="let item of positions; index as i">
+                    <tr *ngIf="i < 5">
+                      <td>{{ i + 1 }}.</td>
+                      <td>{{ item.Nombre }}</td>
+                      <td class="text-right">{{ item.pts }} pts</td>
+                      <ng-container *ngIf="item.asesor == currentUser.hcInfo['id']">
+                        {{ displayUser() }}
+                      </ng-container>
+                    </tr>
+                    <tr *ngIf="!userShown && i == 6">
+                      <td colspan="100">...</td>
+                    </tr>
+                    <tr  *ngIf="item.asesor == currentUser.hcInfo['id'] && i >= 5">
+                      <td>{{ i + 1 }}.</td>
+                      <td>{{ item.Nombre }}</td>
+                      <td class="text-right">{{ item.pts }} pts</td>
+                    </tr>
+                  </ng-container>
+
+                </table>
+                <h2 *ngIf="loading['Posiciones']">Loading <i class="fas fa-spinner fa-pulse"></i></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-warning" (click)="getPartidos()">Refresh <span *ngIf="loading['Partidos']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+          <h4 class=" text-center">Llevas al momento: <span class="badge badge-success">{{ totalPoints }}</span> pts. </h4>
+        </div>
+        <p *ngIf="!loading['Partidos']">Recarga en {{ timerCount }} segundos.</p>
+        <p *ngIf="loading['Partidos']">Loaing... <i class="fas fa-spinner fa-pulse"></i></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid d-flex justify-content-center flex-wrap" *ngIf="data.length>0">
+  <div class="card m-2" [style.width.px]="1000" *ngFor="let item of data; index as i">
+    <div class="card-header">
+      <div class="row m-0 align-items-center">
+        <div class="col-2 text-center">
+          <h5>{{ item.Fecha }}</h5>
+          <h5>Grupo {{ item.grupo | capitalizado }}</h5>
+        </div>
+        <div class="col-9">
+          <div class="row m-0 align-items-center">
+            <div class="col-3 text-center">
+              <h3>{{ item.n_loc }}</h3>
+            </div>
+            <div class="col-2 text-center">
+              <img src="assets/img/mundial/{{ item.b_loc }}.png" alt="" width="95px">
+            </div>
+            <div class="col-2 text-center">
+              <h2><span class="badge" [ngClass]="{'badge-success': item.live == 1, 'badge-info': item.finalizado == 1, 'badge-secondary': item.finalizado == 0 && item.live == 0}">{{ item.gf }} - {{ item.gc }}</span></h2>
+              <ng-container *ngIf="item.live == 1">
+                <span><small class="font-italic">min {{ item.min }}</small></span><br>
+              </ng-container>
+              <span *ngIf="!edit[item.id]"><small class="font-italic text-danger">Pr: {{ item.pr_gf }} - {{ item.pr_gc }} <button class="btn btn-link" *ngIf="editable( item.Fecha )" (click)="edit[item.id] = true"><i class=" text-primary fas fa-edit"></i></button></small></span>
+              <ng-container *ngIf="edit[item.id]">
+                <span><input type='number' min=0 [style.width.px]="30" [(ngModel)]="pr['gf'][item.id]"> - <input type='number' min=0 [style.width.px]="30" [(ngModel)]="pr['gc'][item.id]"></span>
+                <p>
+                  <button class="btn btn-link" (click)="edit[item.id] = false"><i class=" text-danger fas fa-times"></i></button>
+                  <button class="btn btn-link" (click)="savePr(item.id)"><i class=" text-success fas fa-check"></i></button>
+                </p>
+              </ng-container>
+            </div>
+            <div class="col-2 text-center">
+              <img src="assets/img/mundial/{{ item.b_vi }}.png" alt="" width="95px">
+            </div>
+            <div class="col-3 text-center">
+              <h3>{{ item.n_vi }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-1 text-center">
+          <h4><span class="badge badge-success">{{ getPoints(item) }} pts.</span></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

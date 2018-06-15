@@ -163,6 +163,10 @@ import { VentaPorCanalPdvComponent } from './components/reportes/venta/venta-por
 import { DetSalarioComponent } from './components/hc/detalle-asesores/det-salario/det-salario.component';
 import { DetHistorialComponent } from './components/hc/detalle-asesores/det-historial/det-historial.component';
 import { DetHorarioComponent } from './components/hc/detalle-asesores/det-horario/det-horario.component';
+import { StepsComponent } from './addon/steps/steps.component';
+import { HeadcountComponent } from './components/hc/headcount.component';
+import { QuinielaComponent } from './components/mundial/quiniela/quiniela.component';
+import { ResultadosMundialComponent } from './components/mundial/resultados-mundial/resultados-mundial.component';
 
 
 declare let jQuery : Object;
@@ -315,6 +319,10 @@ registerLocaleData(localeEsMX)
     DetSalarioComponent,
     DetHistorialComponent,
     DetHorarioComponent,
+    StepsComponent,
+    HeadcountComponent,
+    QuinielaComponent,
+    ResultadosMundialComponent,
   ],
   imports: [
     BrowserModule,
