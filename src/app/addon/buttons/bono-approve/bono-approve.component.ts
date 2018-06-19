@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { ApiService } from '../../../services/api.service';
+import { InitService } from '../../../services/init.service';
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
@@ -29,7 +30,7 @@ export class BonoApproveComponent implements OnInit {
   alertMsg:any
   loading:Object = {}
 
-  constructor( private _api:ApiService ) {
+  constructor( private _api:ApiService, private _init:InitService ) {
 
   }
 

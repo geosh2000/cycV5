@@ -22,15 +22,15 @@
 <div class="d-flex justify-content-center" *ngIf="loading['change']">
   <span><i class="fas fa-spinner fa-2x fa-pulse text-info"></i></span>
 </div>
-<div class="d-flex justify-content-between" *ngIf="enableEdit && !loading['change']">
+<div class="d-flex justify-content-between" *ngIf="(enableEdit && !loading['change']) || _init.checkSingleCredential('allmighty')">
   <div class="p-1">
-    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" [attr.data-target]="'#exampleModal'+asesor" [disabled]="!enableEdit"><i class="far fa-edit"></i></button>
+    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" [attr.data-target]="'#exampleModal'+asesor" [disabled]="!enableEdit && !_init.checkSingleCredential('allmighty')"><i class="far fa-edit"></i></button>
   </div>
   <div class="p-1">
-    <button type="button" class="btn btn-sm btn-danger" [disabled]="!enableEdit || status['status'] == 2" (click)="chgStatus(2)"><i class="fas fa-ban"></i></button>
+    <button type="button" class="btn btn-sm btn-danger" [disabled]="(!enableEdit || status['status'] == 2) && !_init.checkSingleCredential('allmighty')" (click)="chgStatus(2)"><i class="fas fa-ban"></i></button>
   </div>
   <div class="p-1">
-    <button type="button" class="btn btn-sm btn-success" [disabled]="!enableEdit || status['status'] == 1" (click)="chgStatus(1)"><i class="fab fa-amazon-pay"></i></button>
+    <button type="button" class="btn btn-sm btn-success" [disabled]="(!enableEdit || status['status'] == 1) && !_init.checkSingleCredential('allmighty')" (click)="chgStatus(1)"><i class="fab fa-amazon-pay"></i></button>
   </div>
 </div>
 <!-- Modal -->
