@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, O
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CurrencyPipe } from '@angular/common'
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
@@ -15,7 +16,8 @@ import { InitService } from '../../../services/init.service';
 @Component({
   selector: 'app-venta-por-canal',
   templateUrl: './venta-por-canal.component.html',
-  styles: []
+  styles: [],
+  providers: [CurrencyPipe]
 })
 export class VentaPorCanalComponent implements OnInit {
 
@@ -32,10 +34,12 @@ export class VentaPorCanalComponent implements OnInit {
   tdInfo:boolean = false
   prod:boolean = false
   isPaq:boolean = false
+  isAmmount:boolean = true
   prodLu:string
 
   loadingData:boolean = false
   ventaData:any
+  locsData:any
 
   options: Object
 
@@ -45,7 +49,8 @@ export class VentaPorCanalComponent implements OnInit {
                 private _init:InitService,
                 public toastr: ToastsManager, vcr: ViewContainerRef,
                 public route:Router,
-                public activatedRoute:ActivatedRoute
+                public activatedRoute:ActivatedRoute,
+                private cp:CurrencyPipe
                 ){
 
     this.toastr.setRootViewContainerRef(vcr);
@@ -65,7 +70,8 @@ export class VentaPorCanalComponent implements OnInit {
     // this.getCuartiles(this.searchStart, this.searchEnd, this.skill)
   }
 
-  search(){
+  search( flag? ){
+
     this.ventaData = null
     this.loadingData = true
 
@@ -92,10 +98,19 @@ export class VentaPorCanalComponent implements OnInit {
       prod      = 0
     }
 
+    if( flag ){
+      prod = flag.flag ? 1 : 0
+    }
 
-    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}`, 'venta/getVentaPorCanalSV')
+    let ammount = this.isAmmount ? 1 : 0
+
+
+    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}/${ ammount }`, 'venta/getVentaPorCanalSV')
             .subscribe( res =>{
-              this.ventaData = res.data
+              this.ventaData = res.data['venta']
+              this.locsData = res.data['locs']
+
+              console.log
 
               if(this.tdInfo){
                 this.prodLu = res.lu
@@ -208,6 +223,46 @@ export class VentaPorCanalComponent implements OnInit {
     let title = `ventaPorCanal (${sv} - ${type}) - ${this.searchStart}a${this.searchEnd}`
 
     return title
+  }
+
+  coalesce( item, value, currency = false, producto? ){
+
+    let val, loc
+
+    if( producto ){
+
+      if( this.ventaData[item] && this.ventaData[item][producto] ){
+        val = this.ventaData[item][producto][value] ? this.ventaData[item][producto][value] : 0
+      }else{
+        val = 0
+      }
+
+      if( this.locsData[item] && this.locsData[item][producto] ){
+        loc = this.locsData[item][producto][value] ? this.locsData[item][producto][value] : 0
+      }else{
+        loc = 0
+      }
+
+    }else{
+      val = this.ventaData[item][value] ? this.ventaData[item][value] : 0
+      loc = this.locsData[item][value] ? this.locsData[item][value] : 0
+    }
+
+    return this.isAmmount ? ( currency ? this.cp.transform(val, 'MXN', 'symbol-narrow' , '.2-2') : val ) : loc
+
+  }
+
+  sumVals( item, arr, currency = false, producto? ){
+    let result = 0
+    for( let v of arr ){
+      result += this.coalesce( item, v, false, producto )
+    }
+
+    if( currency ){
+      return this.cp.transform(result, 'MXN', 'symbol-narrow' , '.2-2')
+    }else{
+      return result
+    }
   }
 
 }

@@ -63,6 +63,7 @@
               color="green"
               size= "small"
               [(ngModel)]="prod"
+              (change)="search( {switch: true, flag: $event} )"
             ></ui-switch>
             <p style="margin-top: -10px">
               <small *ngIf="!prod">Todo</small>
@@ -78,6 +79,17 @@
             <p style="margin-top: -10px">
               <small *ngIf="!isPaq">Paq Desglozado</small>
               <small *ngIf="isPaq">Paquete</small>
+            </p>
+          </div>
+          <div style="text-align: center" class="p-2">
+            <ui-switch
+              color="green"
+              size= "small"
+              [(ngModel)]="isAmmount"
+            ></ui-switch>
+            <p style="margin-top: -10px">
+              <small *ngIf="!isAmmount">ML</small>
+              <small *ngIf="isAmmount">$</small>
             </p>
           </div>
           <div class="p-2">
@@ -117,16 +129,16 @@
             <tr *ngFor="let item of ventaData | keys">
               <th class="text-center">{{ printDate( item, "YYYY-MM-DD" ) }}</th>
               <td class="text-center">{{ printDate( item, 'dddd' ) }}</td>
-              <td class="text-center">{{ (ventaData[item]['CC IN']    ? ventaData[item]['CC IN']    : 0) | currency:'MXN':'.2-2' }}</td>
-              <td class="text-center">{{ (ventaData[item]['Mixcoac']  ? ventaData[item]['Mixcoac']  : 0) | currency:'MXN':'.2-2' }}</td>
-              <td class="text-center">{{ (ventaData[item]['PDV IN']   ? ventaData[item]['PDV IN']   : 0) | currency:'MXN':'.2-2' }}</td>
-              <td class="text-center">{{ (ventaData[item]['CC OUT']   ? ventaData[item]['CC OUT']   : 0) | currency:'MXN':'.2-2' }}</td>
-              <td class="text-center">{{ (ventaData[item]['Online']   ? ventaData[item]['Online']   : 0) | currency:'MXN':'.2-2' }}</td>
-              <td class="text-center">{{ (ventaData[item]['CC IN'] ? ventaData[item]['CC IN']   : 0) + (ventaData[item]['Mixcoac'] ? ventaData[item]['Mixcoac']   : 0) + (ventaData[item]['PDV IN'] ? ventaData[item]['PDV IN']   : 0) + (ventaData[item]['CC OUT'] ? ventaData[item]['CC OUT']   : 0) + (ventaData[item]['Online'] ? ventaData[item]['Online']   : 0) | currency:'MXN':'.2-2' }}</td>
-              <td class="text-center">{{ printFormated(((ventaData[item]['CC IN'] ? ventaData[item]['CC IN']   : 0) + (ventaData[item]['Mixcoac'] ? ventaData[item]['Mixcoac']   : 0) + (ventaData[item]['PDV IN'] ? ventaData[item]['PDV IN']   : 0) + (ventaData[item]['CC OUT'] ? ventaData[item]['CC OUT']   : 0)) / ((ventaData[item]['CC IN'] ? ventaData[item]['CC IN']   : 0) + (ventaData[item]['Mixcoac'] ? ventaData[item]['Mixcoac']   : 0) + (ventaData[item]['PDV IN'] ? ventaData[item]['PDV IN']   : 0) + (ventaData[item]['CC OUT'] ? ventaData[item]['CC OUT']   : 0) + (ventaData[item]['Online'] ? ventaData[item]['Online']   : 0)) * 100) }}%</td>
-              <td class="text-center">{{ printFormated(((ventaData[item]['Online']   ? ventaData[item]['Online']   : 0)) / ((ventaData[item]['CC IN'] ? ventaData[item]['CC IN']   : 0) + (ventaData[item]['Mixcoac'] ? ventaData[item]['Mixcoac']   : 0) + (ventaData[item]['PDV IN'] ? ventaData[item]['PDV IN']   : 0) + (ventaData[item]['CC OUT'] ? ventaData[item]['CC OUT']   : 0) + (ventaData[item]['Online'] ? ventaData[item]['Online']   : 0)) * 100) }}%</td>
-              <td class="text-center">{{ (ventaData[item]['PDV Presencial'] ? ventaData[item]['PDV Presencial']   : 0) | currency:'MXN':'.2-2' }}</td>
-              <td class="text-center">{{ (ventaData[item]['CC IN'] ? ventaData[item]['CC IN']   : 0) + (ventaData[item]['Mixcoac'] ? ventaData[item]['Mixcoac']   : 0) + (ventaData[item]['PDV IN'] ? ventaData[item]['PDV IN']   : 0) + (ventaData[item]['CC OUT'] ? ventaData[item]['CC OUT']   : 0) + (ventaData[item]['Online'] ? ventaData[item]['Online']   : 0) + (ventaData[item]['PDV Presencial'] ? ventaData[item]['PDV Presencial']   : 0) | currency:'MXN':'.2-2' }}</td>
+              <td class="text-center">{{ coalesce( item, 'CC IN', true ) }}</td>
+              <td class="text-center">{{ coalesce( item, 'Mixcoac', true ) }}</td>
+              <td class="text-center">{{ coalesce( item, 'PDV IN', true ) }}</td>
+              <td class="text-center">{{ coalesce( item, 'CC OUT', true ) }}</td>
+              <td class="text-center">{{ coalesce( item, 'Online', true ) }}</td>
+              <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], isAmmount ) }}</td>
+              <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'] ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'] ) * 100) | number:'.0-2' }}%</td>
+              <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'] ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial']) * 100) | number:'.0-2' }}%</td>
+              <td class="text-center">{{ coalesce( item, 'PDV Presencial', true ) }}</td>
+              <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount) }}</td>
             </tr>
           </ng-container>
           <ng-container *ngIf="prod">
@@ -135,16 +147,16 @@
                 <th class="text-center">{{ printDate( item, "YYYY-MM-DD" ) }}</th>
                 <td class="text-center">{{ printDate( item, 'dddd' ) }}</td>
                 <td class="text-center">{{ producto }}</td>
-                <td class="text-center">{{ (ventaData[item][producto]['CC IN']    ? ventaData[item][producto]['CC IN']    : 0) | currency:'MXN':'.2-2' }}</td>
-                <td class="text-center">{{ (ventaData[item][producto]['Mixcoac']  ? ventaData[item][producto]['Mixcoac']  : 0) | currency:'MXN':'.2-2' }}</td>
-                <td class="text-center">{{ (ventaData[item][producto]['PDV IN']   ? ventaData[item][producto]['PDV IN']   : 0) | currency:'MXN':'.2-2' }}</td>
-                <td class="text-center">{{ (ventaData[item][producto]['CC OUT']   ? ventaData[item][producto]['CC OUT']   : 0) | currency:'MXN':'.2-2' }}</td>
-                <td class="text-center">{{ (ventaData[item][producto]['Online']   ? ventaData[item][producto]['Online']   : 0) | currency:'MXN':'.2-2' }}</td>
-                <td class="text-center">{{ (ventaData[item][producto]['CC IN'] ? ventaData[item][producto]['CC IN']   : 0) + (ventaData[item][producto]['Mixcoac'] ? ventaData[item][producto]['Mixcoac']   : 0) + (ventaData[item][producto]['PDV IN'] ? ventaData[item][producto]['PDV IN']   : 0) + (ventaData[item][producto]['CC OUT'] ? ventaData[item][producto]['CC OUT']   : 0) + (ventaData[item][producto]['Online'] ? ventaData[item][producto]['Online']   : 0) | currency:'MXN':'.2-2' }}</td>
-                <td class="text-center">{{ printFormated(((ventaData[item][producto]['CC IN'] ? ventaData[item][producto]['CC IN']   : 0) + (ventaData[item][producto]['Mixcoac'] ? ventaData[item][producto]['Mixcoac']   : 0) + (ventaData[item][producto]['PDV IN'] ? ventaData[item][producto]['PDV IN']   : 0) + (ventaData[item][producto]['CC OUT'] ? ventaData[item][producto]['CC OUT']   : 0)) / ((ventaData[item][producto]['CC IN'] ? ventaData[item][producto]['CC IN']   : 0) + (ventaData[item][producto]['Mixcoac'] ? ventaData[item][producto]['Mixcoac']   : 0) + (ventaData[item][producto]['PDV IN'] ? ventaData[item][producto]['PDV IN']   : 0) + (ventaData[item][producto]['CC OUT'] ? ventaData[item][producto]['CC OUT']   : 0) + (ventaData[item][producto]['Online'] ? ventaData[item][producto]['Online']   : 0)) * 100) }}%</td>
-                <td class="text-center">{{ printFormated(((ventaData[item][producto]['Online']   ? ventaData[item][producto]['Online']   : 0)) / ((ventaData[item][producto]['CC IN'] ? ventaData[item][producto]['CC IN']   : 0) + (ventaData[item][producto]['Mixcoac'] ? ventaData[item][producto]['Mixcoac']   : 0) + (ventaData[item][producto]['PDV IN'] ? ventaData[item][producto]['PDV IN']   : 0) + (ventaData[item][producto]['CC OUT'] ? ventaData[item][producto]['CC OUT']   : 0) + (ventaData[item][producto]['Online'] ? ventaData[item][producto]['Online']   : 0)) * 100) }}%</td>
-                <td class="text-center">{{ (ventaData[item][producto]['PDV Presencial'] ? ventaData[item][producto]['PDV Presencial']   : 0) | currency:'MXN':'.2-2' }}</td>
-                <td class="text-center">{{ (ventaData[item][producto]['CC IN'] ? ventaData[item][producto]['CC IN']   : 0) + (ventaData[item][producto]['Mixcoac'] ? ventaData[item][producto]['Mixcoac']   : 0) + (ventaData[item][producto]['PDV IN'] ? ventaData[item][producto]['PDV IN']   : 0) + (ventaData[item][producto]['CC OUT'] ? ventaData[item][producto]['CC OUT']   : 0) + (ventaData[item][producto]['Online'] ? ventaData[item][producto]['Online']   : 0) + (ventaData[item][producto]['PDV Presencial'] ? ventaData[item][producto]['PDV Presencial']   : 0) | currency:'MXN':'.2-2' }}</td>
+                <td class="text-center">{{ coalesce( item, 'CC IN', true, producto ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'Mixcoac', true, producto ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'PDV IN', true, producto ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'CC OUT', true, producto ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'Online', true, producto ) }}</td>
+                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], isAmmount, producto ) }}</td>
+                <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'], false, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, producto ) * 100) | number:'.0-2' }}%</td>
+                <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], false, producto) * 100) | number:'.0-2' }}%</td>
+                <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, producto ) }}</td>
+                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, producto ) }}</td>
               </tr>
             </ng-container>
           </ng-container>

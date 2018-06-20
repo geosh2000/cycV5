@@ -104,6 +104,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Venta por Canal
 * Separación del canal Outlet de los resultados
+* Opción de visualización de MasterLocators
 
 ### General CyC
 * Mejoras en rendimiento de monitores (destroy timeouts al cambiar componente)
