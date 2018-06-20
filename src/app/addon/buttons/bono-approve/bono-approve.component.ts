@@ -30,7 +30,7 @@ export class BonoApproveComponent implements OnInit {
   alertMsg:any
   loading:Object = {}
 
-  constructor( private _api:ApiService, private _init:InitService ) {
+  constructor( private _api:ApiService, public _init:InitService ) {
 
   }
 
