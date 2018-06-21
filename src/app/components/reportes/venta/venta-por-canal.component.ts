@@ -35,6 +35,7 @@ export class VentaPorCanalComponent implements OnInit {
   prod:boolean = false
   isPaq:boolean = false
   isAmmount:boolean = true
+  isHour:boolean = false
   prodLu:string
 
   loadingData:boolean = false
@@ -102,10 +103,11 @@ export class VentaPorCanalComponent implements OnInit {
       prod = flag.flag ? 1 : 0
     }
 
+    let hour = this.isHour ? 1 : 0
     let ammount = this.isAmmount ? 1 : 0
 
 
-    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}/${ ammount }`, 'venta/getVentaPorCanalSV')
+    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}/${ ammount }/${ hour }`, 'venta/getVentaPorCanalSV')
             .subscribe( res =>{
               this.ventaData = res.data['venta']
               this.locsData = res.data['locs']
@@ -225,37 +227,69 @@ export class VentaPorCanalComponent implements OnInit {
     return title
   }
 
-  coalesce( item, value, currency = false, producto? ){
+  coalesce( item, value, currency = false, hour?, producto? ){
 
     let val, loc
 
     if( producto ){
-
-      if( this.ventaData[item] && this.ventaData[item][producto] ){
-        val = this.ventaData[item][producto][value] ? this.ventaData[item][producto][value] : 0
+      if( this.isHour ){
+        if( this.ventaData[item] && this.ventaData[item][hour] && this.ventaData[item][hour][producto] ){
+          val = this.ventaData[item][hour][producto][value] ? this.ventaData[item][hour][producto][value] : 0
+        }else{
+          val = 0
+        }
+        if( this.locsData[item] && this.locsData[item][hour] && this.locsData[item][hour][producto] ){
+          loc = this.locsData[item][hour][producto][value] ? this.locsData[item][hour][producto][value] : 0
+        }else{
+          loc = 0
+        }
       }else{
-        val = 0
-      }
-
-      if( this.locsData[item] && this.locsData[item][producto] ){
-        loc = this.locsData[item][producto][value] ? this.locsData[item][producto][value] : 0
-      }else{
-        loc = 0
+        if( this.ventaData[item] && this.ventaData[item][producto] ){
+          val = this.ventaData[item][producto][value] ? this.ventaData[item][producto][value] : 0
+        }else{
+          val = 0
+        }
+        if( this.locsData[item] && this.locsData[item][producto] ){
+          loc = this.locsData[item][producto][value] ? this.locsData[item][producto][value] : 0
+        }else{
+          loc = 0
+        }
       }
 
     }else{
-      val = this.ventaData[item][value] ? this.ventaData[item][value] : 0
-      loc = this.locsData[item][value] ? this.locsData[item][value] : 0
+      if( this.isHour ){
+        if( this.ventaData[item] && this.ventaData[item][hour] ){
+          val = this.ventaData[item][hour][value] ? this.ventaData[item][hour][value] : 0
+        }else{
+          val = 0
+        }
+        if( this.locsData[item] && this.locsData[item][hour] ){
+          loc = this.locsData[item][hour][value] ? this.locsData[item][hour][value] : 0
+        }else{
+          loc = 0
+        }
+      }else{
+        if( this.ventaData[item] ){
+          val = this.ventaData[item][value] ? this.ventaData[item][value] : 0
+        }else{
+          val = 0
+        }
+        if( this.locsData[item] ){
+          loc = this.locsData[item][value] ? this.locsData[item][value] : 0
+        }else{
+          loc = 0
+        }
+      }
     }
 
     return this.isAmmount ? ( currency ? this.cp.transform(val, 'MXN', 'symbol-narrow' , '.2-2') : val ) : loc
 
   }
 
-  sumVals( item, arr, currency = false, producto? ){
+  sumVals( item, arr, currency = false, hour?, producto? ){
     let result = 0
     for( let v of arr ){
-      result += this.coalesce( item, v, false, producto )
+      result += this.coalesce( item, v, false, hour, producto )
     }
 
     if( currency ){
@@ -263,6 +297,18 @@ export class VentaPorCanalComponent implements OnInit {
     }else{
       return result
     }
+  }
+
+  chgHour( event ){
+    this.isHour = event
+
+    if( event ){
+      jQuery('datepicker').val(moment(this.searchStart).format('YYYY-MM-DD'))
+    }else{
+      jQuery('datepicker').val(`${moment(this.searchStart).format('YYYY-MM-DD')} - ${moment(this.searchEnd).format('YYYY-MM-DD')}`)
+    }
+
+    this.search()
   }
 
 }

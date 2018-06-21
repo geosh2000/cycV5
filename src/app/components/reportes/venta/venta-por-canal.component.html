@@ -92,6 +92,18 @@
               <small *ngIf="isAmmount">$</small>
             </p>
           </div>
+          <div style="text-align: center" class="p-2">
+            <ui-switch
+              color="green"
+              size= "small"
+              [(ngModel)]="isHour"
+              (change)="chgHour($event)"
+            ></ui-switch>
+            <p style="margin-top: -10px">
+              <small *ngIf="!isHour">Por Día</small>
+              <small *ngIf="isHour">Por Hora</small>
+            </p>
+          </div>
           <div class="p-2">
             <button type="button" class="btn btn-success" (click)="search()" [disabled]="!tdInfo && !searchStart && !searchEnd">Buscar</button>
           </div>
@@ -111,6 +123,7 @@
           <tr>
             <th class="text-center" scope="col">Fecha</th>
             <th class="text-center" scope="col">DOW</th>
+            <th class="text-center" scope="col" *ngIf="isHour">Hora</th>
             <th class="text-center" scope="col" *ngIf="prod">Producto</th>
             <th class="text-center" scope="col">CC IN</th>
             <th class="text-center" scope="col">Mixcoac</th>
@@ -125,7 +138,7 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngIf="!prod">
+          <ng-container *ngIf="!prod && !isHour">
             <tr *ngFor="let item of ventaData | keys">
               <th class="text-center">{{ printDate( item, "YYYY-MM-DD" ) }}</th>
               <td class="text-center">{{ printDate( item, 'dddd' ) }}</td>
@@ -141,23 +154,64 @@
               <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount) }}</td>
             </tr>
           </ng-container>
-          <ng-container *ngIf="prod">
+          <ng-container *ngIf="prod && !isHour">
             <ng-container *ngFor="let item of ventaData | keys">
               <tr *ngFor="let producto of ventaData[item] | keys">
                 <th class="text-center">{{ printDate( item, "YYYY-MM-DD" ) }}</th>
                 <td class="text-center">{{ printDate( item, 'dddd' ) }}</td>
                 <td class="text-center">{{ producto }}</td>
-                <td class="text-center">{{ coalesce( item, 'CC IN', true, producto ) }}</td>
-                <td class="text-center">{{ coalesce( item, 'Mixcoac', true, producto ) }}</td>
-                <td class="text-center">{{ coalesce( item, 'PDV IN', true, producto ) }}</td>
-                <td class="text-center">{{ coalesce( item, 'CC OUT', true, producto ) }}</td>
-                <td class="text-center">{{ coalesce( item, 'Online', true, producto ) }}</td>
-                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], isAmmount, producto ) }}</td>
-                <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'], false, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, producto ) * 100) | number:'.0-2' }}%</td>
-                <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], false, producto) * 100) | number:'.0-2' }}%</td>
-                <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, producto ) }}</td>
-                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, producto ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'CC IN', true, false, producto ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'Mixcoac', true, false, producto ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'PDV IN', true, false, producto ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'CC OUT', true, false, producto ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'Online', true, false, producto ) }}</td>
+                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], isAmmount, false, producto ) }}</td>
+                <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'], false, false, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, false, producto ) * 100) | number:'.0-2' }}%</td>
+                <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, false, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], false, false, producto) * 100) | number:'.0-2' }}%</td>
+                <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, false, producto ) }}</td>
+                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, false, producto ) }}</td>
               </tr>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="!prod && isHour">
+            <ng-container *ngFor="let item of ventaData | keys">
+              <tr *ngFor="let hour of ventaData[item] | keys">
+                <th class="text-center">{{ printDate( item, "YYYY-MM-DD" ) }}</th>
+                <td class="text-center">{{ printDate( item, 'dddd' ) }}</td>
+                <td class="text-center">{{ hour }}</td>
+                <td class="text-center">{{ coalesce( item, 'CC IN', true, hour ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'Mixcoac', true, hour ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'PDV IN', true, hour ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'CC OUT', true, hour ) }}</td>
+                <td class="text-center">{{ coalesce( item, 'Online', true, hour ) }}</td>
+                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], isAmmount, hour ) }}</td>
+                <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'], false, hour ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, hour ) * 100) | number:'.0-2' }}%</td>
+                <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, hour ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], false, hour) * 100) | number:'.0-2' }}%</td>
+                <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, hour ) }}</td>
+                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, hour) }}</td>
+              </tr>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="prod && isHour">
+            <ng-container *ngFor="let item of ventaData | keys">
+              <ng-container *ngFor="let hour of ventaData[item] | keys">
+                <tr *ngFor="let producto of ventaData[item][hour] | keys">
+                  <th class="text-center">{{ printDate( item, "YYYY-MM-DD" ) }}</th>
+                  <td class="text-center">{{ printDate( item, 'dddd' ) }}</td>
+                  <td class="text-center">{{ hour }}</td>
+                  <td class="text-center">{{ producto }}</td>
+                  <td class="text-center">{{ coalesce( item, 'CC IN', true,  hour, producto ) }}</td>
+                  <td class="text-center">{{ coalesce( item, 'Mixcoac', true,  hour, producto ) }}</td>
+                  <td class="text-center">{{ coalesce( item, 'PDV IN', true, hour, producto ) }}</td>
+                  <td class="text-center">{{ coalesce( item, 'CC OUT', true, hour, producto ) }}</td>
+                  <td class="text-center">{{ coalesce( item, 'Online', true, hour, producto ) }}</td>
+                  <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], isAmmount, hour, producto ) }}</td>
+                  <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'], false, hour, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, hour, producto ) * 100) | number:'.0-2' }}%</td>
+                  <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, hour, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], false, hour, producto) * 100) | number:'.0-2' }}%</td>
+                  <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, hour, producto ) }}</td>
+                  <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, hour, producto ) }}</td>
+                </tr>
+              </ng-container>
             </ng-container>
           </ng-container>
         </tbody>
