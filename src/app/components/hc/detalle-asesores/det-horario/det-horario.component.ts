@@ -1,5 +1,5 @@
 import { Component, Injectable, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, ViewContainerRef, ViewChild } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
@@ -93,10 +93,8 @@ export class DetHorarioComponent implements OnChanges {
   }
 
   constructor(public _api: ApiService,
-              public toastr: ToastsManager, vcr: ViewContainerRef,
+              public toastr: ToastrService,
               public _init:InitService) {
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     if(this.asesor){
       this.getAsistencia()
@@ -124,7 +122,7 @@ export class DetHorarioComponent implements OnChanges {
                 .subscribe( res => {
 
                   this.loading['horarios'] = false
-                  this.dataHorarios = res.array
+                  this.dataHorarios = res['array']
 
                   let dates:any = []
                   for(let i = moment(this.inicio); i<=moment(this.fin); i = i.add(1,'days')){

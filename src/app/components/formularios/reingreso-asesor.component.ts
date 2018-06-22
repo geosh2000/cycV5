@@ -1,9 +1,9 @@
 import { Component, Injectable, OnInit, Input, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
@@ -95,9 +95,8 @@ export class ReingresoAsesorComponent implements OnChanges {
   constructor(
               private route:Router,
               private _api:ApiService,
-              public toastr: ToastsManager, vcr: ViewContainerRef,
+              public toastr: ToastrService
               ) {
-      this.toastr.setRootViewContainerRef(vcr);
 
       this.populateProfiles()
 
@@ -210,7 +209,7 @@ export class ReingresoAsesorComponent implements OnChanges {
         thisData._api.postFromApi( params, 'validateUserExists')
           .subscribe( res => {
             if(res){
-              if(res.res == 1){
+              if(res['res'] == 1){
                 resolve({existe: true})
               }else{
                 resolve(null)
@@ -277,18 +276,14 @@ export class ReingresoAsesorComponent implements OnChanges {
                     console.log( res )
 
                     if( res ){
-                      if(res.error == 0){
+                      if(res['error'] == 0){
                         this.resetOptions( tipo );
-                        this.listOptions[tipo] = res.vac
+                        this.listOptions[tipo] = res['vac']
 
                         this.flagExists[ tipo ] = true
                       }else{
-                          this.toastr.error(res.msg, 'Error!', {
-                            positionClass: 'toast-top-center',
-                            animate: 'fade'
-                          });
+                          this.toastr.error(res['msg'], 'Error!');
 
-                          // console.log( res.msg )
                           this.resetOptions( tipo );
 
                           this.flagExists[ tipo ] = false
@@ -360,10 +355,10 @@ export class ReingresoAsesorComponent implements OnChanges {
             .subscribe( res => {
               this.retrieving = false
 
-              if(res.ERR){
+              if(res['ERR']){
 
                 this.saveAlert = true
-                this.errorMsg = res.msg
+                this.errorMsg = res['msg']
 
               }else{
 

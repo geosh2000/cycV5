@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewContainerRef, ViewChild, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 
 import { ApiService } from '../../../services/api.service';
@@ -46,17 +46,15 @@ export class ParticipacionComponent implements OnInit {
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 private completerService:CompleterService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -119,11 +117,11 @@ export class ParticipacionComponent implements OnInit {
 
                 this.reload = true
 
-                this.data = res.data['result']
-                this.total = res.data['total']
-                this.dids = res.data['dids']
+                this.data = res['data']['result']
+                this.total = res['data']['total']
+                this.dids = res['data']['dids']
                 this.date = this.dateSelected
-                this.lu = moment.tz(res.lu, "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
+                this.lu = moment.tz(res['lu'], "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
 
                 this.reload = false
 

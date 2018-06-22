@@ -31,7 +31,7 @@ export class CredentialsService {
   check( credential, mainCred ){
     return this._asesoresService.getCredentials( credential )
           .map( respuesta =>{
-            this.credentialStatus = respuesta.credential;
+            this.credentialStatus = respuesta['credential'];
 
             if(mainCred){
               switch( this.credentialStatus ){

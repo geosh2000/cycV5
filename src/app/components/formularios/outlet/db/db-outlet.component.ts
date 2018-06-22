@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
@@ -52,19 +52,16 @@ export class DbOutletComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 private modalService: NgbModal
                 ) {
-
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -90,7 +87,7 @@ export class DbOutletComponent implements OnInit {
                 this.loading['data'] = false
 
                 if( refresh ){
-                  for( let item of res.data ){
+                  for( let item of res['data'] ){
                     let index = this.dbData.map(function(e) { return e.id; }).indexOf(item['id']);
                     this.dbData[index]['folio'] = item['folio']
                     this.dbData[index]['status_changer'] = item['status_changer']
@@ -100,10 +97,10 @@ export class DbOutletComponent implements OnInit {
                     this.dbData[index]['ActualizadoPor'] = item['ActualizadoPor']
                   }
                 }else{
-                  this.dbData = res.data
+                  this.dbData = res['data']
                 }
 
-                this.collection = res.data.length
+                this.collection = res['data'].length
 
               }, err => {
                 console.log("ERROR", err)
@@ -131,7 +128,7 @@ export class DbOutletComponent implements OnInit {
 
                 this.loading['livest'] = false
 
-                this.lvStatus = res.data['live_status']
+                this.lvStatus = res['data']['live_status']
 
 
               }, err => {

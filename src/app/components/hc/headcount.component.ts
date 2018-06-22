@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { Title } from '@angular/platform-browser';
 
@@ -34,17 +34,15 @@ export class HeadcountComponent implements OnInit {
                 private _tokenCheck:TokenCheckService,
                 private route:Router,
                 private activatedRoute:ActivatedRoute,
-                public toastr: ToastsManager, vcr: ViewContainerRef) {
+                public toastr: ToastrService) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -82,7 +80,7 @@ export class HeadcountComponent implements OnInit {
                   Oficina:  {},
                 }
 
-                for( let item of res.data ){
+                for( let item of res['data'] ){
                   index['mainDep']      = this.index( index['mainDep'],     item['MainDep'], 'UDN', item['UDN'] )
                   index['UDN']          = this.index( index['UDN'],         item['UDN'], 'Area', item['Area'] )
                   index['Area']         = this.index( index['Area'],        item['Area'], 'Departamento', item['Departamento'] )
@@ -92,7 +90,7 @@ export class HeadcountComponent implements OnInit {
                   index['Oficina']      = this.index( index['Oficina'],     item['Oficina'], '1', 1 )
                 }
                 console.log(index)
-                this.data=res.data
+                this.data=res['data']
 
               }, err => {
                 console.log("ERROR", err)

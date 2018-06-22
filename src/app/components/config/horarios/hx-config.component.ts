@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as moment from 'moment';
@@ -44,12 +44,11 @@ export class HxConfigComponent implements OnInit {
                 public _dateRangeOptions: DaterangepickerConfig,
                 public _api:ApiService,
                 private _init:InitService,
-                public toastr: ToastsManager, vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 public route:Router,
                 public activatedRoute:ActivatedRoute
                 ){
 
-    this.toastr.setRootViewContainerRef(vcr);
 
   }
 
@@ -72,7 +71,7 @@ export class HxConfigComponent implements OnInit {
     this._api.restfulGet( '','headcount/Fdepartamentos' )
             .subscribe( res => {
 
-              this.listDeps   = res.data
+              this.listDeps   = res['data']
               this.depLoading = false
 
             }, err => {
@@ -92,7 +91,7 @@ export class HxConfigComponent implements OnInit {
     this._api.restfulGet( `${this.searchStart}/${this.searchEnd}`,'horarios/hxconf' )
             .subscribe( res => {
 
-              this.listDates    = res.data
+              this.listDates    = res['data']
               this.dateLoading  = false
 
               this.getDeps()

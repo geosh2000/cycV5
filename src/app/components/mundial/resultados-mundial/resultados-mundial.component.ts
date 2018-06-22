@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -47,18 +47,16 @@ export class ResultadosMundialComponent implements OnInit {
                 private titleService: Title,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 private modalService: NgbModal ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -79,9 +77,9 @@ export class ResultadosMundialComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['Partidos'] = false
-                this.data = res.data
+                this.data = res['data']
                 let tp = 0
-                for( let item of res.data ){
+                for( let item of res['data'] ){
                   this.pr['gf'][item.id] = item.gf
                   this.pr['gc'][item.id] = item.gc
                   this.pr['live'][item.id] = item.live == '1' ? true : false

@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { Title } from '@angular/platform-browser';
 
@@ -48,17 +48,15 @@ export class DetalleAsesoresComponent implements OnInit {
                 private _tokenCheck:TokenCheckService,
                 private route:Router,
                 private activatedRoute:ActivatedRoute,
-                public toastr: ToastsManager, vcr: ViewContainerRef) {
+                public toastr: ToastrService) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false

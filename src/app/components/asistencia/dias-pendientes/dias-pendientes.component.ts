@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { Title } from '@angular/platform-browser';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
@@ -54,11 +54,9 @@ export class DiasPendientesComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef) {
+                public toastr: ToastrService) {
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this._dateRangeOptions.settings = {
       autoUpdateInput: true,
@@ -69,7 +67,7 @@ export class DiasPendientesComponent implements OnInit {
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -99,9 +97,9 @@ export class DiasPendientesComponent implements OnInit {
                 this.loading['detail'] = false
 
                 if( asesor ){
-                  this.detail['data'] = res.data
+                  this.detail['data'] = res['data']
                 }else{
-                  this.listData = res.data
+                  this.listData = res['data']
                 }
 
                 console.log(this.detail)
@@ -126,7 +124,7 @@ export class DiasPendientesComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['toApprobe'] = false
-                this.approbeData = res.data
+                this.approbeData = res['data']
 
               }, err => {
                 console.log("ERROR", err)
@@ -147,7 +145,7 @@ export class DiasPendientesComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['rejected'] = false
-                this.rejectData = res.data
+                this.rejectData = res['data']
 
               }, err => {
                 console.log("ERROR", err)
@@ -168,7 +166,7 @@ export class DiasPendientesComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['detailed'] = false
-                this.detailData = res.data
+                this.detailData = res['data']
 
               }, err => {
                 console.log("ERROR", err)

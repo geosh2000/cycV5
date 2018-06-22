@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, O
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PopoverModule } from 'ngx-popover';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ApiService } from '../../services/api.service';
 import { InitService } from '../../services/init.service';
@@ -121,15 +120,15 @@ export class AddAusentismoComponent implements OnInit {
                           for(let errors in errores.errores){
                             this.notif.emit( { msg: errores.errores[errors], title: errors} )
                           }
-                          
+
                         })
   }
 
   getTipos( asesor ){
     this._api.restfulGet( `${asesor}`,'Asistencia/tipos' )
             .subscribe( res => {
-              this.tiposAus = res.tipos
-              this.diasPendientes = res.pending
+              this.tiposAus = res['tipos']
+              this.diasPendientes = res['pending']
               // console.log(this.diasPendientes)
             })
   }

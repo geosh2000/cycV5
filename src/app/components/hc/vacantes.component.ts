@@ -53,8 +53,8 @@ export class VacantesComponent implements OnInit {
   savedMopers:any
 
   loadingVacantes:boolean = false
-  infoVacantes:any[]
-  infoVacantesSliced:any[]
+  infoVacantes:any
+  infoVacantesSliced:any
   baseRoute:string = "/vacantes"
   routeParams
 

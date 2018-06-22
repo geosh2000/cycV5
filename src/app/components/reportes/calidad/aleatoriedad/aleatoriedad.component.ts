@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 
 import { ApiService } from '../../../../services/api.service';
@@ -48,17 +48,15 @@ export class AleatoriedadComponent implements OnInit {
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -95,7 +93,7 @@ export class AleatoriedadComponent implements OnInit {
 
                 this.dataCriteria = []
 
-                for(let item of res.data){
+                for(let item of res['data']){
                   let arr = { id: item['id'], name: item['Departamento'] }
                   this.dataCriteria.push( arr )
                 }
@@ -126,7 +124,7 @@ export class AleatoriedadComponent implements OnInit {
 
                 this.dataCriteria = []
 
-                for(let item of res.data){
+                for(let item of res['data']){
                   let arr = { id: item['asesor'], name: item['nombre'] }
                   this.dataCriteria.push( arr )
                 }
@@ -162,7 +160,7 @@ export class AleatoriedadComponent implements OnInit {
 
                 this.loading['search'] = false
 
-                this.dataAleatoriedad = res.data
+                this.dataAleatoriedad = res['data']
 
               }, err => {
                 console.log("ERROR", err)

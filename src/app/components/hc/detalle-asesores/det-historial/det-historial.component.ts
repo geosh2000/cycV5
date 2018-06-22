@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, ViewContainerRef, ViewChild } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 
 import { ApiService } from '../../../../services/api.service';
@@ -30,10 +30,8 @@ export class DetHistorialComponent implements OnChanges {
   contratos:Object = {}
 
   constructor(public _api: ApiService,
-              public toastr: ToastsManager, vcr: ViewContainerRef,
+              public toastr: ToastrService,
               public _init:InitService) {
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this.getData()
   }
@@ -54,10 +52,10 @@ export class DetHistorialComponent implements OnChanges {
               .subscribe( res => {
 
                 this.loading['historial'] = false
-                this.dataHistorial = res.data
+                this.dataHistorial = res['data']
 
-                if ( res.data.length > 0) {
-                  this.activo = res.data[0]['activo']
+                if ( res['data'].length > 0) {
+                  this.activo = res['data'][0]['activo']
                 }
 
               }, err => {
@@ -78,9 +76,9 @@ export class DetHistorialComponent implements OnChanges {
               .subscribe( res => {
 
                 this.loading['solicitudes'] = false
-                this.dataSolicitudes = res.data
-                if ( res.data.length > 0) {
-                  this.activo = res.data[0]['activo']
+                this.dataSolicitudes = res['data']
+                if ( res['data'].length > 0) {
+                  this.activo = res['data'][0]['activo']
                 }
 
               }, err => {

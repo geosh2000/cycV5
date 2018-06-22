@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { Observable } from 'rxjs/Observable';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 
 import * as moment from 'moment';
 declare var jQuery:any;
@@ -59,16 +59,13 @@ export class AddExternalUserComponent implements OnInit {
 
   constructor(
                 private _dateRangeOptions: DaterangepickerConfig,
-                public toastr: ToastsManager, vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 private _api:ApiService,
                 private _init:InitService
                 ) {
 
       this.currentUser = this._init.getUserInfo()
       this.showContents = this._init.checkCredential( this.mainCredential, true )
-
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this.populateProfiles()
 
@@ -123,7 +120,7 @@ export class AddExternalUserComponent implements OnInit {
         thisData._api.postFromApi( params, 'validateUserExists')
           .subscribe( res => {
             if(res){
-              if(res.res == 1){
+              if(res['res'] == 1){
                 resolve({existe: true})
               }else{
                 resolve(null)
@@ -166,16 +163,16 @@ export class AddExternalUserComponent implements OnInit {
     this._api.restfulPut( this.formExternalUser.value, "Config/addExternal" )
             .subscribe( res => {
               this.submitting = false
-              if( res.ERR ){
+              if( res['ERR'] ){
 
                 this.saveAlert = true
-                this.errorMsg = res.error
-                this.toastr.error( res.error , 'Error!');
+                this.errorMsg = res['error']
+                this.toastr.error( res['error'] , 'Error!');
                 console.error( res )
 
               }else{
 
-                this.toastr.success( res.msg , 'Guardado!');
+                this.toastr.success( res['msg'] , 'Guardado!');
                 this.formExternalUser.reset()
 
               }

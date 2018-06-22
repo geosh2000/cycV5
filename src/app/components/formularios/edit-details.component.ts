@@ -1,8 +1,8 @@
 import { Component, SimpleChanges, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { Observable } from 'rxjs/Observable';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 
 import * as moment from 'moment';
 declare var jQuery:any;
@@ -86,10 +86,8 @@ export class EditDetailsComponent implements OnChanges {
   constructor(
               private _dateRangeOptions: DaterangepickerConfig,
               private _api:ApiService,
-              public toastr: ToastsManager, vcr: ViewContainerRef
+              public toastr: ToastrService
               ) {
-
-      this.toastr.setRootViewContainerRef(vcr);
 
       this.populateProfiles()
 

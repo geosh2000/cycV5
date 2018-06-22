@@ -1,10 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Daterangepicker } from 'ng2-daterangepicker';
-import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { CustomOption } from './components/shared/toastrOptions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -19,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { OrderModule } from 'ngx-order-pipe'
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { FullCalendarModule } from 'ng-fullcalendar';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -330,10 +329,9 @@ registerLocaleData(localeEsMX)
     Ng2CompleterModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     APP_ROUTING,
     Daterangepicker,
-    ToastModule.forRoot(),
     CommonModule,
     Ng2SmartTableModule,
     FileUploadModule,
@@ -344,12 +342,12 @@ registerLocaleData(localeEsMX)
     ChartModule,
     MultiselectDropdownModule,
     FullCalendarModule,
+    ToastrModule.forRoot(),
     // Ng2TableViewModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "Es-MX" },
-     {provide: ToastOptions, useClass: CustomOption},
-     {provide: HighchartsStatic, useFactory: highchartsFactory},
+    {provide: HighchartsStatic, useFactory: highchartsFactory},
     NavbarService,
     AsesoresService,
     LoginService,

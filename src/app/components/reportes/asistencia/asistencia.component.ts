@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Input, ChangeDetectorRef } from '@angular/core';
 import { PopoverModule } from 'ngx-popover';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/subject';
+import { Observable } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 
 import { AddAusentismoComponent } from '../../formularios/add-ausentismo.component';
 import { CumplimientoComponent } from '../../../addon/progress/cumplimiento/cumplimiento.component';
@@ -100,12 +100,10 @@ export class AsistenciaComponent implements OnInit {
                 private _api:ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 private cd: ChangeDetectorRef
                 ) {
 
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/core';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { Title } from '@angular/platform-browser';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -35,11 +35,9 @@ export class SetHorariosComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public toastr: ToastrService
                 ) {
 
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 

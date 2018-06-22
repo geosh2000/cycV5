@@ -107,7 +107,7 @@ export class QueuesComponent implements OnInit {
               // console.log( res )
 
               this.loading = false
-              let data = res.data
+              let data = res['data']
 
               for(let item in data){
                 // console.log(item, data[item]['tipo'], data[item])
@@ -196,7 +196,7 @@ export class QueuesComponent implements OnInit {
             .subscribe( res => {
 
               this.loading = false
-              let data = res.data
+              let data = res['data']
 
               let json = data[0].json.replace( /(?:u')+/gmu, "'" ).replace( /(?:&nbsp;)+/gmu, "" )
               let result = JSON.parse( JSON.stringify(eval("(" + json + ")")) )
@@ -225,7 +225,7 @@ export class QueuesComponent implements OnInit {
             .subscribe( res => {
 
               this.loading = false
-              let queues = res.data
+              let queues = res['data']
               let keys = []
               let result = {}
               let group = {}
@@ -272,7 +272,7 @@ export class QueuesComponent implements OnInit {
             .subscribe( res => {
 
               this.loading = false
-              let deps = res.data
+              let deps = res['data']
               let result = {}
               for( let item of deps ){
                 result[ item['name'] ] = item

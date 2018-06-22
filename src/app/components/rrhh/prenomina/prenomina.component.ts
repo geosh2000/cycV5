@@ -1,7 +1,7 @@
  import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -50,17 +50,15 @@ export class PrenominaComponent implements OnInit {
                 private titleService: Title,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -111,7 +109,7 @@ export class PrenominaComponent implements OnInit {
 
                 this.loading['schedules'] = false
 
-                this.dataSchedules = res.data
+                this.dataSchedules = res['data']
                 // console.log(this.dataSchedules)
 
                 this.getFestivos()
@@ -136,7 +134,7 @@ export class PrenominaComponent implements OnInit {
 
                 this.loading['festivos'] = false
 
-                this.dataFestivos = res.data
+                this.dataFestivos = res['data']
 
                 this.getAsesores()
 
@@ -160,8 +158,8 @@ export class PrenominaComponent implements OnInit {
 
                 this.loading['asesores'] = false
 
-                this.dataAsesores = res.data
-                // console.log(res.data)
+                this.dataAsesores = res['data']
+                // console.log(res['data'])
 
                 this.getLogs()
 
@@ -185,7 +183,7 @@ export class PrenominaComponent implements OnInit {
 
                 this.loading['logs'] = false
 
-                this.dataLogs = res.data
+                this.dataLogs = res['data']
                 // console.log(this.dataLogs)
 
                 this.getAusentismos( )
@@ -210,8 +208,8 @@ export class PrenominaComponent implements OnInit {
 
                 this.loading['ausentismos'] = false
 
-                this.dataAusentismos = res.data
-                // console.log(res.data)
+                this.dataAusentismos = res['data']
+                // console.log(res['data'])
 
                 this.getBonos()
 
@@ -236,8 +234,8 @@ export class PrenominaComponent implements OnInit {
 
                 this.loading['bonos'] = false
 
-                this.dataBonos = res.data
-                // console.log(res.data)
+                this.dataBonos = res['data']
+                // console.log(res['data'])
 
                 this.getCxc()
 
@@ -264,10 +262,10 @@ export class PrenominaComponent implements OnInit {
                 this.loading['cxc'] = false
                 this.loading['building'] = true
 
-                this.dataCxc = res.data
+                this.dataCxc = res['data']
 
-                for( let asesor in res.data ){
-                  for( let cxc of res.data[asesor] ){
+                for( let asesor in res['data'] ){
+                  for( let cxc of res['data'][asesor] ){
                     if( this.prenomCxc[asesor] ){
                       this.prenomCxc[asesor][cxc.tipo]['monto'] += parseFloat(cxc.monto)
                       this.prenomCxc[asesor][cxc.tipo]['detail'] = `${this.prenomCxc[asesor][cxc.tipo]['detail']}, ${cxc.localizador} (${cxc.n_pago}/${cxc.pagos})`
@@ -813,8 +811,8 @@ export class PrenominaComponent implements OnInit {
             .subscribe( res => {
 
               this.listCortesFlag = true
-              this.listCortes = res.data
-              this.opsList = res.ops
+              this.listCortes = res['data']
+              this.opsList = res['ops']
 
 
             }, err => {

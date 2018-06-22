@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import * as moment from 'moment-timezone';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
 import { TokenCheckService } from '../../../services/token-check.service';
@@ -71,16 +71,14 @@ export class KpisComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef) {
+                public toastr: ToastrService ) {
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -146,7 +144,7 @@ export class KpisComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['venta'] = false
-              this.lu = moment.tz(res.lu, 'America/Mexico_city').tz('America/Bogota').format('DD MMM \'YY HH:mm:ss')
+              this.lu = moment.tz(res['lu'], 'America/Mexico_city').tz('America/Bogota').format('DD MMM \'YY HH:mm:ss')
 
               let fechas = {
                 [this.dateSelected] : 'td',
@@ -157,7 +155,7 @@ export class KpisComponent implements OnInit {
               let data = {}
               let x=0
 
-              for(let gpo of res.data['locs']){
+              for(let gpo of res['data']['locs']){
 
                 let gpoName = gpo['gpoTipoRsvaOk'] == 'Presencial' ? 'PDV' : gpo['gpoTipoRsvaOk']
                 gpoName = gpoName == 'In' ? 'CC-In' : gpoName
@@ -190,7 +188,7 @@ export class KpisComponent implements OnInit {
                 // }
               }
 
-              for( let gpo of res.data['servicios'] ){
+              for( let gpo of res['data']['servicios'] ){
                 let gpoName = gpo['gpoTipoRsvaOk'] == 'Presencial' ? 'PDV' : gpo['gpoTipoRsvaOk']
                 gpoName = gpoName == 'In' ? 'CC-In' : gpoName
                 gpoName = gpoName == 'Out' ? 'CC-Out' : gpoName
@@ -340,7 +338,7 @@ export class KpisComponent implements OnInit {
               }
               let data = {}
 
-              for(let gpo of res.data){
+              for(let gpo of res['data']){
 
                 let gpoName = 'CC-In'
 

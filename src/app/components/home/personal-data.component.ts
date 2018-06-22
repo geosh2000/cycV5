@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, Input, SimpleChanges } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../services/api.service';
 
@@ -29,11 +29,7 @@ export class PersonalDataComponent implements OnInit {
   }
 
   constructor( private _api:ApiService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
-
-      this.toastr.setRootViewContainerRef(vcr);
-
-  }
+                public toastr: ToastrService ) {  }
 
   getData(){
 
@@ -43,13 +39,13 @@ export class PersonalDataComponent implements OnInit {
             .subscribe( res => {
               this.personalDataLoading = false
 
-              this.personales['Telefono1']          = res.data['Telefono1']
-              this.personales['Telefono2']          = res.data['Telefono2']
-              this.personales['correo_personal']    = res.data['correo_personal']
-              this.personales['Vigencia_Pasaporte'] = this.breakDate( res.data['Vigencia_Pasaporte'] )
-              this.personales['Vigencia_Visa']      = this.breakDate( res.data['Vigencia_Visa'] )
+              this.personales['Telefono1']          = res['data']['Telefono1']
+              this.personales['Telefono2']          = res['data']['Telefono2']
+              this.personales['correo_personal']    = res['data']['correo_personal']
+              this.personales['Vigencia_Pasaporte'] = this.breakDate( res['data']['Vigencia_Pasaporte'] )
+              this.personales['Vigencia_Visa']      = this.breakDate( res['data']['Vigencia_Visa'] )
 
-              this.username = res.data['Usuario']
+              this.username = res['data']['Usuario']
 
             }, err => {
 
@@ -101,7 +97,7 @@ export class PersonalDataComponent implements OnInit {
 
               this.saveDataLoading = false
 
-              console.log( res.data )
+              console.log( res['data'] )
 
               this.getData()
 

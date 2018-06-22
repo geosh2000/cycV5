@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Injectable, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 import * as moment from 'moment-timezone';
@@ -93,9 +93,8 @@ export class CambioPuestoComponent implements OnChanges {
   constructor(
               private _dateRangeOptions: DaterangepickerConfig,
               private _api:ApiService,
-              public toastr: ToastsManager, vcr: ViewContainerRef
+              public toastr: ToastrService
               ) {
-      this.toastr.setRootViewContainerRef(vcr);
 
       this._dateRangeOptions.settings = {
         autoUpdateInput: false,
@@ -235,18 +234,15 @@ export class CambioPuestoComponent implements OnChanges {
             this._api.postFromApi( params, "vacantes_disponibles" )
                   .subscribe( res => {
                     if( res ){
-                      if(res.error == 0){
+                      if(res['error'] == 0){
                         this.resetOptions( tipo );
-                        this.listOptions[tipo] = res.vac
+                        this.listOptions[tipo] = res['vac']
 
                         this.flagExists[ tipo ] = true
                       }else{
-                          this.toastr.error(res.msg, 'Error!', {
-                            positionClass: 'toast-top-center',
-                            animate: 'fade'
-                          });
+                          this.toastr.error(res['msg'], 'Error!');
 
-                          // console.log( res.msg )
+                          // console.log( res['msg'] )
                           this.resetOptions( tipo );
 
                           this.flagExists[ tipo ] = false

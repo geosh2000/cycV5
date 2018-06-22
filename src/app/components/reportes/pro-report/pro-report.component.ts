@@ -4,7 +4,7 @@ import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'ang
 
 import { Title } from '@angular/platform-browser';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -197,18 +197,16 @@ export class ProReportComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public toastr: ToastrService
                 ) {
 
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -246,7 +244,7 @@ export class ProReportComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['filter'][group] = false
-              this.opts[field] = res.data
+              this.opts[field] = res['data']
 
             }, err => {
               console.log("ERROR", err)
@@ -275,10 +273,10 @@ export class ProReportComponent implements OnInit {
             .subscribe( res => {
               let tmpSups = []
               this.loading['asesores'] = false
-              this.opts['asesores'] = res.data
+              this.opts['asesores'] = res['data']
 
               let data = {}
-              for( let item of res.data ){
+              for( let item of res['data'] ){
                 data[item['id']]=item
               }
 
@@ -303,7 +301,7 @@ export class ProReportComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['report'] = false
-              this.dataRep = res.data
+              this.dataRep = res['data']
 
             }, err => {
               console.log("ERROR", err)
@@ -431,7 +429,7 @@ export class ProReportComponent implements OnInit {
 
                 this.loading['loadPreset'] = false
                 let presets = []
-                for(let item of res.data){
+                for(let item of res['data']){
                   presets.push( { name: item['name'], params: JSON.parse(item['val']) } )
                 }
                 this.presets = presets

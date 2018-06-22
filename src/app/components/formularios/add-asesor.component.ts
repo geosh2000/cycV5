@@ -2,9 +2,9 @@ import { Component, Injectable, OnInit, Input, Output, EventEmitter, ViewChild, 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
@@ -114,9 +114,8 @@ export class AddAsesorComponent implements OnChanges {
               private _dateRangeOptions: DaterangepickerConfig,
               private route:Router,
               private _api:ApiService,
-              public toastr: ToastsManager, vcr: ViewContainerRef,
+              public toastr: ToastrService
               ) {
-      this.toastr.setRootViewContainerRef(vcr);
 
       this.populateProfiles()
 
@@ -239,7 +238,7 @@ export class AddAsesorComponent implements OnChanges {
         thisData._api.postFromApi( params, 'validateUserExists')
           .subscribe( res => {
             if(res){
-              if(res.res == 1){
+              if(res['res'] == 1){
                 resolve({existe: true})
               }else{
                 resolve(null)
@@ -305,18 +304,15 @@ export class AddAsesorComponent implements OnChanges {
                     console.log( res )
 
                     if( res ){
-                      if(res.error == 0){
+                      if(res['error'] == 0){
                         this.resetOptions( tipo );
-                        this.listOptions[tipo] = res.vac
+                        this.listOptions[tipo] = res['vac']
 
                         this.flagExists[ tipo ] = true
                       }else{
-                          this.toastr.error(res.msg, 'Error!', {
-                            positionClass: 'toast-top-center',
-                            animate: 'fade'
-                          });
+                          this.toastr.error(res['msg'], 'Error!');
 
-                          // console.log( res.msg )
+                          // console.log( res['msg'] )
                           this.resetOptions( tipo );
 
                           this.flagExists[ tipo ] = false
@@ -387,7 +383,7 @@ export class AddAsesorComponent implements OnChanges {
     this._api.restfulPut( this.formAddAsesor.value, restfulController )
             .subscribe( res => {
               this.retrieving = false
-              this.save.emit({status: true, msg: 'Asesor guardado con id ' + res.asesor_id, title: 'Guardado!'})
+              this.save.emit({status: true, msg: 'Asesor guardado con id ' + res['asesor_id'], title: 'Guardado!'})
               jQuery(this.modal).modal('hide')
             }, err => {
               console.log("ERROR", err)

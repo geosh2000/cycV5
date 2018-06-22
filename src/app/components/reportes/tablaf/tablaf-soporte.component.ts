@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/core';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 
 import { ApiService } from '../../../services/api.service';
@@ -38,11 +38,9 @@ export class TablafSoporteComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public toastr: ToastrService
                 ) {
 
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 

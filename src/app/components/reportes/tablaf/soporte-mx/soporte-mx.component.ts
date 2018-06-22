@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/core';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { saveAs } from 'file-saver';
 import { utils, write, WorkBook } from 'xlsx';
@@ -43,11 +43,8 @@ export class SoporteMxComponent implements OnInit {
   constructor(
                 private _api:ApiService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public toastr: ToastrService
                 ) {
-
-    this.toastr.setRootViewContainerRef(vcr)
 
     moment.locale('es-MX')
 
@@ -65,12 +62,12 @@ export class SoporteMxComponent implements OnInit {
               this.loading['data'] = false
 
               this.dataTable = []
-              for( let dep in res.data ){
+              for( let dep in res['data'] ){
                 let groups = []
-                for( let group in res.data[dep] ){
+                for( let group in res['data'][dep] ){
                   let fechas = []
-                  for( let fecha in res.data[dep][group] ){
-                    fechas.push({ date: fecha, data: res.data[dep][group][fecha]})
+                  for( let fecha in res['data'][dep][group] ){
+                    fechas.push({ date: fecha, data: res['data'][dep][group][fecha]})
                   }
                   groups.push({group: group, data: fechas})
                 }

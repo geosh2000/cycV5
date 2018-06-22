@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter, V
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import {ApplyCxcComponent} from '../formularios/apply-cxc.component';
 import {TableTemplateComponent} from '../../addon/table-template/table-template.component';
@@ -106,7 +106,7 @@ export class CxcComponent implements OnInit {
   constructor(
               private _api:ApiService,
               public _init:InitService,
-              public toastr: ToastsManager
+              public toastr: ToastrService
               ) {
 
     this.currentUser = this._init.getUserInfo()
@@ -369,10 +369,10 @@ export class CxcComponent implements OnInit {
 
       this._api.restfulDelete( `cxc/${this.imageTitle}/jpg`, 'UploadImage/imageDel' )
               .subscribe( res => {
-                if(res.ERR){
-                  this.toastr.error( res.msg, 'Error!')
+                if(res['ERR']){
+                  this.toastr.error( res['msg'], 'Error!')
                 }else{
-                  this.toastr.success( res.msg, 'Borrado')
+                  this.toastr.success( res['msg'], 'Borrado')
                   jQuery('#showDocument').modal('hide')
                   this.getCxc(this.searchStart, this.searchEnd)
                 }

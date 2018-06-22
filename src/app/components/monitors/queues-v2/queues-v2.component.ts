@@ -143,9 +143,9 @@ export class QueuesV2Component implements OnInit {
     this._api.restfulPut( params, 'RtMonitor/rtMonitor' )
             .subscribe( res => {
               this.loading = false
-              this.data=res.data['data']
-              this.waits=res.data['waits']
-              this.lu= res.data['lu']
+              this.data=res['data']['data']
+              this.waits=res['data']['waits']
+              this.lu= res['data']['lu']
 
               this.count = this.timeToReload
               this.timerFlag = true
@@ -191,7 +191,7 @@ export class QueuesV2Component implements OnInit {
             .subscribe( res => {
 
               this.loading = false
-              let queues = res.data
+              let queues = res['data']
               let keys = []
               let result = {}
               let group = {}
@@ -252,7 +252,7 @@ export class QueuesV2Component implements OnInit {
             .subscribe( res => {
 
               this.loading = false
-              this.pauses = res.data
+              this.pauses = res['data']
 
             }, err => {
               console.log("ERROR", err)
@@ -270,7 +270,7 @@ export class QueuesV2Component implements OnInit {
             .subscribe( res => {
 
               this.loading = false
-              let deps = res.data
+              let deps = res['data']
               let result = {}
               for( let item of deps ){
                 result[ item['name'] ] = item
@@ -305,7 +305,7 @@ export class QueuesV2Component implements OnInit {
 
     this._api.restfulGet( '', 'RtMonitor/getSLA' )
             .subscribe( res => {
-              this.slaData = res.data
+              this.slaData = res['data']
 
             }, err => {
               console.log("ERROR", err)

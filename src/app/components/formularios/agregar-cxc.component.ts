@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import * as moment from 'moment';
 declare var jQuery:any;
@@ -59,10 +59,8 @@ export class AgregarCxcComponent implements OnInit {
   constructor(
                 private _dateRangeOptions: DaterangepickerConfig,
                 private _api:ApiService,
-                public toastr: ToastsManager, vcr: ViewContainerRef
+                public toastr: ToastrService
                 ){
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 

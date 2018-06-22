@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as Globals from '../globals';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map, catchError } from "rxjs/operators"
 
 @Injectable()
 export class ApiService {
@@ -13,7 +14,7 @@ export class ApiService {
   qmAPI:string = `http://queuemetrics.pricetravel.com.mx:8080/queuemetricscc/`;
 
   constructor(
-                private http:Http,
+                private http:HttpClient,
                 private domSanitizer:DomSanitizer
               ) {
 
@@ -28,19 +29,14 @@ export class ApiService {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let url = `${ this.apiUrl }${ apiRoute }.json.php?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
     let urlOK = this.transform( url )
-    // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
     let body = JSON.stringify( params );
-    let headers = new Headers({
-      // 'Content-Type':'application/json'
-    });
+    let headers = new HttpHeaders({});
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
-      .map( res => {
-        // console.log(res)
-        return res.json();
-      })
-
+        .pipe(
+           map( res => { return res } )
+        )
   }
 
   postToApi( params, apiRoute ){
@@ -48,17 +44,14 @@ export class ApiService {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let url = `${ this.apiPostUrl }${ apiRoute }.post.php?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
     let urlOK = this.transform( url )
-    // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
     let body = JSON.stringify( params );
-    let headers = new Headers({
-      // 'Content-Type':'application/json'
-    });
+    let headers = new HttpHeaders({});
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
-      .map( res => {
-        return res.json();
-      })
+        .pipe(
+           map( res => { return res } )
+        )
 
   }
 
@@ -76,133 +69,112 @@ export class ApiService {
     let urlOK = this.transform( url )
 
     let body = JSON.stringify( params );
-    let headers = new Headers({
+    let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
 
-    // console.log(params)
     return this.http.put( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
-      .map( res => {
-        // console.log( res.json() )
-        return res.json()
-      })
+        .pipe(
+           map( res => { return res } )
+        )
   }
 
   restfulPost( params, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
-    // let url = `${ this.apiRestful }${ apiRoute }`
+
     let urlOK = this.transform( url )
-    // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
     let body = JSON.stringify( params );
-    let headers = new Headers({
+    let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
-      .map( res => {
-        return res.json()
-      })
+        .pipe(
+           map( res => { return res } )
+        )
   }
 
   restfulImgPost( params, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
-    // let url = `${ this.apiRestful }${ apiRoute }`
-    let urlOK = this.transform( url )
-    // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
-    // let body = JSON.stringify( params );
-    // let headers = new Headers({
-    //   'Content-Type':'application/json'
-    // });
+    let urlOK = this.transform( url )
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, params )
-      .map( res => {
-        return res.json()
-      })
+        .pipe(
+           map( res => { return res } )
+        )
   }
 
   restfulDelete( id, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
-    // let url = `${ this.apiRestful }${ apiRoute }`
-    let urlOK = this.transform( url )
-    // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
-    let headers = new Headers({
+    let urlOK = this.transform( url )
+
+    let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
 
     return this.http.delete( urlOK.changingThisBreaksApplicationSecurity, { headers } )
-      .map( res => {
-        return res.json()
-      })
+        .pipe(
+           map( res => { return res } )
+        )
   }
 
   restfulGet( id, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
-    // let url = `${ this.apiRestful }${ apiRoute }`
-    let urlOK = this.transform( url )
-    // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
-    let headers = new Headers({
+    let urlOK = this.transform( url )
+
+    let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
 
-    // console.log(urlOK.changingThisBreaksApplicationSecurity)
-
     return this.http.get( urlOK.changingThisBreaksApplicationSecurity, { headers } )
-      .map( res => {
-        return res.json()
-      })
+        .pipe(
+           map( res => { return res } )
+        )
   }
 
   testGet(  ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let url = `${ Globals.APISERV }/api/${Globals.APIFOLDER}/test.php`
-    // let url = `${ this.apiRestful }${ apiRoute }`
-    let urlOK = this.transform( url )
-    // console.log( urlOK.changingThisBreaksApplicationSecurity )
 
-    let headers = new Headers({
+    let urlOK = this.transform( url )
+
+    let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
 
-    // console.log(urlOK.changingThisBreaksApplicationSecurity)
-
     return this.http.get( urlOK.changingThisBreaksApplicationSecurity, { headers } )
-      .map( res => {
-        return res.json()
-      })
+        .pipe(
+           map( res => { return res } )
+        )
   }
 
   qmGet( params, qmModule ){
 
-    let headers = new Headers({
+    let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
-    // headers.append("Authorization", "Basic " + btoa('robot' + ":" + 'robot'));
-
-
-    console.log(headers)
 
     let body = JSON.stringify( params );
     let url = `${ this.qmAPI }${ qmModule }`
     let urlOK = this.transform( url )
 
-
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers: headers } )
-      .map( res => {
-        return res.json()
-      })
+        .pipe(
+           map( res => { return res } )
+        )
   }
 
 

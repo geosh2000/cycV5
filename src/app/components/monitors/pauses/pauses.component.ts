@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -59,17 +59,15 @@ export class PausesComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -106,9 +104,9 @@ export class PausesComponent implements OnInit {
               .subscribe( res => {
                 this.loading['Pauses'] = false
                 this.loading['change'] = false
-                this.pauseData = this.organizeData( res.data['data'] )
+                this.pauseData = this.organizeData( res['data']['data'] )
                 this.pagination()
-                this.lu = res.data['lu']
+                this.lu = res['data']['lu']
 
                 this.killProcess = false
                 this.timerFlag = true
@@ -137,7 +135,7 @@ export class PausesComponent implements OnInit {
     this._api.restfulGet( '', 'Pausemon/pauseTypes' )
               .subscribe( res => {
 
-                this.pauseTypes = res.data
+                this.pauseTypes = res['data']
 
               }, err => {
                 console.log("ERROR", err)

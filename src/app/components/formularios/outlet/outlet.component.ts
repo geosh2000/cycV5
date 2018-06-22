@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 
 import * as moment from 'moment-timezone';
@@ -51,18 +51,15 @@ export class OutletComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public toastr: ToastrService
                 ) {
-
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -182,19 +179,19 @@ export class OutletComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['slots'] = false
-                this.slotsBusy = res.data
+                this.slotsBusy = res['data']
 
                 if(!this.edit){
                   if( this.form['fecha'] && this.form['fecha'] != '' ){
                     if( this.form['hora'] && this.form['hora'] != '' ){
-                      if( this.form['espacio'] <= res.data[this.form['fecha']][this.form['hora']] ){
-                        if( res.data[this.form['fecha']][this.form['hora']] >= 10 ){
+                      if( this.form['espacio'] <= res['data'][this.form['fecha']][this.form['hora']] ){
+                        if( res['data'][this.form['fecha']][this.form['hora']] >= 10 ){
                           this.toastr.error( `Los espacios para el ${ moment(this.form['fecha']).format('DD MMM')} a las ${moment(`${this.form['fecha']} ${this.form['hora']}`).format('HH:mm')} se han agotado. Por favor elige otro horario`, `Espacios Agotados` )
                           this.form['espacio'] = ''
                           this.form['hora'] = ''
                           this.validate('espacio')
                         }else{
-                          this.form['espacio'] = parseInt(res.data[this.form['fecha']][this.form['hora']])+1
+                          this.form['espacio'] = parseInt(res['data'][this.form['fecha']][this.form['hora']])+1
                         }
                       }
                     }
@@ -265,7 +262,7 @@ export class OutletComponent implements OnInit {
                 this.loading['save'] = false
                 this.confirmation = params
                 this.confirmation['date'] = moment(`${params['Fecha']} ${params['Hora']}`).format('dddd DD MMM HH:mm')
-                this.confirmation['folio'] = res.data
+                this.confirmation['folio'] = res['data']
                 jQuery('#confirmModal').modal('show')
                 this.reset()
 
@@ -295,7 +292,7 @@ export class OutletComponent implements OnInit {
               if( dwl ){
                 let folios = {}
 
-                for( let item of res.data ){
+                for( let item of res['data'] ){
                   folios[item['id']] = item
                 }
 
@@ -305,7 +302,7 @@ export class OutletComponent implements OnInit {
 
                 wb = { SheetNames: [], Sheets: {} };
                 wb.SheetNames.push(title);
-                wb.Sheets[title] = utils.json_to_sheet(res.data, {cellDates: true});
+                wb.Sheets[title] = utils.json_to_sheet(res['data'], {cellDates: true});
 
                 let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
                 'binary' });
@@ -386,7 +383,7 @@ export class OutletComponent implements OnInit {
 
               this.loading['delete'] = false
               this.reset()
-              this.toastr.success( `Folio ${res.data} Eliminado`, `Eliminado` )
+              this.toastr.success( `Folio ${res['data']} Eliminado`, `Eliminado` )
 
 
             }, err => {

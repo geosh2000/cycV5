@@ -89,9 +89,9 @@ export class CorteComponent implements OnInit {
       this._api.restfulGet( corte, 'cxc/aplicadosCorte' )
               .subscribe( res => {
                             if(res['ERR']){
-                                this.msg.emit( { msg: res.msg, title: 'ERROR'} )
+                                this.msg.emit( { msg: res['msg'], title: 'ERROR'} )
                             }else{
-                                this.dataCxcs = res.data
+                                this.dataCxcs = res['data']
                                 this.checkBoxes = this.dataCxcs.length
                             }
                             this.loading = false
@@ -126,7 +126,7 @@ export class CorteComponent implements OnInit {
     this._api.restfulGet( id, 'cxc/getHistoric' )
       .subscribe( res => {
 
-        this.listHisto = res.data
+        this.listHisto = res['data']
         this.histoLoading = false
         jQuery('#historiaCxc').modal('show')
       }, err => {
@@ -167,7 +167,7 @@ export class CorteComponent implements OnInit {
 
     this._api.restfulPut( params, 'cxc/editAmmount' )
             .subscribe( res => {
-              this.success.emit( res.msg )
+              this.success.emit( res['msg'] )
               jQuery("#editCxc").modal('hide')
               this.editLoading = false
             }, err => {

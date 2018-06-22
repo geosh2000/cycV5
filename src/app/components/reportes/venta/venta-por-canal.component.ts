@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CurrencyPipe } from '@angular/common'
 
@@ -48,15 +48,11 @@ export class VentaPorCanalComponent implements OnInit {
                 public _dateRangeOptions: DaterangepickerConfig,
                 public _api:ApiService,
                 private _init:InitService,
-                public toastr: ToastsManager, vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 public route:Router,
                 public activatedRoute:ActivatedRoute,
                 private cp:CurrencyPipe
-                ){
-
-    this.toastr.setRootViewContainerRef(vcr);
-
-  }
+                ){ }
 
   ngOnInit() {
   }
@@ -109,13 +105,13 @@ export class VentaPorCanalComponent implements OnInit {
 
     this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}/${ ammount }/${ hour }`, 'venta/getVentaPorCanalSV')
             .subscribe( res =>{
-              this.ventaData = res.data['venta']
-              this.locsData = res.data['locs']
+              this.ventaData = res['data']['venta']
+              this.locsData = res['data']['locs']
 
               console.log
 
               if(this.tdInfo){
-                this.prodLu = res.lu
+                this.prodLu = res['lu']
               }else{
                 this.prodLu = null
               }

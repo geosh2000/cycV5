@@ -64,14 +64,17 @@ export class BonoApproveComponent implements OnInit {
     this._api.restfulPut( {params: params, lu: this.status['lu']}, 'Bonos/chgStatus' )
             .subscribe( res => {
 
+              let data = res['data']
+              let meta = res['meta']
+
               this.loading['change'] = false
 
               jQuery('#exampleModal'+this.asesor).modal('hide')
-              if(res.data['status']){
+              if(data['status']){
                 this.save.emit({status: true, msg: 'Status Guardado', asesor: this.asesor, chg: params, meta: meta})
               }else{
-                this.alertMsg = res.data['msg']
-                this.save.emit({status: false, msg: res.data['msg'], asesor: this.asesor, chg: params, meta: res.meta})
+                this.alertMsg = data['msg']
+                this.save.emit({status: false, msg: data['msg'], asesor: this.asesor, chg: params, meta: meta})
                 jQuery('#alertModal'+this.asesor).modal('show')
               }
 

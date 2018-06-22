@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -91,18 +91,17 @@ export class PollsComponent implements OnInit {
                 private titleService: Title,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 private modalService: NgbModal ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -152,7 +151,7 @@ export class PollsComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['curSel'] = false
-                this.curSelection = res.data
+                this.curSelection = res['data']
                 this.flagCurSel = true
 
                 if( this.curSelection ){

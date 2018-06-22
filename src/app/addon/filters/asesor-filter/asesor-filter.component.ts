@@ -90,8 +90,8 @@ export class AsesorFilterComponent implements OnInit {
             .subscribe( res => {
               let tmpSups = []
               this.loading['asesores'] = false
-              this.asesores = res.data
-              for( let item of res.data ){
+              this.asesores = res['data']
+              for( let item of res['data'] ){
 
                 // Name Asesores
                 this.nameAsesores[item['id']]=item['name']

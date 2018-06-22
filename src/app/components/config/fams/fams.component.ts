@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/core';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
 
 import { ApiService } from '../../../services/api.service';
@@ -67,18 +67,16 @@ export class FamsComponent implements OnInit {
               private _api:ApiService,
               private _init:InitService,
               private _tokenCheck:TokenCheckService,
-              public toastr: ToastsManager,
-              public vcr: ViewContainerRef
+              public toastr: ToastrService
               ) {
 
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -105,9 +103,9 @@ export class FamsComponent implements OnInit {
 
                 this.loading['active'] = false
 
-                this.actualFams['Activos']    = res.data['actual']
-                this.actualFams['Inactivos']  = res.data['past']
-                this.colFams                  = res.data['cols']
+                this.actualFams['Activos']    = res['data']['actual']
+                this.actualFams['Inactivos']  = res['data']['past']
+                this.colFams                  = res['data']['cols']
               }, err => {
                 console.log("ERROR", err)
 
@@ -316,7 +314,7 @@ export class FamsComponent implements OnInit {
                 this.loading['deps'] = false
                 this.deps = []
 
-                for( let item of res.data ){
+                for( let item of res['data'] ){
                   let arr = { id: parseInt(item.id), name: item.name }
                   this.deps.push(arr)
                 }

@@ -33,7 +33,7 @@ export class PbxStatusComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['agents'] = false
-              let data = res.data
+              let data = res['data']
 
               let json = data[0].json.replace( /(?:u')+/gmu, "'" ).replace( /(?:&nbsp;)+/gmu, "" )
               let result = JSON.parse( JSON.stringify(eval("(" + json + ")")) )
@@ -65,11 +65,11 @@ export class PbxStatusComponent implements OnInit {
       this._api.restfulPut( params, 'Queuemetrics/pbxStatus' )
               .subscribe( res => {
 
-                let data = res.data
+                let data = res['data']
                 let info
                 let result = {}
                 this.loading['status'] = false
-                this.pauses = res.pausas
+                this.pauses = res['pausas']
 
                 for(let item in data){
                   this.data = this.parseJson( data[item]['json'] )

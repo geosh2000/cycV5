@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as Globals from '../globals';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map, catchError } from "rxjs/operators"
 
 @Injectable()
 export class AsesoresService {
@@ -10,7 +11,7 @@ export class AsesoresService {
   getCredUrl:string = `${ Globals.APISERV }/ng2/getCredential.php`;
   progHorariosGetAsesoresUrl:string = `${ Globals.APISERV }/ng2/json/progHorarios.php`;
 
-  constructor( private http:Http ) {
+  constructor( private http:HttpClient ) {
 
   }
 
@@ -24,14 +25,12 @@ export class AsesoresService {
     }
 
     let body = JSON.stringify( params );
-    let headers = new Headers({
-      // 'Content-Type':'application/json'
-    });
+    let headers = new HttpHeaders({ });
 
     return this.http.post( url, body, { headers } )
-      .map( res => {
-        return res.json();
-      })
+        .pipe(
+           map( res => { return res } )
+        )
 
   }
 
@@ -41,35 +40,27 @@ export class AsesoresService {
     }
 
     let body = JSON.stringify( params );
-    let headers = new Headers({
-      // 'Content-Type':'application/json'
-    });
+    let headers = new HttpHeaders({ });
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let url = `${this.getCredUrl}?token=${currentUser.token}&usn=${currentUser.username}`
 
 
     return this.http.post( url, body, { headers } )
-      .map( res => {
-        return res.json()
-      })
+        .pipe(
+           map( res => { return res } )
+        )
 
   }
 
   progHorariosGetAsesores(){
 
-    // let body = JSON.stringify( params );
     let body = "";
-    let headers = new Headers({
-      // 'Content-Type':'application/json'
-    });
-
-    // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    // let url = `${this.getCredUrl}?token=${currentUser.token}&usn=${currentUser.username}`
+    let headers = new HttpHeaders({ });
 
     return this.http.post( this.progHorariosGetAsesoresUrl, body, { headers } )
-      .map( res => {
-        return res.json()
-      })
+        .pipe(
+           map( res => { return res } )
+        )
   }
 
 

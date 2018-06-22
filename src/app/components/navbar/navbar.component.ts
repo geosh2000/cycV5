@@ -15,7 +15,7 @@ export class NavbarComponent {
 
   @ViewChild(LogoutComponent) private _logout:LogoutComponent
 
-  menu:any[] = [];
+  menu:any;
   test:string="NavBar Component success";
   l2menu:any[];
   l2flag:boolean = false;

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -47,17 +47,15 @@ export class MonitorPausasComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -101,8 +99,8 @@ export class MonitorPausasComponent implements OnInit {
 
                 this.loading['Pauses'] = false
 
-                let data = res.data['data']
-                this.lu = res.data['lu']
+                let data = res['data']['data']
+                this.lu = res['data']['lu']
                 let result = this.processPauses(data)
 
                 this.dataPausas = result
@@ -156,7 +154,7 @@ export class MonitorPausasComponent implements OnInit {
     this._api.restfulGet( '', 'Pausemon/pauseTypes' )
               .subscribe( res => {
 
-                this.pauseTypes = res.data
+                this.pauseTypes = res['data']
 
               }, err => {
                 console.log("ERROR", err)
@@ -364,7 +362,7 @@ export class MonitorPausasComponent implements OnInit {
                 this.timerFlag = true
                 this.dataPausas[event.asesor]['loading'] = false
 
-                let data = res.data['data']
+                let data = res['data']['data']
                 let result = this.processPauses(data)
 
                 this.dataPausas[event.asesor] = result[event.asesor]

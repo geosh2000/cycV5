@@ -39,7 +39,7 @@ export class AusHistoricoComponent implements OnInit {
 
                 let result:Object = {}
 
-                for(let aus of res.data){
+                for(let aus of res['data']){
                   if( result[moment(aus.Inicio).format('YYYY')] ){
                     result[moment(aus.Inicio).format('YYYY')].push(aus)
                   }else{

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -33,7 +33,7 @@ export class RnComponent implements OnInit {
   constructor(
               private _api:ApiService,
               public _init:InitService,
-              public toastr: ToastsManager, vcr: ViewContainerRef) {
+              public toastr: ToastrService ) {
 
       this.currentUser = this._init.getUserInfo()
       this.showContents = this._init.checkCredential( this.mainCredential, true )
@@ -61,12 +61,12 @@ export class RnComponent implements OnInit {
     this._api.restfulPost( this.params, 'Venta/getRN' )
             .subscribe( res => {
 
-              console.log(res.data)
+              console.log(res['data'])
 
-              this.daily = this.processData( res.data.dates,'daily' )
-              this.total = this.processData( res.data.all,'total' )
+              this.daily = this.processData( res['data'].dates,'daily' )
+              this.total = this.processData( res['data'].all,'total' )
 
-              let lu = moment.tz(res.data.lu.LU, "America/Mexico_city")
+              let lu = moment.tz(res['data'].lu.LU, "America/Mexico_city")
               let luCUN = lu.clone().tz("America/Bogota")
 
               this.lu = luCUN.format("DD MMM 'YY kk:mm:ss")

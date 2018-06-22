@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -46,13 +46,11 @@ export class VentaPorAsesorComponent implements OnInit {
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 public sdConfig: NgbCarouselConfig) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
@@ -85,7 +83,7 @@ export class VentaPorAsesorComponent implements OnInit {
 
                 this.loading['deps'] = false
 
-                this.dataDeps = res.data
+                this.dataDeps = res['data']
 
               }, err => {
                 console.log("ERROR", err)
@@ -108,7 +106,7 @@ export class VentaPorAsesorComponent implements OnInit {
 
                 this.loading['sups'] = false
 
-                this.dataSups = res.data
+                this.dataSups = res['data']
 
               }, err => {
                 console.log("ERROR", err)
@@ -141,7 +139,7 @@ export class VentaPorAsesorComponent implements OnInit {
 
               this.loading['metas'] = false
 
-              this.dataMetas = res.data
+              this.dataMetas = res['data']
 
             }, err => {
 
@@ -169,7 +167,7 @@ export class VentaPorAsesorComponent implements OnInit {
               let asesores = {}
               let keys = []
 
-              for(let item of res.data){
+              for(let item of res['data']){
                 if( asesores[item.nombre] ){
                   asesores[item.nombre].push(item)
                 }else{

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -36,17 +36,15 @@ export class UploadCalidadComponent implements OnInit {
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -84,9 +82,9 @@ export class UploadCalidadComponent implements OnInit {
             .subscribe( res => {
 
               this.loading[load] = false
-              this.uploadFcr( process( res.data ), type )
+              this.uploadFcr( process( res['data'] ), type )
 
-              console.log(res.data)
+              console.log(res['data'])
 
             }, err => {
               console.log("ERROR", err)
@@ -170,9 +168,9 @@ export class UploadCalidadComponent implements OnInit {
             .subscribe( res => {
 
               this.loading[loader] = false
-              this.uploadResult = res.data
+              this.uploadResult = res['data']
               console.log(res)
-              this.toastr.success( `${res.data['UPL_OK']}: Exitosos`, `${res.data['Registros']} Registros` )
+              this.toastr.success( `${res['data']['UPL_OK']}: Exitosos`, `${res['data']['Registros']} Registros` )
 
             }, err => {
               console.log("ERROR", err)

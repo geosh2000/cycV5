@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { Title } from '@angular/platform-browser';
 
@@ -37,16 +37,14 @@ export class Ovirtual2018Component implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef) {
+                public toastr: ToastrService ) {
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -106,14 +104,14 @@ export class Ovirtual2018Component implements OnInit {
               .subscribe( res => {
 
                 this.loading['data'] = false
-                this.allData = this.buildData(res.data['all'])
-                this.lu = res.lu['LU']
+                this.allData = this.buildData(res['data']['all'])
+                this.lu = res['lu']['LU']
                 this.canalData = {}
                 this.loading['data'] = false
-                for(let canal in res.data['canal']){
-                  this.canalData[canal] = this.buildData(res.data['canal'][canal])
+                for(let canal in res['data']['canal']){
+                  this.canalData[canal] = this.buildData(res['data']['canal'][canal])
                 }
-                console.log(res.data)
+                console.log(res['data'])
                 console.log(this.canalData)
               }, err => {
                 console.log("ERROR", err)

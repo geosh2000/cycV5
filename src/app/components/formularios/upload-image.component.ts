@@ -75,7 +75,7 @@ export class UploadImageComponent implements OnChanges {
     this._api.restfulImgPost( formData, 'UploadImage/uploadImage' )
             .subscribe( res => {
 
-              if( !res.ERR ){
+              if( !res['ERR'] ){
                 jQuery("#formUploadImageComponent").modal('hide')
               }
 

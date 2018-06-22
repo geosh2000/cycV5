@@ -2,8 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, Input, Output, EventEmitter,Vi
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-
-import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 declare var jQuery:any;
 
@@ -35,11 +34,8 @@ export class ChangeSupervisorComponent implements OnInit {
                 private _api:ApiService,
                 private route:Router,
                 private _init:InitService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public toastr: ToastrService
                 ) {
-
-      this.toastr.setRootViewContainerRef(vcr)
 
       this.currentUser = this._init.getUserInfo()
       this.showContents = this._init.checkCredential( this.mainCredential, true )

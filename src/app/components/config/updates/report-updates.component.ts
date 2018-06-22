@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -42,17 +42,15 @@ export class ReportUpdatesComponent implements OnInit {
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -75,7 +73,7 @@ export class ReportUpdatesComponent implements OnInit {
               this.errLoading['reports'] = false
               this.loading['reports'] = false
 
-              this.reports= res.data
+              this.reports= res['data']
             }, err => {
 
               if(err){
@@ -97,7 +95,7 @@ export class ReportUpdatesComponent implements OnInit {
     this._api.restfulGet( id,`Procesos/${report}` )
             .subscribe( res => {
               this.loading[id] = false
-              this.toastr.success(res.msg, 'Success!')
+              this.toastr.success(res['msg'], 'Success!')
               this.getReports()
             }, err => {
 
@@ -167,7 +165,7 @@ export class ReportUpdatesComponent implements OnInit {
     this._api.restfulGet( name, 'Procesos/uplCalls' )
               .subscribe( res => {
 
-                this.uplData[name] = res.data
+                this.uplData[name] = res['data']
 
                 if( name == 'ans' ){
                   this.processApi( 'unans' )

@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -51,18 +51,16 @@ export class CuartilesComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public toastr: ToastrService
                 ) {
 
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -99,7 +97,7 @@ export class CuartilesComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['pcrcs'] = false
-              this.pcrcList = res.data
+              this.pcrcList = res['data']
 
 
             }, err => {
@@ -121,9 +119,9 @@ export class CuartilesComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['cuartiles'] = false
-              this.cData = res.data
-              this.allData = res.meta['raw']
-              this.build(res.data, res.meta['avgSes'])
+              this.cData = res['data']
+              this.allData = res['meta']['raw']
+              this.build(res['data'], res['meta']['avgSes'])
 
             }, err => {
               console.log("ERROR", err)

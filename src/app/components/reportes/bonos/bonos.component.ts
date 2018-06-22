@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -48,18 +48,15 @@ export class BonosComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public toastr: ToastrService
                 ) {
-
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -83,14 +80,14 @@ export class BonosComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['bonos'] = false
-              this.bonosData = res.data['resultado']
-              this.detalleData = res.data['detalle']
-              this.paramsData = res.params['params']
-              this.metasData = res.params['metas']
-              this.depsData = res.params['deps']
-              this.paramsDataAsk = res.params['searchedParams']
+              this.bonosData = res['data']['resultado']
+              this.detalleData = res['data']['detalle']
+              this.paramsData = res['params']['params']
+              this.metasData = res['params']['metas']
+              this.depsData = res['params']['deps']
+              this.paramsDataAsk = res['params']['searchedParams']
 
-              this.sumAll(res.data['resultado'])
+              this.sumAll(res['data']['resultado'])
 
               console.log(res)
             }, err => {

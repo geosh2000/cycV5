@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as moment from 'moment';
@@ -39,12 +39,10 @@ export class CxcAdminComponent implements OnInit {
                 public _dateRangeOptions: DaterangepickerConfig,
                 public _api:ApiService,
                 private _init:InitService,
-                public toastr: ToastsManager, vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 public route:Router,
                 public activatedRoute:ActivatedRoute
                 ){
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
@@ -137,8 +135,8 @@ export class CxcAdminComponent implements OnInit {
 
     this._api.restfulPut( { col: col, status: status }, 'Cxc/chgStatus' )
             .subscribe( res => {
-              if(res.ERR){
-                this.toastr.error( res.msg, 'Error!' )
+              if(res['ERR']){
+                this.toastr.error( res['msg'], 'Error!' )
               }else{
                 this.getCortes()
               }

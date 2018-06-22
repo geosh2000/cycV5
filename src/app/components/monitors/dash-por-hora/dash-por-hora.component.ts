@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 
 import * as moment from 'moment-timezone';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
 import { TokenCheckService } from '../../../services/token-check.service';
@@ -88,16 +88,14 @@ export class DashPorHoraComponent implements AfterViewInit {
                 private titleService: Title,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef) {
+                public toastr: ToastrService) {
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -297,10 +295,10 @@ export class DashPorHoraComponent implements AfterViewInit {
             .subscribe( res => {
 
               this.loading['data'] = false
-              this.lu = moment(res.lu['lu']).format("DD MMM 'YY HH:mm:ss")
-              this.buildData( res.data )
+              this.lu = moment(res['lu']['lu']).format("DD MMM 'YY HH:mm:ss")
+              this.buildData( res['data'] )
               this.timerCount = this.timeToReload
-              console.log(res.data)
+              console.log(res['data'])
 
             }, err => {
               console.log("ERROR", err)

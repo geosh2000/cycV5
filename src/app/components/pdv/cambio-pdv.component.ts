@@ -4,7 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { InitService } from '../../services/init.service';
 
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 
 import * as Globals from '../../globals';
@@ -79,12 +79,10 @@ export class CambioPdvComponent implements OnInit {
               private _api:ApiService,
               private _init:InitService,
               private completerService:CompleterService,
-              public toastr: ToastsManager, vcr: ViewContainerRef) {
+              public toastr: ToastrService) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this._dateRangeOptions.settings = {
       autoUpdateInput: false,

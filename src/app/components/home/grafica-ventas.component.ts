@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef, Input, SimpleChanges } from '@angular/core';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../services/api.service';
 import { TokenCheckService } from '../../services/token-check.service';
@@ -29,9 +29,7 @@ export class GraficaVentasComponent implements OnInit {
 
   constructor(public _api: ApiService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
-
-    this.toastr.setRootViewContainerRef(vcr);
+                public toastr: ToastrService ) {
 
     this.options = {
                     chart:{
@@ -140,7 +138,7 @@ export class GraficaVentasComponent implements OnInit {
               let dataCat   = this.generateDates()
               let dataObj   = {}
 
-              for(let item of res.data){
+              for(let item of res['data']){
                 dataObj[item.fecha] = {}
 
                 for( let index in item ){

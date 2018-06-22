@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, Injectable } from '@angular/core';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -40,17 +40,16 @@ export class CambioLocalizadorAsesorComponent implements OnInit {
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -118,7 +117,7 @@ export class CambioLocalizadorAsesorComponent implements OnInit {
                 this.updateGrafs()
 
 
-                this.toastr.success( "Guardado" , res.msg )
+                this.toastr.success( "Guardado" , res['msg'] )
                 this.reset()
 
               }, err => {
@@ -139,7 +138,7 @@ export class CambioLocalizadorAsesorComponent implements OnInit {
             .subscribe( res => {
               this.loading['updateGr'] = false
 
-              this.toastr.success( "Gráficas Actualizadas" , res.msg )
+              this.toastr.success( "Gráficas Actualizadas" , res['msg'] )
               this.updateMon()
 
             }, err => {
@@ -160,7 +159,7 @@ export class CambioLocalizadorAsesorComponent implements OnInit {
             .subscribe( res => {
               this.loading['updateMon'] = false
 
-              this.toastr.success( "Monitor Actualizado" , res.msg )
+              this.toastr.success( "Monitor Actualizado" , res['msg'] )
 
             }, err => {
               console.log("ERROR", err)

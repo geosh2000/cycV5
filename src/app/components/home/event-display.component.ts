@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, Input, SimpleChanges } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../services/api.service';
 
@@ -24,9 +24,7 @@ export class EventDisplayComponent implements OnInit {
   subsLoading:boolean = false
 
   constructor( private _api:ApiService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
-
-      this.toastr.setRootViewContainerRef(vcr);
+                public toastr: ToastrService ) {
 
       this.getData()
 
@@ -50,16 +48,16 @@ export class EventDisplayComponent implements OnInit {
               this.loadingFams = false
               this.reLoadingFams = false
 
-              this.famsData = res.data
+              this.famsData = res['data']
 
               let i = 0
-              for( let item of res.data ){
+              for( let item of res['data'] ){
                 this.idIndex[item.id] = i
                 i++
               }
 
-              if( res.rows > 0 ){
-                this.tabView( res.data[0].id )
+              if( res['rows'] > 0 ){
+                this.tabView( res['data'][0].id )
               }
 
             }, err => {

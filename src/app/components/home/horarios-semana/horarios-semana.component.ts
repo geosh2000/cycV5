@@ -32,12 +32,12 @@ export class HorariosSemanaComponent implements OnInit {
     this._api.restfulGet( this.asesor, 'Asistencia/horarioAsesor' )
             .subscribe( res => {
               this.loading['horarios'] = false
-              this.horariosData = res.data
-              console.log(res.data)
+              this.horariosData = res['data']
+              console.log(res['data'])
 
               this.datesData = []
 
-              if( res.comida == 0 ){
+              if( res['comida'] == 0 ){
                   this.comida = false
               }
 

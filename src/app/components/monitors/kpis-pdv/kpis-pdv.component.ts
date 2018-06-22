@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import * as moment from 'moment-timezone';
 import { OrderPipe } from 'ngx-order-pipe';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
 import { TokenCheckService } from '../../../services/token-check.service';
@@ -76,16 +76,14 @@ export class KpisPdvComponent implements OnInit {
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 private orderPipe: OrderPipe,
-                public toastr: ToastsManager, vcr: ViewContainerRef) {
+                public toastr: ToastrService ) {
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -172,7 +170,7 @@ export class KpisPdvComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['venta'] = false
-              this.lu = moment.tz(res.lu, 'America/Mexico_city').tz('America/Bogota').format('DD MMM \'YY HH:mm:ss')
+              this.lu = moment.tz(res['lu'], 'America/Mexico_city').tz('America/Bogota').format('DD MMM \'YY HH:mm:ss')
 
               let fechas = {
                 [this.dateSelected] : 'td',
@@ -183,7 +181,7 @@ export class KpisPdvComponent implements OnInit {
               let data = {}
               let x=0
 
-              for(let gpo of this.orderPipe.transform(this.orderPipe.transform(res.data['locs'], 'gpoTipoRsvaOk'), 'gpoCanalKpiOK')){
+              for(let gpo of this.orderPipe.transform(this.orderPipe.transform(res['data']['locs'], 'gpoTipoRsvaOk'), 'gpoCanalKpiOK')){
 
                 let gpoName = gpo['gpoTipoRsvaOk']
 
@@ -246,7 +244,7 @@ export class KpisPdvComponent implements OnInit {
               // END SUMARIZADO POR GPO PRINCIPAL
               // =======================================================
 
-              for( let gpo of res.data['servicios'] ){
+              for( let gpo of res['data']['servicios'] ){
                 let gpoName = gpo['gpoTipoRsvaOk'] == 'Presencial' ? 'PDV' : gpo['gpoTipoRsvaOk']
                 gpoName = gpoName == 'In' ? 'CC-In' : gpoName
                 gpoName = gpoName == 'Out' ? 'CC-Out' : gpoName
@@ -397,7 +395,7 @@ export class KpisPdvComponent implements OnInit {
               }
               let data = {}
 
-              for(let gpo of res.data){
+              for(let gpo of res['data']){
 
                 let gpoName = 'CC-In'
 

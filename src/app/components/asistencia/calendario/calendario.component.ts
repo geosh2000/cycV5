@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -39,17 +39,15 @@ export class CalendarioComponent implements OnInit {
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -112,7 +110,7 @@ export class CalendarioComponent implements OnInit {
 
                 console.log( res )
 
-                for( let item of res.data['aus'] ){
+                for( let item of res['data']['aus'] ){
 
                   this.ucCalendar.fullCalendar( 'renderEvent', this.eventFormat( item ) );
                   // this.dataOK.push(this.eventFormat( item ))
@@ -130,7 +128,7 @@ export class CalendarioComponent implements OnInit {
                   }
                 }
 
-                for( let item of res.data['q'] ){
+                for( let item of res['data']['q'] ){
                   calendarSpace[item.Fecha] = item
                 }
 
@@ -243,7 +241,7 @@ export class CalendarioComponent implements OnInit {
     this._api.restfulGet( '','Headcount/departamentos' )
               .subscribe( res => {
 
-                this.deps = res.data
+                this.deps = res['data']
 
                 console.log( res )
 

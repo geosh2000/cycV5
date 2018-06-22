@@ -3,6 +3,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
+## v2.4.0
+
+* Angular 6
+* NPM update
+
 ## v2.3.0
 
 ### Ausentismos

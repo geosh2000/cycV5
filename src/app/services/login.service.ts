@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { ApiService } from './api.service';
 
@@ -17,11 +17,11 @@ export class LoginService {
         localStorage.setItem(
           'currentUser',
           JSON.stringify({
-                          token: res.token,
-                          tokenExpire: res.tokenExpire,
-                          username: res.username,
-                          hcInfo: res.hcInfo,
-                          credentials: res.credentials
+                          token: res['token'],
+                          tokenExpire: res['tokenExpire'],
+                          username: res['username'],
+                          hcInfo: res['hcInfo'],
+                          credentials: res['credentials']
                         })
         );
 

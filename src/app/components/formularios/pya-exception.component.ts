@@ -81,7 +81,7 @@ export class PyaExceptionComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['types'] = false
-                this.types = res.data
+                this.types = res['data']
 
               }, err => {
                 console.log("ERROR", err)
@@ -108,21 +108,21 @@ export class PyaExceptionComponent implements OnInit {
 
                 this.loading['existent'] = false
 
-                if( res.exc > 0 ){
-                  this.existent = res.data
+                if( res['exc'] > 0 ){
+                  this.existent = res['data']
 
-                  if( res.exc == 1 ){
+                  if( res['exc'] == 1 ){
                     this.showAllTypes = true
                     this.tipo = true
                   }else{
                     this.tipo = false
                   }
 
-                  this.tipoExc = res.data['tipo']
-                  this.caso = res.data['caso']
-                  this.notas = res.data['Nota']
-                  this.changed = res.data['changed']
-                  this.lu = res.data['Last_Update']
+                  this.tipoExc = res['data']['tipo']
+                  this.caso = res['data']['caso']
+                  this.notas = res['data']['Nota']
+                  this.changed = res['data']['changed']
+                  this.lu = res['data']['Last_Update']
 
                   this.getTypes( this.tipo )
 

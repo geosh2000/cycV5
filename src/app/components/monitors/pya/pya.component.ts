@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewContainerRef, ViewChild, Injectable, NgZone, AfterViewInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { NgbDateStruct, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 import { ApiService } from '../../../services/api.service';
@@ -86,19 +86,17 @@ export class PyaComponent implements OnInit {
                 private _init:InitService,
                 private titleService:Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef,
+                public toastr: ToastrService,
                 private zone: NgZone,
                 private route: ActivatedRoute ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -158,10 +156,10 @@ export class PyaComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['schedules'] = false
-              this.dataSchedules = res.data
-              this.rawSchedules = res.data
+              this.dataSchedules = res['data']
+              this.rawSchedules = res['data']
 
-              this.buildSchedules( res.data, true, () => {
+              this.buildSchedules( res['data'], true, () => {
                 this.getLogs()
                 this.loopCount = 15
                 this.timeCount = 60
@@ -293,18 +291,18 @@ export class PyaComponent implements OnInit {
                 fdh: []
               }
 
-              for( let item in res.data ){
-                let it = res.data[item]
+              for( let item in res['data'] ){
+                let it = res['data'][item]
                 this.isInside( it.login, it.logout, it.asesor )
 
-                if( this.asesorLogs[res.data[item]['asesor']] ){
-                  this.asesorLogs[res.data[item]['asesor']].push({ login: res.data[item]['login'], logout: res.data[item]['logout']})
+                if( this.asesorLogs[res['data'][item]['asesor']] ){
+                  this.asesorLogs[res['data'][item]['asesor']].push({ login: res['data'][item]['login'], logout: res['data'][item]['logout']})
                 }else{
-                  this.asesorLogs[res.data[item]['asesor']] = [{ login: res.data[item]['login'], logout: res.data[item]['logout']}]
+                  this.asesorLogs[res['data'][item]['asesor']] = [{ login: res['data'][item]['login'], logout: res['data'][item]['logout']}]
                 }
               }
 
-              this.lu = res.lu['lu']
+              this.lu = res['lu']['lu']
 
               this.getExceptions()
 
@@ -334,7 +332,7 @@ export class PyaComponent implements OnInit {
 
               this.loading['logs'] = false
 
-              // console.log("Excep", res.data)
+              // console.log("Excep", res['data'])
 
               this.dataExceptions = {}
               this.rets = {
@@ -345,7 +343,7 @@ export class PyaComponent implements OnInit {
                 fdh: []
               }
 
-              for( let item of res.data ){
+              for( let item of res['data'] ){
                 this.dataExceptions[item.asesor] = item
               }
 

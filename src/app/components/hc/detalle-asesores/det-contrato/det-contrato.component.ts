@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, ViewContainerRef, ViewChild } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 
 import { ApiService } from '../../../../services/api.service';
@@ -27,10 +27,8 @@ export class DetContratoComponent implements OnChanges {
   solicitudes:any
 
   constructor(public _api: ApiService,
-              public toastr: ToastsManager, vcr: ViewContainerRef,
+              public toastr: ToastrService,
               private _init:InitService) {
-
-    this.toastr.setRootViewContainerRef(vcr);
 
     this.getData()
   }
@@ -46,9 +44,9 @@ export class DetContratoComponent implements OnChanges {
               .subscribe( res => {
 
                 this.loading['data'] = false
-                this.data = res.data['actual']
-                this.contratos = res.data['contratos']
-                this.solicitudes = res.pendientes
+                this.data = res['data']['actual']
+                this.contratos = res['data']['contratos']
+                this.solicitudes = res['pendientes']
 
               }, err => {
                 console.log("ERROR", err)

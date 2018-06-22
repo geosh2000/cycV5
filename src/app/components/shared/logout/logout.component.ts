@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
@@ -26,11 +26,9 @@ export class LogoutComponent implements OnInit {
                 private _api:ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager,
-                public vcr: ViewContainerRef
+                public toastr: ToastrService
                 ) {
 
-    this.toastr.setRootViewContainerRef(vcr)
     this.currentUser = this._init.getUserInfo()
     moment.locale('es-MX')
 
@@ -56,7 +54,7 @@ export class LogoutComponent implements OnInit {
 
           this.loading['horarios'] = false
           jQuery('#logOutModal').modal('show')
-          this.hData = res.data
+          this.hData = res['data']
 
         }, err => {
           console.log("ERROR", err)

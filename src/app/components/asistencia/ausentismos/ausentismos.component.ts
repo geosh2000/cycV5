@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, Injectable } from '@angular/core';
-
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../services/api.service';
 import { InitService } from '../../../services/init.service';
@@ -71,17 +70,15 @@ export class AusentismosComponent implements OnInit {
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -120,7 +117,7 @@ export class AusentismosComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['tipos'] = false
-              this.dataTipos = res.data
+              this.dataTipos = res['data']
 
               console.log(this.dataTipos)
 
@@ -224,7 +221,7 @@ export class AusentismosComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['config'] = false
-              if( res.data == 0 ){
+              if( res['data'] == 0 ){
                 this.configShow = true
                 this.autoFill()
               }else{
@@ -365,7 +362,7 @@ export class AusentismosComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['save'] = false
-                if( res.data ){
+                if( res['data'] ){
                   this.xld( false )
                   this.toastr.success( "Ausentismo guardado Correctamente", `Guardado` )
                 }else{
@@ -392,15 +389,15 @@ export class AusentismosComponent implements OnInit {
 
               this.loading['pendientes'] = false
 
-              if( parseInt(res.data.disponibles) > 0 ){
-                this.diasPendientes = parseInt(res.data.disponibles)
+              if( parseInt(res['data'].disponibles) > 0 ){
+                this.diasPendientes = parseInt(res['data'].disponibles)
                 this.chgType(0, 'pendiente', 'Descanso Pendiente')
               }else{
                 this.toastr.error( "Este asesor no cuenta con días pendientes por redimir o no alcanza los suficientes para cubrir 1 día", `Sin Pendientes` )
                 this.index['aus'] = null
               }
 
-              // console.log(res.data)
+              // console.log(res['data'])
 
             }, err => {
               console.log("ERROR", err)

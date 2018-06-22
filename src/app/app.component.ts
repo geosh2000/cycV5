@@ -1,5 +1,5 @@
 import {Component, ViewContainerRef} from '@angular/core';
-import {ToastsManager} from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -22,13 +22,7 @@ export class AppComponent {
   public constructor(
           private router: Router, private titleService: Title,
           private _global: GlobalServicesService,
-          public toastr: ToastsManager,
-          viewContainerRef: ViewContainerRef) {
-    this.viewContainerRef = viewContainerRef;
-
-    this.toastr.setRootViewContainerRef(viewContainerRef);
-
-  }
+          public toastr: ToastrService) {  }
 
   displayMonitor( flag ){
     this.display['navbar'] = !flag

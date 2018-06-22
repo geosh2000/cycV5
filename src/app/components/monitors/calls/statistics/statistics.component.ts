@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, Injectable } from '@angular/core';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 
 import { ApiService } from '../../../../services/api.service';
@@ -100,17 +100,15 @@ export class StatisticsComponent implements OnInit {
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
                 private completerService:CompleterService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -154,7 +152,7 @@ export class StatisticsComponent implements OnInit {
     this._api.restfulGet( '', 'VentaMonitor/inDeps')
               .subscribe( res => {
                 this.skills = {}
-                for( let skill of res.data ){
+                for( let skill of res['data'] ){
                   this.skills[skill['skill']]= {Dep: skill['Departamento']}
                 }
 
@@ -205,7 +203,7 @@ export class StatisticsComponent implements OnInit {
                   ofrecidas: 0
                 }
 
-                for( let call of res.data ){
+                for( let call of res['data'] ){
 
                   this.total['ofrecidas'] += parseInt(call['calls'])
 
@@ -238,7 +236,7 @@ export class StatisticsComponent implements OnInit {
                   }
                 }
 
-                for( let call of res.forecast ){
+                for( let call of res['forecast'] ){
 
                   this.total['forecast'] += parseInt(call['calls'])
 
@@ -279,7 +277,7 @@ export class StatisticsComponent implements OnInit {
 
                 console.log(this.data)
                 this.date = this.dateSelected
-                // this.lu = moment.tz(res.lu, "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
+                // this.lu = moment.tz(res['lu'], "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
 
                 this.reload = false
 
@@ -340,7 +338,7 @@ export class StatisticsComponent implements OnInit {
                     break
                 }
 
-                for( let h of res.data ){
+                for( let h of res['data'] ){
                   this.dataH[group]['data'].push([parseInt(this.unixTime(moment(h['H']).add(d, 'days').format('YYYY-MM-DD HH:mm:ss'))), parseInt(h['calls'])])
                 }
 

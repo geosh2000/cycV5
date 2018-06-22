@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../services/api.service';
 import { InitService } from '../../services/init.service';
@@ -37,17 +37,15 @@ export class UploadLogsPdvComponent implements OnInit {
   constructor(public _api: ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastsManager, vcr: ViewContainerRef ) {
+                public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-    this.toastr.setRootViewContainerRef(vcr);
-
     this._tokenCheck.getTokenStatus()
         .subscribe( res => {
 
-          if( res.status ){
+          if( res['status'] ){
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
@@ -73,11 +71,11 @@ export class UploadLogsPdvComponent implements OnInit {
             .subscribe( res => {
 
               this.loading[load] = false
-              // this.uploadFcr( process( res.data ), type )
-              this.uploadLogs(this.logsProcess( res.data ))
+              // this.uploadFcr( process( res['data'] ), type )
+              this.uploadLogs(this.logsProcess( res['data'] ))
 
 
-              console.log(res.data)
+              console.log(res['data'])
 
             }, err => {
               console.log("ERROR", err)
@@ -168,14 +166,14 @@ export class UploadLogsPdvComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['uploadLogs'] = false
-              let result = res.data
+              let result = res['data']
 
               if( result['error'] > 0 ){
                 this.toastr.error( `Error en ${result['error']} registros`, `Error` )
               }else{
                 this.toastr.success( `${result['ok']}  registros cargados`, `Guardado` )
               }
-              console.log(res.data)
+              console.log(res['data'])
 
             }, err => {
               console.log("ERROR", err)
@@ -197,9 +195,9 @@ export class UploadLogsPdvComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['pdvList'] = false
-              this.pdvListData = res.data
+              this.pdvListData = res['data']
 
-              console.log(res.data)
+              console.log(res['data'])
 
             }, err => {
               console.log("ERROR", err)
