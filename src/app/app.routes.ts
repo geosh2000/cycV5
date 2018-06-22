@@ -170,7 +170,7 @@ const APP_ROUTES: Routes = [
   { path: 'polls/resultadosMundial2018', component: ResultadosMundialComponent },
 
 
-  { path: '**', pathMatch: 'full', redirectTo: 'notFound' }
+  { path: '**', component: NotFoundComponent }
 ];
 
 export const APP_ROUTING = RouterModule.forRoot(APP_ROUTES, {useHash: true});
