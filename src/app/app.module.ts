@@ -166,6 +166,8 @@ import { StepsComponent } from './addon/steps/steps.component';
 import { HeadcountComponent } from './components/hc/headcount.component';
 import { QuinielaComponent } from './components/mundial/quiniela/quiniela.component';
 import { ResultadosMundialComponent } from './components/mundial/resultados-mundial/resultados-mundial.component';
+import { AfiliadosComponent } from './mainPages/afiliados.component';
+import { MainContentComponent } from './mainPages/main-content.component';
 
 
 declare let jQuery : Object;
@@ -322,6 +324,8 @@ registerLocaleData(localeEsMX)
     HeadcountComponent,
     QuinielaComponent,
     ResultadosMundialComponent,
+    AfiliadosComponent,
+    MainContentComponent,
   ],
   imports: [
     BrowserModule,
