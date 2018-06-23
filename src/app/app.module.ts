@@ -6,7 +6,6 @@ import { Daterangepicker } from 'ng2-daterangepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-// import { Ng2TableViewModule } from 'NG2TableView';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PopoverModule } from 'ngx-popover';
 import localeEsMX from '@angular/common/locales/es-MX'
@@ -21,7 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 
 
-//services
+// services
 import { NavbarService } from './services/navbar.service';
 import { AsesoresService } from './services/asesores.service';
 import { LoginService } from './services/login.service';
@@ -31,7 +30,7 @@ import { ApiService } from './services/api.service';
 import { InitService } from './services/init.service';
 import { GlobalServicesService } from './services/global-services.service';
 
-//pipes
+// pipes
 import { KeysPipe } from './pipes/keys.pipe';
 import { CapitalizadoPipe } from './pipes/capitalizado.pipe';
 
@@ -40,14 +39,10 @@ import { AppComponent } from './app.component';
 import { NgSwitchComponent } from './components/ng-switch/ng-switch.component';
 import { Ng2CompleterModule } from 'ng2-completer';
 import { HomeComponent } from './components/home/home.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-// import { DetailAsesorComponent } from './components/detail-asesor/detail-asesor.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { LoginComponent } from './components/shared/login/login.component';
 import { CambioPuestoComponent } from './components/formularios/cambio-puesto.component';
 import { ForecastProgramacionComponent } from './components/forecast-programacion/forecast-programacion.component';
 import { VacantesComponent } from './components/hc/vacantes.component';
-// import { ShowDetailAsesorComponent } from './components/detail-asesor/show-detail-asesor.component';
 import { EditDetailsComponent } from './components/formularios/edit-details.component';
 import { SetBajaComponent } from './components/formularios/set-baja.component';
 import { AgregarCxcComponent } from './components/formularios/agregar-cxc.component';
@@ -84,12 +79,9 @@ import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component
 import { CorteComponent } from './components/reportes/cxc/corte.component';
 import { NoAcentosPipe } from './pipes/no-acentos.pipe';
 import { UploadImageComponent } from './components/formularios/upload-image.component';
-import { TableTemplateComponent } from './addon/table-template/table-template.component';
 import { ReingresoAsesorComponent } from './components/formularios/reingreso-asesor.component';
 import { HxConfigComponent } from './components/config/horarios/hx-config.component';
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
-import { CumplimientoComponent } from './addon/progress/cumplimiento/cumplimiento.component';
-import { AsistenciaBadgeComponent } from './addon/buttons/asistencia-badge/asistencia-badge.component';
 import { QueuesComponent } from './components/monitors/queues/queues.component';
 import { CallsProcesedComponent } from './components/monitors/queues/components/calls-procesed.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
@@ -105,21 +97,18 @@ import { AleatoriedadComponent } from './components/reportes/calidad/aleatorieda
 import { PrenominaComponent } from './components/rrhh/prenomina/prenomina.component';
 import { AusentismosComponent } from './components/asistencia/ausentismos/ausentismos.component';
 import { VentaPorAsesorComponent } from './components/monitors/venta-por-asesor/venta-por-asesor.component';
+// tslint:disable-next-line:max-line-length
 import { CardAsesorEstadisticaComponent } from './components/monitors/venta-por-asesor/card-asesor-estadistica/card-asesor-estadistica.component';
 import { ParticipacionComponent } from './components/monitors/ivr/participacion.component';
 import { PathSelectComponent } from './components/monitors/ivr/path-select/path-select.component';
 import { PyaExceptionComponent } from './components/formularios/pya-exception.component';
 import { PyaCardsComponent } from './components/monitors/pya/pya-cards/pya-cards.component';
-import { PuntualidadBadgeComponent } from './addon/buttons/puntualidad-badge/puntualidad-badge.component';
-import { SaBadgeComponent } from './addon/buttons/sa-badge/sa-badge.component';
 import { HorariosSemanaComponent } from './components/home/horarios-semana/horarios-semana.component';
 import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
-import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
 import { MonitorPausasComponent } from './components/monitors/monitor-pausas/monitor-pausas.component';
 import { PausaAsesorComponent } from './components/monitors/monitor-pausas/pausa-asesor/pausa-asesor.component';
 import { PauseDetailComponent } from './components/monitors/monitor-pausas/pause-detail/pause-detail.component';
 import { CambioLocalizadorAsesorComponent } from './components/config/cambio-localizador-asesor/cambio-localizador-asesor.component';
-import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.component';
 import { QueuesV2Component } from './components/monitors/queues-v2/queues-v2.component';
 import { CbpComponent } from './components/monitors/queues-v2/cbp/cbp.component';
 import { DashPorHoraComponent } from './components/monitors/dash-por-hora/dash-por-hora.component';
@@ -129,22 +118,15 @@ import { KpisComponent } from './components/monitors/kpis/kpis.component';
 import { TablesorterComponent } from './plugins/tablesorter/tablesorter.component';
 import { KpisDetailComponent } from './components/monitors/kpis/kpis-detail/kpis-detail.component';
 import { AsesoresFotosComponent } from './components/config/asesores-fotos/asesores-fotos.component';
-import { CountdownComponent } from './addon/countdown/countdown.component';
 import { SlaComponent } from './components/monitors/sla/sla.component';
-import { CountdownMetaComponent } from './addon/countdown-meta/countdown-meta.component';
-import { CsvComponent } from './addon/upload/csv/csv.component';
 import { UploadCalidadComponent } from './components/config/upload-calidad/upload-calidad.component';
 import { BonosComponent } from './components/reportes/bonos/bonos.component';
 import { TablafComponent } from './components/reportes/tablaf/tablaf.component';
 import { MpMxComponent } from './components/reportes/tablaf/mp-mx/mp-mx.component';
-import { ExtraSwitchComponent } from './addon/buttons/extra-switch/extra-switch.component';
-import { BonoApproveComponent } from './addon/buttons/bono-approve/bono-approve.component';
 import { SoporteMxComponent } from './components/reportes/tablaf/soporte-mx/soporte-mx.component';
 import { TablafSoporteComponent } from './components/reportes/tablaf/tablaf-soporte.component';
 import { UploadLogsPdvComponent } from './components/config/upload-logs-pdv.component';
-import { AsesorFilterComponent } from './addon/filters/asesor-filter/asesor-filter.component';
 import { SetHorariosComponent } from './components/config/set-horarios/set-horarios.component';
-import { LogoutComponent } from './components/shared/logout/logout.component';
 import { OutletComponent } from './components/formularios/outlet/outlet.component';
 import { DbOutletComponent } from './components/formularios/outlet/db/db-outlet.component';
 import { ProReportComponent } from './components/reportes/pro-report/pro-report.component';
@@ -166,20 +148,22 @@ import { StepsComponent } from './addon/steps/steps.component';
 import { HeadcountComponent } from './components/hc/headcount.component';
 import { QuinielaComponent } from './components/mundial/quiniela/quiniela.component';
 import { ResultadosMundialComponent } from './components/mundial/resultados-mundial/resultados-mundial.component';
-import { AfiliadosComponent } from './mainPages/afiliados.component';
+import { AfiliadosComponent } from './affiliatePages/afiliados.component';
 import { MainContentComponent } from './mainPages/main-content.component';
+import { MainPages } from './mainPages/main-pages.module';
+import { SharedModule } from './shared/shared.module';
 
 
-declare let jQuery : Object;
+declare let jQuery: Object;
 
 declare var require: any;
 
 export function highchartsFactory() {
-    var hc = require('highcharts');
-    var hcm = require('highcharts/highcharts-more');
-    var exp = require('highcharts/modules/exporting');
-    var sg = require('highcharts/modules/solid-gauge');
-    var sank = require('highcharts/modules/sankey');
+    let hc = require('highcharts');
+    let hcm = require('highcharts/highcharts-more');
+    let exp = require('highcharts/modules/exporting');
+    let sg = require('highcharts/modules/solid-gauge');
+    let sank = require('highcharts/modules/sankey');
 
     hcm(hc);
     exp(hc);
@@ -196,16 +180,10 @@ registerLocaleData(localeEsMX)
     AppComponent,
     NgSwitchComponent,
     HomeComponent,
-    KeysPipe,
-    CapitalizadoPipe,
-    NavbarComponent,
-    // DetailAsesorComponent,
     NotFoundComponent,
-    LoginComponent,
     CambioPuestoComponent,
     ForecastProgramacionComponent,
     VacantesComponent,
-    // ShowDetailAsesorComponent,
     EditDetailsComponent,
     SetBajaComponent,
     AgregarCxcComponent,
@@ -242,12 +220,9 @@ registerLocaleData(localeEsMX)
     CorteComponent,
     NoAcentosPipe,
     UploadImageComponent,
-    TableTemplateComponent,
     ReingresoAsesorComponent,
     HxConfigComponent,
     VentaPorCanalComponent,
-    CumplimientoComponent,
-    AsistenciaBadgeComponent,
     QueuesComponent,
     CallsProcesedComponent,
     RnComponent,
@@ -268,16 +243,12 @@ registerLocaleData(localeEsMX)
     PathSelectComponent,
     PyaExceptionComponent,
     PyaCardsComponent,
-    PuntualidadBadgeComponent,
-    SaBadgeComponent,
     HorariosSemanaComponent,
     AusHistoricoComponent,
-    PbxStatusComponent,
     MonitorPausasComponent,
     PausaAsesorComponent,
     PauseDetailComponent,
     CambioLocalizadorAsesorComponent,
-    SearchAsesorComponent,
     QueuesV2Component,
     CbpComponent,
     DashPorHoraComponent,
@@ -287,22 +258,15 @@ registerLocaleData(localeEsMX)
     TablesorterComponent,
     KpisDetailComponent,
     AsesoresFotosComponent,
-    CountdownComponent,
     SlaComponent,
-    CountdownMetaComponent,
-    CsvComponent,
     UploadCalidadComponent,
     BonosComponent,
     TablafComponent,
     MpMxComponent,
-    ExtraSwitchComponent,
-    BonoApproveComponent,
     SoporteMxComponent,
     TablafSoporteComponent,
     UploadLogsPdvComponent,
-    AsesorFilterComponent,
     SetHorariosComponent,
-    LogoutComponent,
     OutletComponent,
     DbOutletComponent,
     ProReportComponent,
@@ -329,33 +293,34 @@ registerLocaleData(localeEsMX)
   ],
   imports: [
     BrowserModule,
+    CommonModule,
+    
+    MainPages,
+    SharedModule,
+
     BrowserAnimationsModule,
-    Ng2CompleterModule,
-    FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
     APP_ROUTING,
     Daterangepicker,
-    CommonModule,
     Ng2SmartTableModule,
     FileUploadModule,
-    PopoverModule,
+    ChartModule,
+    FullCalendarModule,
+    ToastrModule.forRoot(),
+    Ng2CompleterModule,
+    FormsModule,
+    ReactiveFormsModule,
     UiSwitchModule,
     NgbModule.forRoot(),
     OrderModule,
-    ChartModule,
     MultiselectDropdownModule,
-    FullCalendarModule,
-    ToastrModule.forRoot(),
-    // Ng2TableViewModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: "Es-MX" },
+    { provide: LOCALE_ID, useValue: 'Es-MX' },
     {provide: HighchartsStatic, useFactory: highchartsFactory},
     NavbarService,
     AsesoresService,
     LoginService,
-    NavbarComponent,
     CredentialsService,
     TokenCheckService,
     ApiService,

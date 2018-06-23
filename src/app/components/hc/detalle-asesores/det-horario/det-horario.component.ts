@@ -4,8 +4,6 @@ import { CompleterService, CompleterData } from 'ng2-completer';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 import { AddAusentismoComponent } from '../../../formularios/add-ausentismo.component';
-import { CumplimientoComponent } from '../../../../addon/progress/cumplimiento/cumplimiento.component';
-import { AsistenciaBadgeComponent } from '../../../../addon/buttons/asistencia-badge/asistencia-badge.component';
 import { PyaExceptionComponent } from '../../../formularios/pya-exception.component';
 
 import { ApiService } from '../../../../services/api.service';
@@ -106,8 +104,8 @@ export class DetHorarioComponent implements OnChanges {
   }
 
   formatDate(datetime, format){
-    let time = moment.tz(datetime, "America/Mexico_City")
-    let cunTime = time.clone().tz("America/Bogota")
+    let time = moment.tz(datetime, 'America/Mexico_City')
+    let cunTime = time.clone().tz('America/Bogota')
 
     return cunTime.format(format)
   }
@@ -134,7 +132,7 @@ export class DetHorarioComponent implements OnChanges {
                   // console.log(this.datesData)
 
                 }, err => {
-                  console.log("ERROR", err)
+                  console.log('ERROR', err)
                   this.loading['horarios'] = false
 
                   let error = err.json()
@@ -155,7 +153,7 @@ export class DetHorarioComponent implements OnChanges {
   }
 
   isToday( date ){
-    if( moment(date).format('YYYY-MM-DD') == moment().format('YYYY-MM-DD') ){
+    if( moment(date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') ){
       return 'bg-success text-light'
     }
   }

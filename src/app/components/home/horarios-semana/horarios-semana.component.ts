@@ -6,8 +6,7 @@ import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-horarios-semana',
   templateUrl: './horarios-semana.component.html',
-  styles: [],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  styles: []
 })
 export class HorariosSemanaComponent implements OnInit {
 
@@ -33,11 +32,10 @@ export class HorariosSemanaComponent implements OnInit {
             .subscribe( res => {
               this.loading['horarios'] = false
               this.horariosData = res['data']
-              console.log(res['data'])
 
               this.datesData = []
 
-              if( res['comida'] == 0 ){
+              if( res['comida'] === 0 ){
                   this.comida = false
               }
 

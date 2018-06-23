@@ -10,7 +10,6 @@ export class TokenCheckService {
 
   sendTokenStatus( status:boolean ){
     this.subject.next({ status })
-    console.log(`Token Status Recieved: ${ status }`)
   }
 
   getTokenStatus(): Observable<any>{

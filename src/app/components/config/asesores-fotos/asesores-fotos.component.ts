@@ -69,7 +69,7 @@ export class AsesoresFotosComponent implements OnInit {
 
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['list'] = false
 

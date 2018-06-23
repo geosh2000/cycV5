@@ -3,8 +3,8 @@ import { NavbarService } from '../../services/navbar.service';
 import { LoginService } from '../../services/login.service';
 import { TokenCheckService } from '../../services/token-check.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LogoutComponent } from '../shared/logout/logout.component';
-import { ApiService } from '../../services/api.service';
+import { LogoutComponent } from '../logout/logout.component';
+import { ApiService } from '../../services/service.index';
 
 @Component({
   selector: 'app-navbar',
@@ -15,13 +15,13 @@ export class NavbarComponent {
 
   @ViewChild(LogoutComponent) private _logout:LogoutComponent
 
-  menu:any;
-  test:string="NavBar Component success";
+  menu:any = [];
+  test:string='NavBar Component success';
   l2menu:any[];
   l2flag:boolean = false;
   token:boolean=false;
   lastLog:boolean=false;
-  expired=false;
+  expired= false;
   expiration
   licenses:any[]
   menuCredentials:Object
@@ -35,15 +35,12 @@ export class NavbarComponent {
                 private _api:ApiService,
                 private route:Router ) {
 
-                  console.clear()
-
                   this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
                 }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit() {
-    // console.log()
-
     this.tokenCheck();
 
     setInterval(()=>{ this.tokenCheck() }  ,1000);
@@ -65,7 +62,7 @@ export class NavbarComponent {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.currentUser = currentUser
 
-    //Check token exists
+    // Check token exists
     if(!currentUser){
       this.token=false;
       if(this.lastLog){
@@ -74,12 +71,12 @@ export class NavbarComponent {
       this.lastLog=false;
       this.menu = [];
     }else{
-      //Check token expiration
+      // Check token expiration
       let now = new Date();
       let expire = new Date(`${currentUser.tokenExpire.replace(' ','T')}-05:00`);
 
       if(now<=expire){
-        //Token Valid
+        // Token Valid
         this.token=true;
         if(!this.lastLog){
           // console.log("Get Menu Again");
@@ -92,12 +89,12 @@ export class NavbarComponent {
         }
       }else{
         this.expiration=`Now: ${now} || Expire: ${expire} || string dated: ${currentUser.tokenExpire.replace(' ','T')}`
-        //Invalid Token
+        // Invalid Token
         this.token=false;
         this.lastLog=false;
         this.menu = [];
-        this.expired=true;
-        //Destroy token
+        this.expired= true;
+        // Destroy token
         localStorage.removeItem('currentUser');
         this.sendTokenStatus( false );
       }
@@ -108,7 +105,7 @@ export class NavbarComponent {
 
   getMenu( token ){
     this._navbar.getMenu( token )
-          .subscribe( respuesta =>{
+          .subscribe( respuesta => {
             // console.log( respuesta );
             // console.log( respuesta[0][0] );
             // console.log( respuesta[1][respuesta[0][0][1].id] );
@@ -122,39 +119,40 @@ export class NavbarComponent {
   }
 
   buildCredentials( menu ){
-    let creds:Object = {}
+    let creds: Object = {}
 
-    creds[0]=this.credFalse( menu, 0 )
-    creds[1]=this.credFalse( menu, 1 )
-    creds[2]=this.credFalse( menu, 2 )
+    creds[0] = this.credFalse( menu, 0 )
+    creds[1] = this.credFalse( menu, 1 )
+    creds[2] = this.credFalse( menu, 2 )
 
-    let routes:Object = this.buildRoutes( menu )
+    let routes: Object = this.buildRoutes( menu )
     // console.log(routes)
-    let flags:Object = {}
+    let flags: Object = {}
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-    for( let level in menu ){
+    for ( let level in menu ){
 
       flags[level] = {}
 
+      // tslint:disable-next-line:forin
       for ( let obj in menu[level]){
 
         for (let key in menu[level][obj]){
 
-          if(currentUser.credentials[menu[level][obj][key]['credential']] == ""){
-            this.menu[level][obj][key]['allow']=true
+          if (currentUser.credentials[menu[level][obj][key]['credential']] === ''){
+            this.menu[level][obj][key]['allow'] = true
           }else{
-            if(currentUser.credentials[menu[level][obj][key]['credential']] == 1){
+            if (currentUser.credentials[menu[level][obj][key]['credential']] === 1){
 
-              if(routes[obj]){
+              if (routes[obj]){
                 creds[routes[obj].level][routes[obj].obj][routes[obj].key] = true
               }
 
-              this.menu[level][obj][key]['allow']=true
+              this.menu[level][obj][key]['allow'] = true
             }else{
 
               flags[level][obj] = true
-              this.menu[level][obj][key]['allow']=false
+              this.menu[level][obj][key]['allow'] = false
 
             }
           }
@@ -175,12 +173,13 @@ export class NavbarComponent {
   }
 
   buildRoutes( menu ){
-    let routes:Object = {}
+    let routes: Object = {}
 
-    for( let level in menu ){
+    for ( let level in menu ){
 
       for ( let obj in menu[level]){
 
+        // tslint:disable-next-line:forin
         for (let key in menu[level][obj]){
 
           routes[menu[level][obj][key]['id']] = {}
@@ -200,9 +199,10 @@ export class NavbarComponent {
 
   credFalse( menu, level ){
 
-    let creds:Object = {}
+    let creds: Object = {}
     for ( let obj in menu[level]){
       creds[obj] = {}
+      // tslint:disable-next-line:forin
       for (let key in menu[level][obj]){
         creds[obj][key] = false
       }
@@ -212,13 +212,13 @@ export class NavbarComponent {
   }
 
   open2dLevel( menu ){
-    if(menu){
-      this.l2flag=true;
-      this.l2menu=menu;
+    if (menu){
+      this.l2flag = true;
+      this.l2menu = menu;
     }
   }
   close2dLevel(){
-    this.l2flag=false;
+    this.l2flag = false;
   }
 
 
@@ -228,7 +228,7 @@ export class NavbarComponent {
     this.tokenCheck();
   }
 
-  sendTokenStatus( status:boolean ){
+  sendTokenStatus( status: boolean ){
     this._tokenCheck.sendTokenStatus( status )
   }
 
@@ -238,7 +238,7 @@ export class NavbarComponent {
   }
 
   confirmLO( h ){
-    if( h ){
+    if ( h ){
       this.tokenCheck();
     }
   }

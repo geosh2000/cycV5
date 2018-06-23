@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 // import { DetailAsesorComponent } from './components/detail-asesor/detail-asesor.component';
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/shared/login/login.component';
+import { LoginComponent } from './shared/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ForecastProgramacionComponent } from './components/forecast-programacion/forecast-programacion.component';
 import { VacantesComponent } from './components/hc/vacantes.component';
@@ -45,9 +45,9 @@ import { AusentismosComponent } from './components/asistencia/ausentismos/ausent
 import { AleatoriedadComponent } from './components/reportes/calidad/aleatoriedad/aleatoriedad.component';
 import { BonosComponent } from './components/reportes/bonos/bonos.component';
 import { AusHistoricoComponent } from './components/asistencia/ausentismos/aus-historico/aus-historico.component';
-import { PbxStatusComponent } from './addon/pbx-status/pbx-status.component';
+import { PbxStatusComponent } from './shared/pbx-status/pbx-status.component';
 import { CambioLocalizadorAsesorComponent } from './components/config/cambio-localizador-asesor/cambio-localizador-asesor.component';
-import { SearchAsesorComponent } from './addon/search-asesor/search-asesor.component';
+import { SearchAsesorComponent } from './shared/search-asesor/search-asesor.component';
 import { AsesoresFotosComponent } from './components/config/asesores-fotos/asesores-fotos.component';
 import { UploadCalidadComponent } from './components/config/upload-calidad/upload-calidad.component';
 import { UploadLogsPdvComponent } from './components/config/upload-logs-pdv.component';
@@ -65,111 +65,117 @@ import { DetalleAsesoresComponent } from './components/hc/detalle-asesores/detal
 import { StepsComponent } from './addon/steps/steps.component';
 import { QuinielaComponent } from './components/mundial/quiniela/quiniela.component';
 import { ResultadosMundialComponent } from './components/mundial/resultados-mundial/resultados-mundial.component';
+import { MainContentComponent } from './mainPages/main-content.component';
+import { AfiliadosComponent } from './affiliatePages/afiliados.component';
 
 
 const APP_ROUTES: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'test', component: StepsComponent },
 
-  // DetalleAsesores
-  { path: 'detail-asesor', component: DetalleAsesoresComponent },
-  { path: 'detail-asesor/:id', component: DetalleAsesoresComponent },
-  { path: 'detail-asesor/:id/:tipo', component: DetalleAsesoresComponent },
-  { path: 'asesores-fotos', component: AsesoresFotosComponent },
-  { path: 'detalle-asesores', component: DetalleAsesoresComponent },
-  { path: 'detalle-asesores/:id', component: DetalleAsesoresComponent },
-  { path: 'detalle-asesores/:id/:tipo', component: DetalleAsesoresComponent },
+  {
+      path: '',
+      component: MainContentComponent,
+      children: [
+        { path: '', redirectTo: '/home', pathMatch: 'full' },
 
+        // DetalleAsesores
+        { path: 'detail-asesor', component: DetalleAsesoresComponent },
+        { path: 'detail-asesor/:id', component: DetalleAsesoresComponent },
+        { path: 'detail-asesor/:id/:tipo', component: DetalleAsesoresComponent },
+        { path: 'asesores-fotos', component: AsesoresFotosComponent },
+        { path: 'detalle-asesores', component: DetalleAsesoresComponent },
+        { path: 'detalle-asesores/:id', component: DetalleAsesoresComponent },
+        { path: 'detalle-asesores/:id/:tipo', component: DetalleAsesoresComponent },
 
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
+        { path: 'home', component: HomeComponent },
+        { path: 'login', component: LoginComponent },
+        { path: 'forecastProgramacion', component: ForecastProgramacionComponent },
+
+        // Vacantes
+        { path: 'vacantes', component: VacantesComponent },
+        { path: 'vacantes/:type', component: VacantesComponent },
+        { path: 'vacantes/:type/:udn', component: VacantesComponent },
+        { path: 'vacantes/:type/:udn/:area', component: VacantesComponent },
+        { path: 'vacantes/:type/:udn/:area/:dep', component: VacantesComponent },
+        { path: 'vacantes/:type/:udn/:area/:dep/:puesto', component: VacantesComponent },
+        { path: 'vacantes/:type/:udn/:area/:dep/:puesto/:alias', component: VacantesComponent },
+
+        // RRHH
+        { path: 'aprobaciones_rrhh', component: AprobacionesComponent },
+        { path: 'nomina', component: PrenominaComponent },
+        { path: 'prenomina', component: PrenominaComponent },
+        { path: 'aprobarVacantes', component: AprobarVacantesComponent },
+
+        // Asistencia
+        { path: 'asistencia/calendario', component: CalendarioComponent },
+        { path: 'asistencia/ausentismos', component: AusentismosComponent },
+        { path: 'asistencia/diasPendientes', component: DiasPendientesComponent },
+
+        // Reportes
+        { path: 'cuartiles', component: CuartilesComponent },
+        { path: 'precisionPronostico', component: PrecisionComponent },
+        { path: 'precisionPorIntervalo', component: PorIntervaloComponent },
+        { path: 'asistencia', component: AsistenciaComponent },
+        { path: 'mp/ventaPorCanal', component: VentaPorCanalComponent },
+        { path: 'mp/ventaPorPdv', component: VentaPorCanalPdvComponent },
+        { path: 'calidad/aleatoriedad', component: AleatoriedadComponent },
+        { path: 'bonosCUN', component: BonosComponent },
+        { path: 'tablaf', component: TablafComponent },
+        { path: 'tablafSoporte', component: TablafSoporteComponent },
+        { path: 'proReport', component: ProReportComponent },
+
+        // Bitacoras
+        { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
+
+        // Monitores
+        { path: 'pya', component: PyaComponent },
+        { path: 'ventaMonitor', component: LiveTabComponent },
+        { path: 'ventaRn', component: RnComponent },
+        { path: 'queues/:skill/:monitor', component: QueuesV2Component },
+        { path: 'queues/:skill', component: QueuesV2Component },
+        { path: 'queues', component: QueuesV2Component },
+        { path: 'pauses', component: MonitorPausasComponent },
+        { path: 'pausas', component: MonitorPausasComponent },
+        { path: 'ventaAsesor', component: VentaPorAsesorComponent },
+        { path: 'monitors/ivrParticipacion', component: ParticipacionComponent },
+        { path: 'monitors/callStatistics', component: StatisticsComponent },
+        { path: 'dashporhora', component: DashPorHoraComponent },
+        { path: 'kpis', component: KpisComponent },
+        { path: 'kpisPDV', component: KpisPdvComponent },
+        { path: 'sla', component: SlaComponent },
+        { path: 'ovv2018', component: DashOutletComponent },
+        { path: 'oVirtual2018', component: Ovirtual2018Component },
+
+        // CXC
+        { path: 'cxc', component: CxcComponent },
+        { path: 'cxcAdmin', component: CxcAdminComponent },
+        { path: 'cxc/rrhh', component: ApplyAllCxcComponent },
+        { path: 'cxc/rrhh/:filter', component: ApplyAllCxcComponent },
+
+        // Config
+        { path: 'config/addExternal', component: AddExternalUserComponent },
+        { path: 'config/chgSuper', component: ChangeSupervisorComponent },
+        { path: 'config/hxConfig', component: HxConfigComponent },
+        { path: 'config/uploadTables', component: ReportUpdatesComponent },
+        { path: 'config/fams', component: FamsComponent },
+        { path: 'config/reasignacionRsva', component: CambioLocalizadorAsesorComponent },
+        { path: 'config/uploadCalidad', component: UploadCalidadComponent },
+        { path: 'config/uploadLogsPdv', component: UploadLogsPdvComponent },
+
+        // PDV
+        { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },
+
+        // Formularios
+        { path: 'citas-outlet', component: OutletComponent },
+        { path: 'db-outlet', component: DbOutletComponent },
+
+        // Polls
+        { path: 'polls/antifaz2018', component: PollsComponent },
+        { path: 'polls/quiniela2018', component: QuinielaComponent },
+        { path: 'polls/resultadosMundial2018', component: ResultadosMundialComponent },
+      ]
+  },
+  { path: 'afiliados', component: AfiliadosComponent },
   { path: 'notFound', component: NotFoundComponent },
-  { path: 'forecastProgramacion', component: ForecastProgramacionComponent },
-
-  // Vacantes
-  { path: 'vacantes', component: VacantesComponent },
-  { path: 'vacantes/:type', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn/:area', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn/:area/:dep', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn/:area/:dep/:puesto', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn/:area/:dep/:puesto/:alias', component: VacantesComponent },
-
-  // RRHH
-  { path: 'aprobaciones_rrhh', component: AprobacionesComponent },
-  { path: 'nomina', component: PrenominaComponent },
-  { path: 'prenomina', component: PrenominaComponent },
-  { path: 'aprobarVacantes', component: AprobarVacantesComponent },
-
-  // Asistencia
-  { path: 'asistencia/calendario', component: CalendarioComponent },
-  { path: 'asistencia/ausentismos', component: AusentismosComponent },
-  { path: 'asistencia/diasPendientes', component: DiasPendientesComponent },
-
-  // Reportes
-  { path: 'cuartiles', component: CuartilesComponent },
-  { path: 'precisionPronostico', component: PrecisionComponent },
-  { path: 'precisionPorIntervalo', component: PorIntervaloComponent },
-  { path: 'asistencia', component: AsistenciaComponent },
-  { path: 'mp/ventaPorCanal', component: VentaPorCanalComponent },
-  { path: 'mp/ventaPorPdv', component: VentaPorCanalPdvComponent },
-  { path: 'calidad/aleatoriedad', component: AleatoriedadComponent },
-  { path: 'bonosCUN', component: BonosComponent },
-  { path: 'tablaf', component: TablafComponent },
-  { path: 'tablafSoporte', component: TablafSoporteComponent },
-  { path: 'proReport', component: ProReportComponent },
-
-  //Bitacoras
-  { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
-
-  //Monitores
-  { path: 'pya', component: PyaComponent },
-  { path: 'ventaMonitor', component: LiveTabComponent },
-  { path: 'ventaRn', component: RnComponent },
-  { path: 'queues/:skill/:monitor', component: QueuesV2Component },
-  { path: 'queues/:skill', component: QueuesV2Component },
-  { path: 'queues', component: QueuesV2Component },
-  { path: 'pauses', component: MonitorPausasComponent },
-  { path: 'pausas', component: MonitorPausasComponent },
-  { path: 'ventaAsesor', component: VentaPorAsesorComponent },
-  { path: 'monitors/ivrParticipacion', component: ParticipacionComponent },
-  { path: 'monitors/callStatistics', component: StatisticsComponent },
-  { path: 'dashporhora', component: DashPorHoraComponent },
-  { path: 'kpis', component: KpisComponent },
-  { path: 'kpisPDV', component: KpisPdvComponent },
-  { path: 'sla', component: SlaComponent },
-  { path: 'ovv2018', component: DashOutletComponent },
-  { path: 'oVirtual2018', component: Ovirtual2018Component },
-
-  // CXC
-  { path: 'cxc', component: CxcComponent },
-  { path: 'cxcAdmin', component: CxcAdminComponent },
-  { path: 'cxc/rrhh', component: ApplyAllCxcComponent },
-  { path: 'cxc/rrhh/:filter', component: ApplyAllCxcComponent },
-
-  // Config
-  { path: 'config/addExternal', component: AddExternalUserComponent },
-  { path: 'config/chgSuper', component: ChangeSupervisorComponent },
-  { path: 'config/hxConfig', component: HxConfigComponent },
-  { path: 'config/uploadTables', component: ReportUpdatesComponent },
-  { path: 'config/fams', component: FamsComponent },
-  { path: 'config/reasignacionRsva', component: CambioLocalizadorAsesorComponent },
-  { path: 'config/uploadCalidad', component: UploadCalidadComponent },
-  { path: 'config/uploadLogsPdv', component: UploadLogsPdvComponent },
-
-  // PDV
-  { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },
-
-  // Formularios
-  { path: 'citas-outlet', component: OutletComponent },
-  { path: 'db-outlet', component: DbOutletComponent },
-
-  // Polls
-  { path: 'polls/antifaz2018', component: PollsComponent },
-  { path: 'polls/quiniela2018', component: QuinielaComponent },
-  { path: 'polls/resultadosMundial2018', component: ResultadosMundialComponent },
-
-
   { path: '**', component: NotFoundComponent }
 ];
 

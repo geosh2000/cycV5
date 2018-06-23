@@ -5,7 +5,7 @@ import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepi
 import { ToastrService } from 'ngx-toastr';
 
 import {ApplyCxcComponent} from '../formularios/apply-cxc.component';
-import {TableTemplateComponent} from '../../addon/table-template/table-template.component';
+import {TableTemplateComponent} from '../../shared/table-template/table-template.component';
 
 import { Ng2SmartTableModule, LocalDataSource, ViewCell } from 'ng2-smart-table';
 
@@ -74,7 +74,7 @@ export class CxcComponent implements OnInit {
 
   public multiPicker = {
     showDropdowns: true,
-    opens: "left"
+    opens: 'left'
   }
 
   // Autocomplete
@@ -113,6 +113,7 @@ export class CxcComponent implements OnInit {
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
     this.confTable = {
+      // tslint:disable-next-line:max-line-length
       id:                { title: 'ID',            style: 'btn btn-sm btn-primary', cell: '', faShow: true,  faOnly: false, faClass: 'fa fa-fw fa-pencil', show: true,  type: 'button',
                             click: (row, cell)=>{
                               this.viewDetails( row )
@@ -128,11 +129,12 @@ export class CxcComponent implements OnInit {
                               return `$${result}`
                             }
                           },
-      localizador:       { title: 'Localizador',   style: '',          cell: '', faShow: false, faOnly: false, faClass: '', show: true,  type: 'a', link: "https://rsv.pricetravel.com.mx/reservations/show/" },
+      localizador:       { title: 'Localizador',   style: '',          cell: '', faShow: false, faOnly: false, faClass: '', show: true,  type: 'a', link: 'https://rsv.pricetravel.com.mx/reservations/show/' },
       fecha_aplicacion:  { title: 'Fecha Aplicacion', style: '',       cell: '', faShow: false, faOnly: false, faClass: '', show: true,  type: 'span' },
+      // tslint:disable-next-line:max-line-length
       fileExist:         { title: 'Documento',     style: '',          cell: '', faShow: true,  faOnly: false, faClass: '', show: true,  type: 'button',
                            click: ( row, cell )=>{
-                               if(cell == 0){
+                               if(cell === 0){
                                  this._image.build(`Subir Documento de CXC: ${row['id']}`, 'cxc', row['id'])
                                }else{
                                  let d = new Date()
@@ -151,14 +153,14 @@ export class CxcComponent implements OnInit {
     }
 
     let now = moment()
-    this.searchEnd = now.format("YYYY-MM-DD")
+    this.searchEnd = now.format('YYYY-MM-DD')
 
     this.windowInHeight = (Math.floor(window.innerHeight*0.8)) + 'px'
 
 
     this.formEditCxc = new FormGroup({
       id: new FormControl('', [ Validators.required ] ),
-      monto: new FormControl('', [ Validators.required, Validators.pattern("^[1-9]{1}[0-9]*([.]{0,1}[0-9]{1,2}$|$)") ] ),
+      monto: new FormControl('', [ Validators.required, Validators.pattern('^[1-9]{1}[0-9]*([.]{0,1}[0-9]{1,2}$|$)') ] ),
       comments: new FormControl( '' ),
       firmado: new FormControl( '' ),
       applier: new FormControl('', [ Validators.required ] )
@@ -167,8 +169,8 @@ export class CxcComponent implements OnInit {
 
   dateChange( start, end ){
 
-    this.searchStart = start.format("YYYY-MM-DD")
-    this.searchEnd = end.format("YYYY-MM-DD")
+    this.searchStart = start.format('YYYY-MM-DD')
+    this.searchEnd = end.format('YYYY-MM-DD')
 
     jQuery('#datepicker').val(`${this.searchStart} - ${this.searchEnd}`)
 
@@ -238,7 +240,8 @@ export class CxcComponent implements OnInit {
   s2ab(s) {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
-    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    // tslint:disable-next-line:no-bitwise
+    for (let i=0; i!==s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 
@@ -262,7 +265,7 @@ export class CxcComponent implements OnInit {
       this.formEditCxc.controls['applier'].setValue(this.currentUser.hcInfo['id'])
       this.formEditCxc.controls['comments'].setValue(this.actualCxc['comments'])
 
-      if(this.actualCxc['firmado'] == 1){
+      if(this.actualCxc['firmado'] === 1){
         this.formEditCxc.controls['firmado'].setValue(true)
       }else{
         this.formEditCxc.controls['firmado'].setValue(false)
@@ -282,7 +285,7 @@ export class CxcComponent implements OnInit {
               .subscribe( res => {
                 if(res['status']){
                   this.submitting = false
-                  jQuery("#editCXC").modal('hide')
+                  jQuery('#editCXC').modal('hide')
                   this.getCxc(this.searchStart, this.searchEnd)
                 }else{
                   console.error( res )
@@ -305,7 +308,7 @@ export class CxcComponent implements OnInit {
               .subscribe( res => {
                 if(res['status']){
                   this.submitting = false
-                  jQuery("#editCXC").modal('hide')
+                  jQuery('#editCXC').modal('hide')
                   this.getCxc(this.searchStart, this.searchEnd)
                 }else{
                   console.error( res )
@@ -322,15 +325,15 @@ export class CxcComponent implements OnInit {
 
       this.nameAsesor = event.Nombre
 
-      jQuery("#form_addCxc").modal('show')
+      jQuery('#form_addCxc').modal('show')
 
       this.addCxc.buildForm( { idAsesor: event.asesor } )
     }
 
     addedCXC(event){
-      jQuery("#form_addCxc").modal('hide')
+      jQuery('#form_addCxc').modal('hide')
       this.showMsg = true;
-      this.addedMsg = "CXC cargado correctamente"
+      this.addedMsg = 'CXC cargado correctamente'
       this.searchStart = event.date;
       this.searchEnd = event.date;
       this.getCxc(this.searchStart, this.searchEnd)
@@ -341,8 +344,8 @@ export class CxcComponent implements OnInit {
     }
 
     testToastr(){
-      console.log("print toast")
-      this.toastr.success("CXC guardado correctamente", 'Aprobada!');
+      console.log('print toast')
+      this.toastr.success('CXC guardado correctamente', 'Aprobada!');
     }
 
     checkImageExists( dir, name ){

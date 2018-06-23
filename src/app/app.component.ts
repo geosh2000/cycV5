@@ -12,10 +12,10 @@ import { GlobalServicesService } from './services/global-services.service'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app'
-  display:Object = {
+  title = 'app';
+  display: Object = {
     navbar  : true
-  }
+  };
 
   private viewContainerRef: ViewContainerRef;
 
@@ -24,9 +24,5 @@ export class AppComponent {
           private _global: GlobalServicesService,
           public toastr: ToastrService) {  }
 
-  displayMonitor( flag ){
-    this.display['navbar'] = !flag
-    console.log("display", flag)
-  }
 
 }

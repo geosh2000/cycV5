@@ -3,12 +3,10 @@ import { PopoverModule } from 'ngx-popover';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { AddAusentismoComponent } from '../../formularios/add-ausentismo.component';
-import { CumplimientoComponent } from '../../../addon/progress/cumplimiento/cumplimiento.component';
-import { AsistenciaBadgeComponent } from '../../../addon/buttons/asistencia-badge/asistencia-badge.component';
 import { PyaExceptionComponent } from '../../formularios/pya-exception.component';
 
 import { ApiService } from '../../../services/api.service';
@@ -32,8 +30,6 @@ export class AsistenciaComponent implements OnInit {
 
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
   @ViewChild( AddAusentismoComponent ) _aus: AddAusentismoComponent
-  @ViewChild( CumplimientoComponent ) _progress: CumplimientoComponent
-  @ViewChild( AsistenciaBadgeComponent ) _asist: AsistenciaBadgeComponent
   @ViewChild( PyaExceptionComponent ) _pya:PyaExceptionComponent
 
   currentUser: any
@@ -121,7 +117,7 @@ export class AsistenciaComponent implements OnInit {
 
     this._dateRangeOptions.settings = {
       autoUpdateInput: true,
-      locale: { format: "YYYY-MM-DD" }
+      locale: { format: 'YYYY-MM-DD' }
     }
 
     this.loadDeps()
@@ -130,7 +126,7 @@ export class AsistenciaComponent implements OnInit {
   }
 
   searchAsistencia( dep, inicio, fin ){
-    if( dep != 0 ){
+    if( dep !== 0 ){
       this.depLoadFlag = false
       this.getAsistencia( dep, inicio, fin )
     }else{
@@ -140,7 +136,7 @@ export class AsistenciaComponent implements OnInit {
       this.depLoaders = {}
 
       for( let pcrc of this.deps ){
-        if( pcrc.id != 29 ){
+        if( pcrc.id !== 29 ){
           this.depLoaders[pcrc.Departamento] = true
           let params = `${pcrc.id}/${inicio}/${fin}`
           this.getAllDeps( pcrc, params, () => {
@@ -211,6 +207,7 @@ export class AsistenciaComponent implements OnInit {
 
   singleUpdate( data ){
     for( let asesor in data.data ){
+      // tslint:disable-next-line:forin
       for(let fecha in data.Fechas ){
         this.asistData[ asesor ]['data'][ fecha ] = data.data[ asesor ][ 'data' ][ fecha ]
       }
@@ -258,7 +255,7 @@ export class AsistenciaComponent implements OnInit {
   applyFilter( rac ){
 
 
-    if(this.searchFilter == ''){
+    if(this.searchFilter === ''){
       return true
     }
 
@@ -295,10 +292,10 @@ export class AsistenciaComponent implements OnInit {
   }
 
   printTimeInterval(date, start, end){
-    let inicio =    moment.tz(`${date} ${start}`, "America/Mexico_City")
-    let fin =       moment.tz(`${date} ${end}`, "America/Mexico_City")
-    let inicioCUN = inicio.clone().tz("America/Bogota")
-    let finCUN =    fin.clone().tz("America/Bogota")
+    let inicio =    moment.tz(`${date} ${start}`, 'America/Mexico_City')
+    let fin =       moment.tz(`${date} ${end}`, 'America/Mexico_City')
+    let inicioCUN = inicio.clone().tz('America/Bogota')
+    let finCUN =    fin.clone().tz('America/Bogota')
 
     let result = `${inicioCUN.format('HH:mm')} - ${finCUN.format('HH:mm')}`
 
@@ -306,8 +303,8 @@ export class AsistenciaComponent implements OnInit {
   }
 
   printTime(date, time){
-    let tiempo =    moment.tz(`${date} ${time}`, "America/Mexico_City")
-    let tiempoCUN =    tiempo.clone().tz("America/Bogota")
+    let tiempo =    moment.tz(`${date} ${time}`, 'America/Mexico_City')
+    let tiempoCUN =    tiempo.clone().tz('America/Bogota')
 
     let result = tiempoCUN.format('HH:mm:ss')
 
@@ -315,8 +312,8 @@ export class AsistenciaComponent implements OnInit {
   }
 
   formatDate(datetime, format){
-    let time = moment.tz(datetime, "America/Mexico_City")
-    let cunTime = time.clone().tz("America/Bogota")
+    let time = moment.tz(datetime, 'America/Mexico_City')
+    let cunTime = time.clone().tz('America/Bogota')
 
     return cunTime.format(format)
   }
@@ -334,14 +331,14 @@ export class AsistenciaComponent implements OnInit {
     let compare:any = []
 
     for(let id in data){
-      if(sortArray.length == 0){
+      if(sortArray.length === 0){
         sortArray[0] = id
       }else{
         flag = false
         for(x=0; x<sortArray.length; x++){
           if(!flag){
 
-            if(ord == 1){
+            if(ord === 1){
               compare[1] = data[id]['Nombre']
               compare[2] = data[sortArray[x]]['Nombre']
             }else{
@@ -353,12 +350,12 @@ export class AsistenciaComponent implements OnInit {
               sortArray[x]    = id
               flag            = true
 
-              if(x == (sortArray.length)-1){
+              if(x === (sortArray.length)-1){
                 pushFlag=true
                 lastInput = tmpSlot[0]
               }
             }else{
-              if(x == (sortArray.length)-1){
+              if(x === (sortArray.length)-1){
                 pushFlag=true
                 lastInput = id
               }
@@ -437,7 +434,7 @@ export class AsistenciaComponent implements OnInit {
 
   isset (a, name ) {
     let is = true
-    if ( a[name] === undefined || a[name] === "" || a[name] === null ) {
+    if ( a[name] === undefined || a[name] === '' || a[name] === null ) {
             is = false
         }
     return is;
@@ -456,7 +453,7 @@ export class AsistenciaComponent implements OnInit {
       bar    = 'success'
     }
 
-    if(originalBg == bar){
+    if(originalBg === bar){
       border = 'light'
     }else{
       border = bar
@@ -472,11 +469,11 @@ export class AsistenciaComponent implements OnInit {
       this.toastr.error( error.msg, `Error ${event.error.status} - ${event.error.statusText}` )
 
       if( error.Existente ){
-        console.error("Ausentismo existente: ", error.Existente)
+        console.error('Ausentismo existente: ', error.Existente)
       }
 
       if( error.errores ){
-        console.error("Ausentismo existente: ", error.errores)
+        console.error('Ausentismo existente: ', error.errores)
       }
     }else{
       this.toastr.success( event.error.msg, `Guardado` )
@@ -499,7 +496,9 @@ export class AsistenciaComponent implements OnInit {
       retardos: JSON.parse(JSON.stringify(wb.Sheets['Sheet1']))
     }
 
+    // tslint:disable-next-line:forin
     for( let cell in wb.Sheets['Sheet1']){
+      // tslint:disable-next-line:max-line-length
       let j = wb.Sheets['Sheet1'][cell].v, x2 = wb.Sheets['Sheet1'][cell].v, x1 = wb.Sheets['Sheet1'][cell].v, he = wb.Sheets['Sheet1'][cell].v, r = wb.Sheets['Sheet1'][cell].v, e = wb.Sheets['Sheet1'][cell].v
 
       let compare = {}
@@ -589,7 +588,8 @@ export class AsistenciaComponent implements OnInit {
   s2ab(s) {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
-    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    // tslint:disable-next-line:no-bitwise
+    for (let i=0; i!==s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 

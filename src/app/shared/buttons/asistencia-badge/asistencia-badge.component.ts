@@ -27,6 +27,7 @@ export class AsistenciaBadgeComponent implements OnInit {
 
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnChanges(changes: SimpleChanges) {
 
     if(this.dataAsesor){
@@ -53,10 +54,10 @@ export class AsistenciaBadgeComponent implements OnInit {
 
     if( data.j_login!=null ){
 
-      if( data.Descanso!=1 ){
+      if( data.Descanso!==1 ){
 
-          if(data.SalidaAnticipada!=1){
-            if( data.Ausentismo==1 ){
+          if(data.SalidaAnticipada!==1){
+            if( data.Ausentismo===1 ){
               this.infoDisplay = true
               this.infoExcep = true
               this.infoData = {
@@ -132,7 +133,7 @@ export class AsistenciaBadgeComponent implements OnInit {
             }else{
               this.infoDisplay = true
               this.infoExcep = true
-              if( data.RT_Codigo == 'SA' ){
+              if( data.RT_Codigo === 'SA' ){
                 this.infoData = {
                   code:   data.RT_Codigo,
                   excep:  data.RT_Excepcion,
@@ -162,9 +163,9 @@ export class AsistenciaBadgeComponent implements OnInit {
 
         }
 
-      if( data.Descanso==1 ){
+      if( data.Descanso===1 ){
 
-        if( data.Code_aus == 'DT' ){
+        if( data.Code_aus === 'DT' ){
           this.btnClass     = 'btn-warning'
           this.displayText  = 'DT'
           return
@@ -177,9 +178,9 @@ export class AsistenciaBadgeComponent implements OnInit {
       }
     }
 
-    if( data.Asistencia!=1 || (data.SalidaAnticipada==1 && data.tiempoLaborado<60) ){
+    if( data.Asistencia!==1 || (data.SalidaAnticipada===1 && data.tiempoLaborado<60) ){
 
-      if( data.Ausentismo==1 ){
+      if( data.Ausentismo===1 ){
 
         this.infoDisplay = true
         this.infoExcep = true
@@ -192,9 +193,9 @@ export class AsistenciaBadgeComponent implements OnInit {
           lu:     data.Aus_LU
         }
 
-        if( data.Code_aus == 'DT'){
+        if( data.Code_aus === 'DT'){
           this.btnClass     = 'btn-warning'
-          this.displayText  = "D"
+          this.displayText  = 'D'
           return
         }else{
           this.btnClass     = 'btn-morado'
@@ -204,9 +205,9 @@ export class AsistenciaBadgeComponent implements OnInit {
 
       }
 
-      if( data.Ausentismo!=1 ){
+      if( data.Ausentismo!==1 ){
 
-        if( data.Descanso!=1 ){
+        if( data.Descanso!==1 ){
 
           let header = moment(this.date)
           let today = moment()
@@ -238,7 +239,7 @@ export class AsistenciaBadgeComponent implements OnInit {
 
         }
 
-        if( data.Descanso==1 ){
+        if( data.Descanso===1 ){
           this.btnClass     = 'btn-secondary'
           this.displayText  = 'D'
           return

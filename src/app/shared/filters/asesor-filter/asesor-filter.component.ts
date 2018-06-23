@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
 
-import { ApiService } from '../../../services/api.service';
+import { ApiService } from '../../../services/service.index';
 
 @Component({
   selector: 'app-asesor-filter',

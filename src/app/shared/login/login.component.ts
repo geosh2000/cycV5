@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { LoginService } from '../../../services/login.service';
+import { LoginService } from '../../services/service.index';
 declare var jQuery:any;
 
 @Component({
@@ -12,12 +12,12 @@ declare var jQuery:any;
 export class LoginComponent implements OnInit {
 
   login = {
-    usn: "",
-    usp: "",
-    remember: ""
+    usn: '',
+    usp: '',
+    remember: ''
   }
   loginError:boolean = false;
-  loginMsg:string = "";
+  loginMsg:string = '';
   loginLoad = false
 
   constructor( private _login:LoginService, private _route:Router ) { }
@@ -45,8 +45,8 @@ export class LoginComponent implements OnInit {
                             this.loginMsg=res.msg;
                           }else{
                             this.loginError=false;
-                            this.loginMsg="";
-                            jQuery("#loginModal").modal('hide');
+                            this.loginMsg='';
+                            jQuery('#loginModal').modal('hide');
                             this._route.navigateByUrl('/home')
                             this._route.navigateByUrl(sourceUrl)
 

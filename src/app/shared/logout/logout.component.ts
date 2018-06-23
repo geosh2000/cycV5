@@ -4,9 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
 
-import { ApiService } from '../../../services/api.service';
-import { InitService } from '../../../services/init.service';
-import { TokenCheckService } from '../../../services/token-check.service';
+import { ApiService, InitService, TokenCheckService } from '../../services/service.index';
 
 @Component({
   selector: 'app-logout',
@@ -35,7 +33,6 @@ export class LogoutComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.currentUser)
   }
 
   getHorarios( id ){
@@ -57,7 +54,7 @@ export class LogoutComponent implements OnInit {
           this.hData = res['data']
 
         }, err => {
-          console.log("ERROR", err)
+          console.log('ERROR', err)
 
           this.loading['horarios'] = false
 
@@ -101,7 +98,7 @@ export class LogoutComponent implements OnInit {
           this.confirm.emit(true);
 
         }, err => {
-          console.log("ERROR", err)
+          console.log('ERROR', err)
 
           this.loading['lout'] = false
 

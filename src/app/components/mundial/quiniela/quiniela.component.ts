@@ -60,7 +60,7 @@ export class QuinielaComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
   }
@@ -71,6 +71,7 @@ export class QuinielaComponent implements OnInit {
     this.timer()
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy(){
     clearTimeout(this.timeout)
   }
@@ -95,7 +96,7 @@ export class QuinielaComponent implements OnInit {
                 this.getTablaQ()
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
                 this.loading['Partidos'] = false
                 let error = err.json()
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
@@ -113,7 +114,7 @@ export class QuinielaComponent implements OnInit {
                 this.positions = res['data']
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
                 this.loading['Posiciones'] = false
                 let error = err.json()
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
@@ -136,10 +137,10 @@ export class QuinielaComponent implements OnInit {
                 this.loading['save'] = false
                 this.edit[index] = false
                 this.getPartidos()
-                this.toastr.success( "Pronóstico Guardado", "Guardado" )
+                this.toastr.success( 'Pronóstico Guardado', 'Guardado' )
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
                 this.loading['save'] = false
                 let error = err.json()
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
@@ -149,7 +150,7 @@ export class QuinielaComponent implements OnInit {
 
   getPoints( item ){
 
-    if( !(item.finalizado == 1 || item.live == 1) ){
+    if( !(item.finalizado === 1 || item.live === 1) ){
       return 0
     }
 
@@ -169,8 +170,8 @@ export class QuinielaComponent implements OnInit {
       if( item.pr_gf < item.pr_gc ){
         rg = ( item.gf < item.gc ) ? 10 : 0
       }
-      if( item.pr_gf == item.pr_gc ){
-        rg = ( item.gf == item.gc ) ? 10 : 0
+      if( item.pr_gf === item.pr_gc ){
+        rg = ( item.gf === item.gc ) ? 10 : 0
       }
     // =============================
     // END Eval Resultado Global
@@ -179,9 +180,9 @@ export class QuinielaComponent implements OnInit {
     // =============================
     // START Eval Marcadores
     // =============================
-      gl = ( item.gf == item.pr_gf ) ? 15 : 0
-      gv = ( item.gc == item.pr_gc ) ? 15 : 0
-      mg = ( item.gf == item.pr_gf && item.gc == item.pr_gc ) ? 20 : 0
+      gl = ( item.gf === item.pr_gf ) ? 15 : 0
+      gv = ( item.gc === item.pr_gc ) ? 15 : 0
+      mg = ( item.gf === item.pr_gf && item.gc === item.pr_gc ) ? 20 : 0
     // =============================
     // END Eval Marcadores
     // =============================
@@ -203,7 +204,7 @@ export class QuinielaComponent implements OnInit {
   }
 
   timer(){
-    if(this.timerCount == 0){
+    if(this.timerCount === 0){
       this.timerCount = 300
       this.getPartidos()
     }else{
