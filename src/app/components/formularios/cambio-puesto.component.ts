@@ -8,7 +8,7 @@ import * as moment from 'moment-timezone';
 declare var jQuery:any;
 declare var Noty:any;
 
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/service.index';
 
 @Injectable()
 export class NgbDateNativeAdapter extends NgbDateAdapter<any> {

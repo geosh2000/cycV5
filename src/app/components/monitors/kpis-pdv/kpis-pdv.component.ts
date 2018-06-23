@@ -4,9 +4,7 @@ import * as moment from 'moment-timezone';
 import { OrderPipe } from 'ngx-order-pipe';
 
 import { ToastrService } from 'ngx-toastr';
-import { ApiService } from '../../../services/api.service';
-import { InitService } from '../../../services/init.service';
-import { TokenCheckService } from '../../../services/token-check.service';
+import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
 declare var jQuery:any;
 
 @Component({

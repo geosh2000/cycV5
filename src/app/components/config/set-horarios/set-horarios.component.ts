@@ -3,9 +3,7 @@ import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepi
 import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 
-import { ApiService } from '../../../services/api.service';
-import { InitService } from '../../../services/init.service';
-import { TokenCheckService } from '../../../services/token-check.service';
+import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';

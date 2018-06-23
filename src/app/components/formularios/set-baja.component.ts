@@ -5,7 +5,7 @@ import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 declare var jQuery:any;
 
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/service.index';
 
 
 @Component({

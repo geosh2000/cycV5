@@ -1,7 +1,6 @@
 import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
 
-import { ApiService } from '../../services/api.service';
-import { InitService } from '../../services/init.service';
+import { ApiService, InitService } from '../../services/service.index';
 
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastrService } from 'ngx-toastr';

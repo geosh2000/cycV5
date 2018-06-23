@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
 declare var jQuery:any;
 
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/service.index';
 
 @Component({
   selector: 'app-upload-image',

@@ -6,12 +6,11 @@ import * as Globals from '../../globals';
 
 // -- * START Credentials Init Settings
 import { Subscription } from 'rxjs/subscription'
-import { TokenCheckService } from '../../services/token-check.service';
-import { CredentialsService } from '../../services/credentials.service';
+
+import { ApiService, InitService, TokenCheckService, CredentialsService } from '../../services/service.index';
 declare var jQuery:any;
 // -- * END Credentials Init Settings
 
-import { ApiService } from '../../services/api.service';
 // import { ShowDetailAsesorComponent } from '../detail-asesor/show-detail-asesor.component';
 import { CambioPuestoComponent } from '../formularios/cambio-puesto.component';
 import { EditDetailsComponent } from '../formularios/edit-details.component';

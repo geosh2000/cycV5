@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NavbarService } from '../../services/navbar.service';
-import { LoginService } from '../../services/login.service';
-import { TokenCheckService } from '../../services/token-check.service';
+
+import { NavbarService, LoginService, TokenCheckService, ApiService } from '../../services/service.index';
+
 import { Router, ActivatedRoute } from '@angular/router';
 import { LogoutComponent } from '../logout/logout.component';
-import { ApiService } from '../../services/service.index';
 
 @Component({
   selector: 'app-navbar',

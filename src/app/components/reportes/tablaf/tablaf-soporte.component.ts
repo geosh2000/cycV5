@@ -2,9 +2,8 @@ import { Component, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/
 import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 
-import { ApiService } from '../../../services/api.service';
-import { InitService } from '../../../services/init.service';
-import { TokenCheckService } from '../../../services/token-check.service';
+import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
+
 import { SoporteMxComponent } from './soporte-mx/soporte-mx.component';
 
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';

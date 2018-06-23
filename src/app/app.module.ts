@@ -21,14 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 
 // services
-import { NavbarService } from './services/navbar.service';
-import { AsesoresService } from './services/asesores.service';
-import { LoginService } from './services/login.service';
-import { CredentialsService } from './services/credentials.service';
-import { TokenCheckService } from './services/token-check.service';
-import { ApiService } from './services/api.service';
-import { InitService } from './services/init.service';
-import { GlobalServicesService } from './services/global-services.service';
+import { NavbarService, AsesoresService, LoginService, CredentialsService, TokenCheckService, ApiService, InitService, GlobalServicesService } from './services/service.index';
 
 // pipes
 import { KeysPipe } from './pipes/keys.pipe';

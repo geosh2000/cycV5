@@ -1,13 +1,13 @@
 // import { Component, OnInit, OnDestroy, ViewChild, Input, Output, ViewContainerRef, EventEmitter } from '@angular/core';
 // import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 // import { Subscription } from 'rxjs/subscription'
-// import { AsesoresService } from '../../services/asesores.service';
+// import { AsesoresService } from '../../services/service.index';
 //
-// import { ApiService } from '../../services/api.service';
-// import { InitService } from '../../services/init.service';
+// import { ApiService } from '../../services/service.index';
+// import { InitService } from '../../services/service.index';
 //
 // import { CredentialsService } from '../../services/credentials.service';
-// import { TokenCheckService } from '../../services/token-check.service';
+// import { TokenCheckService } from '../../services/service.index';
 // import { Router, ActivatedRoute } from '@angular/router';
 // import * as Globals from '../../globals';
 // declare var jQuery:any;

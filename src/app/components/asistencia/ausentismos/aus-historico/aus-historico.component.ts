@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, SimpleChanges } from '@angular/core';
 
-import { ApiService } from '../../../../services/api.service';
+import { ApiService } from '../../../../services/service.index';
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
 

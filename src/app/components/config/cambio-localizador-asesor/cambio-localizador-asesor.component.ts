@@ -2,9 +2,7 @@ import { Component, OnInit, ViewContainerRef, ViewChild, Injectable } from '@ang
 
 import { ToastrService } from 'ngx-toastr';
 
-import { ApiService } from '../../../services/api.service';
-import { InitService } from '../../../services/init.service';
-import { TokenCheckService } from '../../../services/token-check.service';
+import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';

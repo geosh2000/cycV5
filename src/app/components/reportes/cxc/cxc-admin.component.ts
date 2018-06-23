@@ -11,8 +11,7 @@ declare var Noty:any;
 import { saveAs } from 'file-saver';
 import { utils, write, WorkBook } from 'xlsx';
 
-import { ApiService } from '../../../services/api.service';
-import { InitService } from '../../../services/init.service';
+import { ApiService, InitService } from '../../../services/service.index';
 
 import { CorteComponent } from './corte.component';
 import { UploadImageComponent } from '../../formularios/upload-image.component';

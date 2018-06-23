@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { ApiService } from '../../services/api.service';
-import { InitService } from '../../services/init.service';
-import { TokenCheckService } from '../../services/token-check.service';
+import { ApiService, InitService, TokenCheckService } from '../../services/service.index';
+
 import { CompleterService, CompleterData } from 'ng2-completer';
 
 declare var jQuery:any;

@@ -3,7 +3,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, O
 declare var jQuery:any;
 declare var Noty:any;
 
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/service.index';
 
 @Component({
   selector: 'app-sanciones',

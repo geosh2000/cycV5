@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
-import { GlobalServicesService } from './services/global-services.service'
+import { GlobalServicesService } from './services/service.index'
 
 @Component({
   selector: 'app-root',

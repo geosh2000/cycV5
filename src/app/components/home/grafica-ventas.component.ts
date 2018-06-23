@@ -2,8 +2,7 @@ import { Component, OnInit, ViewContainerRef, Input, SimpleChanges } from '@angu
 
 import { ToastrService } from 'ngx-toastr';
 
-import { ApiService } from '../../services/api.service';
-import { TokenCheckService } from '../../services/token-check.service';
+import { ApiService, InitService, TokenCheckService } from '../../services/service.index';
 
 import * as moment from 'moment-timezone';
 

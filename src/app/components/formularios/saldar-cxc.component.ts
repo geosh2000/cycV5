@@ -7,7 +7,7 @@ import * as moment from 'moment';
 declare var jQuery:any;
 declare var Noty:any;
 
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/service.index';
 
 @Component({
   selector: 'app-saldar-cxc',

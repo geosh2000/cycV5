@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { ApiService } from '../../../services/api.service';
+import { ApiService } from '../../../services/service.index';
 declare var jQuery:any;
 
 @Component({

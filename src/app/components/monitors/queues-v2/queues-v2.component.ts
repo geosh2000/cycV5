@@ -2,10 +2,7 @@ import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/cor
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-import { ApiService } from '../../../services/api.service';
-import { InitService } from '../../../services/init.service';
-import { TokenCheckService } from '../../../services/token-check.service';
-import { GlobalServicesService } from '../../../services/global-services.service'
+import { ApiService, InitService, TokenCheckService, GlobalServicesService } from '../../../services/service.index';
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;

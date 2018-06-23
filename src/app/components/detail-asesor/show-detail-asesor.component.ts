@@ -8,8 +8,8 @@
 // import * as Globals from '../../globals';
 // declare var jQuery:any;
 //
-// import { ApiService } from '../../services/api.service';
-// import { InitService } from '../../services/init.service';
+// import { ApiService } from '../../services/service.index';
+// import { InitService } from '../../services/service.index';
 // import { UploadImageComponent } from '../formularios/upload-image.component';
 //
 //

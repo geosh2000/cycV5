@@ -5,9 +5,8 @@ import { Title } from '@angular/platform-browser';
 
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { ApiService } from '../../../../services/api.service';
-import { InitService } from '../../../../services/init.service';
-import { TokenCheckService } from '../../../../services/token-check.service';
+import { ApiService, InitService, TokenCheckService } from '../../../../services/service.index';
+
 import { UploadImageComponent } from '../../../formularios/upload-image.component';
 
 declare var jQuery:any;

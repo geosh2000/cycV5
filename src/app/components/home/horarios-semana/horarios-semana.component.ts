@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 
-import { ApiService } from '../../../services/api.service';
+import { ApiService } from '../../../services/service.index';
 import * as moment from 'moment-timezone';
 
 @Component({

@@ -19,9 +19,7 @@ declare var jQuery:any;
 import { AgregarCxcComponent } from '../formularios/agregar-cxc.component';
 import { UploadImageComponent } from '../formularios/upload-image.component';
 
-import { ApiService } from '../../services/api.service';
-import { InitService } from '../../services/init.service';
-
+import { ApiService, InitService } from '../../services/service.index';
 
 @Component({
   selector: 'app-cxc',

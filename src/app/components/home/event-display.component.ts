@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewContainerRef, Input, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/service.index';
 
 import * as moment from 'moment-timezone';;
 

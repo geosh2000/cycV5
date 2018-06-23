@@ -2,8 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { ApiService } from '../../../services/api.service';
-import { InitService } from '../../../services/init.service';
+import { ApiService, InitService } from '../../../services/service.index';
 
 import * as moment from 'moment-timezone';
 

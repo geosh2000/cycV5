@@ -7,7 +7,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false :
 import * as moment from 'moment';
 declare var jQuery:any;
 
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/service.index';
 
 @Component({
   selector: 'app-add-contrato',

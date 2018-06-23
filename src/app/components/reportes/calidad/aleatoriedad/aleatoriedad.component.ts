@@ -2,9 +2,7 @@ import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 
-import { ApiService } from '../../../../services/api.service';
-import { InitService } from '../../../../services/init.service';
-import { TokenCheckService } from '../../../../services/token-check.service';
+import { ApiService, InitService, TokenCheckService } from '../../../../services/service.index';
 
 import { saveAs } from 'file-saver';
 import { utils, write, WorkBook } from 'xlsx';

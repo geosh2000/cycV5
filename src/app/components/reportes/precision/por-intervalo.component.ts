@@ -12,8 +12,7 @@ import * as moment from 'moment';
 declare var jQuery:any;
 
 
-import { ApiService } from '../../../services/api.service';
-import { InitService } from '../../../services/init.service';
+import { ApiService, InitService } from '../../../services/service.index';
 
 @Component({
   selector: 'app-por-intervalo',

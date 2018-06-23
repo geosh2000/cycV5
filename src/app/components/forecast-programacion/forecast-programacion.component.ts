@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AsesoresService } from '../../services/asesores.service';
+import { AsesoresService } from '../../services/service.index';
 declare var jQuery:any;
 
 @Component({
