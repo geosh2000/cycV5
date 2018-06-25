@@ -152,7 +152,7 @@ export class BonosComponent implements OnInit {
 
             for( let asesor in data[dep][puesto] ){
 
-              if( typeof data[dep][puesto][asesor] === 'object' ){
+              if( typeof data[dep][puesto][asesor] == 'object' ){
                 if(this.bonosData[dep][puesto][asesor]['aplica'] != 0 && parseInt(this.bonosData[dep][puesto][asesor]['aprobacion']['status']) == 1){
 
 

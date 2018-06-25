@@ -209,7 +209,7 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
 
       for (let item of this.asesor){
 
-        if ( moment(item.Fecha).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') ){
+        if ( moment(item.Fecha).format('YYYY-MM-DD') == moment().format('YYYY-MM-DD') ){
           data['hoy'].total     += parseFloat(item.monto_total)
           data['hoy'].hotel     += parseFloat(item.monto_hotel)
           data['hoy'].paquete   += parseFloat(item.monto_paquete)
@@ -246,7 +246,7 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
 
       this.dataDisplay = data
 
-      if (typeof callback === 'function') {
+      if (typeof callback == 'function') {
           callback();
       }
 

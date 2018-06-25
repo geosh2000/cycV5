@@ -35,7 +35,7 @@ export class HorariosSemanaComponent implements OnInit {
 
               this.datesData = []
 
-              if( res['comida'] === 0 ){
+              if( res['comida'] == 0 ){
                   this.comida = false
               }
 

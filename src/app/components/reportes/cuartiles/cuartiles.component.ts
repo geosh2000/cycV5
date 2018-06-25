@@ -349,9 +349,9 @@ export class CuartilesComponent implements OnInit {
 
     for( let val of data ){
       x++
-      if(val === NaN ? 0 : val != q[i-1]){
+      if(val == NaN ? 0 : val != q[i-1]){
         if(x >= limit){
-          q[i] = val === NaN ? 0 : val
+          q[i] = val == NaN ? 0 : val
           x=0
           i++
         }

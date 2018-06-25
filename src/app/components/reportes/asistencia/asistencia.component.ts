@@ -253,7 +253,7 @@ export class AsistenciaComponent implements OnInit {
   applyFilter( rac ){
 
 
-    if(this.searchFilter === ''){
+    if(this.searchFilter == ''){
       return true
     }
 
@@ -329,14 +329,14 @@ export class AsistenciaComponent implements OnInit {
     let compare:any = []
 
     for(let id in data){
-      if(sortArray.length === 0){
+      if(sortArray.length == 0){
         sortArray[0] = id
       }else{
         flag = false
         for(x=0; x<sortArray.length; x++){
           if(!flag){
 
-            if(ord === 1){
+            if(ord == 1){
               compare[1] = data[id]['Nombre']
               compare[2] = data[sortArray[x]]['Nombre']
             }else{
@@ -348,12 +348,12 @@ export class AsistenciaComponent implements OnInit {
               sortArray[x]    = id
               flag            = true
 
-              if(x === (sortArray.length)-1){
+              if(x == (sortArray.length)-1){
                 pushFlag=true
                 lastInput = tmpSlot[0]
               }
             }else{
-              if(x === (sortArray.length)-1){
+              if(x == (sortArray.length)-1){
                 pushFlag=true
                 lastInput = id
               }
@@ -432,7 +432,7 @@ export class AsistenciaComponent implements OnInit {
 
   isset (a, name ) {
     let is = true
-    if ( a[name] === undefined || a[name] === '' || a[name] === null ) {
+    if ( a[name] == undefined || a[name] == '' || a[name] == null ) {
             is = false
         }
     return is;
@@ -451,7 +451,7 @@ export class AsistenciaComponent implements OnInit {
       bar    = 'success'
     }
 
-    if(originalBg === bar){
+    if(originalBg == bar){
       border = 'light'
     }else{
       border = bar

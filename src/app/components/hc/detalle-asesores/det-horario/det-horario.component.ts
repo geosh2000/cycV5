@@ -11,9 +11,9 @@ import { ApiService, InitService, TokenCheckService } from '../../../../services
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
 
-const equals = (one: NgbDateStruct, two: NgbDateStruct) => one && two && two.year === one.year && two.month === one.month && two.day === one.day;
-const before = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day ? false : one.day < two.day : one.month < two.month : one.year < two.year;
-const after = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day ? false : one.day > two.day : one.month > two.month : one.year > two.year;
+const equals = (one: NgbDateStruct, two: NgbDateStruct) => one && two && two.year == one.year && two.month == one.month && two.day == one.day;
+const before = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false : one.year == two.year ? one.month == two.month ? one.day == two.day ? false : one.day < two.day : one.month < two.month : one.year < two.year;
+const after = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false : one.year == two.year ? one.month == two.month ? one.day == two.day ? false : one.day > two.day : one.month > two.month : one.year > two.year;
 
 @Injectable()
 export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
@@ -151,7 +151,7 @@ export class DetHorarioComponent implements OnChanges {
   }
 
   isToday( date ){
-    if( moment(date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') ){
+    if( moment(date).format('YYYY-MM-DD') == moment().format('YYYY-MM-DD') ){
       return 'bg-success text-light'
     }
   }

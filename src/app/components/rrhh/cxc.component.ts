@@ -132,7 +132,7 @@ export class CxcComponent implements OnInit {
       // tslint:disable-next-line:max-line-length
       fileExist:         { title: 'Documento',     style: '',          cell: '', faShow: true,  faOnly: false, faClass: '', show: true,  type: 'button',
                            click: ( row, cell )=>{
-                               if(cell === 0){
+                               if(cell == 0){
                                  this._image.build(`Subir Documento de CXC: ${row['id']}`, 'cxc', row['id'])
                                }else{
                                  let d = new Date()
@@ -263,7 +263,7 @@ export class CxcComponent implements OnInit {
       this.formEditCxc.controls['applier'].setValue(this.currentUser.hcInfo['id'])
       this.formEditCxc.controls['comments'].setValue(this.actualCxc['comments'])
 
-      if(this.actualCxc['firmado'] === 1){
+      if(this.actualCxc['firmado'] == 1){
         this.formEditCxc.controls['firmado'].setValue(true)
       }else{
         this.formEditCxc.controls['firmado'].setValue(false)

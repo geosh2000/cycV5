@@ -138,10 +138,10 @@ export class NavbarComponent {
 
         for (let key in menu[level][obj]){
 
-          if (currentUser.credentials[menu[level][obj][key]['credential']] === ''){
+          if (currentUser.credentials[menu[level][obj][key]['credential']] == ''){
             this.menu[level][obj][key]['allow'] = true
           }else{
-            if (currentUser.credentials[menu[level][obj][key]['credential']] === 1){
+            if (currentUser.credentials[menu[level][obj][key]['credential']] == 1){
 
               if (routes[obj]){
                 creds[routes[obj].level][routes[obj].obj][routes[obj].key] = true
