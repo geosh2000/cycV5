@@ -67,6 +67,7 @@ import { QuinielaComponent } from './components/mundial/quiniela/quiniela.compon
 import { ResultadosMundialComponent } from './components/mundial/resultados-mundial/resultados-mundial.component';
 import { MainContentComponent } from './mainPages/main-content.component';
 import { AfiliadosComponent } from './affiliatePages/afiliados.component';
+import { ReporteAfiliadosComponent } from './components/reportes/reporte-afiliados/reporte-afiliados.component';
 
 
 const APP_ROUTES: Routes = [
@@ -122,6 +123,7 @@ const APP_ROUTES: Routes = [
         { path: 'tablaf', component: TablafComponent },
         { path: 'tablafSoporte', component: TablafSoporteComponent },
         { path: 'proReport', component: ProReportComponent },
+        { path: 'afiliados', component: ReporteAfiliadosComponent},
 
         // Bitacoras
         { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
@@ -174,7 +176,7 @@ const APP_ROUTES: Routes = [
         { path: 'polls/resultadosMundial2018', component: ResultadosMundialComponent },
       ]
   },
-  { path: 'afiliados', component: AfiliadosComponent },
+  { path: 'afiliadosPages', component: AfiliadosComponent },
   { path: 'notFound', component: NotFoundComponent },
   { path: '**', component: NotFoundComponent }
 ];

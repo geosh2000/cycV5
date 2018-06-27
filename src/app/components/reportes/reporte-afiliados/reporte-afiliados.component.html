@@ -1,0 +1,74 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Reportes Personalizados</h1></span>
+                    <p class="lead">Selecciona la fecha y el afiliado a consultar</p><br>
+                </div>
+            </div>
+            <div class="container">
+                <div class="form-row align-items-center">
+                    <div class="form-group mr-2">
+                        <select class="form-control" (change)="selectedReport( $event.target.value )">
+                        <option *ngIf="loading['list']">Cargando listado...</option>
+                        <option *ngIf="!listReps">Sin reportes...</option>
+                        <ng-container *ngIf="listReps">
+                          <option value="">Selecciona...</option>
+                          <option *ngFor="let opt of listReps | orderBy: 'afiliado'; index as i" [value]="i">{{ opt['afiliado'] }}</option> 
+                        </ng-container>                        
+                      </select>
+                    </div>
+                    <div class="form-group mr-2">
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" [autoClose]="false" (click)="d.toggle()" id="picker" name="dp" ngbDatepicker #d="ngbDatepicker" [dayTemplate]="t" (dateSelect)="onDateSelection($event, d)">
+                            <ng-template #t let-date="date" let-focused="focused">
+                                <span class="custom-day" [class.focused]="focused" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                            {{ date.day }}
+                            </span>
+                            </ng-template>
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar fa-fw"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container p-2 d-flex justify-content-left">
+                <div class="m-1">
+                    <button type="button" class="btn btn-success" (click)="getReport()" [disabled]="loading['data']">Consultar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                </div>
+                <div class="m-1" *ngIf="reportData">
+                    <button type="button" class="btn btn-warning" (click)="download('reporte', 'Reporte Afiliados')">Descargar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="overflow: auto" *ngIf="reportData">
+        <table class="table table-sm table-bordered table-hover table-striped" style="font-size: smaller" id='reporte'>
+            <thead>
+                <tr>
+                    <th *ngFor="let field of reportData[0] | keys">{{ field }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of reportData | orderBy: 'Fecha'">
+                    <td class="text-right" *ngFor="let field of item | keys">{{ printVal( field, item ) }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th *ngFor="let field of totals | keys" class="text-center">
+                        {{ printVal( field, totals ) }}
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>

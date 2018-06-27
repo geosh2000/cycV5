@@ -145,6 +145,7 @@ import { AfiliadosComponent } from './affiliatePages/afiliados.component';
 import { MainContentComponent } from './mainPages/main-content.component';
 import { MainPages } from './mainPages/main-pages.module';
 import { SharedModule } from './shared/shared.module';
+import { ReporteAfiliadosComponent } from './components/reportes/reporte-afiliados/reporte-afiliados.component';
 
 
 declare let jQuery: Object;
@@ -283,6 +284,7 @@ registerLocaleData(localeEsMX)
     ResultadosMundialComponent,
     AfiliadosComponent,
     MainContentComponent,
+    ReporteAfiliadosComponent,
   ],
   imports: [
     BrowserModule,
