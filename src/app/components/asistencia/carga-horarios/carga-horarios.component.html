@@ -1,0 +1,262 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+
+            <!-- TITLE -->
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Carga de Horarios</h1></span>
+                    <p class="lead">Selecciona los asesores y las fechas para la carga de sus horarios</p><br>
+                </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="container d-flex justify-content-start">
+                <div class="m-1">
+                    <button type="button" class="btn btn-outline-warning" (click)="filterExpanded = !filterExpanded" [attr.aria-expanded]="filterExpanded" aria-controls="filterAsesores">
+                    {{ selectedAsesores.length > 0 ? (selectedAsesores.length + (selectedAsesores.length > 1 ? ' seleccionados' : ' seleccionado')) : 'Asesores' }}
+                    <span *ngIf="!filterExpanded"><i class="fas fa-caret-down"></i></span>
+                    <span *ngIf="filterExpanded"><i class="fas fa-caret-up"></i></span>
+                  </button>
+                </div>
+                <div class="form-row align-items-center m-1">
+                    <div class="form-group mr-2">
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" [autoClose]="false" (click)="d.toggle()" id="picker" name="dp" ngbDatepicker #d="ngbDatepicker" [dayTemplate]="t" (dateSelect)="onDateSelection($event, d)">
+                            <ng-template #t let-date="date" let-focused="focused">
+                                <span class="custom-day" [class.focused]="focused" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                          {{ date.day }}
+                        </span>
+                            </ng-template>
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar fa-fw"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center" class="m-1">
+                    <small><span class="badge badge-pill">Hora Mex</span></small>
+                    <ui-switch color="green" size="small" [(ngModel)]="horaCun"></ui-switch>
+                    <small><span class="badge badge-pill">Hora Cun</span></small>
+                </div>
+                <div class="m-1">
+                    <button type="button" class="btn btn-success" (click)="getSchedules()" [disabled]="loading['schedules']">Consultar <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                </div>
+            </div>
+
+            <!-- FILTER -->
+            <div class="container">
+                <div class="pt-2" id="filterAsesores" [ngbCollapse]="!filterExpanded">
+                    <div class="card bg-white">
+                        <div class="card-body">
+                            <app-asesor-filter [currentUser]="currentUser" (close)="filterExpanded=!$event" (result)="selectedAsesores=$event"></app-asesor-filter>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container-fluid" *ngIf="listScheds">
+        <div class="p-1 d-flex justify-content-start">
+            <button (click)="quickSel(true)" class="btn btn-link text-primary"><i class="far fa-check-square"></i><br><small style="font-size: smaller">Todo</small></button>
+            <button (click)="quickSel(false)" class="btn btn-link text-danger"><i class="far fa-square"></i><br><small style="font-size: smaller">Nada</small></button>
+            <button class="btn btn-link text-primary"><i class="fas fa-pen-square"></i><br><small style="font-size: smaller">Editar</small></button>
+            <button (click)="quickSet('xdelete')" class="btn btn-link text-danger">X <i class="far fa-trash-alt"></i><br><small style="font-size: smaller">Borrar Extra</small></button>
+            <button (click)="quickSet('descanso')" class="btn btn-link text-warning"><i class="fas fa-bed"></i><br><small style="font-size: smaller">Descanso</small></button>
+        </div>
+        <table class="table table-sm table-striped table-hover" style="font-size: smaller">
+            <thead>
+                <tr>
+                    <th class="text-center">Asesor</th>
+                    <th class="text-center" *ngFor="let item of listDates">{{ printMoment( item, 'DD MMM \'YY' ) }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let asesor of listScheds | keys">
+                    <th>
+                        <div style="min-width: 200px">
+                            <h5>{{ listScheds[asesor]['Nombre'] }}</h5>
+                        </div>
+                    </th>
+                    <td class="text-center" *ngFor="let item of listDates">
+                        <button class="btn btn-sm" [style.width.px]="140" [ngClass]="{'btn-outline-secondary' : !listScheds[asesor][item]['sel'] && !listScheds[asesor][item]['change'], 'btn-outline-warning' : !listScheds[asesor][item]['sel'] && listScheds[asesor][item]['change'], 'btn-primary' : listScheds[asesor][item]['sel']}"
+                            (click)="selectH( asesor, item )" [contextMenu]="basicMenu" [contextMenuSubject]="listScheds[asesor][item]['sel'] ? selectedHIds : [{ asesor: asesor, date: item }]">
+                        <p>j: {{ listScheds[asesor][item] ? ( !listScheds[asesor][item]['data']['js'] ? 'NA' : listScheds[asesor][item]['data']['js'] == listScheds[asesor][item]['data']['je'] ? 'Descanso' : printMoment( listScheds[asesor][item]['data']['js'], 'HH:mm' ) + ' - ' + printMoment( listScheds[asesor][item]['data']['je'], 'HH:mm' )) : 'NA' }}</p>
+                        <p>x1: {{ listScheds[asesor][item] ? ( listScheds[asesor][item]['data']['x1s'] == listScheds[asesor][item]['data']['x1e'] ? 'NA' : printMoment( listScheds[asesor][item]['data']['x1s'], 'HH:mm' ) + ' - ' + printMoment( listScheds[asesor][item]['data']['x1e'], 'HH:mm' )) : 'NA' }}</p>
+                        <p>x2: {{ listScheds[asesor][item] ? ( listScheds[asesor][item]['data']['x2s'] == listScheds[asesor][item]['data']['x2e'] ? 'NA' : printMoment( listScheds[asesor][item]['data']['x2s'], 'HH:mm' ) + ' - ' + printMoment( listScheds[asesor][item]['data']['x2e'], 'HH:mm' )) : 'NA' }}</p>
+                        <p>c: {{ listScheds[asesor][item] ? ( listScheds[asesor][item]['data']['cs'] == listScheds[asesor][item]['data']['ce'] ? 'NA' : printMoment( listScheds[asesor][item]['data']['cs'], 'HH:mm' ) + ' - ' + printMoment( listScheds[asesor][item]['data']['ce'], 'HH:mm' )) : 'NA' }}</p>
+                      </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre>{{ listScheds | json }}</pre>
+        <p>Inicio: {{ inicio }}</p>
+        <p>Fin: {{ fin }}</p>
+    </div>
+
+    <context-menu>
+        <ng-template contextMenuItem [subMenu]="pickH">
+            <div class="p-2 row">
+                <div class="col-4">
+                    <span class="p-2 text-primary"><i class="far fa-clock"></i></span>
+                </div>
+                <div class="col-8">
+                    <span><small style="font-size: smaller">Horarios Rápidos</small></span>
+                </div>
+            </div>
+        </ng-template>
+        <context-menu #pickH>
+            <ng-template contextMenuItem [subMenu]="pickH8sc">
+                Sin Comida
+            </ng-template>
+            <context-menu #pickH8sc>
+                <ng-template contextMenuItem [subMenu]="pickH8scM">
+                    Matutino
+                </ng-template>
+                <context-menu #pickH8scM>
+                    <ng-template contextMenuItem (execute)="quickSet('jSE', $event.item, h[0], h[1] )" *ngFor="let h of optH['sc8']['m']">
+                        {{ h[0] }} - {{ h[1] }}
+                    </ng-template>
+                </context-menu>
+                <ng-template contextMenuItem [subMenu]="pickH8scV">
+                    Vespertino
+                </ng-template>
+                <context-menu #pickH8scV>
+                    <ng-template contextMenuItem (execute)="quickSet('jSE', $event.item, h[0], h[1] )" *ngFor="let h of optH['sc8']['v']">
+                        {{ h[0] }} - {{ h[1] }}
+                    </ng-template>
+                </context-menu>
+            </context-menu>
+            <ng-template contextMenuItem [subMenu]="pickH8cc">
+                Con Comida
+            </ng-template>
+            <context-menu #pickH8cc>
+                <ng-template contextMenuItem [subMenu]="pickH8ccM">
+                    Matutino
+                </ng-template>
+                <context-menu #pickH8ccM>
+                    <ng-template contextMenuItem (execute)="quickSet('jSE', $event.item, h[0], h[1] )" *ngFor="let h of optH['cc8']['m']">
+                        {{ h[0] }} - {{ h[1] }}
+                    </ng-template>
+                </context-menu>
+                <ng-template contextMenuItem [subMenu]="pickH8ccV">
+                    Vespertino
+                </ng-template>
+                <context-menu #pickH8ccV>
+                    <ng-template contextMenuItem (execute)="quickSet('jSE', $event.item, h[0], h[1] )" *ngFor="let h of optH['cc8']['v']">
+                        {{ h[0] }} - {{ h[1] }}
+                    </ng-template>
+                </context-menu>
+            </context-menu>
+        </context-menu>
+        <ng-template contextMenuItem [subMenu]="pickX">
+            <div class="p-2 row">
+                <div class="col-4">
+                    <span class="p-2 text-warning"><i class="fab fa-xing"></i></span>
+                </div>
+                <div class="col-8">
+                    <span><small style="font-size: smaller">Extras Rápidos</small></span>
+                </div>
+            </div>
+        </ng-template>
+        <context-menu #pickX>
+            <ng-template contextMenuItem [subMenu]="x1Q">
+                <span><small style="font-size: smaller">Extras 1</small></span>
+            </ng-template>
+            <context-menu #x1Q>
+                <ng-template contextMenuItem (execute)="quickSet('qX1', $event.item, -2 )">
+                    2 Horas (antes)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX1', $event.item, -1.5 )">
+                    1.5 Horas (antes)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX1', $event.item, -1 )">
+                    1 Hora (antes)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX1', $event.item, -0.5 )">
+                    .5 Hora (antes)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX1', $event.item, .5 )">
+                    .5 Hora (después)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX1', $event.item, 1 )">
+                    1 Hora (después)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX1', $event.item, 1.5 )">
+                    1.5 Hora (después)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX1', $event.item, 2 )">
+                    2 Horas (después)
+                </ng-template>
+            </context-menu>
+            <ng-template contextMenuItem [subMenu]="x2Q">
+                <span><small style="font-size: smaller">Extras 2</small></span>
+            </ng-template>
+            <context-menu #x2Q>
+                <ng-template contextMenuItem (execute)="quickSet('qX2', $event.item, -2 )">
+                    2 Horas (antes)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX2', $event.item, -1.5 )">
+                    1.5 Horas (antes)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX2', $event.item, -1 )">
+                    1 Hora (antes)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX2', $event.item, -0.5 )">
+                    .5 Hora (antes)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX2', $event.item, .5 )">
+                    .5 Hora (después)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX2', $event.item, 1 )">
+                    1 Hora (después)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX2', $event.item, 1.5 )">
+                    1.5 Hora (después)
+                </ng-template>
+                <ng-template contextMenuItem (execute)="quickSet('qX2', $event.item, 2 )">
+                    2 Horas (después)
+                </ng-template>
+            </context-menu>
+        </context-menu>
+        <ng-template contextMenuItem passive="true">
+            <div class="p-2 row">
+                <div class="col-4">
+                    <span class="p-2 text-primary"><i class="fas fa-pen-square"></i></span>
+                </div>
+                <div class="col-8">
+                    <span><small style="font-size: smaller">Editar</small></span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template contextMenuItem (execute)="quickSet('xdelete', $event.item )">
+            <div class="p-2 row">
+                <div class="col-4">
+                    <span class="p-2 text-danger">X <i class="far fa-trash-alt"></i></span>
+                </div>
+                <div class="col-8">
+                    <span><small style="font-size: smaller">Borrar Extra</small></span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template contextMenuItem (execute)="quickSet('descanso', $event.item )">
+            <div class="p-2 row">
+                <div class="col-4">
+                    <span class="p-2 text-warning"><i class="fas fa-bed"></i></span>
+                </div>
+                <div class="col-8">
+                    <span><small style="font-size: smaller">Descanso</small></span>
+                </div>
+            </div>
+        </ng-template>
+    </context-menu>
+
+</div>

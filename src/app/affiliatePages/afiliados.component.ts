@@ -44,6 +44,7 @@ export class AfiliadosComponent implements OnInit {
 
   loading:Object = {}
 
+
   constructor() {}
 
   ngOnInit() {

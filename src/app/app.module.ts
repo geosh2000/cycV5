@@ -16,8 +16,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { OrderModule } from 'ngx-order-pipe'
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { FullCalendarModule } from 'ng-fullcalendar';
+import { ContextMenuModule } from 'ngx-contextmenu';
 import { ToastrModule } from 'ngx-toastr';
-
 
 
 // services
@@ -146,6 +146,7 @@ import { MainContentComponent } from './mainPages/main-content.component';
 import { MainPages } from './mainPages/main-pages.module';
 import { SharedModule } from './shared/shared.module';
 import { ReporteAfiliadosComponent } from './components/reportes/reporte-afiliados/reporte-afiliados.component';
+import { CargaHorariosComponent } from './components/asistencia/carga-horarios/carga-horarios.component';
 
 
 declare let jQuery: Object;
@@ -285,6 +286,7 @@ registerLocaleData(localeEsMX)
     AfiliadosComponent,
     MainContentComponent,
     ReporteAfiliadosComponent,
+    CargaHorariosComponent,
   ],
   imports: [
     BrowserModule,
@@ -309,6 +311,10 @@ registerLocaleData(localeEsMX)
     NgbModule.forRoot(),
     OrderModule,
     MultiselectDropdownModule,
+    ContextMenuModule.forRoot({
+      useBootstrap4: true,
+      autoFocus: true
+    }),
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'Es-MX' },

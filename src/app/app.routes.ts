@@ -68,6 +68,7 @@ import { ResultadosMundialComponent } from './components/mundial/resultados-mund
 import { MainContentComponent } from './mainPages/main-content.component';
 import { AfiliadosComponent } from './affiliatePages/afiliados.component';
 import { ReporteAfiliadosComponent } from './components/reportes/reporte-afiliados/reporte-afiliados.component';
+import { CargaHorariosComponent } from './components/asistencia/carga-horarios/carga-horarios.component';
 
 
 const APP_ROUTES: Routes = [
@@ -110,6 +111,7 @@ const APP_ROUTES: Routes = [
         { path: 'asistencia/calendario', component: CalendarioComponent },
         { path: 'asistencia/ausentismos', component: AusentismosComponent },
         { path: 'asistencia/diasPendientes', component: DiasPendientesComponent },
+        { path: 'asistencia/cargaHorarios', component: CargaHorariosComponent },
 
         // Reportes
         { path: 'cuartiles', component: CuartilesComponent },
