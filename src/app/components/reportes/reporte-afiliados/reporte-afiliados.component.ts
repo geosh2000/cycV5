@@ -46,6 +46,8 @@ export class ReporteAfiliadosComponent implements OnInit {
   showContents: boolean;
   currentUser: any;
 
+  afiliado:any
+
   inicio:any = moment().format('YYYY-MM-DD')
   fin:any = moment().format('YYYY-MM-DD')
 
@@ -94,6 +96,7 @@ export class ReporteAfiliadosComponent implements OnInit {
 
   selectedReport( value ){
     this.titleService.setTitle(`CyC - Reporte ${this.listReps[ value ]['afiliado']}`);
+    this.afiliado = this.listReps[ value ]['afiliado']
     this.report = this.listReps[ value ]['id']
   }
 
