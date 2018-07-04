@@ -40,7 +40,7 @@ export class LiveTabComponent implements OnInit {
 
   constructor(
               private _api:ApiService,
-              private _init:InitService) {
+              public _init:InitService) {
 
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )

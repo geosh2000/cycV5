@@ -66,7 +66,7 @@ export class KpisComponent implements OnInit {
   ]
 
   constructor(public _api: ApiService,
-                private _init:InitService,
+    public _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastrService ) {

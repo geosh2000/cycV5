@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { InitService } from '../../../../services/service.index';
 
 @Component({
   selector: 'app-kpis-detail',
@@ -36,7 +37,7 @@ export class KpisDetailComponent implements OnInit {
 
   suf:string = ''
 
-  constructor() { }
+  constructor(public _init:InitService) { }
 
   ngOnInit() {
   }

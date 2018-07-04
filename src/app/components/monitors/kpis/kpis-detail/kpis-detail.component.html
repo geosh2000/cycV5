@@ -1,131 +1,107 @@
 <div class="row m-1 p-1 border">
 
-  <!-- SERVICE TITLE -->
-  <div class="col-3 d-flex align-items-center">
-    <p class="align-middle">{{ item }}:</p>
-  </div>
+    <!-- SERVICE TITLE -->
+    <div class="col-3 d-flex align-items-center">
+        <p class="align-middle">{{ item }}:</p>
+    </div>
 
-  <!-- DATA SHOW -->
-  <div class="col-9 pl-0 align-middle">
+    <!-- DATA SHOW -->
+    <div class="col-9 pl-0 align-middle">
 
-    <!-- MONTO -->
-    <div class="d-flex justify-content-end flex-wrap" *ngIf="mFlag">
+        <!-- MONTO -->
+        <div class="d-flex justify-content-end flex-wrap" *ngIf="mFlag">
 
-      <!-- TOTAL DEL DIA -->
-      <div class="d-flex justify-content-end" [style.width.px]="100">
-        <p>{{ currencyDisp(monto) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}</p>
-      </div>
+            <!-- TOTAL DEL DIA -->
+            <div class="d-flex justify-content-end" [style.width.px]="100">
+                <p>{{ currencyDisp(monto) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}</p>
+            </div>
 
-      <!-- VARS -->
-      <div class="d-flex justify-content-between align-items-center" [style.width.px]="130">
+            <!-- VARS -->
+            <div class="d-flex justify-content-between align-items-center" [style.width.px]="130" *ngIf="_init.checkSingleCredential('tablas_f_viewVar')">
 
-        <!-- YD -->
-        <div class="ml-1">
-          <span
-            placement="bottom" ngbTooltip="{{ currencyDisp(mYd) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
-            class="badge badge-pill text-center ml-1"
-            [ngClass]="compare( monto, mYd, 'class' )"
-            [style.width.px]="55">
+                <!-- YD -->
+                <div class="ml-1">
+                    <span placement="bottom" ngbTooltip="{{ currencyDisp(mYd) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}" class="badge badge-pill text-center ml-1" [ngClass]="compare( monto, mYd, 'class' )" [style.width.px]="55">
               <small>{{ yd ? 'yd' : 'lw' }}: {{ compare( monto, mYd, '%' ) | number:'.0-0' }}%</small>
           </span>
-        </div>
+                </div>
 
-        <!-- LY -->
-        <div class="ml-1">
-          <span
-            placement="bottom" ngbTooltip="{{ currencyDisp(mLy) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}"
-            class="badge badge-pill text-center ml-1"
-            [ngClass]="compare( monto, mLy, 'class' )"
-            [style.width.px]="55">
+                <!-- LY -->
+                <div class="ml-1">
+                    <span placement="bottom" ngbTooltip="{{ currencyDisp(mLy) | currency:'MXN':'symbol-narrow':'.2-2' }}{{ suf }}" class="badge badge-pill text-center ml-1" [ngClass]="compare( monto, mLy, 'class' )" [style.width.px]="55">
               <small>ly: {{ compare( monto, mLy, '%' ) | number:'.0-0' }}%</small>
           </span>
+                </div>
+
+            </div>
+
         </div>
 
-      </div>
+        <!-- RN -->
+        <div class="d-flex justify-content-end flex-wrap" *ngIf="iUnit != ''">
 
-    </div>
+            <!-- TOTAL DEL DIA -->
+            <div class="d-flex justify-content-end" [style.width.px]="100">
+                <p *ngIf="!naFlag">
+                    <span *ngIf="iLoad"><i class="fas fa-spinner fa-fw fa-pulse text-success"></i></span>
+                    <span *ngIf="!iLoad">{{ int | number:'.0-2' }} {{ iUnit }}</span>
+                </p>
+                <p *ngIf="naFlag">N/A</p>
+            </div>
 
-    <!-- RN -->
-    <div class="d-flex justify-content-end flex-wrap" *ngIf="iUnit != ''">
+            <!-- VARS -->
+            <div class="d-flex justify-content-between align-items-center" [style.width.px]="130" *ngIf="!naFlag && _init.checkSingleCredential('tablas_f_viewVar')">
 
-      <!-- TOTAL DEL DIA -->
-      <div class="d-flex justify-content-end" [style.width.px]="100">
-        <p *ngIf="!naFlag">
-          <span *ngIf="iLoad"><i class="fas fa-spinner fa-fw fa-pulse text-success"></i></span>
-          <span *ngIf="!iLoad">{{ int | number:'.0-2' }} {{ iUnit }}</span>
-        </p>
-        <p *ngIf="naFlag">N/A</p>
-      </div>
-
-      <!-- VARS -->
-      <div class="d-flex justify-content-between align-items-center" [style.width.px]="130" *ngIf="!naFlag">
-
-        <!-- YD -->
-        <div class="ml-1">
-          <span
-            placement="bottom" ngbTooltip="{{ iYd | number:'.0-2' }} {{ iUnit }}"
-            class="badge badge-pill text-center ml-1"
-            [ngClass]="compare( int, iYd, 'class' )"
-            [style.width.px]="55">
+                <!-- YD -->
+                <div class="ml-1">
+                    <span placement="bottom" ngbTooltip="{{ iYd | number:'.0-2' }} {{ iUnit }}" class="badge badge-pill text-center ml-1" [ngClass]="compare( int, iYd, 'class' )" [style.width.px]="55">
               <small>{{ yd ? 'yd' : 'lw' }}: {{ compare( int, iYd, '%' ) | number:'.0-0' }}%</small>
           </span>
-        </div>
+                </div>
 
-        <!-- LY -->
-        <div class="ml-1">
-          <span
-            placement="bottom" ngbTooltip="{{ iLy | number:'.0-2' }} {{ iUnit }}"
-            class="badge badge-pill text-center ml-1"
-            [ngClass]="compare( int, iLy, 'class' )"
-            [style.width.px]="55">
+                <!-- LY -->
+                <div class="ml-1">
+                    <span placement="bottom" ngbTooltip="{{ iLy | number:'.0-2' }} {{ iUnit }}" class="badge badge-pill text-center ml-1" [ngClass]="compare( int, iLy, 'class' )" [style.width.px]="55">
               <small>ly: {{ compare( int, iLy, '%' ) | number:'.0-0' }}%</small>
           </span>
+                </div>
+
+            </div>
+
         </div>
 
-      </div>
+        <!-- RN2 -->
+        <div class="d-flex justify-content-end flex-wrap" *ngIf="xUnit != ''">
 
-    </div>
+            <!-- TOTAL DEL DIA -->
+            <div class="d-flex justify-content-end" [style.width.px]="100">
+                <p *ngIf="!naxFlag">
+                    <span *ngIf="xLoad"><i class="fas fa-spinner fa-fw fa-pulse text-success"></i></span>
+                    <span *ngIf="!xLoad">{{ xint | number:'.0-2' }} {{ xUnit }}</span>
+                </p>
+                <p *ngIf="naxFlag">N/A</p>
+            </div>
 
-    <!-- RN2 -->
-    <div class="d-flex justify-content-end flex-wrap" *ngIf="xUnit != ''">
+            <!-- VARS -->
+            <div class="d-flex justify-content-between align-items-center" [style.width.px]="130" *ngIf="!naxFlag && _init.checkSingleCredential('tablas_f_viewVar')">
 
-      <!-- TOTAL DEL DIA -->
-      <div class="d-flex justify-content-end" [style.width.px]="100">
-        <p *ngIf="!naxFlag">
-          <span *ngIf="xLoad"><i class="fas fa-spinner fa-fw fa-pulse text-success"></i></span>
-          <span *ngIf="!xLoad">{{ xint | number:'.0-2' }} {{ xUnit }}</span>
-        </p>
-        <p *ngIf="naxFlag">N/A</p>
-      </div>
-
-      <!-- VARS -->
-      <div class="d-flex justify-content-between align-items-center" [style.width.px]="130" *ngIf="!naxFlag">
-
-        <!-- YD -->
-        <div class="ml-1">
-          <span
-            placement="bottom" ngbTooltip="{{ xYd | number:'.0-2' }} {{ xUnit }}"
-            class="badge badge-pill text-center ml-1"
-            [ngClass]="compare( xint, xYd, 'class' )"
-            [style.width.px]="55">
+                <!-- YD -->
+                <div class="ml-1">
+                    <span placement="bottom" ngbTooltip="{{ xYd | number:'.0-2' }} {{ xUnit }}" class="badge badge-pill text-center ml-1" [ngClass]="compare( xint, xYd, 'class' )" [style.width.px]="55">
               <small>{{ yd ? 'yd' : 'lw' }}: {{ compare( xint, xYd, '%' ) | number:'.0-0' }}%</small>
           </span>
-        </div>
+                </div>
 
-        <!-- LY -->
-        <div class="ml-1">
-          <span
-            placement="bottom" ngbTooltip="{{ xLy | number:'.0-2' }} {{ xUnit }}"
-            class="badge badge-pill text-center ml-1"
-            [ngClass]="compare( xint, xLy, 'class' )"
-            [style.width.px]="55">
+                <!-- LY -->
+                <div class="ml-1">
+                    <span placement="bottom" ngbTooltip="{{ xLy | number:'.0-2' }} {{ xUnit }}" class="badge badge-pill text-center ml-1" [ngClass]="compare( xint, xLy, 'class' )" [style.width.px]="55">
               <small>ly: {{ compare( xint, xLy, '%' ) | number:'.0-0' }}%</small>
           </span>
+                </div>
+
+            </div>
+
         </div>
-
-      </div>
-
     </div>
-  </div>
 
 </div>
