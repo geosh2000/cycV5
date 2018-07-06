@@ -69,6 +69,7 @@ import { MainContentComponent } from './mainPages/main-content.component';
 import { AfiliadosComponent } from './affiliatePages/afiliados.component';
 import { ReporteAfiliadosComponent } from './components/reportes/reporte-afiliados/reporte-afiliados.component';
 import { CargaHorariosComponent } from './components/asistencia/carga-horarios/carga-horarios.component';
+import { ProgramacionComponent } from './components/asistencia/programacion/programacion.component';
 
 
 const APP_ROUTES: Routes = [
@@ -112,6 +113,7 @@ const APP_ROUTES: Routes = [
         { path: 'asistencia/ausentismos', component: AusentismosComponent },
         { path: 'asistencia/diasPendientes', component: DiasPendientesComponent },
         { path: 'asistencia/cargaHorarios', component: CargaHorariosComponent },
+        { path: 'asistencia/programacion', component: ProgramacionComponent },
 
         // Reportes
         { path: 'cuartiles', component: CuartilesComponent },
@@ -176,6 +178,9 @@ const APP_ROUTES: Routes = [
         { path: 'polls/antifaz2018', component: PollsComponent },
         { path: 'polls/quiniela2018', component: QuinielaComponent },
         { path: 'polls/resultadosMundial2018', component: ResultadosMundialComponent },
+
+        // Fifa
+        { path: 'polls/fifaSql', component: StepsComponent },
       ]
   },
   { path: 'afiliadosPages', component: AfiliadosComponent },

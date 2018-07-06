@@ -3,6 +3,21 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
+## v2.4.1
+
+### Módulo de carga de horarios (Nuevo)
+* Selección de asesores por permisos y niveles
+* Filtro por Supervisor / Asesor
+* Selección semanal
+* Context-menu con opciones rápidas
+* Extensión de horarios (Copy/paste)
+
+### Monitor KPIs
+* Badge VAR % por permisos
+
+### Reporte de Afiliados (Nuevo)
+* Reporte parametrizado de Afiliados
+
 ## v2.4.0
 
 * Angular 6
