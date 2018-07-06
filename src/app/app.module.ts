@@ -148,6 +148,8 @@ import { SharedModule } from './shared/shared.module';
 import { ReporteAfiliadosComponent } from './components/reportes/reporte-afiliados/reporte-afiliados.component';
 import { CargaHorariosComponent } from './components/asistencia/carga-horarios/carga-horarios.component';
 import { ProgramacionComponent } from './components/asistencia/programacion/programacion.component';
+import { AffiliatesComponent } from './components/pages/affiliates/affiliates.component';
+import { MainComponent } from './components/pages/main/main.component';
 
 
 declare let jQuery: Object;
@@ -289,6 +291,8 @@ registerLocaleData(localeEsMX)
     ReporteAfiliadosComponent,
     CargaHorariosComponent,
     ProgramacionComponent,
+    AffiliatesComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
