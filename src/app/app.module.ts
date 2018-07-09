@@ -150,6 +150,7 @@ import { CargaHorariosComponent } from './components/asistencia/carga-horarios/c
 import { ProgramacionComponent } from './components/asistencia/programacion/programacion.component';
 import { AffiliatesComponent } from './components/pages/affiliates/affiliates.component';
 import { MainComponent } from './components/pages/main/main.component';
+import { CambioTurnoComponent } from './components/asistencia/cambio-turno/cambio-turno.component';
 
 
 declare let jQuery: Object;
@@ -292,7 +293,8 @@ registerLocaleData(localeEsMX)
     CargaHorariosComponent,
     ProgramacionComponent,
     AffiliatesComponent,
-    MainComponent
+    MainComponent,
+    CambioTurnoComponent
   ],
   imports: [
     BrowserModule,

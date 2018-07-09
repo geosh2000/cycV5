@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { NavbarService, LoginService, TokenCheckService, ApiService } from '../../services/service.index';
+import { NavbarService, LoginService, TokenCheckService, ApiService, ZonaHorariaService } from '../../services/service.index';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { LogoutComponent } from '../logout/logout.component';
@@ -32,7 +32,8 @@ export class NavbarComponent {
                 private _tokenCheck:TokenCheckService,
                 private _login:LoginService,
                 private _api:ApiService,
-                private route:Router ) {
+                private route:Router,
+                private _zh:ZonaHorariaService ) {
 
                   this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 

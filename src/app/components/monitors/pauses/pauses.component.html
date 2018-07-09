@@ -1,122 +1,116 @@
 <div class="alert alert-danger" role="alert" *ngIf="!showContents">
-  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
 <div class="container-fluid" *ngIf="showContents">
 
-  <div class="d-flex justify-content-end align-items-center">
-    <div class="mr-auto p-2 d-flex justify-content-start">
-      <div class="">
-        <h1>Monitor de Pausas</h1>
-        <p>
-          <small>Mostrando: {{ dateMonitor }} || Recargando en {{ timeCount }} seg.</small>
-        </p>
-      </div>
-      <div class="form-group p-2">
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd"
-                 name="dp" [(ngModel)]="dateMonRaw" ngbDatepicker #d="ngbDatepicker">
-          <button class="input-group-addon" (click)="d.toggle()" type="button">
+    <div class="d-flex justify-content-end align-items-center">
+        <div class="mr-auto p-2 d-flex justify-content-start">
+            <div class="">
+                <h1>Monitor de Pausas</h1>
+                <p>
+                    <small>Mostrando: {{ dateMonitor }} || Recargando en {{ timeCount }} seg.</small>
+                </p>
+            </div>
+            <div class="form-group p-2">
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="dateMonRaw" ngbDatepicker #d="ngbDatepicker">
+                    <button class="input-group-addon" (click)="d.toggle()" type="button">
             <i class="fas fa-calendar"></i>
           </button>
-        </div>
-      </div>
-      <div class='p-2'>
-        <button type="button" class="btn btn-primary" (click)="run()" [disabled]="loading['Pauses']">
+                </div>
+            </div>
+            <div class='p-2'>
+                <button type="button" class="btn btn-primary" (click)="run()" [disabled]="loading['Pauses']">
           Run <span *ngIf="loading['Pauses']"><i class="fas fa-spinner fa-pulse"></i></span>
         </button>
-      </div>
-      <div class='p-2'>
-        <input
-            class="form-control mb-2 mb-sm-0" type="text" [(ngModel)]="searchFilter" name="searchFilter" id="filterSearch" placeholder="Filtrar por">
-      </div>
+            </div>
+            <div class='p-2'>
+                <input class="form-control mb-2 mb-sm-0" type="text" [(ngModel)]="searchFilter" name="searchFilter" id="filterSearch" placeholder="Filtrar por">
+            </div>
+        </div>
+        <div class="p-2" *ngIf="lu">
+            Ultima actualización: {{ formatTime(lu, 'DD MMM \'YY HH:mm:ss') }}
+        </div>
     </div>
-    <div class="p-2" *ngIf="lu">
-      Ultima actualización: {{ formatTime(lu, 'DD MMM \'YY kk:mm:ss') }}
-    </div>
-  </div>
 
-  <ngb-pagination [collectionSize]="collectSize" [(page)]="page" [boundaryLinks]="true" [pageSize]="20"></ngb-pagination>
-  <div class="container-fluid d-flex justify-content-center">
-    <table class="table table-sm table-responsive table-stripped" *ngIf="pauseData">
-      <thead>
-        <tr>
-          <th class="text-capitalize" *ngFor="let field of pauseData[0] | keys">
-            <button type="button" class="btn btn-link" (click)="chgOrder( field )">{{ field }}</button>
+    <ngb-pagination [collectionSize]="collectSize" [(page)]="page" [boundaryLinks]="true" [pageSize]="20"></ngb-pagination>
+    <div class="container-fluid d-flex justify-content-center">
+        <table class="table table-sm table-responsive table-stripped" *ngIf="pauseData">
+            <thead>
+                <tr>
+                    <th class="text-capitalize" *ngFor="let field of pauseData[0] | keys">
+                        <button type="button" class="btn btn-link" (click)="chgOrder( field )">{{ field }}</button>
 
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- <ng-container *ngFor="let item of pauseData | orderBy: 'nombre'; index as i" > -->
-        <ng-container *ngFor="let item of pauseData; index as i" >
-          <tr *ngIf="(searchFilter == '' && i >= (page-1)*20 && i < (page*20)) || (searchFilter != '' && item['nombre'].toLowerCase().match(searchFilter.toLowerCase()))">
-            <ng-container *ngFor="let field of item | keys">
-              <td
-                class='text-center'
-                [ngClass]="alertClass( field, item[field] )">
-                <!-- <span>{{ item[field] }}</span> -->
-                <span *ngIf="field != 'pauses'">{{ item[field] }}</span>
-                <button *ngIf="field == 'pauses'" class="btn btn-outline-primary" type="button" data-toggle="collapse" [attr.data-target]="'#show_'+item['asesor']" aria-expanded="false" [attr.aria-controls]="'#show_'+item['asesor']">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <ng-container *ngFor="let item of pauseData | orderBy: 'nombre'; index as i" > -->
+                <ng-container *ngFor="let item of pauseData; index as i">
+                    <tr *ngIf="(searchFilter == '' && i >= (page-1)*20 && i < (page*20)) || (searchFilter != '' && item['nombre'].toLowerCase().match(searchFilter.toLowerCase()))">
+                        <ng-container *ngFor="let field of item | keys">
+                            <td class='text-center' [ngClass]="alertClass( field, item[field] )">
+                                <!-- <span>{{ item[field] }}</span> -->
+                                <span *ngIf="field != 'pauses'">{{ item[field] }}</span>
+                                <button *ngIf="field == 'pauses'" class="btn btn-outline-primary" type="button" data-toggle="collapse" [attr.data-target]="'#show_'+item['asesor']" aria-expanded="false" [attr.aria-controls]="'#show_'+item['asesor']">
                   Mostrar
                 </button>
-              </td>
-            </ng-container>
-          </tr>
-          <tr class="collapse" [id]="'show_'+item['asesor']">
-            <td colspan=100>
-              <div class="row bg-info p-2">
-                <div class="col p-1" *ngFor="let pause of item['pauses'] | orderBy: 'Inicio'; index as ix">
-                  <div class="card" style="max-width: 260px">
-                    <div class="card-header d-flex justify-content-between">
-                      <div class="p-2">
-                        {{ pause['Pausa'] }}
-                      </div>
-                      <div class="dropdown m-2">
-                        <button class="btn btn-sm btn-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </td>
+                        </ng-container>
+                    </tr>
+                    <tr class="collapse" [id]="'show_'+item['asesor']">
+                        <td colspan=100>
+                            <div class="row bg-info p-2">
+                                <div class="col p-1" *ngFor="let pause of item['pauses'] | orderBy: 'Inicio'; index as ix">
+                                    <div class="card" style="max-width: 260px">
+                                        <div class="card-header d-flex justify-content-between">
+                                            <div class="p-2">
+                                                {{ pause['Pausa'] }}
+                                            </div>
+                                            <div class="dropdown m-2">
+                                                <button class="btn btn-sm btn-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <i class="far fa-edit fa-fw"></i><span *ngIf="loading['change'] == pause.id"><i class="fas fa-spinner fa-fw fa-pulse"></i></span>
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                          <button class="dropdown-item" type="button" (click)="chgPause(pause.id, tipo.pausa_id)" *ngFor="let tipo of pauseTypes | orderBy: 'Pausa'">{{ tipo.Pausa }}</button>
-                        </div>
-                      </div>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item">
-                        <div class="d-flex justify-content-start align-items-center">
-                          <span>Skill</span>
-                          <span class="ml-auto badge badge-pill badge-info">{{ pause['Skill'] }}</span>
-                        </div>
-                      </li>
-                      <li class="list-group-item">
-                        <div class="d-flex justify-content-start align-items-center">
-                          <span>Inicio</span>
-                          <span class="ml-auto badge badge-pill badge-info">{{ formatTime(pause['Inicio'], 'DD MMM \'YY kk:mm:ss') }}</span>
-                        </div>
-                      </li>
-                      <li class="list-group-item">
-                        <div class="d-flex justify-content-start align-items-center">
-                          <span>Fin</span>
-                          <span class="ml-auto badge badge-pill badge-info">{{ formatTime(pause['Fin'], 'DD MMM \'YY kk:mm:ss') }}</span>
-                        </div>
-                      </li>
-                      <li class="list-group-item">
-                        <div class="d-flex justify-content-start align-items-center">
-                          <span>Duración</span>
-                          <span class="ml-auto badge badge-pill badge-info" [ngClass]="alertClass( 'det '+pause['Pausa'], pause['dur_min'] )">{{ pause['dur_min'] }}</span>
-                        </div>
-                      </li>
-                      <li class="list-group-item" *ngIf="alertClass( 'det '+pause['Pausa'], pause['dur_min'], true )">
-                        <div class="d-flex justify-content-start align-items-center">
-                          <span>Status</span>
-                          <div class="btn-group ml-auto">
-                            <button class="btn btn-sm" type="button"
-                              [ngClass]="{'btn-outline-success':  flagForm && !flagApply && form['pausa'] == pause['id'],
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <button class="dropdown-item" type="button" (click)="chgPause(pause.id, tipo.pausa_id)" *ngFor="let tipo of pauseTypes | orderBy: 'Pausa'">{{ tipo.Pausa }}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    <span>Skill</span>
+                                                    <span class="ml-auto badge badge-pill badge-info">{{ pause['Skill'] }}</span>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    <span>Inicio</span>
+                                                    <span class="ml-auto badge badge-pill badge-info">{{ _zh.zone }} {{ formatTime(pause['Inicio'], 'DD MMM \'YY HH:mm:ss') }}</span>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    <span>Fin</span>
+                                                    <span class="ml-auto badge badge-pill badge-info">{{ formatTime(pause['Fin'], 'DD MMM \'YY HH:mm:ss') }}</span>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    <span>Duración</span>
+                                                    <span class="ml-auto badge badge-pill badge-info" [ngClass]="alertClass( 'det '+pause['Pausa'], pause['dur_min'] )">{{ pause['dur_min'] }}</span>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item" *ngIf="alertClass( 'det '+pause['Pausa'], pause['dur_min'], true )">
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    <span>Status</span>
+                                                    <div class="btn-group ml-auto">
+                                                        <button class="btn btn-sm" type="button" [ngClass]="{'btn-outline-success':  flagForm && !flagApply && form['pausa'] == pause['id'],
                                           'btn-outline-danger':   flagForm && flagApply && form['pausa'] == pause['id'],
                                           'btn-primary':          !flagForm && pause['status'] == NULL,
                                           'btn-success':          !flagForm && pause['status'] == 1,
                                           'btn-danger':           !flagForm && pause['status'] == 2
-                                          }"
-                              >
+                                          }">
                               <span *ngIf="flagForm && form['pausa'] == pause['id'] && !flagApply">Justificado (edit)</span>
                               <span *ngIf="flagForm && form['pausa'] == pause['id'] && flagApply">Aplicado (edit)</span>
                               <span *ngIf="!flagForm">
@@ -125,69 +119,69 @@
                                 <span *ngIf="pause['status'] == 2">Aplicado</span>
                               </span>
                             </button>
-                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <span class="sr-only">Toggle Dropdown</span>
                             </button>
-                            <div class="dropdown-menu" [attr.aria-labelledby]="'drop_'+pause['id']">
-                              <button class="dropdown-item text-success" (click)="justify( pause['id'], i, ix )">Justificado</button>
-                              <button class="dropdown-item text-danger" (click)="applySanc( pause['id'], i, ix )">Aplicado</button>
-                              <button class="dropdown-item text-secondary" (click)="deleteSanc( pause['id'], i, ix )">Sin Acción</button>
+                                                        <div class="dropdown-menu" [attr.aria-labelledby]="'drop_'+pause['id']">
+                                                            <button class="dropdown-item text-success" (click)="justify( pause['id'], i, ix )">Justificado</button>
+                                                            <button class="dropdown-item text-danger" (click)="applySanc( pause['id'], i, ix )">Aplicado</button>
+                                                            <button class="dropdown-item text-secondary" (click)="deleteSanc( pause['id'], i, ix )">Sin Acción</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <ng-container *ngIf="flagForm && form['pausa'] == pause['id']">
+                                                <li class="list-group-item" *ngIf="!flagApply">
+                                                    <div class="d-flex justify-content-start align-items-center">
+                                                        <span>Caso</span>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" name='caso' [(ngModel)]="form['caso']" aria-describedby="emailHelp" placeholder="No. de caso">
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="d-flex justify-content-start align-items-center">
+                                                        <span>Notas</span>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" name='notas' [(ngModel)]="form['notas']" aria-describedby="emailHelp" placeholder="Notas">
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="d-flex justify-content-center align-items-center">
+                                                        <button type="button" class="btn btn-success" (click)="saveJustify()" [disabled]="loading['saveJustify']">Guardar <span *ngIf="loading['saveJustify']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                                                    </div>
+                                                </li>
+                                            </ng-container>
+                                            <ng-container *ngIf="pause['status'] != NULL">
+                                                <li class="list-group-item" *ngIf="pause['status'] == 1">
+                                                    <div class="d-flex justify-content-start align-items-center">
+                                                        <span>Caso</span>
+                                                        <span class="text-primary text-right ml-auto p-2">{{ pause['caso'] }}</span>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="d-flex justify-content-start align-items-center">
+                                                        <span>Notas</span>
+                                                        <span class="text-primary text-right ml-auto p-2">{{ pause['notas'] }}</span>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="d-flex justify-content-start align-items-center">
+                                                        <span>Editado por</span>
+                                                        <span class="text-primary text-right ml-auto p-2">{{ pause['reg_by'] }}</span>
+                                                    </div>
+                                                </li>
+                                            </ng-container>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-                        </div>
-                      </li>
-                      <ng-container *ngIf="flagForm && form['pausa'] == pause['id']">
-                        <li class="list-group-item" *ngIf="!flagApply">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <span>Caso</span>
-                            <div class="form-group">
-                              <input type="text" class="form-control" name='caso' [(ngModel)]="form['caso']" aria-describedby="emailHelp" placeholder="No. de caso">
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <span>Notas</span>
-                            <div class="form-group">
-                              <input type="text" class="form-control" name='notas' [(ngModel)]="form['notas']" aria-describedby="emailHelp" placeholder="Notas">
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="d-flex justify-content-center align-items-center">
-                            <button type="button" class="btn btn-success" (click)="saveJustify()" [disabled]="loading['saveJustify']">Guardar <span *ngIf="loading['saveJustify']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-                          </div>
-                        </li>
-                      </ng-container>
-                      <ng-container *ngIf="pause['status'] != NULL">
-                        <li class="list-group-item" *ngIf="pause['status'] == 1">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <span>Caso</span>
-                            <span class="text-primary text-right ml-auto p-2">{{ pause['caso'] }}</span>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <span>Notas</span>
-                            <span class="text-primary text-right ml-auto p-2">{{ pause['notas'] }}</span>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <span>Editado por</span>
-                            <span class="text-primary text-right ml-auto p-2">{{ pause['reg_by'] }}</span>
-                          </div>
-                        </li>
-                      </ng-container>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
 
 </div>

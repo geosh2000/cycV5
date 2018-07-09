@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 
-import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
+import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../../services/service.index';
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
@@ -43,6 +43,7 @@ export class ParticipacionComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
+                private _zh:ZonaHorariaService,
                 private completerService:CompleterService,
                 public toastr: ToastrService ) {
 
@@ -119,7 +120,7 @@ export class ParticipacionComponent implements OnInit {
                 this.total = res['data']['total']
                 this.dids = res['data']['dids']
                 this.date = this.dateSelected
-                this.lu = moment.tz(res['lu'], "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
+                this.lu = moment.tz(res['lu'], "America/Mexico_city").tz( this._zh.zone ).format('DD MMM YYYY HH:mm:ss')
 
                 this.reload = false
 

@@ -3,7 +3,7 @@ import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 
-import { ApiService, InitService, TokenCheckService } from '../../../../services/service.index';
+import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../../../services/service.index';
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
@@ -98,6 +98,7 @@ export class StatisticsComponent implements OnInit {
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
                 private completerService:CompleterService,
+                private _zh:ZonaHorariaService,
                 public toastr: ToastrService ) {
 
     this.currentUser = this._init.getUserInfo()
@@ -275,7 +276,7 @@ export class StatisticsComponent implements OnInit {
 
                 console.log(this.data)
                 this.date = this.dateSelected
-                // this.lu = moment.tz(res['lu'], "America/Mexico_city").tz("America/Bogota").format('DD MMM YYYY HH:mm:ss')
+                this.lu = res['lu']
 
                 this.reload = false
 
@@ -417,7 +418,7 @@ export class StatisticsComponent implements OnInit {
   unixTime( time ){
     // DEFINE UNIX TIME
     let m = moment.tz(`${ time }`, "America/Mexico_city")
-    let local = m.clone().tz("America/Bogota")
+    let local = m.clone().tz( this._zh.zone )
     let dif = moment(m.format('YYYY-MM-DD HH:mm:ss')).diff(local.format('YYYY-MM-DD HH:mm:ss'), 'hours')
     m.subtract((5+(dif*(-1))), 'hours')
     return m.format('x')
@@ -458,6 +459,10 @@ export class StatisticsComponent implements OnInit {
   chgGB( type ){
     this.groupBy = type
     this.getPast( moment(this.dateSelected).subtract(364, 'days').format('YYYY-MM-DD'), 'ly' )
+  }
+
+  printTime( time, format ){
+    return moment.tz(time, 'America/Mexico_city').tz( this._zh.zone ).format( format )
   }
 
 }

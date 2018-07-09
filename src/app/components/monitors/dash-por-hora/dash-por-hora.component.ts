@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import * as moment from 'moment-timezone';
 
 import { ToastrService } from 'ngx-toastr';
-import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
+import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../../services/service.index';
 
 declare var jQuery:any;
 
@@ -18,9 +18,6 @@ export class DashPorHoraComponent implements AfterViewInit {
   divWidth:number = 1200
 
   @ViewChild('chartContainer') parentDiv:ElementRef;
-  @HostListener('window:resize') onResize() {
-    this.resizeChart()
-  }
 
   currentUser: any
   showContents:boolean = false
@@ -86,6 +83,7 @@ export class DashPorHoraComponent implements AfterViewInit {
   constructor(public _api: ApiService,
                 private titleService: Title,
                 private _init:InitService,
+                private _zh:ZonaHorariaService,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastrService) {
     this.currentUser = this._init.getUserInfo()
@@ -243,6 +241,10 @@ export class DashPorHoraComponent implements AfterViewInit {
 
   }
 
+  @HostListener('window:resize') onResize() {
+    this.resizeChart()
+  }
+
   ngOnInit() {
     this.titleService.setTitle('CyC - Venta Por Hora');
   }
@@ -381,7 +383,7 @@ export class DashPorHoraComponent implements AfterViewInit {
   unixTime( time ){
     // DEFINE UNIX TIME
     let m = moment.tz(`${ time }`, "America/Mexico_city")
-    let local = m.clone().tz("America/Bogota")
+    let local = m.clone().tz( this._zh.zone )
     let dif = moment(m.format('YYYY-MM-DD HH:mm:ss')).diff(local.format('YYYY-MM-DD HH:mm:ss'), 'hours')
     m.subtract((5+(dif*(-1))), 'hours')
     return m

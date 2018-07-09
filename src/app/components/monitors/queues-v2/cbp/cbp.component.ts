@@ -356,7 +356,7 @@ export class CbpComponent implements OnInit {
     if( !normal ){
       unix  = moment.unix(datetime)
     }else{
-      return moment.duration(datetime, 'kk:mm:ss').asSeconds()
+      return moment.duration(datetime, 'HH:mm:ss').asSeconds()
     }
 
     let result = moment.duration(now.diff(unix));

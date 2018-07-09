@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/cor
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-import { ApiService, InitService, TokenCheckService, GlobalServicesService } from '../../../services/service.index';
+import { ApiService, InitService, TokenCheckService, GlobalServicesService, ZonaHorariaService } from '../../../services/service.index';
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
@@ -60,6 +60,7 @@ export class QueuesV2Component implements OnInit {
   constructor( public _api: ApiService,
                 private titleService: Title,
                 private _init:InitService,
+                public _zh:ZonaHorariaService,
                 private _tokenCheck:TokenCheckService,
                 private _global: GlobalServicesService,
                 private route:Router, private activatedRoute:ActivatedRoute) {
@@ -164,10 +165,7 @@ export class QueuesV2Component implements OnInit {
       return ""
     }
 
-    let time = moment.tz(datetime, "America/Mexico_City")
-    let cunTime = time.clone().tz("America/Bogota")
-
-    return cunTime.format(format)
+    return moment.tz(datetime, "America/Mexico_City").tz( this._zh.zone ).format(format)
   }
 
   ngOnInit() {

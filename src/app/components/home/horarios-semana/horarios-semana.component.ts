@@ -11,6 +11,7 @@ import * as moment from 'moment-timezone';
 export class HorariosSemanaComponent implements OnInit {
 
   @Input() asesor:any
+  @Input() asesorName:any
   @Output() horarios = new EventEmitter<any>()
 
   loading:Object = {}
@@ -20,6 +21,19 @@ export class HorariosSemanaComponent implements OnInit {
   comida:boolean = true
   comidaSelect:boolean = true
 
+  showOpts:Object = {
+    ch_jornada:   true,
+    ch_comida:    true,
+    ch_excep:     true,
+    ch_excep_p:    false,
+    ch_ret:       true,
+    ch_sa:        true,
+    ch_x:        true,
+    ch_x_p:        false,
+    sh_p:        true,
+    sh_d:        true
+  }
+
   constructor(public _api: ApiService) {
     moment.locale('es');
     this.fdow = moment().subtract(parseInt(moment().format('E'))-1, 'days').format('YYYY-MM-DD')
@@ -28,30 +42,35 @@ export class HorariosSemanaComponent implements OnInit {
   getHorarios(){
     this.loading['horarios'] = true
 
-    this._api.restfulGet( this.asesor, 'Asistencia/horarioAsesor' )
-            .subscribe( res => {
-              this.loading['horarios'] = false
-              this.horariosData = res['data']
+    let dow = parseInt(moment().format('e'))
+    let start = moment().subtract(dow, 'days').format('YYYY-MM-DD')
+    let end = moment(start).add(6, 'days').format('YYYY-MM-DD')
 
-              this.datesData = []
+    let params = `0/${start}/${end}/${this.asesor}`
+    this._api.restfulGet( params,'Asistencia/pyaV2' )
+              .subscribe( res => {
 
-              if( res['comida'] == 0 ){
-                  this.comida = false
-              }
+                this.loading['horarios'] = false
+                this.horariosData = res['array']
 
-              for( let i = 0; i < 7; i++){
-                this.datesData.push( moment().add(i, 'days').format('YYYY-MM-DD') )
-              }
+                let dates:any = []
+                for(let i = moment(start); i<=moment(end); i = i.add(1,'days')){
+                  dates.push( i.format('YYYY-MM-DD') )
+                }
 
+                this.datesData = dates
+                // console.log(res.array)
+                // console.log(this.datesData)
 
-            }, err => {
-              console.log("ERROR", err)
+              }, err => {
+                console.log('ERROR', err)
+                this.loading['horarios'] = false
 
-              this.loading['horarios'] = false
+                let error = err.json()
+                this.horarios.emit( {msg: error.msg, status: err.status, text: err.statusText} )
+                console.error(err.statusText, error.msg)
 
-              let error = err.json()
-              this.horarios.emit( {status: false, info: err} )
-            })
+              })
 
             if( parseInt(moment().format('E')) < 4 ){
               this.comidaSelect = true

@@ -2,7 +2,7 @@ import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
-import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
+import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../../services/service.index';
 import { ToastrService } from 'ngx-toastr';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 
@@ -72,6 +72,11 @@ export class CargaHorariosComponent implements OnInit {
   listScheds:any
   listDates:any
 
+  zhs:any = []
+  zone:any = 'America/Mexico_city'
+  zoneIdx:any = 0
+  zoneMap:Object = {}
+
   selectedHIds:any = []
   tmpArr:any
   editOpts:Object = {
@@ -102,7 +107,8 @@ export class CargaHorariosComponent implements OnInit {
               private _init:InitService,
               private titleService: Title,
               private _tokenCheck:TokenCheckService,
-              public toastr: ToastrService
+              public toastr: ToastrService,
+              private _zh:ZonaHorariaService
               ) {
 
     this.currentUser = this._init.getUserInfo()
@@ -124,6 +130,30 @@ export class CargaHorariosComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('CyC - Carga de Horarios');
+    this.getZones()
+    setTimeout( () => {
+      this.horaCun = this._zh.isCun
+      this.zone = this._zh.zone
+      this.zoneIdx = this._zh.zoneIdx
+    }, 1000)
+  }
+
+  getZones(){
+    this._api.restfulGet( '', 'Preferences/listZonasHorarias')
+        .subscribe( res => {
+          this.zhs = res['data']
+
+          let zonesMap = {}
+          for( let item of res['data'] ){
+            zonesMap[item['id']] = item['zonaHoraria']
+          }
+
+          this.zoneMap = zonesMap
+        })
+  }
+
+  chgZone( val ){
+    this.zone = this.zoneMap[val]
   }
 
   isToday( date ){
@@ -241,11 +271,7 @@ export class CargaHorariosComponent implements OnInit {
   }
 
   printMoment( val, format ){
-    if( this.horaCun ){
-      return moment.tz(val, 'America/Mexico_city').tz('America/Bogota').format(format)
-    }else{
-      return moment(val).format(format)
-    }
+    return moment.tz(val, 'America/Mexico_city').tz(this.zone).format(format)
   }
 
   selectH( asesor, date, skip = false ){
@@ -281,7 +307,7 @@ export class CargaHorariosComponent implements OnInit {
   transformHs(item, field){
     if( this.horaCun ){
       if( this.listScheds[item['asesor']][item['date']]['data'][field] != null ){
-        this.listScheds[item['asesor']][item['date']]['data'][field] = moment.tz(this.listScheds[item['asesor']][item['date']]['data'][field], 'America/Bogota').tz('America/Mexico_city').format('YYYY-MM-DD HH:mm:ss')
+        this.listScheds[item['asesor']][item['date']]['data'][field] = moment.tz(this.listScheds[item['asesor']][item['date']]['data'][field], this.zone).tz('America/Mexico_city').format('YYYY-MM-DD HH:mm:ss')
       }
     }
   }
@@ -436,14 +462,14 @@ export class CargaHorariosComponent implements OnInit {
     this.tmpArr = arr
 
     if( this.runCompare(arr) ){
-      form.controls['i'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['js'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['js'], 'America/Mexico_city').tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['js']).format('HH:mm') : null)
-      form.controls['e'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['je'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['je'], 'America/Mexico_city').tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['je']).format('HH:mm') : null)
-      form.controls['x1i'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1s'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1s'], 'America/Mexico_city').tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1s']).format('HH:mm') : null)
-      form.controls['x1e'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1e'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1e'], 'America/Mexico_city').tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1e']).format('HH:mm') : null)
-      form.controls['x2i'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2s'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2s'], 'America/Mexico_city').tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2s']).format('HH:mm') : null)
-      form.controls['x2e'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2e'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2e'], 'America/Mexico_city').tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2e']).format('HH:mm') : null)
-      form.controls['ci'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['cs'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['cs'], 'America/Mexico_city').tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['cs']).format('HH:mm') : null)
-      form.controls['ce'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['ce'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['ce'], 'America/Mexico_city').tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['ce']).format('HH:mm') : null)
+      form.controls['i'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['js'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['js'], 'America/Mexico_city').tz(this.zone).format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['js']).format('HH:mm') : null)
+      form.controls['e'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['je'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['je'], 'America/Mexico_city').tz(this.zone).format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['je']).format('HH:mm') : null)
+      form.controls['x1i'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1s'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1s'], 'America/Mexico_city').tz(this.zone).format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1s']).format('HH:mm') : null)
+      form.controls['x1e'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1e'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1e'], 'America/Mexico_city').tz(this.zone).format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x1e']).format('HH:mm') : null)
+      form.controls['x2i'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2s'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2s'], 'America/Mexico_city').tz(this.zone).format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2s']).format('HH:mm') : null)
+      form.controls['x2e'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2e'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2e'], 'America/Mexico_city').tz(this.zone).format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['x2e']).format('HH:mm') : null)
+      form.controls['ci'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['cs'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['cs'], 'America/Mexico_city').tz(this.zone).format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['cs']).format('HH:mm') : null)
+      form.controls['ce'].setValue( this.listScheds[arr[0]['asesor']][arr[0]['date']]['data'] && this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['ce'] ? moment( this.horaCun ? moment.tz(this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['ce'], 'America/Mexico_city').tz(this.zone).format('YYYY-MM-DD HH:mm:ss') : this.listScheds[arr[0]['asesor']][arr[0]['date']]['data']['ce']).format('HH:mm') : null)
     }
     jQuery('#editHorario').modal('show')
   }

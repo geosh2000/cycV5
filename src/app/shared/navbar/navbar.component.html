@@ -1,51 +1,51 @@
 <!-- Static navbar -->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark blueBkg sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark blueBkg sticky-top">
 
-                <!-- HOME AND RESPONSIVE MENU BUTTON -->
-                <a class="navbar-brand" [routerLink]="['/home']" style="cursor: pointer">
-                  <img src="assets/img/CyC.png" width="30" height="30" alt="" *ngIf="!bd || bd == 0">
-                  <img src="assets/img/birthday.png" height="50" alt="" *ngIf="bd && bd == 1">
-                </a>
-                <div class="navbar-toggler">
-                  <app-countdown></app-countdown>
-                </div>
+    <!-- HOME AND RESPONSIVE MENU BUTTON -->
+    <a class="navbar-brand" [routerLink]="['/home']" style="cursor: pointer">
+        <img src="assets/img/CyC.png" width="30" height="30" alt="" *ngIf="!bd || bd == 0">
+        <img src="assets/img/birthday.png" height="50" alt="" *ngIf="bd && bd == 1">
+    </a>
+    <div class="navbar-toggler">
+        <app-countdown></app-countdown>
+    </div>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- NAVBAR -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <!-- NAVBAR -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                    <!-- if no menu items -->
-                    <ul class="nav navbar-nav mr-auto" *ngIf="menu.length==0">
-                    </ul>
+        <!-- if no menu items -->
+        <ul class="nav navbar-nav mr-auto" *ngIf="menu.length==0">
+        </ul>
 
-                    <!-- if menu exists -->
-                    <ul class="navbar-nav mr-auto" *ngIf="menu.length!=0">
+        <!-- if menu exists -->
+        <ul class="navbar-nav mr-auto" *ngIf="menu.length!=0">
 
-                      <!-- reads all level 0 items -->
-                      <ng-container *ngFor="let key of menu[0][0] | keys">
+            <!-- reads all level 0 items -->
+            <ng-container *ngFor="let key of menu[0][0] | keys">
 
-                        <!-- ckeck if credential exists for this item -->
-                        <li style="position: relative" class="nav-item active" [ngClass]="{'dropdown': menu[1][menu[0][0][key].id] && menu[0][0][key].title!='* Home'}" *ngIf="menuCredentials[0][0][key] || menu[0][0][key]">
+                <!-- ckeck if credential exists for this item -->
+                <li style="position: relative" class="nav-item active" [ngClass]="{'dropdown': menu[1][menu[0][0][key].id] && menu[0][0][key].title!='* Home'}" *ngIf="menuCredentials[0][0][key] || menu[0][0][key]">
 
-                          <!-- if HOME or has not childs -->
-                          <span [routerLink]="[menu[0][0][key].v2link]"><a
+                    <!-- if HOME or has not childs -->
+                    <span [routerLink]="[menu[0][0][key].v2link]"><a
                             *ngIf="!menu[1][menu[0][0][key].id]  && menu[0][0][key].title!='* Home' && menu[0][0][key].allow"
                             class="nav-link active"
                             role="button" style="cursor: pointer">
                               {{ menu[0][0][key].title }}
                           </a></span>
 
-                          <!-- if HAS childs -->
-                          <a class="nav-link dropdown-toggle" style="cursor: pointer" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngIf="menu[1][menu[0][0][key].id] && menu[0][0][key].title!='* Home'">
+                    <!-- if HAS childs -->
+                    <a class="nav-link dropdown-toggle" style="cursor: pointer" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngIf="menu[1][menu[0][0][key].id] && menu[0][0][key].title!='* Home'">
                               {{ menu[0][0][key].title }}
                           </a>
-                          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="menu[1][menu[0][0][key].id]">
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="menu[1][menu[0][0][key].id]">
 
-                            <ng-container *ngFor="let key2 of menu[1][menu[0][0][key].id] | keys">
-                              <li class="dropdown-item" [ngClass]="{'dropdown-submenu': menu[2][menu[1][menu[0][0][key].id][key2].id]}">
+                        <ng-container *ngFor="let key2 of menu[1][menu[0][0][key].id] | keys">
+                            <li class="dropdown-item" [ngClass]="{'dropdown-submenu': menu[2][menu[1][menu[0][0][key].id][key2].id]}">
                                 <span class="p-0 nav-link nav-black dropdown-item" style="cursor: pointer" [routerLink]="[menu[1][menu[0][0][key].id][key2].v2link]" *ngIf="!menu[2][menu[1][menu[0][0][key].id][key2].id] && menu[1][menu[0][0][key].id][key2].v2Active == '1'">
                                   {{ menu[1][menu[0][0][key].id][key2].title }}
                                 </span>
@@ -55,58 +55,56 @@
                                   </a>
                                 </span>
                                 <ng-container *ngIf="menu[2][menu[1][menu[0][0][key].id][key2].id]">
-                                  <a class="p-0 nav-link dropdown-toggle nav-black">
-                                    <span>{{ menu[1][menu[0][0][key].id][key2].title }}</span>
-                                  </a>
-                                  <div class="p-2 dropdown-menu text-black">
-                                    <ng-container *ngFor="let key3 of menu[2][menu[1][menu[0][0][key].id][key2].id] | keys">
-                                      <ng-container *ngIf="menu[2][menu[1][menu[0][0][key].id][key2].id][key3].allow">
-                                        <a *ngIf="menu[2][menu[1][menu[0][0][key].id][key2].id][key3].v2Active == '1'"
-                                          class="nav-link nav-black p-1" href="#"
-                                          role="button" [routerLink]="[menu[2][menu[1][menu[0][0][key].id][key2].id][key3].v2link]">
+                                    <a class="p-0 nav-link dropdown-toggle nav-black">
+                                        <span>{{ menu[1][menu[0][0][key].id][key2].title }}</span>
+                                    </a>
+                                    <div class="p-2 dropdown-menu text-black">
+                                        <ng-container *ngFor="let key3 of menu[2][menu[1][menu[0][0][key].id][key2].id] | keys">
+                                            <ng-container *ngIf="menu[2][menu[1][menu[0][0][key].id][key2].id][key3].allow">
+                                                <a *ngIf="menu[2][menu[1][menu[0][0][key].id][key2].id][key3].v2Active == '1'" class="nav-link nav-black p-1" href="#" role="button" [routerLink]="[menu[2][menu[1][menu[0][0][key].id][key2].id][key3].v2link]">
                                           {{ menu[2][menu[1][menu[0][0][key].id][key2].id][key3].title }}
                                         </a>
-                                        <a *ngIf="menu[2][menu[1][menu[0][0][key].id][key2].id][key3].v2Active != '1'"
-                                          class="nav-link nav-black p-1"
-                                          role="button" [href]="menu[2][menu[1][menu[0][0][key].id][key2].id][key3].href">
+                                                <a *ngIf="menu[2][menu[1][menu[0][0][key].id][key2].id][key3].v2Active != '1'" class="nav-link nav-black p-1" role="button" [href]="menu[2][menu[1][menu[0][0][key].id][key2].id][key3].href">
                                           {{ menu[2][menu[1][menu[0][0][key].id][key2].id][key3].title }} (v1.0)
                                         </a>
-                                      </ng-container>
-                                    </ng-container>
-                                  </div>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
                                 </ng-container>
-                              </li>
-                            </ng-container>
-                          </ul>
-                        </li>
-                      </ng-container>
+                            </li>
+                        </ng-container>
                     </ul>
-                    <div class="my-2 my-lg-0 p-0">
-                      <app-countdown></app-countdown>
-                    </div>
-                    <!-- <div class="my-2 my-lg-0 p-0 pl-2">
+                </li>
+            </ng-container>
+        </ul>
+        <div class="my-2 my-lg-0 p-0">
+            <app-countdown></app-countdown>
+        </div>
+        <!-- <div class="my-2 my-lg-0 p-0 pl-2">
                       <app-countdown-meta></app-countdown-meta>
                     </div> -->
-                    <div class="my-2 my-lg-0 p-2" *ngIf="currentUser">
-                      <app-pbx-status [asesor]="currentUser.username"></app-pbx-status>
-                    </div>
-                    <div class="my-2 my-lg-0">
-                      <button
-                          type="button" class="btn btn-success"
-                          data-toggle="modal" data-target="#loginModal"
-                          *ngIf="!token">
-                        <i class="fas fa-sign-in-alt"></i>
-                      </button>
-                      <button
-                          type="button" class="btn btn-danger" (click)="logout()" *ngIf="token">
-                        <i class="fas fa-sign-out-alt"></i>
-                      </button>
-                    </div>
-                </div>
-            </nav>
+        <div class="my-2 my-lg-0 p-2" *ngIf="currentUser">
+            <app-pbx-status [asesor]="currentUser.username"></app-pbx-status>
+        </div>
+        <div class="my-2 my-lg-0">
+            <button type="button" class="btn btn-link text-light" *ngIf="token" id='preferencesNav' data-toggle="modal" data-target="#preferencesModal">
+                <i class="fas fa-cogs"></i>
+            </button>
+        </div>
+        <div class="my-2 my-lg-0">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#loginModal" *ngIf="!token">
+              <i class="fas fa-sign-in-alt"></i>
+            </button>
+            <button type="button" class="btn btn-danger" (click)="logout()" *ngIf="token">
+              <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </div>
+</nav>
 
 <div class="alert alert-danger text-center" role="alert" *ngIf="expired">
-  <strong>Tu sesión ha expirado</strong> Para continuar, haz click en el ícono <i class="fa fa-sign-in"></i> del menú
-  <p>Expiration Info: {{ expiration }}</p>
+    <strong>Tu sesión ha expirado</strong> Para continuar, haz click en el ícono <i class="fa fa-sign-in"></i> del menú
+    <p>Expiration Info: {{ expiration }}</p>
 </div>
-<app-logout (confirm)="confirmLO($event)" ></app-logout>
+<app-logout (confirm)="confirmLO($event)"></app-logout>
+<app-user-preferences></app-user-preferences>

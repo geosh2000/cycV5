@@ -31,7 +31,7 @@ import { TableTemplateComponent } from './table-template/table-template.componen
 import { CsvComponent } from './upload/csv/csv.component';
 import { CumplimientoComponent } from './progress/cumplimiento/cumplimiento.component';
 import { AsesorFilterComponent } from './filters/asesor-filter/asesor-filter.component';
-
+import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 
 
 @NgModule({
@@ -68,6 +68,7 @@ import { AsesorFilterComponent } from './filters/asesor-filter/asesor-filter.com
         SearchAsesorComponent,
         TableTemplateComponent,
         CsvComponent,
+        UserPreferencesComponent,
     ],
     exports: [
 

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 
-import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
+import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../../services/service.index';
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
@@ -44,6 +44,7 @@ export class MonitorPausasComponent implements OnInit {
 
   constructor(public _api: ApiService,
                 private _init:InitService,
+                public _zh:ZonaHorariaService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastrService ) {
@@ -471,10 +472,7 @@ export class MonitorPausasComponent implements OnInit {
   }
 
   formatTime( time, format ){
-    let show = moment.tz(time, 'America/Mexico_city')
-    show.tz('America/Bogota')
-
-    return( show.format( format ) )
+    return moment.tz(time, 'America/Mexico_city').tz( this._zh.zone ).format( format )
   }
 
 }

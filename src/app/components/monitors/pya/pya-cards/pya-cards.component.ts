@@ -23,6 +23,7 @@ export class PyaCardsComponent implements OnInit {
   @Input() dataPerHour:any
   @Input() popOvers:any
   @Input() rets:any
+  @Input() zh:any
 
   constructor() { }
 
@@ -35,7 +36,7 @@ export class PyaCardsComponent implements OnInit {
       return ''
     }
 
-    let cunTime = moment.tz(time, 'America/Mexico_city').tz('America/Bogota')
+    let cunTime = moment.tz(time, 'America/Mexico_city').tz( this.zh )
 
     return cunTime.format( format )
 
@@ -67,8 +68,8 @@ export class PyaCardsComponent implements OnInit {
     let info = {
       in    : null,
       out   : null,
-      js    : moment.tz(sch[`js`], 'America/Mexico_city').tz("America/Bogota"),
-      je    : moment.tz(sch[`je`], 'America/Mexico_city').tz("America/Bogota"),
+      js    : moment.tz(sch[`js`], 'America/Mexico_city').tz( this.zh ),
+      je    : moment.tz(sch[`je`], 'America/Mexico_city').tz( this.zh ),
     }
 
     if( sch.Ausentismo != null || sch.js == sch.je ){
@@ -82,39 +83,39 @@ export class PyaCardsComponent implements OnInit {
         if( now >= info['js'].clone().add(1, 'minutes') ){
           if( now > info['js'].clone().add(13, 'minutes') ){
             if( now > info['js'].clone().add(60, 'minutes') ){
-              result['exp'] = "FA"
-              result['class'] = "bg-danger"
+              result['exp'] = 'FA'
+              result['class'] = 'bg-danger'
 
               this.listRts( type, asesor, 'fa' )
             }else{
-              result['exp'] = "RT-B"
-              result['class'] = "bg-warning"
+              result['exp'] = 'RT-B'
+              result['class'] = 'bg-warning'
             }
           }else{
-            result['exp'] = "RT-A"
-            result['class'] = "bg-warning"
+            result['exp'] = 'RT-A'
+            result['class'] = 'bg-warning'
           }
         }else{
-          result['exp'] = "..."
-          result['class'] = ""
+          result['exp'] = '...'
+          result['class'] = ''
         }
 
       }else{
-        result['exp'] = "..."
-        result['class'] = "bg-secondary"
+        result['exp'] = '...'
+        result['class'] = 'bg-secondary'
       }
 
     }else{
       let logs  = this.dataLogs
 
-      info['in'] = moment.tz(logs['j'].in, 'America/Mexico_city').tz("America/Bogota")
-      info['out'] = moment.tz(logs['j'].out, 'America/Mexico_city').tz("America/Bogota")
+      info['in'] = moment.tz(logs['j'].in, 'America/Mexico_city').tz( this.zh )
+      info['out'] = moment.tz(logs['j'].out, 'America/Mexico_city').tz( this.zh )
 
       if( logs['j'].in == null || logs['j'].out == null ){
 
         if( logs['x1'].in != null || logs['x2'].in != null ){
-          result['exp'] = "HX"
-          result['class'] = "bg-info"
+          result['exp'] = 'HX'
+          result['class'] = 'bg-info'
         }else{
 
           if( !flagAus ){
@@ -122,35 +123,35 @@ export class PyaCardsComponent implements OnInit {
             if( now > info['js'].clone().add(1, 'minutes') ){
               if( now >= info['js'].clone().add(13, 'minutes') ){
                 if( now > info['js'].clone().add(60, 'minutes') ){
-                  result['exp'] = "FA"
-                  result['class'] = "bg-danger"
+                  result['exp'] = 'FA'
+                  result['class'] = 'bg-danger'
 
                   this.listRts( type, asesor, 'fa' )
                 }else{
-                  result['exp'] = "RT-B"
-                  result['class'] = "bg-warning"
+                  result['exp'] = 'RT-B'
+                  result['class'] = 'bg-warning'
                 }
               }else{
-                result['exp'] = "RT-A"
-                result['class'] = "bg-warning"
+                result['exp'] = 'RT-A'
+                result['class'] = 'bg-warning'
               }
             }else{
-              result['exp'] = "..."
-              result['class'] = ""
+              result['exp'] = '...'
+              result['class'] = ''
             }
 
           }else{
-            result['exp'] = "..."
-            result['class'] = "bg-secondary"
+            result['exp'] = '...'
+            result['class'] = 'bg-secondary'
           }
 
         }
 
         if( logs['j'].in == null && logs['x1'].in == null && logs['x2'].in == null && this.asesorLogs != null ){
           for( let log of this.asesorLogs ){
-            if( moment.tz(log['login'], 'America_Mexico_city').tz('America/Bogota') > moment( `${moment().format('YYYY-MM-DD 06:00:00')}` ) ){
-              result['exp'] = "FDH"
-              result['class'] = "bg-danger animated flash infinite"
+            if( moment.tz(log['login'], 'America_Mexico_city').tz( this.zh ) > moment( `${moment().format('YYYY-MM-DD 06:00:00')}` ) ){
+              result['exp'] = 'FDH'
+              result['class'] = 'bg-danger animated flash infinite'
               this.listRts( type, asesor, 'fdh' )
             }
           }
@@ -162,41 +163,41 @@ export class PyaCardsComponent implements OnInit {
 
           if( info.in > info['js'].clone().add(1, 'minutes') ){
             if( info.in >= info['js'].clone().add(13, 'minutes') ){
-              result['exp'] = "RT-B"
-              result['class'] = "bg-warning animated flash infinite"
+              result['exp'] = 'RT-B'
+              result['class'] = 'bg-warning animated flash infinite'
 
               this.listRts( type, asesor, 'b' )
 
               if( this.checkSA( now, info.je, info.out, type, asesor ) ){
-                result['exp'] = "RT-B / SA"
-                result['class'] = "bg-danger"
+                result['exp'] = 'RT-B / SA'
+                result['class'] = 'bg-danger'
               }
             }else{
-              result['exp'] = "RT-A"
-              result['class'] = "bg-warning"
+              result['exp'] = 'RT-A'
+              result['class'] = 'bg-warning'
 
               this.listRts( type, asesor, 'a' )
 
               if( this.checkSA( now, info.je, info.out, type, asesor ) ){
-                result['exp'] = "RT-A / SA"
-                result['class'] = "bg-danger"
+                result['exp'] = 'RT-A / SA'
+                result['class'] = 'bg-danger'
               }
             }
           }else{
-            result['exp'] = "OK"
-            result['class'] = "bg-success"
+            result['exp'] = 'OK'
+            result['class'] = 'bg-success'
 
             if( this.checkSA( now, info.je, info.out, type, asesor ) ){
-              result['exp'] = "OK / SA"
-              result['class'] = "bg-danger"
+              result['exp'] = 'OK / SA'
+              result['class'] = 'bg-danger'
             }
           }
 
 
 
         }else{
-          result['exp'] = "L-In"
-          result['class'] = "bg-success"
+          result['exp'] = 'L-In'
+          result['class'] = 'bg-success'
         }
 
       }
@@ -244,7 +245,7 @@ export class PyaCardsComponent implements OnInit {
   }
 
   checkSA( now, je, out, type, asesor ){
-    if( now > je && moment.tz(this.lu, 'America/Mexico_city').tz("America/Bogota") > je ){
+    if( now > je && moment.tz(this.lu, 'America/Mexico_city').tz( this.zh ) > je ){
       if( out < je ){
 
         if( !(this.dataExceptions && (this.dataExceptions.Codigo == 'F' || this.dataExceptions.Codigo == 'FA' || this.dataExceptions.Codigo == 'FJ' || this.dataExceptions.Codigo == 'SUS')) ){
@@ -271,32 +272,32 @@ export class PyaCardsComponent implements OnInit {
     let x = moment(a), y = moment(b)
 
     switch(type){
-      case "==":
+      case '==':
         if( x == y ){
           return true
         }
         break
-      case "!=":
+      case '!=':
         if( x != y ){
           return true
         }
         break
-      case ">":
+      case '>':
         if( x > y ){
           return true
         }
         break
-      case ">=":
+      case '>=':
         if( x >= y ){
           return true
         }
         break
-      case "<":
+      case '<':
         if( x < y ){
           return true
         }
         break
-      case "<=":
+      case '<=':
         if( x <= y ){
           return true
         }

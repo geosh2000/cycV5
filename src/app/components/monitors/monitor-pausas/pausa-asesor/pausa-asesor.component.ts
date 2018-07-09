@@ -13,6 +13,7 @@ export class PausaAsesorComponent implements OnInit {
   @Input() tipos:any
   @Input() date:any
   @Input() asesor:any
+  @Input() zone:any
   @Input() title:boolean = false
 
   @Output() timer = new EventEmitter<any>()

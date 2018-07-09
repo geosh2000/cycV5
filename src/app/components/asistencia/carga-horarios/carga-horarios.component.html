@@ -37,9 +37,10 @@
                     </div>
                 </div>
                 <div style="text-align: center" class="m-1">
-                    <small><span class="badge badge-pill">Hora Mex</span></small>
-                    <ui-switch color="green" size="small" [(ngModel)]="horaCun"></ui-switch>
-                    <small><span class="badge badge-pill">Hora Cun</span></small>
+                    <select class="custom-select" (change)="chgZone($event.target.value)" [(ngModel)]="zoneIdx">
+                            <option value="">Selecciona...</option>
+                            <option [value]="item['id']" *ngFor="let item of zhs | orderBy: 'title'">{{ item['title'] }}</option>
+                        </select>
                 </div>
                 <div class="m-1">
                     <button type="button" class="btn btn-warning" (click)="getSchedules()" [disabled]="loading['schedules']">Consultar <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span></button>

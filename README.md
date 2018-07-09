@@ -5,6 +5,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ## v2.4.1
 
+### Global
+* Módulo de preferencias por usuario
+* Zona horaria Global por preferencias
+
 ### Módulo de carga de horarios (Nuevo)
 * Selección de asesores por permisos y niveles
 * Filtro por Supervisor / Asesor

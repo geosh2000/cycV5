@@ -4,7 +4,7 @@ import * as moment from 'moment-timezone';
 import { OrderPipe } from 'ngx-order-pipe';
 
 import { ToastrService } from 'ngx-toastr';
-import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
+import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../../services/service.index';
 declare var jQuery:any;
 
 @Component({
@@ -71,6 +71,7 @@ export class KpisPdvComponent implements OnInit {
 
   constructor(public _api: ApiService,
                 public _init:InitService,
+                public _zh:ZonaHorariaService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 private orderPipe: OrderPipe,
@@ -168,7 +169,7 @@ export class KpisPdvComponent implements OnInit {
             .subscribe( res => {
 
               this.loading['venta'] = false
-              this.lu = moment.tz(res['lu'], 'America/Mexico_city').tz('America/Bogota').format('DD MMM \'YY HH:mm:ss')
+              this.lu = moment.tz(res['lu'], 'America/Mexico_city').tz( this._zh.zone ).format('DD MMM \'YY HH:mm:ss')
 
               let fechas = {
                 [this.dateSelected] : 'td',

@@ -1,133 +1,133 @@
 <div class="border border-info m-1">
-  <div class="container-fluid d-flex justify-content-left">
+    <div class="container-fluid d-flex justify-content-left">
 
-    <!-- Nombre -->
-    <div class="p-2" [style.width.px]="300">
-      <ng-container *ngIf="title">
-        <button class="btn btn-link" (click)="sortByField( 'nombre' )">Nombre</button>
-      </ng-container>
-      <ng-container *ngIf="!title">
-        {{ data.nombre }}
-      </ng-container>
-    </div>
-
-    <!-- Departamento -->
-    <div class="p-2 text-center" [style.width.px]="100">
-      <ng-container *ngIf="title">
-        <button class="btn btn-link" (click)="sortByField( 'Departamento' )">Dep</button>
-      </ng-container>
-      <ng-container *ngIf="!title">
-        {{ data.Departamento }}
-      </ng-container>
-    </div>
-
-    <div class="p-2 text-center" [style.width.px]="200" *ngIf="data && data.loading">
-      <h3><i class="fas fa-spinner fa-pulse text-info"></i> Loading</h3>
-    </div>
-
-    <ng-container *ngIf="!(data && data.loading)">
-
-      <!-- Por Revisar -->
-      <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="80">
-        <ng-container *ngIf="title">
-          <button class="btn btn-link" (click)="sortByField( 'review' )">Por Revisar</button>
-        </ng-container>
-        <ng-container *ngIf="!title">
-          <span class="badge badge-pill" [ngClass]="{'badge-danger': data.toReview > 0, 'badge-light': data.toReview == 0 }">{{ data.toReview }}</span>
-        </ng-container>
-      </div>
-
-      <!-- # Pausas -->
-      <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="80">
-        <ng-container *ngIf="title">
-          <button class="btn btn-link" (click)="sortByField( 'number' )"># Pausas</button>
-        </ng-container>
-        <ng-container *ngIf="!title">
-        {{ data['pausas'].length }}
-        </ng-container>
-      </div>
-
-      <!-- # PNP (J) -->
-      <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
-        <ng-container *ngIf="title">
-          <button class="btn btn-link" (click)="sortByField( 'pnp' )">Tiempo PNP<br>(T. Justificado)<br>[Pausas Excedidas]</button>
-        </ng-container>
-        <ng-container *ngIf="!title">
-          <span class="badge badge-pill" [ngClass]="alertClass('pnp', data['sum']['aplicado']['pnp'] )">{{ timeToMin(data['sum']['aplicado']['pnp']) }} </span>
-          <span>({{ timeToMin(data['sum']['justificado']['pnp']) }})</span>
-          <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['pnp'] > 0, 'badge-light': data['over']['pnp'] == 0 }">{{ data['over']['pnp'] }}</span>]</span>
-        </ng-container>
-      </div>
-
-      <!-- # ACW (J) -->
-      <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
-        <ng-container *ngIf="title">
-          <button class="btn btn-link" (click)="sortByField( 'acw' )">Tiempo ACW<br>(T. Justificado)<br>[Pausas Excedidas]</button>
-        </ng-container>
-        <ng-container *ngIf="!title">
-          <span>{{ timeToMin(data['sum']['aplicado']['acw']) }} </span>
-          <span>({{ timeToMin(data['sum']['justificado']['acw']) }})</span>
-          <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['acw'] > 0, 'badge-light': data['over']['acw'] == 0 }">{{ data['over']['acw'] }}</span>]</span>
-        </ng-container>
-      </div>
-
-      <!-- # Comida (J) -->
-      <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
-        <ng-container *ngIf="title">
-          <button class="btn btn-link" (click)="sortByField( 'comida' )">Tiempo Comida<br>(T. Justificado)<br>[Pausas Excedidas]</button>
-        </ng-container>
-        <ng-container *ngIf="!title">
-          <span class="badge badge-pill" [ngClass]="alertClass('comida', data['sum']['aplicado']['comida'] )">{{ timeToMin(data['sum']['aplicado']['comida']) }} </span>
-          <span>({{ timeToMin(data['sum']['justificado']['comida']) }})</span>
-          <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['comida'] > 0, 'badge-light': data['over']['comida'] == 0 }">{{ data['over']['comida'] }}</span>]</span>
-        </ng-container>
-      </div>
-
-      <!-- # Mesa (J) -->
-      <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
-        <ng-container *ngIf="title">
-          <button class="btn btn-link" (click)="sortByField( 'mesa' )">Tiempo Mesa<br>(T. Justificado)<br>[Pausas Excedidas]</button>
-        </ng-container>
-        <ng-container *ngIf="!title">
-          <span class="badge badge-pill" [ngClass]="alertClass('mesa', data['sum']['aplicado']['mesa'] )">{{ timeToMin(data['sum']['aplicado']['mesa']) }} </span>
-          <span>({{ timeToMin(data['sum']['justificado']['mesa']) }})</span>
-          <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['mesa'] > 0, 'badge-light': data['over']['mesa'] == 0 }">{{ data['over']['mesa'] }}</span>]</span>
-        </ng-container>
-      </div>
-
-      <!-- # Charla (J) -->
-      <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
-        <ng-container *ngIf="title">
-          <button class="btn btn-link" (click)="sortByField( 'charla' )">Tiempo Charla<br>(T. Justificado)<br>[Pausas Excedidas]</button>
-        </ng-container>
-        <ng-container *ngIf="!title">
-          <span>{{ timeToMin(data['sum']['aplicado']['charla']) }} </span>
-          <span>({{ timeToMin(data['sum']['justificado']['charla']) }})</span>
-          <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['charla'] > 0, 'badge-light': data['over']['charla'] == 0 }">{{ data['over']['charla'] }}</span>]</span>
-        </ng-container>
-      </div>
-
-      <!-- # Detalle -->
-      <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
-        <ng-container *ngIf="title">
-        </ng-container>
-        <ng-container *ngIf="!title">
-          <button type="button" class="btn btn-outline-primary" data-toggle="collapse" [attr.data-target]="'#collapsible_'+asesor" aria-expanded="false" aria-controls="collapsible">Detalle</button>
-        </ng-container>
-      </div>
-
-    </ng-container>
-
-  </div>
-
-  <ng-container *ngIf="!title">
-    <!-- Pausas Detalladas -->
-    <div class="collapse" id="collapsible_{{ asesor }}">
-      <div class="card card-body bg-info">
-        <div class="row bg-info p-2">
-          <app-pause-detail [pause]="pausa" [date]="date" [changer]="changer" [tipos]="tipos" [asesor]="asesor" (error)="getError( $event )" (timer)="setTimer( $event )" (changeP)="changePause( $event )" *ngFor="let pausa of data['pausas']"></app-pause-detail>
+        <!-- Nombre -->
+        <div class="p-2" [style.width.px]="300">
+            <ng-container *ngIf="title">
+                <button class="btn btn-link" (click)="sortByField( 'nombre' )">Nombre</button>
+            </ng-container>
+            <ng-container *ngIf="!title">
+                {{ data.nombre }}
+            </ng-container>
         </div>
-      </div>
+
+        <!-- Departamento -->
+        <div class="p-2 text-center" [style.width.px]="100">
+            <ng-container *ngIf="title">
+                <button class="btn btn-link" (click)="sortByField( 'Departamento' )">Dep</button>
+            </ng-container>
+            <ng-container *ngIf="!title">
+                {{ data.Departamento }}
+            </ng-container>
+        </div>
+
+        <div class="p-2 text-center" [style.width.px]="200" *ngIf="data && data.loading">
+            <h3><i class="fas fa-spinner fa-pulse text-info"></i> Loading</h3>
+        </div>
+
+        <ng-container *ngIf="!(data && data.loading)">
+
+            <!-- Por Revisar -->
+            <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="80">
+                <ng-container *ngIf="title">
+                    <button class="btn btn-link" (click)="sortByField( 'review' )">Por Revisar</button>
+                </ng-container>
+                <ng-container *ngIf="!title">
+                    <span class="badge badge-pill" [ngClass]="{'badge-danger': data.toReview > 0, 'badge-light': data.toReview == 0 }">{{ data.toReview }}</span>
+                </ng-container>
+            </div>
+
+            <!-- # Pausas -->
+            <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="80">
+                <ng-container *ngIf="title">
+                    <button class="btn btn-link" (click)="sortByField( 'number' )"># Pausas</button>
+                </ng-container>
+                <ng-container *ngIf="!title">
+                    {{ data['pausas'].length }}
+                </ng-container>
+            </div>
+
+            <!-- # PNP (J) -->
+            <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
+                <ng-container *ngIf="title">
+                    <button class="btn btn-link" (click)="sortByField( 'pnp' )">Tiempo PNP<br>(T. Justificado)<br>[Pausas Excedidas]</button>
+                </ng-container>
+                <ng-container *ngIf="!title">
+                    <span class="badge badge-pill" [ngClass]="alertClass('pnp', data['sum']['aplicado']['pnp'] )">{{ timeToMin(data['sum']['aplicado']['pnp']) }} </span>
+                    <span>({{ timeToMin(data['sum']['justificado']['pnp']) }})</span>
+                    <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['pnp'] > 0, 'badge-light': data['over']['pnp'] == 0 }">{{ data['over']['pnp'] }}</span>]</span>
+                </ng-container>
+            </div>
+
+            <!-- # ACW (J) -->
+            <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
+                <ng-container *ngIf="title">
+                    <button class="btn btn-link" (click)="sortByField( 'acw' )">Tiempo ACW<br>(T. Justificado)<br>[Pausas Excedidas]</button>
+                </ng-container>
+                <ng-container *ngIf="!title">
+                    <span>{{ timeToMin(data['sum']['aplicado']['acw']) }} </span>
+                    <span>({{ timeToMin(data['sum']['justificado']['acw']) }})</span>
+                    <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['acw'] > 0, 'badge-light': data['over']['acw'] == 0 }">{{ data['over']['acw'] }}</span>]</span>
+                </ng-container>
+            </div>
+
+            <!-- # Comida (J) -->
+            <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
+                <ng-container *ngIf="title">
+                    <button class="btn btn-link" (click)="sortByField( 'comida' )">Tiempo Comida<br>(T. Justificado)<br>[Pausas Excedidas]</button>
+                </ng-container>
+                <ng-container *ngIf="!title">
+                    <span class="badge badge-pill" [ngClass]="alertClass('comida', data['sum']['aplicado']['comida'] )">{{ timeToMin(data['sum']['aplicado']['comida']) }} </span>
+                    <span>({{ timeToMin(data['sum']['justificado']['comida']) }})</span>
+                    <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['comida'] > 0, 'badge-light': data['over']['comida'] == 0 }">{{ data['over']['comida'] }}</span>]</span>
+                </ng-container>
+            </div>
+
+            <!-- # Mesa (J) -->
+            <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
+                <ng-container *ngIf="title">
+                    <button class="btn btn-link" (click)="sortByField( 'mesa' )">Tiempo Mesa<br>(T. Justificado)<br>[Pausas Excedidas]</button>
+                </ng-container>
+                <ng-container *ngIf="!title">
+                    <span class="badge badge-pill" [ngClass]="alertClass('mesa', data['sum']['aplicado']['mesa'] )">{{ timeToMin(data['sum']['aplicado']['mesa']) }} </span>
+                    <span>({{ timeToMin(data['sum']['justificado']['mesa']) }})</span>
+                    <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['mesa'] > 0, 'badge-light': data['over']['mesa'] == 0 }">{{ data['over']['mesa'] }}</span>]</span>
+                </ng-container>
+            </div>
+
+            <!-- # Charla (J) -->
+            <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
+                <ng-container *ngIf="title">
+                    <button class="btn btn-link" (click)="sortByField( 'charla' )">Tiempo Charla<br>(T. Justificado)<br>[Pausas Excedidas]</button>
+                </ng-container>
+                <ng-container *ngIf="!title">
+                    <span>{{ timeToMin(data['sum']['aplicado']['charla']) }} </span>
+                    <span>({{ timeToMin(data['sum']['justificado']['charla']) }})</span>
+                    <span>[<span class="badge badge-pill" [ngClass]="{'badge-danger': data['over']['charla'] > 0, 'badge-light': data['over']['charla'] == 0 }">{{ data['over']['charla'] }}</span>]</span>
+                </ng-container>
+            </div>
+
+            <!-- # Detalle -->
+            <div class="ml-1 p-2 text-center border-right border-info" [style.width.px]="200">
+                <ng-container *ngIf="title">
+                </ng-container>
+                <ng-container *ngIf="!title">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="collapse" [attr.data-target]="'#collapsible_'+asesor" aria-expanded="false" aria-controls="collapsible">Detalle</button>
+                </ng-container>
+            </div>
+
+        </ng-container>
+
     </div>
-  </ng-container>
+
+    <ng-container *ngIf="!title">
+        <!-- Pausas Detalladas -->
+        <div class="collapse" id="collapsible_{{ asesor }}">
+            <div class="card card-body bg-info">
+                <div class="row bg-info p-2">
+                    <app-pause-detail [zone]="zone" [pause]="pausa" [date]="date" [changer]="changer" [tipos]="tipos" [asesor]="asesor" (error)="getError( $event )" (timer)="setTimer( $event )" (changeP)="changePause( $event )" *ngFor="let pausa of data['pausas']"></app-pause-detail>
+                </div>
+            </div>
+        </div>
+    </ng-container>
 </div>

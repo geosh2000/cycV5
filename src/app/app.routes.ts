@@ -70,6 +70,7 @@ import { AfiliadosComponent } from './affiliatePages/afiliados.component';
 import { ReporteAfiliadosComponent } from './components/reportes/reporte-afiliados/reporte-afiliados.component';
 import { CargaHorariosComponent } from './components/asistencia/carga-horarios/carga-horarios.component';
 import { ProgramacionComponent } from './components/asistencia/programacion/programacion.component';
+import { CambioTurnoComponent } from './components/asistencia/cambio-turno/cambio-turno.component';
 
 
 const APP_ROUTES: Routes = [
@@ -114,6 +115,7 @@ const APP_ROUTES: Routes = [
         { path: 'asistencia/diasPendientes', component: DiasPendientesComponent },
         { path: 'asistencia/cargaHorarios', component: CargaHorariosComponent },
         { path: 'asistencia/programacion', component: ProgramacionComponent },
+        { path: 'asistencia/cambioTurno', component: CambioTurnoComponent },
 
         // Reportes
         { path: 'cuartiles', component: CuartilesComponent },

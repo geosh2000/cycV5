@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import {Observable} from 'rxjs';
-import { ApiService } from '../../../../services/service.index';
+import { ApiService, ZonaHorariaService } from '../../../../services/service.index';
 
 import * as moment from 'moment-timezone';
 
@@ -16,6 +16,7 @@ export class PauseDetailComponent implements OnInit {
   @Input() tipos:any
   @Input() date:any 
   @Input() asesor:any
+  @Input() zone:any
 
   @Output() timer = new EventEmitter<any>()
   @Output() error = new EventEmitter<any>()
@@ -33,7 +34,7 @@ export class PauseDetailComponent implements OnInit {
     asesor: ''
   }
 
-  constructor(public _api: ApiService, private ref: ChangeDetectorRef) {
+  constructor(public _api: ApiService, private ref: ChangeDetectorRef ) {
   }
 
   ngOnInit() {
@@ -79,7 +80,7 @@ export class PauseDetailComponent implements OnInit {
 
   formatTime( time, format ){
     let show = moment.tz(time, 'America/Mexico_city')
-    show.tz('America/Bogota')
+    show.tz( this.zone )
 
     return( show.format( format ) )
   }

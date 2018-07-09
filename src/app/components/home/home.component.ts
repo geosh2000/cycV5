@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
 
-    console.log(this.currentUser)
+    // console.log(this.currentUser)
 
     this.asesorShow = this.currentUser.hcInfo.id
     this.nameShow = this.userToName( this.currentUser.username )

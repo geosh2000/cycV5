@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { Title } from '@angular/platform-browser';
 
-import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
+import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../../services/service.index';
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
@@ -33,6 +33,7 @@ export class DashOutletComponent implements OnInit {
 
   constructor(public _api: ApiService,
                 private _init:InitService,
+                private _zh:ZonaHorariaService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastrService ) {
@@ -64,7 +65,7 @@ export class DashOutletComponent implements OnInit {
   unixTime( time ){
     // DEFINE UNIX TIME
     let m = moment.tz(`${ time }`, "America/Mexico_city")
-    let local = m.clone().tz("America/Bogota")
+    let local = m.clone().tz(this._zh.zone)
     let dif = moment(m.format('YYYY-MM-DD HH:mm:ss')).diff(local.format('YYYY-MM-DD HH:mm:ss'), 'hours')
     m.subtract((5+(dif*(-1))), 'hours')
     return m

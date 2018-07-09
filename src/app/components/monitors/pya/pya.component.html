@@ -1,80 +1,70 @@
 <div class="alert alert-danger" role="alert" *ngIf="!showContents">
-  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
 <div class="container-fluid" *ngIf="showContents">
-  <nav class="navbar fixed-bottom navbar-light bg-light d" *ngIf="dataSchedules && asesorIndex">
-      <div class="d-flex justify-content-start align-items-center" *ngFor="let type of rets | keys">
-        <div class="p-2">
-          <span *ngIf="type == 'a'">RT-A</span>
-          <span *ngIf="type == 'b'">RT-B</span>
-          <span *ngIf="type == 'sa'">SA</span>
-          <span *ngIf="type == 'fa'">Faltas</span>
-          <span *ngIf="type == 'fdh'">FDH</span>
+    <nav class="navbar fixed-bottom navbar-light bg-light d" *ngIf="dataSchedules && asesorIndex">
+        <div class="d-flex justify-content-start align-items-center" *ngFor="let type of rets | keys">
+            <div class="p-2">
+                <span *ngIf="type == 'a'">RT-A</span>
+                <span *ngIf="type == 'b'">RT-B</span>
+                <span *ngIf="type == 'sa'">SA</span>
+                <span *ngIf="type == 'fa'">Faltas</span>
+                <span *ngIf="type == 'fdh'">FDH</span>
+            </div>
+            <div class="p-2">
+                <span class="badge badge-pill" [ngClass]="{'badge-warning': type == 'a' && !dataExceptions[rt.id], 'badge-danger': type != 'a' && !dataExceptions[rt.id], 'bg-info': dataExceptions[rt.id] }" *ngFor="let rt of rets[type] | orderBy: 'name'" placement="top"
+                    [ngbTooltip]="dataPerHour[asesorIndex[rt.id].h][asesorIndex[rt.id].k].dep" [routerLink]="['/pya']" fragment="card_{{ rt.id }}" style="cursor: pointer">{{ rt.name }}</span>
+            </div>
+        </div>
+    </nav>
+    <div class="row d-flex justify-content-end">
+        <div class="p-2 mr-auto">
+            <p><small>Mostrando: {{ printTime(this.dateModel, 'dd DD MMM \'YY') }}</small></p>
+            <p><small>Última Actualización: {{ printTime(this.lu, 'HH:mm:ss dd DD MMM \'YY') }} || Recarga en {{ timeCount }} seg.</small></p>
         </div>
         <div class="p-2">
-          <span class="badge badge-pill" [ngClass]="{'badge-warning': type == 'a' && !dataExceptions[rt.id], 'badge-danger': type != 'a' && !dataExceptions[rt.id], 'bg-info': dataExceptions[rt.id] }" *ngFor="let rt of rets[type] | orderBy: 'name'" placement="top" [ngbTooltip]="dataPerHour[asesorIndex[rt.id].h][asesorIndex[rt.id].k].dep" [routerLink]="['/pya']" fragment="card_{{ rt.id }}" style="cursor: pointer">{{ rt.name }}</span>
-        </div>
-      </div>
-  </nav>
-  <div class="row d-flex justify-content-end">
-    <div class="p-2 mr-auto">
-      <p><small>Mostrando: {{ printTime(this.dateModel, 'dd DD MMM \'YY') }}</small></p>
-      <p><small>Última Actualización: {{ printTime(this.lu, 'HH:mm:ss dd DD MMM \'YY') }} || Recarga en {{ timeCount }} seg.</small></p>
-    </div>
-    <div class="p-2">
-      <form class="form-inline">
-        <div class="form-group">
-          <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" (select)="getSchedules()"
-                   name="dp" [(ngModel)]="dateSearch" ngbDatepicker #d="ngbDatepicker">
-            <button class="input-group-append" (click)="d.toggle()" type="button" style="cursor: pointer">
+            <form class="form-inline">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="yyyy-mm-dd" (select)="getSchedules()" name="dp" [(ngModel)]="dateSearch" ngbDatepicker #d="ngbDatepicker">
+                        <button class="input-group-append" (click)="d.toggle()" type="button" style="cursor: pointer">
               <i class="fas fa-calendar"></i>
             </button>
-          </div>
+                    </div>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
-    <div class="p-2">
-      <button type="button" class="btn btn-success" (click)="getSchedules()" [disabled]="loading['schedules']">Ver Fecha <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-      <button type="button" class="btn btn-info" (click)="getLogs()" [disabled]="loading['logs']">Cargar Logs <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-    </div>
-  </div>
-
-  <ng-container *ngIf="dataSchedules">
-    <div class="row border border-secondary" *ngFor="let hour of hrs">
-
-      <div class="col-1 d-flex justify-content-center align-items-center bg-dark">
-        <div width="55px">
-          <span class='text-white' *ngIf="hour == -1">N/A</span>
-          <span class='text-white' *ngIf="hour != -1">{{ hour/2 }} hrs</span>
+        <div class="p-2">
+            <button type="button" class="btn btn-success" (click)="getSchedules()" [disabled]="loading['schedules']">Ver Fecha <span *ngIf="loading['schedules']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            <button type="button" class="btn btn-info" (click)="getLogs()" [disabled]="loading['logs']">Cargar Logs <span *ngIf="loading['logs']"><i class="fas fa-spinner fa-pulse"></i></span></button>
         </div>
-      </div>
-
-      <div class="col">
-        <div class="row p-2">
-
-          <!-- <div class="col" *ngFor="let item of dataSchedules | orderBy: 'nombre'"> -->
-          <ng-container *ngFor="let item of dataPerHour[hour]; index as i">
-            <app-pya-cards
-              (pop)="popTimer( $event )"
-              (exception)="_pya.build( $event.asesor, $event.nombre, $event.date, $event.showAll )"
-              [item]="item"
-              [alerta]="alert ? alert['card_' + item.asesor] : false"
-              [date]="dateModel"
-              [dataLogs]="dataLogs ? dataLogs[item.asesor] : false"
-              [dataExceptions]="dataExceptions ? dataExceptions[item.asesor] : false"
-              [asesorLogs]="asesorLogs ? asesorLogs[item.asesor] : false"
-              [dataPerHour]="dataPerHour ? dataPerHour[asesorIndex[item.asesor].h][asesorIndex[item.asesor].k] : false"
-              [popOvers]="popOvers ? popOvers[item.asesor] : false"
-              [rets]="rets"
-              [lu]="lu">
-            </app-pya-cards>
-          </ng-container>
-          <!-- </div> -->
-        </div>
-      </div>
-
     </div>
-  </ng-container>
-  <app-pya-exception (save)="excStatus( $event )"></app-pya-exception>
+
+    <ng-container *ngIf="dataSchedules">
+        <div class="row border border-secondary" *ngFor="let hour of hrs">
+
+            <div class="col-1 d-flex justify-content-center align-items-center bg-dark">
+                <div width="55px">
+                    <span class='text-white' *ngIf="hour == -1">N/A</span>
+                    <span class='text-white' *ngIf="hour != -1">{{ printRowTime(hour/2) }} hrs</span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="row p-2">
+
+                    <!-- <div class="col" *ngFor="let item of dataSchedules | orderBy: 'nombre'"> -->
+                    <ng-container *ngFor="let item of dataPerHour[hour]; index as i">
+                        <app-pya-cards (pop)="popTimer( $event )" (exception)="_pya.build( $event.asesor, $event.nombre, $event.date, $event.showAll )" [item]="item" [alerta]="alert ? alert['card_' + item.asesor] : false" [date]="dateModel" [dataLogs]="dataLogs ? dataLogs[item.asesor] : false"
+                            [dataExceptions]="dataExceptions ? dataExceptions[item.asesor] : false" [asesorLogs]="asesorLogs ? asesorLogs[item.asesor] : false" [dataPerHour]="dataPerHour ? dataPerHour[asesorIndex[item.asesor].h][asesorIndex[item.asesor].k] : false"
+                            [popOvers]="popOvers ? popOvers[item.asesor] : false" [rets]="rets" [zh]="_zh.zone" [lu]="lu">
+                        </app-pya-cards>
+                    </ng-container>
+                    <!-- </div> -->
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+    <app-pya-exception (save)="excStatus( $event )"></app-pya-exception>
 </div>

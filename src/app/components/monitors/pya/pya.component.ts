@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { NgbDateStruct, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
-import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
+import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../../services/service.index';
 
 import { PyaExceptionComponent } from '../../formularios/pya-exception.component';
 
@@ -86,6 +86,7 @@ export class PyaComponent implements OnInit {
                 private _tokenCheck:TokenCheckService,
                 public toastr: ToastrService,
                 private zone: NgZone,
+                public _zh: ZonaHorariaService,
                 private route: ActivatedRoute ) {
 
     this.currentUser = this._init.getUserInfo()
@@ -187,6 +188,7 @@ export class PyaComponent implements OnInit {
     this.dataPerHour = {}
     this.asesorIndex = {}
 
+    // tslint:disable-next-line:forin
     for( let item in res ){
 
       let it = res[item]
@@ -195,8 +197,9 @@ export class PyaComponent implements OnInit {
       if( (it.Ausentismo != null && it.showPya != 1) || it.js == null || it.js == it.je ){
         h = -1
       }else{
-        let hour = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('HH'))
-        let minute = parseInt(moment.tz(it.js, 'America/Mexico_city').tz('America/Bogota').format('mm'))
+        let time = moment.tz(it.js, 'America/Mexico_city')
+        let hour = parseInt(time.format('HH'))
+        let minute = parseInt(time.format('mm'))
 
         if( minute > 0 ){
           hour += 0.5
@@ -235,7 +238,7 @@ export class PyaComponent implements OnInit {
       return ''
     }
 
-    let cunTime = moment.tz(time, 'America/Mexico_city').tz('America/Bogota')
+    let cunTime = moment.tz(time, 'America/Mexico_city').tz( this._zh.zone )
 
     return cunTime.format( format )
 
@@ -471,255 +474,6 @@ export class PyaComponent implements OnInit {
 
   }
 
-  pBarVal( asesor, type ){
-
-    if( !this.dataLogs[asesor] ){
-      return 0
-    }
-
-    let logs  = this.dataLogs[asesor]
-    let sch   = this.dataPerHour[this.asesorIndex[asesor].h][this.asesorIndex[asesor].k]
-
-    if( logs[type].in == null || logs[type].out == null ){
-      return 0
-    }
-
-    let info = {
-      in    : moment(logs[type].in),
-      out   : moment(logs[type].out),
-      js    : moment(sch[`${type}s`]),
-      je    : moment(sch[`${type}e`]),
-    }
-
-
-    return parseInt( info['out'].format( 'x' ) ) - parseInt( info['in'].format( 'x' ) )
-  }
-
-  setExcept( asesor, type = 'exception'){
-
-    let result = {
-      exp   : null,
-      class : null
-    }
-
-    let flagAus = false
-
-    if( !this.dataLogs ){
-      result['exp'] = "..."
-      result['class'] = ""
-
-      if( type == 'exception' ){
-        return result['exp']
-      }else{
-        return result['class']
-      }
-    }
-
-    let now = moment()
-    let sch   = this.dataPerHour[this.asesorIndex[asesor].h][this.asesorIndex[asesor].k]
-
-    let info = {
-      in    : null,
-      out   : null,
-      js    : moment.tz(sch[`js`], 'America/Mexico_city').tz("America/Bogota"),
-      je    : moment.tz(sch[`je`], 'America/Mexico_city').tz("America/Bogota"),
-    }
-
-    if( sch.Ausentismo != null || sch.js == sch.je ){
-      flagAus = true
-    }
-
-    if( !this.dataLogs[asesor] ){
-
-      if( !flagAus ){
-
-        if( now > info['js'].clone().add(1, 'minutes') ){
-          if( now >= info['js'].clone().add(13, 'minutes') ){
-            if( now > info['js'].clone().add(60, 'minutes') ){
-              result['exp'] = "FA"
-              result['class'] = "bg-danger"
-
-              this.listRts( type, asesor, 'fa' )
-            }else{
-              result['exp'] = "RT-B"
-              result['class'] = "bg-warning"
-            }
-          }else{
-            result['exp'] = "RT-A"
-            result['class'] = "bg-warning"
-          }
-        }else{
-          result['exp'] = "..."
-          result['class'] = ""
-        }
-
-      }else{
-        result['exp'] = "..."
-        result['class'] = "bg-secondary"
-      }
-
-    }else{
-      let logs  = this.dataLogs[asesor]
-
-      info['in'] = moment.tz(logs['j'].in, 'America/Mexico_city').tz("America/Bogota")
-      info['out'] = moment.tz(logs['j'].out, 'America/Mexico_city').tz("America/Bogota")
-
-      if( logs['j'].in == null || logs['j'].out == null ){
-
-        if( logs['x1'].in != null || logs['x2'].in != null ){
-          result['exp'] = "HX"
-          result['class'] = "bg-info"
-        }else{
-
-          if( !flagAus ){
-
-            if( now > info['js'].clone().add(1, 'minutes') ){
-              if( now >= info['js'].clone().add(13, 'minutes') ){
-                if( now > info['js'].clone().add(60, 'minutes') ){
-                  result['exp'] = "FA"
-                  result['class'] = "bg-danger"
-
-                  this.listRts( type, asesor, 'fa' )
-                }else{
-                  result['exp'] = "RT-B"
-                  result['class'] = "bg-warning"
-                }
-              }else{
-                result['exp'] = "RT-A"
-                result['class'] = "bg-warning"
-              }
-            }else{
-              result['exp'] = "..."
-              result['class'] = ""
-            }
-
-          }else{
-            result['exp'] = "..."
-            result['class'] = "bg-secondary"
-          }
-
-        }
-
-        if( logs['j'].in == null && logs['x1'].in == null && logs['x2'].in == null && this.asesorLogs[asesor] != null ){
-          for( let log of this.asesorLogs[asesor] ){
-            if( moment.tz(log['login'], 'America_Mexico_city').tz('America/Bogota') > moment( `${moment().format('YYYY-MM-DD 06:00:00')}` ) ){
-              result['exp'] = "FDH"
-              result['class'] = "bg-danger"
-              this.listRts( type, asesor, 'fdh' )
-            }
-          }
-        }
-
-      }else{
-
-        if( !flagAus ){
-
-          if( info.in > info['js'].clone().add(1, 'minutes') ){
-            if( info.in >= info['js'].clone().add(13, 'minutes') ){
-              result['exp'] = "RT-B"
-              result['class'] = "bg-warning animated flash infinite"
-
-              this.listRts( type, asesor, 'b' )
-
-              if( this.checkSA( now, info.je, info.out, type, asesor ) ){
-                result['exp'] = "RT-B / SA"
-                result['class'] = "bg-danger"
-              }
-            }else{
-              result['exp'] = "RT-A"
-              result['class'] = "bg-warning"
-
-              this.listRts( type, asesor, 'a' )
-
-              if( this.checkSA( now, info.je, info.out, type, asesor ) ){
-                result['exp'] = "RT-A / SA"
-                result['class'] = "bg-danger"
-              }
-            }
-          }else{
-            result['exp'] = "OK"
-            result['class'] = "bg-success"
-
-            if( this.checkSA( now, info.je, info.out, type, asesor ) ){
-              result['exp'] = "OK / SA"
-              result['class'] = "bg-danger"
-            }
-          }
-
-
-
-        }else{
-          result['exp'] = "L-In"
-          result['class'] = "bg-success"
-        }
-
-      }
-    }
-
-    if( type == 'exception' ){
-      return result['exp']
-    }else{
-      if( this.dataExceptions[asesor] ){
-        return 'bg-primary text-white'
-      }
-      return result['class']
-    }
-
-  }
-
-  checkSA( now, je, out, type, asesor ){
-    if( now > je && moment.tz(this.lu, 'America/Mexico_city').tz("America/Bogota") > je ){
-      if( out < je ){
-
-        this.listRts( type, asesor, 'sa' )
-
-        return true
-      }
-    }
-
-    return false
-  }
-
-  compareDates( a, type, b ){
-
-    let x = moment(a), y = moment(b)
-
-    switch(type){
-      case "==":
-        if( x == y ){
-          return true
-        }
-        break
-      case "!=":
-        if( x != y ){
-          return true
-        }
-        break
-      case ">":
-        if( x > y ){
-          return true
-        }
-        break
-      case ">=":
-        if( x >= y ){
-          return true
-        }
-        break
-      case "<":
-        if( x < y ){
-          return true
-        }
-        break
-      case "<=":
-        if( x <= y ){
-          return true
-        }
-        break
-    }
-
-    return false
-
-  }
 
   timerLoad( pause = false ){
 
@@ -824,5 +578,12 @@ export class PyaComponent implements OnInit {
     }
   }
 
+  printRowTime( row ){
+    let hora = parseInt(row) < 10 ? '0'+parseInt(row) : parseInt(row)
+    let minuto = row % parseInt(row) > 0 ? '30' : '00'
+    let time = moment.tz(`${moment(this.dateSearch).format('YYYY-MM-DD')} ${hora}:${minuto}:00`, 'America/Mexico_city').tz( this._zh.zone )
+
+    return row % parseInt(row) > 0 ? parseFloat( time.format('H') ) + 0.5 : parseInt( time.format('H') )
+  }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import * as moment from 'moment-timezone';
+import { ZonaHorariaService } from '../../../services/service.index';
 
 @Component({
   selector: 'app-jornadas',
@@ -27,16 +28,13 @@ export class JornadasComponent implements OnInit {
   @Output() exception = new EventEmitter<any>()
   @Output() saveHx = new EventEmitter<any>()
 
-  constructor() { }
+  constructor( private _zh:ZonaHorariaService ) { }
 
   ngOnInit() {
   }
 
   formatDate(datetime, format){
-    let time = moment.tz(datetime, "America/Mexico_City")
-    let cunTime = time.clone().tz( "America/Bogota" )
-
-    return cunTime.format(format)
+    return moment.tz(datetime, 'America/Mexico_City').tz( this._zh.zone ).format(format)
   }
 
   progressProps( val, originalBg = 'primary' ){

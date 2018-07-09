@@ -1,11 +1,25 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from './api.service';
+import { ZonaHorariaService } from './zona-horaria.service';
 declare var jQuery:any;
 
 @Injectable()
 export class InitService {
 
-  constructor( private _route:Router) { }
+  preferences:any = {}
+
+  constructor( private _route:Router, private _api:ApiService, private _zh:ZonaHorariaService ) {
+    this.getPreferences()
+  }
+
+  getPreferences(){
+    this._api.restfulGet( '', 'Preferences/userPreferences' )
+        .subscribe( res => {
+          this.preferences = res['data']
+          this._zh.getZone( this.preferences['zonaHoraria'] )
+        })
+  }
 
   getUserInfo(){
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));

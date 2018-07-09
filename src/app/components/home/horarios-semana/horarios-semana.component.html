@@ -1,54 +1,25 @@
 <div class="container">
-  <div class="d-flex justify-content-center" *ngIf="loading['horarios']">
-    <span><i class="fas fa-spinner fa-4x fa-pulse text-info"></i></span>
-  </div>
-  <table class="table table-sm table-bordered table-striped" *ngIf="horariosData && !loading['horarios']">
-    <thead>
-      <tr>
-        <th>Asesor</th>
-        <th class="text-center" style="font-size: smaller" *ngFor="let date of datesData">{{ printTime(date, 'dddd') }}<br>{{ printTime(date, 'DD MMM \'YY') }}</th>
-        <th class="text-center" style="font-size: smaller">Comida<br><small>{{ printTime(addTime(fdow,7,'days','YYYY-MM-DD'), 'DD MMM') }} a {{ printTime(addTime(fdow,13,'days','YYYY-MM-DD'), 'DD MMM')}}</small></th>
-      </tr>
-    </thead>
-    <tbody *ngIf="horariosData.length > 0">
-      <tr>
-        <td>{{ horariosData[0]['nombre'] }}</td>
-        <td class="text-center" *ngFor="let date of datesData">
-          <ng-container *ngFor="let item of horariosData">
-            <ng-container *ngIf="item.Fecha == date">
-
-              <p style='font-size: smaller' *ngIf="item.Ausentismo != null">a: {{ item.Ausentismo }}</p>
-
-              <ng-container *ngIf="item.js == item.je && item.js != null">
-                <p style='font-size: smaller'>j: Descanso</p>
-              </ng-container>
-
-              <ng-container *ngIf="item.js == item.je && item.js == null">
-                <p style='font-size: smaller'>j: N/A</p>
-              </ng-container>
-
-              <ng-container *ngIf="item.js != item.je">
-                <p style='font-size: smaller' *ngIf="item.js != item.je">j: {{ printTime(item.js, 'HH:mm', true ) }} a {{ printTime(item.je, 'HH:mm', true ) }}</p>
-                <p style='font-size: smaller' *ngIf="item.cs != item.ce">c: {{ printTime(item.cs, 'HH:mm', true ) }} a {{ printTime(item.ce, 'HH:mm', true ) }}</p>
-                <p style='font-size: smaller' *ngIf="item.x1s != item.x1e">x1: {{ printTime(item.x1s, 'HH:mm', true ) }} a {{ printTime(item.x1e, 'HH:mm', true ) }}</p>
-                <p style='font-size: smaller' *ngIf="item.x2s != item.x2e">x2: {{ printTime(item.x2s, 'HH:mm', true ) }} a {{ printTime(item.x2e, 'HH:mm', true ) }}</p>
-              </ng-container>
-
-            </ng-container>
-          </ng-container>
-        </td>
-        <td  class="text-center">
-          <span *ngIf="loading['comida']"><i class="fas fa-spinner fa-pulse fa-2x text-info"></i></span>
-          <ui-switch
-            color="green"
-            size= "small"
-            [(ngModel)]="comida"
-            (change)="chgComida($event)"
-            *ngIf="!loading['comida']"
-            [disabled]="!comidaSelect"
-          ></ui-switch>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="d-flex justify-content-center" *ngIf="loading['horarios']">
+        <span><i class="fas fa-spinner fa-4x fa-pulse text-info"></i></span>
+    </div>
+    <table class="table table-sm table-bordered table-striped" *ngIf="horariosData && !loading['horarios']">
+        <thead>
+            <tr>
+                <th class="text-center" style="font-size: smaller" *ngFor="let date of datesData">{{ printTime(date, 'dddd') }}<br>{{ printTime(date, 'DD MMM \'YY') }}</th>
+                <th class="text-center" style="font-size: smaller">Comida<br><small>{{ printTime(addTime(fdow,7,'days','YYYY-MM-DD'), 'DD MMM') }} a {{ printTime(addTime(fdow,13,'days','YYYY-MM-DD'), 'DD MMM')}}</small></th>
+            </tr>
+        </thead>
+        <tbody *ngIf="horariosData.length > 0">
+            <tr>
+                <td *ngFor="let item of horariosData" class="text-xs-center" style="max-width: 180px">
+                    <app-jornadas [asistData]="item" [date]="item['Fecha']" [asesor]="asesor" [nombre]="item.Nombre" [editable]="false" [showOpts]="showOpts">
+                    </app-jornadas>
+                </td>
+                <td class="text-center">
+                    <span *ngIf="loading['comida']"><i class="fas fa-spinner fa-pulse fa-2x text-info"></i></span>
+                    <ui-switch color="green" size="small" [(ngModel)]="comida" (change)="chgComida($event)" *ngIf="!loading['comida']" [disabled]="!comidaSelect"></ui-switch>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

@@ -1,6 +1,6 @@
 <div class="jumbotron" *ngIf="!showContents">
-  <h1 class="display-3">Bienvenido a ComeyCome</h1>
-  <span class="lead">
+    <h1 class="display-3">Bienvenido a ComeyCome</h1>
+    <span class="lead">
     <ul>
       <li>Consulta tu detalle de ventas</li>
       <li>Revisa el avance de tus equipos de Supervisión</li>
@@ -11,50 +11,50 @@
       <li>Revisa datos históricos de ventas, nómina, telefonía y performance</li>
     </ul>
   </span>
-  <hr class="my-4">
-  <p>Para ingresar, es necesario estar dado de alta en el sistema y contar con una cuenta de PriceTravel.</p>
-  <p>Para visitantes externos, es necesario obtener una cuenta personalizada</p>
+    <hr class="my-4">
+    <p>Para ingresar, es necesario estar dado de alta en el sistema y contar con una cuenta de PriceTravel.</p>
+    <p>Para visitantes externos, es necesario obtener una cuenta personalizada</p>
 </div>
 
 <div class="container-fluid" *ngIf="showContents">
-  <div class="container-fluid">
-    <!-- TITLE -->
-    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
-      <div class="container">
-        <div class="row">
-          <div class="col-8">
-            <div>
-              <span><h1 class="display-3">Home - <small class="text-capitalize font-weight-light">{{ nameShow }}</small></h1></span>
-              <p class="lead">Consulta el avance de tus ventas, edita tus detalles de contacto, inscríbete a eventos próximos...</p>
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="row">
+                    <div class="col-8">
+                        <div>
+                            <span><h1 class="display-3">Home - <small class="text-capitalize font-weight-light">{{ nameShow }}</small></h1></span>
+                            <p class="lead">Consulta el avance de tus ventas, edita tus detalles de contacto, inscríbete a eventos próximos...</p>
+                        </div>
+                    </div>
+                    <div class="col-4" *ngIf="birthday && birthday == 1">
+                        <img src="assets/img/bd.gif" alt="" height="200px">
+                    </div>
+                </div>
+                <ng-container *ngIf="_init.checkSingleCredential('config_showAllUsersHome')">
+                    <br>
+                    <div class="container">
+                        <div class="form-group row">
+                            <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" [active]="1" udn="self" placeholder="Nombre Asesor..."></app-search-asesor>
+                        </div>
+                    </div>
+                </ng-container>
+                <br>
+                <app-event-display [asesor]='asesorShow' [original]="currentUser.hcInfo.id"></app-event-display>
             </div>
-          </div>
-          <div class="col-4" *ngIf="birthday && birthday == 1">
-              <img src="assets/img/bd.gif" alt="" height="200px">
-          </div>
         </div>
-        <ng-container *ngIf="_init.checkSingleCredential('config_showAllUsersHome')">
-          <br>
-          <div class="container">
-            <div class="form-group row">
-              <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" [active]="1" udn="self" placeholder="Nombre Asesor..." ></app-search-asesor>
-            </div>
-          </div>
-        </ng-container>
-        <br>
-        <app-event-display [asesor]='asesorShow' [original]="currentUser.hcInfo.id"></app-event-display>
-      </div>
     </div>
-  </div>
 
-  <!-- Tabla de horarios -->
-  <app-horarios-semana [asesor]='asesorShow'></app-horarios-semana>
-  <br>
+    <!-- Tabla de horarios -->
+    <app-horarios-semana [asesorName]='nameShow' [asesor]='asesorShow'></app-horarios-semana>
+    <br>
 
-  <!-- Tabla de datos -->
-  <app-personal-data [asesor]='asesorShow' [name]='nameShow'></app-personal-data>
-  <br>
-  <!-- Gráficas -->
-  <div class="container" style="overflow: auto">
-    <app-grafica-ventas [asesor]='asesorShow' [name]='nameShow'></app-grafica-ventas>
-  </div>
+    <!-- Tabla de datos -->
+    <app-personal-data [asesor]='asesorShow' [name]='nameShow'></app-personal-data>
+    <br>
+    <!-- Gráficas -->
+    <div class="container" style="overflow: auto">
+        <app-grafica-ventas [asesor]='asesorShow' [name]='nameShow'></app-grafica-ventas>
+    </div>
 </div>

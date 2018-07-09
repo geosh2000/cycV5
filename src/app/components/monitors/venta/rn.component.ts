@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { ApiService, InitService } from '../../../services/service.index';
+import { ApiService, InitService, ZonaHorariaService } from '../../../services/service.index';
 
 import * as moment from 'moment-timezone';
 
@@ -32,6 +32,7 @@ export class RnComponent implements OnInit {
   constructor(
               private _api:ApiService,
               public _init:InitService,
+              public _zh:ZonaHorariaService,
               public toastr: ToastrService ) {
 
       this.currentUser = this._init.getUserInfo()
@@ -66,7 +67,7 @@ export class RnComponent implements OnInit {
               this.total = this.processData( res['data'].all,'total' )
 
               let lu = moment.tz(res['data'].lu.LU, "America/Mexico_city")
-              let luCUN = lu.clone().tz("America/Bogota")
+              let luCUN = lu.clone().tz( this._zh.zone )
 
               this.lu = luCUN.format("DD MMM 'YY kk:mm:ss")
 
@@ -147,7 +148,7 @@ export class RnComponent implements OnInit {
 
   printMoment( data, format ){
     let info = moment.tz( data, 'America/Mexico_city' )
-    let cun = info.clone().tz('America/Bogota')
+    let cun = info.clone().tz( this._zh.zone )
 
     return cun.format(format)
   }

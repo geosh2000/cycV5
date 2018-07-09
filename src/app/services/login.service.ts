@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from './api.service';
+import { InitService } from './init.service';
 
 @Injectable()
 export class LoginService {
 
-  constructor( private _api:ApiService ) { }
+  constructor( private _api:ApiService, private _init:InitService ) { }
 
   loginCyC( logInfo ){
 
@@ -24,8 +25,8 @@ export class LoginService {
                           credentials: res['credentials']
                         })
         );
-
-          return { status: true, msg: 'Logueo Correcto', err: 'NA' }
+        this._init.getPreferences()
+        return { status: true, msg: 'Logueo Correcto', err: 'NA' }
       }, err => {
 
         if(err){
