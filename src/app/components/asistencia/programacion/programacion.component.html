@@ -1,0 +1,32 @@
+<h1>Programacion</h1>
+
+<div class="container-fluid" *ngIf="dataProg">
+    <table class="table table-sm table-bordered table-striped" style="font-size: xx-small">
+        <thead>
+            <tr>
+                <th>Asesor</th>
+                <th>Jornada</th>
+                <th>Extra 1</th>
+                <th>Extra 2</th>
+                <th>Comida</th>
+                <th *ngFor="let item of hourIndex" [style.width.px]="30" style="font-size: smaller">{{ item['index'] }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let asesor of dataProg | keys">
+                <td>{{ dataProg[asesor]['Nombre'] }}</td>
+                <td>{{ printDate(dataProg[asesor]['js'], dataProg[asesor]['je'], true) }}</td>
+                <td>{{ printDate(dataProg[asesor]['x1s'], dataProg[asesor]['x1e'] ) }}</td>
+                <td>{{ printDate(dataProg[asesor]['x2s'], dataProg[asesor]['x2e'] ) }}</td>
+                <td>{{ printDate(dataProg[asesor]['cs'], dataProg[asesor]['ce'] ) }}</td>
+                <td *ngFor="let item of hourIndex; index as i" style="font-size: smaller" class="text-center" [ngClass]="printOcc(asesor, item['index'], true )">{{ printOcc(asesor, item['index'] ) }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="5">TOTAL</th>
+                <th *ngFor="let item of hourIndex" [style.width.px]="30" style="font-size: smaller" class="text-center">{{ hourTotal[item['index']] }}</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

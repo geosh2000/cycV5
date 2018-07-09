@@ -67,7 +67,8 @@ export class TableTemplateComponent implements OnInit {
       result.cell = item
     }
 
-    if( typeof this.confTable[field].custom !== "undefined" ){
+    // tslint:disable-next-line:typeof-compare
+    if( typeof this.confTable[field].custom != undefined ){
       result.cell = this.confTable[field].custom(item)
     }
 

@@ -140,15 +140,15 @@ export class CardAsesorEstadisticaComponent implements AfterViewInit {
 
       let mes = [
         {y: (mensual.hotel / totalMes * 100),   name: 'Hotel', sliced: true, select: true },
-        {y: ((this.dept !== 50 ? mensual.paquete : mensual.tour) / totalMes * 100),  name: this.dept !== 50 ? 'Paquete' : 'Tour' },
-        {y: ((this.dept !== 50 ? mensual.vuelo : mensual.transfer) / totalMes * 100),  name: this.dept !== 50 ? 'Vuelo' : 'Transfer' },
+        {y: ((this.dept != 50 ? mensual.paquete : mensual.tour) / totalMes * 100),  name: this.dept != 50 ? 'Paquete' : 'Tour' },
+        {y: ((this.dept != 50 ? mensual.vuelo : mensual.transfer) / totalMes * 100),  name: this.dept != 50 ? 'Vuelo' : 'Transfer' },
         {y: (mensual.otros / totalMes * 100),   name: 'Otros' }
       ]
 
       let td = [
         {y: (hoy.hotel / totalHoy * 100),   name: 'Hotel', sliced: true, select: true },
-        {y: ((this.dept !== 50 ? hoy.paquete : hoy.tour) / totalHoy * 100),  name: this.dept !== 50 ? 'Paquete' : 'Tour' },
-        {y: ((this.dept !== 50 ? hoy.vuelo : hoy.transfer) / totalHoy * 100),  name: this.dept !== 50 ? 'Vuelo' : 'Transfer' },
+        {y: ((this.dept != 50 ? hoy.paquete : hoy.tour) / totalHoy * 100),  name: this.dept != 50 ? 'Paquete' : 'Tour' },
+        {y: ((this.dept != 50 ? hoy.vuelo : hoy.transfer) / totalHoy * 100),  name: this.dept != 50 ? 'Vuelo' : 'Transfer' },
         {y: (hoy.otros / totalHoy * 100),   name: 'Otros' }
       ]
 

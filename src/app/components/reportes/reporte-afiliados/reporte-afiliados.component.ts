@@ -42,7 +42,7 @@ import * as moment from 'moment-timezone';
 })
 export class ReporteAfiliadosComponent implements OnInit {
 
-  mainCredential: any = 'afiliados'
+  mainCredential: any = 'default'
   showContents: boolean;
   currentUser: any;
 

@@ -239,7 +239,7 @@ export class CxcComponent implements OnInit {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
     // tslint:disable-next-line:no-bitwise
-    for (let i=0; i!==s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
+    for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 

@@ -124,7 +124,7 @@ export class AsistenciaComponent implements OnInit {
   }
 
   searchAsistencia( dep, inicio, fin ){
-    if( dep !== 0 ){
+    if( dep != 0 ){
       this.depLoadFlag = false
       this.getAsistencia( dep, inicio, fin )
     }else{
@@ -134,7 +134,7 @@ export class AsistenciaComponent implements OnInit {
       this.depLoaders = {}
 
       for( let pcrc of this.deps ){
-        if( pcrc.id !== 29 ){
+        if( pcrc.id != 29 ){
           this.depLoaders[pcrc.Departamento] = true
           let params = `${pcrc.id}/${inicio}/${fin}`
           this.getAllDeps( pcrc, params, () => {
@@ -587,7 +587,7 @@ export class AsistenciaComponent implements OnInit {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
     // tslint:disable-next-line:no-bitwise
-    for (let i=0; i!==s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
+    for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 

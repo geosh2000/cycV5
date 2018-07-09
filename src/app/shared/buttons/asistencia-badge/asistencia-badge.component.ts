@@ -54,9 +54,9 @@ export class AsistenciaBadgeComponent implements OnInit {
 
     if( data.j_login!=null ){
 
-      if( data.Descanso!==1 ){
+      if( data.Descanso!=1 ){
 
-          if(data.SalidaAnticipada!==1){
+          if(data.SalidaAnticipada!=1){
             if( data.Ausentismo==1 ){
               this.infoDisplay = true
               this.infoExcep = true
@@ -178,7 +178,7 @@ export class AsistenciaBadgeComponent implements OnInit {
       }
     }
 
-    if( data.Asistencia!==1 || (data.SalidaAnticipada==1 && data.tiempoLaborado<60) ){
+    if( data.Asistencia!=1 || (data.SalidaAnticipada==1 && data.tiempoLaborado<60) ){
 
       if( data.Ausentismo==1 ){
 
@@ -205,9 +205,9 @@ export class AsistenciaBadgeComponent implements OnInit {
 
       }
 
-      if( data.Ausentismo!==1 ){
+      if( data.Ausentismo!=1 ){
 
-        if( data.Descanso!==1 ){
+        if( data.Descanso!=1 ){
 
           let header = moment(this.date)
           let today = moment()

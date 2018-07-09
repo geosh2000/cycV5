@@ -1,161 +1,165 @@
 <div class="card animated fadeIn">
 
-  <!-- CUERPO -->
-  <div class="card-body pt-0">
-    <div class="row">
-
-      <!-- IMAGEN ASESOR -->
-      <div class="col-lg-3 d-flex justify-content-center align-items-center">
-        <div>
-          <div class="d-flex justify-content-center">
-            <img [src]="asesorImage" height="200" class="rounded-circle" (error)="updateImg($event)">
-          </div>
-          <div class="d-flex justify-content-center p-2 text-center">
-            <h3>{{ dataDisplay['nombre'] }}</h3>
-          </div>
-          <div class="d-flex justify-content-center p-2 text-center">
-            <p><small>Actualizado: {{ dataDisplay['lu'] }}</small></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- CUERPO ESTADISTICAS -->
-      <div class="col-lg-9">
-
-        <!-- MONTOS -->
+    <!-- CUERPO -->
+    <div class="card-body pt-0">
         <div class="row">
-          <div class="col-lg-6">
-            <p class="text-left"><small>Mensual</small></p>
-            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h1>{{ dataDisplay['mensual']['total'] | currency:'MXN':'.2-2' }}</h1>
-            </div>
-            <div class="d-flex justify-content-center align-items-center" style="width: 100%" *ngIf="metas">
-              <ngb-progressbar style="width: 100%" showValue="true" type="success" [value]="alcance(dataDisplay['mensual']['total'], metas['Meta_Individual']) | number:'.2-2'"></ngb-progressbar>
-            </div>
-            <div class="row">
-              <div class="col-lg-7 d-flex justify-content-center align-items-center">
-                <ul class="list-group" style="width: 100%">
 
-                  <!-- HOTEL -->
-                  <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span><i class="far fa-building fa-fw" style="color: #7bb5ec"></i></span>
-                    <span class='ml-auto'>{{ dataDisplay['mensual']['hotel'] | currency:'MXN':'.2-2' }}</span>
-                  </li>
+            <!-- IMAGEN ASESOR -->
+            <div class="col-lg-3 d-flex justify-content-center align-items-center">
+                <div>
+                    <div class="d-flex justify-content-center">
+                        <img [src]="asesorImage" height="200" class="rounded-circle" (error)="updateImg($event)">
+                    </div>
+                    <div class="d-flex justify-content-center p-2 text-center">
+                        <h3>{{ dataDisplay['nombre'] }}</h3>
+                    </div>
+                    <div class="d-flex justify-content-center p-2 text-center">
+                        <p><small>Actualizado: {{ dataDisplay['lu'] }}</small></p>
+                    </div>
+                </div>
+            </div>
 
-                  <!-- PAQUETE -->
-                  <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span>
+            <!-- CUERPO ESTADISTICAS -->
+            <div class="col-lg-9">
+
+                <!-- MONTOS -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p class="text-left"><small>Mensual</small></p>
+                        <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+                            <h1>{{ dataDisplay['mensual']['total'] | currency:'MXN':'symbol-narrow':'.2-2' }}</h1>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="width: 100%" *ngIf="metas">
+                            <ngb-progressbar style="width: 100%" showValue="true" type="success" [value]="alcance(dataDisplay['mensual']['total'], metas['Meta_Individual']) | number:'.2-2'"></ngb-progressbar>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-7 d-flex justify-content-center align-items-center">
+                                <ul class="list-group" style="width: 100%">
+
+                                    <!-- HOTEL -->
+                                    <li class="list-group-item p-1 d-flex justify-content-start">
+                                        <span><i class="far fa-building fa-fw" style="color: #7bb5ec"></i></span>
+                                        <span class='ml-auto'>{{ dataDisplay['mensual']['hotel'] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                                    </li>
+
+                                    <!-- PAQUETE -->
+                                    <li class="list-group-item p-1 d-flex justify-content-start">
+                                        <span>
                       <span class="fa-layers fa-fw" *ngIf="depto != 50">
                         <i class="far fa-building fa-inverse" style="color: #434347" data-fa-transform="shrink-5 up-4 left-4"></i>
                         <i class="fas fa-plane fa-inverse" style="color: #434347" data-fa-transform="rotate--45 shrink-5 down-4 right-4"></i>
                       </span>
-                      <span *ngIf="depto == 50"><i class="fas fa-bicycle fa-fw" style="color: #434347"></i></span>
-                    </span>
-                    <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['mensual']['paquete'] : dataDisplay['mensual']['tour']) | currency:'MXN':'.2-2' }}</span>
-                  </li>
+                                        <span *ngIf="depto == 50"><i class="fas fa-bicycle fa-fw" style="color: #434347"></i></span>
+                                        </span>
+                                        <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['mensual']['paquete'] : dataDisplay['mensual']['tour']) | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                                    </li>
 
-                  <!-- VUELO -->
-                  <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span *ngIf="depto != 50"><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
-                    <span *ngIf="depto == 50"><i class="fas fa-truck fa-fw" style="color: #8fed7c"></i></span>
-                    <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['mensual']['vuelo'] : dataDisplay['mensual']['transfer']) | currency:'MXN':'.2-2' }}</span>
-                  </li>
+                                    <!-- VUELO -->
+                                    <li class="list-group-item p-1 d-flex justify-content-start">
+                                        <span *ngIf="depto != 50"><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
+                                        <span *ngIf="depto == 50"><i class="fas fa-truck fa-fw" style="color: #8fed7c"></i></span>
+                                        <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['mensual']['vuelo'] : dataDisplay['mensual']['transfer']) | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                                    </li>
 
-                  <!-- OTROS -->
-                  <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span><i class="fas fa-ellipsis-h fa-fw" style="color: #f4a35b"></i></span>
-                    <span class='ml-auto'>{{ dataDisplay['mensual']['otros'] | currency:'MXN':'.2-2' }}</span>
-                  </li>
+                                    <!-- OTROS -->
+                                    <li class="list-group-item p-1 d-flex justify-content-start">
+                                        <span><i class="fas fa-ellipsis-h fa-fw" style="color: #f4a35b"></i></span>
+                                        <span class='ml-auto'>{{ dataDisplay['mensual']['otros'] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                                    </li>
 
-                </ul>
-              </div>
-              <div class="col-lg-5 d-flex justify-content-center align-items-center">
-                <div class="p-1" [style.height.px]="135">
-                  <chart [options]="options" (load)="saveInstance('mensual', $event.context)"></chart>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h3 *ngIf="depto != 5 && depto != 50 && depto != 52">FC {{ (dataDisplay['mensual']['rsvas'] / dataDisplay['mensual']['llamadas'] * 100) | number:'.2-2' }} %</h3>
-              <h3 *ngIf="depto == 5 || depto == 50 || depto == 52">Calls {{ dataDisplay['mensual']['llamadasOut'] }}</h3>
-            </div>
-            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h3>AHT {{ ((depto == 5 || depto == 50 || depto == 52 ? dataDisplay['mensual']['ttOut'] : dataDisplay['mensual']['tt']) / (depto == 5 || depto == 50 || depto == 52 ? dataDisplay['mensual']['llamadasOut'] : dataDisplay['mensual']['llamadas_all'])) | number:'.0-0' }} s.</h3>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <p class="text-left"><small>Hoy</small></p>
-            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h1>{{ dataDisplay['hoy']['total'] | currency:'MXN':'.2-2' }}</h1>
-            </div>
-            <div class="d-flex justify-content-center align-items-center" style="width: 100%" *ngIf="metas">
-              <ngb-progressbar style="width: 100%" showValue="true" type="success" [value]="alcance(dataDisplay['hoy']['total'], metas['Meta_Diaria']) | number:'.2-2'"></ngb-progressbar>
-            </div>
-            <div class="row">
-              <div class="col-lg-7 d-flex justify-content-center align-items-center">
-                <ul class="list-group" style="width: 100%">
+                                </ul>
+                            </div>
+                            <div class="col-lg-5 d-flex justify-content-center align-items-center">
+                                <div class="p-1" [style.height.px]="135">
+                                    <chart [options]="options" (load)="saveInstance('mensual', $event.context)"></chart>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+                            <h3 *ngIf="depto != 5 && depto != 50 && depto != 52">FC {{ (dataDisplay['mensual']['rsvas'] / dataDisplay['mensual']['llamadas'] * 100) | number:'.2-2' }} %</h3>
+                            <h3 *ngIf="depto == 5 || depto == 50 || depto == 52">Calls {{ dataDisplay['mensual']['llamadasOut'] }}</h3>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+                            <h3>AHT {{ ((depto == 5 || depto == 50 || depto == 52 ? dataDisplay['mensual']['ttOut'] : dataDisplay['mensual']['tt']) / (depto == 5 || depto == 50 || depto == 52 ? dataDisplay['mensual']['llamadasOut'] : dataDisplay['mensual']['llamadas_all']))
+                                | number:'.0-0' }} s.</h3>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <p class="text-left"><small>Hoy</small></p>
+                        <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+                            <h1>{{ dataDisplay['hoy']['total'] | currency:'MXN':'symbol-narrow':'.2-2' }}</h1>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="width: 100%" *ngIf="metas">
+                            <ngb-progressbar style="width: 100%" showValue="true" type="success" [value]="alcance(dataDisplay['hoy']['total'], metas['Meta_Diaria']) | number:'.2-2'"></ngb-progressbar>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-7 d-flex justify-content-center align-items-center">
+                                <ul class="list-group" style="width: 100%">
 
-                  <!-- HOTEL -->
-                  <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span><i class="far fa-building fa-fw" style="color: #7bb5ec"></i></span>
-                    <span class='ml-auto'>{{ dataDisplay['hoy']['hotel'] | currency:'MXN':'.2-2' }}</span>
-                  </li>
+                                    <!-- HOTEL -->
+                                    <li class="list-group-item p-1 d-flex justify-content-start">
+                                        <span><i class="far fa-building fa-fw" style="color: #7bb5ec"></i></span>
+                                        <span class='ml-auto'>{{ dataDisplay['hoy']['hotel'] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                                    </li>
 
-                  <!-- PAQUETE -->
-                  <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span>
+                                    <!-- PAQUETE -->
+                                    <li class="list-group-item p-1 d-flex justify-content-start">
+                                        <span>
                       <span class="fa-layers fa-fw" *ngIf="depto != 50">
                         <i class="far fa-building fa-inverse" style="color: #434347" data-fa-transform="shrink-5 up-4 left-4"></i>
                         <i class="fas fa-plane fa-inverse" style="color: #434347" data-fa-transform="rotate--45 shrink-5 down-4 right-4"></i>
                       </span>
-                      <span *ngIf="depto == 50"><i class="fas fa-bicycle fa-fw" style="color: #434347"></i></span>
-                    </span>
-                    <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['hoy']['paquete'] : dataDisplay['hoy']['tour']) | currency:'MXN':'.2-2' }}</span>
-                  </li>
+                                        <span *ngIf="depto == 50"><i class="fas fa-bicycle fa-fw" style="color: #434347"></i></span>
+                                        </span>
+                                        <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['hoy']['paquete'] : dataDisplay['hoy']['tour']) | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                                    </li>
 
-                  <!-- VUELO -->
-                  <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span *ngIf="depto != 50"><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
-                    <span *ngIf="depto == 50"><i class="fas fa-truck fa-fw" style="color: #8fed7c"></i></span>
-                    <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['hoy']['vuelo'] : dataDisplay['hoy']['transfer']) | currency:'MXN':'.2-2' }}</span>
-                  </li>
+                                    <!-- VUELO -->
+                                    <li class="list-group-item p-1 d-flex justify-content-start">
+                                        <span *ngIf="depto != 50"><i class="fas fa-plane fa-fw" style="color: #8fed7c" data-fa-transform="rotate--45"></i></span>
+                                        <span *ngIf="depto == 50"><i class="fas fa-truck fa-fw" style="color: #8fed7c"></i></span>
+                                        <span class='ml-auto'>{{ (depto != 50 ? dataDisplay['hoy']['vuelo'] : dataDisplay['hoy']['transfer']) | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                                    </li>
 
-                  <!-- OTROS -->
-                  <li class="list-group-item p-1 d-flex justify-content-start">
-                    <span><i class="fas fa-ellipsis-h fa-fw" style="color: #f4a35b"></i></span>
-                    <span class='ml-auto'>{{ dataDisplay['hoy']['otros'] | currency:'MXN':'.2-2' }}</span>
-                  </li>
+                                    <!-- OTROS -->
+                                    <li class="list-group-item p-1 d-flex justify-content-start">
+                                        <span><i class="fas fa-ellipsis-h fa-fw" style="color: #f4a35b"></i></span>
+                                        <span class='ml-auto'>{{ dataDisplay['hoy']['otros'] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                                    </li>
 
 
-                </ul>
-              </div>
-              <div class="col-lg-5 d-flex justify-content-center align-items-center">
-                <div class="p-1" [style.height.px]="135">
-                  <chart [options]="options" (load)="saveInstance('hoy', $event.context)"></chart>
+                                </ul>
+                            </div>
+                            <div class="col-lg-5 d-flex justify-content-center align-items-center">
+                                <div class="p-1" [style.height.px]="135">
+                                    <chart [options]="options" (load)="saveInstance('hoy', $event.context)"></chart>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+                            <h3 *ngIf="depto != 5 && depto != 50 && depto != 52">FC {{ (dataDisplay['hoy']['rsvas'] / dataDisplay['hoy']['llamadas'] * 100) | number:'.2-2' }} %</h3>
+                            <h3 *ngIf="depto == 5 || depto == 50 || depto == 52">Calls {{ dataDisplay['hoy']['llamadasOut'] }}</h3>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+                            <h3>AHT {{ ((depto == 5 || depto == 50 || depto == 52 ? dataDisplay['hoy']['ttOut'] : dataDisplay['hoy']['tt']) / (depto == 5 || depto == 50 || depto == 52 ? dataDisplay['hoy']['llamadasOut'] : dataDisplay['hoy']['llamadas_all']))
+                                | number:'.0-0' }} s.</h3>
+                        </div>
+                    </div>
                 </div>
-              </div>
+
+                <!-- ALCANCE AL DIA -->
+                <div class="row p-1 border border-bottom-0 border-left-0 border-right-0 border-primary" *ngIf="metas">
+                    <div class="col-12 text-center">
+                        <p>
+                            <ngb-progressbar showValue="true" type="success" [value]="alcance( dataDisplay['mensual']['total'], metas['Meta_Diaria_Total'], true ) | number:'.2-2'"></ngb-progressbar>
+                        </p>
+                        <p><small>Alcance al día</small></p>
+                    </div>
+                </div>
+
             </div>
-            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h3 *ngIf="depto != 5 && depto != 50 && depto != 52">FC {{ (dataDisplay['hoy']['rsvas'] / dataDisplay['hoy']['llamadas'] * 100) | number:'.2-2' }} %</h3>
-              <h3 *ngIf="depto == 5 || depto == 50 || depto == 52">Calls {{ dataDisplay['hoy']['llamadasOut'] }}</h3>
-            </div>
-            <div class="d-flex justify-content-center align-items-center" style="width: 100%">
-              <h3>AHT {{ ((depto == 5 || depto == 50 || depto == 52 ? dataDisplay['hoy']['ttOut'] : dataDisplay['hoy']['tt']) / (depto == 5 || depto == 50 || depto == 52 ? dataDisplay['hoy']['llamadasOut'] : dataDisplay['hoy']['llamadas_all'])) | number:'.0-0' }} s.</h3>
-            </div>
-          </div>
+
         </div>
-
-        <!-- ALCANCE AL DIA -->
-        <div class="row p-1 border border-bottom-0 border-left-0 border-right-0 border-primary" *ngIf="metas">
-          <div class="col-12 text-center">
-            <p><ngb-progressbar showValue="true" type="success" [value]="alcance( dataDisplay['mensual']['total'], metas['Meta_Diaria_Total'], true ) | number:'.2-2'"></ngb-progressbar></p>
-            <p><small>Alcance al día</small></p>
-          </div>
-        </div>
-
-      </div>
-
     </div>
-  </div>
 
 </div>
