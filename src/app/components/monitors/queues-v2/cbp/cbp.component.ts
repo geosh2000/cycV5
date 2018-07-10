@@ -356,14 +356,14 @@ export class CbpComponent implements OnInit {
     if( !normal ){
       unix  = moment.unix(datetime)
     }else{
-      return moment.duration(datetime, 'HH:mm:ss').asSeconds()
+      return moment.duration(datetime).asSeconds()
     }
 
     let result = moment.duration(now.diff(unix));
 
-    let hours:any = parseInt(result.asHours())
-    let minutes:any = parseInt(result.asMinutes()) - ( hours * 60 )
-    let seconds:any = parseInt(result.asSeconds()) - ( parseInt(result.asMinutes()) * 60 )
+    let hours:any = Math.floor(result.asHours())
+    let minutes:any = Math.floor(result.asMinutes()) - ( hours * 60 )
+    let seconds:any = Math.floor(result.asSeconds()) - ( Math.floor(result.asMinutes()) * 60 )
 
     if( hours < 10 ){ hours = `0${ hours }` }
     if( minutes < 10 ){ minutes = `0${ minutes }` }
@@ -373,11 +373,11 @@ export class CbpComponent implements OnInit {
       case 'hms':
         return `${ hours }:${ minutes }:${ seconds }`
       case 'h':
-        return parseInt(result.asHours())
+        return Math.floor(result.asHours())
       case 'm':
-        return parseInt(result.asMinutes())
+        return Math.floor(result.asMinutes())
       case 's':
-        return parseInt(result.asSeconds())
+        return Math.floor(result.asSeconds())
     }
   }
 

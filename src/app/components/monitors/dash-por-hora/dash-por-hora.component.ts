@@ -275,7 +275,7 @@ export class DashPorHoraComponent implements AfterViewInit {
 
     for( let i = start; i <= end; i ){
       week.push( moment(i) )
-      if( moment(i).format('E') == 7 ){
+      if( parseInt(moment(i).format('E')) == 7 ){
         this.dates.push(week)
         week = []
       }

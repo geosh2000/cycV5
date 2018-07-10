@@ -60,7 +60,7 @@ export class PrenominaComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -113,7 +113,7 @@ export class PrenominaComponent implements OnInit {
                 this.getFestivos()
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['schedules'] = false
 
@@ -137,7 +137,7 @@ export class PrenominaComponent implements OnInit {
                 this.getAsesores()
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['festivos'] = false
 
@@ -162,7 +162,7 @@ export class PrenominaComponent implements OnInit {
                 this.getLogs()
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['asesores'] = false
 
@@ -187,7 +187,7 @@ export class PrenominaComponent implements OnInit {
                 this.getAusentismos( )
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['logs'] = false
 
@@ -213,7 +213,7 @@ export class PrenominaComponent implements OnInit {
 
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['ausentismos'] = false
 
@@ -239,7 +239,7 @@ export class PrenominaComponent implements OnInit {
 
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['bonos'] = false
 
@@ -262,6 +262,7 @@ export class PrenominaComponent implements OnInit {
 
                 this.dataCxc = res['data']
 
+                // tslint:disable-next-line:forin
                 for( let asesor in res['data'] ){
                   for( let cxc of res['data'][asesor] ){
                     if( this.prenomCxc[asesor] ){
@@ -296,7 +297,7 @@ export class PrenominaComponent implements OnInit {
 
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['cxc'] = false
 
@@ -488,9 +489,9 @@ export class PrenominaComponent implements OnInit {
         if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
           if( this.dataAusentismos[data.Fecha][data.asesor]['Code'] == 'F' || this.dataAusentismos[data.Fecha][data.asesor]['Code'] == 'FJ'){
             result = {
-              code: "D",
-              rcode: "D",
-              desc: "Descanso por Festivo"
+              code: 'D',
+              rcode: 'D',
+              desc: 'Descanso por Festivo'
             }
           }
         }
@@ -522,15 +523,15 @@ export class PrenominaComponent implements OnInit {
       if( result['code'] == 'DT' ){
         if( !this.checkSA( data.js, data.je, data.logs.j.in, data.logs.j.out ) && parseInt(this.dataAusentismos[data.Fecha][data.asesor].pdt) == 1 && !this.checkLength( data.js, data.je, data.logs.j.in, data.logs.j.out ) && data.logs.j.in != null ){
           result = {
-            code: "DT",
-            rcode: "DT",
-            desc: "Descanso Trabajado"
+            code: 'DT',
+            rcode: 'DT',
+            desc: 'Descanso Trabajado'
           }
         }else{
           result = {
-            code: "D",
-            rcode: "D",
-            desc: "Descanso"
+            code: 'D',
+            rcode: 'D',
+            desc: 'Descanso'
           }
         }
       }
@@ -541,23 +542,23 @@ export class PrenominaComponent implements OnInit {
     if( data.logs.j.in == null ){
       if( data.js == data.je ){
         result = {
-          code: "D",
-          rcode: "D",
-          desc: "Descanso"
+          code: 'D',
+          rcode: 'D',
+          desc: 'Descanso'
         }
         return result[type]
       }else{
         if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
           result = {
-            code: "D",
-            rcode: "D",
-            desc: "Descanso por Festivo"
+            code: 'D',
+            rcode: 'D',
+            desc: 'Descanso por Festivo'
           }
         }else{
           result = {
-            code: "F",
-            rcode: "F",
-            desc: "Falta Injustificada"
+            code: 'F',
+            rcode: 'F',
+            desc: 'Falta Injustificada'
           }
         }
         return result[type]
@@ -566,15 +567,15 @@ export class PrenominaComponent implements OnInit {
       if( this.checkSA( data.js, data.je, data.logs.j.in, data.logs.j.out ) ){
         if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
           result = {
-            code: "D",
-            rcode: "D",
-            desc: "Descanso por Festivo"
+            code: 'D',
+            rcode: 'D',
+            desc: 'Descanso por Festivo'
           }
         }else{
           result = {
-            code: "F",
-            rcode: "F",
-            desc: "Salida Anticipada Jornada < 60%"
+            code: 'F',
+            rcode: 'F',
+            desc: 'Salida Anticipada Jornada < 60%'
           }
         }
         return result[type]
@@ -582,15 +583,15 @@ export class PrenominaComponent implements OnInit {
         if( this.checkLength( data.js, data.je, data.logs.j.in, data.logs.j.out ) ){
           if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
             result = {
-              code: "D",
-              rcode: "D",
-              desc: "Descanso por Festivo"
+              code: 'D',
+              rcode: 'D',
+              desc: 'Descanso por Festivo'
             }
           }else{
             result = {
-              code: "F",
-              rcode: "F",
-              desc: "Jornada < 60%"
+              code: 'F',
+              rcode: 'F',
+              desc: 'Jornada < 60%'
             }
           }
           return result[type]
@@ -598,26 +599,26 @@ export class PrenominaComponent implements OnInit {
 
           if( this.dataFestivos && this.dataFestivos[data.Fecha] ){
             result = {
-              code: "FES",
-              rcode: "FES",
-              desc: "Festivo Trabajado"
+              code: 'FES',
+              rcode: 'FES',
+              desc: 'Festivo Trabajado'
             }
           }else{
             result = {
-              code: "A",
-              rcode: "A",
-              desc: "Asistencia"
+              code: 'A',
+              rcode: 'A',
+              desc: 'Asistencia'
             }
 
             // ==========================================
             // START Evaluación de Descansos Trabajados
             // ==========================================
-            if( ( moment(data.Fecha).format('E') == 7 && parseInt( moment(data.js).format('HH') ) <= 21 ) || ( moment(data.Fecha).format('E') == 6 && parseInt( moment(data.js).format('HH') ) >= 22 ) ){
+            if( ( parseInt(moment(data.Fecha).format('E')) == 7 && parseInt( moment(data.js).format('HH') ) <= 21 ) || ( parseInt(moment(data.Fecha).format('E')) == 6 && parseInt( moment(data.js).format('HH') ) >= 22 ) ){
               if( data.js != data.je ){
                 result = {
-                  code: "DOM",
-                  rcode: "DOM",
-                  desc: "Domingo Trabajado"
+                  code: 'DOM',
+                  rcode: 'DOM',
+                  desc: 'Domingo Trabajado'
                 }
               }
             }
@@ -814,7 +815,7 @@ export class PrenominaComponent implements OnInit {
 
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.listCortesFlag = false
 
@@ -857,6 +858,7 @@ export class PrenominaComponent implements OnInit {
 
     let wb = utils.table_to_book(document.getElementById(sheets), {raw: true});
 
+    // tslint:disable-next-line:forin
     for( let cell in wb.Sheets.Sheet1 ){
 
       let match = cell.match(/^[A-Z]+[1]{1}$/g)
@@ -878,7 +880,7 @@ export class PrenominaComponent implements OnInit {
   s2ab(s) {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
-    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 }

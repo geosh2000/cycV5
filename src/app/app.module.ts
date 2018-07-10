@@ -75,8 +75,6 @@ import { UploadImageComponent } from './components/formularios/upload-image.comp
 import { ReingresoAsesorComponent } from './components/formularios/reingreso-asesor.component';
 import { HxConfigComponent } from './components/config/horarios/hx-config.component';
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
-import { QueuesComponent } from './components/monitors/queues/queues.component';
-import { CallsProcesedComponent } from './components/monitors/queues/components/calls-procesed.component';
 import { RnComponent } from './components/monitors/venta/rn.component';
 import { GraficaVentasComponent } from './components/home/grafica-ventas.component';
 import { ReportUpdatesComponent } from './components/config/updates/report-updates.component';
@@ -222,8 +220,6 @@ registerLocaleData(localeEsMX)
     ReingresoAsesorComponent,
     HxConfigComponent,
     VentaPorCanalComponent,
-    QueuesComponent,
-    CallsProcesedComponent,
     RnComponent,
     GraficaVentasComponent,
     ReportUpdatesComponent,
@@ -299,7 +295,7 @@ registerLocaleData(localeEsMX)
   imports: [
     BrowserModule,
     CommonModule,
-    
+
     MainPages,
     SharedModule,
 
