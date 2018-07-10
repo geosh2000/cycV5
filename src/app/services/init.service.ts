@@ -14,11 +14,13 @@ export class InitService {
   }
 
   getPreferences(){
-    this._api.restfulGet( '', 'Preferences/userPreferences' )
-        .subscribe( res => {
-          this.preferences = res['data']
-          this._zh.getZone( this.preferences['zonaHoraria'] )
-        })
+    if( localStorage.getItem('currentUser') ){
+      this._api.restfulGet( '', 'Preferences/userPreferences' )
+          .subscribe( res => {
+            this.preferences = res['data']
+            this._zh.getZone( this.preferences['zonaHoraria'] )
+          })
+    }
   }
 
   getUserInfo(){
