@@ -107,4 +107,4 @@
     <p>Expiration Info: {{ expiration }}</p>
 </div>
 <app-logout (confirm)="confirmLO($event)"></app-logout>
-<app-user-preferences></app-user-preferences>
+<app-user-preferences *ngIf="currentUser"></app-user-preferences>

@@ -149,6 +149,7 @@ import { ProgramacionComponent } from './components/asistencia/programacion/prog
 import { AffiliatesComponent } from './components/pages/affiliates/affiliates.component';
 import { MainComponent } from './components/pages/main/main.component';
 import { CambioTurnoComponent } from './components/asistencia/cambio-turno/cambio-turno.component';
+import { VentaPorCanalMtComponent } from './components/reportes/venta/venta-por-canal-mt.component';
 
 
 declare let jQuery: Object;
@@ -290,7 +291,8 @@ registerLocaleData(localeEsMX)
     ProgramacionComponent,
     AffiliatesComponent,
     MainComponent,
-    CambioTurnoComponent
+    CambioTurnoComponent,
+    VentaPorCanalMtComponent
   ],
   imports: [
     BrowserModule,
