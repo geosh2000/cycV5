@@ -51,7 +51,8 @@ export class HorariosSemanaComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['horarios'] = false
-                this.horariosData = res['array']
+                this.horariosData = res['array']['array']
+                this.comida = res['array']['comida'] == 0 ? false : true
 
                 let dates:any = []
                 for(let i = moment(start); i<=moment(end); i = i.add(1,'days')){
@@ -72,7 +73,7 @@ export class HorariosSemanaComponent implements OnInit {
 
               })
 
-            if( parseInt(moment().format('E')) < 4 ){
+            if( parseInt(moment().format('E')) < 7 ){
               this.comidaSelect = true
             }else{
               this.comidaSelect = false
