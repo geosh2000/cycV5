@@ -1,0 +1,146 @@
+<div class="showContents">
+
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Reporte de Venta MT por Canal</h1></span>
+                        <p class="lead">Ventas y modificaciones con saldo positivo por Canal. Incluye sólo cancelaciones del mismo día</p>
+                        <p *ngIf="tdInfo && prodLu"><small>Last Update: {{ printDate( prodLu, "DD MMM 'YY kk:mm ZZ", 'cun' ) }}</small></p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class='container'>
+                <div class="d-flex justify-content-start">
+                    <div style="text-align: center" class="p-2">
+                        <ui-switch color="green" size="small" [(ngModel)]="tdInfo"></ui-switch>
+                        <p style="margin-top: -10px">
+                            <small *ngIf="tdInfo">Venta del día</small>
+                            <small *ngIf="!tdInfo">Histórico</small>
+                        </p>
+                    </div>
+                    <div class="form-group p-2" *ngIf="!tdInfo">
+                        <div class="input-group" daterangepicker (selected)="dateChange($event.start, $event.end)">
+                            <input type='text' class="form-control uneditable-input" name="daterange" value="" id="datepicker" style="font-size: smaller">
+                            <span class="input-group-btn">
+                      <button type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></button>
+                  </span>
+                        </div>
+                    </div>
+                    <div style="text-align: center" class="p-2">
+                        <ui-switch color="green" size="small" [(ngModel)]="soloVenta"></ui-switch>
+                        <p style="margin-top: -10px">
+                            <small *ngIf="soloVenta">Solo Venta</small>
+                            <small *ngIf="!soloVenta">Venta y Cxl</small>
+                        </p>
+                    </div>
+                    <!-- <div style="text-align: center" class="p-2">
+            <ui-switch
+              color="green"
+              size= "small"
+              [(ngModel)]="pdvType"
+            ></ui-switch>
+            <p style="margin-top: -10px">
+              <small *ngIf="!pdvType">Por tipo (PDV)</small>
+              <small *ngIf="pdvType">Por canal (PDV)</small>
+            </p> 
+          </div> -->
+                    <div style="text-align: center" class="p-2">
+                        <ui-switch color="green" size="small" [(ngModel)]="prod" (change)="search( {switch: true, flag: $event} )"></ui-switch>
+                        <p style="margin-top: -10px">
+                            <small *ngIf="!prod">Todo</small>
+                            <small *ngIf="prod">Por producto</small>
+                        </p>
+                    </div>
+                    <div style="text-align: center" class="p-2">
+                        <ui-switch color="green" size="small" [(ngModel)]="isPaq"></ui-switch>
+                        <p style="margin-top: -10px">
+                            <small *ngIf="!isPaq">Paq Desglozado</small>
+                            <small *ngIf="isPaq">Paquete</small>
+                        </p>
+                    </div>
+                    <div style="text-align: center" class="p-2">
+                        <ui-switch color="green" size="small" [(ngModel)]="isAmmount"></ui-switch>
+                        <p style="margin-top: -10px">
+                            <small *ngIf="!isAmmount">ML</small>
+                            <small *ngIf="isAmmount">$</small>
+                        </p>
+                    </div>
+                    <div class="p-2">
+                        <button type="button" class="btn btn-success" (click)="search()" [disabled]="!tdInfo && !searchStart && !searchEnd">Buscar</button>
+                    </div>
+                    <div class="p-2 ml-auto">
+                        <button type="button" class="btn btn-warning" *ngIf="ventaData" (click)="downloadXLS('ventaData', dwlTitle())">Descargar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <h2 *ngIf="loadingData"><i class="fa fa-fw fa-spinner fa-pulse"></i> Loading...</h2>
+        <table class="table table-sm table-responsive-sm table-bordered table-striped table-hover" style="font-size: smaller" id='ventaData' *ngIf="ventaData">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Fecha</th>
+                    <th class="text-center" scope="col">DOW</th>
+                    <th class="text-center" scope="col" *ngIf="isHour">Hora</th>
+                    <th class="text-center" scope="col" *ngIf="prod">Producto</th>
+                    <th class="text-center" scope="col">CC IN</th>
+                    <th class="text-center" scope="col">CC OUT</th>
+                    <th class="text-center" scope="col">.COM</th>
+                    <th class="text-center" scope="col">Total .COM</th>
+                    <th class="text-center" scope="col">Part % CC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="!prod && !isHour">
+                    <tr *ngFor="let item of ventaData | keys">
+                        <th class="text-center">{{ printDate( item, "YYYY-MM-DD" ) }}</th>
+                        <td class="text-center">{{ printDate( item, 'dddd' ) }}</td>
+                        <td class="text-center">{{ coalesce( item, 'CC IN', true ) }}</td>
+                        <td class="text-center">{{ coalesce( item, 'CC OUT', true ) }}</td>
+                        <td class="text-center">{{ coalesce( item, 'Online', true ) }}</td>
+                        <td class="text-center">{{ sumVals( item, ['CC IN', 'CC OUT', 'Online'], isAmmount ) }}</td>
+                        <td class="text-center">{{ (sumVals( item, ['CC IN', 'CC OUT'] ) / sumVals( item, ['CC IN', 'CC OUT', 'Online'] ) * 100) | number:'.0-2' }}%</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="prod && !isHour">
+                    <ng-container *ngFor="let item of ventaData | keys">
+                        <tr *ngFor="let producto of ventaData[item] | keys">
+                            <th class="text-center">{{ printDate( item, "YYYY-MM-DD" ) }}</th>
+                            <td class="text-center">{{ printDate( item, 'dddd' ) }}</td>
+                            <td class="text-center">{{ producto }}</td>
+                            <td class="text-center">{{ coalesce( item, 'CC IN', true, false, producto ) }}</td>
+                            <td class="text-center">{{ coalesce( item, 'CC OUT', true, false, producto ) }}</td>
+                            <td class="text-center">{{ coalesce( item, 'Online', true, false, producto ) }}</td>
+                            <td class="text-center">{{ sumVals( item, ['CC IN', 'CC OUT', 'Online'], isAmmount, false, producto ) }}</td>
+                            <td class="text-center">{{ (sumVals( item, ['CC IN', 'CC OUT'], false, false, producto ) / sumVals( item, ['CC IN', 'CC OUT', 'Online'], false, false, producto ) * 100) | number:'.0-2' }}%</td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="!prod && isHour">
+                    <ng-container *ngFor="let item of ventaData | keys">
+                        <tr *ngFor="let hour of ventaData[item] | keys">
+                            <th class="text-center">{{ printDate( item, "YYYY-MM-DD" ) }}</th>
+                            <td class="text-center">{{ printDate( item, 'dddd' ) }}</td>
+                            <td class="text-center">{{ hour }}</td>
+                            <td class="text-center">{{ coalesce( item, 'CC IN', true, hour ) }}</td>
+                            <td class="text-center">{{ coalesce( item, 'CC OUT', true, hour ) }}</td>
+                            <td class="text-center">{{ coalesce( item, 'Online', true, hour ) }}</td>
+                            <td class="text-center">{{ sumVals( item, ['CC IN', 'CC OUT', 'Online'], isAmmount, hour ) }}</td>
+                            <td class="text-center">{{ (sumVals( item, ['CC IN', 'CC OUT'], false, hour ) / sumVals( item, ['CC IN', 'CC OUT', 'Online'], false, hour ) * 100) | number:'.0-2' }}%</td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
