@@ -22,6 +22,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Reporte de Afiliados (Nuevo)
 * Reporte parametrizado de Afiliados
 
+### Reporte de Asistencia
+* Filtro para búsqueda de varios asesores
+* Filtro de búsqueda por supervisor
+
+### Reporte de Venta por Canal MT (beta)
+* Reporte de venta por canal y producto para MT (revisando para cuadrar numeros)
+
 ## v2.4.0
 
 * Angular 6

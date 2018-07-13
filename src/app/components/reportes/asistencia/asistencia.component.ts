@@ -33,6 +33,9 @@ export class AsistenciaComponent implements OnInit {
   currentUser: any
   showContents:boolean = false
   mainCredential:string = 'tablas_f'
+  
+  filterExpanded:boolean = false
+  selectedAsesores:any = []
 
   loading:boolean = false
   showProgress:boolean = false
@@ -40,7 +43,6 @@ export class AsistenciaComponent implements OnInit {
   asistData:any
   datesData:any
   deps:any
-  asesorSelected:any
   searchBy:boolean = true
 
   private depsSubject = new Subject<any>();
@@ -80,14 +82,6 @@ export class AsistenciaComponent implements OnInit {
   ]
 
   error:string = null
-
-  protected onSelected(item){
-    if(item){
-      this.asesorSelected = item.asesor;
-    }
-
-  }
-
 
   constructor(
                 private _dateRangeOptions: DaterangepickerConfig,
@@ -169,11 +163,18 @@ export class AsistenciaComponent implements OnInit {
 
   getAsistencia( dep, inicio, fin, asesor?:any, flag=false ){
 
+      this.filterExpanded = false
       this.searchFilter = ''
-      let params = `${dep}/${inicio}/${fin}`
+      let params = {
+        dep     : dep ,
+        inicio  : inicio ,
+        fin     : fin ,
+        asesor  : asesor ,
+        noSup   : null ,
+        order   : null ,
+      }
 
       if( asesor ){
-        params = `${dep}/${inicio}/${fin}/${asesor}`
         if( !flag ){
           this.asistData[asesor]['data'][inicio]['loading'] = true
         }else{
@@ -183,7 +184,7 @@ export class AsistenciaComponent implements OnInit {
         this.loading = true
       }
 
-      this._api.restfulGet( params, 'Asistencia/pya' )
+      this._api.restfulPut( params, 'Asistencia/pya' )
               .subscribe( res =>{
 
                 if( asesor && !flag){
