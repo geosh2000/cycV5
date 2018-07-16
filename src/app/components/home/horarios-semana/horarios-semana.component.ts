@@ -20,6 +20,7 @@ export class HorariosSemanaComponent implements OnInit {
   fdow:any
   comida:boolean = true
   comidaSelect:boolean = true
+  nextWeek:number = 1
 
   showOpts:Object = {
     ch_jornada:   true,
@@ -39,12 +40,8 @@ export class HorariosSemanaComponent implements OnInit {
     this.fdow = moment().subtract(parseInt(moment().format('E'))-1, 'days').format('YYYY-MM-DD')
   }
 
-  getHorarios(){
+  getHorarios( start = moment().subtract(parseInt(moment().format('e')), 'days').format('YYYY-MM-DD'), end = moment(moment().subtract(parseInt(moment().format('e')), 'days').format('YYYY-MM-DD')).add(6, 'days').format('YYYY-MM-DD') ){
     this.loading['horarios'] = true
-
-    let dow = parseInt(moment().format('e'))
-    let start = moment().subtract(dow, 'days').format('YYYY-MM-DD')
-    let end = moment(start).add(6, 'days').format('YYYY-MM-DD')
 
     let params = `0/${start}/${end}/${this.asesor}`
     this._api.restfulGet( params,'Asistencia/pyaV2' )
@@ -124,4 +121,29 @@ export class HorariosSemanaComponent implements OnInit {
             })
   }
 
+  nextW( flag ){
+
+    this.nextWeek = flag
+
+    let start, end
+
+    switch( flag ){
+      case 0:
+        start = moment().subtract(parseInt(moment().format('e')), 'days').subtract(7, 'days').format('YYYY-MM-DD')
+        end = moment(moment().subtract(parseInt(moment().format('e')), 'days').subtract(7, 'days').format('YYYY-MM-DD')).add(6, 'days').format('YYYY-MM-DD')
+        this.getHorarios( start, end )
+        break
+      case 1:
+        this.getHorarios()
+        break
+      case 2:
+        start = moment().subtract(parseInt(moment().format('e')), 'days').add(7, 'days').format('YYYY-MM-DD')
+        end = moment(moment().subtract(parseInt(moment().format('e')), 'days').add(7, 'days').format('YYYY-MM-DD')).add(6, 'days').format('YYYY-MM-DD')
+        this.getHorarios( start, end )
+        break
+    }
+
+  }
 }
+
+
