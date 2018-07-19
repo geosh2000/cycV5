@@ -70,7 +70,7 @@ export class HorariosSemanaComponent implements OnInit {
 
               })
 
-            if( parseInt(moment().format('E')) < 7 ){
+            if( parseInt(moment().format('E')) < 4 ){
               this.comidaSelect = true
             }else{
               this.comidaSelect = false

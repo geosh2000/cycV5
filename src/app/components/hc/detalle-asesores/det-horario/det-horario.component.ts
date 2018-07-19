@@ -118,7 +118,7 @@ export class DetHorarioComponent implements OnChanges {
                 .subscribe( res => {
 
                   this.loading['horarios'] = false
-                  this.dataHorarios = res['array']
+                  this.dataHorarios = res['array']['array']
 
                   let dates:any = []
                   for(let i = moment(this.inicio); i<=moment(this.fin); i = i.add(1,'days')){
