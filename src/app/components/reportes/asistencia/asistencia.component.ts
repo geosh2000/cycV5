@@ -476,7 +476,7 @@ export class AsistenciaComponent implements OnInit {
       }
     }else{
       this.toastr.success( event.error.msg, `Guardado` )
-      this.getAsistencia( this.searchCriteria['skill'] ? this.searchCriteria['skill'] : 0, event.fecha, event.fecha, event.asesor )
+      this.getAsistencia( this.searchCriteria['skill'] ? this.searchCriteria['skill'] : 0, event.fecha, event.fecha, [event.asesor] )
 
     }
   }
