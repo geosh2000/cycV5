@@ -150,6 +150,14 @@ import { AffiliatesComponent } from './components/pages/affiliates/affiliates.co
 import { MainComponent } from './components/pages/main/main.component';
 import { CambioTurnoComponent } from './components/asistencia/cambio-turno/cambio-turno.component';
 import { VentaPorCanalMtComponent } from './components/reportes/venta/venta-por-canal-mt.component';
+import { SaleIndexMonitorComponent } from './components/monitors/sale-index-monitor/sale-index-monitor.component';
+import { CxcRegistroComponent } from './components/cxc/cxc-registro/cxc-registro.component';
+import { CxcLinkComponent } from './components/cxc/cxc-link/cxc-link.component';
+import { CxcAddComponent } from './components/cxc/cxc-add/cxc-add.component';
+import { CxcLineComponent } from './components/cxc/cxc-line/cxc-line.component';
+import { CxcCommentComponent } from './components/cxc/cxc-comment/cxc-comment.component';
+import { CxcAprobeComponent } from './components/cxc/cxc-aprobe/cxc-aprobe.component';
+import { CxcAplicablesComponent } from './components/cxc/cxc-aplicables/cxc-aplicables.component';
 
 
 declare let jQuery: Object;
@@ -292,7 +300,15 @@ registerLocaleData(localeEsMX)
     AffiliatesComponent,
     MainComponent,
     CambioTurnoComponent,
-    VentaPorCanalMtComponent
+    VentaPorCanalMtComponent,
+    SaleIndexMonitorComponent,
+    CxcRegistroComponent,
+    CxcLinkComponent,
+    CxcAddComponent,
+    CxcLineComponent,
+    CxcCommentComponent,
+    CxcAprobeComponent,
+    CxcAplicablesComponent,
   ],
   imports: [
     BrowserModule,

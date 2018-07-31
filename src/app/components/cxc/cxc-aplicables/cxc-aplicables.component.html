@@ -1,0 +1,120 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+
+<div *ngIf="showContents">
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Aplicación de CxC's</h1></span>
+                        <p class="lead">Genera los pagos que se verán reflejados en Nómina. Busca por CC o PDV</p>
+                    </div>
+                    <div>
+                        <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class='container pt-2 d-flex justify-content-start'>
+                <div class='p-1 text-center'>
+                    <span>CC</span>
+                </div>
+                <div class='p-1 text-center'>
+                    <ui-switch color="green" size="small" [(ngModel)]="pdvSearch" (change)="getData($event)"></ui-switch>
+                </div>
+                <div class='p-1 text-center'>
+                    <span>PDV</span>
+                </div>
+                <div class="p-2">
+                    <button class="btn btn-success" (click)="getData()">Buscar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class='container-fluid' *ngIf="data && data.length > 0">
+            <h1 class="text-center" *ngIf="loading['data']">LOADING... <i class="fas fa-spinner fa-pulse"></i></h1>
+            <table class='table table-sm table-bordered table-striped table-hover' style='font-size: smaller' *ngIf="!loading['data']">
+                <thead>
+                    <tr>
+                        <th class="text-center">id</th>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Localizador</th>
+                        <th class="text-center">Monto</th>
+                        <th class="text-center">Asesor</th>
+                        <th class="text-center">Departamento</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Tipo</th>
+                        <th class="text-center">Firmado</th>
+                        <th class="text-center">Comentarios</th>
+                        <th class="text-center">created_by</th>
+                        <th class="text-center">updated_by</th>
+                        <th class="text-center">Formato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data; index as i">
+                        <td class="text-center">{{ item['id'] }}</td>
+                        <td class="text-center">{{ item['Fecha'] }}</td>
+                        <td class="text-center"><a href="https://rsv.pricetravel.com.mx/reservations/show/{{item['Localizador']}}" target="_blank">{{ item['Localizador'] }}</a></td>
+                        <td class="text-center">{{ item['totalCxc'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                        <td class="text-center">{{ item['asesor'] }}</td>
+                        <td class="text-center">{{ item['Departamento'] }}</td>
+                        <td class="text-center">
+                            <div *ngIf="item['asesor']" class="btn-group">
+                                <button class="btn btn-sm" [ngClass]="{'btn-danger': item['status'] == '0','btn-info': item['status'] == '1','btn-success': item['status'] == '2'}" type="button">
+                    {{ item['status'] ? (item['status'] == '0' ? 'En Revisión' : item['status'] == '1' ? 'RRHH' : 'Aplicado') : '' }}
+                  </button>
+                                <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only" >Toggle Dropdown</span>
+                  </button>
+                                <div class="dropdown-menu" *ngIf="_init.checkSingleCredential('cxc_edit')">
+                                    <button class="dropdown-item text-danger" (click)="editCxc('status', '0', item['cxcIdLink'])" type="button" *ngIf="item['status']!='2'">En revisión</button>
+                                    <button class="dropdown-item text-info" (click)="editCxc('status', '1', item['cxcIdLink'])" type="button" *ngIf="item['status']!='2'" [disabled]="item['Formato'] == 0">Enviar a RRHH <span class="text-danger"><small style="font-size: smaller">{{ item['Formato'] == 0 ? ' (Requiere subir el formato primero)' : '' }}</small></span></button>
+                                    <button class="dropdown-item text-success" (click)="aprobe(item)" type="button" *ngIf="_init.checkSingleCredential('cxc_apply')" [disabled]="item['status']=='2'">Aplicar</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm" [ngClass]="{'btn-info': item['tipo'] == 0,'btn-success': item['tipo'] == 1}">
+                  {{ item['tipo'] ? (item['tipo'] == 0 ? 'Responsabilidad' : 'Colaborador') : '' }}
+                </button>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm" [ngClass]="{'btn-danger': item['firmado'] == '0','btn-success': item['firmado'] == '1'}">
+                  {{ item['firmado'] ? (item['firmado'] == 0 ? 'No Firmado' : 'Firmado') : '' }}
+                </button>
+                        </td>
+                        <td class="text-center">{{ item['comments'] }}</td>
+                        <td class="text-center">{{ item['created_by'] }}</td>
+                        <td class="text-center">{{ item['updated_by'] }}</td>
+                        <td class="text-center">
+                            <button class='btn btn-sm btn-info' (click)="viewCxc( false, item['id'] )" *ngIf="item['Formato'] == 1"><i class="fas fa-eye"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+<!-- Aprobe CxC -->
+<app-cxc-aprobe (save)="saveAprobe( $event )"></app-cxc-aprobe>
+
+<!-- Modal -->
+<div class="modal fade" id="showDocument" tabindex="-1" role="dialog" aria-labelledby="showDocumentLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img alt='image' class='img rounded img-fluid' style='margin: auto;' [src]="documentImage" (error)="updateImg($event)" id="shownDocument">
+            </div>
+            <div class="modal-footer" *ngIf="_init.checkSingleCredential('cxc_delete')">
+                <div class="d-flex justify-content-end">
+                    <div class='p-2'><button class="btn btn-secondary" data-dismiss="modal">Cerrar</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

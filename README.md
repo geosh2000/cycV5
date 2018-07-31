@@ -9,6 +9,16 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Módulo de preferencias por usuario
 * Zona horaria Global por preferencias
 
+### HOME
+* Consulta de horarios 1 semana antes y después
+
+### Módulo CXC
+* Renovación completa de módulo de consulta y registro
+* Mandtorio relacionar con transacciones de RSV
+* El monto lo determina la suma de transacciones ligadas al registro del CXC
+* El cambio de satus se restringe a la subida del formato de CXC
+* Nuevo módulo de aplicación
+
 ### Módulo de carga de horarios (Nuevo)
 * Selección de asesores por permisos y niveles
 * Filtro por Supervisor / Asesor
@@ -26,8 +36,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Filtro para búsqueda de varios asesores
 * Filtro de búsqueda por supervisor
 
-### Reporte de Venta por Canal MT (beta)
-* Reporte de venta por canal y producto para MT (revisando para cuadrar numeros)
+### Reporte de Venta por Canal MT
+* Reporte de venta por canal y producto para MT 
 
 ## v2.4.0
 

@@ -71,6 +71,9 @@ import { CargaHorariosComponent } from './components/asistencia/carga-horarios/c
 import { ProgramacionComponent } from './components/asistencia/programacion/programacion.component';
 import { CambioTurnoComponent } from './components/asistencia/cambio-turno/cambio-turno.component';
 import { VentaPorCanalMtComponent } from './components/reportes/venta/venta-por-canal-mt.component';
+import { SaleIndexMonitorComponent } from './components/monitors/sale-index-monitor/sale-index-monitor.component';
+import { CxcRegistroComponent } from './components/cxc/cxc-registro/cxc-registro.component';
+import { CxcAplicablesComponent } from './components/cxc/cxc-aplicables/cxc-aplicables.component';
 
 
 const APP_ROUTES: Routes = [
@@ -148,12 +151,15 @@ const APP_ROUTES: Routes = [
   { path: 'sla', component: SlaComponent },
   { path: 'ovv2018', component: DashOutletComponent },
   { path: 'oVirtual2018', component: Ovirtual2018Component },
+  { path: 'saleIndex', component: SaleIndexMonitorComponent },
 
   // CXC
   { path: 'cxc', component: CxcComponent },
   { path: 'cxcAdmin', component: CxcAdminComponent },
   { path: 'cxc/rrhh', component: ApplyAllCxcComponent },
   { path: 'cxc/rrhh/:filter', component: ApplyAllCxcComponent },
+  { path: 'cxc/registro', component: CxcRegistroComponent },
+  { path: 'cxc/aplicacion', component: CxcAplicablesComponent },
 
   // Config
   { path: 'config/addExternal', component: AddExternalUserComponent },

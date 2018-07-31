@@ -1,0 +1,71 @@
+<!-- Aprobe CXC -->
+<div class="modal fade" id="aprobeModal" tabindex="-1" role="dialog" aria-labelledby="aprobeModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="aprobeModalLabel">Aplicación de CxC {{ id }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="form-row">
+                    <div class="form-group col">
+                        <label for="currency">Moneda</label>
+                        <input type="text" class="form-control" id="currency" placeholder="Moneda" [(ngModel)]="currency" readonly>
+                    </div>
+                    <div class="form-group col">
+                        <label for="monto">Monto</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">$</div>
+                            </div>
+                            <input type="text" class="form-control" id="monto" placeholder="monto" [(ngModel)]="monto" readonly>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="montoFiscal">Monto Fiscal</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">$</div>
+                            </div>
+                            <input type="text" class="form-control" id="montoFiscal" placeholder="monto fiscal" [(ngModel)]="montoFiscal" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group col">
+                        <label for="currency">Fecha primer cobro</label>
+                        <select class="custom-select" [(ngModel)]="firstPay">
+                          <option [value]="date" *ngFor="let date of datesList">{{date}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="pagos">No. Pagos</label>
+                        <div class="form-row">
+                            <div class='col-9'>
+                                <input (change)="calculateParcial($event.target.value)" type="number" min=0 max=15 step=1 class="form-control" id="pagos" placeholder="Parcialidades" [(ngModel)]="pagos" readonly>
+                            </div>
+                            <div class='col d-flex justify-content-end'>
+                                <button class="btn btn-link" (click)="chgPay(false)"><i class="fas fa-minus-circle"></i></button>
+                                <button class="btn btn-link" (click)="chgPay(true)"><i class="fas fa-plus-circle"></i></button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group col">
+                        <label for="montoParcial">Monto Parcialidad</label>
+                        <input type="text" min=0 max=15 step=1 class="form-control" id="montoParcial" placeholder="Parcialidades" [(ngModel)]="montoParcial" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="loading['save']">Close</button>
+                <button type="button" class="btn btn-success" (click)="buildPayments()" [disabled]="loading['save']">Guardar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -21,6 +21,7 @@ export class DetalleAsesoresComponent implements OnInit {
   currentUser: any
   showContents:boolean = false
   flag:boolean = false
+  listFlag:boolean = false
   large:boolean = true
   mainCredential:string = 'hc_detalle_asesores'
 
@@ -41,7 +42,7 @@ export class DetalleAsesoresComponent implements OnInit {
   }
 
   constructor(public _api: ApiService,
-                private _init:InitService,
+                public _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 private route:Router,

@@ -26,7 +26,7 @@ export class DetContratoComponent implements OnChanges {
 
   constructor(public _api: ApiService,
               public toastr: ToastrService,
-              private _init:InitService) {
+              public _init:InitService) {
 
     this.getData()
   }
@@ -47,7 +47,7 @@ export class DetContratoComponent implements OnChanges {
                 this.solicitudes = res['pendientes']
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['data'] = false
                 let error = err.json()

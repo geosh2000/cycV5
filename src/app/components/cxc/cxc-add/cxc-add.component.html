@@ -1,0 +1,57 @@
+<!-- Link CXC -->
+<div class="modal fade" id="cxcAddModal" tabindex="-1" role="dialog" aria-labelledby="cxcAddModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cxcAddModalLabel">Agregar CxC</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row ">
+                    <div class="col d-flex justify-content-center">
+                        <app-search-asesor (result)="form['asesor'] = $event.asesor" [currentUser]="currentUser" [active]="2" placeholder="Asesor"></app-search-asesor>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                            </div>
+                            <input class="form-control" placeholder="Fecha CxC" [(ngModel)]="form['fecha_cxc']" (click)="d.toggle()" ngbDatepicker #d="ngbDatepicker">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <input type="number" min="8000000" class="form-control" placeholder="Localizador" [(ngModel)]="form['Localizador']">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <select class="custom-select" [(ngModel)]="form['status']">
+                            <option value="" selected>Status de CxC</option>
+                            <option value="0">En Revisión</option>
+                            <option value="1">Enviado a RRHH</option>
+                            <option value="2" *ngIf="_init.checkSingleCredential('cxc_apply')">Aplicado</option>
+                          </select>
+                    </div>
+                    <div class="col">
+                        <select class="custom-select" [(ngModel)]="form['tipo']">
+                          <option value="" selected>Tipo de CxC</option>
+                          <option value="0">Responsabilidad</option>
+                          <option value="1">Colaborador</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row pt-2">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Comentarios" [(ngModel)]="form['comments']">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="validate()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

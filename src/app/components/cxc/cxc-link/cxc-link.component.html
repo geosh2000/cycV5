@@ -1,0 +1,53 @@
+<!-- Link CXC -->
+<div class="modal fade" id="linkModal" tabindex="-1" role="dialog" aria-labelledby="linkModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="linkModalLabel">Link CxC Localizador: {{ linkLoc }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <h3 *ngIf="loading['link']">Loading... <i class='fas fa-spinner fa-pulse'></i></h3>
+                <table class="table table-sm table-bordered table-striped" style="font-size: smaller" *ngIf="dataLinkData && dataLinkData.length>0">
+                    <thead>
+                        <tr>
+                            <th class="text-center" *ngFor="let title of dataLinkData[0] | keys">{{ title }}</th>
+                            <th class="text-center">Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of dataLinkData">
+                            <ng-container *ngFor="let title of item | keys">
+                                <td class="text-center" [ngSwitch]="title">
+                                    <span *ngSwitchCase="'status'">
+                                      <span class="badge" [ngClass]="{'badge-danger': item['status'] == 0,'badge-info': item['status'] == 1,'badge-success': item['status'] == 2}">
+                                        {{ item['status'] == 0 ? 'En Revision' : item['status'] == 1 ? 'Espera RRHH' : 'Aplicado' }}
+                                      </span>
+                                    </span>
+                                    <span *ngSwitchCase="'tipo'">
+                                      <span class="badge" [ngClass]="{'badge-info': item['tipo'] == 0,'badge-success': item['tipo'] == 1}">
+                                        {{ item['tipo'] == 0 ? 'Responsabilidad' : 'Colaborador' }}
+                                      </span>
+                                    </span>
+                                    <span *ngSwitchDefault>
+                                    {{ title == 'Monto' || title == 'montoFiscal' ? (item[title] | currency:'MXN':'symbol-narrow':'.2-2') : item[title] }}
+                                  </span>
+                                </td>
+                            </ng-container>
+                            <td class="text-center" (click)="linkCxc(item['id'])" *ngIf="((linkRev == 0 && linkCxcLinkId != item['id'])) || (linkRev == 1 && linkId != item['cxcIdLink'])"><button type="button" class="btn btn-sm btn-success" [disabled]="!_init.checkSingleCredential('cxc_edit') || item['status'] != '0'">Link <span *ngIf="loading['linkcxc'][item['id']]"><i class="fas fa-spinner fa-pulse"></i></span></button></td>
+                            <td class="text-center" (click)="unlinkCxc(item['id'])" *ngIf="((linkRev == 0 && linkCxcLinkId == item['id'])) || (linkRev == 1 && linkId == item['cxcIdLink'])"><button type="button" class="btn btn-sm btn-danger" [disabled]="!_init.checkSingleCredential('cxc_edit') || item['status'] != '0'">Unlink <span *ngIf="loading['linkcxc'][item['id']]"><i class="fas fa-spinner fa-pulse"></i></span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-right p-1" *ngIf="_init.checkSingleCredential('cxc_edit')">
+                    <button type="button" class="btn btn-success" (click)="addCxC()">Agregar CxC</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
