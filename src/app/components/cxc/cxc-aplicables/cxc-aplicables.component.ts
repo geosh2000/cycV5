@@ -144,6 +144,13 @@ export class CxcAplicablesComponent implements OnInit {
     }
   }
 
+  updateImg(event){
+    let d = new Date()
+    if(this.imageTitle != null){
+      this.documentImage=`${Globals.APISERV}/img/asesores/${this.imageTitle}.jpg?${d.getTime()}`
+    }
+  }
+
 
 
 }

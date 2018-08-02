@@ -1,66 +1,64 @@
-<div class="showContents">
+<div *ngIf="showContents">
 
-  <div class="container-fluid">
-    <!-- TITLE -->
-    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
 
-      <div class="container">
-        <div class="d-flex justify-content-between">
-          <div>
-            <span><h1 class="display-3">Administración de Horas Extra</h1></span>
-            <p class="lead">Configura las opciones de pago para Horas Extra y Descansos Trabajados por Departamento</p>
-          </div>
-        </div>
-      </div>
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Administración de Horas Extra</h1></span>
+                        <p class="lead">Configura las opciones de pago para Horas Extra y Descansos Trabajados por Departamento</p>
+                    </div>
+                </div>
+            </div>
 
-      <br>
+            <br>
 
-      <div class='container'>
-        <div class="d-flex justify-content-start">
-          <div class="form-group p-2">
-              <div
-                  class="input-group"
-                  daterangepicker (selected)="dateChange($event.start, $event.end)">
-                  <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker" style="font-size: smaller">
-                  <span class="input-group-btn">
+            <div class='container'>
+                <div class="d-flex justify-content-start">
+                    <div class="form-group p-2">
+                        <div class="input-group" daterangepicker (selected)="dateChange($event.start, $event.end)">
+                            <input type='text' class="form-control uneditable-input" name="daterange" value="" id="datepicker" style="font-size: smaller">
+                            <span class="input-group-btn">
                       <button type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></button>
                   </span>
-              </div>
-          </div>
-          <div class="p-2">
-            <button type="button" class="btn btn-success" (click)="search()">Buscar</button>
-          </div>
+                        </div>
+                    </div>
+                    <div class="p-2">
+                        <button type="button" class="btn btn-success" (click)="search()">Buscar</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
 
     </div>
 
-  </div>
-
-  <div class="container-fluid">
-    <table class="table table-sm table-responsive-sm table-bordered table-striped table-hover" style="font-size: smaller" *ngIf="listDeps">
-      <thead>
-        <tr>
-          <th class="text-center" scope="col">Fecha</th>
-          <th class="text-center" scope="col" *ngFor="let field of listDeps">
-            <p>{{ field.dep | capitalizado }}</p>
-            <p><small>({{ field.udn | capitalizado }})</small></p>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of listDates | keys">
-          <th class="text-center" scope="col">{{ formatFecha( item, "DD MMM 'YY") }}</th>
-          <td class="text-center" scope="col" *ngFor="let field of listDeps">
-            <div class="d-flex justify-content-center">
-              <i class="fa fa-fw fa-usd"></i>
-              <!-- <ui-switch
+    <div class="container-fluid">
+        <table class="table table-sm table-responsive-sm table-bordered table-striped table-hover" style="font-size: smaller" *ngIf="listDeps">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Fecha</th>
+                    <th class="text-center" scope="col" *ngFor="let field of listDeps">
+                        <p>{{ field.dep | capitalizado }}</p>
+                        <p><small>({{ field.udn | capitalizado }})</small></p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listDates | keys">
+                    <th class="text-center" scope="col">{{ formatFecha( item, "DD MMM 'YY") }}</th>
+                    <td class="text-center" scope="col" *ngFor="let field of listDeps">
+                        <div class="d-flex justify-content-center">
+                            <i class="fa fa-fw fa-usd"></i>
+                            <!-- <ui-switch
                 color="green"
                 size= "small"
                 [(ngModel)]="listDates[item][field.pcrc]['monto']"
                 (change)="swChg('monto', item, field.pcrc, $event)"
               ></ui-switch> -->
-                <!-- <switch
+                            <!-- <switch
                   [(status)]="listDates[item][field.pcrc]['monto']"
                   [onText]="'$'"
                   [offText]="'$'"
@@ -70,16 +68,16 @@
                   [disabled]="false"
                   (statusChange)="swChg('monto', item, field.pcrc, $event)"
                   ></switch> -->
-            </div>
-            <div class="d-flex justify-content-center">
-              <i class="fa fa-fw fa-clock-o"></i>
-              <!-- <ui-switch
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <i class="fa fa-fw fa-clock-o"></i>
+                            <!-- <ui-switch
                 color="blue"
                 size= "small"
                 [(ngModel)]="listDates[item][field.pcrc]['tiempo']"
                 (change)="swChg('tiempo', item, field.pcrc, $event)"
               ></ui-switch> -->
-              <!-- <switch
+                            <!-- <switch
                   [(status)]="listDates[item][field.pcrc]['tiempo']"
                   [onText]="'D'"
                   [offText]="'D'"
@@ -89,23 +87,23 @@
                   [disabled]="false"
                   (statusChange)="swChg('tiempo', item, field.pcrc, $event)"
                 ></switch> -->
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  <div class="d-flex justify-content-end">
-    <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-warning': depLoading, 'btn-danger': depLoadErr}" *ngIf="depLoading || depLoadErr">
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-warning': depLoading, 'btn-danger': depLoadErr}" *ngIf="depLoading || depLoadErr">
       <span *ngIf="depLoading">Cargando Departamentos <i class="fa fa-fw fa-spinner fa-pulse"></i></span>
       <span *ngIf="depLoadErr">Error al cargar Departamentos</span>
     </button>
-    <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-warning': dateLoading, 'btn-danger': dateLoadErr}" *ngIf="dateLoading || dateLoadErr">
+        <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-warning': dateLoading, 'btn-danger': dateLoadErr}" *ngIf="dateLoading || dateLoadErr">
       <span *ngIf="dateLoading">Cargando Fechas <i class="fa fa-fw fa-spinner fa-pulse"></i></span>
       <span *ngIf="dateLoadErr">Error al cargar Fechas</span>
     </button>
-  </div>
+    </div>
 
 
 </div>

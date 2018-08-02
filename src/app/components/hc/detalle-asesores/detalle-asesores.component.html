@@ -1,72 +1,74 @@
 <div class="alert alert-danger" role="alert" *ngIf="!showContents">
-  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
 <div class="container-fluid" *ngIf="showContents">
 
-  <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
-    <div class="container">
-      <div class="d-flex justify-content-between">
-        <div>
-          <span><h1 class="display-3">Detalle del Asesor</h1></span>
-          <p class="lead">Busca por Nombre, Usuario, Departamento, Ingreso o Egreso</p>
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Detalle del Asesor</h1></span>
+                    <p class="lead">Busca por Nombre, Usuario, Departamento, Ingreso o Egreso</p>
+                </div>
+                <div>
+                    <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+                </div>
+            </div>
         </div>
-        <div>
-          <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+        <br>
+        <div class='container'>
+            <!-- <div class="form-row align-items-center"> -->
+            <ng-container>
+                <div class="row d-flex justify-content-around">
+                    <div class="p-2">
+                        <div class="form-group row">
+                            <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" udn='self' placeholder="Nombre Asesor..." style="z-index: 100"></app-search-asesor>
+                        </div>
+                    </div>
+                    <div class="p-2">
+                        <div class="form-group row">
+                            <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" udn='self' field="departamento_name" placeholder="Departamento..." style="z-index: 100"></app-search-asesor>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <div class="p-2">
+                        <button type="button" class="btn btn-sm btn-success" *ngIf="_init.checkSingleCredential('hc_agregar_asesore')" data-toggle="modal" data-target="#addAsesor" (click)="sendNow()">Agregar Asesor</button>
+                    </div>
+                    <div class="p-2">
+                        <button type="button" class="btn btn-sm btn-info" *ngIf="listFlag" (click)="downloadXLS( params.id, 'listAsesores' )">Descargar</button>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- </div> -->
         </div>
-      </div>
     </div>
     <br>
-    <div class='container'>
-      <!-- <div class="form-row align-items-center"> -->
-        <ng-container>
-          <div class="row d-flex justify-content-around">
-            <div class="p-2">
-              <div class="form-group row">
-                <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" udn='self' placeholder="Nombre Asesor..." style="z-index: 100"></app-search-asesor>
-              </div>
-            </div>
-            <div class="p-2">
-              <div class="form-group row">
-                <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" udn='self' field="departamento_name" placeholder="Departamento..." style="z-index: 100"></app-search-asesor>
-              </div>
-            </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <div class="p-2">
-              <button type="button" class="btn btn-sm btn-success" *ngIf="_init.checkSingleCredential('hc_agregar_asesore')" data-toggle="modal" data-target="#addAsesor" (click)="sendNow()">Agregar Asesor</button>
-            </div>
-            <div class="p-2">
-              <button type="button" class="btn btn-sm btn-info" *ngIf="listFlag" (click)="downloadXLS( params.id, 'listAsesores' )">Descargar</button>
-            </div>
-          </div>
-        </ng-container>
-      <!-- </div> -->
+    <div class="container" *ngIf="selected['id']">
+        <app-det-detalle [asesor]="selected['id']" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-detalle>
+        <app-det-contrato [asesor]="selected['id']" (reload)="reload()" *ngIf="_init.checkSingleCredential('hc_contratos_view')" [time]="now"></app-det-contrato>
+        <!-- <app-det-salario [asesor]="selected['id']" *ngIf="_init.checkSingleCredential('hc_salarios_display')"></app-det-salario> -->
+        <app-det-historial [asesor]="selected['id']" (reload)="reload()" [curAsesor]="currentUser.hcInfo['id']" [time]="now" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-historial>
+        <!-- CxCs -->
+        <app-home-cxc-view [asesor]="selected['id']"></app-home-cxc-view>
+        <app-det-horario [asesor]="selected['id']" (reload)="reload()" [time]="now" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-horario>
     </div>
-  </div>
-  <br>
-  <div class="container" *ngIf="selected['id']">
-    <app-det-detalle [asesor]="selected['id']" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-detalle>
-    <app-det-contrato [asesor]="selected['id']" (reload)="reload()" *ngIf="_init.checkSingleCredential('hc_contratos_view')" [time]="now"></app-det-contrato>
-    <!-- <app-det-salario [asesor]="selected['id']" *ngIf="_init.checkSingleCredential('hc_salarios_display')"></app-det-salario> -->
-    <app-det-historial [asesor]="selected['id']" (reload)="reload()" [curAsesor]="currentUser.hcInfo['id']" [time]="now" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-historial>
-    <app-det-horario [asesor]="selected['id']" (reload)="reload()" [time]="now" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-horario>
-  </div>
 
-  <!-- AGREGAR ASESOR -->
-  <div class="modal fade" id="addAsesor" tabindex="-1" role="dialog" aria-labelledby="editDetailLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5>Agregar Asesor</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <!-- AGREGAR ASESOR -->
+    <div class="modal fade" id="addAsesor" tabindex="-1" role="dialog" aria-labelledby="editDetailLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Agregar Asesor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
+                </div>
+                <div class="modal-body">
+                    <app-add-asesor modal='#addAsesor' [time]="now" (save)="saved( $event )"></app-add-asesor>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          <app-add-asesor modal='#addAsesor' [time]="now" (save)="saved( $event )"></app-add-asesor>
-        </div>
-      </div>
     </div>
-  </div>
 
 </div>

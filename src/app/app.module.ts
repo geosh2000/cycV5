@@ -68,7 +68,7 @@ import { DomseguroPipe } from './pipes/domseguro.pipe';
 import { AsistenciaComponent } from './components/reportes/asistencia/asistencia.component';
 import { AddAusentismoComponent } from './components/formularios/add-ausentismo.component';
 import { JornadasComponent } from './components/reportes/asistencia/jornadas.component';
-import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component';
+import { CxcAdminComponent } from './components/cxc/cxc-admin/cxc-admin.component';
 import { CorteComponent } from './components/reportes/cxc/corte.component';
 import { NoAcentosPipe } from './pipes/no-acentos.pipe';
 import { UploadImageComponent } from './components/formularios/upload-image.component';
@@ -158,6 +158,8 @@ import { CxcLineComponent } from './components/cxc/cxc-line/cxc-line.component';
 import { CxcCommentComponent } from './components/cxc/cxc-comment/cxc-comment.component';
 import { CxcAprobeComponent } from './components/cxc/cxc-aprobe/cxc-aprobe.component';
 import { CxcAplicablesComponent } from './components/cxc/cxc-aplicables/cxc-aplicables.component';
+import { CxcPayDetailComponent } from './components/cxc/cxc-pay-detail/cxc-pay-detail.component';
+import { HomeCxcViewComponent } from './components/home/home-cxc-view/home-cxc-view.component';
 
 
 declare let jQuery: Object;
@@ -309,6 +311,8 @@ registerLocaleData(localeEsMX)
     CxcCommentComponent,
     CxcAprobeComponent,
     CxcAplicablesComponent,
+    CxcPayDetailComponent,
+    HomeCxcViewComponent,
   ],
   imports: [
     BrowserModule,

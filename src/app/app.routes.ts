@@ -22,7 +22,7 @@ import { CambioPdvComponent } from './components/pdv/cambio-pdv.component';
 import { TestComponent } from './test/test/test.component';
 import { LiveTabComponent } from './components/monitors/venta/live-tab.component';
 import { AsistenciaComponent } from './components/reportes/asistencia/asistencia.component';
-import { CxcAdminComponent } from './components/reportes/cxc/cxc-admin.component';
+import { CxcAdminComponent } from './components/cxc/cxc-admin/cxc-admin.component';
 import { HxConfigComponent } from './components/config/horarios/hx-config.component';
 import { VentaPorCanalComponent } from './components/reportes/venta/venta-por-canal.component';
 import { VentaPorCanalPdvComponent } from './components/reportes/venta/venta-por-canal-pdv.component';
@@ -154,9 +154,9 @@ const APP_ROUTES: Routes = [
   { path: 'saleIndex', component: SaleIndexMonitorComponent },
 
   // CXC
-  { path: 'cxc', component: CxcComponent },
+  { path: 'cxc', component: CxcRegistroComponent },
   { path: 'cxcAdmin', component: CxcAdminComponent },
-  { path: 'cxc/rrhh', component: ApplyAllCxcComponent },
+  { path: 'cxc/rrhh', component: CxcAplicablesComponent },
   { path: 'cxc/rrhh/:filter', component: ApplyAllCxcComponent },
   { path: 'cxc/registro', component: CxcRegistroComponent },
   { path: 'cxc/aplicacion', component: CxcAplicablesComponent },

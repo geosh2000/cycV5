@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="card border-0">
+        <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between flex-wrap bg-info">
+                <div class="align-middle p-1">
+                    <h3 class="align-middle text-light">CxCs en Cobro</h3>
+                </div>
+            </div>
+
+            <div class='container' *ngIf="data.length > 0 && !loading['data']">
+                <table class="table table-sm table-hover table-striped" style="font-size: smaller">
+                    <thead>
+                        <tr>
+                            <th class='text-center text-capitalize'>localizador</th>
+                            <th class='text-center text-capitalize'>monto Total</th>
+                            <th class='text-center text-capitalize'>monto Quincenal</th>
+                            <th class='text-center text-capitalize'>monto Pagado</th>
+                            <th class='text-center text-capitalize'>monto Pendiente</th>
+                            <th class='text-center text-capitalize'>parcialidades</th>
+                            <th class='text-center text-capitalize'>Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of data">
+                            <td class='text-center'><a href="https://rsv.pricetravel.com.mx/reservations/show/9411987/items/{{ item['Localizador'] }}" target='_blank'>{{ item['Localizador'] }}</a></td>
+                            <td class='text-center'>{{ item['montoTotal'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                            <td class='text-center'>{{ item['montoQuincenal'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                            <td class='text-center'>{{ item['montoPagado'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                            <td class='text-center'>{{ item['montoPendiente'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                            <td class='text-center'>{{ item['parcialidades'] }}</td>
+                            <td class='text-center'>
+                                <div class='p-1'>
+                                    <button class="btn btn-sm btn-info" (click)="_detail.build(item['cxcId'])"><i class="fas fa-info-circle"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class='container' *ngIf="data.length == 0 && !loading['data']">
+                <div class="d-flex justify-content-center flex-wrap p-4">
+                    <div class="alert alert-primary" role="alert">
+                        No existen solicitudes para este asesor
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="loading['data']">
+                <div class='container'>
+                    <div class="text-center p-4">
+                        <h3>Cargando Historial <i class="fas fa-spinner fa-pulse text-info"></i></h3>
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Pay Detail CXC -->
+<app-cxc-pay-detail></app-cxc-pay-detail>

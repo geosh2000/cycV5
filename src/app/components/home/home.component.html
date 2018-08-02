@@ -53,8 +53,14 @@
     <!-- Tabla de datos -->
     <app-personal-data [asesor]='asesorShow' [name]='nameShow'></app-personal-data>
     <br>
+
+    <!-- CxCs -->
+    <app-home-cxc-view [asesor]='asesorShow'></app-home-cxc-view>
+    <br>
+
     <!-- Gráficas -->
     <div class="container" style="overflow: auto">
         <app-grafica-ventas [asesor]='asesorShow' [name]='nameShow'></app-grafica-ventas>
     </div>
+
 </div>

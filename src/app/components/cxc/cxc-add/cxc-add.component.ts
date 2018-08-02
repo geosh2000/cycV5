@@ -61,10 +61,10 @@ export class CxcAddComponent implements OnInit {
     comments: ''
   }
 
-  inserted_id:any
+  inserted_id:any 
 
   constructor(public _api: ApiService,
-                private _init:InitService,
+                public _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
                 private route:Router,

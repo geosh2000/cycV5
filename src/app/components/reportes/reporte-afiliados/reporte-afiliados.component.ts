@@ -15,6 +15,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false :
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
+import { OrderPipe } from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-reporte-afiliados',
@@ -68,6 +69,7 @@ export class ReporteAfiliadosComponent implements OnInit {
               private _init:InitService,
               private titleService: Title,
               private _tokenCheck:TokenCheckService,
+              private _order:OrderPipe,
               public toastr: ToastrService, private _cur: CurrencyPipe, private _dec: DecimalPipe
               ) {
 
@@ -95,6 +97,7 @@ export class ReporteAfiliadosComponent implements OnInit {
   }
 
   selectedReport( value ){
+
     this.titleService.setTitle(`CyC - Reporte ${this.listReps[ value ]['afiliado']}`);
     this.afiliado = this.listReps[ value ]['afiliado']
     this.report = this.listReps[ value ]['id']
@@ -137,7 +140,7 @@ export class ReporteAfiliadosComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['list'] = false
-                this.listReps = res['data']
+                this.listReps = this._order.transform(res['data'], 'afiliado')
 
               }, err => {
                 console.log('ERROR', err)

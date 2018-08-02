@@ -1,0 +1,133 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+
+<div *ngIf="showContents">
+
+    <div class="container-fluid">
+
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Administración de CxCs</h1></span>
+                        <p class="lead">Módulo de consulta y edición de CxCs aplicados</p>
+                    </div>
+                    <div>
+                        <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class='container'>
+                <div class="d-flex justify-content-start">
+                    <div class="form-group p-2">
+                        <div class="input-group">
+                            <select class="custom-select" [(ngModel)]="selectedPayday">
+                              <option value="" *ngIf="!cortesList || cortesList.length > 0">Cargando... <i class="fas fa-spinner fa-pulse"></i></option>
+                              <option [value]="corte['pago']" *ngFor="let corte of cortesList">{{ corte['pago'] }} -> <span class="text-info"><small>({{ corte['inicio'] }} a {{ corte['fin'] }})</small></span></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="p-2">
+                        <button type="button" class="btn btn-success" (click)="getData()">Consultar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="data && data.length > 0">
+            <table class="table table-sm table-bordered table-striped table-hover" style='font-size: smaller'>
+                <thead>
+                    <tr>
+                        <th class="text-center" *ngFor="let title of data[0] | keys">{{ title }}</th>
+                        <th class="text-center">Detalle</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data">
+                        <td class="text-center align-middle" [ngClass]="{'bg-info text-light': title=='montoQuincena'}" *ngFor="let title of item | keys">
+                            <span [ngSwitch]="title">
+                              <span *ngSwitchCase="'montoQuincena'">
+                                {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }} <button class="btn btn-sm btn-link text-light" (click)="modificar(item)" *ngIf="item['status']==1"><i class="far fa-edit"></i></button>
+                              </span>
+                            <span *ngSwitchCase="'montoParcialidades'">
+                                {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                              </span>
+                            <span *ngSwitchCase="'montoPagado'">
+                                {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                              </span>
+                            <span *ngSwitchCase="'montoPendiente'">
+                                {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                              </span>
+                            <span *ngSwitchCase="'montoTotalCxc'">
+                                {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                              </span>
+                            <span *ngSwitchCase="'Localizador'">
+                                <a href="https://rsv.pricetravel.com.mx/reservations/show/{{item[title]}}" target="_blank">{{ item[title] }}</a>
+                              </span>
+                            <span *ngSwitchCase="'status'">
+                                <span class="badge" [ngClass]="{'badge-danger': item[title] == 0 || item[title] == -1, 'badge-primary': item[title] == 1, 'badge-success': item[title] == 2}">
+                                  {{ item[title] == 1 ? 'Por pagar' : item[title] == 2 ? 'Pagado' : 'Desactivado' }}
+                                </span>
+                            </span>
+                            <span *ngSwitchDefault>
+                                {{ item[title] }}
+                              </span>
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <div class='p-1'>
+                                <button class="btn btn-sm btn-info" (click)="_detail.build(item['cxcId'])"><i class="fas fa-info-circle"></i></button>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex flex-wrap justify-content-center">
+                                <div class='p-1'>
+                                    <button class="btn btn-sm" (click)="desactivar( item, item['status'] == '1' ? true : false )" [disabled]="loading['save'] || item['montoPendiente'] == 0 ||  item['status'] == 2 || item['status'] == -1" [ngClass]="{'btn-success': item['status'] == 0, 'btn-danger': item['status'] == 1, 'btn-secondary': item['status'] == 2 || item['status'] == -1}">
+                                      <span *ngIf="!loading['save']"><i class="fas fa-power-off"></i></span>
+                                      <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+</div>
+
+<!-- Pay Detail CXC -->
+<app-cxc-pay-detail></app-cxc-pay-detail>
+
+<!-- Edit Ammount CXC -->
+<div class="modal fade" id="editAmountModal" tabindex="-1" role="dialog" aria-labelledby="editAmountModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAmountModalLabel">Modificar Monto: {{ modif['id'] }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="monto">$</span>
+                    </div>
+                    <input type='number' class="form-control" aria-label="monto" [(ngModel)]="modif['nuevoMonto']">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="saveAmount()" [disabled]="loading['save']">Guardar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            </div>
+        </div>
+    </div>
+</div>

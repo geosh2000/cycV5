@@ -9,7 +9,7 @@ import * as Globals from '../../globals';
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchAsesorComponent implements OnInit {
+export class SearchAsesorComponent implements OnChanges {
 
   @Input() currentUser:any
   @Input() field:string = 'Nombre'
@@ -43,9 +43,6 @@ export class SearchAsesorComponent implements OnInit {
   }
 
 
-  ngOnInit() {
-  }
-
    ngOnChanges(changes: SimpleChanges){
      this.build()
    }
@@ -64,7 +61,7 @@ export class SearchAsesorComponent implements OnInit {
     }else{
       if( input ){
         if( Array.isArray(input) ){
-          this.credentials[ cred ] = input.join().replace(",","-")
+          this.credentials[ cred ] = input.join().replace(',','-')
         }else{
           this.credentials[ cred ] = input
         }

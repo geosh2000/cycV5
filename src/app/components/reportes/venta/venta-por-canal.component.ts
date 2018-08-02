@@ -11,6 +11,7 @@ import { saveAs } from 'file-saver';
 import { utils, write, WorkBook } from 'xlsx';
 
 import { ApiService, InitService } from '../../../services/service.index';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-venta-por-canal',
@@ -50,10 +51,17 @@ export class VentaPorCanalComponent implements OnInit {
                 public toastr: ToastrService,
                 public route:Router,
                 public activatedRoute:ActivatedRoute,
+                private titleService:Title,
                 private cp:CurrencyPipe
-                ){ }
+                ){ 
+                  this.currentUser = this._init.getUserInfo()
+    this.showContents = this._init.checkCredential( this.mainCredential, true )
+
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngOnInit() {
+    this.titleService.setTitle('CyC - Venta por Canal MT');
   }
 
   dateChange( start, end ){

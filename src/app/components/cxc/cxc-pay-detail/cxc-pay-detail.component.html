@@ -1,0 +1,62 @@
+<!-- Edit Ammount CXC -->
+<div class="modal fade" id="payDetailModal" tabindex="-1" role="dialog" aria-labelledby="payDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="payDetailModalLabel">Detalle de Cxc: {{ id }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center" *ngIf="loading['data']">
+                    <h1>Loading... <i class="fas fa-spinner fa-pulse"></i></h1>
+                </div>
+                <table class="table table-sm table-bordered table-striped table-hover" style='font-size: smaller' *ngIf="!loading['data']">
+                    <thead>
+                        <tr>
+                            <th class="text-center" *ngFor="let title of data[0] | keys">{{ formatTitle(title) }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of data">
+                            <td class="text-center align-middle" [ngClass]="{'bg-info text-light': title=='montoQuincena'}" *ngFor="let title of item | keys">
+                                <span [ngSwitch]="title">
+                                  <span *ngSwitchCase="'montoQuincena'">
+                                    {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                                  </span>
+                                <span *ngSwitchCase="'montoParcialidades'">
+                                    {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                                  </span>
+                                <span *ngSwitchCase="'montoPagado'">
+                                    {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                                  </span>
+                                <span *ngSwitchCase="'montoPendiente'">
+                                    {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                                  </span>
+                                <span *ngSwitchCase="'montoTotalCxc'">
+                                    {{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                                  </span>
+                                <span *ngSwitchCase="'Localizador'">
+                                    <a href="https://rsv.pricetravel.com.mx/reservations/show/{{item[title]}}" target="_blank">{{ item[title] }}</a>
+                                  </span>
+                                <span *ngSwitchCase="'status'">
+                                    <span class="badge" [ngClass]="{'badge-danger': item[title] == 0 || item[title] == -1, 'badge-primary': item[title] == 1, 'badge-success': item[title] == 2}">
+                                      {{ item[title] == 1 ? 'Por pagar' : item[title] == 2 ? 'Pagado' : 'Desactivado' }}
+                                    </span>
+                                </span>
+                                <span *ngSwitchDefault>
+                                    {{ item[title] }}
+                                  </span>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

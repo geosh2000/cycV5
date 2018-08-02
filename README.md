@@ -9,8 +9,12 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Módulo de preferencias por usuario
 * Zona horaria Global por preferencias
 
+### Detalle Asesores
+* Consulta de CxC en cobro para el asesor
+
 ### HOME
 * Consulta de horarios 1 semana antes y después
+* Integración de CxC en cobro
 
 ### Módulo CXC
 * Renovación completa de módulo de consulta y registro
@@ -18,6 +22,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * El monto lo determina la suma de transacciones ligadas al registro del CXC
 * El cambio de satus se restringe a la subida del formato de CXC
 * Nuevo módulo de aplicación
+* Nuevo módulo de administración
+* Integración de nueva versión a prenómina
 
 ### Módulo de carga de horarios (Nuevo)
 * Selección de asesores por permisos y niveles
@@ -37,7 +43,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Filtro de búsqueda por supervisor
 
 ### Reporte de Venta por Canal MT
-* Reporte de venta por canal y producto para MT 
+* Reporte de venta por canal y producto para MT
 
 ## v2.4.0
 

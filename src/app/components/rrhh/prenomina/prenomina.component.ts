@@ -33,7 +33,7 @@ export class PrenominaComponent implements OnInit {
   dataAusentismos:any
   dataFestivos:any
   dataCxc:any
-  prenomCxc:any
+  prenomCxc:Object = {}
   dataAsesores:any
   dataBonos:any
   dataShow:any
@@ -263,33 +263,16 @@ export class PrenominaComponent implements OnInit {
                 this.dataCxc = res['data']
 
                 // tslint:disable-next-line:forin
-                for( let asesor in res['data'] ){
-                  for( let cxc of res['data'][asesor] ){
-                    if( this.prenomCxc[asesor] ){
-                      this.prenomCxc[asesor][cxc.tipo]['monto'] += parseFloat(cxc.monto)
-                      this.prenomCxc[asesor][cxc.tipo]['detail'] = `${this.prenomCxc[asesor][cxc.tipo]['detail']}, ${cxc.localizador} (${cxc.n_pago}/${cxc.pagos})`
-                    }else{
-
-                      let other
-
-                      if( cxc.tipo == 1 ){
-                        other = 0
-                      }else{
-                        other = 1
-                      }
-
-                      this.prenomCxc[asesor] = {
-                        [cxc.tipo]: {
-                            monto: parseFloat(cxc.monto),
-                            detail: `${cxc.localizador} (${cxc.n_pago}/${cxc.pagos})`
-                          },
-                        [other]: {
-                          monto: 0,
-                          detail: ''
-                        }
-
-                      }
-                    }
+                for( let item of res['data'] ){
+                  this.prenomCxc[item['asesor']] = {
+                    '0': {
+                      monto:    item['monto_0'],
+                      detail:   item['locs_0']
+                    },
+                    '1': {
+                      monto:    item['monto_1'],
+                      detail:   item['locs_1']
+                    },
                   }
                 }
 

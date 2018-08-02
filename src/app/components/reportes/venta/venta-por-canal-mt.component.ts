@@ -3,6 +3,8 @@ import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepi
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CurrencyPipe } from '@angular/common'
+import { Title } from '@angular/platform-browser';
+
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
@@ -50,10 +52,17 @@ export class VentaPorCanalMtComponent implements OnInit {
                 public toastr: ToastrService,
                 public route:Router,
                 public activatedRoute:ActivatedRoute,
+                private titleService:Title,
                 private cp:CurrencyPipe
-                ){ }
+                ){ 
+                  this.currentUser = this._init.getUserInfo()
+    this.showContents = this._init.checkCredential( this.mainCredential, true )
+
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                }
 
   ngOnInit() {
+    this.titleService.setTitle('CyC - Venta por Canal MT');
   }
 
   dateChange( start, end ){

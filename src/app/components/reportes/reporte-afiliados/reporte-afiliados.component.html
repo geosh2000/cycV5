@@ -19,7 +19,7 @@
                         <option *ngIf="!listReps">Sin reportes...</option>
                         <ng-container *ngIf="listReps">
                           <option value="">Selecciona...</option>
-                          <option *ngFor="let opt of listReps | orderBy: 'afiliado'; index as i" [value]="i">{{ opt['afiliado'] }}</option> 
+                          <option *ngFor="let opt of listReps; index as i" [value]="i">{{ opt['afiliado'] }}</option> 
                         </ng-container>                        
                       </select>
                     </div>

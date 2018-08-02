@@ -1,55 +1,53 @@
-<div class="showContents">
+<div *ngIf="showContents">
 
-  <div class="alert alert-success" role="alert" *ngIf="showMsg">
-    {{ addedMsg }}
-  </div>
-  <div class="container-fluid">
-    <!-- TITLE -->
-    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
-      <div class="container">
-        <div class="d-flex justify-content-between">
-          <div>
-            <span><h1 class="display-3">Registro de CxC's</h1></span>
-            <p class="lead">Ingresa CxC's de Responsabilidad y/o Colaborador, con los detalles para enviarse a RRHH</p>
-          </div>
-          <div>
-            <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
-          </div>
-        </div>
-      </div>
-      <br>
-      <div class='container'>
-        <!-- <div class="form-row align-items-center"> -->
-        <div class="d-flex justify-content-start">
-          <div class="form-group p-2">
+    <div class="alert alert-success" role="alert" *ngIf="showMsg">
+        {{ addedMsg }}
+    </div>
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Registro de CxC's</h1></span>
+                        <p class="lead">Ingresa CxC's de Responsabilidad y/o Colaborador, con los detalles para enviarse a RRHH</p>
+                    </div>
+                    <div>
+                        <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class='container'>
+                <!-- <div class="form-row align-items-center"> -->
+                <div class="d-flex justify-content-start">
+                    <div class="form-group p-2">
 
-              <div
-                  class="input-group"
-                  daterangepicker (selected)="dateChange($event.start, $event.end)">
-                  <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker">
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-calendar fa-fw"></i></span>
-                  </div>
-              </div>
-          </div>
-          <div class="form-group p-2">
-            <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" [active]="2" placeholder="Agregar CxC" ></app-search-asesor>
-          </div>
-          <div class="p-2 ml-auto">
-            <button type="button" class="btn btn-warning" *ngIf="ready" (click)="downloadXLS('listCxc', 'listCxc')">Descargar</button>
-          </div>
+                        <div class="input-group" daterangepicker (selected)="dateChange($event.start, $event.end)">
+                            <input type='text' class="form-control uneditable-input" name="daterange" value="" id="datepicker">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fa fa-calendar fa-fw"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group p-2">
+                        <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" [active]="2" placeholder="Agregar CxC"></app-search-asesor>
+                    </div>
+                    <div class="p-2 ml-auto">
+                        <button type="button" class="btn btn-warning" *ngIf="ready" (click)="downloadXLS('listCxc', 'listCxc')">Descargar</button>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
         </div>
-        <!-- </div> -->
-      </div>
     </div>
-  </div>
-  <div class="container-fluid" style="overflow: auto">
-    <p *ngIf="loadingCxc">Cargando CxCs...  <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
-    <div class="alert alert-danger" *ngIf="errorFlag">
-      {{ errorMsg | json }}
-    </div>
-    <hr>
-      <!-- <ng2-smart-table
+    <div class="container-fluid" style="overflow: auto">
+        <p *ngIf="loadingCxc">Cargando CxCs... <i class="fa fa-spinner fa-pulse fa-fw"></i></p>
+        <div class="alert alert-danger" *ngIf="errorFlag">
+            {{ errorMsg | json }}
+        </div>
+        <hr>
+        <!-- <ng2-smart-table
                 id='listCxc'
                 (edit)="viewDetails($event)"
                 class='table-responsive table-striped'
@@ -57,142 +55,128 @@
                 [source]="listCxc"
                 >
       </ng2-smart-table> -->
-      <app-table-template id='listCxc'></app-table-template>
+        <app-table-template id='listCxc'></app-table-template>
 
 
 
 
-  </div>
+    </div>
 
-  <!-- Change Status -->
-  <div class="modal fade" id="editCXC" tabindex="-1" role="dialog" aria-labelledby="editCXCLabel" aria-hidden="true" >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header" *ngIf="actualCxcReady">
-          <h5 class="modal-title" id="editCXCLabel">Editar Cxc -> # {{ actualCxc['id'] }}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <!-- Change Status -->
+    <div class="modal fade" id="editCXC" tabindex="-1" role="dialog" aria-labelledby="editCXCLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" *ngIf="actualCxcReady">
+                    <h5 class="modal-title" id="editCXCLabel">Editar Cxc -> # {{ actualCxc['id'] }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-        <div class="modal-body" *ngIf="!checkCredential('cxc_registro')">
-          <div class="alert alert-danger" role="alert">
-            No cuentas con permisos para ver este contenido
-          </div>
-        </div>
-        <div class="modal-body" *ngIf="actualCxcReady && checkCredential('cxc_registro')">
-          <div class="d-flex justify-content-around">
-            <button type="button" class="btn btn-outline-warning" *ngIf="actualCxc['status'] == 0" (click)="editCxc()">Editar</button>
-            <button type="button" class="btn btn-outline-primary" *ngIf="actualCxc['status'] == 0 && !editFlag" (click)="changeStatus(1)">Enviar a RRHH  <span *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
-          </div>
-          <hr>
-          <div class="alert alert-danger" role="alert" *ngIf="actualCxc['status'] >= 1">
-            No es posible editar un Cxc ya aplicado o enviado a RRHH
-          </div>
-          <div class="container" *ngIf="editFlag">
-            <form class="form-group" [formGroup]="formEditCxc" (ngSubmit)="submit()">
-
-              <div class="form-group row" >
-
-                  <label class="col-4 col-form-label">Monto</label>
-                  <div class="col-8 input-group">
-                    <span class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-dollar-sign fa-fw"></i></span>
-                    </span>
-                    <input
-                      [readonly]="!_init.checkSingleCredential('cxc_edit')"
-                      [ngClass]="{ 'is-invalid': !formEditCxc.controls['monto'].valid && !formEditCxc.controls['monto'].pristine}"
-                      formControlName="monto"
-                      class="form-control" type="text" value="">
-                  </div>
-                  <div class="col-12 text-danger" *ngIf="formEditCxc.controls['monto'].errors?.pattern && !formEditCxc.controls['monto'].pristine">
-                    <div><small>Ingresa el monto sin comas, y de 1 a 2 decimales</small></div>
-                  </div>
-                  <div class="col-12 text-danger" *ngIf="formEditCxc.controls['monto'].errors?.required && !formEditCxc.controls['monto'].pristine">
-                    <div><small>Campo Obligatorio</small></div>
-                  </div>
-              </div>
-              <div class="form-group row" >
-
-                  <label class="col-4 col-form-label">Comentarios</label>
-                  <div class="col-8 input-group">
-                    <span class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-comment fa-fw"></i></span>
-                    </span>
-                    <input
-                      [ngClass]="{ 'is-invalid': !formEditCxc.controls['comments'].valid && !formEditCxc.controls['comments'].pristine}"
-                      formControlName="comments"
-                      class="form-control" type="text" value="">
-                  </div>
-                  <div class="col-12 text-danger" *ngIf="formEditCxc.controls['comments'].errors?.required && !formEditCxc.controls['comments'].pristine">
-                    <div><small>Campo Obligatorio</small></div>
-                  </div>
-              </div>
-              <br>
-              <div class="form-group row" >
-                  <label class="col-4 col-form-label"></label>
-                  <div class="col-8 input-group">
-                    <div class="custom-control custom-checkbox" >
-                      <input type="checkbox" class="custom-control-input"
-                              [ngClass]="{ 'is-invalid': !formEditCxc.controls['firmado'].valid && !formEditCxc.controls['firmado'].pristine}"
-                              formControlName="firmado"id="ch2">
-                      <span class="custom-control-indicator"></span>
-                      <label class="custom-control-label" for="ch2">Firmado</label>
+                </div>
+                <div class="modal-body" *ngIf="!checkCredential('cxc_registro')">
+                    <div class="alert alert-danger" role="alert">
+                        No cuentas con permisos para ver este contenido
                     </div>
-                  </div>
-              </div>
+                </div>
+                <div class="modal-body" *ngIf="actualCxcReady && checkCredential('cxc_registro')">
+                    <div class="d-flex justify-content-around">
+                        <button type="button" class="btn btn-outline-warning" *ngIf="actualCxc['status'] == 0" (click)="editCxc()">Editar</button>
+                        <button type="button" class="btn btn-outline-primary" *ngIf="actualCxc['status'] == 0 && !editFlag" (click)="changeStatus(1)">Enviar a RRHH  <span *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
+                    </div>
+                    <hr>
+                    <div class="alert alert-danger" role="alert" *ngIf="actualCxc['status'] >= 1">
+                        No es posible editar un Cxc ya aplicado o enviado a RRHH
+                    </div>
+                    <div class="container" *ngIf="editFlag">
+                        <form class="form-group" [formGroup]="formEditCxc" (ngSubmit)="submit()">
 
-              <div class="d-flex flex-row-reverse">
-                <button type="button" class="btn btn-danger" (click)="noEdit()">Cancelar</button>
-                <button
-                        [disabled]="formEditCxc.invalid || submitting"
-                        type="submit"
-                        [ngClass]="{ 'btn-outline-secondary': formEditCxc.invalid, 'btn-success': !formEditCxc.invalid }"
-                        class="btn"
-                        >Guardar <span  *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
-              </div>
-            </form>
+                            <div class="form-group row">
 
-          </div>
+                                <label class="col-4 col-form-label">Monto</label>
+                                <div class="col-8 input-group">
+                                    <span class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-dollar-sign fa-fw"></i></span>
+                                    </span>
+                                    <input [readonly]="!_init.checkSingleCredential('cxc_edit')" [ngClass]="{ 'is-invalid': !formEditCxc.controls['monto'].valid && !formEditCxc.controls['monto'].pristine}" formControlName="monto" class="form-control" type="text" value="">
+                                </div>
+                                <div class="col-12 text-danger" *ngIf="formEditCxc.controls['monto'].errors?.pattern && !formEditCxc.controls['monto'].pristine">
+                                    <div><small>Ingresa el monto sin comas, y de 1 a 2 decimales</small></div>
+                                </div>
+                                <div class="col-12 text-danger" *ngIf="formEditCxc.controls['monto'].errors?.required && !formEditCxc.controls['monto'].pristine">
+                                    <div><small>Campo Obligatorio</small></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
 
-          <div class="container" *ngIf="applyFlag">
-            <app-apply-cxc></app-apply-cxc>
-          </div>
+                                <label class="col-4 col-form-label">Comentarios</label>
+                                <div class="col-8 input-group">
+                                    <span class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-comment fa-fw"></i></span>
+                                    </span>
+                                    <input [ngClass]="{ 'is-invalid': !formEditCxc.controls['comments'].valid && !formEditCxc.controls['comments'].pristine}" formControlName="comments" class="form-control" type="text" value="">
+                                </div>
+                                <div class="col-12 text-danger" *ngIf="formEditCxc.controls['comments'].errors?.required && !formEditCxc.controls['comments'].pristine">
+                                    <div><small>Campo Obligatorio</small></div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label"></label>
+                                <div class="col-8 input-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" [ngClass]="{ 'is-invalid': !formEditCxc.controls['firmado'].valid && !formEditCxc.controls['firmado'].pristine}" formControlName="firmado" id="ch2">
+                                        <span class="custom-control-indicator"></span>
+                                        <label class="custom-control-label" for="ch2">Firmado</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-row-reverse">
+                                <button type="button" class="btn btn-danger" (click)="noEdit()">Cancelar</button>
+                                <button [disabled]="formEditCxc.invalid || submitting" type="submit" [ngClass]="{ 'btn-outline-secondary': formEditCxc.invalid, 'btn-success': !formEditCxc.invalid }" class="btn">Guardar <span  *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="container" *ngIf="applyFlag">
+                        <app-apply-cxc></app-apply-cxc>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- Modal Add CxC -->
-  <div class="modal hide fade" id="form_addCxc" tabindex="-1" role="dialog" aria-labelledby="form_addCxc" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="form_addCxcLabel">Registrar CxC <small>{{ nameAsesor }}</small></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <!-- Modal Add CxC -->
+    <div class="modal hide fade" id="form_addCxc" tabindex="-1" role="dialog" aria-labelledby="form_addCxc" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="form_addCxcLabel">Registrar CxC <small>{{ nameAsesor }}</small></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
+                </div>
+                <div class="modal-body">
+                    <app-agregar-cxc (save)="addedCXC($event)"></app-agregar-cxc>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          <app-agregar-cxc (save)="addedCXC($event)"></app-agregar-cxc>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <app-upload-image (loadResult)="upldCheck( $event )"></app-upload-image>
 <!-- Modal -->
 <div class="modal fade" id="showDocument" tabindex="-1" role="dialog" aria-labelledby="showDocumentLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <img alt='image' class='img rounded img-fluid' style='margin: auto;' [src]="documentImage" (error)="updateImg($event)" id="shownDocument">
-      </div>
-      <div class="modal-footer" *ngIf="_init.checkSingleCredential('cxc_delete')">
-        <div class="d-flex justify-content-end">
-          <div class='p-2'><button class="btn btn-danger" (click)="deleteImage()" [disabled]="deleting">Borrar <i class="fa fa-fw fa-trash"></i> <span *ngIf="deleting"><i class="fa fa-fw fa-spinner fa-pulse"></i></span></button></div>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img alt='image' class='img rounded img-fluid' style='margin: auto;' [src]="documentImage" (error)="updateImg($event)" id="shownDocument">
+            </div>
+            <div class="modal-footer" *ngIf="_init.checkSingleCredential('cxc_delete')">
+                <div class="d-flex justify-content-end">
+                    <div class='p-2'><button class="btn btn-danger" (click)="deleteImage()" [disabled]="deleting">Borrar <i class="fa fa-fw fa-trash"></i> <span *ngIf="deleting"><i class="fa fa-fw fa-spinner fa-pulse"></i></span></button></div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

@@ -68,7 +68,7 @@ export class CxcAprobeComponent implements OnInit {
     this.item = item
     this.id = item['cxcIdLink']
     this.montoFiscal = parseFloat(item['totalCxc']).toFixed(2)
-    this.asesor = item['asesor']
+    this.asesor = item['asesorId']
 
     this.pagos = 1
     this.montoParcial = parseFloat(item['totalCxc']).toFixed(2)
@@ -112,7 +112,7 @@ export class CxcAprobeComponent implements OnInit {
         montoParcial: this.montoParcial,
         montoFiscal: this.montoFiscal,
         cxcId: this.id,
-        asesor: this.item['asesorId'],
+        asesor: this.asesor,
         consecutivo: i+1
       }
 
