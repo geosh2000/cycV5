@@ -8,7 +8,6 @@ import { VacantesComponent } from './components/hc/vacantes.component';
 import { HeadcountComponent } from './components/hc/headcount.component';
 import { AprobacionesComponent } from './components/rrhh/aprobaciones.component';
 import { PrenominaComponent } from './components/rrhh/prenomina/prenomina.component';
-import { CxcComponent } from './components/rrhh/cxc.component';
 import { AprobarVacantesComponent } from './components/rrhh/aprobar-vacantes.component';
 import { ApplyAllCxcComponent } from './components/formularios/apply-all-cxc.component';
 import { BitacoraSupersComponent } from './components/formularios/bitacora-supers/bitacora-supers.component';
@@ -157,7 +156,6 @@ const APP_ROUTES: Routes = [
   { path: 'cxc', component: CxcRegistroComponent },
   { path: 'cxcAdmin', component: CxcAdminComponent },
   { path: 'cxc/rrhh', component: CxcAplicablesComponent },
-  { path: 'cxc/rrhh/:filter', component: ApplyAllCxcComponent },
   { path: 'cxc/registro', component: CxcRegistroComponent },
   { path: 'cxc/aplicacion', component: CxcAplicablesComponent },
 

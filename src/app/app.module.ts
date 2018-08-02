@@ -51,7 +51,6 @@ import { AjusteSalarialComponent } from './components/formularios/ajuste-salaria
 import { EditarAjusteSalarialComponent } from './components/formularios/editar-ajuste-salarial.component';
 import { AddContratoComponent } from './components/formularios/add-contrato.component';
 import { AprobacionesComponent } from './components/rrhh/aprobaciones.component';
-import { CxcComponent } from './components/rrhh/cxc.component';
 import { ApplyAllCxcComponent } from './components/formularios/apply-all-cxc.component';
 import { CuartilesComponent } from './components/reportes/cuartiles/cuartiles.component';
 import { PrecisionComponent } from './components/reportes/precision/precision.component';
@@ -68,8 +67,6 @@ import { DomseguroPipe } from './pipes/domseguro.pipe';
 import { AsistenciaComponent } from './components/reportes/asistencia/asistencia.component';
 import { AddAusentismoComponent } from './components/formularios/add-ausentismo.component';
 import { JornadasComponent } from './components/reportes/asistencia/jornadas.component';
-import { CxcAdminComponent } from './components/cxc/cxc-admin/cxc-admin.component';
-import { CorteComponent } from './components/reportes/cxc/corte.component';
 import { NoAcentosPipe } from './pipes/no-acentos.pipe';
 import { UploadImageComponent } from './components/formularios/upload-image.component';
 import { ReingresoAsesorComponent } from './components/formularios/reingreso-asesor.component';
@@ -155,6 +152,7 @@ import { CxcRegistroComponent } from './components/cxc/cxc-registro/cxc-registro
 import { CxcLinkComponent } from './components/cxc/cxc-link/cxc-link.component';
 import { CxcAddComponent } from './components/cxc/cxc-add/cxc-add.component';
 import { CxcLineComponent } from './components/cxc/cxc-line/cxc-line.component';
+import { CxcAdminComponent } from './components/cxc/cxc-admin/cxc-admin.component';
 import { CxcCommentComponent } from './components/cxc/cxc-comment/cxc-comment.component';
 import { CxcAprobeComponent } from './components/cxc/cxc-aprobe/cxc-aprobe.component';
 import { CxcAplicablesComponent } from './components/cxc/cxc-aplicables/cxc-aplicables.component';
@@ -207,7 +205,6 @@ registerLocaleData(localeEsMX)
     EditarAjusteSalarialComponent,
     AddContratoComponent,
     AprobacionesComponent,
-    CxcComponent,
     ApplyAllCxcComponent,
     CuartilesComponent,
     PrecisionComponent,
@@ -225,7 +222,6 @@ registerLocaleData(localeEsMX)
     AddAusentismoComponent,
     JornadasComponent,
     CxcAdminComponent,
-    CorteComponent,
     NoAcentosPipe,
     UploadImageComponent,
     ReingresoAsesorComponent,
