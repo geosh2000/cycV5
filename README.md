@@ -24,6 +24,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Nuevo módulo de aplicación
 * Nuevo módulo de administración
 * Integración de nueva versión a prenómina
+* Descarca con Layout para prenómina
 
 ### Módulo de carga de horarios (Nuevo)
 * Selección de asesores por permisos y niveles

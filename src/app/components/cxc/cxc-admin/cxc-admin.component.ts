@@ -6,6 +6,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
 
+import { saveAs } from 'file-saver';
+import { utils, write, WorkBook } from 'xlsx';
+
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
 import * as Globals from '../../../globals';
@@ -157,7 +160,45 @@ export class CxcAdminComponent implements OnInit {
       params['montoRestante'] = (nuevoMonto * (-1)).toFixed(2)
     }
 
-    this.editAmount(item, nuevoMonto, params)
+    this.deactivate(item, nuevoMonto, params)
+  }
+
+  deactivate( item, nuevoMonto, params? ){
+    this.loading['save'] = true
+
+    if( !params ){
+      params = {}
+      params['statusChange'] = 0
+      params['status'] = 1
+      params['id'] = item['id']
+      params['cxcId'] = item['cxcId']
+      params['payday'] = item['payday']
+      params['montoRestante'] = (parseFloat(item['montoQuincena']) - nuevoMonto).toFixed(2)
+    }
+
+    params['nuevoMonto'] = nuevoMonto
+
+    this._api.restfulPut( params, `Cxc/deactivate`)
+          .subscribe( res => {
+
+            this.loading['save'] = false
+            this.toastr.success(res['msg'], 'Guardado')
+            this.getData()
+            jQuery('#editAmountModal').modal('hide')
+
+          }, err => {
+
+            console.log('ERROR', err)
+
+            this.loading['save'] = false
+
+            let error = err.json()
+            this.toastr.error( error.msg, err.statusText )
+            console.error(err.statusText, error.msg)
+
+          })
+
+
   }
 
   editAmount( item, nuevoMonto, params? ){
@@ -215,13 +256,13 @@ export class CxcAdminComponent implements OnInit {
       return false
     }
 
-    if( this.modif['nuevoMonto'] > this.modif['top'] ){
-      this.toastr.error( 'El monto máximo para este cxc es de $'+this.modif['top'], 'Error' )
-      return false
-    }
+    // if( this.modif['nuevoMonto'] > this.modif['top'] ){
+    //   this.toastr.error( 'El monto máximo para este cxc es de $'+this.modif['top'], 'Error' )
+    //   return false
+    // }
 
     if( this.modif['nuevoMonto'] > this.modif['montoPendiente'] ){
-      this.toastr.error( 'El monto pendiente $'+this.modif['top']+'. No es posible asignar un monto mayor', 'Error' )
+      this.toastr.error( 'El monto pendiente $'+this.modif['montoPendiente']+'. No es posible asignar un monto mayor', 'Error' )
       return false
     }
 
@@ -232,6 +273,49 @@ export class CxcAdminComponent implements OnInit {
 
     this.editAmount( this.modif['item'], this.modif['nuevoMonto'] )
 
+  }
+
+  download(){
+    this.loading['download'] = true
+
+    this._api.restfulGet( this.selectedPayday, `Cxc/downloadCxcAdmin`)
+          .subscribe( res => {
+
+            this.loading['download'] = false
+            this.downloadXLS( 'cxcLayout', 'cxcLayout_'+this.selectedPayday, res['data'] )
+
+          }, err => {
+
+            console.log('ERROR', err)
+
+            this.loading['download'] = false
+
+            let error = err.json()
+            this.toastr.error( error.msg, err.statusText )
+            console.error(err.statusText, error.msg)
+
+          })
+  }
+
+  downloadXLS( sheets, title, json ){
+    let wb:any
+
+    wb = { SheetNames: ['scxc', 'reservas', 'saldos'], Sheets: {} };
+    // wb.SheetNames.push(title);
+    wb.Sheets['scxc'] = utils.json_to_sheet(json['scxc'], {cellDates: true});
+    wb.Sheets['reservas'] = utils.json_to_sheet(json['reservas'], {cellDates: true});
+    wb.Sheets['saldos'] = utils.json_to_sheet(json['saldos'], {cellDates: true});
+
+    let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type: 'binary' });
+
+    saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), `${title}.xlsx`)
+  }
+
+  s2ab(s) {
+    let buf = new ArrayBuffer(s.length);
+    let view = new Uint8Array(buf);
+    for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
+    return buf;
   }
 
 }
