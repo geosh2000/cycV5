@@ -120,7 +120,7 @@
                                     </button>
                                     <div class="dropdown-menu" *ngIf="_init.checkSingleCredential('cxc_edit')">
                                         <button class="dropdown-item text-danger" (click)="editCxc('status', '0', item['cxcIdLink'])" type="button" *ngIf="item['status']!='2'">En revisión</button>
-                                        <button class="dropdown-item text-info" (click)="editCxc('status', '1', item['cxcIdLink'])" type="button" [disabled]="item['Formato'] == 0" *ngIf="item['status']!='2'">Enviar a RRHH <span class="text-danger"><small style="font-size: smaller">{{ item['Formato'] == 0 ? ' (Requiere subir el formato primero)' : '' }}</small></span></button>
+                                        <button class="dropdown-item text-info" (click)="editCxc('status', '1', item['cxcIdLink'])" type="button" [disabled]="item['Formato'] == 0 || !item['id']" *ngIf="item['status']!='2'">Enviar a RRHH <span class="text-danger"><small style="font-size: smaller">{{ item['Formato'] == 0 ? ' (Requiere subir el formato primero)' : '' }}</small></span></button>
                                         <button class="dropdown-item text-success" (click)="aprobe(item)" type="button" *ngIf="_init.checkSingleCredential('cxc_apply')" [disabled]="item['status']=='2'">Aplicar</button>
                                     </div>
         </div>
@@ -177,7 +177,7 @@
                                     </button>
                 <div class="dropdown-menu" *ngIf="_init.checkSingleCredential('cxc_edit')">
                     <button class="dropdown-item text-danger" (click)="editCxc('status', '0', item['cxcIdLink'])" type="button" *ngIf="item['status']!='2'">En revisión</button>
-                    <button class="dropdown-item text-info" (click)="editCxc('status', '1', item['cxcIdLink'])" type="button" *ngIf="item['status']!='2'" [disabled]="item['Formato'] == 0">Enviar a RRHH <span class="text-danger"><small style="font-size: smaller">{{ item['Formato'] == 0 ? ' (Requiere subir el formato primero)' : '' }}</small></span></button>
+                    <button class="dropdown-item text-info" (click)="editCxc('status', '1', item['cxcIdLink'])" type="button" *ngIf="item['status']!='2'" [disabled]="item['Formato'] == 0 || !item['id']">Enviar a RRHH <span class="text-danger"><small style="font-size: smaller">{{ item['Formato'] == 0 ? ' (Requiere subir el formato primero)' : '' }}</small></span></button>
                     <button class="dropdown-item text-success" (click)="aprobe(item)" type="button" *ngIf="_init.checkSingleCredential('cxc_apply')" [disabled]="item['status']=='2'">Aplicar</button>
                 </div>
             </div>

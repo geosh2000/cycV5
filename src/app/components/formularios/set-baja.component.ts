@@ -158,14 +158,16 @@ export class SetBajaComponent implements OnChanges {
       .subscribe( res => {
 
         this.retrieving = false
-
-        if( res['status'] ){
-          this.save.emit({form: this.modal, status: true})
+        this.save.emit({form: this.modal, status: true})
           jQuery(this.modal).modal('hide')
           this.resetForm()
-        }else{
-          this.error.emit({code: res['msg'].code, msg: res['msg'].message})
-        }
+
+      }, err => {
+        console.log('ERROR', err)
+
+        this.retrieving = false
+
+        this.error.emit({code: 'ERROR', msg: err.error.msg})
 
       })
 

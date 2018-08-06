@@ -194,8 +194,10 @@ export class ReporteAfiliadosComponent implements OnInit {
       case 'Abandon':
         return this._dec.transform(item[field] * 100,'.2-2') + '%'
       case 'AHT':
+      case 'ASA':
         return this._dec.transform(item[field],'.2-2') + ' seg'
       case 'TT':
+      case 'Total_Espera':
         return this._dec.transform(item[field] / 60 / 60,'.2-2') + ' hrs'
       case 'Fecha':
         return item[field] == 'Total' ? 'Total' : moment(item[field]).format('DD MMM \'YY')
