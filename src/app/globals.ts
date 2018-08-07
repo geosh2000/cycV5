@@ -1,10 +1,7 @@
-// Globales
+// Production = 1
+// Development = 0
+let env = 0
 
-// Produccion
-// export const APISERV = 'https://operaciones.pricetravel.com.mx';
-// export const APIFOLDER = 'restful';
 
-// Development
-export const APISERV = 'http://testoperaciones.pricetravel.com.mx';
-export const APIFOLDER = 'restfulbck';
-export const CYC_TOKEN = '';
+export const APISERV = env == 1 ? 'https://operaciones.pricetravel.com.mx' : 'http://testoperaciones.pricetravel.com.mx';
+export const APIFOLDER = env == 1 ? 'restful' : 'restfulbck';

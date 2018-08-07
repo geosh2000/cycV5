@@ -35,6 +35,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Monitor KPIs
 * Badge VAR % por permisos
+* Unificación de queries para reportes y monitores
 
 ### Reporte de Afiliados (Nuevo)
 * Reporte parametrizado de Afiliados

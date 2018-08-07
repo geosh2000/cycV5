@@ -61,7 +61,7 @@ export class VentaPorCanalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('CyC - Venta por Canal MT');
+    this.titleService.setTitle('CyC - Venta por Canal MP');
   }
 
   dateChange( start, end ){

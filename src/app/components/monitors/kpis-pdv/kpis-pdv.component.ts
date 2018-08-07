@@ -100,7 +100,7 @@ export class KpisPdvComponent implements OnInit {
     this._api.restfulGet( '','Venta/getSup' )
             .subscribe( res => {
 
-              this.sup = res['data']['sup']
+              this.sup = res['data'] ? res['data']['sup'] : null
 
             }, err => {
               console.log("ERROR", err)
@@ -273,7 +273,7 @@ export class KpisPdvComponent implements OnInit {
               }
 
               this.ventaData = data
-              console.log(this.ventaData)
+              // console.log(this.ventaData)
               this.processCalls()
 
             }, err => {
@@ -409,7 +409,7 @@ export class KpisPdvComponent implements OnInit {
 
               }
 
-              console.log(this.ventaData)
+              // console.log(this.ventaData)
 
               if( callback ){ callback() }
 
