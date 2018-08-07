@@ -1,68 +1,62 @@
-<div class="container-fluid">
-    <div class="d-flex justify-content-start">
-        <div class="btn-group m-1">
+<div class="container-fluid" [style.backgroundColor]="'#70B0CF'">
+    <div class="d-flex justify-content-end">
+        <!-- <div class="btn-group m-1">
             <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Order By 1: {{ orderBy[0] }}
+        Order By: {{ orderPresets[selected]['title'] }}
       </button>
             <div class="dropdown-menu">
-                <button class="dropdown-item" type="button" (click)="chgOrder(0, title)" *ngFor="let title of data[0] | keys">{{ title }}</button>
+                <button class="dropdown-item" type="button" (click)="chgOrder(title, i)" *ngFor="let title of orderPresets;  index as i">{{ title['title'] }}</button>
             </div>
+        </div> -->
+        <div class="p-0 text-light">
+            <small>Last Update: {{ printTime(lu, 'DD MMM \'YY HH:mm:ss') }}</small>
         </div>
-        <div class="btn-group m-1">
-            <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Order By 2: {{ orderBy[1] }}
-      </button>
-            <div class="dropdown-menu">
-                <button class="dropdown-item" type="button" (click)="chgOrder(1, title)" *ngFor="let title of data[0] | keys">{{ title }}</button>
-            </div>
-        </div>
-        <div class="btn-group m-1">
-            <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Orden: {{ !order ? 'Ascendente' : 'Descendente' }}
-      </button>
-            <div class="dropdown-menu">
-                <!-- <button class="dropdown-item" type="button" (click)="chgOrder(3, false)">Ascendente</button>
-                <button class="dropdown-item" type="button" (click)="chgOrder(3, true)">Descendente</button> -->
-            </div>
+        <div class="pl-1 text-light">
+            <small>Reload in: {{ timerCount }} seg.</small>
         </div>
     </div>
 
     <hr>
-    <pre>{{ orderBy | json }}</pre>
     <h3 *ngIf="loading['data']">Loading... <i class="fas fa-spinner fa-pulse text-info"></i></h3>
     <div class="d-flex justify-content-start flex-wrap">
-        <div class="card bg-info m-1" style="width: 300px" *ngFor="let item of data">
-            <div class="card-body">
-                <h5 class="text-light text-truncate card-title">{{ item['Nombre'] }}</h5>
-                <h6 class="text-light text-truncate card-subtitle mb-2 text-muted">{{ item['Supervisor'] }}</h6>
+        <div class="card m-1 p-0" style="width: 250px" *ngFor="let item of data">
+            <div class="card-body p-2">
+                <div class="row" [style.height.px]=55>
+                    <div class='col-7'>
+                        <h4 class="card-title">{{ item['Nombre'] }}</h4>
+                    </div>
+                    <div class="col-5">
+                        <div class="text-center">
+                            <h3><span class="badge border-light m-1" [ngClass]="formatBadge('Total', item['TotalIndex'])">{{ item['TotalIndex'] }}</span></h3>
+                        </div>
+                    </div>
+                </div>
+                <hr class='m-0'>
                 <div class="d-flex justify-content-between">
                     <div class="text-center">
                         <span class="badge m-1" [ngbTooltip]="item['Locs'] + ' de ' + item['horas']" [ngClass]="formatBadge('Locs', item['LocsIndex'])">{{ item['LocsIndex'] }}</span>
-                        <p style="font-size: smaller">Locs</p>
+                        <p style="font-size: smaller"><i class="fas fa-boxes "></i></p>
                     </div>
                     <div class="text-center">
                         <span class="badge m-1" [ngbTooltip]="item['AHT']+' seg.'" [ngClass]="formatBadge('Aht', item['AhtIndex'])">{{ item['AhtIndex'] }}</span>
-                        <p style="font-size: smaller">AHT</p>
+                        <p style="font-size: smaller"><i class="far fa-clock "></i></p>
                     </div>
                     <div class="text-center">
                         <span class="badge m-1" [ngbTooltip]="(toNum(item['FC']) | number:'.2-2') +'%'" [ngClass]="formatBadge('Fc', item['FcIndex'])">{{ item['FcIndex'] }}</span>
-                        <p style="font-size: smaller">FC</p>
+                        <p style="font-size: smaller"><i class="fas fa-percent "></i></p>
                     </div>
                     <div class="text-center">
                         <span class="badge m-1" [ngbTooltip]="(toNum(item['MontoSV']) | currency:'MXN':'symbol-narrow':'.2-2') + ' de ' + ((toNum(item['Meta_minuto'])*toNum(item['horas'])*60) | currency:'MXN':'symbol-narrow':'.2-2')" [ngClass]="formatBadge('Monto', item['MontoIndex'])">{{ item['MontoIndex'] }}</span>
-                        <p style="font-size: smaller">Monto</p>
+                        <p style="font-size: smaller"><i class="fas fa-dollar-sign "></i></p>
                     </div>
-                    <div class="text-center">
-                        <span class="badge m-1" [ngClass]="formatBadge('Total', item['TotalIndex'])">{{ item['TotalIndex'] }}</span>
-                        <p style="font-size: smaller">Total</p>
-                    </div>
+                </div>
+            </div>
+            <div class='card-footer p-1' [style.backgroundColor]="SupColor[item['idSup']]">
+                <div class='ml-2 text-light'>
+                    <i class="fas fa-user-tie"></i> <small class="ml-3 text-truncate">{{ item['Supervisor'] }}</small>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <ul>
-        <li *ngFor="let item of data">{{ item | json }}</li>
-    </ul>
 </div>

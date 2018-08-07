@@ -33,6 +33,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Context-menu con opciones rápidas
 * Extensión de horarios (Copy/paste)
 
+### Monitor Indices
+* Vista de asesores activos (MP) con medición de Indice
+* Supervisores resaltados por color
+
 ### Monitor KPIs
 * Badge VAR % por permisos
 * Unificación de queries para reportes y monitores

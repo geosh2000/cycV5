@@ -22,8 +22,24 @@ export class SaleIndexMonitorComponent implements OnInit {
 
   loading:Object = {}
   data:any = []
+  lu:any 
   orderBy:any = ['TotalIndex', 'Nombre']
   order:boolean = true
+  selected:any = 0
+
+  colors:any = ['#3C3FB0','#7D45BF','#B1763E','#C54CAC','#C74D97']
+  SupColor:Object = {}
+
+  timeToReload:any  = 300
+  timerCount:any    = this.timeToReload
+  timeout:any
+
+  orderPresets = [
+    { title: 'Puntuación', order: 'TotalIndex', order_b: 'Nombre', desc: true, desc_b: true },
+    { title: 'Supervisor / Nombre', order: 'Supervisor', order_b: 'Nombre', desc: false, desc_b: true },
+    { title: 'Supervisor / Puntuación', order: 'Supervisor', order_b: 'TotalIndex', desc: false, desc_b: false },
+    { title: 'Nombre', order: 'Nombre', order_b: 'Nombre', desc:false, desc_b: true }
+  ]
 
   constructor(
         private _api:ApiService,
@@ -57,6 +73,10 @@ export class SaleIndexMonitorComponent implements OnInit {
     this.getData()
   }
 
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
+  }
+
   getData(){
 
     this.loading['data'] = false
@@ -65,7 +85,18 @@ export class SaleIndexMonitorComponent implements OnInit {
     .subscribe( res => {
 
       this.loading['data'] = false
-      this.data = this.op.transform( res['data'], this.orderBy, this.order)
+      this.data = res['data']
+      this.lu = res['lu']
+
+      let i = 0
+      for( let item of res['data'] ){
+        if( !this.SupColor[item['idSup']] ){
+          this.SupColor[item['idSup']] = this.colors[i]
+          i++
+        }
+      }
+
+      this.chgOrder( this.orderPresets[this.selected], this.selected )
 
     }, err => {
       console.log('ERROR', err)
@@ -80,12 +111,17 @@ export class SaleIndexMonitorComponent implements OnInit {
 
   }
 
-  orderData( type, ord ){
-    this.orderBy = type
-    this.order = ord
+  chgOrder( orderObj, i ){
+    console.log(orderObj)
+    this.orderBy = JSON.parse(JSON.stringify(orderObj['order']))
+    this.order = JSON.parse(JSON.stringify(orderObj['desc']))
+
+    this.selected = i
+
     let data = this.data
 
-    this.data = this.op.transform( data, type, ord )
+    // data = this.op.transform( data, orderObj['order_b'], orderObj['desc_b'] )
+    this.data = this.op.transform( data, [orderObj['order'], orderObj['order_b']], orderObj['desc'] )
   }
 
   formatBadge( index, value ){
@@ -111,6 +147,22 @@ export class SaleIndexMonitorComponent implements OnInit {
 
   toNum( val ){
     return parseFloat(val)
+  }
+
+  printTime( time, format ){
+    return moment.tz(time, 'America/Mexico_city').tz(this._zh.zone).format(format)
+  }
+
+  timerLoad(){
+    if( this.timerCount == 0 ){
+      this.getData()
+      this.timerCount = this.timeToReload
+    }else{
+      this.timerCount--
+    }
+
+    this.timeout = setTimeout( () => this.timerLoad(), 1000 )
+
   }
 
 }
