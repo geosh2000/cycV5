@@ -158,6 +158,8 @@ import { CxcAprobeComponent } from './components/cxc/cxc-aprobe/cxc-aprobe.compo
 import { CxcAplicablesComponent } from './components/cxc/cxc-aplicables/cxc-aplicables.component';
 import { CxcPayDetailComponent } from './components/cxc/cxc-pay-detail/cxc-pay-detail.component';
 import { HomeCxcViewComponent } from './components/home/home-cxc-view/home-cxc-view.component';
+import { BitacoraComponent } from './components/monitors/bitacora/bitacora.component';
+import { BitacoraAddActionComponent } from './components/monitors/bitacora/bitacora-add-action/bitacora-add-action.component';
 
 
 declare let jQuery: Object;
@@ -309,6 +311,8 @@ registerLocaleData(localeEsMX)
     CxcAplicablesComponent,
     CxcPayDetailComponent,
     HomeCxcViewComponent,
+    BitacoraComponent,
+    BitacoraAddActionComponent,
   ],
   imports: [
     BrowserModule,

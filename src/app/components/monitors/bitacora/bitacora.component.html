@@ -1,0 +1,124 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+
+            <!-- TITLE -->
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Bitácora GTR</h1></span>
+                    <p class="lead">KPIs WFM por intervalos de 30 min</p><br>
+                </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="container d-flex justify-content-start flex-wrap">
+                <div class="form-row align-items-center m-1">
+                    <div class="form-group mr-2">
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" [autoClose]="false" (click)="d.toggle()" id="picker" name="dp" ngbDatepicker #d="ngbDatepicker" [dayTemplate]="t" (dateSelect)="onDateSelection($event, d)" autocomplete="off">
+                            <ng-template #t let-date="date" let-focused="focused">
+                                <span class="custom-day" [class.focused]="focused">{{ date.day }}</span>
+                            </ng-template>
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar fa-fw"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center" class="m-1">
+                    <select class="custom-select" (change)="getData( $event.target.value )" [(ngModel)]="viewDep">
+                            <option value="">Selecciona...</option>
+                            <option [value]="item['skill']" *ngFor="let item of listDeps | orderBy:'dep'">{{ item['dep'] }}</option>
+                        </select>
+                </div>
+                <div class="m-1">
+                    <button type="button" class="btn btn-warning" (click)="getData()" [disabled]="loading['data']">Refresh <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                </div>
+                <div class="ml-auto p-1 text-light">
+                    <small>Reload in: {{ timerCount }} seg.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 *ngIf="loading['data']">Loading... <i class="fas fa-spinner fa-pulse text-info"></i></h3>
+    <div class="container-fluid" *ngIf="data">
+        <table class="table table-sm table-hover table-striped table-bordered" style="font-size: smaller">
+            <thead>
+                <tr>
+                    <th class="text-center">Hora</th>
+                    <th class="text-center">Depto</th>
+                    <th class="text-center">SLA</th>
+                    <th class="text-center">SLA<br>(Meta)</th>
+                    <th class="text-center">Llamadas</th>
+                    <th class="text-center">Forecast</th>
+                    <th class="text-center">Precision</th>
+                    <th class="text-center">RACs<br>programados</th>
+                    <th class="text-center">RACs<br>HX</th>
+                    <th class="text-center">RACs<br>Total</th>
+                    <th class="text-center">RACs (Dep)<br>Sentados</th>
+                    <th class="text-center">RACs (Total)<br>Sentados</th>
+                    <th class="text-center">AHT<br>Depto</th>
+                    <th class="text-center">AHT<br>PDV</th>
+                    <th class="text-center">AHT<br>Total</th>
+                    <th class="text-center">AHT<br>Pron.</th>
+                    <th class="text-center">Abandon</th>
+                    <th class="text-center">Abandon<br>Meta</th>
+                    <th class="text-center">Accion<br>Level 1</th>
+                    <th class="text-center">Accion<br>Level 2</th>
+                    <th class="text-center">Accion<br>Level 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let hour of data[viewDep] | keys">
+                    <td class="text-center">{{ hour }}</td>
+                    <td class="text-center">{{ data[viewDep][hour]['Depto'] }}</td>
+                    <td class="text-center" [ngClass]="formatCell(data[viewDep][hour]['SLA'], true, data[viewDep][hour]['metas'] ? data[viewDep][hour]['metas']['sla'] ? data[viewDep][hour]['metas']['sla']['meta'] : 0 : 0, '>', 1.1,.8, .6, true)">{{ data[viewDep][hour]['SLA'] | number:'.0-2' }}{{ data[viewDep][hour]['SLA'] == null ? '' : '%' }}</td>
+                    <td class="text-center">{{ (data[viewDep][hour]['metas'] ? data[viewDep][hour]['metas']['sla'] ? data[viewDep][hour]['metas']['sla']['meta'] : 0 : 0) *100 }}%</td>
+                    <td class="text-center">{{ data[viewDep][hour]['Llamadas'] }}</td>
+                    <td class="text-center">{{ data[viewDep][hour]['forecast'] }}</td>
+                    <td class="text-center" [ngClass]="{'': data[viewDep][hour]['prec'] == null, 'bg-danger': (data[viewDep][hour]['prec']/100 < .6 && data[viewDep][hour]['prec']/100 > 0) || data[viewDep][hour]['prec']/100 > 1.5, 'bg-warning': data[viewDep][hour]['prec']/100 >= .6 && data[viewDep][hour]['prec']/100 < .8, 'bg-warning': data[viewDep][hour]['prec']/100 >= 1.2 && data[viewDep][hour]['prec']/100 <= 1.5 }">{{ data[viewDep][hour]['prec'] | number:'.0-2' }}{{ data[viewDep][hour]['prec'] == null ? '' : '%' }}</td>
+                    <td class="text-center">{{ data[viewDep][hour]['programados'] }}</td>
+                    <td class="text-center">{{ data[viewDep][hour]['extra_programados'] }}</td>
+                    <td class="text-center">{{ data[viewDep][hour]['total_programados'] }}</td>
+                    <td class="text-center" [ngClass]="formatCell(data[viewDep][hour]['racsDep'], false, data[viewDep][hour]['total_programados'], '>', 1,.9, .8)">{{ data[viewDep][hour]['racsDep'] }}</td>
+                    <td class="text-center">{{ data[viewDep][hour]['racsTotal'] }}</td>
+                    <td class="text-center" [ngClass]="formatCell(data[viewDep][hour]['AHTDep'], false, data[viewDep][hour]['AHT_pronostico'], '<', .7,1.2, 1.8)">{{ data[viewDep][hour]['AHTDep'] | number:'.0-0' }}{{ data[viewDep][hour]['AHTDep'] == null ? '' : ' seg.' }}</td>
+                    <td class="text-center">{{ data[viewDep][hour]['AHTPdv'] | number:'.0-0' }}{{ data[viewDep][hour]['AHTPdv'] == null ? '' : ' seg.' }}</td>
+                    <td class="text-center" [ngClass]="formatCell(data[viewDep][hour]['AHTTotal'], false, data[viewDep][hour]['AHT_pronostico'], '<', .7,1.2, 1.8)">{{ data[viewDep][hour]['AHTTotal'] | number:'.0-0' }}{{ data[viewDep][hour]['AHTTotal'] == null ? '' : ' seg.' }}</td>
+                    <td class="text-center">{{ data[viewDep][hour]['AHT_pronostico'] }}{{ data[viewDep][hour]['AHT_pronostico'] == null ? '' : 'seg.' }}</td>
+                    <td class="text-center" [ngClass]="formatCell(data[viewDep][hour]['Abandon'], true, data[viewDep][hour]['metas'] ? data[viewDep][hour]['metas']['abandon'] ? data[viewDep][hour]['metas']['abandon']['meta'] : 0 : 0, '<', .7,1.3, 1.6)">{{ data[viewDep][hour]['Abandon'] | number:'.0-2' }}%</td>
+                    <td class="text-center">{{ (data[viewDep][hour]['metas'] ? data[viewDep][hour]['metas']['abandon'] ? data[viewDep][hour]['metas']['abandon']['meta'] : 0 : 0)*100 | number:'.0-2' }}%</td>
+                    <td class="text-left">
+                        <div *ngIf=" data[viewDep][hour]['comments']['1']">
+                            <p class="text-wrap"><span><small>{{ data[viewDep][hour]['comments']['1']['comments'] }}</small></span></p>
+                            <p class="text-right text-wrap"><span><small>({{ data[viewDep][hour]['comments']['1']['asesor'] }})</small></span></p>
+                        </div>
+                        <button class="btn btn-sm btn-link" (click)="editLevel([selectedDate, viewDep, hour, 1])"><small><i class="far fa-edit"></i></small></button>
+                    </td>
+                    <td class="text-left">
+                        <div *ngIf=" data[viewDep][hour]['comments']['2']">
+                            <p class="text-wrap"><span><small>{{ data[viewDep][hour]['comments']['2']['comments'] }}</small></span></p>
+                            <p class="text-right text-wrap"><span><small>({{ data[viewDep][hour]['comments']['2']['asesor'] }})</small></span></p>
+                        </div>
+                        <button class="btn btn-sm btn-link" (click)="editLevel([selectedDate, viewDep, hour, 2])"><small><i class="far fa-edit"></i></small></button>
+                    </td>
+                    <td class="text-left">
+                        <div *ngIf=" data[viewDep][hour]['comments']['3']">
+                            <p class="text-truncate"><span><small>{{ data[viewDep][hour]['comments']['3']['comments'] }}</small></span></p>
+                            <p class="text-right text-truncate"><span><small>({{ data[viewDep][hour]['comments']['3']['asesor'] }})</small></span></p>
+                        </div>
+                        <button class="btn btn-sm btn-link" (click)="editLevel([selectedDate, viewDep, hour, 3])"><small><i class="far fa-edit"></i></small></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ADD ACTION -->
+    <app-bitacora-add-action (save)="savedComment( $event )" (delete)="deleteComment( $event )"></app-bitacora-add-action>
+</div>

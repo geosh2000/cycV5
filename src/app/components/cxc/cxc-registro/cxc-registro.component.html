@@ -79,6 +79,7 @@
                     <tr>
                         <ng-container *ngIf="!moreInfo">
                             <th class="text-center">id</th>
+                            <th class="text-center">transactionId</th>
                             <th class="text-center">Localizador</th>
                             <th class="text-center">dtCreated</th>
                             <th class="text-center">montoFiscal</th>
@@ -161,6 +162,7 @@
     </ng-container>
     <ng-container *ngIf="!moreInfo && !loading['save'][item['cxcIdLink']]">
         <td class="text-center">{{ item['id'] }}</td>
+        <td class="text-center">{{ item['transactionId'] }}</td>
         <td class="text-center"><a href="https://rsv.pricetravel.com.mx/reservations/show/{{item['Localizador']}}" target="_blank">{{ item['Localizador'] }}</a></td>
         <td class="text-center">{{ item['dtCreated'] }}</td>
         <td class="text-center">{{ item['montoFiscal'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>

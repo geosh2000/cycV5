@@ -73,6 +73,7 @@ import { VentaPorCanalMtComponent } from './components/reportes/venta/venta-por-
 import { SaleIndexMonitorComponent } from './components/monitors/sale-index-monitor/sale-index-monitor.component';
 import { CxcRegistroComponent } from './components/cxc/cxc-registro/cxc-registro.component';
 import { CxcAplicablesComponent } from './components/cxc/cxc-aplicables/cxc-aplicables.component';
+import { BitacoraComponent } from './components/monitors/bitacora/bitacora.component';
 
 
 const APP_ROUTES: Routes = [
@@ -151,6 +152,7 @@ const APP_ROUTES: Routes = [
   { path: 'ovv2018', component: DashOutletComponent },
   { path: 'oVirtual2018', component: Ovirtual2018Component },
   { path: 'saleIndex', component: SaleIndexMonitorComponent },
+  { path: 'bitacoraGtr', component: BitacoraComponent },
 
   // CXC
   { path: 'cxc', component: CxcRegistroComponent },

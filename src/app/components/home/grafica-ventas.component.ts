@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input, SimpleChanges, OnDestroy, OnChanges } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -25,6 +25,7 @@ export class GraficaVentasComponent implements OnInit {
   activeTab:string      = 'montos'
   secReload:number
   timeForReload:number  = 300
+  timeout:any
 
   constructor(public _api: ApiService,
                 private _tokenCheck:TokenCheckService,
@@ -119,6 +120,10 @@ export class GraficaVentasComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.getData( false, this.activeTab )
+  }
+
+  ngOnDestroy(){
+    clearTimeout(this.timeout)
   }
 
   getData( loop = true, id = '' ){
@@ -397,7 +402,7 @@ export class GraficaVentasComponent implements OnInit {
 
     if( time > 0 ){
       this.secReload = time - 1
-      setTimeout( () => this.timer(), 1000 )
+      this.timeout = setTimeout( () => this.timer(), 1000 )
     }else{
       if( time == 0 ){
         this.secReload = time - 1
@@ -410,5 +415,7 @@ export class GraficaVentasComponent implements OnInit {
   test( event ){
     console.log(event)
   }
+
+  
 
 }

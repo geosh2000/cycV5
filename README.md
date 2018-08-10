@@ -5,6 +5,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ## v2.4.1
 
+### Bitacora GTR V2
+* KPIs por intervalo, por departamento
+* Integración de nueva version de tablas
+* Comentarios en 3 niveles, en tiempo real
+
 ### Global
 * Módulo de preferencias por usuario
 * Zona horaria Global por preferencias
