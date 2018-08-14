@@ -13,6 +13,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Global
 * Módulo de preferencias por usuario
 * Zona horaria Global por preferencias
+* Implementación de opciones de color (.1002)
 
 ### Detalle Asesores
 * Consulta de CxC en cobro para el asesor
@@ -28,7 +29,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * El cambio de satus se restringe a la subida del formato de CXC
 * Nuevo módulo de aplicación
 * Nuevo módulo de administración
-* Integración de nueva versión a prenómina
+* Administración por PDV / CC (.1002)
+* Integración de nueva versión a prenómina (.1002)
 * Descarca con Layout para prenómina
 
 ### Módulo de carga de horarios (Nuevo)
@@ -42,9 +44,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Vista de asesores activos (MP) con medición de Indice
 * Supervisores resaltados por color
 
+### Monitor Queues
+* Color por perfil (MX/CO) (.1002)
+
 ### Monitor KPIs
 * Badge VAR % por permisos
 * Unificación de queries para reportes y monitores
+* Integración de Montos en COP para MP CO (.1001)
 
 ### Reporte de Afiliados (Nuevo)
 * Reporte parametrizado de Afiliados

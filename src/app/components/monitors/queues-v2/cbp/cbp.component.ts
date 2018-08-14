@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import * as moment from 'moment-timezone';
+import { InitService } from '../../../../services/service.index';
 
 @Component({
   selector: 'app-cbp',
@@ -22,8 +23,28 @@ import * as moment from 'moment-timezone';
       transform: rotate(270deg);
     }
 
-    .bg-out{
+    .bg-outCC{
       background: #a83e8c
+    }
+
+    .bg-avail{
+      background: -webkit-linear-gradient(top, #25be51 0%,#25be51 43%,#009e39 100%)
+    }
+
+    .bg-in{
+      background: -webkit-linear-gradient(top, #e63e3c 0%,#e63e3c 43%,#d00905 100%)
+    }
+
+    .bg-aux{
+      background:  -webkit-linear-gradient(top, #efd562 0%,#efd562 43%,#edc21a 100%)
+    }
+
+    .bg-outTry{
+      background: -webkit-linear-gradient(top, #32c5ff 0%,#32c5ff 43%,#00acfc 100%)
+    }
+
+    .bg-out{
+      background: -webkit-linear-gradient(top, #0069ea 0%,#0069ea 43%,#3b008e 100%)
     }`
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -84,7 +105,7 @@ export class CbpComponent implements OnInit {
 
 
 
-  constructor() { }
+  constructor( private _init:InitService ) { }
 
   ngOnInit() {
   }
@@ -128,8 +149,8 @@ export class CbpComponent implements OnInit {
     this.loggedAgents = this.agentsLogged( data )
     this.waitsInQ()
 
-    console.log(this.slaInfo)
-    console.log(this.sla)
+    // console.log(this.slaInfo)
+    // console.log(this.sla)
   }
 
   printQueue( queue ){
@@ -324,26 +345,43 @@ export class CbpComponent implements OnInit {
 
   colorHeader( agent, display=true ){
 
+    let colorSheme = {
+      aux: 'bg-aux text-dark',
+      in: 'bg-in text-light',
+      avail: 'bg-avail text-dark',
+      outTry: 'bg-outTry text-dark',
+      out: 'bg-out text-light'
+    }
+
+    if( this._init.preferences['colorProfile'] == '0' ){
+      colorSheme['aux'] = 'bg-warning text-dark'
+      colorSheme['in'] = 'bg-info text-light'
+      colorSheme['avail'] = 'bg-light text-dark'
+      colorSheme['outTry'] = 'bg-outCC text-light'
+      colorSheme['out'] = 'bg-outCC text-light'
+    }
+
+
     if(!display){
-      return 'bg-light text-dark'
+      return colorSheme['avail']
     }
 
     if( agent['c_answered'] ){
       if( agent['curPauseCode'] != '' ){
-        return 'bg-warning text-white'
+        return colorSheme['aux']
       }else{
         if( this.queues[agent['c_queue']] && this.queues[agent['c_queue']]['direction'] != '1' ){
-          return 'bg-out text-white'
+          return agent['c_answered'] == '0' ? colorSheme['outTry'] : colorSheme['out']
         }else{
-          return 'bg-info text-white'
+          return colorSheme['in']
         }
       }
     }
 
     if( agent['curPauseCode'] != '' ){
-      return 'bg-warning text-black'
+      return colorSheme['aux']
     }else{
-      return 'bg-light text-black'
+      return colorSheme['avail']
     }
 
 

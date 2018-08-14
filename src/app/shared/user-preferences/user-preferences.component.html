@@ -23,7 +23,22 @@
                           </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6 text-left p-2">
+                            <p>Color Monitor:</p>
+                        </div>
+                        <div class="col-6 p-2">
+                            <select class="custom-select" (change)="chgPref('colorProfile', $event)" [(ngModel)]="preferences['colorProfile']">
+                            <option value="">Selecciona...</option>
+                            <option value="0">MX</option>
+                            <option value="1">CO</option>
+                          </select>
+                        </div>
+                    </div>
                 </ng-container>
+                <div class="d-flex justify-content-end">
+                    <p><small>{{ version }}</small></p>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

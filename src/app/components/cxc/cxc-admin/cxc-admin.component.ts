@@ -279,11 +279,11 @@ export class CxcAdminComponent implements OnInit {
   download(){
     this.loading['download'] = true
 
-    this._api.restfulGet( this.selectedPayday, `Cxc/downloadCxcAdmin`)
+    this._api.restfulGet( `${this.selectedPayday}/${this.selectedDep}`, `Cxc/downloadCxcAdmin`)
           .subscribe( res => {
 
             this.loading['download'] = false
-            this.downloadXLS( 'cxcLayout', 'cxcLayout_'+this.selectedPayday, res['data'] )
+            this.downloadXLS( 'cxcLayout', 'cxcLayout_' + this.selectedPayday + (this.selectedDep == 29 ? '_PDV' : 'CC'), res['data'] )
 
           }, err => {
 

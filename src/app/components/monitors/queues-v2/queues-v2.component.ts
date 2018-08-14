@@ -192,6 +192,7 @@ export class QueuesV2Component implements OnInit {
               let group = {}
               let dispSum = {}
               group[0] = []
+              group[1] = []
 
               for( let item of queues ){
 
@@ -208,9 +209,9 @@ export class QueuesV2Component implements OnInit {
                 }
 
                 dispSum[ item['monShow'] ] = item['displaySum']
-
-                group[0].push(item['queue'])
-                this.skillGroup[0] = 'All'
+ 
+                group[item['sede'] == 'MX' ? 0 : 1].push(item['queue'])
+                this.skillGroup[item['sede'] == 'MX' ? 0 : 1] = item['sede'] == 'MX' ? 'All MX' : 'All CO'
                 this.skillGroup[item['monShow']] = item['Departamento']
                 group[ item['monShow'] ].sort()
               }

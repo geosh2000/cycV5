@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { InitService, ApiService } from '../../services/service.index';
 import { ToastrService } from 'ngx-toastr';
 
+import * as Globals from '../../globals';
+
 @Component({
   selector: 'app-user-preferences',
   templateUrl: './user-preferences.component.html',
@@ -10,13 +12,17 @@ import { ToastrService } from 'ngx-toastr';
 export class UserPreferencesComponent implements OnInit {
 
   preferences:Object = {
-    zonaHoraria: 0
+    zonaHoraria: 0,
+    colorProfile: 0
   }
 
   zhs:any
   show:boolean = false
+  version:any = false
 
-  constructor( public _init: InitService, private _api: ApiService, private toastr: ToastrService) {  }
+  constructor( public _init: InitService, private _api: ApiService, private toastr: ToastrService) {
+    this.version = `${Globals.CYCTITLE} ${Globals.CYCYEAR} ${Globals.VER}`
+  }
 
   ngOnInit() {
     setTimeout( () => {
@@ -28,6 +34,7 @@ export class UserPreferencesComponent implements OnInit {
   init(){
     this.getZones()
     this.preferences['zonaHoraria'] = parseInt(this._init.preferences['zonaHoraria'])
+    this.preferences['colorProfile'] = parseInt(this._init.preferences['colorProfile'])
   }
 
   getZones(){
