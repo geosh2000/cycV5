@@ -30,6 +30,15 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group p-2">
+                        <div class="input-group">
+                            <select class="custom-select" [(ngModel)]="selectedDep">
+                              <option value="">Selecciona la operación...</option>
+                              <option value="0">Contact Center</option>
+                              <option value="29">PDV</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="p-2">
                         <button type="button" class="btn btn-success" (click)="getData()">Consultar</button>
                     </div>

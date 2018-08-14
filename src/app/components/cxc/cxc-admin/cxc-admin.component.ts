@@ -39,6 +39,7 @@ export class CxcAdminComponent implements OnInit {
   modif:Object = {}
 
   selectedPayday:any
+  selectedDep:any = 0
 
   params:Object = { id: '', nuevoMonto: '', item: {}}
 
@@ -117,7 +118,7 @@ export class CxcAdminComponent implements OnInit {
 
     this.loading['data'] = true
 
-    this._api.restfulGet( this.selectedPayday, `Cxc/cxcCorte`)
+    this._api.restfulGet( `${this.selectedPayday}/${this.selectedDep}`, `Cxc/cxcCorte`)
           .subscribe( res => {
 
             this.loading['data'] = false

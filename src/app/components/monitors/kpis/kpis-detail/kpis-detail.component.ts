@@ -84,7 +84,8 @@ export class KpisDetailComponent implements OnInit {
   currencyDisp( ammount ){
     if( this.marca == 'Marcas Propias' && this.pais == 'CO'){
 
-      let monto = ammount * 146.741
+      // let monto = ammount * 146.741
+      let monto = ammount
       this.suf = ''
       if( monto > 1000000 ){
         monto = monto / 1000
