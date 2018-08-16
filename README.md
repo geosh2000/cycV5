@@ -8,6 +8,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### General
 * Mejoras en el menú para selección de módulos (.2001)
 * Corrección de MODALS en todos los módulos (.2001)
+* Integracion de Material Angular (.2001)
 
 ## v2.4.1
 
