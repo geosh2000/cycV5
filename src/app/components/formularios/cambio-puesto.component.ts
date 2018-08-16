@@ -36,6 +36,7 @@ export class CambioPuestoComponent implements OnChanges {
 
   @Input() asesor:any
   @Input() element:any
+  @Input() nombre:any
 
   @Output() error = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()
@@ -59,16 +60,16 @@ export class CambioPuestoComponent implements OnChanges {
   }
 
   cambioPuesto = {
-    fecha_solicitud: ""
+    fecha_solicitud: ''
   };
 
   public singlePicker = {
     singleDatePicker: true,
     showDropdowns: true,
-    opens: "left"
+    opens: 'left'
   }
 
-  //Populate lists
+  // Populate lists
   listOptions = {
     ciudad: [],
     oficina: [],
@@ -98,7 +99,7 @@ export class CambioPuestoComponent implements OnChanges {
 
       this._dateRangeOptions.settings = {
         autoUpdateInput: false,
-        locale: { format: "YYYY-MM-DD" }
+        locale: { format: 'YYYY-MM-DD' }
       }
 
       this.formCambioPuesto = new FormGroup({
@@ -152,7 +153,7 @@ export class CambioPuestoComponent implements OnChanges {
 
       });
 
-      //reemplazable
+      // reemplazable
       this.formCambioPuesto.get('reemplazable').valueChanges.subscribe( res => {
 
         if(res){
@@ -161,7 +162,7 @@ export class CambioPuestoComponent implements OnChanges {
           )
           this.formCambioPuesto.get('fechaLiberacion').setValue(this.formCambioPuesto.controls['fechaCambio'].value)
         }else{
-          this.formCambioPuesto.get('fechaLiberacion').setValue("")
+          this.formCambioPuesto.get('fechaLiberacion').setValue('')
           this.formCambioPuesto.get('fechaLiberacion').setValidators(
             []
          )
@@ -175,9 +176,8 @@ export class CambioPuestoComponent implements OnChanges {
     this.buildForm( this.asesor )
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit() {
-
-
 
   }
 
@@ -206,7 +206,7 @@ export class CambioPuestoComponent implements OnChanges {
   }
 
   setVal( val, control ){
-    this.formCambioPuesto.controls[control].setValue( val.format("YYYY-MM-DD") )
+    this.formCambioPuesto.controls[control].setValue( val.format('YYYY-MM-DD') )
   }
 
 
@@ -225,13 +225,13 @@ export class CambioPuestoComponent implements OnChanges {
             let params = this.formCambioPuesto.value
             params.type = tipo
             // params.puestoClave = currentUser.hcInfo['hc_puesto_clave']
-            params.puestoClave = "B1"
+            params.puestoClave = 'B1'
             params.areaID = currentUser.hcInfo['hc_area']
             params.udnID = currentUser.hcInfo['hc_udn']
             // params.viewAll = currentUser.credentials['view_all_agents']
             params.viewAll = currentUser.credentials[0]
 
-            this._api.postFromApi( params, "vacantes_disponibles" )
+            this._api.postFromApi( params, 'vacantes_disponibles' )
                   .subscribe( res => {
                     if( res ){
                       if(res['error'] == 0){
@@ -277,22 +277,22 @@ export class CambioPuestoComponent implements OnChanges {
 
   resetOptions( tipo ) {
     switch(tipo){
-      case "ciudad":
+      case 'ciudad':
         this.resetOptionSingle( 'ciudad' )
         this.resetOptionSingle( 'oficina' )
         this.resetOptionSingle( 'departamento' )
         this.resetOptionSingle( 'puesto' )
         break;
-      case "oficina":
+      case 'oficina':
         this.resetOptionSingle( 'oficina' )
         this.resetOptionSingle( 'departamento' )
         this.resetOptionSingle( 'puesto' )
         break;
-      case "departamento":
+      case 'departamento':
         this.resetOptionSingle( 'departamento' )
         this.resetOptionSingle( 'puesto' )
         break;
-      case "puesto":
+      case 'puesto':
         this.resetOptionSingle( 'puesto' )
         break;
 
@@ -313,9 +313,9 @@ export class CambioPuestoComponent implements OnChanges {
 
     let restfulController:string
     if( this.defaultForm['tipo'] == 'ask' ){
-      restfulController = "SolicitudBC/cambio_solicitud"
+      restfulController = 'SolicitudBC/cambio_solicitud'
     }else{
-      restfulController = "SolicitudBC/set_cambio_solicitud"
+      restfulController = 'SolicitudBC/set_cambio_solicitud'
     }
 
     // console.log(this.formCambioPuesto)
@@ -333,7 +333,7 @@ export class CambioPuestoComponent implements OnChanges {
             })
   }
 
-  //Validación Fecha Liberación
+  // Validación Fecha Liberación
   lessFechaLiberacion( control: FormControl ): { [s:string]:boolean }{
 
     let formCambioPuesto:any = this
@@ -348,7 +348,7 @@ export class CambioPuestoComponent implements OnChanges {
 
   }
 
-  //Validación Check
+  // Validación Check
   checkChange( control: FormControl ): { [s:string]:boolean }{
 
     if( !control.dirty ){

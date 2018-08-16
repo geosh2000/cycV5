@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import * as moment from 'moment-timezone';
 
@@ -8,6 +8,8 @@ import * as moment from 'moment-timezone';
   styles: []
 })
 export class CountdownComponent implements OnInit {
+
+  @Input() small:boolean = false
 
   counter:any
   target:any

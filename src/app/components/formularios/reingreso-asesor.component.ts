@@ -33,6 +33,7 @@ export class ReingresoAsesorComponent implements OnChanges {
 
   @Input() asesor:any
   @Input() element:any
+  @Input() nombre:any
 
   @Output() closeDialog = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()

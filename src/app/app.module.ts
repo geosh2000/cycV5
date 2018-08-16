@@ -161,6 +161,46 @@ import { HomeCxcViewComponent } from './components/home/home-cxc-view/home-cxc-v
 import { BitacoraComponent } from './components/monitors/bitacora/bitacora.component';
 import { BitacoraAddActionComponent } from './components/monitors/bitacora/bitacora-add-action/bitacora-add-action.component';
 
+import {
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatBottomSheetModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatTreeModule,
+} from '@angular/material';
+import { CdkTableModule } from '../../node_modules/@angular/cdk/table';
+import { CdkTreeModule } from '../../node_modules/@angular/cdk/tree';
+
 
 declare let jQuery: Object;
 
@@ -321,6 +361,9 @@ registerLocaleData(localeEsMX)
     MainPages,
     SharedModule,
 
+    MatButtonModule,
+    MatCheckboxModule,
+
     BrowserAnimationsModule,
     HttpClientModule,
     APP_ROUTING,
@@ -341,6 +384,50 @@ registerLocaleData(localeEsMX)
       useBootstrap4: true,
       autoFocus: true
     }),
+
+    // ==================================================
+    // START ANGULAR MATERIAL
+    // ==================================================
+    CdkTableModule,
+    CdkTreeModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatTreeModule,
+    // ==================================================
+    // END ANGULAR MATERIAL
+    // ==================================================
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'Es-MX' },

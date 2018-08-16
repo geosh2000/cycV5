@@ -23,6 +23,7 @@ export class DetContratoComponent implements OnChanges {
   data:Object = {}
   contratos:Object = {}
   solicitudes:any
+  bajaTipo:boolean = false
 
   constructor(public _api: ApiService,
               public toastr: ToastrService,
@@ -87,4 +88,9 @@ export class DetContratoComponent implements OnChanges {
     }
   }
 
+  saved( flag ){
+    if(flag){
+        this.toastr.success('Guardado', 'Guardado')
+    }
+  }
 }

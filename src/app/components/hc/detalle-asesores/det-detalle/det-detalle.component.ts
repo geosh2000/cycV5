@@ -31,32 +31,32 @@ export class DetDetalleComponent implements OnChanges {
   asesorImage:any = ''
 
   detalles:any =[
-    {icon: 'fas fa-user-tag',   field: 'id',          class: "" },
-    {icon: 'far fa-address-card',field: 'num_colaborador',class: "" },
-    {icon: 'fas fa-user',       field: 'N Corto',     class: "" },
-    {icon: 'fas fa-key',        field: 'profile_name',class: "" },
-    {icon: 'fas fa-briefcase',  field: 'Supervisor',  class: "" },
-    {icon: 'fab fa-codepen',    field: 'nombre_dep',  class: "" },
-    {icon: 'fas fa-cogs',       field: 'nombre_puesto',class: "font-weight-bold" },
-    {icon: 'fas fa-barcode',    field: 'codigo',       class: "text-primary" },
-    {icon: 'far fa-building',   field: 'PDV',         class: "" },
+    {icon: 'fas fa-user-tag',   field: 'id',          class: '' },
+    {icon: 'far fa-address-card',field: 'num_colaborador',class: '' },
+    {icon: 'fas fa-user',       field: 'N Corto',     class: '' },
+    {icon: 'fas fa-key',        field: 'profile_name',class: '' },
+    {icon: 'fas fa-briefcase',  field: 'Supervisor',  class: '' },
+    {icon: 'fab fa-codepen',    field: 'nombre_dep',  class: '' },
+    {icon: 'fas fa-cogs',       field: 'nombre_puesto',class: 'font-weight-bold' },
+    {icon: 'fas fa-barcode',    field: 'codigo',       class: 'text-primary' },
+    {icon: 'far fa-building',   field: 'PDV',         class: '' },
   ]
 
   contacto:any =[
-    {icon: 'fas fa-phone',       field: 'Telefono1',      class: "" },
-    {icon: 'fas fa-mobile-alt',  field: 'Telefono2',      class: "" },
-    {icon: 'fas fas fa-at',      field: 'username',  class: "" },
-    {icon: 'far fa-envelope-open',field: 'correo_personal',  class: "" },
-    {icon: 'far fa-address-book',field: 'Vigencia_Pasaporte',class: "" },
-    {icon: 'far fa-paper-plane',    field: 'Vigencia_Visa',       class: "" },
-    {icon: 'fas fa-birthday-cake',  field: 'Fecha_Nacimiento',    class: "" },
-    {icon: 'fas fa-qrcode',       field: 'RFC',       class: "" },
+    {icon: 'fas fa-phone',       field: 'Telefono1',      class: '' },
+    {icon: 'fas fa-mobile-alt',  field: 'Telefono2',      class: '' },
+    {icon: 'fas fas fa-at',      field: 'username',  class: '' },
+    {icon: 'far fa-envelope-open',field: 'correo_personal',  class: '' },
+    {icon: 'far fa-address-book',field: 'Vigencia_Pasaporte',class: '' },
+    {icon: 'far fa-paper-plane',    field: 'Vigencia_Visa',       class: '' },
+    {icon: 'fas fa-birthday-cake',  field: 'Fecha_Nacimiento',    class: '' },
+    {icon: 'fas fa-qrcode',       field: 'RFC',       class: '' },
   ]
 
   constructor(
               public _api: ApiService,
               public toastr: ToastrService,
-              private _init:InitService,
+              public _init:InitService,
             ) {
     if( this.asesor ){
       this.getData()
@@ -78,7 +78,7 @@ export class DetDetalleComponent implements OnChanges {
                 this.updateImg( this.data['num_colaborador'] )
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['data'] = false
 
@@ -115,7 +115,7 @@ export class DetDetalleComponent implements OnChanges {
   }
 
   noImage(){
-    this.asesorImage="assets/img/no-image.png"
+    this.asesorImage='assets/img/no-image.png'
   }
 
   saved( event ){

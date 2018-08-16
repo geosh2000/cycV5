@@ -18,6 +18,7 @@ export class SetBajaComponent implements OnChanges {
   @Input() asesor:any
   @Input() modal:any
   @Input() tipo:boolean
+  @Input() nombre:any
 
   @Output() closeDialog = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()

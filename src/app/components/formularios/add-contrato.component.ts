@@ -37,6 +37,7 @@ export class AddContratoComponent implements OnChanges {
   @Input() asesor:any
   @Input() contratos:any = []
   @Input() modal:any
+  @Input() nombre:any
 
   @Output() error = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()

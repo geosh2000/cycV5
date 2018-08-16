@@ -10,6 +10,46 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { RouterModule } from '@angular/router';
 import { Ng2CompleterModule } from 'ng2-completer';
 
+import {
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatStepperModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatTreeModule,
+} from '@angular/material';
+import { CdkTableModule } from '../../../node_modules/@angular/cdk/table';
+import { CdkTreeModule } from '../../../node_modules/@angular/cdk/tree';
+
 // Pipes
 import { KeysPipe } from '../pipes/keys.pipe';
 import { CapitalizadoPipe } from '../pipes/capitalizado.pipe';
@@ -32,6 +72,8 @@ import { CsvComponent } from './upload/csv/csv.component';
 import { CumplimientoComponent } from './progress/cumplimiento/cumplimiento.component';
 import { AsesorFilterComponent } from './filters/asesor-filter/asesor-filter.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+
 
 
 @NgModule({
@@ -43,7 +85,51 @@ import { UserPreferencesComponent } from './user-preferences/user-preferences.co
         OrderModule,
         MultiselectDropdownModule,
         RouterModule,
-        Ng2CompleterModule
+        Ng2CompleterModule,
+
+        // ==================================================
+        // START ANGULAR MATERIAL
+        // ==================================================
+        CdkTableModule,
+        CdkTreeModule,
+        MatAutocompleteModule,
+        MatBadgeModule,
+        MatBottomSheetModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatChipsModule,
+        MatStepperModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatDividerModule,
+        MatExpansionModule,
+        MatGridListModule,
+        MatIconModule,
+        MatInputModule,
+        MatListModule,
+        MatMenuModule,
+        MatNativeDateModule,
+        MatPaginatorModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        MatRippleModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatSliderModule,
+        MatSlideToggleModule,
+        MatSnackBarModule,
+        MatSortModule,
+        MatTableModule,
+        MatTabsModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        MatTreeModule,
+        // ==================================================
+        // END ANGULAR MATERIAL
+        // ==================================================
     ],
     declarations:  [
 
@@ -69,6 +155,8 @@ import { UserPreferencesComponent } from './user-preferences/user-preferences.co
         TableTemplateComponent,
         CsvComponent,
         UserPreferencesComponent,
+        SidebarComponent,
+ 
     ],
     exports: [
 
@@ -93,6 +181,9 @@ import { UserPreferencesComponent } from './user-preferences/user-preferences.co
         SearchAsesorComponent,
         TableTemplateComponent,
         CsvComponent,
+        SidebarComponent,
+        UserPreferencesComponent,
+
     ]
 })
 export class SharedModule { }

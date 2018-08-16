@@ -1,114 +1,157 @@
-body{
-  position: relative;
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+body {
+    position: relative;
 }
 
 .modal:nth-of-type(even) {
     z-index: 1042 !important;
 }
+
 .modal-backdrop.in:nth-of-type(even) {
     z-index: 1041 !important;
 }
 
-.completer-width { width: 100% !important}
-.completer-match { font-weight: bolder; }
-.completer-description { font-style: italic; color: #6610f2}
-.completer-dropdown { max-height: 200px; overflow-y: auto;}
+.completer-width {
+    width: 100% !important
+}
+
+.completer-match {
+    font-weight: bolder;
+}
+
+.completer-description {
+    font-style: italic;
+    color: #6610f2
+}
+
+.completer-dropdown {
+    max-height: 200px;
+    overflow-y: auto;
+}
 
 
 /* Animaciones */
+
 .animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 
 .fast {
-  -webkit-animation-duration: 0.3s;
-  animation-duration: 0.3s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
+    -webkit-animation-duration: 0.3s;
+    animation-duration: 0.3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 
 .btn {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .fadeIn {
-  animation-name: fadeIn;
+    animation-name: fadeIn;
 }
 
-
-.contact-box {background-color: #ffffff;border: 1px solid #e7eaec;padding:15px 0;margin-bottom: 20px; width: 575px; margin-left: 20px}
-.contact-box .label {font-size: 12px;margin-right: 6px;font-style: italic;}
-.label-cont {margin-bottom: 10px;}
-.contact-box h3 {margin-top: 0;font-weight: normal;font-style: italic;}
-h5.contact-title {    font-size: 15px;margin-bottom: -7px;min-height: 50px;}
-
-p{
-  margin-top: 0px;
-  margin-bottom: 0px;
+.contact-box {
+    background-color: #ffffff;
+    border: 1px solid #e7eaec;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    width: 575px;
+    margin-left: 20px
 }
-.main-container{
-  margin-top: 40px;
-  margin-bottom: 150px;
+
+.contact-box .label {
+    font-size: 12px;
+    margin-right: 6px;
+    font-style: italic;
 }
+
+.label-cont {
+    margin-bottom: 10px;
+}
+
+.contact-box h3 {
+    margin-top: 0;
+    font-weight: normal;
+    font-style: italic;
+}
+
+h5.contact-title {
+    font-size: 15px;
+    margin-bottom: -7px;
+    min-height: 50px;
+}
+
+p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.main-container {
+    margin-top: 70px;
+    margin-bottom: 150px;
+}
+
 
 /*forecast-programacion*/
-.jornada{
-  text-align: center;
-  background: #dff0d8
+
+.jornada {
+    text-align: center;
+    background: #dff0d8
 }
 
-.extra1, .extra2{
-  text-align: center;
-  background: #d9edf7
+.extra1,
+.extra2 {
+    text-align: center;
+    background: #d9edf7
 }
 
-.comida{
-  text-align: center;
-  background: #f2dede
+.comida {
+    text-align: center;
+    background: #f2dede
 }
 
 .modal-detailAsesores {
-  max-width: 1100px !important;
-  margin: auto;
+    max-width: 1100px !important;
+    margin: auto;
 }
 
-.customComplete div input{
-  border: 0 solid white;
-  background: transparent;
-  width: 100%
+.customComplete div input {
+    border: 0 solid white;
+    background: transparent;
+    width: 100%
 }
 
-.customComplete div input:focus{
-  border: 0 solid white;
-  outline: -webkit-focus-ring-color auto 0px;
-  background: transparent;
+.customComplete div input:focus {
+    border: 0 solid white;
+    outline: -webkit-focus-ring-color auto 0px;
+    background: transparent;
 }
 
-.customCompleteHome div input{
-  border: 0 solid white;
-  background: transparent;
-  width: 600px
+.customCompleteHome div input {
+    border: 0 solid white;
+    background: transparent;
+    width: 600px
 }
 
-.customCompleteHome div input:focus{
-  border: 0 solid white;
-  outline: -webkit-focus-ring-color auto 0px;
-  background: transparent;
+.customCompleteHome div input:focus {
+    border: 0 solid white;
+    outline: -webkit-focus-ring-color auto 0px;
+    background: transparent;
 }
 
-.blueBkg{
-  background: #003b71
+.blueBkg {
+    background: #003b71
 }

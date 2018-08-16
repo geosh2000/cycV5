@@ -1,7 +1,22 @@
-<app-navbar style="z-index: 1000"></app-navbar>
+<mat-toolbar class='matNavbar p-0'>
+    <app-navbar (sideBar)="openSideBar($event)" [sbStatus]="opened" (lOut)="logout($event)" (tokenStatus)="token = $event" style="z-index: -1000; width: 100%"></app-navbar>
+</mat-toolbar>
+<mat-sidenav-container class="matContainer">
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened" [fixedInViewport]="true" [fixedTopGap]="60">
+        <app-sidebar [showContents]="token" (sideBar)="opened = $event"></app-sidebar>
+        <mat-toolbar class="footer">
+            <p><small>{{ version }}</small></p>
+        </mat-toolbar>
+    </mat-sidenav>
+
+    <mat-sidenav-content [style.height.px]="0">
+    </mat-sidenav-content>
+</mat-sidenav-container>
 
 <div class="container-fluid main-container">
     <router-outlet></router-outlet>
 </div>
 
 <app-login></app-login>
+<app-logout (confirm)="confirmLO($event)"></app-logout>
+<app-user-preferences *ngIf="token"></app-user-preferences>

@@ -19,8 +19,11 @@ export class EditDetailsComponent implements OnChanges {
 
   @Input() data:any
   @Input() element:any
+  @Input() nombre:any
+
   @Output() closeDialog = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()
+
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
 
   formDetail:FormGroup
@@ -54,7 +57,7 @@ export class EditDetailsComponent implements OnChanges {
     profile: { tipo: 'select', icon: 'fas fa-key', readonly: false, pattern: ''},
     tel1: { tipo: 'text', icon: 'fas fa-phone', readonly: false, pattern: '10 dígitos sin espacios ni símbolos'},
     tel2: { tipo: 'text', icon: 'fas fa-mobile-alt', readonly: false, pattern: '10 dígitos sin espacios ni símbolos'},
-    correo: { tipo: 'text', icon: 'far fa-envelope-open', readonly: false, pattern: "El Formato no coincide con un correo correcto"},
+    correo: { tipo: 'text', icon: 'far fa-envelope-open', readonly: false, pattern: 'El Formato no coincide con un correo correcto'},
     pasaporte: { tipo: 'date', icon: 'far fa-address-book', readonly: false, pattern: ''},
     visa: { tipo: 'date', icon: 'far fa-paper-plane', readonly: false, pattern: ''},
     rfc: { tipo: 'text', icon: 'fas fa-qrcode', readonly: false, pattern: 'El RFC debe estar en mayúsculas<br>El Formato debe coincidir con AAAA######HHH'},
@@ -62,25 +65,25 @@ export class EditDetailsComponent implements OnChanges {
   }
 
   asesorDetailsQueryNames = {
-    id: "id",
-    num_colaborador: "num_colaborador",
-    nombre: "Nombre_Separado",
-    apellido: "Apellidos_Separado",
-    nombre_corto: "`N Corto`",
-    profile: "profile",
-    tel1: "Telefono1",
-    tel2: "Telefono2",
-    correo: "correo_personal",
-    pasaporte: "Vigencia_Pasaporte",
-    visa: "Vigencia_Visa",
-    rfc: "RFC",
-    nacimiento: "Fecha_Nacimiento"
+    id: 'id',
+    num_colaborador: 'num_colaborador',
+    nombre: 'Nombre_Separado',
+    apellido: 'Apellidos_Separado',
+    nombre_corto: '`N Corto`',
+    profile: 'profile',
+    tel1: 'Telefono1',
+    tel2: 'Telefono2',
+    correo: 'correo_personal',
+    pasaporte: 'Vigencia_Pasaporte',
+    visa: 'Vigencia_Visa',
+    rfc: 'RFC',
+    nacimiento: 'Fecha_Nacimiento'
   }
 
   public singlePicker = {
     singleDatePicker: true,
     showDropdowns: true,
-    opens: "left"
+    opens: 'left'
   }
 
   constructor(
@@ -93,18 +96,18 @@ export class EditDetailsComponent implements OnChanges {
 
       this.formDetail = new FormGroup({
         id: new FormControl(this.asesorDetails['id'], [ Validators.required ] ),
-        num_colaborador: new FormControl(this.asesorDetails['num_colaborador'], [ Validators.pattern("^[0-9]{8}$") ] ),
-        nombre: new FormControl(this.asesorDetails['nombre'], [ Validators.required, Validators.pattern("^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}([A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[dD]{1}[e]{1}[l]{0,1})){0,3}$") ] ),
-        apellido: new FormControl(this.asesorDetails['apellido'], [ Validators.required, Validators.pattern("^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[ ]{1}[a-záéíóúñ]{2,3}){0,5}$") ] ),
-        nombre_corto: new FormControl(this.asesorDetails['nombre_corto'], [ Validators.required, Validators.pattern("^[A-Z]{1}[a-z]* [A-Z]{1}[a-z]*$") ], this.userExists.bind(this) ),
+        num_colaborador: new FormControl(this.asesorDetails['num_colaborador'], [ Validators.pattern('^[0-9]{8}$') ] ),
+        nombre: new FormControl(this.asesorDetails['nombre'], [ Validators.required, Validators.pattern('^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}([A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[dD]{1}[e]{1}[l]{0,1})){0,3}$') ] ),
+        apellido: new FormControl(this.asesorDetails['apellido'], [ Validators.required, Validators.pattern('^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[ ]{1}[a-záéíóúñ]{2,3}){0,5}$') ] ),
+        nombre_corto: new FormControl(this.asesorDetails['nombre_corto'], [ Validators.required, Validators.pattern('^[A-Z]{1}[a-z]* [A-Z]{1}[a-z]*$') ], this.userExists.bind(this) ),
         profile: new FormControl(this.asesorDetails['profile'], [ Validators.required ] ),
-        tel1: new FormControl(this.asesorDetails['tel1'], [ Validators.pattern("^[1-9]{1}[0-9]{9}$") ] ),
-        tel2: new FormControl(this.asesorDetails['tel2'], [ Validators.pattern("^[1-9]{1}[0-9]{9}$") ] ),
-        correo: new FormControl(this.asesorDetails['correo'], [ Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$") ] ),
+        tel1: new FormControl(this.asesorDetails['tel1'], [ Validators.pattern('^[1-9]{1}[0-9]{9}$') ] ),
+        tel2: new FormControl(this.asesorDetails['tel2'], [ Validators.pattern('^[1-9]{1}[0-9]{9}$') ] ),
+        correo: new FormControl(this.asesorDetails['correo'], [ Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$') ] ),
         pasaporte: new FormControl(this.asesorDetails['pasaporte'], [ ] ),
         visa: new FormControl(this.asesorDetails['visa'], [  ] ),
-        rfc: new FormControl(this.asesorDetails['rfc'], [ Validators.pattern("^[A-Z]{4}[0-9]{2}([0]{1}[1-9]{1}|[1]{1}[0-2]{1}){1}([1-2]{1}[0-9]{1}|[0]{1}[1-9]{1}|[3]{1}[0-1]{1}){1}[A-Z0-9]{3}$")] ),
-        nacimiento: new FormControl(this.asesorDetails['nacimiento'], [ Validators.pattern("^[1-2]{1}([0]{1}[1-2]{1}|[9]{1}[4-9]{1})[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] )
+        rfc: new FormControl(this.asesorDetails['rfc'], [ Validators.pattern('^[A-Z]{4}[0-9]{2}([0]{1}[1-9]{1}|[1]{1}[0-2]{1}){1}([1-2]{1}[0-9]{1}|[0]{1}[1-9]{1}|[3]{1}[0-1]{1}){1}[A-Z0-9]{3}$')] ),
+        nacimiento: new FormControl(this.asesorDetails['nacimiento'], [ Validators.pattern('^[1-2]{1}([0]{1}[1-2]{1}|[9]{1}[4-9]{1})[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] )
       })
 
   }
@@ -124,7 +127,7 @@ export class EditDetailsComponent implements OnChanges {
   }
 
   setVal( val, control ){
-    this.formDetail.controls[control].setValue( val.format("YYYY-MM-DD") )
+    this.formDetail.controls[control].setValue( val.format('YYYY-MM-DD') )
   }
 
   submit(){
@@ -142,7 +145,7 @@ export class EditDetailsComponent implements OnChanges {
     this._api.restfulPut( params, 'Asesores/editUser' )
             .subscribe( res => {
               this.submitting = false
-              this.save.emit({ form: "#form_editDetails", success: true })
+              this.save.emit({ form: '#form_editDetails', success: true })
               jQuery(this.element).modal('hide')
             }, err => {
               if(err){

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 
 import { NavbarService, LoginService, TokenCheckService, ApiService, ZonaHorariaService } from '../../services/service.index';
 
@@ -13,6 +13,12 @@ import { LogoutComponent } from '../logout/logout.component';
 export class NavbarComponent {
 
   @ViewChild(LogoutComponent) private _logout:LogoutComponent
+  @Input() sbStatus:boolean
+  @Output() sideBar = new EventEmitter
+  @Output() tokenStatus = new EventEmitter
+  @Output() lOut = new EventEmitter
+
+  sideBarShow:boolean = false
 
   menu:any = [];
   test:string='NavBar Component success';
@@ -58,6 +64,10 @@ export class NavbarComponent {
               });
   }
 
+  tokenEvent( flag ){
+    this.tokenStatus.emit( flag )
+  }
+
   tokenCheck(){
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.currentUser = currentUser
@@ -70,6 +80,7 @@ export class NavbarComponent {
       }
       this.lastLog=false;
       this.menu = [];
+      this.tokenEvent(false)
     }else{
       // Check token expiration
       let now = new Date();
@@ -84,6 +95,7 @@ export class NavbarComponent {
           this.licenses = currentUser.credentials
           // console.log("Permisos", this.licenses)
           this.sendTokenStatus( true )
+          this.tokenEvent( true )
           this.lastLog=true;
           this.expired=false;
         }
@@ -97,6 +109,7 @@ export class NavbarComponent {
         // Destroy token
         localStorage.removeItem('currentUser');
         this.sendTokenStatus( false );
+        this.tokenEvent( false )
       }
 
 
@@ -104,18 +117,18 @@ export class NavbarComponent {
   }
 
   getMenu( token ){
-    this._navbar.getMenu( token )
-          .subscribe( respuesta => {
-            // console.log( respuesta );
-            // console.log( respuesta[0][0] );
-            // console.log( respuesta[1][respuesta[0][0][1].id] );
+    // this._navbar.getMenu( token )
+    //       .subscribe( respuesta => {
+    //         // console.log( respuesta );
+    //         // console.log( respuesta[0][0] );
+    //         // console.log( respuesta[1][respuesta[0][0][1].id] );
 
-            // console.log( respuesta )
-            this.menu = respuesta;
-            this.buildCredentials( this.menu )
-            // console.log("Menu", this.menu)
-          });
-    this.getBD()
+    //         // console.log( respuesta )
+    //         this.menu = respuesta;
+    //         this.buildCredentials( this.menu )
+    //         // console.log("Menu", this.menu)
+    //       });
+    // this.getBD()
   }
 
   buildCredentials( menu ){
@@ -233,7 +246,7 @@ export class NavbarComponent {
   }
 
   logout(){
-    this._logout.logout( this.currentUser['hcInfo']['id'] )
+    this.lOut.emit( this.currentUser['hcInfo']['id'] )
     // this._logout.logout( 6 )
   }
 
@@ -241,6 +254,10 @@ export class NavbarComponent {
     if ( h ){
       this.tokenCheck();
     }
+  }
+
+  openSideBar(){
+    this.sideBar.emit( !this.sbStatus )
   }
 
 
