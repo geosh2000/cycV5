@@ -46,6 +46,7 @@ export class MyComponent {
 |area|Determina si se aplicar un filtro sobre el Area. NULL no aplica filtro \| Array y Number Aplica filtro mostrando solo el id selecionado. String "SELF" Muestra los mismos codigos. | *null* \| Array<number> \| number \| string |No|null|
 |dep|Determina si se aplicar un filtro sobre el Departamento. NULL no aplica filtro \| Array y Number Aplica filtro mostrando solo el id selecionado. String "SELF" Muestra los mismos codigos. | *null* \| Array<number> \| number \| string |No|null|
 |puesto|Determina si se aplicaráá un filtro sobre el Puesto. NULL no aplica filtro \| Array y Number Aplica filtro mostrando solo el id selecionado. String "SELF" Muestra los mismos codigos. | *null* \| Array<number> \| number \| string |No|null|
+|overrideAllAgents|Si cuenta con la licencia "view_all_agents", no mostrará más que los seleccionados en la configuración | BOOLEAN |No| FALSE |
 
 ### app-search-asesor events
 

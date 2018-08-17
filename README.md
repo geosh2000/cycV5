@@ -10,6 +10,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Corrección de MODALS en todos los módulos (.2001)
 * Integracion de Material Angular (.2001)
 
+### SearchAsesor Module
+* Fix filtro por udn/area/dep/puesto (.2002)
+* Devuelve informacion de codigos de puesto (.2002) 
+
 ## v2.4.1
 
 ### Bitacora GTR V2

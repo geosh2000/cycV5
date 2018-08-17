@@ -7,7 +7,7 @@ import * as Globals from '../../globals';
   selector: 'app-search-asesor',
   templateUrl: './search-asesor.component.html',
   styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class SearchAsesorComponent implements OnChanges {
 
@@ -15,6 +15,7 @@ export class SearchAsesorComponent implements OnChanges {
   @Input() field:string = 'Nombre'
   @Input() placeholder:string = 'Buscar Asesor...'
   @Input() iconPosition:string = 'right'
+  @Input() overrideAllAgents:boolean = false
 
 
   @Output() result = new EventEmitter<any>()
@@ -50,13 +51,17 @@ export class SearchAsesorComponent implements OnChanges {
   filterBuild( cur, cred, input ){
     if( input && !Array.isArray(input) ){
       if( input == 'self' ){
-        if( cur['credentials']['view_all_agents'] == 1 ){
+        if( cur['credentials']['view_all_agents'] == 1 && !this.overrideAllAgents ){
           this.credentials[ cred ] = 0
         }else{
           this.credentials[ cred ] = cur['hcInfo'][`hc_${ cred }`]
         }
       }else{
-        this.credentials[ cred ] = 0
+        if( input ){
+          this.credentials[ cred ] = input
+        }else{
+          this.credentials[ cred ] = 0
+        }
       }
     }else{
       if( input ){
@@ -85,9 +90,10 @@ export class SearchAsesorComponent implements OnChanges {
 
     }
 
+    let remote = `${ Globals.APISERV }/api/${ Globals.APIFOLDER }/index.php/Completer/searchData/${this.credentials['viewAll']}/${this.credentials['udn']}/${this.credentials['area']}/${this.credentials['dep']}/${this.credentials['puesto']}/${this.field}/${this.active}/`
 
     this.dataServiceName = this.completerService
-                    .remote(`${ Globals.APISERV }/api/${ Globals.APIFOLDER }/index.php/Completer/searchData/${this.credentials['viewAll']}/${this.credentials['udn']}/${this.credentials['area']}/${this.credentials['dep']}/${this.credentials['puesto']}/${this.field}/${this.active}/`, null, 'Nombre')
+                    .remote(remote, null, 'Nombre')
                     .descriptionField( 'dep' )
 
   }
