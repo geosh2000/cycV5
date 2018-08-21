@@ -5,10 +5,16 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ## v2.4.2
 
-### General
+### Global
 * Mejoras en el menú para selección de módulos (.2001)
 * Corrección de MODALS en todos los módulos (.2001)
 * Integracion de Material Angular (.2001)
+* Fix Menu al abrir opciones (.2003)
+
+### Cambios de Turno
+* Nuevo módulo de cambios de turno (.2003)
+* Información de cambios en el mes (.2003)
+* Api con guardado de historial de cambios (last_change per date) (.2003)
 
 ### SearchAsesor Module
 * Fix filtro por udn/area/dep/puesto (.2002)

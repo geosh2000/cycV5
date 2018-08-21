@@ -80,7 +80,7 @@ export class SidebarComponent implements OnChanges {
           }
 
           this.menuData = menu['0']
-          console.log(menu['0'])
+          // console.log(menu['0'])
 
         }, err => {
           console.log('ERROR', err)
@@ -101,11 +101,12 @@ export class SidebarComponent implements OnChanges {
   }
 
   closeMenu( event, id ){
-    if(this.openedTab){
+    if( this.openedTab ){
       this.openedTab.close()
     }
 
     this.openedTab = event
+    event.open()
 
   }
 
