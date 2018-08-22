@@ -17,6 +17,7 @@ import { CxcAddComponent } from '../cxc-add/cxc-add.component';
 import { UploadImageComponent } from '../../formularios/upload-image.component';
 import { CxcCommentComponent } from '../cxc-comment/cxc-comment.component';
 import { CxcAprobeComponent } from '../cxc-aprobe/cxc-aprobe.component';
+import { CxcSendRhComponent } from '../cxc-send-rh/cxc-send-rh.component';
 
 const equals = (one: NgbDateStruct, two: NgbDateStruct) => one && two && two.year == one.year && two.month == one.month && two.day == one.day;
 const before = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false : one.year == two.year ? one.month == two.month ? one.day == two.day ? false : one.day < two.day : one.month < two.month : one.year < two.year;
@@ -67,6 +68,7 @@ export class CxcRegistroComponent implements OnInit {
   @ViewChild(CxcAddComponent) public _add:CxcAddComponent
   @ViewChild(CxcCommentComponent) public _comment:CxcCommentComponent
   @ViewChild(CxcAprobeComponent) public _aprobe:CxcAprobeComponent
+  @ViewChild( CxcSendRhComponent ) public _send:CxcSendRhComponent
   @ViewChild( UploadImageComponent ) public _image:UploadImageComponent
 
   currentUser: any
@@ -290,8 +292,11 @@ export class CxcRegistroComponent implements OnInit {
     }
   }
 
-  editCxc( field, val, id ){
-    this.loading['save'][id] = true
+  editCxc( field, val, id, flag = false, run = true, quincenas? ){
+
+    if( !run ){
+      return false
+    }
 
     let params = {
       where: {
@@ -302,24 +307,42 @@ export class CxcRegistroComponent implements OnInit {
       }
     }
 
-    this._api.restfulPut( params, `Cxc/editReg`)
-          .subscribe( res => {
+    if( val == 1 ){
+      if( !flag ){
+        this._send.build( id )
+        return true
+      }else{
+        params['set']['quincenas'] = quincenas
+      }
+    }else{
+      flag = true
+    }
 
-            this.loading['save'][id] = false
-            this.updateRegs( 'cxcIdLink', id, field, val )
-            this.toastr.success(`${field} guardado`, 'Guardado')
+    if( flag ){
+      this.loading['save'][id] = true
 
-          }, err => {
+      this._api.restfulPut( params, `Cxc/editReg`)
+            .subscribe( res => {
 
-            console.log('ERROR', err)
+              this.loading['save'][id] = false
+              this.updateRegs( 'cxcIdLink', id, field, val )
+              if( val == 1 && field == 'status'){
+                this.updateRegs( 'cxcIdLink', id, 'NQ', quincenas )
+              }
+              this.toastr.success(`${field} guardado`, 'Guardado')
 
-            this.loading['save'][id] = false
+            }, err => {
 
-            let error = err.json()
-            this.toastr.error( error.msg, err.statusText )
-            console.error(err.statusText, error.msg)
+              console.log('ERROR', err)
 
-          })
+              this.loading['save'][id] = false
+
+              let error = err.json()
+              this.toastr.error( error.msg, err.statusText )
+              console.error(err.statusText, error.msg)
+
+            })
+    }
   }
 
   aprobe( item ){

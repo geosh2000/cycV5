@@ -1,0 +1,40 @@
+<!-- Send CXC -->
+<div class="modal fade" id="sendCxcRHModal" tabindex="-1" role="dialog" aria-labelledby="sendCxcRHModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sendCxcRHModalLabel">Quincenas para descontar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <div class="p-1">
+                    Quincenas: <select class="custom-select" [(ngModel)]="quincenas" [disabled]="checkBox">
+                        <option value=''>Selecciona Las quincenas a descontar</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                    </select>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheckDisabled" [(ngModel)]="checkBox" (change)="$event ? quincenas = 8 : quincenas = null">
+                        <label class="custom-control-label" for="customCheckDisabled">No Especificó</label>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-light">{{ quincenas }}</p>
+                    <p class="text-light">{{ checkBox }}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+                <button type="button" class="btn btn-success" (click)="saveModal()" [disabled]="!quincenas">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

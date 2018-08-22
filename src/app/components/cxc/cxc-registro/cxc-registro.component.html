@@ -93,6 +93,7 @@
                             <th class="text-center">created_by</th>
                             <th class="text-center">posibleLinks</th>
                             <th class="text-center">Formato</th>
+                            <th class="text-center">NQ</th>
                             <th class="text-center">Link</th>
                             <th class="text-center">Related</th>
                         </ng-container>
@@ -212,7 +213,7 @@
                     <button class='btn btn-sm btn-info' (click)="viewCxc( false, item['cxcIdLink'] )" *ngIf="item['Formato'] == 1"><i class="fas fa-eye"></i></button>
                 </div>
             </td>
-
+            <td class="text-center">{{ item['NQ'] }}</td>
     </ng-container>
     <td class="text-center"><button class='btn btn-sm btn-success' (click)="getLinkable(item['Localizador'], item['id'], item['cxcIdLink'])" [disabled]="!item['id']">Link</button></td>
     <td class="text-center"><button class='btn btn-sm' [ngClass]="{'btn-info': (item['cxcIdLink'] != null && item['cxcIdLink'] != ''),'btn-secondary': (item['cxcIdLink'] == null || item['cxcIdLink'] == '')}" (click)="_link.open(item['Localizador'], item['cxcIdLink'], null, 1)"
@@ -233,6 +234,9 @@
 
 <!-- Aprobe CxC -->
 <app-cxc-aprobe (save)="saveAprobe( $event )"></app-cxc-aprobe>
+
+<!-- Send Cxc RRHH -->
+<app-cxc-send-rh (save)="editCxc( 'status', 1, $event['id'], true, $event['status'], $event['value'] )"></app-cxc-send-rh>
 
 <!-- Upload Image -->
 <app-upload-image (loadResult)="upldCheck( $event )"></app-upload-image>

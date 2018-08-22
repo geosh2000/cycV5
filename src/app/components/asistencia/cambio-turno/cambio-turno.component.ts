@@ -143,6 +143,9 @@ export class CambioTurnoComponent implements OnInit {
       this.form['dateB'] = null
     }
 
+    this.originalData = {a: {},b: {},c: {},d: {} }
+    this.newData = {a: {},b: {},c: {},d: {} }
+
     this._api.restfulPut( this.form, 'Asistencia/originalScheds' )
               .subscribe( res => {
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
+import { Component, OnInit, Injectable, ViewChild, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../../services/service.index';
@@ -14,7 +14,7 @@ import * as moment from 'moment-timezone';
   templateUrl: './sale-index-monitor.component.html',
   styles: []
 })
-export class SaleIndexMonitorComponent implements OnInit {
+export class SaleIndexMonitorComponent implements OnInit, OnDestroy {
 
   mainCredential: any = 'default'
   showContents: boolean;
@@ -22,7 +22,7 @@ export class SaleIndexMonitorComponent implements OnInit {
 
   loading:Object = {}
   data:any = []
-  lu:any 
+  lu:any
   orderBy:any = ['TotalIndex', 'Nombre']
   order:boolean = true
   selected:any = 0
@@ -71,6 +71,7 @@ export class SaleIndexMonitorComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('CyC - Indice por Asesor');
     this.getData()
+    this.timerLoad()
   }
 
   ngOnDestroy(){

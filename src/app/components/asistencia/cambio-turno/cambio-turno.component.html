@@ -76,10 +76,10 @@
         <form (ngSubmit)="saveEdit(forma)" #forma="ngForm" novalidate>
             <div class="row">
                 <div class="col">
-                    <h3 class="text-right">{{ form['nombreA'] }} <small>( {{ historic['asesorA'].length }} en el mes <button (click)="asesorHistoric = 'asesorA'" type="button" class="btn btn-link" data-toggle="modal" data-target="#historicModal"><i class="fas fa-info-circle"></i></button>)</small></h3>
+                    <h3 class="text-right">{{ form['nombreA'] }} <small>( {{ historic['asesorA'].length }} en el mes<button (click)="asesorHistoric = 'asesorA'" type="button" class="btn btn-link" data-toggle="modal" data-target="#historicModal"><i class="fas fa-info-circle"></i></button>)</small></h3>
                 </div>
                 <div class="col">
-                    <h3 class="text-right">{{ form['nombreB'] }} <small>( {{ historic['asesorA'].length }} en el mes <button (click)="asesorHistoric = 'asesorB'" type="button" class="btn btn-link" data-toggle="modal" data-target="#historicModal"><i class="fas fa-info-circle"></i></button>)</small></h3>
+                    <h3 class="text-right">{{ form['nombreB'] }} <small>( {{ historic['asesorB'].length }} en el mes<button (click)="asesorHistoric = 'asesorB'" type="button" class="btn btn-link" data-toggle="modal" data-target="#historicModal"><i class="fas fa-info-circle"></i></button>)</small></h3>
                 </div>
             </div>
             <div class="row">

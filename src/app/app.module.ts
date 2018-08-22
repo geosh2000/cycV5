@@ -200,6 +200,7 @@ import {
 } from '@angular/material';
 import { CdkTableModule } from '../../node_modules/@angular/cdk/table';
 import { CdkTreeModule } from '../../node_modules/@angular/cdk/tree';
+import { CxcSendRhComponent } from './components/cxc/cxc-send-rh/cxc-send-rh.component';
 
 
 declare let jQuery: Object;
@@ -353,6 +354,7 @@ registerLocaleData(localeEsMX)
     HomeCxcViewComponent,
     BitacoraComponent,
     BitacoraAddActionComponent,
+    CxcSendRhComponent,
   ],
   imports: [
     BrowserModule,
