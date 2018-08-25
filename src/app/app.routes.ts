@@ -74,6 +74,8 @@ import { SaleIndexMonitorComponent } from './components/monitors/sale-index-moni
 import { CxcRegistroComponent } from './components/cxc/cxc-registro/cxc-registro.component';
 import { CxcAplicablesComponent } from './components/cxc/cxc-aplicables/cxc-aplicables.component';
 import { BitacoraComponent } from './components/monitors/bitacora/bitacora.component';
+import { SurveyComponent } from './components/formularios/survey/survey.component';
+import { SurveyReportComponent } from './components/reportes/survey-report/survey-report.component';
 
 
 const APP_ROUTES: Routes = [
@@ -129,6 +131,7 @@ const APP_ROUTES: Routes = [
   { path: 'tablafSoporte', component: TablafSoporteComponent },
   { path: 'proReport', component: ProReportComponent },
   { path: 'afiliados', component: ReporteAfiliadosComponent},
+  { path: 'surveyReport/:surveyId', component: SurveyReportComponent },
 
   // Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
@@ -177,6 +180,7 @@ const APP_ROUTES: Routes = [
   // Formularios
   { path: 'citas-outlet', component: OutletComponent },
   { path: 'db-outlet', component: DbOutletComponent },
+  { path: 'survey/:surveyId', component: SurveyComponent },
 
   // Polls
   { path: 'polls/antifaz2018', component: PollsComponent },

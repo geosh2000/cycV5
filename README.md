@@ -25,6 +25,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix filtro por udn/area/dep/puesto (.2002)
 * Devuelve informacion de codigos de puesto (.2002) 
 
+### Tipificaciones
+* Módulo genérico de tipificación (.2005)
+* Configurable por base de datos (.2005)
+* Pendiente configuración de campos DATE y TIME (.2005)
+
 ## v2.4.1
 
 ### Bitacora GTR V2

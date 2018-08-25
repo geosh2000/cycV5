@@ -307,7 +307,7 @@ export class CxcRegistroComponent implements OnInit {
       }
     }
 
-    if( val == 1 ){
+    if( val == 1 && field == 'status' ){
       if( !flag ){
         this._send.build( id )
         return true

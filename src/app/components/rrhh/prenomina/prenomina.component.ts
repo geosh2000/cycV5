@@ -750,15 +750,18 @@ export class PrenominaComponent implements OnInit {
 
   checkLength( js, je, lin, lout ){
 
-    let done = moment(lout).diff(moment(lin), 'seconds')
-    let jornada = moment(je).diff(moment(js), 'seconds')
+    if( moment(lout) < moment(je) ){
+      let done = moment(lout).diff(moment(lin), 'seconds')
+      let jornada = moment(je).diff(moment(js), 'seconds')
 
-    if( done / jornada < 0.6 ){
-      return true
-    }else{
-      return false
+      if( done / jornada < 0.6 ){
+        return true
+      }else{
+        return false
+      }
     }
 
+    return false
   }
 
   checkLengthHX( item ){

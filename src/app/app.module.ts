@@ -201,6 +201,9 @@ import {
 import { CdkTableModule } from '../../node_modules/@angular/cdk/table';
 import { CdkTreeModule } from '../../node_modules/@angular/cdk/tree';
 import { CxcSendRhComponent } from './components/cxc/cxc-send-rh/cxc-send-rh.component';
+import { SurveyComponent } from './components/formularios/survey/survey.component';
+import { SurvHistoricComponent } from './components/formularios/survey/surv-historic/surv-historic.component';
+import { SurveyReportComponent } from './components/reportes/survey-report/survey-report.component';
 
 
 declare let jQuery: Object;
@@ -355,6 +358,9 @@ registerLocaleData(localeEsMX)
     BitacoraComponent,
     BitacoraAddActionComponent,
     CxcSendRhComponent,
+    SurveyComponent,
+    SurvHistoricComponent,
+    SurveyReportComponent,
   ],
   imports: [
     BrowserModule,
