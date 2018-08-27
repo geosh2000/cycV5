@@ -1,529 +1,109 @@
-<div class="alert alert-danger" role="alert" *ngIf="!showContents">
-  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
-</div>
-<div class="container-fluid" *ngIf="showContents">
-  <!-- TITLE -->
-  <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
-    <div class="container">
-      <div class="d-flex justify-content-between">
-        <div>
-          <span><h1 class="display-3">Venta por Canal PDV</h1></span>
-          <p class="lead">Usa los filtros y agrupaciones para obtener la información que necesitas</p>
-        </div>
-      </div>
-    </div>
-    <br>
-    <div class="container">
-      <div class="row">
-        <div class="col-6" style="color: black">
-          <ngb-accordion [closeOthers]="true" activeIds="static-1">
+<div *ngIf="showContents">
 
-            <!-- General -->
-            <ngb-panel id="Gen">
-              <ng-template ngbPanelTitle>
-                <span class="text-bold">Parámetros</span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <div class="m-1">
-                  <div class="row">
-                    <div style="text-align: center" class="col-4 p-2">
-                      <span><small>Venta y Cxl</small></span>
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Reporte de Venta PDV</h1></span>
+                        <p class="lead">Venta por PDV por día y su desgloce por producto</p>
                     </div>
-                    <div style="text-align: center" class="col-4 p-2">
-                      <ui-switch
-                      color="green"
-                      size= "small"
-                      [(ngModel)]="genPar['sv']"
-                      ></ui-switch>
-                    </div>
-                    <div style="text-align: center" class="col-4 p-2">
-                      <span><small>Sólo Venta</small></span>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div style="text-align: center" class="col-4 p-2">
-                      <span><small>P. Desglozado</small></span>
-                    </div>
-                    <div style="text-align: center" class="col-4 p-2">
-                      <ui-switch
-                      color="green"
-                      size= "small"
-                      [(ngModel)]="genPar['isPaq']"
-                      ></ui-switch>
-                    </div>
-                    <div style="text-align: center" class="col-4 p-2">
-                      <span><small>P. Paquete</small></span>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div style="text-align: center" class="col-4 p-2">
-                      <span><small>Normal</small></span>
-                    </div>
-                    <div style="text-align: center" class="col-4 p-2">
-                      <ui-switch
-                      color="green"
-                      size= "small"
-                      [(ngModel)]="genPar['outlet']"
-                      ></ui-switch>
-                    </div>
-                    <div style="text-align: center" class="col-4 p-2">
-                      <span><small>Outlet</small></span>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div style="text-align: center" class="col-4 p-2">
-                      <span><small>Resumen</small></span>
-                    </div>
-                    <div style="text-align: center" class="col-4 p-2">
-                      <ui-switch
-                      color="green"
-                      size= "small"
-                      [(ngModel)]="genPar['loc']"
-                      ></ui-switch>
-                    </div>
-                    <div style="text-align: center" class="col-4 p-2">
-                      <span><small>Por Loc</small></span>
-                    </div>
-                  </div>
                 </div>
-              </ng-template>
-            </ngb-panel>
-
-            <!-- FECHAS -->
-            <ngb-panel id="Fechas">
-              <ng-template ngbPanelTitle>
-                <span class="text-bold">Fecha y Hora: </span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <div class="m-1">
-                  <span>Fecha: </span>
-                  <div class="row">
-                    <div class="form-group p-2">
-                        <div
-                            class="input-group"
-                            daterangepicker (selected)="dateChange($event.start, $event.end)" [options]="DROptions" >
-                            <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker">
-                            <span class="input-group-btn">
-                                <a type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></a>
-                            </span>
-                        </div>
-                    </div>
-                    <div style="text-align: center" class="col-3 p-2">
-                      <ui-switch
-                      color="green"
-                      size= "small"
-                      [(ngModel)]="apiData['fecha']['Fecha']['groupBy']"
-                      ></ui-switch> <small>Agrupar Fecha</small>
-                    </div>
-                    <div style="text-align: center" class="col-3 p-2">
-                      <ui-switch
-                      color="green"
-                      size= "small"
-                      [(ngModel)]="apiData['fecha']['Fecha']['showCol']"
-                      ></ui-switch> <small>Mostrar Fecha</small>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </ngb-panel>
-
-            <!-- CHANGROUP -->
-            <!-- <ngb-panel id="chanGroup">
-              <ng-template ngbPanelTitle>
-                <span class="text-bold">Grupo Canal: </span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <div class="m-1" *ngFor="let field of apiData['chanGroup'] | keys">
-                  <span>{{ field | capitalizado:true }}: </span>
-                  <div class="row">
-                    <div class="col-6">
-                      <ss-multiselect-dropdown *ngIf="opts[field]" [options]="opts[field] | orderBy: 'name'" [(ngModel)]="apiData['chanGroup'][field]['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'chanGroup', field)"></ss-multiselect-dropdown>
-                    </div>
-                    <div style="text-align: center" class="col-3 p-2">
-                      <ui-switch
-                      color="green"
-                      size= "small"
-                      [(ngModel)]="apiData['chanGroup'][field]['groupBy']"
-                      ></ui-switch> <small>Agrupar</small>
-                    </div>
-                    <div style="text-align: center" class="col-3 p-2">
-                      <ui-switch
-                      color="green"
-                      size= "small"
-                      [(ngModel)]="apiData['chanGroup'][field]['showCol']"
-                      ></ui-switch> <small>Mostrar</small>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </ngb-panel> -->
-
-            <!-- TIPORSVA -->
-            <ngb-panel id="tipoRsva">
-              <ng-template ngbPanelTitle>
-                <span class="text-bold">Tipo de Rsva: </span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <ng-container *ngFor="let field of apiData['tipoRsva'] | keys">
-                  <div class="m-1" *ngIf="apiData['tipoRsva'][field].status">
-                    <div class="p-1">
-                      <span>{{ field | capitalizado:true }}: </span>
-                      <div class="row">
-                        <div class="col-6">
-                          <ss-multiselect-dropdown *ngIf="opts[field]" [options]="opts[field] | orderBy: 'name'" [(ngModel)]="apiData['tipoRsva'][field]['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'tipoRsva', field)"></ss-multiselect-dropdown>
-                        </div>
-                        <div style="text-align: center" class="col-3 p-2">
-                          <ui-switch
-                          color="green"
-                          size= "small"
-                          [(ngModel)]="apiData['tipoRsva'][field]['groupBy']"
-                          ></ui-switch> <small>Agrupar</small>
-                        </div>
-                        <div style="text-align: center" class="col-3 p-2">
-                          <ui-switch
-                          color="green"
-                          size= "small"
-                          [(ngModel)]="apiData['tipoRsva'][field]['showCol']"
-                          ></ui-switch> <small>Mostrar</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </ng-container>
-              </ng-template>
-            </ngb-panel>
-
-            <!-- ITEMTYPE -->
-            <ngb-panel id="itemTypes">
-              <ng-template ngbPanelTitle>
-                <span class="text-bold">Tipo de Servicio: </span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <ng-container *ngFor="let field of apiData['itemTypes'] | keys">
-                  <div class="m-1" *ngIf="apiData['itemTypes'][field].status">
-                    <div class="p-1">
-                      <span>{{ field | capitalizado:true }}: </span>
-                      <div class="row">
-                        <div class="col-6">
-                          <ss-multiselect-dropdown *ngIf="opts[field]" [options]="opts[field] | orderBy: 'name'" [(ngModel)]="apiData['itemTypes'][field]['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'itemTypes', field)"></ss-multiselect-dropdown>
-                        </div>
-                        <div style="text-align: center" class="col-3 p-2">
-                          <ui-switch
-                          color="green"
-                          size= "small"
-                          [(ngModel)]="apiData['itemTypes'][field]['groupBy']"
-                          ></ui-switch> <small>Agrupar</small>
-                        </div>
-                        <div style="text-align: center" class="col-3 p-2">
-                          <ui-switch
-                          color="green"
-                          size= "small"
-                          [(ngModel)]="apiData['itemTypes'][field]['showCol']"
-                          ></ui-switch> <small>Mostrar</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </ng-container>
-              </ng-template>
-            </ngb-panel>
-
-            <!-- BRANCH -->
-            <ngb-panel id="branchId">
-              <ng-template ngbPanelTitle>
-                <span class="text-bold">Branch: </span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <div class="m-1" *ngFor="let field of apiData['branchId'] | keys">
-                  <div class="p-1">
-                    <span>{{ field | capitalizado:true }}: </span>
-                    <div class="row">
-                      <div class="col-6">
-                        <ss-multiselect-dropdown *ngIf="opts[field]" [options]="opts[field] | orderBy: 'name'" [(ngModel)]="apiData['branchId'][field]['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'branchId', field)"></ss-multiselect-dropdown>
-                      </div>
-                      <div style="text-align: center" class="col-3 p-2">
-                        <ui-switch
-                        color="green"
-                        size= "small"
-                        [(ngModel)]="apiData['branchId'][field]['groupBy']"
-                        ></ui-switch> <small>Agrupar</small>
-                      </div>
-                      <div style="text-align: center" class="col-3 p-2">
-                        <ui-switch
-                        color="green"
-                        size= "small"
-                        [(ngModel)]="apiData['branchId'][field]['showCol']"
-                        ></ui-switch> <small>Mostrar</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </ngb-panel>
-
-            <!-- pdvSuper -->
-            <ngb-panel id="pdvSuper">
-              <ng-template ngbPanelTitle>
-                <span class="text-bold">Supervisor: </span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <div class="m-1" *ngFor="let field of apiData['pdvSuper'] | keys">
-                  <div class="p-1">
-                    <span>{{ field | capitalizado:true }}: </span>
-                    <div class="row">
-                      <div class="col-6">
-                        <ss-multiselect-dropdown *ngIf="opts[field]" [options]="opts[field] | orderBy: 'name'" [(ngModel)]="apiData['pdvSuper'][field]['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'pdvSuper', field)"></ss-multiselect-dropdown>
-                      </div>
-                      <div style="text-align: center" class="col-3 p-2">
-                        <ui-switch
-                        color="green"
-                        size= "small"
-                        [(ngModel)]="apiData['pdvSuper'][field]['groupBy']"
-                        ></ui-switch> <small>Agrupar</small>
-                      </div>
-                      <div style="text-align: center" class="col-3 p-2">
-                        <ui-switch
-                        color="green"
-                        size= "small"
-                        [(ngModel)]="apiData['pdvSuper'][field]['showCol']"
-                        ></ui-switch> <small>Mostrar</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </ngb-panel>
-
-            <!-- ASESOR -->
-            <ngb-panel id="Asesores">
-              <ng-template ngbPanelTitle>
-                <span class="text-bold">Asesor: </span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <div class="m-1">
-                  <div class="p-1">
-                    <span>Asesores: </span>
-                    <div class="row">
-                      <div class="col-6">
-                        <ss-multiselect-dropdown *ngIf="opts['asesores']" [options]="opts['asesores'] | orderBy: 'name'" [(ngModel)]="apiData['genGroup']['Asesor']['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'genGroup', 'Asesor')"></ss-multiselect-dropdown>
-                      </div>
-                      <div style="text-align: center" class="col-3 p-2">
-                        <ui-switch
-                        color="green"
-                        size= "small"
-                        [(ngModel)]="apiData['genGroup']['Asesor']['groupBy']"
-                        ></ui-switch> <small>Agrupar</small>
-                      </div>
-                      <div style="text-align: center" class="col-3 p-2">
-                        <ui-switch
-                        color="green"
-                        size= "small"
-                        [(ngModel)]="apiData['genGroup']['Asesor']['showCol']"
-                        ></ui-switch> <small>Mostrar</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </ngb-panel>
-
-          </ngb-accordion>
-        </div>
-        <div class="col-6">
-          <div class="" style="max-height: 400px; overflow-y:auto">
-            <div class="p-1 m-0">
-              <p class="text-secondary"><small>
-                <b>Parametros:</b>
-                 {{ genPar['isPaq'] ? 'Paquete' : 'Producto desglozado' }},
-                 {{ genPar['sv'] ? 'Solo Venta' : 'Venta y Cxl' }},
-                 {{ genPar['outlet'] ? 'Canal Outlet' : 'Canales Normales' }},
-                 {{ genPar['loc'] ? 'Por Loc' : 'Resumen' }}
-              </small></p>
             </div>
-            <div class="p-1 m-0">
-              <p class="text-secondary"><small>
-                <b>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('fecha', 'Fecha','showCol')">
-                    <span *ngIf="apiData['fecha']['Fecha']['showCol']"><i class="fas fa-eye text-success"></i></span>
-                    <span *ngIf="!apiData['fecha']['Fecha']['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('fecha', 'Fecha','groupBy')">
-                    <span *ngIf="apiData['fecha']['Fecha']['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                    <span *ngIf="!apiData['fecha']['Fecha']['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                  </button>
-                  Fecha:</b> {{ apiData['fecha']['Fecha']['params'][0] }} - {{ apiData['fecha']['Fecha']['params'][1] }}
-              </small></p>
-            </div>
-            <!-- <div class="p-1 m-0">
-              <p class="text-secondary"><small>
-                <b>
-                <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('fecha', 'Hora','showCol')">
-                    <span *ngIf="apiData['fecha']['Hora']['showCol']"><i class="fas fa-eye text-success"></i></span>
-                    <span *ngIf="!apiData['fecha']['Hora']['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('fecha', 'Hora','groupBy')">
-                    <span *ngIf="apiData['fecha']['Hora']['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                    <span *ngIf="!apiData['fecha']['Hora']['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                  </button>
-                  Hora:</b> {{ apiData['fecha']['Hora']['params'][0] }} - {{ apiData['fecha']['Hora']['params'][1] }}
-              </small></p>
-            </div> -->
-            <!-- <ng-container *ngFor="let item of apiData['chanGroup'] | keys">
-              <div class="p-1 m-0">
-                <p class="text-secondary"><small>
-                  <b>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('chanGroup', item,'showCol')">
-                      <span *ngIf="apiData['chanGroup'][item]['showCol']"><i class="fas fa-eye text-success"></i></span>
-                      <span *ngIf="!apiData['chanGroup'][item]['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('chanGroup', item,'groupBy')">
-                      <span *ngIf="apiData['chanGroup'][item]['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                      <span *ngIf="!apiData['chanGroup'][item]['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                    </button>
-                    {{item}}:</b> {{ (apiData['chanGroup'][item]['params'] && apiData['chanGroup'][item]['params'][0]) ? apiData['chanGroup'][item]['params'] : 'Todo' }}
-                </small></p>
-              </div>
-            </ng-container> -->
-            <ng-container *ngFor="let item of apiData['tipoRsva'] | keys">
-              <div class="p-1 m-0" *ngIf="apiData['tipoRsva'][item].status">
-                <p class="text-secondary"><small>
-                  <b>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('tipoRsva', item,'showCol')">
-                      <span *ngIf="apiData['tipoRsva'][item]['showCol']"><i class="fas fa-eye text-success"></i></span>
-                      <span *ngIf="!apiData['tipoRsva'][item]['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('tipoRsva', item,'groupBy')">
-                      <span *ngIf="apiData['tipoRsva'][item]['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                      <span *ngIf="!apiData['tipoRsva'][item]['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                    </button>
-                    {{item}}:</b> {{ (apiData['tipoRsva'][item]['params'] && apiData['tipoRsva'][item]['params'][0]) ? apiData['tipoRsva'][item]['params'] : 'Todo' }}
-                </small></p>
-              </div>
-            </ng-container>
-            <ng-container *ngFor="let item of apiData['itemTypes'] | keys">
-              <div class="p-1 m-0" *ngIf="apiData['itemTypes'][item].status">
-                <p class="text-secondary"><small>
-                  <b>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('itemTypes', item,'showCol')">
-                      <span *ngIf="apiData['itemTypes'][item]['showCol']"><i class="fas fa-eye text-success"></i></span>
-                      <span *ngIf="!apiData['itemTypes'][item]['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('itemTypes', item,'groupBy')">
-                      <span *ngIf="apiData['itemTypes'][item]['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                      <span *ngIf="!apiData['itemTypes'][item]['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                    </button>
-                    {{item}}:</b> {{ (apiData['itemTypes'][item]['params'] && apiData['itemTypes'][item]['params'][0]) ? apiData['itemTypes'][item]['params'] : 'Todo' }}
-                </small></p>
-              </div>
-            </ng-container>
-            <ng-container *ngFor="let item of apiData['branchId'] | keys">
-              <div class="p-1 m-0">
-                <p class="text-secondary"><small>
-                  <b>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('branchId', item,'showCol')">
-                      <span *ngIf="apiData['branchId'][item]['showCol']"><i class="fas fa-eye text-success"></i></span>
-                      <span *ngIf="!apiData['branchId'][item]['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('branchId', item,'groupBy')">
-                      <span *ngIf="apiData['branchId'][item]['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                      <span *ngIf="!apiData['branchId'][item]['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                    </button>
-                    {{item}}:</b> {{ (apiData['branchId'][item]['params'] && apiData['branchId'][item]['params'][0]) ? apiData['branchId'][item]['params'] : 'Todo' }}
-                </small></p>
-              </div>
-            </ng-container>
-            <ng-container *ngFor="let item of apiData['pdvSuper'] | keys">
-              <div class="p-1 m-0">
-                <p class="text-secondary"><small>
-                  <b>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('pdvSuper', item,'showCol')">
-                      <span *ngIf="apiData['pdvSuper'][item]['showCol']"><i class="fas fa-eye text-success"></i></span>
-                      <span *ngIf="!apiData['pdvSuper'][item]['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('pdvSuper', item,'groupBy')">
-                      <span *ngIf="apiData['pdvSuper'][item]['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                      <span *ngIf="!apiData['pdvSuper'][item]['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                    </button>
-                    {{item}}:</b> {{ (apiData['pdvSuper'][item]['params'] && apiData['pdvSuper'][item]['params'][0]) ? apiData['pdvSuper'][item]['params'] : 'Todo' }}
-                </small></p>
-              </div>
-            </ng-container>
-            <div class="p-1 m-0">
-              <p class="text-secondary"><small>
-                <b>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('genGroup', 'Asesor','showCol')">
-                    <span *ngIf="apiData['genGroup']['Asesor']['showCol']"><i class="fas fa-eye text-success"></i></span>
-                    <span *ngIf="!apiData['genGroup']['Asesor']['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('genGroup', 'Asesor','groupBy')">
-                    <span *ngIf="apiData['genGroup']['Asesor']['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                    <span *ngIf="!apiData['genGroup']['Asesor']['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                  </button>
-                  Asesores:</b> {{ (apiData['genGroup']['Asesor']['params'] && apiData['genGroup']['Asesor']['params'][0]) ? printAsesores(apiData['genGroup']['Asesor']['params'], 'Usuario') : 'Todo' }}
-              </small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-end">
-        <!-- <div class="p-1 mr-auto">
-          <div class="d-flex justify-content-start">
-            <div class="btn-group">
-              <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ presets[selectedPreset] ? presets[selectedPreset]['name'] : 'Presets' }}
-              </button>
-              <div class="dropdown-menu">
-                <button class="dropdown-item" type="button" (click)="selectPreset(i)" *ngFor="let opt of presets | orderBy: 'name'; index as i">{{ opt['name'] }}</button>
-              </div>
-            </div>
-            <button type="button" class="ml-2 btn btn-info" (click)="savePreset( true, content )">Save Preset</button>
-          </div>
-          <ng-container *ngIf="showPName">
             <br>
-            <div class="form-row align-items-center bg-info">
-              <div class="col-auto my-1">
-                <div class="p-1 bg-info">
-                  <label for="name">Nombre</label>
-                  <input type="text" class="form-control" aria-describedby="name" [(ngModel)]="presetName">
-                  <small id="name" class="form-text text-light">
-                    Elije un nombre para tus preferencias
-                  </small>
+            <div class='container'>
+                <div class="d-flex justify-content-start">
+                    <div class="form-group p-2" *ngIf="!tdInfo">
+                        <div class="input-group" daterangepicker (selected)="dateChange($event.start, $event.end)">
+                            <input type='text' class="form-control uneditable-input" name="daterange" value="" id="datepicker" style="font-size: smaller">
+                            <span class="input-group-btn">
+                      <button type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></button>
+                  </span>
+                        </div>
+                    </div>
+                    <div style="text-align: center" class="p-2">
+                        <ui-switch color="green" size="small" [(ngModel)]="soloVenta"></ui-switch>
+                        <p style="margin-top: -10px">
+                            <small *ngIf="soloVenta">Solo Venta</small>
+                            <small *ngIf="!soloVenta">Venta y Cxl</small>
+                        </p>
+                    </div>
+                    <div style="text-align: center" class="p-2">
+                        <ui-switch color="green" size="small" [(ngModel)]="isPaq"></ui-switch>
+                        <p style="margin-top: -10px">
+                            <small *ngIf="!isPaq">Paq Desglozado</small>
+                            <small *ngIf="isPaq">Paquete</small>
+                        </p>
+                    </div>
+                    <div class="p-2">
+                        <button type="button" class="btn btn-success" (click)="search()" [disabled]="(!tdInfo && !searchStart && !searchEnd) || loading['data']">Buscar</button>
+                    </div>
+                    <div class="p-2 ml-auto">
+                        <button type="button" class="btn btn-warning" *ngIf="ventaData" (click)="downloadXLS('ventaData', dwlTitle())">Descargar</button>
+                    </div>
                 </div>
-              </div>
-              <div class="col-auto my-1">
-                <button type="button" class="btn btn-success" (click)="savePreset( false )">Guardar <span *ngIf="loading['savePreset']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-                <button type="button" class="btn btn-secondary" (click)="showPName = false">Cancelar</button>
-              </div>
+
             </div>
-
-          </ng-container>
-        </div> -->
-        <div class="p-1">
-          <button type="button" class="btn btn-success" (click)="getReport()">Buscar <span *ngIf="loading['report']"><i class="fas fa-spinner fa-pulse"></i></span></button>
         </div>
-        <div class="p-1">
-          <button type="button" class="btn btn-warning" (click)="download()" *ngIf="dataRep">Descargar</button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <h1 *ngIf="loading['report']">Loading <span><i class="fas fa-spinner fa-pulse text-success"></i></span></h1>
-  <div class="container" *ngIf="!loading['report'] && dataRep">
-    <table style="font-size: smaller" class="table table-sm table-bordered table-striped table-hover" id="reporte">
-      <thead>
-        <tr>
-          <th *ngFor="let item of dataRep[0] | keys">{{ item }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of dataRep">
-          <td *ngFor="let field of item | keys" [ngClass]="{'text-right': field == 'Monto'}">
-            {{ field == "Monto" ? (item[field] | currency:'MXN':'symbol-narrow':'.2-2') : item[field] }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="container-fluid">
+        <h2 *ngIf="loading['data']"><i class="fa fa-fw fa-spinner fa-pulse"></i> Loading...</h2>
+        <table class="table table-sm table-responsive-sm table-bordered table-striped table-hover" style="font-size: smaller" id='ventaData' *ngIf="ventaData">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Fecha</th>
+                    <th class="text-center" scope="col">DOW</th>
+                    <th class="text-center" scope="col">Año</th>
+                    <th class="text-center" scope="col">Mes</th>
+                    <th class="text-center" scope="col">Día</th>
+                    <th class="text-center" scope="col">Ciudad</th>
+                    <th class="text-center" scope="col">PDV</th>
+                    <th class="text-center" scope="col">PDV Name</th>
+                    <th class="text-center" scope="col">Supervisor</th>
+                    <th class="text-center" scope="col">Monto Shop</th>
+                    <th class="text-center" scope="col">Monto Otro<br>Canal</th>
+                    <th class="text-center" scope="col">Monto Total</th>
+                    <th class="text-center" scope="col">Monto Hotel</th>
+                    <th class="text-center" scope="col">Monto Vuelo</th>
+                    <th class="text-center" scope="col">Monto Paquete</th>
+                    <th class="text-center" scope="col">Monto Otros</th>
+                    <th class="text-center" scope="col">Locs Total</th>
+                    <th class="text-center" scope="col">Locs Hotel</th>
+                    <th class="text-center" scope="col">Locs Vuelo</th>
+                    <th class="text-center" scope="col">Locs Paquete</th>
+                    <th class="text-center" scope="col">Locs Otros</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of ventaData">
+                    <th class="text-center">{{ item['Fecha'] == 'Total' ? 'Total' : printDate( item['Fecha'], "YYYY-MM-DD" ) }}</th>
+                    <th class="text-center">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "dddd" ) }}</th>
+                    <th class="text-center">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "YYYY" ) }}</th>
+                    <th class="text-center">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "MMMM" ) }}</th>
+                    <th class="text-center">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "DD" ) }}</th>
+                    <td class="text-center">{{ item['Ciudad'] }}</td>
+                    <td class="text-center">{{ item['PDV'] }}</td>
+                    <td class="text-center">{{ item['PdvName'] }}</td>
+                    <td class="text-center">{{ item['Supervisor'] }}</td>
+                    <td class="text-center">{{ item['MontoShop'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ item['MontoOtrosCanales'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ item['Monto'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ item['MontoHotel'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ item['MontoVuelo'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ item['MontoPaquete'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ item['MontoOtros'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ item['Localizadores'] }}</td>
+                    <td class="text-center">{{ item['LocalizadoresHotel'] }}</td>
+                    <td class="text-center">{{ item['LocalizadoresVuelo'] }}</td>
+                    <td class="text-center">{{ item['LocalizadoresPaquete'] }}</td>
+                    <td class="text-center">{{ item['LocalizadoresOtros'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
 
 </div>

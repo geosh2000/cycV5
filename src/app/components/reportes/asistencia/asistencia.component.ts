@@ -580,7 +580,7 @@ export class AsistenciaComponent implements OnInit {
     let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
 'binary' });
 
-    saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), `${title}.xlsx`)
+    saveAs(new Blob([this.s2ab(wbout)], { type: 'application/vnd.ms-excel' }), `${title}.xlsx`)
   }
 
 

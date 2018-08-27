@@ -370,7 +370,7 @@ export class ProReportComponent implements OnInit {
     let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
 'binary' });
 
-    saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), `reporte_personalizado.xlsx`)
+    saveAs(new Blob([this.s2ab(wbout)], { type: 'application/vnd.ms-excel' }), `reporte_personalizado.xlsx`)
   }
 
   s2ab(s) {

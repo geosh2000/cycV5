@@ -10,6 +10,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Corrección de MODALS en todos los módulos (.2001)
 * Integracion de Material Angular (.2001)
 * Fix Menu al abrir opciones (.2003)
+* Fix Excel Download (file type) (.2005)
 
 ### Cambios de Turno
 * Nuevo módulo de cambios de turno (.2003)
@@ -25,10 +26,15 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix filtro por udn/area/dep/puesto (.2002)
 * Devuelve informacion de codigos de puesto (.2002) 
 
-### Tipificaciones
+### Módulos Survey
 * Módulo genérico de tipificación (.2005)
 * Configurable por base de datos (.2005)
 * Pendiente configuración de campos DATE y TIME (.2005)
+
+### Reporte Venta por PDV
+* Reporte por día por PDV (.2005)
+* Filtro de Venta y Cxl / Solo Venta (.2005)
+* Filtro de Paquete / Prod Desglozado (.2005)
 
 ## v2.4.1
 
