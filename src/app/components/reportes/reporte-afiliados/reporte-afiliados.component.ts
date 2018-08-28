@@ -63,6 +63,7 @@ export class ReporteAfiliadosComponent implements OnInit {
   listReps:any
   reportData:any
   totals:any
+  shownAf:any
 
   constructor(
               private _api:ApiService,
@@ -97,9 +98,7 @@ export class ReporteAfiliadosComponent implements OnInit {
   }
 
   selectedReport( value ){
-
-    this.titleService.setTitle(`CyC - Reporte ${this.listReps[ value ]['afiliado']}`);
-    this.afiliado = this.listReps[ value ]['afiliado']
+    this.shownAf = this.listReps[ value ]['afiliado']
     this.report = this.listReps[ value ]['id']
   }
 
@@ -163,6 +162,8 @@ export class ReporteAfiliadosComponent implements OnInit {
                 this.loading['data'] = false
                 this.reportData = res['data']
                 this.totals = res['total']
+                this.afiliado = this.shownAf
+                this.titleService.setTitle(`CyC - Reporte ${ this.shownAf }`)
 
               }, err => {
                 console.log('ERROR', err)

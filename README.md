@@ -30,11 +30,17 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Módulo genérico de tipificación (.2005)
 * Configurable por base de datos (.2005)
 * Pendiente configuración de campos DATE y TIME (.2005)
+* Filtro QuickSet (.2006)
+
+### Reporte Afiliados
+* Fix de columna Afiliado y título de página (.2007)
 
 ### Reporte Venta por PDV
 * Reporte por día por PDV (.2005)
 * Filtro de Venta y Cxl / Solo Venta (.2005)
 * Filtro de Paquete / Prod Desglozado (.2005)
+* Filtro por día / Totalizado (.2007)
+* Filtro por asesor / PDV (.2007)
 
 ## v2.4.1
 

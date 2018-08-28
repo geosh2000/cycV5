@@ -36,6 +36,20 @@
                             <small *ngIf="isPaq">Paquete</small>
                         </p>
                     </div>
+                    <div style="text-align: center" class="p-2">
+                        <ui-switch color="green" size="small" [(ngModel)]="isAsesor"></ui-switch>
+                        <p style="margin-top: -10px">
+                            <small *ngIf="!isAsesor">Por PDV</small>
+                            <small *ngIf="isAsesor">Por Asesor</small>
+                        </p>
+                    </div>
+                    <div style="text-align: center" class="p-2">
+                        <ui-switch color="green" size="small" [(ngModel)]="isTotal"></ui-switch>
+                        <p style="margin-top: -10px">
+                            <small *ngIf="!isTotal">Por Dia</small>
+                            <small *ngIf="isTotal">Total</small>
+                        </p>
+                    </div>
                     <div class="p-2">
                         <button type="button" class="btn btn-success" (click)="search()" [disabled]="(!tdInfo && !searchStart && !searchEnd) || loading['data']">Buscar</button>
                     </div>
@@ -53,14 +67,16 @@
         <table class="table table-sm table-responsive-sm table-bordered table-striped table-hover" style="font-size: smaller" id='ventaData' *ngIf="ventaData">
             <thead>
                 <tr>
-                    <th class="text-center" scope="col">Fecha</th>
-                    <th class="text-center" scope="col">DOW</th>
-                    <th class="text-center" scope="col">Año</th>
-                    <th class="text-center" scope="col">Mes</th>
-                    <th class="text-center" scope="col">Día</th>
+                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '1'">Fechas</th>
+                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">Fecha</th>
+                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">DOW</th>
+                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">Año</th>
+                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">Mes</th>
+                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">Día</th>
                     <th class="text-center" scope="col">Ciudad</th>
-                    <th class="text-center" scope="col">PDV</th>
-                    <th class="text-center" scope="col">PDV Name</th>
+                    <th class="text-center" scope="col" *ngIf="!ventaData[0]['Nombre']">PDV</th>
+                    <th class="text-center" scope="col" *ngIf="!ventaData[0]['Nombre']">PDV Name</th>
+                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Nombre']">Asesor</th>
                     <th class="text-center" scope="col">Supervisor</th>
                     <th class="text-center" scope="col">Monto Shop</th>
                     <th class="text-center" scope="col">Monto Otro<br>Canal</th>
@@ -78,27 +94,29 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of ventaData">
-                    <th class="text-center">{{ item['Fecha'] == 'Total' ? 'Total' : printDate( item['Fecha'], "YYYY-MM-DD" ) }}</th>
-                    <th class="text-center">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "dddd" ) }}</th>
-                    <th class="text-center">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "YYYY" ) }}</th>
-                    <th class="text-center">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "MMMM" ) }}</th>
-                    <th class="text-center">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "DD" ) }}</th>
+                    <th class="text-center" *ngIf="ventaData[0]['Total'] == '1'">{{ printDate( searchStart, "YYYY-MM-DD" ) }} a {{ printDate( searchEnd, "YYYY-MM-DD" ) }}</th>
+                    <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? 'Total' : printDate( item['Fecha'], "YYYY-MM-DD" ) }}</th>
+                    <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "dddd" ) }}</th>
+                    <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "YYYY" ) }}</th>
+                    <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "MMMM" ) }}</th>
+                    <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "DD" ) }}</th>
                     <td class="text-center">{{ item['Ciudad'] }}</td>
-                    <td class="text-center">{{ item['PDV'] }}</td>
-                    <td class="text-center">{{ item['PdvName'] }}</td>
+                    <td class="text-center" *ngIf="!ventaData[0]['Nombre']">{{ item['PDV'] }}</td>
+                    <td class="text-center" *ngIf="!ventaData[0]['Nombre']">{{ item['PdvName'] }}</td>
+                    <td class="text-center" *ngIf="ventaData[0]['Nombre']">{{ item['Nombre'] }}</td>
                     <td class="text-center">{{ item['Supervisor'] }}</td>
-                    <td class="text-center">{{ item['MontoShop'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                    <td class="text-center">{{ item['MontoOtrosCanales'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                    <td class="text-center">{{ item['Monto'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                    <td class="text-center">{{ item['MontoHotel'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                    <td class="text-center">{{ item['MontoVuelo'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                    <td class="text-center">{{ item['MontoPaquete'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                    <td class="text-center">{{ item['MontoOtros'] | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                    <td class="text-center">{{ item['Localizadores'] }}</td>
-                    <td class="text-center">{{ item['LocalizadoresHotel'] }}</td>
-                    <td class="text-center">{{ item['LocalizadoresVuelo'] }}</td>
-                    <td class="text-center">{{ item['LocalizadoresPaquete'] }}</td>
-                    <td class="text-center">{{ item['LocalizadoresOtros'] }}</td>
+                    <td class="text-center">{{ coalesce(item['MontoShop'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ coalesce(item['MontoOtrosCanales'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ coalesce(item['Monto'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ coalesce(item['MontoHotel'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ coalesce(item['MontoVuelo'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ coalesce(item['MontoPaquete'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ coalesce(item['MontoOtros'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                    <td class="text-center">{{ coalesce(item['Localizadores'],0) }}</td>
+                    <td class="text-center">{{ coalesce(item['LocalizadoresHotel'],0) }}</td>
+                    <td class="text-center">{{ coalesce(item['LocalizadoresVuelo'],0) }}</td>
+                    <td class="text-center">{{ coalesce(item['LocalizadoresPaquete'],0) }}</td>
+                    <td class="text-center">{{ coalesce(item['LocalizadoresOtros'],0) }}</td>
                 </tr>
             </tbody>
         </table>

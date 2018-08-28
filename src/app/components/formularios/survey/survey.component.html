@@ -21,54 +21,78 @@
         <h1>Cargando Formulario... <i class="fas fa-spinner fa-pulse"></i></h1>
     </div>
     <div class='container-fluid' *ngIf="formReady">
-        <div class="row">
-            <div class="col-6" id='surveyDiv'>
-                <form class="form-group" [formGroup]="form" (ngSubmit)="saveForm()">
-                    <ng-container *ngFor="let field of surveyData['fields']">
-                        <ng-container *ngIf="field['showStart'] == '1' || (field['parent'] && field['trigger'] && field['trigger'].indexOf( parse(form.value[field['parent']])) >= 0)">
-                            <div class="form-group row">
-                                <label for="f_{{ field['id'] }}" class="col-sm-2 col-form-label">{{ field['titulo'] ? field['titulo'][form.value[field['parent']]] : field['name'] }}</label>
-                                <ng-container *ngIf="field['type'] == 'text'">
-                                    <div class="col-sm-8">
-                                        <input [ngClass]="{'is-invalid': (!form.controls[field['id']].valid && form.controls[field['id']]['errors']['pattern']) || (validateFlag && !form.controls[field['id']].valid && form.controls[field['id']]['errors']['required'])}" [formControlName]="field['id']"
-                                            type="text" class="form-control" id="f_{{ field['id'] }}" name="n_{{ field['id'] }}" [readonly]="field['hiddenField'] == '1'">
+        <div class="container">
+            <div class="row">
+                <div class="col-7" id='surveyDiv'>
+                    <form class="form-group" [formGroup]="form" (ngSubmit)="saveForm()">
+                        <ng-container *ngFor="let field of surveyData['fields']">
+                            <ng-container *ngIf="field['showStart'] == '1' || (field['parent'] && field['trigger'] && field['trigger'].indexOf( parse(form.value[field['parent']])) >= 0)">
+                                <div class="form-group row">
+                                    <label for="f_{{ field['id'] }}" class="col-sm-2 col-form-label">{{ field['titulo'] ? field['titulo'][form.value[field['parent']]] : field['name'] }}</label>
+                                    <ng-container *ngIf="field['type'] == 'text'">
+                                        <div class="col-sm-8">
+                                            <input [ngClass]="{'is-invalid': (!form.controls[field['id']].valid && form.controls[field['id']]['errors']['pattern']) || (validateFlag && !form.controls[field['id']].valid && form.controls[field['id']]['errors']['required'])}" [formControlName]="field['id']"
+                                                type="text" class="form-control" id="f_{{ field['id'] }}" name="n_{{ field['id'] }}" [readonly]="field['hiddenField'] == '1'">
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="field['type'] == 'select'">
+                                        <div class="col-sm-8">
+                                            <select [ngClass]="{'is-invalid': (!form.controls[field['id']].valid && form.controls[field['id']]['errors']['pattern']) || (validateFlag && !form.controls[field['id']].valid && form.controls[field['id']]['errors']['required'])}" [formControlName]="field['id']"
+                                                (change)="resetChilds(field['id'], $event.target.value )" class="custom-select col-sm-10" id="f_{{ field['id'] }}" name="n_{{ field['id'] }}">
+                                    <option value=''>Selecciona...</option>
+                                    <ng-container *ngFor="let opt of field['opts']">
+                                    <option [value]="opt['id']" *ngIf="opt['showAlways'] == '1' || (field['parent'] && parse(opt['showIF']) == form.value[field['parent']])">{{ opt['name'] }}</option>
+                                    </ng-container>
+                                </select>
+                                        </div>
+                                    </ng-container>
+                                    <div class="col-sm-2">
+                                        <p style="font-size:smaller" class="text-danger" *ngIf="!form.controls[field['id']].valid && form.controls[field['id']]['errors']['pattern']">
+                                            El formato debe ser de tipo: {{ field['formato'] }}
+                                        </p>
+                                        <p style="font-size:smaller" class="text-danger" *ngIf="validateFlag && !form.controls[field['id']].valid && form.controls[field['id']]['errors']['required']">
+                                            El campo es obligatorio
+                                        </p>
                                     </div>
-                                </ng-container>
-                                <ng-container *ngIf="field['type'] == 'select'">
-                                    <div class="col-sm-8">
-                                        <select [ngClass]="{'is-invalid': (!form.controls[field['id']].valid && form.controls[field['id']]['errors']['pattern']) || (validateFlag && !form.controls[field['id']].valid && form.controls[field['id']]['errors']['required'])}" [formControlName]="field['id']"
-                                            (change)="resetChilds(field['id'], $event.target.value )" class="custom-select col-sm-10" id="f_{{ field['id'] }}" name="n_{{ field['id'] }}">
-                                <option value=''>Selecciona...</option>
-                                <ng-container *ngFor="let opt of field['opts']">
-                                  <option [value]="opt['id']" *ngIf="opt['showAlways'] == '1' || (field['parent'] && parse(opt['showIF']) == form.value[field['parent']])">{{ opt['name'] }}</option>
-                                </ng-container>
-                              </select>
-                                    </div>
-                                </ng-container>
-                                <div class="col-sm-2">
-                                    <p style="font-size:smaller" class="text-danger" *ngIf="!form.controls[field['id']].valid && form.controls[field['id']]['errors']['pattern']">
-                                        El formato debe ser de tipo: {{ field['formato'] }}
-                                    </p>
-                                    <p style="font-size:smaller" class="text-danger" *ngIf="validateFlag && !form.controls[field['id']].valid && form.controls[field['id']]['errors']['required']">
-                                        El campo es obligatorio
-                                    </p>
                                 </div>
-                            </div>
+                            </ng-container>
                         </ng-container>
-                    </ng-container>
-                    <div class="d-flex justify-content-end">
-                        <div class='p-1'>
-                            <button type="button" class="btn btn-secondary" (click)="resetForm()">Reset</button>
+                        <div class="d-flex justify-content-end">
+                            <div class='p-1'>
+                                <button type="button" class="btn btn-secondary" (click)="resetForm()">Reset</button>
+                            </div>
+                            <div class='p-1'>
+                                <button type="submit" class="btn btn-success" [disabled]="loading['save']">Guardar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                            </div>
                         </div>
-                        <div class='p-1'>
-                            <button type="submit" class="btn btn-success" [disabled]="loading['save']">Guardar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                    </form>
+                </div>
+                <div class="col-5">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputFilter">Filtro</span>
                         </div>
+                        <input type="text" class="form-control" aria-label="Filtro Opciones" aria-describedby="inputFilter" [(ngModel)]="filterValue">
                     </div>
-                </form>
+                    <ul>
+                        <ng-container *ngFor="let field of surveyData['fields']">
+                            <ng-container *ngIf="field['quickDisplay'] == '1'">
+                                <ng-container *ngFor="let opt of field['opts']">
+                                    <li *ngIf="opt['name'].toLowerCase().match(filterValue.toLowerCase()) && filterValue.length > 0 && !optsFilter[parse(opt['id'])]['isTrigger']">
+                                        <button class="btn btn-sm btn-link text-warning" (click)="quickSet([ opt['showIF'] ? (optsFilter[opt['showIF']]['showIF'] ? (optsFilter[optsFilter[opt['showIF']]['showIF']]['id'] ? [surveyData['fields'][findIndex( surveyData['fields'], 'id', field['parent'] )]['parent'], optsFilter[optsFilter[opt['showIF']]['showIF']]['id']] : null) : null) : null, opt['showIF'] ? (optsFilter[opt['showIF']]['id'] ? [field['parent'], optsFilter[opt['showIF']]['id']] : null) : null, [field['id'], opt['id']]])"><i class="fas fa-crosshairs"></i> </button>
+                                        <span class="text-danger" *ngIf="opt['showIF'] && optsFilter[opt['showIF']]['showIF'] && optsFilter[optsFilter[opt['showIF']]['showIF']]">{{ optsFilter[optsFilter[opt['showIF']]['showIF']]['name'] }} >> </span>
+                                        <span class="text-primary" *ngIf="opt['showIF'] && optsFilter[opt['showIF']]">{{ optsFilter[opt['showIF']]['name'] }} >> </span>
+                                        <span class="text-success">{{ opt['name'] }}</span>
+                                    </li>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ul>
+                </div>
             </div>
-            <div class="col-6">
-                <app-surv-historic [divHeight]="surveyHeight" [asesor]="currentUser['hcInfo']['id']" [master]="surveyData['master']['id']"></app-surv-historic>
-            </div>
+        </div>
+        <div class='container'>
+            <app-surv-historic [divHeight]="surveyHeight" [asesor]="currentUser['hcInfo']['id']" [master]="surveyData['master']['id']"></app-surv-historic>
         </div>
 
 

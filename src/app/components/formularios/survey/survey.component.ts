@@ -26,12 +26,16 @@ export class SurveyComponent implements OnInit {
 
   loading:Object = {}
 
+  filterValue=''
+
   surveyId:any
   surveyData:Object = {
     'master': null,
     'fields': [],
     'opts': [],
   }
+
+  optsFilter:Object = {}
 
   form:FormGroup;
   formReady:boolean = false
@@ -140,8 +144,21 @@ export class SurveyComponent implements OnInit {
                 if( opt['fieldId'] == item['id'] ){
                   item['opts'].push(opt)
                 }
+
+                this.optsFilter[opt['id']] = opt
               }
             }
+
+            for( let item of this.surveyData['fields'] ){
+              if( item['trigger'] && item['type'] == 'select' ){
+                for( let trig of item['trigger'] ){
+                  this.optsFilter[trig]['isTrigger'] = true
+                }
+              }
+            }
+
+            console.log(this.surveyData)
+            console.log(this.optsFilter)
 
           }, err => {
 
@@ -239,6 +256,28 @@ export class SurveyComponent implements OnInit {
 
   surveyHeight(){
     return document.getElementById('surveyDiv').clientHeight;
+  }
+
+  findIndex( arr, field, val ){
+    let i = 0;
+    for( let item of arr ){
+      if( item[field] == val ){
+        return i
+      }
+      i++
+    }
+    return -1
+  }
+
+  quickSet( arr ){
+    for( let item of arr ){
+      if( item ){
+        this.form.controls[item[0]].setValue(item[1])
+        this.resetChilds(item[0], item[1] )
+      }
+    }
+
+    this.filterValue = ''
   }
 
 }

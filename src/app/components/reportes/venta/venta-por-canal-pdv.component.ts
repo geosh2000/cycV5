@@ -31,6 +31,8 @@ export class VentaPorCanalPdvComponent implements OnInit {
   searchEnd:any
   soloVenta:boolean = false
   isPaq:boolean = true
+  isAsesor:boolean = false
+  isTotal:boolean = false
   prodLu:string
 
   loading:Object = {}
@@ -81,12 +83,14 @@ export class VentaPorCanalPdvComponent implements OnInit {
 
     this.loading['data'] = true
 
-    let sv = this.soloVenta ? 1 : ''
+    let sv = this.soloVenta ? 1 : 0
+    let as = this.isAsesor ? 1 : 0
+    let tot = this.isTotal ? 1 : 0
 
     let inicio = this.searchStart
     let fin = this.searchEnd
 
-    this._api.restfulGet( `${inicio}/${fin}/${sv}/${this.isPaq}`, 'venta/getVentaPorPDV')
+    this._api.restfulGet( `${inicio}/${fin}/${sv}/${this.isPaq}/${as}/${tot}`, 'venta/getVentaPorPDV')
             .subscribe( res =>{
               this.ventaData = res['data']
 
@@ -160,5 +164,9 @@ export class VentaPorCanalPdvComponent implements OnInit {
     let title = `ventaPorPDV (${sv}) - ${this.searchStart}a${this.searchEnd}`
 
     return title
+  }
+
+  coalesce(orig, repl){
+    return orig == null ? repl : orig
   }
 }
