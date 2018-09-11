@@ -76,6 +76,8 @@ import { CxcAplicablesComponent } from './components/cxc/cxc-aplicables/cxc-apli
 import { BitacoraComponent } from './components/monitors/bitacora/bitacora.component';
 import { SurveyComponent } from './components/formularios/survey/survey.component';
 import { SurveyReportComponent } from './components/reportes/survey-report/survey-report.component';
+import { HcControlComponent } from './components/hc/hc-control/hc-control.component';
+import { AltasBatchComponent } from './components/hc/altas-batch/altas-batch.component';
 
 
 const APP_ROUTES: Routes = [
@@ -89,19 +91,20 @@ const APP_ROUTES: Routes = [
   { path: 'detalle-asesores', component: DetalleAsesoresComponent },
   { path: 'detalle-asesores/:id', component: DetalleAsesoresComponent },
   { path: 'detalle-asesores/:id/:tipo', component: DetalleAsesoresComponent },
+  { path: 'altasBatch', component: AltasBatchComponent },
 
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'forecastProgramacion', component: ForecastProgramacionComponent },
 
   // Vacantes
-  { path: 'vacantes', component: VacantesComponent },
-  { path: 'vacantes/:type', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn/:area', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn/:area/:dep', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn/:area/:dep/:puesto', component: VacantesComponent },
-  { path: 'vacantes/:type/:udn/:area/:dep/:puesto/:alias', component: VacantesComponent },
+  { path: 'vacantes', component: HcControlComponent },
+  { path: 'vacantes/:type', component: HcControlComponent },
+  { path: 'vacantes/:type/:udn', component: HcControlComponent },
+  { path: 'vacantes/:type/:udn/:area', component: HcControlComponent },
+  { path: 'vacantes/:type/:udn/:area/:dep', component: HcControlComponent },
+  { path: 'vacantes/:type/:udn/:area/:dep/:puesto', component: HcControlComponent },
+  { path: 'vacantes/:type/:udn/:area/:dep/:puesto/:alias', component: HcControlComponent },
 
   // RRHH
   { path: 'aprobaciones_rrhh', component: AprobacionesComponent },

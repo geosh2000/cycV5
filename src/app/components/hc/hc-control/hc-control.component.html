@@ -1,0 +1,50 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+
+<div *ngIf="showContents">
+    <div class="container-fluid">
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">HeadCount</h1></span>
+                        <p class="lead">Plazas por Unidad de Negocio / Area / Departamento / Puesto</p>
+                    </div>
+                    <div>
+                        <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <div class='container'>
+                <div class="d-flex justify-content-end">
+                    <div class="mr-auto">
+                        <button type="button" class="ml-2 btn btn-sm btn-warning" (click)="downloadCSV( 'headCount' )" [disabled]="loading['dwl']">Descargar <span *ngIf="loading['dwl']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                        <button type="button" class="ml-2 btn btn-sm btn-success" (click)="showAddVacante()" *ngIf="_init.checkSingleCredential('hc_agregar_vacante')">Solicitar Vacante</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" [style.maxWidth.px]="1500">
+
+        <mat-tab-group dynamicHeight>
+            <mat-tab *ngFor="let op of data">
+                <ng-template mat-tab-label>
+                    <span [matBadge]="op['v']" matBadgeOverlap="false" matBadgeColor="warn" class="text-dark">{{ op['name'] }}: <small><span class="badge badge-primary badge-pill">{{ op['hc'] }}</span></small>
+                    </span>
+                </ng-template>
+                <div>
+
+                    <app-hc-udn [data]="op['udn']"></app-hc-udn>
+
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+
+    </div>
+
+    <app-add-vacante (save)="showMopers($event)"></app-add-vacante>
+</div>

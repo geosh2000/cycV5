@@ -204,6 +204,11 @@ import { CxcSendRhComponent } from './components/cxc/cxc-send-rh/cxc-send-rh.com
 import { SurveyComponent } from './components/formularios/survey/survey.component';
 import { SurvHistoricComponent } from './components/formularios/survey/surv-historic/surv-historic.component';
 import { SurveyReportComponent } from './components/reportes/survey-report/survey-report.component';
+import { HcControlComponent } from './components/hc/hc-control/hc-control.component';
+import { HcUdnComponent } from './components/hc/hc-control/hc-udn/hc-udn.component';
+import { HcPuestosComponent } from './components/hc/hc-control/hc-puestos/hc-puestos.component';
+import { AltasBatchComponent } from './components/hc/altas-batch/altas-batch.component';
+import { BatchAsesorFormComponent } from './components/hc/altas-batch/batch-asesor-form/batch-asesor-form.component';
 
 
 declare let jQuery: Object;
@@ -361,6 +366,11 @@ registerLocaleData(localeEsMX)
     SurveyComponent,
     SurvHistoricComponent,
     SurveyReportComponent,
+    HcControlComponent,
+    HcUdnComponent,
+    HcPuestosComponent,
+    AltasBatchComponent,
+    BatchAsesorFormComponent,
   ],
   imports: [
     BrowserModule,

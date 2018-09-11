@@ -1,57 +1,187 @@
-<form class="form-group" [formGroup]="formAddVacante" (ngSubmit)="submit()">
+<!-- Modal Add Vacante -->
+<div class="modal hide fade" id="form_addVacante" tabindex="-1" role="dialog" aria-labelledby="form_addVacante" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="form_addVacanteLabel">Solicitar Vacante</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-group" [formGroup]="formAddVacante" (ngSubmit)="submit()">
+                    <div class="row">
+                        <div class="col">
+                            <!-- MainDep -->
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label">Operación</label>
+                                <div class="col-8 input-group">
+                                    <select [ngClass]="{ 'is-invalid': !formAddVacante.controls['main'].valid && validateFlag}" class="custom-select" style="width: 100%" formControlName="main" (change)="selectChange( 'main', $event.target.value, true )">
+                                <option value="">Selecciona...</option>
+                                <option *ngFor="let item of dataCodes['main']" [value]="item['id']" >{{ item['nombre'] }}</option>
+                              </select>
+                                </div>
+                            </div>
 
-  <div class="form-group row" [ngClass]="{ 'has-danger': !formAddVacante.controls[item].valid && !formAddVacante.controls[item].pristine}" *ngFor="let item of formAddVacanteDetails | keys" >
-    <ng-container *ngIf="formAddVacanteDetails[item].set">
-      <label class="col-4 col-form-label">{{ formAddVacanteDetails[item].title | capitalizado }} <span *ngIf="formAddVacanteDetails[item].required">*</span></label>
-      <div class="col-8 input-group">
-        <span class="input-group-addon">
-          <i class="{{ formAddVacanteDetails[item].icon }}"></i>
-        </span>
-        <input
-          *ngIf="formAddVacanteDetails[item].tipo=='date'"
-          daterangepicker
-          [formControlName]="item"
-          [options]="singlePicker"
-          (selected)="setVal($event.start, item)"
-          class="form-control uneditable-input" type="text" value="" [readonly]="formAddVacanteDetails[item].readonly">
-        <input
-          *ngIf="formAddVacanteDetails[item].tipo=='text'"
-          [formControlName]="item"
-          class="form-control" type="text" value="" [readonly]="formAddVacanteDetails[item].readonly">
-        <select
-                *ngIf="formAddVacanteDetails[item].tipo=='select'"
-                class="custom-select" style="max-width: 257px; min-width: 257px;"
-                [formControlName]="item"
-                >
-          <option value="">Selecciona...</option>
-          <option *ngFor="let k of formAddVacanteDetails[item].list | keys" [ngValue]="formAddVacanteDetails[item].list[k]">{{ formAddVacanteDetails[item].list[k].name }}</option>
-        </select>
-      </div>
-      <div class="col-12 form-control-feedback" *ngIf="formAddVacante.controls[item].errors?.pattern && !formAddVacante.controls[item].pristine">
-        <div><small [innerHTML]="formAddVacanteDetails[item].pattern"></small></div>
-      </div>
-      <div class="col-12 form-control-feedback" *ngIf="formAddVacante.controls[item].errors?.required && !formAddVacante.controls[item].pristine">
-        <div><small>Campo Obligatorio</small></div>
-      </div>
-      <div class="col-12" *ngIf="item=='alias'">
-        <div class="text-right"><small>Código: {{ codigoSeleccionado }}</small></div>
-      </div>
-    </ng-container>
-  </div>
-  <div class="btn btn-block btn-outline-info" *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</div>
-  <div class="d-flex flex-row-reverse">
-    <button
-            [disabled]="formAddVacante.invalid || submitting"
-            type="submit"
-            [ngClass]="{ 'btn-outline-secondary': formAddVacante.invalid, 'btn-success': !formAddVacante.invalid }"
-            class="btn"
-            >Guardar <span  *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
-  </div>
-  <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
-    <span><strong>Hubo un error en el proceso</strong></span><br>
-    <span>
-      {{ errorMsg }}
-    </span><br>
-    <span>Por favor notifícalo a WFM</span>
-  </div>
-</form>
+                            <!-- UDN -->
+                            <div class="form-group row" *ngIf="formAddVacante.controls['main'].value != ''">
+                                <label class="col-4 col-form-label">UDN</label>
+                                <div class="col-8 input-group">
+                                    <select [ngClass]="{ 'is-invalid': !formAddVacante.controls['udn'].valid && validateFlag}" class="custom-select" style="width: 100%" formControlName="udn" (change)="selectChange( 'udn', $event.target.value )">
+                                <option value="">Selecciona...</option>
+                                <ng-container *ngFor="let item of dataCodes['udn']">
+                                  <option *ngIf="item['relate'] == formAddVacante.controls['main'].value" [value]="item['id']">{{ item['nombre'] }}</option>
+                                </ng-container>
+                              </select>
+                                </div>
+                            </div>
+
+                            <!-- Area -->
+                            <div class="form-group row" *ngIf="formAddVacante.controls['udn'].value != ''">
+                                <label class="col-4 col-form-label">Area</label>
+                                <div class="col-8 input-group">
+                                    <select [ngClass]="{ 'is-invalid': !formAddVacante.controls['area'].valid && validateFlag}" class="custom-select" style="width: 100%" formControlName="area" (change)="selectChange( 'area', $event.target.value )">
+                                <option value="">Selecciona...</option>
+                                <ng-container *ngFor="let item of dataCodes['area']">
+                                  <option *ngIf="item['relate'] == formAddVacante.controls['udn'].value" [value]="item['id']">{{ item['nombre'] }}</option>
+                                </ng-container>
+                              </select>
+                                </div>
+                            </div>
+
+                            <!-- Departamento -->
+                            <div class="form-group row" *ngIf="formAddVacante.controls['area'].value != ''">
+                                <label class="col-4 col-form-label">Departamento</label>
+                                <div class="col-8 input-group">
+                                    <select [ngClass]="{ 'is-invalid': !formAddVacante.controls['departamento'].valid && validateFlag}" class="custom-select" style="width: 100%" formControlName="departamento" (change)="selectChange( 'departamento', $event.target.value )">
+                                <option value="">Selecciona...</option>
+                                <ng-container *ngFor="let item of dataCodes['departamento']">
+                                  <option *ngIf="item['relate'] == formAddVacante.controls['area'].value" [value]="item['id']">{{ item['nombre'] }}</option>
+                                </ng-container>
+                              </select>
+                                </div>
+                            </div>
+
+                            <!-- Puesto -->
+                            <div class="form-group row" *ngIf="formAddVacante.controls['departamento'].value != ''">
+                                <label class="col-4 col-form-label">Puesto</label>
+                                <div class="col-8 input-group">
+                                    <select [ngClass]="{ 'is-invalid': !formAddVacante.controls['puesto'].valid && validateFlag}" class="custom-select" style="width: 100%" formControlName="puesto" (change)="selectChange( 'puesto', $event.target.value )">
+                                <option value="">Selecciona...</option>
+                                <ng-container *ngFor="let item of dataCodes['puesto']">
+                                  <option *ngIf="item['relate'] == formAddVacante.controls['departamento'].value" [value]="item['id']">{{ item['nombre'] }}</option>
+                                </ng-container>
+                              </select>
+                                </div>
+                            </div>
+
+                            <!-- Alias -->
+                            <div class="form-group row" *ngIf="formAddVacante.controls['puesto'].value != ''">
+                                <label class="col-4 col-form-label">Alias</label>
+                                <div class="col-8 input-group">
+                                    <select [ngClass]="{ 'is-invalid': !formAddVacante.controls['alias'].valid && validateFlag}" class="custom-select" style="width: 100%" formControlName="alias" (change)="selectChange( 'alias', $event.target.value )">
+                                <option value="">Selecciona...</option>
+                                <ng-container *ngFor="let item of dataCodes['alias']">
+                                  <option [value]="item['id']">{{ item['nombre'] }}</option>
+                                </ng-container>
+                              </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+
+                            <!-- Oficina -->
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label">Oficina</label>
+                                <div class="col-8 input-group">
+                                    <select [ngClass]="{ 'is-invalid': !formAddVacante.controls['oficina'].valid && validateFlag}" class="custom-select" style="width: 100%" formControlName="oficina" (change)="selectChange( 'oficina', $event.target.value)">
+                                <option value="">Selecciona...</option>
+                                <ng-container *ngFor="let item of dataPdvs">
+                                    <option [value]="item['id']" *ngIf="item['pais'] == selectedCountry">{{ item['nombre'] }}</option>
+                                </ng-container>
+                              </select>
+                                </div>
+                            </div>
+
+                            <!-- Esquema -->
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label">Esquema</label>
+                                <div class="col-8 input-group">
+                                    <input [ngClass]="{ 'is-invalid': !formAddVacante.controls['esquema'].valid && validateFlag}" class="form-control" type="text" formControlName="esquema">
+                                    <p style="font-size: xx-small" class="is-invalid" *ngIf="!formAddVacante.controls['esquema'].valid && validateFlag">{{ formAddVacanteDetails['esquema']['pattern'] }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Inicio -->
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label">Inicio</label>
+                                <div class="col-8 input-group">
+                                    <input [ngClass]="{ 'is-invalid': !formAddVacante.controls['inicio'].valid && validateFlag}" daterangepicker formControlName="inicio" [options]="singlePicker" (selected)="setVal($event.start, 'inicio')" class="form-control uneditable-input" type="text">
+                                </div>
+                            </div>
+
+                            <!-- Fin -->
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label">Fin</label>
+                                <div class="col-8 input-group">
+                                    <input [ngClass]="{ 'is-invalid': !formAddVacante.controls['fin'].valid && validateFlag}" daterangepicker formControlName="fin" [options]="singlePicker" (selected)="setVal($event.start, 'fin')" class="form-control uneditable-input" type="text">
+                                </div>
+                            </div>
+
+                            <!-- Comentarios -->
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label">Comentarios</label>
+                                <div class="col-8 input-group">
+                                    <input [ngClass]="{ 'is-invalid': !formAddVacante.controls['comentarios'].valid && validateFlag}" class="form-control" type="text" formControlName="comentarios">
+                                </div>
+                            </div>
+
+                            <!-- Cantidad -->
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label">Cantidad</label>
+                                <div class="col-8 input-group">
+                                    <input [ngClass]="{ 'is-invalid': !formAddVacante.controls['cantidad'].valid && validateFlag}" class="form-control" type="text" formControlName="cantidad">
+                                    <p style="font-size: xx-small" class="is-invalid" *ngIf="!formAddVacante.controls['cantidad'].valid && validateFlag">{{ formAddVacanteDetails['cantidad']['pattern'] }}</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- <input *ngIf="formAddVacanteDetails[item].tipo=='date'" daterangepicker [formControlName]="item" [options]="singlePicker" (selected)="setVal($event.start, item)" class="form-control uneditable-input" type="text" value="" [readonly]="formAddVacanteDetails[item].readonly">
+                                <input *ngIf="formAddVacanteDetails[item].tipo=='text'" [formControlName]="item" class="form-control" type="text" value="" [readonly]="formAddVacanteDetails[item].readonly">
+                      <select *ngIf="formAddVacanteDetails[item].tipo=='select'" class="custom-select" style="max-width: 257px; min-width: 257px;" [formControlName]="item" (change)="selectChange( item, $event.target.value )">
+                        <option value="">Selecciona...</option>
+                        <option *ngFor="let k of formAddVacanteDetails[item].list | keys" [ngValue]="formAddVacanteDetails[item].list[k]">{{ formAddVacanteDetails[item].list[k].name }}</option>
+                      </select>
+                            </div>
+                            <div class="col-12 form-control-feedback" *ngIf="formAddVacante.controls[item].errors?.pattern && !formAddVacante.controls[item].pristine">
+                                <div><small [innerHTML]="formAddVacanteDetails[item].pattern"></small></div>
+                            </div>
+                            <div class="col-12 form-control-feedback" *ngIf="formAddVacante.controls[item].errors?.required && !formAddVacante.controls[item].pristine">
+                                <div><small>Campo Obligatorio</small></div>
+                            </div>
+                            <div class="col-12" *ngIf="item=='alias'">
+                                <div class="text-right"><small>Código: {{ codigoSeleccionado }}</small></div>
+                            </div>
+                        </ng-container>
+                    </div> -->
+                    <div class="btn btn-block btn-outline-info" *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</div>
+                    <div class="d-flex flex-row-reverse">
+                        <button [disabled]="submitting" type="submit" class="btn btn-outline-success">Guardar <span  *ngIf="submitting"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></button>
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
+                        <span><strong>Hubo un error en el proceso</strong></span><br>
+                        <span>
+                    {{ errorMsg }}
+                  </span><br>
+                        <span>Por favor notifícalo a WFM</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

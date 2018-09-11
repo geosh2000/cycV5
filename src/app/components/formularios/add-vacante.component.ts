@@ -21,28 +21,38 @@ export class AddVacanteComponent implements OnInit {
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
 
   formAddVacante:FormGroup
+  dataCodes:Object = {}
+  dataPdvs:any = []
 
-  formAddVacanteDetails:Object = {
-    udn:            { tipo: 'select', set: false, value: '', list: [1], title: "UDN",          required: true, readonly: false, pattern: ''},
-    area:           { tipo: 'select', set: false, value: '', list: [1], title: "Area",         required: true, readonly: false, pattern: ''},
-    departamento:   { tipo: 'select', set: false, value: '', list: [1], title: "Departamento", required: true, readonly: false, pattern: ''},
-    puesto:         { tipo: 'select', set: false, value: '', list: [1], title: "Puesto",       required: true, readonly: false, pattern: ''},
-    alias:          { tipo: 'select', set: false, value: '', list: [1], title: "Alias",        required: true, readonly: false, pattern: ''},
-    oficina:        { tipo: 'select', set: false, value: '', list: [1], title: "PDV/Oficina",  required: true, readonly: false, pattern: ''},
-    esquema:        { tipo: 'text',   set: true,  value: '', list: [1], title: "Esquema",      required: true, readonly: false, pattern: '4, 6, 8 o 10'},
-    inicio:         { tipo: 'date',   set: true,  value: '', list: [1], title: "Inicio",       required: true, readonly: false, pattern: ''},
-    fin:            { tipo: 'date',   set: true,  value: '', list: [1], title: "Fin",          required: false,readonly: false, pattern: ''},
-    comentarios:    { tipo: 'text',   set: true,  value: '', list: [1], title: "Comentarios",  required: false,readonly: false, pattern: ''},
-    cantidad:       { tipo: 'text',   set: true,  value: '', list: [1], title: "Cantidad",     required: true, readonly: false, pattern: 'Número del 1 al 10'}
+  selectedCountry:any = ''
+  validateFlag:boolean = false
+
+  formAddVacanteDetails:Object = {}
+  formAddVacanteDetailsDefault:Object = {
+    main:           { tipo: 'select', set: true, value: '', list: [1], title: 'mainDep',      required: true, readonly: false, pattern: ''},
+    udn:            { tipo: 'select', set: false, value: '', list: [1], title: 'UDN',          required: true, readonly: false, pattern: ''},
+    area:           { tipo: 'select', set: false, value: '', list: [1], title: 'Area',         required: true, readonly: false, pattern: ''},
+    departamento:   { tipo: 'select', set: false, value: '', list: [1], title: 'Departamento', required: true, readonly: false, pattern: ''},
+    dep:            { tipo: 'text',   set: false, value: '', list: [1], title: 'dep',           required: true, readonly: false, pattern: ''},
+    puesto:         { tipo: 'select', set: false, value: '', list: [1], title: 'Puesto',       required: true, readonly: false, pattern: ''},
+    alias:          { tipo: 'select', set: false, value: '', list: [1], title: 'Alias',        required: true, readonly: false, pattern: ''},
+    oficina:        { tipo: 'select', set: false, value: '', list: [1], title: 'PDV/Oficina',  required: true, readonly: false, pattern: ''},
+    esquema:        { tipo: 'text',   set: true,  value: '', list: [1], title: 'Esquema',      required: true, readonly: false, pattern: '4, 6, 8 o 10'},
+    inicio:         { tipo: 'date',   set: true,  value: '', list: [1], title: 'Inicio',       required: true, readonly: false, pattern: ''},
+    fin:            { tipo: 'date',   set: true,  value: '', list: [1], title: 'Fin',          required: false,readonly: false, pattern: ''},
+    comentarios:    { tipo: 'text',   set: true,  value: '', list: [1], title: 'Comentarios',  required: true, readonly: false, pattern: ''},
+    ciudad:         { tipo: 'text',   set: false, value: '', list: [1], title: 'Ciudad',       required: true, readonly: false, pattern: ''},
+    cantidad:       { tipo: 'text',   set: true,  value: '', list: [1], title: 'Cantidad',     required: true, readonly: false, pattern: 'Número del 1 al 10'}
   }
 
   defaults:Object = {
-    udn:            { id: '' },
-    area:           { id: '' },
-    departamento:   { id: '' },
-    puesto:         { id: '' },
-    alias:          { id: '', codigo: '' },
-    oficina:        { id: '' },
+    main:           '',
+    udn:            '',
+    area:           '',
+    departamento:   '',
+    puesto:         '',
+    alias:          '',
+    oficina:        '',
     esquema:        '8',
     inicio:         '',
     fin:            '',
@@ -56,13 +66,13 @@ export class AddVacanteComponent implements OnInit {
   currentUser:any
 
   saveAlert:boolean = false
-  errorMsg:string = ""
-  codigoSeleccionado:string = ""
+  errorMsg:string = ''
+  codigoSeleccionado:string = ''
 
   public singlePicker = {
     singleDatePicker: true,
     showDropdowns: true,
-    opens: "left"
+    opens: 'left'
   }
 
   constructor(
@@ -76,135 +86,75 @@ export class AddVacanteComponent implements OnInit {
 
       this.formAddVacante = new FormGroup({
         creador:      new FormControl(currentUser.hcInfo.id, [ Validators.required ]),
-        udn:          new FormControl({ id: '' }, [ this.customRequired ]),
-        area:         new FormControl({ id: '' }, [ this.customRequired ]),
-        departamento: new FormControl({ id: '' }, [ this.customRequired ]),
-        puesto:       new FormControl({ id: '' }, [ this.customRequired ]),
-        alias:        new FormControl({ id: '', codigo: '' }, [ this.customRequired ]),
-        oficina:      new FormControl({ id: '' }, [ this.customRequired ]),
-        esquema:      new FormControl( 8,         [ Validators.required, Validators.pattern("^([4]{1}$|[6]{1}$|[8]{1}$|[1]{1}[0]{1}$)") ]),
-        inicio:       new FormControl( '',        [ Validators.required, Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
-        fin:          new FormControl( '',        [ Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
+        main:         new FormControl( '', [ Validators.required ]),
+        udn:          new FormControl( '', [ Validators.required ]),
+        area:         new FormControl( '', [ Validators.required ]),
+        departamento: new FormControl( '', [ Validators.required ]),
+        dep:          new FormControl( '', [ Validators.required ]),
+        puesto:       new FormControl( '', [ Validators.required ]),
+        alias:        new FormControl( '', [ Validators.required ]),
+        oficina:      new FormControl( '', [ Validators.required ]),
+        ciudad:       new FormControl( '', [ Validators.required ]),
+        esquema:      new FormControl( 8,         [ Validators.required, Validators.pattern('^([4]{1}$|[6]{1}$|[8]{1}$|[1]{1}[0]{1}$)') ]),
+        inicio:       new FormControl( '',        [ Validators.required, Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
+        fin:          new FormControl( '',        [ Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
         comentarios:  new FormControl( '' ),
-        cantidad:     new FormControl( 1,         [ Validators.required , Validators.pattern("^([1-9]{1}$|[1]{1}[0]{1}$)") ]),
+        cantidad:     new FormControl( 1,         [ Validators.required , Validators.pattern('^([1-9]{1}$|[1]{1}[0]{1}$)') ]),
       })
 
-      //UDN Change
-      this.formAddVacante.controls['udn'].valueChanges.subscribe( res => {
-        if(res.id == '' || res == ''){
-          this.deactivate(['area','departamento', 'puesto', 'alias'])
-        }else{
-          this.getCodigos( 'Area' )
-        }
-      })
-
-      //area Change
-      this.formAddVacante.controls['area'].valueChanges.subscribe( res => {
-        if(res.id == '' || res == ''){
-          this.deactivate(['departamento', 'puesto', 'alias'])
-        }else{
-          this.getCodigos( 'Departamento' )
-        }
-      })
-
-      //departamento Change
-      this.formAddVacante.controls['departamento'].valueChanges.subscribe( res => {
-        if(res.id == '' || res == ''){
-          this.deactivate(['puesto', 'alias'])
-        }else{
-          this.getCodigos( 'Puesto' )
-        }
-      })
-
-      //puesto Change
-      this.formAddVacante.controls['puesto'].valueChanges.subscribe( res => {
-        if(res.id == '' || res == ''){
-          this.deactivate(['alias'])
-        }else{
-          this.getCodigos( 'Alias' )
-        }
-      })
-
-      //alias Change
-      this.formAddVacante.controls['alias'].valueChanges.subscribe( res => {
-        this.codigoSeleccionado = res.codigo
-      })
+      this.formAddVacanteDetails = JSON.parse(JSON.stringify(this.formAddVacanteDetailsDefault))
+      this.getCodigos()
+      this.getPdvs()
   }
 
   buildForm(){
+    this.formAddVacanteDetails = JSON.parse(JSON.stringify(this.formAddVacanteDetailsDefault))
     this.formAddVacante.reset( this.defaults )
-    this.getCodigos( 'UDN' )
-    this.getPdvs()
+    this.selectedCountry = ''
+    this.validateFlag = false
+    jQuery('#form_addVacante').modal('show');
   }
 
   getPdvs(){
-    this._api.restfulGet( '', `Headcount/listPdvs` )
-            .subscribe( res=> {
+    this._api.restfulGet( '', `Headcount/hcListPdvs` )
+              .subscribe( res => {
 
-              this.formAddVacanteDetails['oficina'].set = true
+                this.loading = false
+                this.dataPdvs =  res['data']
 
-              if(res['status']){
+              }, err => {
 
-                this.formAddVacanteDetails['oficina'].list = res['data']
+                console.log('ERROR', err)
 
-              }else{
-                console.error( res )
-              }
-            })
+                this.loading = false
+
+                let error = err.json()
+                this.toastr.error( error.msg, err.statusText )
+                console.error(err.statusText, error.msg)
+
+              })
   }
 
-  getCodigos( level ){
-
+  getCodigos(){
     this.loading = true
-    let params:string
-    let index:string
 
-    switch(level){
-      case 'UDN':
-        index = "udn"
-        params = ""
-        this.activate('udn')
-        this.deactivate(['area','departamento', 'puesto', 'alias'])
-        break
-      case 'Area':
-        index = "area"
-        params = `${this.formAddVacante.controls['udn'].value.id}`
-        this.activate('area')
-        this.deactivate(['departamento', 'puesto', 'alias'])
-        break
-      case 'Departamento':
-        index = "departamento"
-        this.activate('departamento')
-        this.deactivate(['puesto', 'alias'])
-        params = `${this.formAddVacante.controls['udn'].value.id}/${this.formAddVacante.controls['area'].value.id}`
-        break
-      case 'Puesto':
-        index = "puesto"
-        this.activate('puesto')
-        this.deactivate(['alias'])
-        params = `${this.formAddVacante.controls['udn'].value.id}/${this.formAddVacante.controls['area'].value.id}/${this.formAddVacante.controls['departamento'].value.id}`
-        break
-      case 'Alias':
-        index = "alias"
-        this.activate('alias')
-        params = `${this.formAddVacante.controls['udn'].value.id}/${this.formAddVacante.controls['area'].value.id}/${this.formAddVacante.controls['departamento'].value.id}/${this.formAddVacante.controls['puesto'].value.id}`
-        break
-    }
+    this._api.restfulGet( '', `Headcount/hcListCodes` )
+              .subscribe( res => {
 
-    this._api.restfulGet( '', `Headcount/listPuestos/${ index }/${ params }` )
-            .subscribe( res=> {
+                this.loading = false
+                this.dataCodes =  res['data']
 
-              this.loading = false
-              this.formAddVacanteDetails[index].set = true
+              }, err => {
 
-              if(res['status']){
+                console.log('ERROR', err)
 
-                this.formAddVacanteDetails[index].list = res['data']
+                this.loading = false
 
-              }else{
-                console.error( res )
-              }
-            })
+                let error = err.json()
+                this.toastr.error( error.msg, err.statusText )
+                console.error(err.statusText, error.msg)
+
+              })
   }
 
   deactivate( array ){
@@ -223,30 +173,94 @@ export class AddVacanteComponent implements OnInit {
   ngOnInit() {
   }
 
-  submit(){
+  selectChange( target, val, pais? ){
+    let fields = {
+      'main'         : ['udn','area','departamento','puesto','alias','oficina'],
+      'udn'          : ['area','departamento','puesto','alias'],
+      'area'         : ['departamento','puesto','alias'],
+      'departamento' : ['puesto','alias'],
+      'puesto'       : ['alias'],
+      'alias'        : []
+    }
+
+    if( fields[target] ){
+      let i = 0
+      for( let item of fields[target] ){
+        this.formAddVacante.controls[item].reset('')
+        if( val != '' && i == 0 ){
+          this.formAddVacanteDetails[item]['set'] = true
+        }else{
+          this.formAddVacanteDetails[item]['set'] = false
+        }
+        i++
+      }
+    }
+
+    if( pais ){
+      for( let main of this.dataCodes['main'] ){
+        if( main['id'] == val ){
+          this.selectedCountry = main['pais']
+          return true
+        }
+      }
+    }
+
+    if( target == 'oficina' ){
+      for( let ofs of this.dataPdvs ){
+        if( ofs['id'] == val ){
+          this.formAddVacante.controls['ciudad'].setValue(ofs['branchZoneId'])
+          return true
+        }
+      }
+    }
+
+    if( target == 'departamento' ){
+      for( let dp of this.dataCodes['departamento'] ){
+        if( dp['id'] == val ){
+          this.formAddVacante.controls['dep'].setValue(dp['pcrc'])
+          return true
+        }
+      }
+    }
+  }
+
+  saveForm(){
     this.submitting = true
 
-    this._api.restfulPut(this.formAddVacante.value, 'Headcount/addVacante')
+    this._api.restfulPut(this.formAddVacante.value, 'Headcount/hcAddVacante')
             .subscribe( res => {
               this.submitting = false
-              if( res['status'] ){
 
-                this.save.emit({form: "#form_addVacante", status: true, mopers: res['ids_vacantes']})
                 this.formAddVacante.reset( this.defaults )
+                this.save.emit({mopers: res['data']})
+                jQuery('#form_addVacante').modal('hide');
 
-              }else{
-                this.saveAlert = true
-                this.errorMsg = `code: ${res['msg'].code} error: ${res['msg'].message}`
-                console.error( res )
-              }
+            }, err => {
+
+              console.log('ERROR', err)
+
+              this.loading = false
+
+              let error = err.json()
+              this.toastr.error( error.msg, err.statusText )
+              console.error(err.statusText, error.msg)
+
             })
   }
 
-  setVal( val, control ){
-    this.formAddVacante.controls[control].setValue( val.format("YYYY-MM-DD") )
+  submit(){
+    this.validateFlag = true
+
+    if( this.formAddVacante.valid ){
+      this.saveForm()
+    }
   }
 
-  //Validación Check
+  setVal( val, control ){
+    this.formAddVacante.controls[control].setValue( val.format('YYYY-MM-DD') )
+  }
+
+  // Validación Check
   customRequired( control: FormControl ): { [s:string]:boolean }{
 
     if( control.value == '' || control.value.id == '' ){

@@ -99,7 +99,7 @@ export class CambioPdvComponent implements OnInit {
 
     if(this.currentUser != null){
       let currentUser = this.currentUser
-      this.dataServicePdv = this.completerService.remote(`${ Globals.APISERV }/api/restful/index.php/Asesores/PDVSelect/?token=${currentUser.token}&usn=${currentUser.username}&term=`, 'Ciudad,PDV', 'PDV')
+      this.dataServicePdv = this.completerService.remote(`${ Globals.APISERV }/api/${Globals.APIFOLDER}/index.php/Asesores/PDVSelect/?token=${currentUser.token}&usn=${currentUser.username}&term=`, 'Ciudad,PDV', 'PDV')
     }
 
     // console.log(this.selectedAsesor)

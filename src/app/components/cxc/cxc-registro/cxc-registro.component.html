@@ -69,7 +69,11 @@
                     <ui-switch color="green" size="small" [(ngModel)]="resumed" (change)="getCxc( $event ? false : true, false, $event )"></ui-switch>
                     <p><small>Resumido</small></p>
                 </div>
+                <div class='p-1 text-center'>
+                    <button class="btn btn-info" (click)="dwlFormat()">Descargar Formato</button>
+                </div>
             </div>
+            <iframe id="dwlFrame" src="assets/img/bePriceBCO.png" style="display:none;"></iframe>
         </div>
 
         <div class='container-fluid' *ngIf="data && data.length > 0">

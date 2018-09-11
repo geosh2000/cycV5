@@ -1,0 +1,35 @@
+<div class="container-fluid pl-0 pr-0">
+    <mat-tab-group dynamicHeight>
+        <mat-tab *ngFor="let op of data">
+            <ng-template mat-tab-label>
+                <span [matBadge]="op['v']" matBadgeOverlap="false" matBadgeColor="warn" class="text-dark">{{ op['name'] }}: <small><span class="badge badge-primary badge-pill">{{ op['hc'] }}</span></small>
+                </span>
+            </ng-template>
+            <div class="container-fluid">
+                <div class="d-flex justify-content-center flex-wrap pt-4">
+
+                    <div class="card m-2" [style.width.px]="450" *ngFor="let area of op['area']">
+                        <div class="card-header d-flex justify-content-between">
+                            <div [style.width.px]="450" style="display: inline">
+                                <h3 class="text-wrap align-middle">{{ area['name'] }}</h3>
+                                <small>{{ area['clave'] }}</small>
+                            </div>
+                            <div class="p-1 text-right">
+                                <small><span [style.width.px]="45" class="badge badge-primary badge-pill">HC: {{ area['hc'] }}</span></small>
+                                <small><span [style.width.px]="45" class="badge badge-success badge-pill">C: {{ area['c'] }}</span></small>
+                                <small><span [style.width.px]="45" class="badge badge-danger badge-pill">V: {{ area['v'] }}</span></small>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+
+                            <app-hc-puestos [data]="area['dep']" [index]="area['id']"></app-hc-puestos>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

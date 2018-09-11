@@ -128,12 +128,6 @@ export class CxcRegistroComponent implements OnInit {
             jQuery('#loginModal').modal('show');
           }
         })
-
-    this.activatedRoute.params.subscribe( params => {
-      if( params.id ){
-        // this.selected['id']     = params.id
-      }
-    });
   }
 
   ngOnInit() {
@@ -354,6 +348,10 @@ export class CxcRegistroComponent implements OnInit {
       this.updateRegs( 'cxcIdLink', event.id, 'status', 2 )
       this.toastr.success('Cxc Aplicado', 'Guardado')
     }
+  }
+
+  dwlFormat(){
+    jQuery('#dwlFrame').attr( 'src', 'assets/formats/cxc.docx')
   }
 
 }

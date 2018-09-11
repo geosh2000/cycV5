@@ -12,6 +12,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix Menu al abrir opciones (.2003)
 * Fix Excel Download (file type) (.2005)
 
+### Altas en grupo
+* Módulo de altas con template de xlsx (.2009)
+* Detección de reingresos con opción de modificación de datos (.2009)
+* Detección de asesores existentes (sin baja) (.2009)
+* Optimización de selección de posiciones a ocupar (.2009)
+* Carga en serie (evita duplicidades) (.2009)
+
 ### Cambios de Turno
 * Nuevo módulo de cambios de turno (.2003)
 * Información de cambios en el mes (.2003)
@@ -21,6 +28,12 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### CxC
 * Implementación de no. de quincenas al enviar a RRHH (.2004)
 * Corrección de Layout descargable por quincenas (.2004)
+
+### HeadCount
+* Nueva vista con mejor rendimiento (.2008)
+* Integración de "MainDep" para distinción de operaciones (.2008)
+* Modificación de solicitud de vacantes con país y módulos según catálogo (.2008)
+* Estandarización de zonas de acuerdo a catálogos de BI (.2008)
 
 ### SearchAsesor Module
 * Fix filtro por udn/area/dep/puesto (.2002)

@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as Globals from '../globals';
-import { Observable } from 'rxjs';
-import { map, catchError } from "rxjs/operators"
+import { map, catchError } from 'rxjs/operators'
 
 @Injectable()
 export class ApiService {
@@ -35,7 +34,7 @@ export class ApiService {
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
         .pipe(
-           map( res => { return res } )
+           map( res => res )
         )
   }
 
@@ -50,7 +49,7 @@ export class ApiService {
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
         .pipe(
-           map( res => { return res } )
+           map( res => res )
         )
 
   }
@@ -75,7 +74,7 @@ export class ApiService {
 
     return this.http.put( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
         .pipe(
-           map( res => { return res } )
+           map( res => res )
         )
   }
 
@@ -93,7 +92,7 @@ export class ApiService {
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
         .pipe(
-           map( res => { return res } )
+           map( res => res )
         )
   }
 
@@ -106,7 +105,7 @@ export class ApiService {
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, params )
         .pipe(
-           map( res => { return res } )
+           map( res => res )
         )
   }
 
@@ -123,7 +122,7 @@ export class ApiService {
 
     return this.http.delete( urlOK.changingThisBreaksApplicationSecurity, { headers } )
         .pipe(
-           map( res => { return res } )
+           map( res => res )
         )
   }
 
@@ -140,7 +139,23 @@ export class ApiService {
 
     return this.http.get( urlOK.changingThisBreaksApplicationSecurity, { headers } )
         .pipe(
-           map( res => { return res } )
+           map( res => res )
+        )
+  }
+
+  getFile( id, apiRoute, test = false ){
+
+    let url = test ? '/assets/test.xlsx' : `${ Globals.APISERV }/${ apiRoute }/${ id }`
+
+    let urlOK = this.transform( url )
+
+    let headers = new HttpHeaders({
+      'Content-Type':'application/json'
+    });
+
+    return this.http.get( urlOK.changingThisBreaksApplicationSecurity, { responseType: 'arraybuffer'  } )
+        .pipe(
+           map( res => res )
         )
   }
 
@@ -157,7 +172,7 @@ export class ApiService {
 
     return this.http.get( urlOK.changingThisBreaksApplicationSecurity, { headers } )
         .pipe(
-           map( res => { return res } )
+           map( res => res )
         )
   }
 
@@ -173,7 +188,7 @@ export class ApiService {
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers: headers } )
         .pipe(
-           map( res => { return res } )
+           map( res => res )
         )
   }
 

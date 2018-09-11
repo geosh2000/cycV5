@@ -23,7 +23,7 @@
     <div class='container-fluid' *ngIf="formReady">
         <div class="container">
             <div class="row">
-                <div class="col-7" id='surveyDiv'>
+                <div [ngClass]="{'col-7': surveyData['master']['quickDisplay'] == '1', 'col-12': surveyData['master']['quickDisplay'] != '1'}" id='surveyDiv'>
                     <form class="form-group" [formGroup]="form" (ngSubmit)="saveForm()">
                         <ng-container *ngFor="let field of surveyData['fields']">
                             <ng-container *ngIf="field['showStart'] == '1' || (field['parent'] && field['trigger'] && field['trigger'].indexOf( parse(form.value[field['parent']])) >= 0)">
@@ -38,7 +38,7 @@
                                     <ng-container *ngIf="field['type'] == 'select'">
                                         <div class="col-sm-8">
                                             <select [ngClass]="{'is-invalid': (!form.controls[field['id']].valid && form.controls[field['id']]['errors']['pattern']) || (validateFlag && !form.controls[field['id']].valid && form.controls[field['id']]['errors']['required'])}" [formControlName]="field['id']"
-                                                (change)="resetChilds(field['id'], $event.target.value )" class="custom-select col-sm-10" id="f_{{ field['id'] }}" name="n_{{ field['id'] }}">
+                                                (change)="resetChilds(field['id'], $event.target.value )" style="max-width:100%" class="custom-select col-sm-10" id="f_{{ field['id'] }}" name="n_{{ field['id'] }}">
                                     <option value=''>Selecciona...</option>
                                     <ng-container *ngFor="let opt of field['opts']">
                                     <option [value]="opt['id']" *ngIf="opt['showAlways'] == '1' || (field['parent'] && parse(opt['showIF']) == form.value[field['parent']])">{{ opt['name'] }}</option>
@@ -67,7 +67,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-5">
+                <div class="col-5" *ngIf="surveyData['master']['quickDisplay'] == '1'">
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputFilter">Filtro</span>
