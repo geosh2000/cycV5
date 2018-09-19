@@ -224,7 +224,7 @@
                     <select class="form-control" [ngClass]="{'is-invalid': !form.controls['vacante'].valid}" (change)="onVacSelect($event.target.value, i)" formControlName="vacante" id="vacante_{{ i }}">
                     <option value=''>Selecciona...</option>
                     <ng-container *ngFor="let it of vacantes">
-                      <option [value]="it.idMove" *ngIf="(selectedVac.indexOf( it.vacante ) == -1 || (selectedVac.indexOf( it.vacante ) > -1 && it.vacante == form.controls['vacante'].value))&& it.pais == form.controls['Pais'].value && validateDateIn(form.controls['Ingreso'].value, it['lastOut'])">
+                      <option [value]="it.idMove" *ngIf="(selectedVac.indexOf( it.idMove ) == -1 || (selectedVac.indexOf( it.idMove ) > -1 && it.idMove == form.controls['vacante'].value))&& it.pais == form.controls['Pais'].value && validateDateIn(form.controls['Ingreso'].value, it['lastOut'])">
                       {{ it['Dep'] }} - {{ it['Ciudad'] }} - {{ it['Oficina'] }} - {{ it['Puesto'] }} - {{ it['COPC'] }} ({{ it['lastOut'] }} -> {{ it['lastName'] ? it['lastName'] : 'Nueva Plaza' }})
                       </option>
                     </ng-container>

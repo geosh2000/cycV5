@@ -4,17 +4,34 @@ import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
 
 import { ApiService } from '../../services/service.index';
 
+@Injectable()
+export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
+
+  fromModel(date: string): NgbDateStruct {
+
+    let tmp = new Date(parseInt(moment(date).format('YYYY')), parseInt(moment(date).format('MM')), parseInt(moment(date).format('DD')))
+
+    return (date && tmp.getFullYear) ? {year: tmp.getFullYear(), month: tmp.getMonth(), day: tmp.getDate()} : null;
+  }
+
+  toModel(date: NgbDateStruct): string {
+    // return date ? new Date(date) : null;
+    return date ? moment({year: date.year, month: date.month - 1, day:date.day}).format('YYYY-MM-DD') : null;
+  }
+}
+
 @Component({
   selector: 'app-add-asesor',
   templateUrl: './add-asesor.component.html',
-  styleUrls: []
+  styleUrls: [],
+  providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 })
 export class AddAsesorComponent implements OnChanges {
 
@@ -44,7 +61,7 @@ export class AddAsesorComponent implements OnChanges {
   }
 
   cambioPuesto = {
-    fecha_solicitud: ''
+    fecha_solicitud: ""
   };
 
   asesorDetailsForm:any = [
@@ -54,21 +71,20 @@ export class AddAsesorComponent implements OnChanges {
     { name: 'profile',          showName: 'profile',          tipo: 'select',   icon: 'fas fa-key fa-fw',       show: true,   readonly: false,  pattern: ''},
     { name: 'num_colaborador',  showName: 'número_colaborador',  tipo: 'text',     icon: 'far fa-address-card fa-fw',     show: true,   readonly: false,  pattern: 'El número de colaborador está compuesto por 8 dígitos'},
     { name: 'Fecha_Nacimiento', showName: 'Fecha de Nacimiento', tipo: 'date',     icon: 'fas fa-birthday-cake fa-fw',     show: true,   readonly: false,  pattern: 'Debe coincidir con el formato YYYY-MM-DD'},
-    { name: 'cedula',           showName: 'Cedula',             tipo: 'text',     icon: 'far fa-address-card fa-fw',           show: true,  readonly: false,  pattern: 'Debe coincidir con el formato de la cédula'},
     { name: 'tipo_contrato',    showName: 'tipo de contrato',    tipo: 'select2',  icon: 'fa fa-indent fa-fw',             show: true,   readonly: false,  pattern: ''},
-    { name: 'RFC',     showName: 'fin de contrato',     tipo: 'date',     icon: 'fa fa-calendar fa-fw',           show: false,  readonly: false,  pattern: 'Debe coincidir con el formato YYYY-MM-DD'},
+    { name: 'fin_contrato',     showName: 'fin de contrato',     tipo: 'date',     icon: 'fa fa-calendar fa-fw',           show: false,  readonly: false,  pattern: 'Debe coincidir con el formato YYYY-MM-DD'},
   ]
 
   public singlePicker = {
     singleDatePicker: true,
     showDropdowns: true,
-    opens: 'left',
+    opens: "left",
     ranges: {
                'Today': [moment(), moment()]
             }
   }
 
-  // Populate lists
+  //Populate lists
   listOptions = {
     ciudad: [],
     oficina: [],
@@ -76,10 +92,10 @@ export class AddAsesorComponent implements OnChanges {
     puesto: []
   }
 
-  // Populate lists
+  //Populate lists
   listContrato = [
-    {id: 1, name: 'Temporal'},
-    {id: 2, name: 'Indefinido'}
+    {id: 1, name: "Temporal"},
+    {id: 2, name: "Indefinido"}
   ]
 
 
@@ -105,25 +121,24 @@ export class AddAsesorComponent implements OnChanges {
 
       this._dateRangeOptions.settings = {
         autoUpdateInput: false,
-        locale: { format: 'YYYY-MM-DD' }
+        locale: { format: "YYYY-MM-DD" }
       }
 
       this.formAddAsesor = new FormGroup({
-        num_colaborador:    new FormControl('', [                       Validators.pattern('^[0-9]{8}$') ] ),
-        nombre:             new FormControl('', [ Validators.required,  Validators.pattern('^[A-ZÁÉÍÓÚ]{1}[a-záéíóú]+([ ]{1}([A-ZÁÉÍÓÚ]{1}[a-záéíóú]+|[d]{1}[e]{1}[l]{0,1})){0,3}$') ] ),
-        apellido:           new FormControl('', [ Validators.required,  Validators.pattern('^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[ ]{1}[a-záéíóúñ]{2,3}){0,5}$') ] ),
-        nombre_corto:       new FormControl('', [ Validators.required,  Validators.pattern('^[A-Z]{1}[a-z]* [A-Z]{1}[a-z]*$') ], this.userExists.bind(this) ),
+        num_colaborador:    new FormControl('', [                       Validators.pattern("^[0-9]{8}$") ] ),
+        nombre:             new FormControl('', [ Validators.required,  Validators.pattern("^[A-ZÁÉÍÓÚ]{1}[a-záéíóú]+([ ]{1}([A-ZÁÉÍÓÚ]{1}[a-záéíóú]+|[d]{1}[e]{1}[l]{0,1})){0,3}$") ] ),
+        apellido:           new FormControl('', [ Validators.required,  Validators.pattern("^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[ ]{1}[a-záéíóúñ]{2,3}){0,5}$") ] ),
+        nombre_corto:       new FormControl('', [ Validators.required,  Validators.pattern("^[A-Z]{1}[a-z]* [A-Z]{1}[a-z]*$") ], this.userExists.bind(this) ),
         profile:            new FormControl('', [ Validators.required ] ),
-        fechaCambio:        new FormControl('', [ Validators.required,  Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
-        fin_contrato:       new FormControl('', [ Validators.required,  Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
-        Fecha_Nacimiento:   new FormControl('', [ Validators.required,  Validators.pattern('^([2]{1}[0]{1}[0-2]{1}[0-9]{1})|([1]{1}[9]{1}[0-9]{1}[0-9]{1})[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
-        RFC:   new FormControl('', [] ),
+        fechaCambio:        new FormControl('', [ Validators.required,  Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
+        fin_contrato:       new FormControl('', [ Validators.required,  Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
+        Fecha_Nacimiento:   new FormControl('', [ Validators.required,  Validators.pattern("^([2]{1}[0]{1}[0-2]{1}[0-9]{1})|([1]{1}[9]{1}[0-9]{1}[0-9]{1})[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
         ciudad:             new FormControl('', [ Validators.required ] ),
         oficina:            new FormControl('', [ Validators.required ] ),
         departamento:       new FormControl('', [ Validators.required ] ),
         puesto:             new FormControl('', [ Validators.required ] ),
         tipo_contrato:      new FormControl('', [ Validators.required ] ),
-        factor:             new FormControl('1', [ Validators.required,  Validators.pattern('^[0-1]{1}($|[.]{1}[0-9]*$)') ] ),
+        factor:             new FormControl('1', [ Validators.required,  Validators.pattern("^[0-1]{1}($|[.]{1}[0-9]*$)") ] ),
         applier:            new FormControl('')
       })
 
@@ -172,13 +187,13 @@ export class AddAsesorComponent implements OnChanges {
         switch(res){
           case '2':
 
-           this.formAddAsesor.get('fin_contrato').setValidators([ Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ])
+           this.formAddAsesor.get('fin_contrato').setValidators([ Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ])
            this.formAddAsesor.get('fin_contrato').reset()
            this.asesorDetailsForm[7]['show'] = false
            break
           case '1':
 
-            this.formAddAsesor.get('fin_contrato').setValidators([ Validators.required, Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ])
+            this.formAddAsesor.get('fin_contrato').setValidators([ Validators.required, Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ])
             this.asesorDetailsForm[7]['show'] = true
             break
           default:
@@ -252,12 +267,12 @@ export class AddAsesorComponent implements OnChanges {
     // if(this.parentModal){
     //   jQuery(this.parentModal).modal('show')
     // }
-    this.closeDialog.emit('#form_cambioPuesto')
+    this.closeDialog.emit("#form_cambioPuesto")
 
   }
 
   setVal( val, control ){
-    this.formAddAsesor.controls[control].setValue( val.format('YYYY-MM-DD') )
+    this.formAddAsesor.controls[control].setValue( val.format("YYYY-MM-DD") )
   }
 
 
@@ -277,13 +292,13 @@ export class AddAsesorComponent implements OnChanges {
             let params = this.formAddAsesor.value
             params.type = tipo
             // params.puestoClave = currentUser.hcInfo['hc_puesto_clave']
-            params.puestoClave = 'B1'
+            params.puestoClave = "B1"
             params.areaID = currentUser.hcInfo['hc_area']
             params.udnID = currentUser.hcInfo['hc_udn']
             // params.viewAll = currentUser.credentials['view_all_agents']
             params.viewAll = currentUser.credentials[0]
 
-            this._api.postFromApi( params, 'vacantes_disponibles' )
+            this._api.postFromApi( params, "vacantes_disponibles" )
                   .subscribe( res => {
 
                     console.log( res )
@@ -331,22 +346,22 @@ export class AddAsesorComponent implements OnChanges {
 
   resetOptions( tipo ) {
     switch(tipo){
-      case 'ciudad':
+      case "ciudad":
         this.resetOptionSingle( 'ciudad' )
         this.resetOptionSingle( 'oficina' )
         this.resetOptionSingle( 'departamento' )
         this.resetOptionSingle( 'puesto' )
         break;
-      case 'oficina':
+      case "oficina":
         this.resetOptionSingle( 'oficina' )
         this.resetOptionSingle( 'departamento' )
         this.resetOptionSingle( 'puesto' )
         break;
-      case 'departamento':
+      case "departamento":
         this.resetOptionSingle( 'departamento' )
         this.resetOptionSingle( 'puesto' )
         break;
-      case 'puesto':
+      case "puesto":
         this.resetOptionSingle( 'puesto' )
         break;
 
@@ -362,7 +377,7 @@ export class AddAsesorComponent implements OnChanges {
 
     this.retrieving = true
 
-    let restfulController:string = 'SolicitudBC/addAsesor'
+    let restfulController:string = "SolicitudBC/addAsesor"
 
     // console.log(this.formAddAsesor)
     this._api.restfulPut( this.formAddAsesor.value, restfulController )
@@ -371,7 +386,7 @@ export class AddAsesorComponent implements OnChanges {
               this.save.emit({status: true, msg: 'Asesor guardado con id ' + res['asesor_id'], title: 'Guardado!'})
               jQuery(this.modal).modal('hide')
             }, err => {
-              console.log('ERROR', err)
+              console.log("ERROR", err)
 
               this.retrieving = false
               let error = err.json()

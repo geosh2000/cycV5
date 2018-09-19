@@ -1,0 +1,42 @@
+<!-- <div class="container-fluid" *ngIf="data && queueGroups && skillGroup">
+    <ng-container *ngIf="!display['byQueue']; else byQueue">
+        <app-cbp [setQueue]="queueGroups[skillSelected]" [queues]="queues" [pauses]="pauses" [title]="skillGroup[skillSelected]" [deps]="deps" [display]="display" [waits]="waits" [monitor]="!displayFilter" [lu]="formatDate(lu, 'DD MMM \'YY kk:mm:ss')" [sla]="slaData"
+            [data]="data">
+        </app-cbp>
+    </ng-container>
+    <ng-template #byQueue>
+        <ng-container *ngIf="skillSelected != 0">
+            <app-cbp [setQueue]="[q]" [queues]="queues" [pauses]="pauses" [title]="skillGroup[skillSelected]" [deps]="deps" [display]="display" [waits]="waits" [monitor]="!displayFilter" [lu]="formatDate(lu, 'DD MMM \'YY kk:mm:ss')" [data]="data" *ngFor="let q of queueGroups[skillSelected]"
+                [sla]="slaData">
+            </app-cbp>
+        </ng-container>
+        <ng-container *ngIf="skillSelected == 0">
+            <ng-container *ngFor="let q of ordG | orderBy: 'name'">
+                <app-cbp [setQueue]="queueGroups[q.index]" [queues]="queues" [pauses]="pauses" [title]="q.name" [deps]="deps" [display]="display" [waits]="waits" [all]="true" [lu]="formatDate(lu, 'DD MMM \'YY kk:mm:ss')" [monitor]="!displayFilter" [data]="data" *ngIf="q.index != 0"
+                    [sla]="slaData">
+                </app-cbp>
+            </ng-container>
+        </ng-container>
+    </ng-template>
+</div> -->
+<div class="container-fluid" *ngIf="data['data'] && data['queueGroups'] && data['skillGroup']">
+    <ng-container *ngIf="!display; else byQueue">
+        <app-cbp [setQueue]="data['queueGroups'][skillSelected]" [queues]="data['queues']" [pauses]="data['pauses']" [title]="data['skillGroup'][skillSelected]" [deps]="data['deps']" [display]="data['display']" [waits]="data['waits']" [monitor]="!data['displayFilter']"
+            [lu]="formatDate(lu, 'DD MMM \'YY kk:mm:ss')" [sla]="data['slaData']" [data]="data['data']">
+        </app-cbp>
+    </ng-container>
+    <ng-template #byQueue>
+        <ng-container *ngIf="skillSelected != 0">
+            <app-cbp [setQueue]="[q]" [queues]="queues" [pauses]="pauses" [title]="skillGroup[skillSelected]" [deps]="deps" [display]="display" [waits]="waits" [monitor]="!displayFilter" [lu]="formatDate(lu, 'DD MMM \'YY kk:mm:ss')" [data]="data" *ngFor="let q of queueGroups[skillSelected]"
+                [sla]="slaData">
+            </app-cbp>
+        </ng-container>
+        <ng-container *ngIf="skillSelected == 0">
+            <ng-container *ngFor="let q of ordG | orderBy: 'name'">
+                <app-cbp [setQueue]="queueGroups[q.index]" [queues]="queues" [pauses]="pauses" [title]="q.name" [deps]="deps" [display]="display" [waits]="waits" [all]="true" [lu]="formatDate(lu, 'DD MMM \'YY kk:mm:ss')" [monitor]="!displayFilter" [data]="data" *ngIf="q.index != 0"
+                    [sla]="slaData">
+                </app-cbp>
+            </ng-container>
+        </ng-container>
+    </ng-template>
+</div>

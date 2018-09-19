@@ -6,14 +6,13 @@
             <div class="col-6" *ngFor="let item of asesorDetailsForm">
                 <div class="form-group">
                     <ng-container *ngIf="item.show">
-                        <label>{{ item.showName | capitalizado }}</label>
+                        <label>{{ item.showName | capitalizado }}</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="{{ item.icon }}"></i></div>
                             </div>
-                            <input class="form-control" placeholder="yyyy-mm-dd" *ngIf="item.tipo=='date'" daterangepicker [formControlName]="item.name" [options]="singlePicker" (selected)="setVal($event.start, item.name)" [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item.name].valid && !formAddAsesor.controls[item.name].pristine }"
-                                class="form-control uneditable-input" type="text" value="" [readonly]="item.readonly">
-
+                            <input class="form-control" placeholder="yyyy-mm-dd" *ngIf="item.tipo=='date'" [formControlName]="item.name" (click)="dpContrato.toggle()" [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item.name].valid && !formAddAsesor.controls[item.name].pristine }"
+                                name="dpContrato" ngbDatepicker #dpContrato="ngbDatepicker" class="form-control uneditable-input" type="text" value="" [readonly]="item.readonly">
                             <input *ngIf="item.tipo=='text'" [formControlName]="item.name" [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item.name].valid && !formAddAsesor.controls[item.name].pristine }" class="form-control" type="text" value="" [readonly]="item.readonly">
                             <select *ngIf="item.tipo=='select' && listProfileLoaded" class="custom-select" [ngClass]="{ 'is-invalid': !formAddAsesor.controls[item.name].valid && !formAddAsesor.controls[item.name].pristine }" [formControlName]="item.name">
                       <option value="">Selecciona...</option>
@@ -48,9 +47,7 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fa fa-calendar fa-fw"></i></div>
                         </div>
-                        <input class="form-control" placeholder="yyyy-mm-dd" daterangepicker formControlName="fechaCambio" [options]="singlePicker" (selected)="setVal($event.start, 'fechaCambio')" [ngClass]="{ 'is-invalid': !formAddAsesor.controls['fechaCambio'].valid && !formAddAsesor.controls['fechaCambio'].pristine }"
-                            class="form-control uneditable-input" type="text" value="">
-
+                        <input class="form-control" placeholder="yyyy-mm-dd" formControlName="fechaCambio" (selected)="setVal($event.start, 'fechaCambio')" (click)="d.toggle()" name="dp" ngbDatepicker #d="ngbDatepicker">
                     </div>
                 </div>
             </div>
@@ -160,7 +157,7 @@
                         <input formControlName="factor" class="form-control" type="text">
                     </div>
                     <div class="invalid-feedback" *ngIf="formAddAsesor.controls['factor'].errors?.pattern">
-                        <div><small>1 para 100% || de 0 a 1.99</small></div>
+                        <div><small>1 para 100% || de 0 a 1.99</small></div>
                     </div>
                     <div class="invalid-feedback" *ngIf="formAddAsesor.controls['factor'].errors?.required">
                         <div><small>Campo Obligatorio</small></div>

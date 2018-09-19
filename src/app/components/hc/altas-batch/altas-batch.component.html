@@ -37,6 +37,9 @@
         <iframe id="dwlFrame" src="assets/img/bePriceBCO.png" style="display:none;"></iframe>
     </div>
 
+    <div class="container d-flex justify-content-center" *ngIf="loading['building']">
+        <h1>{{ loading['upload'] ? 'Subiendo' : 'Construyendo' }}... <i class="fas fa-spinner fa-pulse"></i></h1>
+    </div>
     <div class="container" *ngIf="xlsData.length > 0">
         <nav class="navbar fixed-bottom navbar-light alert alert-info m-0 d">
             <div class="container-fluid d-flex justify-content-between">

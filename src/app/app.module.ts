@@ -209,6 +209,7 @@ import { HcUdnComponent } from './components/hc/hc-control/hc-udn/hc-udn.compone
 import { HcPuestosComponent } from './components/hc/hc-control/hc-puestos/hc-puestos.component';
 import { AltasBatchComponent } from './components/hc/altas-batch/altas-batch.component';
 import { BatchAsesorFormComponent } from './components/hc/altas-batch/batch-asesor-form/batch-asesor-form.component';
+import { ShowQMonitorComponent } from './components/monitors/queues-v2/show-qmonitor/show-qmonitor.component';
 
 
 declare let jQuery: Object;
@@ -371,6 +372,7 @@ registerLocaleData(localeEsMX)
     HcPuestosComponent,
     AltasBatchComponent,
     BatchAsesorFormComponent,
+    ShowQMonitorComponent,
   ],
   imports: [
     BrowserModule,

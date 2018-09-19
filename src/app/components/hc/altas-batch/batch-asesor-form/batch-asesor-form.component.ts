@@ -110,13 +110,13 @@ export class BatchAsesorFormComponent implements OnInit, OnChanges {
       ['N Corto']:            new FormControl(item['Nombre Corto'] ? this.ucwords( item['Nombre Corto'], false) : '' , [ Validators.required, Validators.pattern('^[A-Z]{1}[a-z]* [A-Z]{1}[a-z]*$') ], this.userExists.bind(this) ),
       ['num_colaborador']:    new FormControl(item['Numero Colaborador'] ? item['Numero Colaborador'].trim() : ''  , [ Validators.required, Validators.pattern('^[0-9]{8}$')  ] ),
       ['RFC']:                new FormControl(item['Cedula'] ? item['Cedula'].trim() : ''                          , [] ),
-      ['Ingreso']:            new FormControl(item['Fecha Ingreso'] ? moment(item['Fecha Ingreso'].trim(), 'YYYY/MM/DD').format('YYYY/MM/DD') : ''            , [ Validators.required, Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
-      ['Fecha_Nacimiento']:   new FormControl(item['Fecha Nacimiento'] ? moment(item['Fecha Nacimiento'].trim(), 'YYYY/MM/DD').format('YYYY/MM/DD') : ''      , [ Validators.required, Validators.pattern('^(([1]{1}[9]{1}[4-9]{1}[0-9]{1})||([2]{1}[0]{1}[1-2]{1}[0-9]{1}))[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
+      ['Ingreso']:            new FormControl(item['Fecha Ingreso'] ? moment(item['Fecha Ingreso'].trim(), 'YYYY/MM/DD').format('YYYY/MM/DD') : ''            , [ Validators.required, Validators.pattern('^[2]{1}[0]{1}[0-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
+      ['Fecha_Nacimiento']:   new FormControl(item['Fecha Nacimiento'] ? moment(item['Fecha Nacimiento'].trim(), 'YYYY/MM/DD').format('YYYY/MM/DD') : ''      , [ Validators.required, Validators.pattern('^(([1]{1}[9]{1}[4-9]{1}[0-9]{1})||([2]{1}[0]{1}[0-2]{1}[0-9]{1}))[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
       ['Telefono1']:          new FormControl(item['Telefono'] ? item['Telefono'].trim() : ''                      , [ Validators.pattern('^[0-9]+$') ] ),
       ['Telefono2']:          new FormControl(item['Movil'] ? item['Movil'].trim() : ''                            , [ Validators.pattern('^[0-9]+$') ] ),
       ['correo_personal']:    new FormControl(item['Correo Personal'] ? item['Correo Personal'].trim() : ''        , [ Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ] ),
-      ['Vigencia_Pasaporte']: new FormControl(item['Pasaporte'] ? moment(item['Pasaporte'].trim(), 'YYYY/MM/DD').format('YYYY/MM/DD') : ''  , [ Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
-      ['Vigencia_Visa']:      new FormControl( ''            , [ Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
+      ['Vigencia_Pasaporte']: new FormControl(item['Pasaporte'] ? moment(item['Pasaporte'].trim(), 'YYYY/MM/DD').format('YYYY/MM/DD') : ''  , [ Validators.pattern('^[2]{1}[0]{1}[0-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
+      ['Vigencia_Visa']:      new FormControl( ''            , [ Validators.pattern('^[2]{1}[0]{1}[0-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
       ['Pais']:               new FormControl(item['Pais'] ? item['Pais'].trim() : ''                              , [ Validators.required  ] ),
       contrato:               new FormControl(!item['Contrato'] ? '' : item['Contrato'].trim() == 'Temporal' ? 1 : 2    , [ Validators.required  ] ),
       profile:                new FormControl('', [ Validators.required  ] ),
@@ -333,14 +333,17 @@ export class BatchAsesorFormComponent implements OnInit, OnChanges {
       this.done.emit( { status: true, index: this.i } )
     }else{
 
-      let params = this.form.value
+      let params = {
+        fields: this.form.value
+      }
+
       let url = 'SolicitudBC/addAsesorV2'
       if( this.reingresoFlag ){
         url = 'SolicitudBC/reIngresoV2'
         params['asesorId'] = this.existingUser['id']
       }
 
-      this._api.restfulPut( this.form, url )
+      this._api.restfulPut( params, url )
               .subscribe( res => {
 
                 this.saved = true

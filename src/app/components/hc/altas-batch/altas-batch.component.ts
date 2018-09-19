@@ -168,6 +168,7 @@ export class AltasBatchComponent implements OnInit, OnDestroy {
     formData.append( 'ftype', this.imageForm.controls['ftype'].value)
     formData.append( 'image', ImageFile, ImageFile.name)
 
+    this.loading['building'] = true
     this.loading['upload'] = true
     this._api.restfulImgPost( formData, 'UploadImage/uploadImage' )
             .subscribe( res => {
@@ -176,6 +177,7 @@ export class AltasBatchComponent implements OnInit, OnDestroy {
 
             }, err => {
                 this.loading['upload'] = false
+                this.loading['building'] = false
                 console.log('ERROR', err)
                 this.toastr.error( err, 'Error' )
               })
@@ -201,10 +203,11 @@ export class AltasBatchComponent implements OnInit, OnDestroy {
           this.resetVac = new Date()
           this.getVacantes()
           this.timerCheck()
-
+          this.loading['building'] = false
           }, er => {
-          console.log('ERROR', er)
-          this.toastr.error( er, 'Error' )
+            this.loading['building'] = false
+            console.log('ERROR', er)
+            this.toastr.error( er, 'Error' )
         })
   }
 

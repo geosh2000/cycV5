@@ -42,7 +42,7 @@ export class AddVacanteComponent implements OnInit {
     fin:            { tipo: 'date',   set: true,  value: '', list: [1], title: 'Fin',          required: false,readonly: false, pattern: ''},
     comentarios:    { tipo: 'text',   set: true,  value: '', list: [1], title: 'Comentarios',  required: true, readonly: false, pattern: ''},
     ciudad:         { tipo: 'text',   set: false, value: '', list: [1], title: 'Ciudad',       required: true, readonly: false, pattern: ''},
-    cantidad:       { tipo: 'text',   set: true,  value: '', list: [1], title: 'Cantidad',     required: true, readonly: false, pattern: 'Número del 1 al 10'}
+    cantidad:       { tipo: 'text',   set: true,  value: '', list: [1], title: 'Cantidad',     required: true, readonly: false, pattern: 'Ingresa sólo números enteros'}
   }
 
   defaults:Object = {
@@ -99,7 +99,7 @@ export class AddVacanteComponent implements OnInit {
         inicio:       new FormControl( '',        [ Validators.required, Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
         fin:          new FormControl( '',        [ Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
         comentarios:  new FormControl( '' ),
-        cantidad:     new FormControl( 1,         [ Validators.required , Validators.pattern('^([1-9]{1}$|[1]{1}[0]{1}$)') ]),
+        cantidad:     new FormControl( 1,         [ Validators.required , Validators.pattern('^[1-9]{1}[0-9]*$') ]),
       })
 
       this.formAddVacanteDetails = JSON.parse(JSON.stringify(this.formAddVacanteDetailsDefault))
