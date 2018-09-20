@@ -1,0 +1,59 @@
+<div class="card m-1" [ngClass]="bgCardColor( item )" [style.width.px]="200" *ngIf="isMember(item['qs']) || queue.length == 0">
+
+    <!-- HEADER -->
+    <div class="card-header" style="font-size: smaller">
+
+        <div class="row align-items-center">
+            <div class="col m-0" style="min-width: 150px; max-width:150px">
+                <h4 class="mb-0"><span class="text-truncate" [ngClass]="{'text-light': item['direction'] == '2' && item['lastTst'] != '0'}" [innerHTML]="tsfName(item['agente'])"></span></h4>
+            </div>
+            <div class="col" style="min-width: 10px; max-width:10px">
+                <span class="badge badge-light p-1 r270" style="margin-left: -30px">x.{{ item['Extension'] }}</span>
+            </div>
+        </div>
+
+        <!-- REDUCED DISPLAY DETAIL -->
+        <div>
+
+            <!-- LLAMANTE -->
+            <div class="d-flex align-items-center pt-2 justify-content-center p-0 m-0" style="font-size: smaller">
+
+                <h6 class="m-0" style="width: 100%">
+                    <span style="width: 100%" class="badge badge-primary badge-pill border border-info">
+                  <span>
+                    <span *ngIf="item['direction'] != '2' && !item['Pausa']">{{ getDuration( item['lastTst'] ) }}</span>
+                    <span *ngIf="item['direction'] == '2' && !item['Pausa']">{{ getDuration( item['answered'] == '0' ? item['waiting'] : item['lastTst'] ) }}</span>
+                    <span *ngIf="item['direction'] != '2' && item['Pausa']">{{ getDuration( item['lastTst'] > item['origPauseTst'] ? item['lastTst'] : item['origPauseTst'] ) }}</span>
+                    <span *ngIf="item['direction'] == '2' && item['Pausa']">{{ getDuration( (item['answered'] == '0' ? item['waiting'] : item['lastTst']) > item['origPauseTst'] ? item['answered'] == '0' ? item['waiting'] : item['lastTst'] : item['origPauseTst'] ) }}</span>
+                    <!-- Badge Pausa (Revisar tiempos) -->
+                    <!-- <span class="badge badge-danger badge-pill animated flash infinite mr-2" *ngIf="(getDuration( agent['curPauseTst'], 's' ) > pauseLimits[agent['curPauseCode']])">
+                      Pausa
+                    </span><br> -->
+                    <!-- Badge AHT (Revisar tiempos) -->
+                    <!-- <small class="ml-1" *ngIf="getDuration( item['lastTst'], 's' ) > 550">
+                      <span style="font-size:smaller" class="badge badge-danger badge-pill animated flash infinite mr-2">AHT</span>
+                    </small><br> -->
+                    <p *ngIf="item['caller']"><small>{{ item['caller'] == '' ? item['RT_dnis'] + ':' : item['RT_dnis'] + ': ' + item['caller'] }}</small></p>
+                    <p *ngIf="!item['caller'] && !item['Pausa']"><small>Disponible</small></p>
+                    <p *ngIf="!item['caller'] && item['Pausa']"><small>{{ item['Pausa'] }}</small></p>
+                    </span>
+                    </span>
+                </h6>
+            </div>
+
+        </div>
+
+        <div class="p-0 m-0 d-flex justify-content-center">
+            <small class='ml-1'><span class="badge" [ngClass]="{'bg-secondary ': !item['color']}" [style.background]="item['color']">
+              <small class="text-light" style='font-size: smaller'>{{ item['Dep'] ? item['Dep'] : 'N/A' }}</small>
+            </span>
+            </small>
+            <small class='ml-1'><span class="badge bg-light" *ngIf="item['caller']">
+              <small class="text-dark" style='font-size: smaller'>{{ item['Q'] }}</small>
+            </span>
+            </small>
+        </div>
+
+    </div>
+
+</div>

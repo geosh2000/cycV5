@@ -1,0 +1,67 @@
+<div class="container-fluid">
+
+    <div class="row d-flex justify-content-center flex-wrap alert alert-primary" role="alert" style="font-size: small">
+        <div class="p-1">
+            <select class="custom-select" [(ngModel)]="countrySelected">
+          <option value="">Selecciona un pais...</option>
+          <option [value]="country" *ngFor="let country of qData | keys">
+            {{ country }}
+          </option>
+        </select>
+            <div class="d-flex justify-content-center">
+                <div><small>{{ dataQ[0] ? dataQ[0]['Last_Update'] : 'NA' }}</small></div>
+            </div>
+        </div>
+        <div class="p-1 text-center">
+            <p>
+                <ui-switch color="green" size="small" [(ngModel)]="display['sm']"></ui-switch>
+            </p>
+            <p><small>{{ display['sm'] ? 'Grande' : 'Pequeño' }}</small></p>
+        </div>
+        <div class="p-1 text-center">
+            <p>
+                <ui-switch color="green" size="small" [(ngModel)]="displays['a']"></ui-switch>
+            </p>
+            <p><small>1</small></p>
+        </div>
+        <div class="p-1 text-center">
+            <p>
+                <ui-switch color="green" size="small" [(ngModel)]="displays['b']"></ui-switch>
+            </p>
+            <p><small>2</small></p>
+        </div>
+        <div class="p-1 text-center">
+            <p>
+                <ui-switch color="green" size="small" [(ngModel)]="displays['c']"></ui-switch>
+            </p>
+            <p><small>3</small></p>
+        </div>
+        <div class="p-1 text-center">
+            <p>
+                <ui-switch color="green" size="small" [(ngModel)]="displays['d']"></ui-switch>
+            </p>
+            <p><small>4</small></p>
+        </div>
+        <div class="p-1 text-center">
+            <p>
+                <ui-switch color="green" size="small" [(ngModel)]="displays['e']"></ui-switch>
+            </p>
+            <p><small>5</small></p>
+        </div>
+        <div class='p-1'>
+            <button class="btn btn-sm" [ngClass]="{'btn-outline-secondary': paused, 'btn-success': !paused}" (click)="pause()">
+                {{ paused ? 'Correr' : 'Pausar' }}
+                <small><span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></small>
+            </button>
+        </div>
+        <!-- <ng-container *ngFor="let q of qData[countrySelected] | orderBy: 'name'">
+          <div class='p-1' *ngFor="let queue of q['qs'] | orderBy: 'name'">
+            <button class="btn btn-sm btn-outline-primary" (slick)="selectQ(queue)">{{ queue['name'] }}</button>
+          </div>
+        </ng-container> -->
+    </div>
+    <ng-container *ngFor="let d of displays | keys">
+        <app-call-block [countrySelected]="countrySelected" [data]="allQs[countrySelected]" [qData]="dataQ" [display]="display" *ngIf="displays[d]"></app-call-block>
+    </ng-container>
+
+</div>

@@ -18,6 +18,7 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { ToastrModule } from 'ngx-toastr';
+import { Select2Module } from 'ng2-select2';
 
 
 // services
@@ -210,6 +211,10 @@ import { HcPuestosComponent } from './components/hc/hc-control/hc-puestos/hc-pue
 import { AltasBatchComponent } from './components/hc/altas-batch/altas-batch.component';
 import { BatchAsesorFormComponent } from './components/hc/altas-batch/batch-asesor-form/batch-asesor-form.component';
 import { ShowQMonitorComponent } from './components/monitors/queues-v2/show-qmonitor/show-qmonitor.component';
+import { QueuesV3Component } from './components/monitors/queues-v3/queues-v3.component';
+import { CallCardComponent } from './components/monitors/queues-v3/call-card/call-card.component';
+import { CallBlockComponent } from './components/monitors/queues-v3/call-block/call-block.component';
+import { CallCardSmComponent } from './components/monitors/queues-v3/call-card-sm/call-card-sm.component';
 
 
 declare let jQuery: Object;
@@ -373,6 +378,10 @@ registerLocaleData(localeEsMX)
     AltasBatchComponent,
     BatchAsesorFormComponent,
     ShowQMonitorComponent,
+    QueuesV3Component,
+    CallCardComponent,
+    CallBlockComponent,
+    CallCardSmComponent,
   ],
   imports: [
     BrowserModule,
@@ -448,6 +457,8 @@ registerLocaleData(localeEsMX)
     // ==================================================
     // END ANGULAR MATERIAL
     // ==================================================
+
+    Select2Module,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'Es-MX' },

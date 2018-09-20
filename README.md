@@ -45,6 +45,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Pendiente configuración de campos DATE y TIME (.2005)
 * Filtro QuickSet (.2006)
 
+### Monitor de Colas
+* Selección por pais (.2010)
+* Selección acumulativa por cola (.2010)
+* Multiples vistas (.2010)
+* Mejoras en performance de monitor (.2010)
+* Pausa corre a partir de que termina la llamada (.2010)
+
 ### Reporte Afiliados
 * Fix de columna Afiliado y título de página (.2007)
 

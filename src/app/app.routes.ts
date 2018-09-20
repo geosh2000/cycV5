@@ -78,6 +78,7 @@ import { SurveyComponent } from './components/formularios/survey/survey.componen
 import { SurveyReportComponent } from './components/reportes/survey-report/survey-report.component';
 import { HcControlComponent } from './components/hc/hc-control/hc-control.component';
 import { AltasBatchComponent } from './components/hc/altas-batch/altas-batch.component';
+import { QueuesV3Component } from './components/monitors/queues-v3/queues-v3.component';
 
 
 const APP_ROUTES: Routes = [
@@ -146,6 +147,7 @@ const APP_ROUTES: Routes = [
   { path: 'queues/:skill/:monitor', component: QueuesV2Component },
   { path: 'queues/:skill', component: QueuesV2Component },
   { path: 'queues', component: QueuesV2Component },
+  { path: 'colas', component: QueuesV3Component },
   { path: 'pauses', component: MonitorPausasComponent },
   { path: 'pausas', component: MonitorPausasComponent },
   { path: 'ventaAsesor', component: VentaPorAsesorComponent },

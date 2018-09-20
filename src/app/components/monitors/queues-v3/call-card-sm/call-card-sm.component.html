@@ -1,0 +1,29 @@
+<div class="card m-1" [ngClass]="bgCardColor( item )" [style.width.px]="200" *ngIf="isMember(item['qs']) || queue.length == 0">
+
+    <!-- HEADER -->
+    <div class="card-header p-1" style="font-size: smaller">
+
+        <div class="d-flex justify-content-between">
+            <div class="m-0 p-0" style="min-width: 158px; max-width: 158px">
+                <h5 class="mb-0 text-truncate" [ngClass]="{'text-light': item['direction'] == '2' && item['lastTst'] != '0'}">{{item['agente']}}</h5>
+
+                <span class="badge bg-primary text-light" [style.width.px]="60">
+                      <span *ngIf="item['direction'] != '2' && !item['Pausa']">{{ getDuration( item['lastTst'] ) }}</span>
+                <span *ngIf="item['direction'] == '2' && !item['Pausa']">{{ getDuration( item['answered'] == '0' ? item['waiting'] : item['lastTst'] ) }}</span>
+                <span *ngIf="item['direction'] != '2' && item['Pausa']">{{ getDuration( item['lastTst'] > item['origPauseTst'] ? item['lastTst'] : item['origPauseTst'] ) }}</span>
+                <span *ngIf="item['direction'] == '2' && item['Pausa']">{{ getDuration( (item['answered'] == '0' ? item['waiting'] : item['lastTst']) > item['origPauseTst'] ? item['answered'] == '0' ? item['waiting'] : item['lastTst'] : item['origPauseTst'] ) }}</span>
+                </span>
+                <span class="badge text-dark text-truncate bg-warning" [style.maxWidth.px]="90" *ngIf="item['Pausa']">
+                    {{ item['caller'] ? 'En llamada...' : item['Pausa'] }}
+                </span>
+
+            </div>
+            <div class="m-0 p-0">
+                <span class="badge badge-light p-1 r270" style="margin-top: 13px">x.{{ item['Extension'] }}</span>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

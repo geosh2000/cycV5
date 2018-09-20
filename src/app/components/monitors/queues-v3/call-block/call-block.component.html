@@ -1,0 +1,250 @@
+<div class="row d-flex justify-content-between flex-wrap alert alert-primary" role="alert" style="font-size: small">
+    <div class="p-1">
+        <select2 [data]="data | orderBy: 'text'" (valueChanged)="selectedVal($event)" [options]="selectOptions" width="300"></select2>
+    </div>
+    <div class="p-1">
+        <div class="d-flex flex-wrap justify-content-end align-items-center">
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="d-flex justify-content-around align-items-center">
+                        <span class="m-1 fa-layers fa-3x">
+                          <i class="far fa-circle text-info"></i>
+                          <i class="fas fa-sign-in-alt text-info" data-fa-transform="flip-h shrink-7"></i>
+                        </span>
+                <h3 class="m-1">
+                    {{ summary['in'] }}
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">Entrantes</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="far fa-circle text-primary"></i>
+                    <i class="fas fa-sign-out-alt text-primary" data-fa-transform="shrink-7"></i>
+                </span>
+                <h3 class="m-1">
+                    {{ summary['out'] }}
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">Salientes</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="far fa-circle text-warning"></i>
+                    <i class="fas fas fa-ellipsis-h text-info" data-fa-transform="shrink-7"></i>
+                </span>
+                <!-- <span class="animated flash infinite" *ngIf="summary['Waiting']>=3"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span> -->
+                <h3 class="m-1">
+                    {{ waits.length }}
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">En Espera</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="far fas fa-user text-success"></i>
+                </span>
+                <h3 class="m-1">
+                    {{ summary['online'] }}
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">Conectados</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="far fa-circle text-danger"></i>
+                    <i class="fas fas fa-user text-secondary" data-fa-transform="shrink-7"></i>
+                </span>
+                <h3 class="m-1">
+                    {{ summary['busy'] }}
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">Ocupados</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="far fa-circle text-primary"></i>
+                    <i class="fas fas fa-user text-success" data-fa-transform="shrink-7"></i>
+                </span>
+                <h3 class="m-1">
+                    {{ summary['avail'] }}
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">Disponibles</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="fas fas fa-user text-success" data-fa-transform="shrink-7"></i>
+                    <i class="fas fa-ban text-warning"></i>
+                </span>
+                <!-- <span class="animated flash infinite" *ngIf="summary['pause']>=5"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span> -->
+                <h3 class="m-1">
+                    {{ summary['pause'] }}
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">En Pausa</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="120">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                        <i class="fas fa-phone text-primary" data-fa-transform="shrink-2"></i>
+                </span>
+                <!-- <span class="animated flash infinite" *ngIf="summary['pause']>=5"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span> -->
+                <h4 class="m-1" *ngIf="!loading['sum']">
+                    {{ sumAll['ofrecidas'] | number:'.0-0' }}
+                </h4>
+                <h3 class="m-1" *ngIf="loading['sum']">
+                    <i class="fas fa-spinner fa-pulse text-info"></i>
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">Recibidas</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="120">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                        <i class="fas fa-phone-slash text-danger" data-fa-transform="shrink-2"></i>
+                </span>
+                <!-- <span class="animated flash infinite" *ngIf="summary['pause']>=5"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span> -->
+                <h4 class="m-1" *ngIf="!loading['sum']">
+                    {{ (sumAll['ofrecidas'] == 0 ? 0 : sumAll['abandonadas']/sumAll['ofrecidas'])*100 | number:'.0-2' }}
+                </h4>
+                <h3 class="m-1" *ngIf="loading['sum']">
+                    <i class="fas fa-spinner fa-pulse text-info"></i>
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">Abandon</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="far fa-circle text-warning"></i>
+                    <span class="fa-layers-text text-info" data-fa-transform="shrink-12 up-3">%</span>
+                <span class="fa-layers-text text-info" data-fa-transform="shrink-10 down-2">20</span>
+                </span>
+                <h3 class="m-1" *ngIf="!loading['sum']">
+                    {{ (sumAll['ofrecidas'] == 0 ? 0 : (sumAll['sla20'] / sumAll['ofrecidas'])*100) | number:'.0-0' }}
+                </h3>
+                <h3 class="m-1" *ngIf="loading['sum']">
+                    <i class="fas fa-spinner fa-pulse text-info"></i>
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">SLA 20</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="far fa-circle text-warning"></i>
+                    <span class="fa-layers-text text-info" data-fa-transform="shrink-12 up-3">%</span>
+                <span class="fa-layers-text text-info" data-fa-transform="shrink-10 down-2">30</span>
+                </span>
+                <h3 class="m-1" *ngIf="!loading['sum']">
+                    {{ (sumAll['ofrecidas'] == 0 ? 0 : (sumAll['sla30'] / sumAll['ofrecidas'])*100) | number:'.0-0' }}
+                </h3>
+                <h3 class="m-1" *ngIf="loading['sum']">
+                    <i class="fas fa-spinner fa-pulse text-info"></i>
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">SLA 30</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="120">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="far fa-clock text-danger"></i>
+                </span>
+                <h3 class="m-1">
+                    {{ (summary['in'] == 0 ? 0 : (summary['ttIn'] / summary['in'])) | number:'.0-2' }}
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">AHT In</p>
+                </span>
+            </div>
+
+            <div class="p-1">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="120">
+                <span class="d-flex justify-content-around align-items-center">
+                <span class="m-1 fa-layers fa-3x">
+                    <i class="far fa-clock text-primary"></i>
+                </span>
+                <h3 class="m-1">
+                    {{ (summary['out'] == 0 ? 0 : (summary['ttOut'] / summary['out'])) | number:'.0-2' }}
+                </h3>
+                </span>
+                <p class="text-info text-center" style="font-size: xx-small">AHT Out</p>
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="d-flex justify-content-start">
+        <div [style.width.px]="350">
+            <ul class="list-group">
+                <li class="list-group-item p-2 bg-info">
+                    <div class="d-flex justify-content-center align-items-center text-light">
+                        <h5>Llamadas en espera</h5>
+                    </div>
+                </li>
+                <ng-container *ngFor="let item of waits | orderBy: 'waiting'">
+                    <li class="list-group-item pt-1 pb-1">
+                        <div class="d-flex justify-content-between align-items-center text-truncate">
+                            {{ item['caller'] }}
+                            <span class="badge badge-primary badge-pill" [style.width.px]="70">{{ getDuration(item['waiting']) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="badge badge-secondary badge-pill" style="font-size: xx-small">{{ item['Q'] }}</span>
+                        </div>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap justify-content-start">
+                <ng-container *ngFor="let item of agents | orderBy: 'agente'">
+                    <app-call-card [item]="item" [queue]="selectedQs" *ngIf="!display['sm']"></app-call-card>
+                    <app-call-card-sm [item]="item" [queue]="selectedQs" *ngIf="display['sm']"></app-call-card-sm>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
