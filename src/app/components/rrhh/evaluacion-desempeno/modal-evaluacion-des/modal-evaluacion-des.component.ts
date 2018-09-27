@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
-import { ApiService } from '../../../../services/service.index';
+import { ApiService, ZonaHorariaService } from '../../../../services/service.index';
 import { ToastrService } from 'ngx-toastr';
 
 declare var jQuery:any;
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-modal-evaluacion-des',
@@ -22,6 +23,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
   @Input() asesor:any = ''
   @Input() status:any = ''
   @Input() timeLeft:any = 0
+  @Input() openTime:any = ''
 
   @Output() reload = new EventEmitter<any>()
 
@@ -34,11 +36,13 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
   formData:any
   formReady:boolean = false
   formSubmit:boolean = false
+  metaData:Object = {}
 
   oldId:any
   usp:any = ''
+  usn:any = ''
 
-  constructor( private rateConf: NgbRatingConfig, private _api:ApiService, private toastr:ToastrService ) {
+  constructor( private rateConf: NgbRatingConfig, private _api:ApiService, private toastr:ToastrService, private _zh: ZonaHorariaService ) {
 
     // customize default values of ratings used by this component tree
     rateConf.max = 5;
@@ -53,14 +57,12 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
 
   ngOnChanges( changes: SimpleChanges ) {
     this.usp = ''
-    if( this.oldId != this.asesor ){
-      if( this.form ){
-        this.form.reset()
-        this.formSubmit = false
-        this.buildForm()
-      }
+    this.usn = ''
 
-      this.oldId = this.asesor
+    if( this.form ){
+      this.form.reset()
+      this.formSubmit = false
+      this.buildForm()
     }
 
     if( !this.new && this.asesor != '' && this.contrato != '' ){
@@ -123,9 +125,9 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
       }
 
       if( group['field'] == 'observ_gerencia' ){
-        console.log( 'manager', this.manager )
-        console.log( 'status', parseInt(this.status) )
-        console.log( 'sm', parseInt(group['showManager']) )
+        // console.log( 'manager', this.manager )
+        // console.log( 'status', parseInt(this.status) )
+        // console.log( 'sm', parseInt(group['showManager']) )
       }
 
       if( ( this.agent && group['showAgent'] == 1 ) || ( this.manager && parseInt(this.status) == 2 && parseInt(group['showManager']) == 1 ) || ( this.superReview && parseInt(this.status) == 3 && parseInt(group['showSup']) == 1 ) ){
@@ -174,7 +176,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
     if( this.new || manager || superReview ){
       this.form.addControl('status', new FormControl(  '', []))
 
-      let st = agent ? 6 : (superReview ? 5 : (manager ? (renew ? 3 : 4) : (renew ? 2 : 1)))
+      let st = agent ? 6 : (superReview ? 5 : (manager ? (renew ? 3 : 4) : (renew ? 1 : 2)))
       this.form.controls['status'].setValue( st )
     }
 
@@ -184,7 +186,21 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
     }
 
     if( this.form.valid ){
-      this.loading['save'] = true
+
+      if( agent ){
+        params['form']['status'] = 6
+        this.validateAsesor( params )
+      }else{
+        this.submitData(params)
+      }
+
+    }
+
+
+  }
+
+  submitData( params ){
+    this.loading['save'] = true
 
       this._api.restfulPut( params,'Rrhh/saveEval' )
                 .subscribe( res => {
@@ -204,9 +220,6 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
                   console.error(err.statusText, error.msg)
 
                 })
-    }
-
-
   }
 
   getEval(){
@@ -223,6 +236,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
               .subscribe( res => {
 
                 this.loading['getEval'] = false
+                this.metaData = {}
 
                 // console.log(this.form.controls)
 
@@ -235,6 +249,16 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
                     }
                   }
                 }
+
+                this.usn = res['data']['usuario']
+                this.metaData['sup'] = res['data']['sup']
+                this.metaData['sup_date'] = res['data']['date_created']
+                this.metaData['manager'] = res['data']['manager']
+                this.metaData['manager_date'] = res['data']['manager_date']
+                this.metaData['review'] = res['data']['review']
+                this.metaData['review_date'] = res['data']['review_date']
+                this.metaData['agent'] = res['data']['agent']
+                this.metaData['agent_date'] = res['data']['accepted_date']
 
               }, err => {
                 console.log('ERROR', err)
@@ -340,6 +364,36 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
       default:
         return true
     }
+  }
+
+  validateAsesor( params ){
+    this.loading['save'] = true
+
+    this._api.restfulPut( { usp: this.usp, usn: this.usn, remember: false }, 'Login/login/1')
+              .subscribe( res => {
+
+                this.loading['save'] = false
+
+                if( res['data']['username'] == this.usn ){
+                  this.submitData(params)
+                }
+
+                console.error('El usuario y contraseña ingresados no corresponden al asesor en revisión', 'Error')
+
+              }, err => {
+                console.log('ERROR', err)
+
+                this.loading['save'] = false
+
+                let error = err.error
+                this.toastr.error( error.msg, err.statusText )
+                console.error(err.statusText, error.msg)
+                return false
+              })
+  }
+
+  printDate( date, format ){
+    return moment.tz(date, 'America/Mexico_city').tz( this._zh.zone ).format(format)
   }
 
 }

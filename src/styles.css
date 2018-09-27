@@ -3,6 +3,10 @@ body {
     position: relative;
 }
 
+.modal-open-important {
+    overflow-y: auto !important;
+}
+
 .modal:nth-of-type(even) {
     z-index: 1042 !important;
 }

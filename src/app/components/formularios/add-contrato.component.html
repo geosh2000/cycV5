@@ -1,5 +1,5 @@
 <div class="modal fade" id="editContratos" tabindex="-1" role="dialog" aria-labelledby="editContratos" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog  modal-dialog-centered" role="document">
+    <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editContratosTitle">Contratos - <small>{{ nombre }}</small></h5>
@@ -13,23 +13,26 @@
                         <div class="col-2">
                             <p><b>Activo</b></p>
                         </div>
-                        <div class="col-4 text-center">
+                        <div class="col-3 text-center">
                             <p><b>Tipo</b></p>
                         </div>
-                        <div class="col-3 text-center">
+                        <div class="col-2 text-center">
                             <p><b>Inicio</b></p>
                         </div>
-                        <div class="col-3 text-center">
+                        <div class="col-2 text-center">
                             <p><b>Fin</b></p>
                         </div>
+                        <div class="col-3 text-center">
+                            <p><b>Evaluacion</b></p>
+                        </div>
                     </div>
-                    <div class="row" *ngFor="let item of contratos">
+                    <div class="row align-items-center" *ngFor="let item of contratos">
                         <ng-container *ngIf="delete != item['id']">
-                            <div class="col-1  animated flipInX"></div>
-                            <div class="col-1  animated flipInX">
+                            <div class="col-1  animated flipInX" [style.height.px]="30"></div>
+                            <div class="col-1  animated flipInX" [style.height.px]="30">
                                 <input class="form-check-input" type="radio" name="contrato" (change)="inputChg(item['id'])" [(ngModel)]="formData['activo']" [value]="item['id']">
                             </div>
-                            <div class="col-4  animated flipInX d-flex justify-content-around">
+                            <div class="col-3  animated flipInX d-flex justify-content-around">
                                 <div class="">
                                     <span class="badge badge-pill" [ngClass]="{'badge-secondary': item.tipo != 1 &&item.tipo != 2,'badge-warning': item.tipo == 1,'badge-success': item.tipo == 2}">{{ item.tipo == 1 ? 'Temporal' : item.tipo == 2 ? 'Indefinido' : 'N/A' }}</span>
                                 </div>
@@ -38,11 +41,16 @@
                                     <button class="btn btn-sm btn-link" [ngClass]="{'text-danger': formData['activo'] != item['id'], 'text-secondary': formData['activo'] == item['id']}" (click)="delete = item['id']" [disabled]="formData['activo'] == item['id']" *ngIf="!loading['active']"><i class="far fa-trash-alt"></i></button>
                                 </div>
                             </div>
-                            <div class="col-3  animated flipInX text-center">
+                            <div class="col-2  animated flipInX text-center">
                                 <p>{{ item['inicio'] ? printDate( item['inicio'], 'DD MMM \'YY' ) : '-' }}</p>
                             </div>
-                            <div class="col-3  animated flipInX text-center">
+                            <div class="col-2  animated flipInX text-center">
                                 <p>{{ item['fin'] ? printDate( item['fin'], 'DD MMM \'YY' ) : '-' }}</p>
+                            </div>
+                            <div class="col-3  animated flipInX text-center">
+                                <button class="btn btn-sm" [disabled]="!item['evalId']" [ngClass]="evalText(item['status'], 'class')" (click)="openEval( item['asesor'], item['id'], item['Nombre'], item['status'])">
+                                    {{ item['evalId'] ? evalText(item['status']) : '-' }}
+                                </button>
                             </div>
                         </ng-container>
                         <ng-container *ngIf="delete == item['id']">

@@ -103,7 +103,7 @@
     <app-set-baja [asesor]="asesor" [nombre]="data['nombre']" [tipo]="bajaTipo" [modal]="'#bajaSolicitud'" (error)="err($event)" (save)="succ($event)"></app-set-baja>
 
     <!-- MODAL CONTRATOS -->
-    <app-add-contrato [asesor]="asesor" [nombre]="data['nombre']" [contratos]="contratos" [modal]="'#editContratos'" (error)="err($event)" (save)="succ($event)"></app-add-contrato>
+    <app-add-contrato [asesor]="asesor" [nombre]="data['nombre']" [contratos]="contratos" [modal]="'#editContratos'" (showEval)="showEval.emit( $event )" (error)="err($event)" (save)="succ($event)"></app-add-contrato>
 
     <!-- Reingreso -->
     <app-reingreso-asesor [nombre]="data['nombre']" [asesor]="asesor" element='#reingreso' (save)="saved( $event )"></app-reingreso-asesor>

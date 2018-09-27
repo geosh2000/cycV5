@@ -41,6 +41,7 @@ export class AddContratoComponent implements OnChanges {
 
   @Output() error = new EventEmitter<any>()
   @Output() save = new EventEmitter<any>()
+  @Output() showEval = new EventEmitter<any>()
 
   hoveredDate: NgbDateStruct
   fromDate: NgbDateStruct
@@ -51,7 +52,9 @@ export class AddContratoComponent implements OnChanges {
 
   saveAlert:boolean = false
   addForm:boolean = false
-  errorMsg:string = ""
+  errorMsg:string = ''
+
+  evalModal:Object = {}
 
   formData:Object = {
     thisActive: true
@@ -112,7 +115,7 @@ export class AddContratoComponent implements OnChanges {
   submit(){
     this.submitting = true
 
-    this._api.restfulGet( this.formData, "SolicitudBC/addContrato" )
+    this._api.restfulGet( this.formData, 'SolicitudBC/addContrato' )
               .subscribe( res => {
 
                 this.submitting = false
@@ -121,7 +124,7 @@ export class AddContratoComponent implements OnChanges {
                 this.formData = {}
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.submitting = false
 
@@ -135,7 +138,7 @@ export class AddContratoComponent implements OnChanges {
   chgActive( id, original ){
     this.loading['active'] = true
 
-    this._api.restfulGet( `${this.asesor}/${id}`, "SolicitudBC/contrato_chgActive" )
+    this._api.restfulGet( `${this.asesor}/${id}`, 'SolicitudBC/contrato_chgActive' )
               .subscribe( res => {
 
                 this.loading['active'] = false
@@ -143,7 +146,7 @@ export class AddContratoComponent implements OnChanges {
                 this.delete=''
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['active'] = false
                 this.formData['activo'] = original
@@ -158,7 +161,7 @@ export class AddContratoComponent implements OnChanges {
   confDelete( id ){
     this.loading['delete'] = true
 
-    this._api.restfulGet( id, "SolicitudBC/contrato_delete" )
+    this._api.restfulGet( id, 'SolicitudBC/contrato_delete' )
               .subscribe( res => {
 
                 this.loading['delete'] = false
@@ -166,7 +169,7 @@ export class AddContratoComponent implements OnChanges {
                 this.delete=''
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['delete'] = false
 
@@ -203,7 +206,7 @@ export class AddContratoComponent implements OnChanges {
       params['fin'] = this.formData['fin']
     }
 
-    this._api.restfulPut( params, "SolicitudBC/contrato_add" )
+    this._api.restfulPut( params, 'SolicitudBC/contrato_add' )
               .subscribe( res => {
 
                 this.loading['add'] = false
@@ -212,7 +215,7 @@ export class AddContratoComponent implements OnChanges {
                 this.addForm=false
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['add'] = false
 
@@ -221,6 +224,60 @@ export class AddContratoComponent implements OnChanges {
                 console.error(err.statusText, error.msg)
 
               })
+  }
+
+  evalText( status, clFlag = false ){
+
+    if( !clFlag ){
+      switch( status ){
+        case '1':
+        case '5':
+          return 'Ev: Renovar (sf)'
+        case '2':
+          return 'Ev: No Ren (en rev)'
+        case '3':
+          return 'Ev: Renovar (rev sup)'
+        case '4':
+          return 'Ev: No Renovar'
+        case '6':
+          return 'Ev: Renovar (firmado)'
+      }
+    }else{
+      switch( status ){
+        case '1':
+        case '5':
+          return 'btn-warning'
+        case '2':
+          return 'btn-danger'
+        case '3':
+          return 'btn-warning'
+        case '4':
+          return 'btn-danger'
+        case '6':
+          return 'btn-success'
+      }
+    }
+  }
+
+  openEval( asesorId, contrato, nombre, status, newFlag = false, asesor = false ){
+
+    let manager = false, sup = false
+
+    let evalModal = {
+      asesor: asesorId,
+      contrato: contrato,
+      nombre: nombre,
+      manager: manager,
+      agent: asesor,
+      superReview: sup,
+      new: newFlag,
+      status: status,
+      readOnly: true,
+      openTime: new Date()
+    }
+    jQuery('#editContratos').modal('hide')
+    this.showEval.emit( evalModal )
+
   }
 
 }

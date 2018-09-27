@@ -11,6 +11,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Integracion de Material Angular (.2001)
 * Fix Menu al abrir opciones (.2003)
 * Fix Excel Download (file type) (.2005)
+* Fix de Notificación en error de APIs (.2010)
 
 ### Altas en grupo
 * Módulo de altas con template de xlsx (.2009)
@@ -28,6 +29,15 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### CxC
 * Implementación de no. de quincenas al enviar a RRHH (.2004)
 * Corrección de Layout descargable por quincenas (.2004)
+
+### Evaluaciones Desempeño
+* Módulo de Búsqueda y Evaluación (.2010)
+* Tiempo límite para evaluación (.2010)
+* Tiempo límite para solicitud de no renovación (.2010)
+* Flujo de autorización Gerencial (.2010)
+* Review con asesor con solicitud de firma electrónica (.2010)
+* Integración completa a detalle de asesores (.2011)
+* Acceso a edición de contratos desde módulo de evaluación (sólo con permiso) (.2011)
 
 ### HeadCount
 * Nueva vista con mejor rendimiento (.2008)

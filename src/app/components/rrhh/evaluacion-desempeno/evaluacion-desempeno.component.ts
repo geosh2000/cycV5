@@ -86,6 +86,10 @@ export class EvaluacionDesempenoComponent implements OnInit {
     new: false,
   }
 
+  ctr:Object = {
+    ctrs: []
+  }
+
   constructor(public _api: ApiService,
       private titleService: Title,
       public _init:InitService,
@@ -155,9 +159,16 @@ export class EvaluacionDesempenoComponent implements OnInit {
       superReview: sup,
       new: newFlag,
       status: item['status'],
-      left: this.getDuration( item['fin']+' 23:59:59', 'd', true )
+      left: this.getDuration( item['fin']+' 23:59:59', 'd', true ),
+      openTime: moment()
     }
     jQuery('#desempeno').modal('show')
+  }
+
+  showEval( info ){
+    this.evalModal = info
+    jQuery('#desempeno').modal('show')
+    jQuery('#desempeno').addClass('modal-open-important')
   }
 
   getOps(){
@@ -292,7 +303,7 @@ export class EvaluacionDesempenoComponent implements OnInit {
       unix  = moment.unix(datetime)
     }else{
       now = moment(datetime)
-      unix = moment.unix( parseInt(moment().format('X'))) 
+      unix = moment.unix( parseInt(moment().format('X')))
     }
 
     let result = moment.duration(now.diff(unix));
@@ -319,5 +330,45 @@ export class EvaluacionDesempenoComponent implements OnInit {
         return Math.floor(result.asDays())
     }
   }
+
+  err( data ){
+    this.toastr.error(data.msg, data.code)
+  }
+
+  succ( data ){
+    if( !data.toastrOff ){
+      this.toastr.success( 'Solicitud guardada correctamente', 'Guardado!')
+    }
+  }
+
+  openContracts(item){
+
+    this.ctr = {
+      asesor: item['asesor'],
+      Nombre: item['Nombre']
+    }
+
+    this.loading['ctrs'] = true
+
+    this._api.restfulGet( item.asesor,'DetalleAsesores/contrato' )
+              .subscribe( res => {
+
+                this.loading['ctrs'] = false
+                this.ctr['ctrs'] = res['data']['contratos']
+                jQuery('#editContratos').modal('show')
+
+              }, err => {
+                console.log('ERROR', err)
+
+                this.loading['ctrs'] = false
+                let error = err.error
+                this.toastr.error( error.msg, err.status )
+                console.error(err.statusText, error.msg)
+
+              })
+
+  }
+
+
 
 }

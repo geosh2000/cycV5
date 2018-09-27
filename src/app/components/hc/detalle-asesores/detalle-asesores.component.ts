@@ -25,6 +25,8 @@ export class DetalleAsesoresComponent implements OnInit {
   large:boolean = true
   mainCredential:string = 'hc_detalle_asesores'
 
+  evalModal:Object = {}
+
   now:any = moment()
 
   loading:Object = {}
@@ -59,7 +61,7 @@ export class DetalleAsesoresComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -94,6 +96,12 @@ export class DetalleAsesoresComponent implements OnInit {
     }else{
       this.toastr.error( data.msg, data.title )
     }
+  }
+
+  showEval( info ){
+    this.evalModal = info
+    jQuery('#desempeno').modal('show')
+    jQuery('#desempeno').addClass('modal-open-important')
   }
 
 }

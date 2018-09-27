@@ -61,33 +61,43 @@
                             </ng-container>
                         </div>
 
-                        <div class="d-flex justify-content-end align-items-center">
-                            <div class='p-1 mr-auto'>
-                                <p><span [style.width.px]="190" class="badge badge-pill" [ngClass]="{'badge-secondary': resultRate('all') == 0, 'badge-danger': resultRate('all') < 3 && resultRate('all') > 0, 'badge-warning': resultRate('all') == 3, 'badge-success': resultRate('all') > 3}">
-                                        <ngb-rating [rate]="resultRate('all')" [readonly]="true"></ngb-rating> {{ rateText( resultRate('all') ) }}
-                                </span></p>
+                    </form>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <div class='p-1 mr-auto'>
+                            <p><span [style.width.px]="190" class="badge badge-pill" [ngClass]="{'badge-secondary': resultRate('all') == 0, 'badge-danger': resultRate('all') < 3 && resultRate('all') > 0, 'badge-warning': resultRate('all') == 3, 'badge-success': resultRate('all') > 3}">
+                                            <ngb-rating [rate]="resultRate('all')" [readonly]="true"></ngb-rating> {{ rateText( resultRate('all') ) }}
+                                    </span></p>
+                            <p class="text-info" *ngIf="this.metaData['sup']"><small>Evaluada por: {{ this.metaData['sup'] }} ({{ printDate(this.metaData['sup_date'], 'DD MMM \'YY HH:mm') }})</small></p>
+                            <p class="text-info" *ngIf="this.metaData['manager']"><small>Revisada por: {{ this.metaData['manager'] }} ({{ printDate(this.metaData['manager_date'], 'DD MMM \'YY HH:mm') }})</small></p>
+                            <p class="text-info" *ngIf="this.metaData['review']"><small>Modificada por: {{ this.metaData['review'] }} ({{ printDate(this.metaData['review_date'], 'DD MMM \'YY HH:mm') }})</small></p>
+                            <p class="text-info" *ngIf="this.metaData['agent']"><small>Aceptad por: {{ this.metaData['agent'] }} ({{ printDate(this.metaData['agent_date'], 'DD MMM \'YY HH:mm') }})</small></p>
+                        </div>
+                        <div class="p-1" *ngIf="new || manager || superReview">
+                            <div class='p-1'>
+                                <button [style.width.px]="190" type="button" class="btn btn-sm btn-danger" [disabled]="loading['save'] || timeLeft < 10" (click)="submit( false, manager, superReview )" *ngIf="status != '3'">No Renovar <span style="font-size: xx-small" *ngIf="timeLeft < 10"><br>Inactivo por tiempo menor a 10 días</span><span *ngIf="loading['save'] && !superReview"><i class="fas fa-spinner fa-pulse"></i></span></button>
                             </div>
-                            <div class="p-1" *ngIf="new || manager || superReview">
-                                <div class='p-1'>
-                                    <button [style.width.px]="190" type="button" class="btn btn-sm btn-danger" [disabled]="loading['save'] || timeLeft < 10" (click)="submit( false, manager, superReview )" *ngIf="status != '3'">No Renovar <span style="font-size: xx-small"><br>Inactivo por tiempo menor a 10 días</span><span *ngIf="loading['save'] && !superReview"><i class="fas fa-spinner fa-pulse"></i></span></button>
-                                </div>
-                                <div class='p-1'>
-                                    <button [style.width.px]="190" type="button" class="btn btn-sm btn-success" [disabled]="loading['save']" (click)="submit( true, manager, superReview )">Renovar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-                                </div>
-                            </div>
-                            <div class="p-1 text-center" *ngIf="!new && agent">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
-                                    </div>
-                                    <input [(ngModel)]="usp" type="password" class="form-control" name="usp" placeholder="Password Asesor">
-                                </div>
-                                <div class='p-1'>
-                                    <button [style.width.px]="190" type="button" class="btn btn-sm btn-success" [disabled]="loading['save'] || usp == ''" (click)="submit( true, manager, superReview, agent )">Firmar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-                                </div>
+                            <div class='p-1'>
+                                <button [style.width.px]="190" type="button" class="btn btn-sm btn-success" [disabled]="loading['save']" (click)="submit( true, manager, superReview )">Renovar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
                             </div>
                         </div>
-                    </form>
+                        <div class="p-1 text-center" *ngIf="!new && agent">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input [(ngModel)]="usn" type="text" class="form-control" name="usn" placeholder="User" autocomplete="false" [readonly]="true">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input [(ngModel)]="usp" type="password" class="form-control" name="usp" placeholder="Password Asesor" autocomplete="new-password">
+                            </div>
+                            <div class='p-1'>
+                                <button [style.width.px]="190" type="button" class="btn btn-sm btn-success" [disabled]="loading['save'] || usp == ''" (click)="submit( true, manager, superReview, agent )">Firmar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                            </div>
+                        </div>
+                    </div>
                 </ng-container>
 
 

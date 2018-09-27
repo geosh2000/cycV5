@@ -18,12 +18,14 @@ export class DetContratoComponent implements OnChanges {
   @Input() time:any
   @Output() error = new EventEmitter<any>()
   @Output() reload = new EventEmitter<any>()
+  @Output() showEval = new EventEmitter<any>()
 
   loading:Object = {}
   data:Object = {}
   contratos:Object = {}
   solicitudes:any
   bajaTipo:boolean = false
+  evalModal:Object = {}
 
   constructor(public _api: ApiService,
               public toastr: ToastrService,
@@ -93,4 +95,5 @@ export class DetContratoComponent implements OnChanges {
         this.toastr.success('Guardado', 'Guardado')
     }
   }
+
 }

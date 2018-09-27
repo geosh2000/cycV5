@@ -70,11 +70,13 @@
                         <th class="text-center">Nombre</th>
                         <th class="text-center">Supervisor</th>
                         <th class="text-center">Departamento</th>
+                        <th class="text-center">Activo</th>
                         <th class="text-center">ID Contrato</th>
                         <th class="text-center">Fin de Contrato</th>
                         <th class="text-center">Fecha de Evaluación</th>
                         <th class="text-center">Acciones</th>
                         <th class="text-center">Asesor</th>
+                        <th class="text-center" *ngIf="_init.checkSingleCredential('hc_contratos_edit')">Contratos</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,6 +84,9 @@
                         <td class="align-middle text-left">{{ item['Nombre'] }}</td>
                         <td class="align-middle text-left">{{ item['Supervisor'] }}</td>
                         <td class="align-middle text-left">{{ item['Departamento'] }}</td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-pill" [ngClass]="{'badge-danger' : item['Activo'] != '1', 'badge-success' : item['Activo'] == '1'}">{{ item['Activo'] == '1' ? 'Activo' : 'Inactivo' }}</span>
+                        </td>
                         <td class="align-middle text-center">{{ item['contrato'] }}</td>
                         <td class="align-middle text-center">{{ item['fin'] }}</td>
                         <td class="align-middle text-center">
@@ -99,8 +104,13 @@
                             </button>
                         </td>
                         <td class="align-middle text-center">
-                            <button class="btn btn-sm btn-success" (click)="openEval(item, false, true)" *ngIf="_init.checkSingleCredential('eval_desemp_evaluacion') || _init.checkSingleCredential('eval_desemp_gerencia') && (item['status'] == '1' || item['status'] == '5')">
+                            <button class="btn btn-sm btn-success" (click)="openEval(item, false, true)" *ngIf="(_init.checkSingleCredential('eval_desemp_evaluacion') || _init.checkSingleCredential('eval_desemp_gerencia')) && (item['status'] == '1' || item['status'] == '5') && item['Activo']=='1'">
                                 Revisar con<br>Asesor
+                            </button>
+                        </td>
+                        <td class="align-middle text-center" *ngIf="_init.checkSingleCredential('hc_contratos_edit')">
+                            <button class="btn btn-sm btn-info" (click)="openContracts(item)" [disabled]="loading['ctrs']" *ngIf="item['Activo']=='1'">
+                                Editar Contratos <span *ngIf="loading['ctrs']"><i class="fas fa-spinner fa-pulse"></i></span>
                             </button>
                         </td>
                     </tr>
@@ -108,7 +118,9 @@
             </table>
         </div>
 
-        <app-modal-evaluacion-des [timeLeft]="evalModal['left']" [status]="evalModal['status']" [asesor]="evalModal['asesor']" [contrato]="evalModal['contrato']" [nombre]="evalModal['nombre']" [manager]="evalModal['manager']" [agent]="evalModal['agent']" [superReview]="evalModal['superReview']"
-            [new]="evalModal['new']" (reload)="searchEval()"></app-modal-evaluacion-des>
+        <app-modal-evaluacion-des [openTime]="evalModal['openTime']" [timeLeft]="evalModal['left']" [status]="evalModal['status']" [asesor]="evalModal['asesor']" [contrato]="evalModal['contrato']" [nombre]="evalModal['nombre']" [manager]="evalModal['manager']"
+            [agent]="evalModal['agent']" [superReview]="evalModal['superReview']" [new]="evalModal['new']" (reload)="searchEval()"></app-modal-evaluacion-des>
 
+        <!-- MODAL CONTRATOS -->
+        <app-add-contrato [asesor]="ctr['asesor']" [nombre]="ctr['Nombre']" [contratos]="ctr['ctrs']" [modal]="'#editContratos'" (showEval)="showEval( $event )" (error)="err($event)" (save)="succ($event)"></app-add-contrato>
     </div>
