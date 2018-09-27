@@ -66,7 +66,7 @@ export class EventDisplayComponent implements OnInit {
               this.reLoadingFams = false
 
               if(err){
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -119,7 +119,7 @@ export class EventDisplayComponent implements OnInit {
             }, err => {
 
               if(err){
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -191,7 +191,7 @@ export class EventDisplayComponent implements OnInit {
               }, err => {
                 this.subsLoading = false
                 if(err){
-                  let error = err.json()
+                  let error = err.error
                   this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                   console.error(err.statusText, error.msg)
 

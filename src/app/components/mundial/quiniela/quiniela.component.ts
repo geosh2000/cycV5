@@ -96,7 +96,7 @@ export class QuinielaComponent implements OnInit {
               }, err => {
                 console.log('ERROR', err)
                 this.loading['Partidos'] = false
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
               })
@@ -114,7 +114,7 @@ export class QuinielaComponent implements OnInit {
               }, err => {
                 console.log('ERROR', err)
                 this.loading['Posiciones'] = false
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
               })
@@ -140,7 +140,7 @@ export class QuinielaComponent implements OnInit {
               }, err => {
                 console.log('ERROR', err)
                 this.loading['save'] = false
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
               })

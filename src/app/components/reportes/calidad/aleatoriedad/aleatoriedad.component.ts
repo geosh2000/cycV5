@@ -102,7 +102,7 @@ export class AleatoriedadComponent implements OnInit {
 
                 this.loading['criteria'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -132,7 +132,7 @@ export class AleatoriedadComponent implements OnInit {
 
                 this.loading['criteria'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -166,7 +166,7 @@ export class AleatoriedadComponent implements OnInit {
                 this.loading['search'] = false
 
                 if(err.status != 500){
-                  let error = err.json()
+                  let error = err.error
                   this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                   console.error(err.statusText, error.msg)
                 }else{

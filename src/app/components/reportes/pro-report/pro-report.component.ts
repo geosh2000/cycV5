@@ -249,7 +249,7 @@ export class ProReportComponent implements OnInit {
 
               this.loading['filter'][group] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
@@ -285,7 +285,7 @@ export class ProReportComponent implements OnInit {
 
               this.loading['asesores'] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
@@ -306,7 +306,7 @@ export class ProReportComponent implements OnInit {
 
               this.loading['report'] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
@@ -412,7 +412,7 @@ export class ProReportComponent implements OnInit {
 
                 this.loading['savePreset'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -439,7 +439,7 @@ export class ProReportComponent implements OnInit {
 
                 this.loading['loadPreset'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 

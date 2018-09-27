@@ -84,7 +84,7 @@ export class BonoApproveComponent implements OnInit {
 
               this.loading['change'] = false
 
-              let error = err.json()
+              let error = err.error
               this.save.emit({status: false, saved: true, msg: error.msg, asesor: this.asesor})
 
 

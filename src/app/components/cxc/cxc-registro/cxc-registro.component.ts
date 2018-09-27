@@ -165,7 +165,7 @@ export class CxcRegistroComponent implements OnInit {
 
             this.loading['cxc'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 
@@ -331,7 +331,7 @@ export class CxcRegistroComponent implements OnInit {
 
               this.loading['save'][id] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, err.statusText )
               console.error(err.statusText, error.msg)
 

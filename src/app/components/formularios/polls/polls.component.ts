@@ -163,7 +163,7 @@ export class PollsComponent implements OnInit {
 
                 this.loading['curSel'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -193,7 +193,7 @@ export class PollsComponent implements OnInit {
                 this.saving = false
                 this.choice[sel] = ''
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 

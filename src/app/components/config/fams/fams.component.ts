@@ -107,7 +107,7 @@ export class FamsComponent implements OnInit {
               }, err => {
                 console.log("ERROR", err)
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['active'] = false
@@ -203,7 +203,7 @@ export class FamsComponent implements OnInit {
               }, err => {
                 console.log("ERROR", err)
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['new'] = false
@@ -230,7 +230,7 @@ export class FamsComponent implements OnInit {
               }, err => {
                 console.log("ERROR", err)
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['new'] = false
@@ -321,7 +321,7 @@ export class FamsComponent implements OnInit {
               }, err => {
                 console.log("ERROR", err)
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['deps'] = false

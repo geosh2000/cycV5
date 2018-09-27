@@ -125,7 +125,7 @@ export class AddContratoComponent implements OnChanges {
 
                 this.submitting = false
 
-                let error = err.json()
+                let error = err.error
                 this.error.emit({code: err.statusText, msg: err.msg})
                 console.error(err.statusText, error.msg)
 
@@ -148,7 +148,7 @@ export class AddContratoComponent implements OnChanges {
                 this.loading['active'] = false
                 this.formData['activo'] = original
 
-                let error = err.json()
+                let error = err.error
                 this.error.emit({code: err.statusText, msg: `${error.msg} -> ${error.error.message}`})
                 console.error(err.statusText, error.msg)
 
@@ -170,7 +170,7 @@ export class AddContratoComponent implements OnChanges {
 
                 this.loading['delete'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.error.emit({code: err.statusText, msg: `${error.msg} -> ${error.error.message}`})
                 console.error(err.statusText, error.msg)
 
@@ -216,7 +216,7 @@ export class AddContratoComponent implements OnChanges {
 
                 this.loading['add'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.error.emit({code: err.statusText, msg: `${error.msg} -> ${error.error.message}`})
                 console.error(err.statusText, error.msg)
 

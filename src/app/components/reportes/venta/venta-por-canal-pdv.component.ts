@@ -97,7 +97,7 @@ export class VentaPorCanalPdvComponent implements OnInit {
               this.loading['data'] = false
             }, err => {
               if(err){
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['data'] = false

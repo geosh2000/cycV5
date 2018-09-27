@@ -357,7 +357,7 @@ export class BatchAsesorFormComponent implements OnInit, OnChanges {
                 this.saved = true
                 this.successSave = false
 
-                let error = err.json()
+                let error = err.error
                 this.newError = err['error']
                 console.error(err.statusText, error.msg)
 

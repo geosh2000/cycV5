@@ -52,7 +52,7 @@ export class ExtraSwitchComponent implements OnInit {
               console.log("ERROR", err)
               this.loading['change'] = false
 
-              let error = err.json()
+              let error = err.error
               this.save.emit( {status: false, msg: error.msg} )
               this.payment = !event
 

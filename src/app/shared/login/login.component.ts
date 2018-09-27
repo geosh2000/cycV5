@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
 
         if(err){
           this.loginLoad = false
-          let error = err.json()
+          let error = err.error
           this.loginError=true;
           this.loginMsg=error.msg;
 

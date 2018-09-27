@@ -108,7 +108,7 @@ export class DiasPendientesComponent implements OnInit {
                 this.loading['list'] = false
                 this.loading['detail'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -129,7 +129,7 @@ export class DiasPendientesComponent implements OnInit {
 
                 this.loading['toApprobe'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -150,7 +150,7 @@ export class DiasPendientesComponent implements OnInit {
 
                 this.loading['rejected'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -171,7 +171,7 @@ export class DiasPendientesComponent implements OnInit {
 
                 this.loading['detailed'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -236,7 +236,7 @@ export class DiasPendientesComponent implements OnInit {
 
                 this.loading['saveAdd'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -291,7 +291,7 @@ export class DiasPendientesComponent implements OnInit {
 
                 this.loading['delete'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.success( error.msg, 'Error' )
                 console.error(err.statusText, error.msg)
 

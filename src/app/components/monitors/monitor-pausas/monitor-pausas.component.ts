@@ -115,7 +115,7 @@ export class MonitorPausasComponent implements OnInit {
                 this.timeCount = 30
                 this.timerFlag = true
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['Pauses'] = false
@@ -159,7 +159,7 @@ export class MonitorPausasComponent implements OnInit {
               }, err => {
                 console.log("ERROR", err)
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['Pauses'] = false
@@ -343,7 +343,7 @@ export class MonitorPausasComponent implements OnInit {
   }
 
   getError( err ){
-    let error = err.json()
+    let error = err.error
     this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
   }
 
@@ -372,7 +372,7 @@ export class MonitorPausasComponent implements OnInit {
 
                 this.timerFlag = true
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.dataPausas[event.asesor]['loading'] = false

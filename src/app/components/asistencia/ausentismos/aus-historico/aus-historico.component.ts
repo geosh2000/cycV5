@@ -54,7 +54,7 @@ export class AusHistoricoComponent implements OnInit {
 
                 this.loading['ausentismos'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.save.emit({status: false, err: err})
                 console.error(err.statusText, error.msg)
 
@@ -75,7 +75,7 @@ export class AusHistoricoComponent implements OnInit {
 
                 this.deleting[id] = false
 
-                let error = err.json()
+                let error = err.error
                 this.save.emit({status: false, err: err})
                 console.error(err.statusText, error.msg)
 

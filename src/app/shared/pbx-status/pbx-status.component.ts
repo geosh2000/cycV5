@@ -100,7 +100,7 @@ export class PbxStatusComponent implements OnInit {
                 console.log("ERROR", err)
                 this.loading['status'] = false
 
-                let error = err.json()
+                let error = err.error
                 console.error(err.statusText, error.msg)
               })
   }

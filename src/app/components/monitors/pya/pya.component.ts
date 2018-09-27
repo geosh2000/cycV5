@@ -175,7 +175,7 @@ export class PyaComponent implements OnInit {
 
               this.loading['schedules'] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
@@ -317,7 +317,7 @@ export class PyaComponent implements OnInit {
               this.timerFlag = true
               this.timerLoad()
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
@@ -364,7 +364,7 @@ export class PyaComponent implements OnInit {
               this.timerFlag = true
               this.timerLoad()
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 

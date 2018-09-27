@@ -78,7 +78,7 @@ export class AprobacionDpComponent implements OnInit {
 
                 this.loading['toApprobe'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.result.emit({status: false, msg: error.msg})
                 console.error(err.statusText, error.msg)
 

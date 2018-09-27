@@ -89,7 +89,7 @@ export class UploadCalidadComponent implements OnInit {
 
               this.loading[load] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
@@ -175,7 +175,7 @@ export class UploadCalidadComponent implements OnInit {
 
               this.loading[loader] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 

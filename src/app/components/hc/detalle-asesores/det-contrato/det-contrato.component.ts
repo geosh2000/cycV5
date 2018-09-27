@@ -51,7 +51,7 @@ export class DetContratoComponent implements OnChanges {
                 console.log('ERROR', err)
 
                 this.loading['data'] = false
-                let error = err.json()
+                let error = err.error
                 this.error.emit( {msg: error.msg, status: err.status, text: err.statusText} )
                 console.error(err.statusText, error.msg)
 

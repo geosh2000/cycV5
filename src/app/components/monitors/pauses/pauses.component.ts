@@ -120,7 +120,7 @@ export class PausesComponent implements OnInit {
                 this.timeCount = 20
                 this.timerLoad()
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['Pauses'] = false
@@ -139,7 +139,7 @@ export class PausesComponent implements OnInit {
               }, err => {
                 console.log("ERROR", err)
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['Pauses'] = false
@@ -335,7 +335,7 @@ export class PausesComponent implements OnInit {
               }, err => {
                 console.log("ERROR", err)
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loading['saveJustify'] = false
@@ -442,7 +442,7 @@ export class PausesComponent implements OnInit {
                 this.loading['change'] = false
                 this.timerFlag = true
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
               })

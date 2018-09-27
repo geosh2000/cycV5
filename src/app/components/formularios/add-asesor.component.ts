@@ -389,7 +389,7 @@ export class AddAsesorComponent implements OnChanges {
               console.log("ERROR", err)
 
               this.retrieving = false
-              let error = err.json()
+              let error = err.error
               this.save.emit({status: false, msg: error.msg, title: err.statusText})
               console.error(err.statusText, error.msg)
             })

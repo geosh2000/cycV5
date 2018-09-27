@@ -70,7 +70,7 @@ export class CxcLinkComponent implements OnInit {
 
               this.loading['link'] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, err.statusText )
               console.error(err.statusText, error.msg)
 
@@ -102,7 +102,7 @@ export class CxcLinkComponent implements OnInit {
 
             this.loading['linkCxc'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 
@@ -134,7 +134,7 @@ export class CxcLinkComponent implements OnInit {
 
             this.loading['linkcxc'][id] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 

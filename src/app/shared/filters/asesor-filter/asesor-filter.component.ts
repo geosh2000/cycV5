@@ -122,7 +122,7 @@ export class AsesorFilterComponent implements OnInit {
 
               this.loading['asesores'] = false
 
-              let error = err.json()
+              let error = err.error
               console.error(err.statusText, error.msg)
 
             })

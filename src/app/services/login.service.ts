@@ -30,7 +30,7 @@ export class LoginService {
       }, err => {
 
         if(err){
-          let error = err.json()
+          let error = err.error
           console.error(err.statusText, error.msg)
 
           return { status: false, msg: error.msg, err: err.statusText }

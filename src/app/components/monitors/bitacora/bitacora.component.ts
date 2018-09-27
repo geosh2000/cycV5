@@ -138,7 +138,7 @@ export class BitacoraComponent implements OnInit {
     }, err => {
       console.log('ERROR', err)
       this.loading['data'] = false
-      let error = err.json()
+      let error = err.error
       this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
       console.error(err.statusText, error.msg)
     })

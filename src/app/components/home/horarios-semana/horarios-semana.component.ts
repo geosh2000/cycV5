@@ -64,7 +64,7 @@ export class HorariosSemanaComponent implements OnInit {
                 console.log('ERROR', err)
                 this.loading['horarios'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.horarios.emit( {msg: error.msg, status: err.status, text: err.statusText} )
                 console.error(err.statusText, error.msg)
 
@@ -116,7 +116,7 @@ export class HorariosSemanaComponent implements OnInit {
               this.loading['comida'] = false
               this.comida = !event
 
-              let error = err.json()
+              let error = err.error
               this.horarios.emit( {status: false, info: err} )
             })
   }

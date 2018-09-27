@@ -106,7 +106,7 @@ export class CxcAdminComponent implements OnInit {
 
             this.loading['cortes'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 
@@ -130,7 +130,7 @@ export class CxcAdminComponent implements OnInit {
 
             this.loading['data'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 
@@ -193,7 +193,7 @@ export class CxcAdminComponent implements OnInit {
 
             this.loading['save'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 
@@ -231,7 +231,7 @@ export class CxcAdminComponent implements OnInit {
 
             this.loading['save'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 
@@ -291,7 +291,7 @@ export class CxcAdminComponent implements OnInit {
 
             this.loading['download'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 

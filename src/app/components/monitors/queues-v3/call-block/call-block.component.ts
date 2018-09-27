@@ -201,7 +201,7 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
 
                 console.log('ERROR', err)
 
-                let error = err.json()
+                let error = err.error
                 console.error(err.statusText, error.msg)
 
               })

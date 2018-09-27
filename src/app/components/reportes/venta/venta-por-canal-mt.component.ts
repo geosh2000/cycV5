@@ -125,7 +125,7 @@ export class VentaPorCanalMtComponent implements OnInit {
               this.loadingData = false
             }, err => {
               if(err){
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
                 this.loadingData = false

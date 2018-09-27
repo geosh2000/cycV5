@@ -107,7 +107,7 @@ export class KpisPdvComponent implements OnInit {
 
               this.loading['venta'] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
@@ -281,7 +281,7 @@ export class KpisPdvComponent implements OnInit {
 
               this.loading['venta'] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
@@ -418,7 +418,7 @@ export class KpisPdvComponent implements OnInit {
 
               this.loading['calls'] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 

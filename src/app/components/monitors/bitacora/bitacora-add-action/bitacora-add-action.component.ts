@@ -70,7 +70,7 @@ export class BitacoraAddActionComponent implements OnInit {
         }, err => {
           console.log('ERROR', err)
           this.loading['actions'] = false
-          let error = err.json()
+          let error = err.error
           this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
           console.error(err.statusText, error.msg)
         })
@@ -115,7 +115,7 @@ export class BitacoraAddActionComponent implements OnInit {
         }, err => {
           console.log('ERROR', err)
           this.loading['comments'] = false
-          let error = err.json()
+          let error = err.error
           this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
           console.error(err.statusText, error.msg)
         })
@@ -158,7 +158,7 @@ export class BitacoraAddActionComponent implements OnInit {
 
             this.loading['new'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 
@@ -183,7 +183,7 @@ export class BitacoraAddActionComponent implements OnInit {
 
             this.loading['new'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 

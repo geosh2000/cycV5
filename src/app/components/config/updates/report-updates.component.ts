@@ -75,7 +75,7 @@ export class ReportUpdatesComponent implements OnInit {
             }, err => {
 
               if(err){
-                let error = err.json()
+                let error = err.error
                 let errMsg = `${error.msg}: Error ${err.status} - ${err.statusText}`
 
                 this.errMsg['reports'] = errMsg
@@ -98,7 +98,7 @@ export class ReportUpdatesComponent implements OnInit {
             }, err => {
 
               if(err){
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
               }
@@ -177,7 +177,7 @@ export class ReportUpdatesComponent implements OnInit {
 
                 this.processLoading = false
                 if(err){
-                  let error = err.json()
+                  let error = err.error
                   this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                   console.error(err.statusText, error.msg)
                 }
@@ -201,7 +201,7 @@ export class ReportUpdatesComponent implements OnInit {
 
                 this.processLoading = false
                 if(err){
-                  let error = err.json()
+                  let error = err.error
                   this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                   console.error(err.statusText, error.msg)
                 }

@@ -87,7 +87,7 @@ export class CambioLocalizadorAsesorComponent implements OnInit {
 
                 this.loading['getLocs'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -123,7 +123,7 @@ export class CambioLocalizadorAsesorComponent implements OnInit {
 
                 this.loading['saveLocs'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -144,7 +144,7 @@ export class CambioLocalizadorAsesorComponent implements OnInit {
 
               this.loading['updateGr'] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 
@@ -164,7 +164,7 @@ export class CambioLocalizadorAsesorComponent implements OnInit {
 
               this.loading['updateMon'] = false
 
-              let error = err.json()
+              let error = err.error
               this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
               console.error(err.statusText, error.msg)
 

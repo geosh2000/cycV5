@@ -78,7 +78,7 @@ export class HcControlComponent implements OnInit {
 
             this.loading['data'] = false
 
-            let error = err.json()
+            let error = err.error
             this.toastr.error( error.msg, err.statusText )
             console.error(err.statusText, error.msg)
 
@@ -108,7 +108,7 @@ export class HcControlComponent implements OnInit {
 
                 this.loading['dwl'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, err.statusText )
                 console.error(err.statusText, error.msg)
 

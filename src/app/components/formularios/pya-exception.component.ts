@@ -87,7 +87,7 @@ export class PyaExceptionComponent implements OnInit {
 
                 this.loading['types'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.save.emit({
                   asesor: this.asesor,
                   fecha:  this.fecha,
@@ -132,7 +132,7 @@ export class PyaExceptionComponent implements OnInit {
               }, err => {
 
                 this.loading['existent'] = false
-                let error = err.json()
+                let error = err.error
                 this.save.emit({
                   asesor: this.asesor,
                   fecha:  this.fecha,
@@ -190,7 +190,7 @@ export class PyaExceptionComponent implements OnInit {
             }, err => {
               this.loading['save'] = false
 
-              let error = err.json()
+              let error = err.error
               this.save.emit({
                 asesor: this.asesor,
                 fecha:  this.fecha,
@@ -243,7 +243,7 @@ export class PyaExceptionComponent implements OnInit {
               }, err => {
                 this.loading['delete'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.save.emit({
                   asesor: this.asesor,
                   fecha:  this.fecha,

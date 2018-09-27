@@ -84,7 +84,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
 
                 this.loading['form'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, err.statusText )
                 console.error(err.statusText, error.msg)
 
@@ -199,7 +199,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
 
                   this.loading['save'] = false
 
-                  let error = err.json()
+                  let error = err.error
                   this.toastr.error( error.msg, err.statusText )
                   console.error(err.statusText, error.msg)
 
@@ -241,7 +241,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
 
                 this.loading['getEval'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, err.statusText )
                 console.error(err.statusText, error.msg)
 

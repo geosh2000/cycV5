@@ -162,7 +162,7 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
                 this.loading['queues'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, err.statusText )
                 console.error(err.statusText, error.msg)
 
@@ -208,7 +208,7 @@ export class QueuesV3Component implements OnInit, OnDestroy {
                 this.timerCount = this.timer['error']
                 this.startTimer()
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, err.statusText )
                 console.error(err.statusText, error.msg)
 

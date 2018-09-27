@@ -52,7 +52,7 @@ export class PersonalDataComponent implements OnInit {
               this.personalDataLoading = false
 
               if(err){
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -106,7 +106,7 @@ export class PersonalDataComponent implements OnInit {
               this.saveDataLoading = false
 
               if(err){
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 

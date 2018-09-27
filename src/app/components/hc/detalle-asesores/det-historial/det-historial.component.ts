@@ -60,7 +60,7 @@ export class DetHistorialComponent implements OnChanges {
                 console.log("ERROR", err)
 
                 this.loading['historial'] = false
-                let error = err.json()
+                let error = err.error
                 this.error.emit( {msg: error.msg, status: err.status, text: err.statusText} )
                 console.error(err.statusText, error.msg)
 
@@ -83,7 +83,7 @@ export class DetHistorialComponent implements OnChanges {
                 console.log("ERROR", err)
 
                 this.loading['solicitudes'] = false
-                let error = err.json()
+                let error = err.error
                 this.error.emit( {msg: error.msg, status: err.status, text: err.statusText} )
                 console.error(err.statusText, error.msg)
 
@@ -120,7 +120,7 @@ export class DetHistorialComponent implements OnChanges {
                 console.log("ERROR", err)
 
                 this.loading['delete'] = false
-                let error = err.json()
+                let error = err.error
                 this.error.emit( {msg: error.msg, status: err.status, text: err.statusText} )
                 console.error(err.statusText, error.msg)
 

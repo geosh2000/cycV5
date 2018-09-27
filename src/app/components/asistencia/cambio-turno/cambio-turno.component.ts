@@ -213,7 +213,7 @@ export class CambioTurnoComponent implements OnInit {
 
                 this.loading['originals'] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
@@ -434,7 +434,7 @@ export class CambioTurnoComponent implements OnInit {
 
                 this.loading[loader] = false
 
-                let error = err.json()
+                let error = err.error
                 this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
                 console.error(err.statusText, error.msg)
 
