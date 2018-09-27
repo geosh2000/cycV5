@@ -101,12 +101,12 @@ export class EditDetailsComponent implements OnChanges {
         apellido: new FormControl(this.asesorDetails['apellido'], [ Validators.required, Validators.pattern('^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[ ]{1}[a-záéíóúñ]{2,3}){0,5}$') ] ),
         nombre_corto: new FormControl(this.asesorDetails['nombre_corto'], [ Validators.required, Validators.pattern('^[A-Z]{1}[a-z]* [A-Z]{1}[a-z]*$') ], this.userExists.bind(this) ),
         profile: new FormControl(this.asesorDetails['profile'], [ Validators.required ] ),
-        tel1: new FormControl(this.asesorDetails['tel1'], [ Validators.pattern('^[1-9]{1}[0-9]{9}$') ] ),
-        tel2: new FormControl(this.asesorDetails['tel2'], [ Validators.pattern('^[1-9]{1}[0-9]{9}$') ] ),
+        tel1: new FormControl(this.asesorDetails['tel1'], [ Validators.pattern('^[1-9]{1}[0-9]{6,9}$') ] ),
+        tel2: new FormControl(this.asesorDetails['tel2'], [ Validators.pattern('^[1-9]{1}[0-9]{6,9}$') ] ),
         correo: new FormControl(this.asesorDetails['correo'], [ Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$') ] ),
         pasaporte: new FormControl(this.asesorDetails['pasaporte'], [ ] ),
         visa: new FormControl(this.asesorDetails['visa'], [  ] ),
-        rfc: new FormControl(this.asesorDetails['rfc'], [ Validators.pattern('^[A-Z]{4}[0-9]{2}([0]{1}[1-9]{1}|[1]{1}[0-2]{1}){1}([1-2]{1}[0-9]{1}|[0]{1}[1-9]{1}|[3]{1}[0-1]{1}){1}[A-Z0-9]{3}$')] ),
+        rfc: new FormControl(this.asesorDetails['rfc'], [ ] ),
         nacimiento: new FormControl(this.asesorDetails['nacimiento'], [ Validators.pattern('^[1-2]{1}([0]{1}[1-2]{1}|[9]{1}[4-9]{1})[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] )
       })
 

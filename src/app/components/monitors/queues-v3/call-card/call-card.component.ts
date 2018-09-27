@@ -120,7 +120,7 @@ export class CallCardComponent implements OnInit {
         return colorSheme['aux']
       }else{
         if( item['direction'] == '2' ){
-          if( item['waiting'] == '0' ){
+          if( parseInt(item['answeredTst']) == 0 ){
             return colorSheme['outTry']
           }else{
             return colorSheme['out']

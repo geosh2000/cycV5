@@ -1,0 +1,114 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Evaluaciones de Desempeño</h1></span>
+                        <p class="lead">Consulta los resultados de evaluaciones de desempeño por asesor</p>
+                    </div>
+                    <div>
+                        <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="container d-flex justify-content-start">
+                <div class="p-2">
+                    <select class="custom-select" [(ngModel)]="searchBy">
+                        <option value="">Buscar por...</option>
+                        <option value="1">Asesor</option>
+                        <option value="2">Fecha</option>
+                    </select>
+                </div>
+                <ng-container *ngIf="searchBy == 2">
+                    <div class="p-2">
+                        <p class="text-light" *ngIf="loading['ops']">Obteniendo operación... <i class="fas fa-spinner fa-pulse"></i></p>
+                        <select class="custom-select" *ngIf="!loading['ops']" [(ngModel)]="opSelected">
+                            <option value="">Selecciona la operación a mostrar</option>
+                            <option [value]="item.id" *ngFor="let item of operaciones | orderBy: 'Operacion'">
+                            {{ item.Operacion }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="p-2">
+                        <div class="input-group">
+                            <input class="form-control" style="z-index: 1000" autocomplete="off" placeholder="yyyy-mm-dd" [autoClose]="false" (click)="d.toggle()" id="picker" name="dp" ngbDatepicker #d="ngbDatepicker" [dayTemplate]="t" (dateSelect)="onDateSelection($event, d)">
+                            <ng-template #t let-date="date" style="z-index: 1000" let-focused="focused">
+                                <span class="custom-day" [class.focused]="focused" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                                        {{ date.day }}
+                                    </span>
+                            </ng-template>
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar fa-fw"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="searchBy == 1">
+                    <div class="p-2">
+                        <div class="input-group">
+                            <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" [active]="2" placeholder="Buscar Asesor"></app-search-asesor>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="p-2">
+                    <!-- <button class="btn btn-success" (click)="openEval()">Buscar</button> -->
+                    <button class="btn btn-success" (click)="searchEval()" [disabled]="loading['evals']">Buscar <span *ngIf="loading['evals']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container d-flex justify-content-center">
+            <h1 *ngIf="loading['evals']">Loading... <i class="fas fa-spinner fa-pulse"></i></h1>
+            <table class="table table-sm table-bordered table-striped table-hover" *ngIf="!loading['evals'] && evalsData.length > 0">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Supervisor</th>
+                        <th class="text-center">Departamento</th>
+                        <th class="text-center">ID Contrato</th>
+                        <th class="text-center">Fin de Contrato</th>
+                        <th class="text-center">Fecha de Evaluación</th>
+                        <th class="text-center">Acciones</th>
+                        <th class="text-center">Asesor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of evalsData" class="align-items-middle">
+                        <td class="align-middle text-left">{{ item['Nombre'] }}</td>
+                        <td class="align-middle text-left">{{ item['Supervisor'] }}</td>
+                        <td class="align-middle text-left">{{ item['Departamento'] }}</td>
+                        <td class="align-middle text-center">{{ item['contrato'] }}</td>
+                        <td class="align-middle text-center">{{ item['fin'] }}</td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-pill" [ngClass]="{'badge-warning': getDuration( item['fin']+' 23:59:59', 'd', true ) >= 10,'badge-danger': getDuration( item['fin']+' 23:59:59', 'd', true ) < 10}" *ngIf="item['createNew'] == '1'">Quedan: {{  getDuration( item['fin']+' 23:59:59', 'hms', true ) }}</span>
+                            <span *ngIf="item['createNew'] != '1'">{{  item['FechaEval'] }}</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <button class="btn btn-sm" [ngClass]="btnColor(item)" (click)="openEval(item, item['createNew'] == '1' ? true : false)" *ngIf="_init.checkSingleCredential('eval_desemp_evaluacion') || _init.checkSingleCredential('eval_desemp_gerencia')">
+                                <span *ngIf="!_init.checkSingleCredential('eval_desemp_gerencia')">{{ item['createNew'] == '1' ? 'Evaluar' : item['status'] == '3' ? 'Review  (Sup)' : 'Ver'  }}</span>
+                                <span *ngIf="_init.checkSingleCredential('eval_desemp_gerencia')">{{ item['createNew'] == '1' ? 'Evaluar' : item['status'] == '3' ? 'Review  (Sup)' : item['status'] == '2' ? 'Review (Gte)' : 'Ver'  }}</span>
+                            </button>
+                            <button class="btn btn-sm" [ngClass]="{'btn-info': item['createNew'] != '1', 'btn-secondary': item['createNew'] == '1'}" (click)="openEval(item, false)" *ngIf="!(_init.checkSingleCredential('eval_desemp_evaluacion') || _init.checkSingleCredential('eval_desemp_gerencia'))"
+                                [disabled]="item['createNew'] == '1'">
+                                {{ item['createNew'] != '1' ? 'Ver' : 'Pendiente'  }}
+                            </button>
+                        </td>
+                        <td class="align-middle text-center">
+                            <button class="btn btn-sm btn-success" (click)="openEval(item, false, true)" *ngIf="_init.checkSingleCredential('eval_desemp_evaluacion') || _init.checkSingleCredential('eval_desemp_gerencia') && (item['status'] == '1' || item['status'] == '5')">
+                                Revisar con<br>Asesor
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <app-modal-evaluacion-des [timeLeft]="evalModal['left']" [status]="evalModal['status']" [asesor]="evalModal['asesor']" [contrato]="evalModal['contrato']" [nombre]="evalModal['nombre']" [manager]="evalModal['manager']" [agent]="evalModal['agent']" [superReview]="evalModal['superReview']"
+            [new]="evalModal['new']" (reload)="searchEval()"></app-modal-evaluacion-des>
+
+    </div>

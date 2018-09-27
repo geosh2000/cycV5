@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
 
           this.loginLoad = false
 
-          if( !res.status ){
+          if( res['ERR'] ){
             this.loginError=true;
             this.loginMsg=res.msg;
           }else{

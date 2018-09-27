@@ -1,0 +1,97 @@
+<div class="modal fade" id="desempeno" tabindex="-1" role="dialog" aria-labelledby="desempenoLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Evaluación de desempeño - <small>{{ nombre }}</small></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body" *ngIf="loading['getEval']">
+                <h1 class="text-center text-info">Loading... <i class="fas fa-spinner fa-pulse"></i></h1>
+            </div>
+            <div class="modal-body" *ngIf="!loading['getEval']">
+                <ng-container *ngIf="loading['form']">
+                    <div class="d-flex justify-content-center">
+                        <h1>Loading... <i class="fas fa-spinner fa-pulse"></i></h1>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="formReady && !loading['form']">
+                    <form class="form-group" [formGroup]="form" (ngSubmit)="submit()">
+                        <div class="container text-center border border-primary mb-3 rounded p-0" *ngFor="let group of formData | keys">
+                            <ng-container *ngIf="!(formData[group]['showManager']=='1' && agent)">
+                                <div class="d-flex justify-content-between blueBkg align-items-center">
+                                    <div class='p-1 pl-3'>
+                                        <h2 class="text-center text-light">{{ formData[group][0]['grupo'] }}</h2>
+                                    </div>
+                                    <div class='p-1 pr-3' *ngIf="formData[group][0]['tipo'] == 'select'">
+                                        <p><span [style.width.px]="190" class="badge badge-pill" [ngClass]="{'badge-secondary': resultRate(group) == 0, 'badge-danger': resultRate(group) < 3 && resultRate(group) > 0, 'badge-warning': resultRate(group) == 3, 'badge-success': resultRate(group) > 3}">
+                                                <ngb-rating [rate]="resultRate(group)" [readonly]="true"></ngb-rating> {{ rateText( resultRate(group) ) }}
+                                        </span></p>
+                                    </div>
+                                </div>
+                                <div class="p-3">
+                                    <ng-container *ngFor="let item of formData[group]">
+                                        <ng-container *ngIf="item['tipo'] == 'select'">
+                                            <div class="border border-info mb-3 rounded">
+                                                <h4 class="text-center bg-info text-light">{{ item['competencia'] }}</h4>
+                                                <div class="row p-2 pt-0 pb-0 align-items-center">
+                                                    <div class="col-9">
+                                                        <p class="text-justify"><small>{{ item['descripcion'] }}</small></p>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <ngb-rating (rateChange)="form['controls']['rate_' + item['field']].setValue($event)" [rate]="form['controls']['rate_' + item['field']].value" (hover)="item['hover']=$event" (leave)="item['hover'] = item['hover'] == form['controls']['rate_' + item['field']].value ? form['controls']['rate_' + item['field']].value : ''"
+                                                            [readonly]="agent || manager || superReview || !new"></ngb-rating>
+                                                        <p><span [style.width.px]="120" class="badge badge-pill" [ngClass]="badgeColor( item['hover'], item['field']) ">{{ (agent || manager || superReview) ? rateText(form['controls']['rate_' + item['field']].value) : item['hover'] == '' ? (form['controls']['rate_' + item['field']].value ? rateText( item['hover'] ? item['hover'] : form['controls']['rate_' + item['field']].value ) : 'Selecciona...') : rateText( item['hover'] ? item['hover'] : form['controls']['rate_' + item['field']].value ) }}</span></p>
+                                                        <p class="text-danger" style="font-size: xx-small" *ngIf="formSubmit && form['controls']['rate_' + item['field']].invalid">Debes ingresar una puntuación</p>
+                                                    </div>
+                                                </div>
+                                                <div class='p-2'>
+                                                    <input type="text" [ngClass]="{'is-invalid': formSubmit && form['controls']['com_' + item['field']].invalid}" class="form-control" [formControlName]="'com_' + item['field']" placeholder="Comentarios..." [readonly]="agent || manager || superReview || !new">
+                                                    <p class="text-danger" style="font-size: xx-small" *ngIf="formSubmit && form['controls']['com_' + item['field']].invalid">Debes ingresar anotaciones</p>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <div class='p-2' *ngIf="item['tipo'] == 'text' && showCom(item)">
+                                            <input type="text" [ngClass]="{'is-invalid': formSubmit && form['controls']['com_' + item['field']].invalid}" class="form-control" [formControlName]="'com_' + item['field']" placeholder="Comentarios..." [readonly]="!(item['showStart'] == '1' && !(agent || superReview || manager || !new)) && !(agent && item['showAgent'] == '1') && !(manager && item['showManager'] == '1') && !(superReview && item['showSup'] == '1')">
+                                            <p class="text-danger" style="font-size: xx-small" *ngIf="formSubmit && form['controls']['com_' + item['field']].invalid">Debes ingresar anotaciones</p>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class='p-1 mr-auto'>
+                                <p><span [style.width.px]="190" class="badge badge-pill" [ngClass]="{'badge-secondary': resultRate('all') == 0, 'badge-danger': resultRate('all') < 3 && resultRate('all') > 0, 'badge-warning': resultRate('all') == 3, 'badge-success': resultRate('all') > 3}">
+                                        <ngb-rating [rate]="resultRate('all')" [readonly]="true"></ngb-rating> {{ rateText( resultRate('all') ) }}
+                                </span></p>
+                            </div>
+                            <div class="p-1" *ngIf="new || manager || superReview">
+                                <div class='p-1'>
+                                    <button [style.width.px]="190" type="button" class="btn btn-sm btn-danger" [disabled]="loading['save'] || timeLeft < 10" (click)="submit( false, manager, superReview )" *ngIf="status != '3'">No Renovar <span style="font-size: xx-small"><br>Inactivo por tiempo menor a 10 días</span><span *ngIf="loading['save'] && !superReview"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                                </div>
+                                <div class='p-1'>
+                                    <button [style.width.px]="190" type="button" class="btn btn-sm btn-success" [disabled]="loading['save']" (click)="submit( true, manager, superReview )">Renovar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                                </div>
+                            </div>
+                            <div class="p-1 text-center" *ngIf="!new && agent">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    <input [(ngModel)]="usp" type="password" class="form-control" name="usp" placeholder="Password Asesor">
+                                </div>
+                                <div class='p-1'>
+                                    <button [style.width.px]="190" type="button" class="btn btn-sm btn-success" [disabled]="loading['save'] || usp == ''" (click)="submit( true, manager, superReview, agent )">Firmar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </ng-container>
+
+
+            </div>
+        </div>
+    </div>
+</div>
