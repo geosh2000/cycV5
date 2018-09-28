@@ -121,7 +121,7 @@ export class PausesComponent implements OnInit {
                 this.timerLoad()
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
                 this.loading['Pauses'] = false
                 this.loading['change'] = false
@@ -140,7 +140,7 @@ export class PausesComponent implements OnInit {
                 console.log("ERROR", err)
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
                 this.loading['Pauses'] = false
               })
@@ -336,7 +336,7 @@ export class PausesComponent implements OnInit {
                 console.log("ERROR", err)
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
                 this.loading['saveJustify'] = false
               })
@@ -443,7 +443,7 @@ export class PausesComponent implements OnInit {
                 this.timerFlag = true
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
               })
   }

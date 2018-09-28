@@ -75,7 +75,7 @@ export class HxConfigComponent implements OnInit {
             }, err => {
               if(err){
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 this.depLoadErr = true
                 this.depLoading = false
                 console.error(err.statusText, error.error)
@@ -98,7 +98,7 @@ export class HxConfigComponent implements OnInit {
             }, err => {
               if(err){
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 this.dateLoadErr = true
                 this.dateLoading = false
                 console.error(err.statusText, error.msg)
@@ -160,7 +160,7 @@ export class HxConfigComponent implements OnInit {
             }, err => {
               if(err){
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 this.getDates()
                 console.error(err.statusText, error.error)
               }

@@ -106,7 +106,7 @@ export class DbOutletComponent implements OnInit {
                 this.loading['data'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -135,7 +135,7 @@ export class DbOutletComponent implements OnInit {
                 this.loading['livest'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -190,7 +190,7 @@ export class DbOutletComponent implements OnInit {
                 this.loading['update'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })

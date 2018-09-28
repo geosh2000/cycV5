@@ -52,7 +52,7 @@ export class HomeCxcViewComponent implements OnInit, OnChanges {
             this.loading['data'] = false
 
             let error = err.error
-            this.toastr.error( error.msg, err.statusText )
+            this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
             console.error(err.statusText, error.msg)
 
           })

@@ -89,7 +89,7 @@ export class VentaPorAsesorComponent implements OnInit {
                 this.loading['deps'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -112,7 +112,7 @@ export class VentaPorAsesorComponent implements OnInit {
                 this.loading['sups'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -145,7 +145,7 @@ export class VentaPorAsesorComponent implements OnInit {
 
               if(err){
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               }
@@ -199,7 +199,7 @@ export class VentaPorAsesorComponent implements OnInit {
 
               if(err){
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               }

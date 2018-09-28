@@ -87,7 +87,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
                 this.loading['form'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, err.statusText )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -216,7 +216,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
                   this.loading['save'] = false
 
                   let error = err.error
-                  this.toastr.error( error.msg, err.statusText )
+                  this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                   console.error(err.statusText, error.msg)
 
                 })
@@ -266,7 +266,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
                 this.loading['getEval'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, err.statusText )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -386,7 +386,7 @@ export class ModalEvaluacionDesComponent implements OnInit, OnChanges {
                 this.loading['save'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, err.statusText )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
                 return false
               })

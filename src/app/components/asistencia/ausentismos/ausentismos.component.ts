@@ -125,7 +125,7 @@ export class AusentismosComponent implements OnInit {
               this.loading['tipos'] = false
 
               let error = err.error
-              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
               console.error(err.statusText, error.msg)
 
             })
@@ -232,7 +232,7 @@ export class AusentismosComponent implements OnInit {
               this.loading['config'] = false
 
               let error = err.error
-              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
               console.error(err.statusText, error.msg)
 
             })
@@ -373,7 +373,7 @@ export class AusentismosComponent implements OnInit {
                 this.loading['save'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -403,7 +403,7 @@ export class AusentismosComponent implements OnInit {
               this.loading['pendientes'] = false
 
               let error = err.error
-              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
               console.error(err.statusText, error.msg)
 
               this.index['aus'] = null

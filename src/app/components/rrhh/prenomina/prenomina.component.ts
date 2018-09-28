@@ -118,7 +118,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['schedules'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -142,7 +142,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['festivos'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -167,7 +167,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['asesores'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -192,7 +192,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['logs'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -218,7 +218,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['ausentismos'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -244,7 +244,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['bonos'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -285,7 +285,7 @@ export class PrenominaComponent implements OnInit {
                 this.loading['cxc'] = false
 
                 let error = err.error
-                this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
                 console.error(err.statusText, error.msg)
 
               })
@@ -806,7 +806,7 @@ export class PrenominaComponent implements OnInit {
               this.listCortesFlag = false
 
               let error = err.error
-              this.toastr.error( error.msg, `Error ${err.status} - ${err.statusText}` )
+              this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
               console.error(err.statusText, error.msg)
 
             })
