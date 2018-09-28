@@ -64,6 +64,7 @@ export class ReporteAfiliadosComponent implements OnInit {
   reportData:any
   totals:any
   shownAf:any
+  currency:any = 'MXN'
 
   constructor(
               private _api:ApiService,
@@ -100,6 +101,7 @@ export class ReporteAfiliadosComponent implements OnInit {
   selectedReport( value ){
     this.shownAf = this.listReps[ value ]['afiliado']
     this.report = this.listReps[ value ]['id']
+    this.currency = this.listReps[ value ]['currency']
   }
 
   isToday( date ){
@@ -156,7 +158,7 @@ export class ReporteAfiliadosComponent implements OnInit {
   getReport(){
     this.loading['data'] = true
 
-    this._api.restfulGet( `${this.report}/${this.inicio}/${this.fin}`, 'Afiliados/reporte' )
+    this._api.restfulGet( `${this.report}/${this.inicio}/${this.fin}/${this.currency}`, 'Afiliados/reporte' )
               .subscribe( res => {
 
                 this.loading['data'] = false
@@ -189,7 +191,7 @@ export class ReporteAfiliadosComponent implements OnInit {
       case 'AvTktOnline':
       case 'AvTktCC':
       case 'AvTktAll':
-        return this._cur.transform(item[field], 'MXN','symbol-narrow','.2-2')
+        return this._cur.transform(item[field], this.currency,'symbol-narrow','.2-2')
       case 'SLA':
       case 'FC':
       case 'Abandon':
@@ -223,6 +225,7 @@ export class ReporteAfiliadosComponent implements OnInit {
   s2ab(s) {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
+    // tslint:disable-next-line:no-bitwise
     for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }

@@ -73,6 +73,7 @@ import { CumplimientoComponent } from './progress/cumplimiento/cumplimiento.comp
 import { AsesorFilterComponent } from './filters/asesor-filter/asesor-filter.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { AvisosGlobalesComponent } from './avisos-globales/avisos-globales.component';
 
 
 
@@ -156,7 +157,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
         CsvComponent,
         UserPreferencesComponent,
         SidebarComponent,
- 
+        AvisosGlobalesComponent,
+
     ],
     exports: [
 
@@ -183,6 +185,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
         CsvComponent,
         SidebarComponent,
         UserPreferencesComponent,
+        AvisosGlobalesComponent,
 
     ]
 })

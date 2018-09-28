@@ -44,7 +44,7 @@ export class HeadcountComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -91,7 +91,7 @@ export class HeadcountComponent implements OnInit {
                 this.data=res['data']
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['data'] = false
 

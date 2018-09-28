@@ -54,7 +54,7 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
   `],
   // providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit, OnDestroy {
 
   currentUser: any
   showContents:boolean = false
@@ -111,7 +111,7 @@ export class StatisticsComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -156,7 +156,7 @@ export class StatisticsComponent implements OnInit {
                 }
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 let error = err.error
                 this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
@@ -289,7 +289,7 @@ export class StatisticsComponent implements OnInit {
                 }
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.timerFlag = true
                 this.timeCount = 30
@@ -353,7 +353,7 @@ export class StatisticsComponent implements OnInit {
 
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.timerFlag = true
                 this.timeCount = 30
@@ -417,7 +417,7 @@ export class StatisticsComponent implements OnInit {
 
   unixTime( time ){
     // DEFINE UNIX TIME
-    let m = moment.tz(`${ time }`, "America/Mexico_city")
+    let m = moment.tz(`${ time }`, 'America/Mexico_city')
     let local = m.clone().tz( this._zh.zone )
     let dif = moment(m.format('YYYY-MM-DD HH:mm:ss')).diff(local.format('YYYY-MM-DD HH:mm:ss'), 'hours')
     m.subtract((5+(dif*(-1))), 'hours')

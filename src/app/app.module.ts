@@ -218,7 +218,6 @@ import { CallCardSmComponent } from './components/monitors/queues-v3/call-card-s
 import { EvaluacionDesempenoComponent } from './components/rrhh/evaluacion-desempeno/evaluacion-desempeno.component';
 import { ModalEvaluacionDesComponent } from './components/rrhh/evaluacion-desempeno/modal-evaluacion-des/modal-evaluacion-des.component';
 
-
 declare let jQuery: Object;
 
 declare var require: any;
