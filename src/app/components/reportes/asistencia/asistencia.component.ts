@@ -33,7 +33,7 @@ export class AsistenciaComponent implements OnInit {
   currentUser: any
   showContents:boolean = false
   mainCredential:string = 'tablas_f'
-  
+
   filterExpanded:boolean = false
   selectedAsesores:any = []
 
@@ -118,7 +118,7 @@ export class AsistenciaComponent implements OnInit {
   }
 
   searchAsistencia( dep, inicio, fin ){
-    if( dep != 0 ){
+    if( dep != 'MX' && dep != 'CO' ){
       this.depLoadFlag = false
       this.getAsistencia( dep, inicio, fin )
     }else{
@@ -128,7 +128,7 @@ export class AsistenciaComponent implements OnInit {
       this.depLoaders = {}
 
       for( let pcrc of this.deps ){
-        if( pcrc.id != 29 ){
+        if( pcrc.id != 29 && pcrc.id != 56 && pcrc.sede == dep ){
           this.depLoaders[pcrc.Departamento] = true
           let params = `${pcrc.id}/${inicio}/${fin}`
           this.getAllDeps( pcrc, params, () => {

@@ -274,7 +274,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
                                         },
                               }
 
-                console.log(this.data)
+                // console.log(this.data)
                 this.date = this.dateSelected
                 this.lu = res['lu']
 
@@ -341,7 +341,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
                   this.dataH[group]['data'].push([parseInt(this.unixTime(moment(h['H']).add(d, 'days').format('YYYY-MM-DD HH:mm:ss'))), parseInt(h['calls'])])
                 }
 
-                console.log(this.dataH)
+                // console.log(this.dataH)
                 if( group == 'ly' ){
                   this.getPast( moment(this.dateSelected).subtract(7, 'days').format('YYYY-MM-DD'), 'lw' )
                 }

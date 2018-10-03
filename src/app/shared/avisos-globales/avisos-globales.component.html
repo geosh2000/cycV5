@@ -1,3 +1,15 @@
-<p>
-  avisos-globales works!
-</p>
+<div class='container-fluid pt-2' style="width: 350px !important; height: 100%; overflow-x: hidden; overflow: auto">
+    <h2 class="text-center text-warning">
+        <b>Avisos PDVs</b>
+        <button class="btn btn-sm btn-link text-warning" (click)="timerCount=0">
+            <span *ngIf="loading['avisos']"><i class="fas fa-sync fa-spin"></i></span>
+            <span *ngIf="!loading['avisos']"><i class="fas fa-sync"></i></span>
+        </button>
+        <button class="btn btn-sm btn-link text-success" (click)="newAdv()">
+            <span class="text-success"><i class="fas fa-plus-circle"></i></span>
+        </button>
+    </h2>
+    <select2 [data]="pdvSearchList | orderBy: 'text'" (valueChanged)="selectedVal($event)" [options]="selectOptions" width="300"></select2>
+    <hr>
+    <app-aviso-pdv (refresh)="timerCount = 0" [PDV]="pdvName(pdv)" [avisos]="advList[pdv]" *ngFor="let pdv of selectedPdvs"></app-aviso-pdv>
+</div>

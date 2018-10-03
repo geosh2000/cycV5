@@ -59,22 +59,22 @@
         <app-modal-evaluacion-des [openTime]="evalModal['openTime']" [timeLeft]="evalModal['left']" [status]="evalModal['status']" [asesor]="evalModal['asesor']" [contrato]="evalModal['contrato']" [nombre]="evalModal['nombre']" [manager]="evalModal['manager']"
             [agent]="evalModal['agent']" [superReview]="evalModal['superReview']" [new]="evalModal['new']"></app-modal-evaluacion-des>
 
-        <!-- AGREGAR ASESOR -->
-        <div class="modal fade" id="addAsesor" tabindex="-1" role="dialog" aria-labelledby="editDetailLabel" aria-hidden="true" data-backdrop="static">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5>Agregar Asesor</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    </ng-container>
+    <!-- AGREGAR ASESOR -->
+    <div class="modal fade" id="addAsesor" tabindex="-1" role="dialog" aria-labelledby="editDetailLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Agregar Asesor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-                    </div>
-                    <div class="modal-body">
-                        <app-add-asesor modal='#addAsesor' [time]="now" (save)="saved( $event )"></app-add-asesor>
-                    </div>
+                </div>
+                <div class="modal-body">
+                    <app-add-asesor modal='#addAsesor' [time]="now" (save)="saved( $event )"></app-add-asesor>
                 </div>
             </div>
         </div>
-    </ng-container>
+    </div>
 
 </div>

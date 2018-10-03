@@ -30,7 +30,7 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<Date> {
   styles: [`a: { color: white }`],
   providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 })
-export class PyaComponent implements OnInit {
+export class PyaComponent implements OnInit, OnDestroy {
 
   @ViewChild( PyaExceptionComponent ) _pya:PyaExceptionComponent
 
@@ -50,6 +50,8 @@ export class PyaComponent implements OnInit {
   dataSchedules:any
   dataExceptions:Object = {}
   lu:any
+
+  pais:any = 'MX'
 
   asesorIndex:Object = {}
   hrs:any = []
@@ -114,7 +116,7 @@ export class PyaComponent implements OnInit {
     this.route.fragment.subscribe(fragment => {
       this.fragment = fragment;
 
-      let element = document.querySelector ( "#" + this.fragment )
+      let element = document.querySelector ( '#' + this.fragment )
 
 
       if ( element ){
@@ -151,7 +153,7 @@ export class PyaComponent implements OnInit {
     this.timerFlag = false
     this.killProcess = true
 
-    this._api.restfulGet( this.dateModel, 'Pya/horarios' )
+    this._api.restfulGet( `${this.dateModel}/${this.pais}`, 'Pya/horarios' )
             .subscribe( res => {
 
               this.loading['schedules'] = false
@@ -171,7 +173,7 @@ export class PyaComponent implements OnInit {
 
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['schedules'] = false
 
@@ -227,7 +229,7 @@ export class PyaComponent implements OnInit {
 
     this.asesorIndex = idIndex
 
-    if (callback && typeof(callback) == "function") {
+    if (callback && typeof(callback) == 'function') {
       callback()
     }
   }
@@ -279,7 +281,7 @@ export class PyaComponent implements OnInit {
     this.timerFlag = false
     this.killProcess = true
 
-    this._api.restfulGet( this.dateModel, 'Pya/sesiones' )
+    this._api.restfulGet( `${this.dateModel}/${this.pais}`, 'Pya/sesiones' )
             .subscribe( res => {
 
               this.dataLogs = {}
@@ -292,6 +294,7 @@ export class PyaComponent implements OnInit {
                 fdh: []
               }
 
+              // tslint:disable-next-line:forin
               for( let item in res['data'] ){
                 let it = res['data'][item]
                 this.isInside( it.login, it.logout, it.asesor )
@@ -308,7 +311,7 @@ export class PyaComponent implements OnInit {
               this.getExceptions()
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['logs'] = false
 
@@ -328,7 +331,7 @@ export class PyaComponent implements OnInit {
     this.loading['logs'] = true
     this.timerFlag = false
 
-    this._api.restfulGet( this.dateModel, 'Pya/exceptions' )
+    this._api.restfulGet( `${this.dateModel}/${this.pais}`, 'Pya/exceptions' )
             .subscribe( res => {
 
               this.loading['logs'] = false
@@ -355,7 +358,7 @@ export class PyaComponent implements OnInit {
 
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['logs'] = false
 
@@ -565,11 +568,11 @@ export class PyaComponent implements OnInit {
       this.toastr.error( error.msg, `Error ${event.error.status} - ${event.error.statusText}` )
 
       if( error.Existente ){
-        console.error("Ausentismo existente: ", error.Existente)
+        console.error('Ausentismo existente: ', error.Existente)
       }
 
       if( error.errores ){
-        console.error("Ausentismo existente: ", error.errores)
+        console.error('Ausentismo existente: ', error.errores)
       }
     }else{
       this.toastr.success( event.error.msg, `Guardado` )

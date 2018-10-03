@@ -1,0 +1,43 @@
+<div class="container border border-warning mt-1">
+    <!-- <mat-list>
+        <h3 mat-subheader>{{ PDV }}</h3>
+        <mat-list-item *ngFor="let item of avisos">
+            <a href="https://rsv.pricetravel.com.mx/reservations/show/{{item['localizador']}}" target="_blank" class="badge badge-primary">{{ item['localizador'] }}</a>
+            <h4 mat-line>{{ item['Creador'] }}</h4>
+            <p mat-line> {{ item['aviso'] }} </p>
+        </mat-list-item>
+    </mat-list> -->
+    <h4 class="text-light">{{ PDV }}</h4>
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let item of avisos">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <a href="https://rsv.pricetravel.com.mx/reservations/show/{{item['localizador']}}" [style.width.px]="90" target="_blank" class="badge" [ngClass]="{'badge-primary': !item['status'], 'badge-success': item['status']}"><span>{{ item['localizador'] }}<br><div class="text-truncate"  style="display: inline-block">{{ printShort(item['Creador']) }}</div></span></a>
+                </mat-panel-title>
+                <mat-panel-description>
+                    <div class="text-truncate" style="display: inline-block">
+                        <p class="font-size: xx-small"> {{ item['aviso'] }} </p>
+                    </div>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="p-2">
+                <p class="font-italic"><small>Creado: {{ item['dtCreated'] }}</small></p>
+                <p class="font-weight-light font-italic">{{ item['aviso'] }}</p>
+                <br>
+                <mat-checkbox [(ngModel)]="item['status']" (change)="update( item['id'], $event.checked )">
+                    Cliente llegó
+                </mat-checkbox>
+                <br>
+                <p class="font-italic"><small>Editado por: {{ item['Modifico'] }} {{ item['Last_Update'] }} <button class="btn btn-sm btn-link text-danger" (click)="item['delete'] = true" *ngIf="_init.checkSingleCredential('avisos_pdv_baja') || item['asesor'] == _init.currentUser['hcInfo']['id']"><span *ngIf="!loading['delete']"><i class="fas fa-trash-alt"></i></span><span *ngIf="loading['delete']"><i class="fas fa-spinner fa-pulse text-light"></i></span></button></small></p>
+                <div class="alert alert-warning" role="alert" *ngIf="item['delete']">
+                    <p>Seguro que deseas eliminar este aviso?</p>
+                    <button class='btn btn-sm btn-danger' (click)="item['delete'] = false">NO</button>
+                    <button class='btn btn-sm btn-success' (click)="delete(item['id'])">
+                        <span *ngIf="!loading['delete']">SI</span>
+                        <span *ngIf="loading['delete']"><i class="fas fa-spinner fa-pulse text-light"></i></span>
+                    </button>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

@@ -8,6 +8,7 @@ declare var jQuery:any;
 export class InitService {
 
   preferences:any = {}
+  currentUser:any
 
   constructor( private _route:Router, private _api:ApiService, private _zh:ZonaHorariaService ) {
     this.getPreferences()
@@ -25,6 +26,7 @@ export class InitService {
 
   getUserInfo(){
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.currentUser = currentUser
     return currentUser
   }
 
@@ -50,12 +52,12 @@ export class InitService {
   }
 
   showLoginModal( ){
-    jQuery("#loginModal").modal('show');
+    jQuery('#loginModal').modal('show');
   }
 
   displayNoCredentials( display ){
     if(display){
-      jQuery("#noCredentials").modal('show');
+      jQuery('#noCredentials').modal('show');
       this._route.navigateByUrl('/home')
     }
   }

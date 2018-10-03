@@ -14,7 +14,9 @@ export class NavbarComponent {
 
   @ViewChild(LogoutComponent) private _logout:LogoutComponent
   @Input() sbStatus:boolean
+  @Input() advStatus:boolean
   @Output() sideBar = new EventEmitter
+  @Output() globalAdv = new EventEmitter
   @Output() tokenStatus = new EventEmitter
   @Output() lOut = new EventEmitter
 
@@ -258,6 +260,10 @@ export class NavbarComponent {
 
   openSideBar(){
     this.sideBar.emit( !this.sbStatus )
+  }
+
+  openGlobal(){
+    this.globalAdv.emit( !this.advStatus )
   }
 
 

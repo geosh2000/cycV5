@@ -9,6 +9,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 
 import * as Globals from './globals';
 import { LogoutComponent } from './shared/logout/logout.component';
+import { AvisosGlobalesComponent } from './shared/avisos-globales/avisos-globales.component';
 
 @Component({
   selector: 'app-root',
@@ -23,10 +24,12 @@ export class AppComponent {
 
   @ViewChild(NavbarComponent) _nav:NavbarComponent
   @ViewChild(LogoutComponent) private _logout:LogoutComponent
+  @ViewChild(AvisosGlobalesComponent) public _adv:AvisosGlobalesComponent
 
   private viewContainerRef: ViewContainerRef;
 
   opened:boolean = false
+  advOpened:boolean = false
   token:boolean = false
   version:any
 
@@ -41,12 +44,20 @@ export class AppComponent {
     this.opened = flag
   }
 
+  openAdv( flag ){
+    this.advOpened = flag
+  }
+
   logout( id ){
     this._logout.logout( id )
   }
 
   confirmLO(h){
     this._nav.confirmLO(h)
+  }
+
+  refreshAdv(){
+    this._adv.timerCount = 0
   }
 
 

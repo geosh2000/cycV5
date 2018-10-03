@@ -29,7 +29,9 @@
                               <option selected *ngIf="!deps">Loading... <span *ngIf="loading"><i class="fa fa-fw fa-spinner fa-pulse"></i></span></option>
                               <option selected *ngIf="deps">Selecciona...</option>
                               <option [value]="pcrc.id" *ngFor="let pcrc of deps">{{ pcrc.Departamento }}</option>
-                              <option value='0' *ngIf="deps">Todos</option>
+                              <option value='MX' *ngIf="deps">Todos MX</option>
+                              <option value='CO' *ngIf="deps">Todos CO</option>
+
                             </select>
                         </div>
                         <div class="m-1" *ngIf=!searchBy>
@@ -142,7 +144,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="container p-2 d-flex justify-content-left" *ngIf="depLoadFlag">
+                <div class="container p-2 d-flex justify-content-left flex-wrap" *ngIf="depLoadFlag">
                     <div class="m-1" *ngFor="let item of depLoaders | keys">
                         <button type="button" class="btn" [ngClass]="{'btn-warning': depLoaders[item], 'btn-success': !depLoaders[item]}" style="font-size: smaller"><small>{{ item }} <span *ngIf="depLoaders[item]"><i class="fas fa-spinner fa-pulse"></i></span><span *ngIf="!depLoaders[item]"><i class="fas fa-check"></i></span></small></button>
                     </div>

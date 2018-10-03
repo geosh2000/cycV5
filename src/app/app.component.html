@@ -1,5 +1,5 @@
 <mat-toolbar class='matNavbar p-0'>
-    <app-navbar (sideBar)="openSideBar($event)" [sbStatus]="opened" (lOut)="logout($event)" (tokenStatus)="token = $event" style="z-index: -1000; width: 100%"></app-navbar>
+    <app-navbar (sideBar)="openSideBar($event)" [sbStatus]="opened" (globalAdv)="openAdv($event)" [advStatus]="advOpened" (lOut)="logout($event)" (tokenStatus)="token = $event" style="z-index: -1000; width: 100%"></app-navbar>
 </mat-toolbar>
 <mat-sidenav-container class="matContainer">
     <mat-sidenav #sidenav mode="side" [(opened)]="opened" [fixedInViewport]="true" [fixedTopGap]="60">
@@ -12,6 +12,14 @@
     <mat-sidenav-content [style.height.px]="0">
     </mat-sidenav-content>
 </mat-sidenav-container>
+<mat-sidenav-container class="matContainer">
+    <mat-sidenav #globalAdv mode="side" [(opened)]="advOpened" [fixedInViewport]="true" [fixedTopGap]="60" position='end'>
+        <app-avisos-globales></app-avisos-globales>
+    </mat-sidenav>
+
+    <mat-sidenav-content [style.height.px]="0">
+    </mat-sidenav-content>
+</mat-sidenav-container>
 
 <div class="container-fluid main-container">
     <router-outlet></router-outlet>
@@ -19,4 +27,5 @@
 
 <app-login></app-login>
 <app-logout (confirm)="confirmLO($event)"></app-logout>
+<app-new-adv-pdv></app-new-adv-pdv>
 <app-user-preferences *ngIf="token"></app-user-preferences>

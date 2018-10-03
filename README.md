@@ -20,6 +20,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Optimización de selección de posiciones a ocupar (.2009)
 * Carga en serie (evita duplicidades) (.2009)
 
+### Avisos PDV
+* Vista global desde cualquier módulo (.2013)
+* Filtro múltiple por PDV (.2013)
+* Borrado por perfiles (.2013)
+
 ### Cambios de Turno
 * Nuevo módulo de cambios de turno (.2003)
 * Información de cambios en el mes (.2003)
@@ -48,6 +53,15 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### SearchAsesor Module
 * Fix filtro por udn/area/dep/puesto (.2002)
 * Devuelve informacion de codigos de puesto (.2002) 
+
+### Módulo de Asistencias
+* División CO / MX
+
+### Módulo de Monitor de Pausas
+* División CO / MX
+
+### Módulo de PyA
+* División CO / MX
 
 ### Módulos Survey
 * Módulo genérico de tipificación (.2005)

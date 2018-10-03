@@ -74,6 +74,9 @@ import { AsesorFilterComponent } from './filters/asesor-filter/asesor-filter.com
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AvisosGlobalesComponent } from './avisos-globales/avisos-globales.component';
+import { Select2Module } from 'ng2-select2';
+import { AvisoPdvComponent } from './avisos-globales/aviso-pdv/aviso-pdv.component';
+import { NewAdvPdvComponent } from './avisos-globales/new-adv-pdv/new-adv-pdv.component';
 
 
 
@@ -87,6 +90,7 @@ import { AvisosGlobalesComponent } from './avisos-globales/avisos-globales.compo
         MultiselectDropdownModule,
         RouterModule,
         Ng2CompleterModule,
+        Select2Module,
 
         // ==================================================
         // START ANGULAR MATERIAL
@@ -158,6 +162,8 @@ import { AvisosGlobalesComponent } from './avisos-globales/avisos-globales.compo
         UserPreferencesComponent,
         SidebarComponent,
         AvisosGlobalesComponent,
+        AvisoPdvComponent,
+        NewAdvPdvComponent,
 
     ],
     exports: [
@@ -186,6 +192,7 @@ import { AvisosGlobalesComponent } from './avisos-globales/avisos-globales.compo
         SidebarComponent,
         UserPreferencesComponent,
         AvisosGlobalesComponent,
+        NewAdvPdvComponent,
 
     ]
 })

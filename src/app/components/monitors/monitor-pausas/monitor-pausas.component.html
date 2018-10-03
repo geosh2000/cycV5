@@ -10,6 +10,18 @@
                     <small>Mostrando: {{ dateMonitor }} || Recargando en {{ timeCount }} seg.</small>
                 </p>
             </div>
+            <div class="p-2">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info">{{ pais }}</button>
+                    <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <button class="dropdown-item" type="button" (click)="pais='MX'">MX</button>
+                        <button class="dropdown-item" type="button" (click)="pais='CO'">CO</button>
+                    </div>
+                </div>
+            </div>
             <div class="form-group p-2">
                 <div class="input-group">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="dateMonRaw" ngbDatepicker #d="ngbDatepicker">

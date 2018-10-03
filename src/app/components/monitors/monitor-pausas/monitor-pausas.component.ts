@@ -12,7 +12,7 @@ import * as moment from 'moment-timezone';
   templateUrl: './monitor-pausas.component.html',
   styles: []
 })
-export class MonitorPausasComponent implements OnInit {
+export class MonitorPausasComponent implements OnInit, OnDestroy {
 
   currentUser: any
   showContents:boolean = false
@@ -41,6 +41,7 @@ export class MonitorPausasComponent implements OnInit {
   timerFlag:boolean = false
   timeCount:any = 120
   lu:any
+  pais:any = 'MX'
 
   constructor(public _api: ApiService,
                 private _init:InitService,
@@ -59,7 +60,7 @@ export class MonitorPausasComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -94,7 +95,7 @@ export class MonitorPausasComponent implements OnInit {
     this.timerFlag = false
     this.loading['Pauses'] = true
 
-    this._api.restfulGet( date, 'Pausemon/pauseMon' )
+    this._api.restfulGet( `${date}/${this.pais}`, 'Pausemon/pauseMon' )
               .subscribe( res => {
 
                 this.loading['Pauses'] = false
@@ -110,7 +111,7 @@ export class MonitorPausasComponent implements OnInit {
                 this.timerFlag = true
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.timeCount = 30
                 this.timerFlag = true
@@ -157,7 +158,7 @@ export class MonitorPausasComponent implements OnInit {
                 this.pauseTypes = res['data']
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 let error = err.error
                 this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
@@ -368,7 +369,7 @@ export class MonitorPausasComponent implements OnInit {
                 this.dataPausas[event.asesor] = result[event.asesor]
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.timerFlag = true
 
@@ -386,6 +387,7 @@ export class MonitorPausasComponent implements OnInit {
     let sorted = [];
     this.sorted = [];
 
+    // tslint:disable-next-line:forin
     for (let asesor in this.dataPausas) {
         let ar = {
           asesor: asesor,
@@ -401,32 +403,34 @@ export class MonitorPausasComponent implements OnInit {
         sorted.push( ar );
     }
 
-      if( field )
-      sorted.sort(function(a, b) {
-          if( order ){
-            if( field == 'nombre' || field == 'Departamento'){
-              let x = a[field].toLowerCase();
-              let y = b[field].toLowerCase();
-              if (x < y) {return -1;}
-              if (x > y) {return 1;}
-              return 0;
+      if( field ){
+
+        sorted.sort(function(a, b) {
+            if( order ){
+              if( field == 'nombre' || field == 'Departamento'){
+                let x = a[field].toLowerCase();
+                let y = b[field].toLowerCase();
+                if (x < y) {return -1;}
+                if (x > y) {return 1;}
+                return 0;
+              }else{
+                return a[field] - b[field];
+              }
+
             }else{
-              return a[field] - b[field];
+              if( field == 'nombre' || field == 'Departamento'){
+                let x = b[field].toLowerCase();
+                let y = a[field].toLowerCase();
+                if (x < y) {return -1;}
+                if (x > y) {return 1;}
+                return 0;
+              }else{
+                return b[field] - a[field];
+              }
             }
 
-          }else{
-            if( field == 'nombre' || field == 'Departamento'){
-              let x = b[field].toLowerCase();
-              let y = a[field].toLowerCase();
-              if (x < y) {return -1;}
-              if (x > y) {return 1;}
-              return 0;
-            }else{
-              return b[field] - a[field];
-            }
-          }
-
-      });
+        });
+      }
 
 
       for(let element of sorted){

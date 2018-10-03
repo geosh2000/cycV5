@@ -25,6 +25,8 @@ export class CuartilesComponent implements OnInit {
   mainCredential:string = 'tablas_f'
   currentUser:any
 
+  isBo:boolean = false
+
   searchStart:any
   searchEnd:any
 
@@ -41,6 +43,7 @@ export class CuartilesComponent implements OnInit {
   cSes:any
   allData:any
   builtData:any
+  skill:any
 
   tableConfig
 
@@ -73,10 +76,21 @@ export class CuartilesComponent implements OnInit {
 
   }
 
+  changePcrc( skill ){
+    // console.log(skill)
+    for( let item of this.pcrcList ){
+      if( parseInt(skill) == parseInt(item.dep) ){
+        this.isBo = item.isBO == '1' ? true : false
+        // console.log( this.isBo )
+        return true
+      }
+    }
+  }
+
   dateChange( start, end ){
 
-    this.searchStart = start.format("YYYY-MM-DD")
-    this.searchEnd = end.format("YYYY-MM-DD")
+    this.searchStart = start.format('YYYY-MM-DD')
+    this.searchEnd = end.format('YYYY-MM-DD')
 
     jQuery('#datepicker').val(`${this.searchStart} - ${this.searchEnd}`)
 
@@ -99,7 +113,7 @@ export class CuartilesComponent implements OnInit {
 
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['pcrcs'] = false
 
@@ -119,10 +133,11 @@ export class CuartilesComponent implements OnInit {
               this.loading['cuartiles'] = false
               this.cData = res['data']
               this.allData = res['meta']['raw']
+              // console.log( this.isBo )
               this.build(res['data'], res['meta']['avgSes'])
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['cuartiles'] = false
 
@@ -149,7 +164,8 @@ export class CuartilesComponent implements OnInit {
   s2ab(s) {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
-    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    // tslint:disable-next-line:no-bitwise
+    for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 
@@ -159,16 +175,16 @@ export class CuartilesComponent implements OnInit {
     let dataB = data[values[1]] ? data[values[1]] : 0
 
     switch(operator){
-      case "/":
+      case '/':
         if(dataB == 0){
           return 0
         }
         return parseFloat(dataA)/parseFloat(dataB)
-      case "*":
+      case '*':
         return parseFloat(dataA)*parseFloat(dataB)
-      case "+":
+      case '+':
         return parseFloat(dataA)+parseFloat(dataB)
-      case "-":
+      case '-':
         return parseFloat(dataA)-parseFloat(dataB)
     }
   }
@@ -185,62 +201,62 @@ export class CuartilesComponent implements OnInit {
     this.tableConfig = [
       { show: true, op: null, field: 'asesor',          t: 'Asesor',          type: 'text',   class: 'text-left font-weight-bold' },
       { show: true, op: null, field: 'supervisor',      t: 'Supervisor',      type: 'text',   class: 'text-left' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: 'Monto',           t: 'Monto',           type: '$',      class: 'text-right' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: ['monto','Monto',true], t: 'QMonto',          type: 'q',      class: 'text-right' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: 'Hotel_All',       t: 'Monto Hotel',     type: '$',      class: 'text-right' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: ['hotel','Monto Hotel',true], t: 'QMonto Hotel',    type: 'q',      class: 'text-right' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: 'Paquete_All',     t: 'Monto Paquete',   type: '$',    class: 'text-right' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: 'Transfer_All',    t: 'Monto Transfer',  type: '$',    class: 'text-right' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: ['transfer','Monto Transfer',true], t: 'QMonto Transfer', type: 'q',     class: 'text-right' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: 'Tour_All',        t: 'Monto Tour',      type: '$',      class: 'text-right' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: ['tour','Monto Tour',true], t: 'QMonto Tour',     type: 'q',       class: 'text-right' },
-      { show: this.pcrcSelected == 6 ? false : true, op: null, field: 'LocsIn',          t: 'Locs In',         type: 'num',    class: 'text-center' },
+      { show: !this.isBo, op: null, field: 'Monto',           t: 'Monto',           type: '$',      class: 'text-right' },
+      { show: !this.isBo, op: null, field: ['monto','Monto',true], t: 'QMonto',          type: 'q',      class: 'text-right' },
+      { show: !this.isBo, op: null, field: 'Hotel_All',       t: 'Monto Hotel',     type: '$',      class: 'text-right' },
+      { show: !this.isBo, op: null, field: ['hotel','Monto Hotel',true], t: 'QMonto Hotel',    type: 'q',      class: 'text-right' },
+      { show: !this.isBo, op: null, field: 'Paquete_All',     t: 'Monto Paquete',   type: '$',    class: 'text-right' },
+      { show: !this.isBo, op: null, field: 'Transfer_All',    t: 'Monto Transfer',  type: '$',    class: 'text-right' },
+      { show: !this.isBo, op: null, field: ['transfer','Monto Transfer',true], t: 'QMonto Transfer', type: 'q',     class: 'text-right' },
+      { show: !this.isBo, op: null, field: 'Tour_All',        t: 'Monto Tour',      type: '$',      class: 'text-right' },
+      { show: !this.isBo, op: null, field: ['tour','Monto Tour',true], t: 'QMonto Tour',     type: 'q',       class: 'text-right' },
+      { show: !this.isBo, op: null, field: 'LocsIn',          t: 'Locs In',         type: 'num',    class: 'text-center' },
       { show: true, op: null, field: 'callsIn',         t: 'Calls In',        type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected == 6 ? false : true, op: "/",  field: ['LocsIn', 'callsIn'], t: 'FC',          type: '%',      class: 'text-right' },
+      { show: !this.isBo, op: '/',  field: ['LocsIn', 'callsIn'], t: 'FC',          type: '%',      class: 'text-right' },
       { show: true, op: null, field: ['fc','FC',true],       t: 'QFC',             type: 'q',       class: 'text-right' },
-      { show: true, op: "/",  field: ['TTIn', 'callsIn'], t: 'AHT In',        type: 'dec',    class: 'text-right' },
+      { show: true, op: '/',  field: ['TTIn', 'callsIn'], t: 'AHT In',        type: 'dec',    class: 'text-right' },
       { show: true, op: null, field: ['ahtIn','AHT In',false],  t: 'QAHT In',         type: 'q',     class: 'text-right' },
       { show: true, op: null, field: 'LocsNotIn',         t: 'Locs Out',        type: 'num',    class: 'text-center' },
       { show: true, op: null, field: 'callsOut',        t: 'Calls Out',       type: 'num',    class: 'text-center' },
-      { show: true, op: "/",  field: ['TTOut', 'callsOut'], t: 'AHT Out',     type: 'dec',  class: 'text-right' },
+      { show: true, op: '/',  field: ['TTOut', 'callsOut'], t: 'AHT Out',     type: 'dec',  class: 'text-right' },
       { show: true, op: null, field: ['ahtOut','AHT Out',false],  t: 'QAHT Out',        type: 'q',   class: 'text-right' },
       { show: true, op: null, field: 'intentosOut',     t: 'Intentos Out',    type: 'num',    class: 'text-center' },
       { show: true, op: null, field: 'Sesion',          t: 'Tiempo Sesión',   type: 'num',   class: 'text-center' },
-      { show: true, op: "/",  field: ['Ut', 'Sesion'],  t: 'Utilizacion',     type: '%',     class: 'text-right' },
+      { show: true, op: '/',  field: ['Ut', 'Sesion'],  t: 'Utilizacion',     type: '%',     class: 'text-right' },
       { show: true, op: null, field: 'pausasExcedidas', t: 'Pausas Excedidas',type: 'num', class: 'text-center' },
       { show: true, op: null, field: ['exceed','Pausas Excedidas',false], t: 'QPausas Excedidas',type: 'q', class: 'text-center' },
       { show: true, op: null, field: 'FA',              t: 'Fa',              type: 'num', class: 'text-center' },
       { show: true, op: null, field: 'RTA',              t: 'RT-A',              type: 'num', class: 'text-center' },
       { show: true, op: null, field: 'RTB',              t: 'RT-B',              type: 'num', class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['Mailing_Total','Mailing'],        t: 'Eficiencia Mailing',       type: 'dec',    class: 'text-right' },
-      { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['Confirming_Total','Confirming'],        t: 'Eficiencia Confirming',       type: 'dec',    class: 'text-right' },
-      { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['Reembolsos_Total','Reembolsos'],        t: 'Eficiencia Reembolsos',       type: 'dec',    class: 'text-right' },
-      { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['MC_Total','MejoraContinua'],        t: 'Eficiencia Mejora<br>Continua',       type: 'dec',    class: 'text-right' },
-      { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['Afectaciones_Total','Afectaciones'],        t: 'Eficiencia Afectaciones',       type: 'dec',    class: 'text-right' },
-      { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['AgenciasConfirming_Total','AgenciasConfirming'],        t: 'Eficiencia Agencias<br>Confirming',       type: 'dec',    class: 'text-right' },
-      { show: this.pcrcSelected != 6 ? false : true, op: '/', field: ['AgenciasMejora'],        t: 'Eficiencia Agencias<br>Mejora',       type: 'dec',    class: 'text-right' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Confirming_FinBO',        t: 'Confirming FinBO',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Confirming_FinIN',        t: 'Confirming FinIN',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Confirming_Total',        t: 'Confirming Total',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Mailing_Escalado',        t: 'Mailing Escalado',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Mailing_FinBO',        t: 'Mailing FinBO',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Mailing_FinIN',        t: 'Mailing FinIN',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Mailing_Total',        t: 'Mailing Total',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'MC_FinBO',        t: 'MC FinBO',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'MC_FinIN',        t: 'MC FinIN',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'MC_Total',        t: 'MC Total',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Reembolsos_FinBO',        t: 'Reembolsos FinBO',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Reembolsos_FinIN',        t: 'Reembolsos FinIN',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Reembolsos_Total',        t: 'Reembolsos Total',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'AgenciasConfirming_FinBO',        t: 'AgenciasConfirming FinBO',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'AgenciasConfirming_FinIN',        t: 'AgenciasConfirming FinIN',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'AgenciasConfirming_Total',        t: 'AgenciasConfirming Total',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'AgenciasMejora_FinBO',        t: 'AgenciasMejora FinBO',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'AgenciasMejora_FinIN',        t: 'AgenciasMejora FinIN',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'AgenciasMejora_Total',        t: 'AgenciasMejora Total',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Afectaciones_FinBO',        t: 'Afectaciones FinBO',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Afectaciones_FinIN',        t: 'Afectaciones FinIN',       type: 'num',    class: 'text-center' },
-      { show: this.pcrcSelected != 6 ? false : true, op: null, field: 'Afectaciones_Total',        t: 'Afectaciones Total',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: '/', field: ['Mailing_Total','Mailing'],        t: 'Eficiencia Mailing',       type: 'dec',    class: 'text-right' },
+      { show: this.isBo, op: '/', field: ['Confirming_Total','Confirming'],        t: 'Eficiencia Confirming',       type: 'dec',    class: 'text-right' },
+      { show: this.isBo, op: '/', field: ['Reembolsos_Total','Reembolsos'],        t: 'Eficiencia Reembolsos',       type: 'dec',    class: 'text-right' },
+      { show: this.isBo, op: '/', field: ['MC_Total','MejoraContinua'],        t: 'Eficiencia Mejora<br>Continua',       type: 'dec',    class: 'text-right' },
+      { show: this.isBo, op: '/', field: ['Afectaciones_Total','Afectaciones'],        t: 'Eficiencia Afectaciones',       type: 'dec',    class: 'text-right' },
+      { show: this.isBo, op: '/', field: ['AgenciasConfirming_Total','AgenciasConfirming'],        t: 'Eficiencia Agencias<br>Confirming',       type: 'dec',    class: 'text-right' },
+      { show: this.isBo, op: '/', field: ['AgenciasMejora'],        t: 'Eficiencia Agencias<br>Mejora',       type: 'dec',    class: 'text-right' },
+      { show: this.isBo, op: null, field: 'Confirming_FinBO',        t: 'Confirming FinBO',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Confirming_FinIN',        t: 'Confirming FinIN',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Confirming_Total',        t: 'Confirming Total',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Mailing_Escalado',        t: 'Mailing Escalado',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Mailing_FinBO',        t: 'Mailing FinBO',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Mailing_FinIN',        t: 'Mailing FinIN',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Mailing_Total',        t: 'Mailing Total',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'MC_FinBO',        t: 'MC FinBO',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'MC_FinIN',        t: 'MC FinIN',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'MC_Total',        t: 'MC Total',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Reembolsos_FinBO',        t: 'Reembolsos FinBO',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Reembolsos_FinIN',        t: 'Reembolsos FinIN',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Reembolsos_Total',        t: 'Reembolsos Total',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'AgenciasConfirming_FinBO',        t: 'AgenciasConfirming FinBO',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'AgenciasConfirming_FinIN',        t: 'AgenciasConfirming FinIN',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'AgenciasConfirming_Total',        t: 'AgenciasConfirming Total',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'AgenciasMejora_FinBO',        t: 'AgenciasMejora FinBO',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'AgenciasMejora_FinIN',        t: 'AgenciasMejora FinIN',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'AgenciasMejora_Total',        t: 'AgenciasMejora Total',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Afectaciones_FinBO',        t: 'Afectaciones FinBO',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Afectaciones_FinIN',        t: 'Afectaciones FinIN',       type: 'num',    class: 'text-center' },
+      { show: this.isBo, op: null, field: 'Afectaciones_Total',        t: 'Afectaciones Total',       type: 'num',    class: 'text-center' },
 
     ]
 
@@ -284,7 +300,7 @@ export class CuartilesComponent implements OnInit {
     qs['ahtOut']['q']     =this.quartile(qs['ahtOut']['data'], qLimit, false)
     qs['exceed']['q']     =this.quartile(qs['exceed']['data'], qLimit, false)
 
-      console.log(qs)
+      // console.log(qs)
 
     for( let item of data ){
 
@@ -316,7 +332,7 @@ export class CuartilesComponent implements OnInit {
                 }
               }
             }else{
-              td[field.t] = "NA"
+              td[field.t] = 'NA'
             }
 
           }else{

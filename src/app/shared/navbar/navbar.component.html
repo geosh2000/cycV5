@@ -27,6 +27,9 @@
             <div class="p-1" *ngIf="currentUser">
                 <app-pbx-status [asesor]="currentUser.username"></app-pbx-status>
             </div>
+            <div class="p-1" *ngIf="currentUser">
+                <button class="btn btn-sm btn-secondary" (click)="openGlobal()">Avisos PDV</button>
+            </div>
             <div class="p-1">
                 <button type="button" class="btn btn-link text-light" *ngIf="token" id='preferencesNav' data-toggle="modal" data-target="#preferencesModal">
                     <i class="fas fa-cogs"></i>
