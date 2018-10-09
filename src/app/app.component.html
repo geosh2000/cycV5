@@ -12,7 +12,7 @@
     <mat-sidenav-content [style.height.px]="0">
     </mat-sidenav-content>
 </mat-sidenav-container>
-<mat-sidenav-container class="matContainer">
+<mat-sidenav-container class="matContainer" *ngIf="showContents">
     <mat-sidenav #globalAdv mode="side" [(opened)]="advOpened" [fixedInViewport]="true" [fixedTopGap]="60" position='end'>
         <app-avisos-globales></app-avisos-globales>
     </mat-sidenav>
@@ -27,5 +27,5 @@
 
 <app-login></app-login>
 <app-logout (confirm)="confirmLO($event)"></app-logout>
-<app-new-adv-pdv></app-new-adv-pdv>
+<app-new-adv-pdv *ngIf="showContents"></app-new-adv-pdv>
 <app-user-preferences *ngIf="token"></app-user-preferences>

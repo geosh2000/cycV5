@@ -9,6 +9,7 @@ export class InitService {
 
   preferences:any = {}
   currentUser:any
+  isLogin:boolean = false
 
   constructor( private _route:Router, private _api:ApiService, private _zh:ZonaHorariaService ) {
     this.getPreferences()
@@ -21,12 +22,20 @@ export class InitService {
             this.preferences = res['data']
             this._zh.getZone( this.preferences['zonaHoraria'] )
           })
+      this.isLogin = true
+    }else{
+      this.isLogin = false
     }
   }
 
   getUserInfo(){
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.currentUser = currentUser
+    if( currentUser ){
+      this.isLogin = true
+    }else{
+      this.isLogin = false
+    }
     return currentUser
   }
 

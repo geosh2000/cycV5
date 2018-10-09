@@ -104,6 +104,22 @@ export class BatchAsesorFormComponent implements OnInit, OnChanges {
   }
 
   build( item = this.item ){
+    this.successSave = false
+    this.saved = false
+    this.dataFromUser = false
+    this.omitido = false
+    this.reingresoFlag = false
+    this.difUserFlag = false
+    this.oldResetFlag = new Date
+    this.oldResetVac = new Date
+
+    this.loading = {}
+    this.existingUser = ''
+    this.existingUserTmp = ''
+
+    this.newId = undefined
+    this.newError = []
+
     this.form =  new FormGroup({
       ['Nombre_Separado']:    new FormControl(item['Nombres'] ? this.ucwords( item['Nombres'] ) : ''               , [ Validators.required, Validators.pattern('^[A-ZÁÉÍÓÚ]{1}[a-záéíóú]+([ ]{1}([A-ZÁÉÍÓÚ]{1}[a-záéíóú]+|[d]{1}[e]{1}[l]{0,1})){0,3}$')], this.nameExists.bind(this) ),
       ['Apellidos_Separado']: new FormControl(item['Apellidos'] ? this.ucwords( item['Apellidos'] ) : ''           , [ Validators.required, Validators.pattern('^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[ ]{1}[a-záéíóúñ]{2,3}){0,5}$')], this.nameExists.bind(this) ),
@@ -349,7 +365,7 @@ export class BatchAsesorFormComponent implements OnInit, OnChanges {
                 this.saved = true
                 this.successSave = true
                 this.newId = res['asesor_id']
-                this.done.emit( { status: true, index: this.i } )
+                this.done.emit( { status: true, index: this.i, newId: res['asesor_id'] } )
 
               }, err => {
                 console.log('ERROR', err)

@@ -19,6 +19,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Detección de asesores existentes (sin baja) (.2009)
 * Optimización de selección de posiciones a ocupar (.2009)
 * Carga en serie (evita duplicidades) (.2009)
+* Módulo simplificado para altas individuales (.2013)
 
 ### Avisos PDV
 * Vista global desde cualquier módulo (.2013)
@@ -75,6 +76,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Multiples vistas (.2010)
 * Mejoras en performance de monitor (.2010)
 * Pausa corre a partir de que termina la llamada (.2010)
+* Corrección de llamadas con agentes fuera de cola (.2013)
 
 ### Reporte Afiliados
 * Fix de columna Afiliado y título de página (.2007)

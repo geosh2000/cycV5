@@ -83,7 +83,7 @@ export class PyaExceptionComponent implements OnInit {
                 this.types = res['data']
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['types'] = false
 
@@ -185,7 +185,7 @@ export class PyaExceptionComponent implements OnInit {
                 status: true,
                 error : res
               })
-              jQuery("#pyaExceptModal").modal('hide')
+              jQuery('#pyaExceptModal').modal('hide')
 
             }, err => {
               this.loading['save'] = false
@@ -198,7 +198,7 @@ export class PyaExceptionComponent implements OnInit {
                 error:    err
               })
               console.error(err.statusText, error.msg)
-              jQuery("#pyaExceptModal").modal('hide')
+              jQuery('#pyaExceptModal').modal('hide')
             })
   }
 
@@ -238,7 +238,7 @@ export class PyaExceptionComponent implements OnInit {
                   status: true,
                   error : res
                 })
-                jQuery("#pyaExceptModal").modal('hide')
+                jQuery('#pyaExceptModal').modal('hide')
 
               }, err => {
                 this.loading['delete'] = false
@@ -251,7 +251,7 @@ export class PyaExceptionComponent implements OnInit {
                   error:    err
                 })
                 console.error(err.statusText, error.msg)
-                jQuery("#pyaExceptModal").modal('hide')
+                jQuery('#pyaExceptModal').modal('hide')
               })
     }else{
       this.flagDel = false

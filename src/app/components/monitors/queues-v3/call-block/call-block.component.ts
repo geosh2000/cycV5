@@ -65,8 +65,10 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
       ttOut: 0
     }
     for( let item of this.qData ){
-      if( (this.selectedQs.indexOf(item['waitQ']) > -1 || this.selectedQs.length == 0) && !item['Queue'] && item['waitQ'] && item['caller'] ){
-        waits.push(item)
+      if( (this.selectedQs.indexOf(item['waitQ']) > -1 || this.selectedQs.length == 0) && !item['Queue'] && item['waitQ'] && item['caller']){
+        if( item['agente'].match(/^wait/g) ){
+          waits.push(item)
+        }
       }else{
         if( item['Queue'] ){
           agents.push(item)

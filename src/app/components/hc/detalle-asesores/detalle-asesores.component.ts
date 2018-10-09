@@ -10,6 +10,7 @@ import { ApiService, InitService, TokenCheckService } from '../../../services/se
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
 import * as Globals from '../../../globals';
+import { AddNewAgentComponent } from '../../formularios/add-new-agent/add-new-agent.component';
 
 @Component({
   selector: 'app-detalle-asesores',
@@ -17,6 +18,8 @@ import * as Globals from '../../../globals';
   styles: []
 })
 export class DetalleAsesoresComponent implements OnInit {
+
+  @ViewChild(AddNewAgentComponent) addNew:AddNewAgentComponent
 
   currentUser: any
   showContents:boolean = false
@@ -88,6 +91,11 @@ export class DetalleAsesoresComponent implements OnInit {
 
   sendNow(){
     this.now = moment()
+  }
+
+  addNewAgent( pais ){
+   jQuery('#addAsesor').modal('show')
+   this.addNew.build( pais )
   }
 
   saved( data ){
