@@ -38,6 +38,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Api con guardado de historial de cambios (last_change per date) (.2003)
 * Fix Fechas, formulario e historico (.2004)
 
+### Carga de Horarios
+* Fix de horarios con distintas zonas horarias (.2015)
+
 ### CxC
 * Implementación de no. de quincenas al enviar a RRHH (.2004)
 * Corrección de Layout descargable por quincenas (.2004)
