@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewContainerRef, Input, SimpleChanges, ViewChild, HostListener, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, AfterViewInit, ViewContainerRef, Input, SimpleChanges, ViewChild, HostListener, ElementRef, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 
 import * as moment from 'moment-timezone';
 
@@ -8,21 +8,21 @@ import * as moment from 'moment-timezone';
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GraphCallStatsComponent implements AfterViewInit {
+export class GraphCallStatsComponent implements AfterViewInit, OnChanges {
 
-  divWidth:number = 1200
+    @Input() data = []
+    @Input() h = []
+    @Input() date = []
+    @Input() multi:boolean = false
+    divWidth:number = 1200
 
-  @ViewChild('chartContainer') parentDiv:ElementRef;
-  @HostListener('window:resize') onResize() {
+    chart:Object = {}
+    options:Object = {}
+
+    @ViewChild('chartContainer') parentDiv:ElementRef;
+    @HostListener('window:resize') onResize() {
     this.resizeChart()
-  }
-
-  @Input() data = []
-  @Input() h = []
-  @Input() date = []
-
-  chart:Object = {}
-  options:Object = {}
+    }
 
   constructor() {
 
@@ -90,12 +90,14 @@ export class GraphCallStatsComponent implements AfterViewInit {
                     name: 'lw',
                     data: [1],
                     dashStyle: 'ShortDot',
-                    color: '#a50092'
+                    color: '#a50092',
+                    visible: !this.multi
                 },{
                     name: 'ly',
                     data: [1],
                     dashStyle: 'ShortDot',
-                    color: '#ef9300'
+                    color: '#ef9300',
+                    visible: !this.multi
                 },{
                     name: 'Abandon',
                     data: [1],
@@ -133,21 +135,19 @@ export class GraphCallStatsComponent implements AfterViewInit {
                     data: [1],
                     dashStyle: 'ShortDot',
                     color: '#ef9300',
-                    visible: false
+                    visible: this.multi
                 },{
                     name: 'Forecast',
                     data: [1],
                     dashStyle: 'ShortDot',
                     color: '#ef9300',
-                    visible: false
+                    visible: this.multi
                 }]
 
             }
 
   }
 
-  ngOnInit() {
-  }
 
   ngAfterViewInit() {
     this.setData()
@@ -155,6 +155,51 @@ export class GraphCallStatsComponent implements AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.setData()
+    this.setVisible( this.multi )
+  }
+
+  setVisible( flag ){
+      if( this.chart['calls'] ){
+          let opt = {}
+          if( flag ){
+                this.chart['calls']['series'][0].hide()
+                this.chart['calls']['series'][1].show()
+                this.chart['calls']['series'][8].show()
+                this.chart['calls']['series'][9].show()
+                // dataLabels
+                opt[1] = this.chart['calls']['series'][2].options
+                opt[2] = this.chart['calls']['series'][3].options
+                opt[3] = this.chart['calls']['series'][4].options
+                opt[4] = this.chart['calls']['series'][5].options
+                opt[1].dataLabels.enabled = false
+                opt[2].dataLabels.enabled = false
+                opt[3].dataLabels.enabled = false
+                opt[4].dataLabels.enabled = false
+                this.chart['calls']['series'][2].update(opt[1])
+                this.chart['calls']['series'][3].update(opt[2])
+                this.chart['calls']['series'][4].update(opt[3])
+                this.chart['calls']['series'][5].update(opt[4])
+            }else{
+                this.chart['calls']['series'][0].show()
+                this.chart['calls']['series'][1].show()
+                this.chart['calls']['series'][8].hide()
+                this.chart['calls']['series'][9].hide()
+
+                // dataLabels
+                opt[1] = this.chart['calls']['series'][2].options
+                opt[2] = this.chart['calls']['series'][3].options
+                opt[3] = this.chart['calls']['series'][4].options
+                opt[4] = this.chart['calls']['series'][5].options
+                opt[1].dataLabels.enabled = true
+                opt[2].dataLabels.enabled = true
+                opt[3].dataLabels.enabled = true
+                opt[4].dataLabels.enabled = true
+                this.chart['calls']['series'][2].update(opt[1])
+                this.chart['calls']['series'][3].update(opt[2])
+                this.chart['calls']['series'][4].update(opt[3])
+                this.chart['calls']['series'][5].update(opt[4])
+            }
+        }
   }
 
   saveInstance(identifier, chartInstance) {
@@ -217,6 +262,7 @@ export class GraphCallStatsComponent implements AfterViewInit {
       this.divWidth = this.parentDiv.nativeElement.clientWidth;
 
       if( this.chart ){
+        // tslint:disable-next-line:forin
         for( let group in this.chart ){
           let h = this.divWidth*1000/2200
           this.chart['calls'].setSize(this.divWidth, h);

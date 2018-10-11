@@ -218,6 +218,8 @@ import { CallCardSmComponent } from './components/monitors/queues-v3/call-card-s
 import { EvaluacionDesempenoComponent } from './components/rrhh/evaluacion-desempeno/evaluacion-desempeno.component';
 import { ModalEvaluacionDesComponent } from './components/rrhh/evaluacion-desempeno/modal-evaluacion-des/modal-evaluacion-des.component';
 import { AddNewAgentComponent } from './components/formularios/add-new-agent/add-new-agent.component';
+import { CallStatisticsComponent } from './components/monitors/calls/call-statistics.component';
+import { MultipleCallStatsComponent } from './components/monitors/calls/multiple-call-stats.component';
 
 declare let jQuery: Object;
 
@@ -387,6 +389,8 @@ registerLocaleData(localeEsMX)
     EvaluacionDesempenoComponent,
     ModalEvaluacionDesComponent,
     AddNewAgentComponent,
+    CallStatisticsComponent,
+    MultipleCallStatsComponent,
   ],
   imports: [
     BrowserModule,

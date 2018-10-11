@@ -80,6 +80,8 @@ import { HcControlComponent } from './components/hc/hc-control/hc-control.compon
 import { AltasBatchComponent } from './components/hc/altas-batch/altas-batch.component';
 import { QueuesV3Component } from './components/monitors/queues-v3/queues-v3.component';
 import { EvaluacionDesempenoComponent } from './components/rrhh/evaluacion-desempeno/evaluacion-desempeno.component';
+import { CallStatisticsComponent } from './components/monitors/calls/call-statistics.component';
+import { MultipleCallStatsComponent } from './components/monitors/calls/multiple-call-stats.component';
 
 
 const APP_ROUTES: Routes = [
@@ -155,7 +157,8 @@ const APP_ROUTES: Routes = [
   { path: 'pausas', component: MonitorPausasComponent },
   { path: 'ventaAsesor', component: VentaPorAsesorComponent },
   { path: 'monitors/ivrParticipacion', component: ParticipacionComponent },
-  { path: 'monitors/callStatistics', component: StatisticsComponent },
+  { path: 'monitors/callStatistics', component: CallStatisticsComponent },
+  { path: 'monitors/multiCalls', component: MultipleCallStatsComponent },
   { path: 'dashporhora', component: DashPorHoraComponent },
   { path: 'kpis', component: KpisComponent },
   { path: 'kpisPDV', component: KpisPdvComponent },

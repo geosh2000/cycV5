@@ -26,6 +26,12 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Filtro múltiple por PDV (.2013)
 * Borrado por perfiles (.2013)
 
+### Call Statistics
+* Tabla intermedia para mejorar performance de consultas (.2015)
+* API mejorada, una sola carga por consulta (.2015)
+* Visualización de SLA en resumen (.2015)
+* Implementación de ventana múltiple (.2015)
+
 ### Cambios de Turno
 * Nuevo módulo de cambios de turno (.2003)
 * Información de cambios en el mes (.2003)
