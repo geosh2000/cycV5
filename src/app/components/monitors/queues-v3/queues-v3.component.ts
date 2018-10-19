@@ -182,8 +182,8 @@ export class QueuesV3Component implements OnInit, OnDestroy {
                 for( let item of res['data'] ){
                   item['qs'] = item['Queue'] ? item['Queue'].split(':') : []
 
-                  if( callers.indexOf( item['caller']) == -1 ){
-                    callers.push(item['caller'])
+                  if( callers.indexOf( `${item['RT_dnis']}:${item['caller']}` ) == -1 ){
+                    callers.push(`${item['RT_dnis']}:${item['caller']}`)
                   }else{
                     item['caller'] = null
                     item['Q'] = null

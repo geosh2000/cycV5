@@ -118,7 +118,7 @@
 
                 </div>
                 <div class="card-footer text-muted">
-                    Mostrando: <span *ngIf="!loading['data']">{{ dateSelected }}</span><span *ngIf="loading['data']"><i class="fas fa-spinner fa-2x fa-pulse text-primary"></i></span> || Last Update: {{ lu ? printTime(lu, 'DD MMM HH:MM:SS') : 'Unknown'
+                    Mostrando: <span *ngIf="!loading['data']">{{ dateSelected }}</span><span *ngIf="loading['data']"><i class="fas fa-spinner fa-2x fa-pulse text-primary"></i></span> || Last Update: {{ lu ? printTime(lu, 'DD MMM HH:mm:ss') : 'Unknown'
                     }} <span *ngIf="monitor">|| Reload in {{ timeCount }} seg.</span>
                 </div>
             </div>

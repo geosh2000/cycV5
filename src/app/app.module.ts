@@ -19,6 +19,7 @@ import { FullCalendarModule } from 'ng-fullcalendar';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { ToastrModule } from 'ngx-toastr';
 import { Select2Module } from 'ng2-select2';
+import { NgDragDropModule } from 'ng-drag-drop';
 
 
 // services
@@ -220,6 +221,9 @@ import { ModalEvaluacionDesComponent } from './components/rrhh/evaluacion-desemp
 import { AddNewAgentComponent } from './components/formularios/add-new-agent/add-new-agent.component';
 import { CallStatisticsComponent } from './components/monitors/calls/call-statistics.component';
 import { MultipleCallStatsComponent } from './components/monitors/calls/multiple-call-stats.component';
+import { HcPdvComponent } from './components/hc/hc-pdv/hc-pdv.component';
+import { PdvSuperAssignComponent } from './components/config/pdv-super-assign/pdv-super-assign.component';
+import { CcSuperAssignComponent } from './components/config/cc-super-assign/cc-super-assign.component';
 
 declare let jQuery: Object;
 
@@ -391,6 +395,9 @@ registerLocaleData(localeEsMX)
     AddNewAgentComponent,
     CallStatisticsComponent,
     MultipleCallStatsComponent,
+    HcPdvComponent,
+    PdvSuperAssignComponent,
+    CcSuperAssignComponent,
   ],
   imports: [
     BrowserModule,
@@ -422,6 +429,7 @@ registerLocaleData(localeEsMX)
       useBootstrap4: true,
       autoFocus: true
     }),
+    NgDragDropModule.forRoot(),
 
     // ==================================================
     // START ANGULAR MATERIAL

@@ -28,7 +28,8 @@ export class MpMxComponent implements OnInit {
     { name: 'Monto Hotel',field: 'monto_hotel', tipo: 'monto' },
     { name: 'Monto Tour',field: 'monto_tour', tipo: 'monto' },
     { name: 'Monto Transfer',field: 'monto_transfer', tipo: 'monto' },
-    { name: 'Margen',     field: 'margen',      tipo: 'monto' },
+    { name: 'Margen ',     field: 'margen',      tipo: 'monto' },
+    { name: 'Margen Hotel',field: 'margen_hotel',tipo: 'monto' },
     { name: 'RN',         field: 'RN',          tipo: 'numero' },
     { name: 'Locs In',    field: 'LocsIn',      tipo: 'numero' },
     { name: 'Locs Out',   field: 'LocsOut',     tipo: 'numero' },
@@ -61,19 +62,22 @@ export class MpMxComponent implements OnInit {
   ngOnInit() {
   }
 
-  getData( inicio, fin, skill ){
+  getData( inicio, fin, skill, params ){
     this.loading['data'] = true
 
-    this._api.restfulGet( `${inicio}/${fin}/${skill}`, 'Tablaf/mp' )
+    this._api.restfulPut( params, `Tablaf/mp/${inicio}/${fin}/${skill}` )
             .subscribe( res => {
 
               this.loading['data'] = false
 
               this.dataTable = []
+              // tslint:disable-next-line:forin
               for( let dep in res['data'] ){
                 let groups = []
+                // tslint:disable-next-line:forin
                 for( let group in res['data'][dep] ){
                   let fechas = []
+                  // tslint:disable-next-line:forin
                   for( let fecha in res['data'][dep][group] ){
                     fechas.push({ date: fecha, data: res['data'][dep][group][fecha]})
                   }
@@ -86,7 +90,7 @@ export class MpMxComponent implements OnInit {
 
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['data'] = false
 
@@ -103,7 +107,7 @@ export class MpMxComponent implements OnInit {
   download( title ){
     let books = {}
     for( let skill of this.dataTable ){
-      let title = `${skill['dep']} - `
+      title = `${skill['dep']} - `
       for( let group of skill['data'] ){
         let titleOK = `${title}${group['group']}`
         let data = []
@@ -121,9 +125,10 @@ export class MpMxComponent implements OnInit {
 
     let wb: WorkBook = { SheetNames: [], Sheets: {} };
 
-    for(let title in sheets){
+    // tslint:disable-next-line:forin
+    for(let ttl in sheets){
       wb.SheetNames.push(title);
-      wb.Sheets[title] = utils.json_to_sheet(sheets[title], {cellDates: true});
+      wb.Sheets[ttl] = utils.json_to_sheet(sheets[ttl], {cellDates: true});
     }
 
     let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
@@ -135,7 +140,8 @@ export class MpMxComponent implements OnInit {
   s2ab(s) {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
-    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    // tslint:disable-next-line:no-bitwise
+    for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 

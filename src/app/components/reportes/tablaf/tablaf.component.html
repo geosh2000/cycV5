@@ -1,48 +1,46 @@
 <div class="alert alert-danger" role="alert" *ngIf="!showContents">
-  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
 <div class="container-fluid" *ngIf="showContents">
 
-  <!-- TITLE -->
-  <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
-    <div class="container">
-      <div class="d-flex justify-content-between">
-        <div>
-          <span><h1 class="display-3">Tablas F</h1></span>
-          <p class="lead">Resultados por departamento</p>
-        </div>
-      </div>
-      <div class="container">
-        <div class="d-flex justify-content-start">
-          <div class="form-group pl-2">
-              <div
-                  class="input-group"
-                  daterangepicker (selected)="dateChange($event.start, $event.end)">
-                  <input type='text' class="form-control uneditable-input"  name="daterange" value="" id="datepicker" style="font-size: smaller">
-                  <span class="input-group-btn">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Tablas F</h1></span>
+                    <p class="lead">Resultados por departamento</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="d-flex justify-content-start">
+                    <div class="form-group pl-2">
+                        <div class="input-group" daterangepicker (selected)="dateChange($event.start, $event.end)">
+                            <input type='text' class="form-control uneditable-input" name="daterange" value="" id="datepicker" style="font-size: smaller">
+                            <span class="input-group-btn">
                       <button type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></button>
                   </span>
-              </div>
-          </div>
-          <div class="form-group pl-2">
-            <select class="custom-select mr-sm-2" id="skill" [(ngModel)]="skill">
-              <option value="35">Ventas MP</option>
-              <option value="3">Ventas MT</option>
+                        </div>
+                    </div>
+                    <div class="form-group pl-2">
+                        <select class="custom-select mr-sm-2" id="skill" (change)="selectDep($event)">
+              <option value="">Selecciona...</option>
+              <option [value]="i" *ngFor="let dep of deps; index as i">{{ dep['displayName'] }}</option>
             </select>
-          </div>
-          <div class="pl-2">
-              <button type="button" class="btn btn-success" *ngIf="searchStart && searchEnd" (click)="getData()">Consultar</button>
-          </div>
-          <div class="pl-2">
-              <button type="button" class="btn btn-warning" *ngIf="searchStart && searchEnd" (click)="download( 'tablaf' )">Descargar</button>
-          </div>
+                    </div>
+                    <div class="pl-2">
+                        <button type="button" class="btn btn-success" *ngIf="searchStart && searchEnd" (click)="getData()" [disabled]="!skill || _mp.loading['data']">Consultar</button>
+                    </div>
+                    <div class="pl-2">
+                        <button type="button" class="btn btn-warning" *ngIf="searchStart && searchEnd" (click)="download( 'tablaf' )">Descargar</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="container-fluid">
-    <app-mp-mx></app-mp-mx>
-  </div>
+    <div class="container-fluid">
+        <app-mp-mx></app-mp-mx>
+    </div>
 
 </div>

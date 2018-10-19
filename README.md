@@ -12,6 +12,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix Menu al abrir opciones (.2003)
 * Fix Excel Download (file type) (.2005)
 * Fix de Notificación en error de APIs (.2010)
+* Módulo Drag & Drop (.2016)
 
 ### Altas en grupo
 * Módulo de altas con template de xlsx (.2009)
@@ -20,6 +21,20 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Optimización de selección de posiciones a ocupar (.2009)
 * Carga en serie (evita duplicidades) (.2009)
 * Módulo simplificado para altas individuales (.2013)
+
+### Asignación de Supervisores CC
+* Listado completo de Asesores por país (.2016)
+* Supervisores inactivos, mostrados como "sin asignar" (.2016)
+* Filtrado por asesor (.2016)
+* Filtrado de Supervisores (.2016)
+* Drag and Drop (.2016)
+
+### Asignación de Supervisores PDV
+* Listado completo de PDVs por país (.2016)
+* Supervisores inactivos, mostrados como "sin asignar" (.2016)
+* Filtrado por PDV (.2016)
+* Filtrado de Supervisores (.2016)
+* Drag and Drop (.2016)
 
 ### Avisos PDV
 * Vista global desde cualquier módulo (.2013)
@@ -31,6 +46,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * API mejorada, una sola carga por consulta (.2015)
 * Visualización de SLA en resumen (.2015)
 * Implementación de ventana múltiple (.2015)
+* Corrección de LastUpdate en monitores (.2016)
 
 ### Cambios de Turno
 * Nuevo módulo de cambios de turno (.2003)
@@ -60,9 +76,16 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Modificación de solicitud de vacantes con país y módulos según catálogo (.2008)
 * Estandarización de zonas de acuerdo a catálogos de BI (.2008)
 
+### KPIs PDV
+* Fix de participación Online (.2016)
+
 ### SearchAsesor Module
 * Fix filtro por udn/area/dep/puesto (.2002)
 * Devuelve informacion de codigos de puesto (.2002) 
+
+### Tabla F
+* Integración de Colombia para Tablas F (.2016)
+* Margen Hotel en Ventas (.2016)
 
 ### Módulo de Asistencias
 * División CO / MX

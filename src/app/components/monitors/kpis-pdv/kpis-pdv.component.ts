@@ -12,7 +12,7 @@ declare var jQuery:any;
   templateUrl: './kpis-pdv.component.html',
   styles: []
 })
-export class KpisPdvComponent implements OnInit {
+export class KpisPdvComponent implements OnInit, OnDestroy {
 
   currentUser: any
   showContents:boolean = false
@@ -86,7 +86,7 @@ export class KpisPdvComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -103,7 +103,7 @@ export class KpisPdvComponent implements OnInit {
               this.sup = res['data'] ? res['data']['sup'] : null
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['venta'] = false
 
@@ -229,6 +229,7 @@ export class KpisPdvComponent implements OnInit {
               // =======================================================
               // START SUMARIZADO POR GPO PRINCIPAL
               // =======================================================
+                // tslint:disable-next-line:forin
                 for( let sup in data ){
                   for( let pdv in data[sup] ){
                     if( pdv != 'extra' ){
@@ -277,7 +278,7 @@ export class KpisPdvComponent implements OnInit {
               this.processCalls()
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['venta'] = false
 
@@ -414,7 +415,7 @@ export class KpisPdvComponent implements OnInit {
               if( callback ){ callback() }
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['calls'] = false
 
@@ -618,7 +619,7 @@ export class KpisPdvComponent implements OnInit {
   }
 
   randColor(){
-    return "hsl(" + 360 * Math.random() + ',' +
+    return 'hsl(' + 360 * Math.random() + ',' +
                  (25 + 70 * Math.random()) + '%,' +
                  (85 + 10 * Math.random()) + '%)'
   }

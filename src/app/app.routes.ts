@@ -82,6 +82,9 @@ import { QueuesV3Component } from './components/monitors/queues-v3/queues-v3.com
 import { EvaluacionDesempenoComponent } from './components/rrhh/evaluacion-desempeno/evaluacion-desempeno.component';
 import { CallStatisticsComponent } from './components/monitors/calls/call-statistics.component';
 import { MultipleCallStatsComponent } from './components/monitors/calls/multiple-call-stats.component';
+import { HcPdvComponent } from './components/hc/hc-pdv/hc-pdv.component';
+import { PdvSuperAssignComponent } from './components/config/pdv-super-assign/pdv-super-assign.component';
+import { CcSuperAssignComponent } from './components/config/cc-super-assign/cc-super-assign.component';
 
 
 const APP_ROUTES: Routes = [
@@ -102,6 +105,7 @@ const APP_ROUTES: Routes = [
   { path: 'forecastProgramacion', component: ForecastProgramacionComponent },
 
   // Vacantes
+  { path: 'vacantesPDV', component: HcPdvComponent },
   { path: 'vacantes', component: HcControlComponent },
   { path: 'vacantes/:type', component: HcControlComponent },
   { path: 'vacantes/:type/:udn', component: HcControlComponent },
@@ -177,7 +181,9 @@ const APP_ROUTES: Routes = [
 
   // Config
   { path: 'config/addExternal', component: AddExternalUserComponent },
-  { path: 'config/chgSuper', component: ChangeSupervisorComponent },
+  // { path: 'config/chgSuper', component: ChangeSupervisorComponent },
+  { path: 'config/chgSuperPdv', component: PdvSuperAssignComponent },
+  { path: 'config/chgSuperCC', component: CcSuperAssignComponent },
   { path: 'config/hxConfig', component: HxConfigComponent },
   { path: 'config/uploadTables', component: ReportUpdatesComponent },
   { path: 'config/fams', component: FamsComponent },
