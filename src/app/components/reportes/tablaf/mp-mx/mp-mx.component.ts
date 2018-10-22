@@ -107,9 +107,9 @@ export class MpMxComponent implements OnInit {
   download( title ){
     let books = {}
     for( let skill of this.dataTable ){
-      title = `${skill['dep']} - `
+      let titleSheet = `${skill['dep']} - `
       for( let group of skill['data'] ){
-        let titleOK = `${title}${group['group']}`
+        let titleOK = `${titleSheet}${group['group']}`
         let data = []
         for( let date of group['data'] ){
           data.push(date['data'])
@@ -125,9 +125,10 @@ export class MpMxComponent implements OnInit {
 
     let wb: WorkBook = { SheetNames: [], Sheets: {} };
 
+    let i = 1
     // tslint:disable-next-line:forin
     for(let ttl in sheets){
-      wb.SheetNames.push(title);
+      wb.SheetNames.push(ttl);
       wb.Sheets[ttl] = utils.json_to_sheet(sheets[ttl], {cellDates: true});
     }
 

@@ -1,0 +1,53 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Avisos PDV</h1></span>
+                    <p class="lead">Consulta de avisos creados para PDV y CC</p>
+                </div>
+            </div>
+
+            <div class="container d-flex justify-content-start pl-0">
+                <div class="form-group pl-0">
+                    <div class="input-group" daterangepicker (selected)="dateChange($event.start, $event.end)">
+                        <input type='text' class="form-control uneditable-input" name="daterange" value="" id="datepicker" style="font-size: smaller">
+                        <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></button>
+                </span>
+                    </div>
+                </div>
+                <div class="pl-2">
+                    <button type="button" class="btn btn-success" *ngIf="searchStart && searchEnd" (click)="getData()" [disabled]="loading['data']">Consultar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                </div>
+                <div class="pl-2">
+                    <button type="button" class="btn btn-warning" *ngIf="data.length > 0" (click)="exportToExcel()" [disabled]="loading['data']">Descargar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container-fluid" style="max-height: 800px; overflow: auto" *ngIf="data.length > 0">
+
+        <ngx-table [configuration]="config" [data]="data" [columns]="displayedColumns">
+            <ng-template let-row>
+                <td class="row__email" *ngFor="let item of displayedColumns">
+                    <span [ngSwitch]="item['key']">
+                      <span style="font-size: smaller" *ngSwitchCase="'localizador'">
+                        <a href="https://rsv.pricetravel.com.mx/reservations/show/{{ row[item['key']] }}" target="_blank">{{ row[item['key']] }} <i class="fas fa-external-link-alt"></i></a>
+                      </span>
+                    <span *ngSwitchDefault><span style="font-size: smaller">{{row[item['key']]}}</span></span>
+                    </span>
+                </td>
+            </ng-template>
+        </ngx-table>
+
+    </div>
+
+</div>

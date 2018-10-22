@@ -89,6 +89,16 @@ export class NewAdvPdvComponent implements OnInit {
       return false
     }
 
+  if( !this.form['localizador'].match(/^[0-9]*$/gm) ){
+    this.toastr.error( 'El localizador debe contener sólo números', 'Error en formulario' )
+    this.loading['save'] = false
+    return false
+  }
+
+  // this.form['aviso'] = this.form['aviso'].replace(/\w\S*/g, function (word) {
+  //   return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+  // })
+
     this._api.restfulPut( this.form, 'Navbar/pdvAdvSave')
               .subscribe( res => {
                 this.loading['save'] = false

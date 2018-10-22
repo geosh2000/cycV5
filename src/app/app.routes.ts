@@ -85,6 +85,7 @@ import { MultipleCallStatsComponent } from './components/monitors/calls/multiple
 import { HcPdvComponent } from './components/hc/hc-pdv/hc-pdv.component';
 import { PdvSuperAssignComponent } from './components/config/pdv-super-assign/pdv-super-assign.component';
 import { CcSuperAssignComponent } from './components/config/cc-super-assign/cc-super-assign.component';
+import { ReportesAvisosPdvComponent } from './components/reportes/reportes-avisos-pdv/reportes-avisos-pdv.component';
 
 
 const APP_ROUTES: Routes = [
@@ -145,6 +146,7 @@ const APP_ROUTES: Routes = [
   { path: 'proReport', component: ProReportComponent },
   { path: 'afiliados', component: ReporteAfiliadosComponent},
   { path: 'surveyReport/:surveyId', component: SurveyReportComponent },
+  { path: 'consultaAvisosPdv', component: ReportesAvisosPdvComponent },
 
   // Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },

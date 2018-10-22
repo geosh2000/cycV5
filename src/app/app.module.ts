@@ -20,6 +20,7 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { ToastrModule } from 'ngx-toastr';
 import { Select2Module } from 'ng2-select2';
 import { NgDragDropModule } from 'ng-drag-drop';
+import {TableModule} from 'ngx-easy-table';
 
 
 // services
@@ -224,6 +225,7 @@ import { MultipleCallStatsComponent } from './components/monitors/calls/multiple
 import { HcPdvComponent } from './components/hc/hc-pdv/hc-pdv.component';
 import { PdvSuperAssignComponent } from './components/config/pdv-super-assign/pdv-super-assign.component';
 import { CcSuperAssignComponent } from './components/config/cc-super-assign/cc-super-assign.component';
+import { ReportesAvisosPdvComponent } from './components/reportes/reportes-avisos-pdv/reportes-avisos-pdv.component';
 
 declare let jQuery: Object;
 
@@ -398,6 +400,7 @@ registerLocaleData(localeEsMX)
     HcPdvComponent,
     PdvSuperAssignComponent,
     CcSuperAssignComponent,
+    ReportesAvisosPdvComponent,
   ],
   imports: [
     BrowserModule,
@@ -476,6 +479,7 @@ registerLocaleData(localeEsMX)
     // ==================================================
 
     Select2Module,
+    TableModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'Es-MX' },

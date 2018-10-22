@@ -40,6 +40,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Vista global desde cualquier módulo (.2013)
 * Filtro múltiple por PDV (.2013)
 * Borrado por perfiles (.2013)
+* Validación de localizador correcto (.2017)
+* Módulo de reporte de avisos PDV (.2018)
 
 ### Call Statistics
 * Tabla intermedia para mejorar performance de consultas (.2015)
@@ -86,6 +88,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Tabla F
 * Integración de Colombia para Tablas F (.2016)
 * Margen Hotel en Ventas (.2016)
+* BUG FIX -> Descarga a Excel (.2017)
+* Mejora en performance de consultas (.2017)
 
 ### Módulo de Asistencias
 * División CO / MX

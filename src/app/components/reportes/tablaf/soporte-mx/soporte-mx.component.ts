@@ -98,9 +98,9 @@ export class SoporteMxComponent implements OnInit {
   download( title ){
     let books = {}
     for( let skill of this.dataTable ){
-      title = `${skill['dep']} - `
+      let titleSheet = `${skill['dep']} - `
       for( let group of skill['data'] ){
-        let titleOK = `${title}${group['group']}`
+        let titleOK = `${titleSheet}${group['group']}`
         let data = []
         for( let date of group['data'] ){
           data.push(date['data'])
