@@ -5,7 +5,7 @@
 <div *ngIf="showContents">
     <div class="container-fluid">
         <!-- TITLE -->
-        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn mb-1">
             <div class="container">
                 <div class="d-flex justify-content-between">
                     <div>
@@ -76,7 +76,15 @@
             <iframe id="dwlFrame" src="assets/img/bePriceBCO.png" style="display:none;"></iframe>
         </div>
 
-        <div class='container-fluid' *ngIf="data && data.length > 0">
+        <div class="container-fluid p-0 mt-0" *ngIf="bajas.length > 0">
+            <div class="alert alert-danger m-0 p-0" role="alert">
+                <ul style="font-size: smaller" class="m-0 p-0 pl-5">
+                    <li class="m-0 p-0" *ngFor="let item of bajas">El loc <button (click)="goToLoc(item['localizador'])" style="font-size: smaller" class="btn btn-link p-0">{{ item['localizador'] }}</button> requiere ajuste por baja del asesor {{ item['Asesor'] }} ({{ item['Dep'] }})</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class='container-fluid pt-2' *ngIf="data && data.length > 0">
             <h1 class="text-center" *ngIf="loading['cxc']">LOADING... <i class="fas fa-spinner fa-pulse"></i></h1>
             <table class='table table-sm table-bordered table-striped table-hover' style='font-size: smaller' *ngIf="!loading['cxc']">
                 <thead>

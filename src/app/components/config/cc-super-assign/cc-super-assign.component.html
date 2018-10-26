@@ -72,7 +72,7 @@
                                         <h6>{{ sup['Nombre'] }}</h6>
                                     </div>
                                     <div class="panel-body">
-                                        <li style="background: #f3c6f3" draggable *ngFor="let item of asesorAssign[sup['asesor']] | orderBy: 'displayNameShort'" [dragData]="item" class="list-group-item text-truncate">{{item.displayNameShort}}</li>
+                                        <li style="color: white; mix-blend-mode: difference;" [style.background]="item['color'] ? item['color'] : '#f3c6f3'" draggable *ngFor="let item of asesorAssign[sup['asesor']] | orderBy: 'displayNameShort'" [dragData]="item" class="list-group-item text-truncate">{{item.displayNameShort}}</li>
                                     </div>
                                 </div>
 
@@ -86,7 +86,7 @@
                             <h4>Sin Asignar</h4>
                         </div>
                         <div class="panel-body">
-                            <li style="background: rgb(167, 161, 252)" draggable *ngFor="let item of asesorAssign['none'] | orderBy: 'displayNameShort'" [dragData]="item" class="list-group-item text-truncate">{{item.displayNameShort}}</li>
+                            <li style="color: white; mix-blend-mode: difference;" [style.background]="item['color'] ? item['color'] : 'rgb(167, 161, 252)'" draggable *ngFor="let item of asesorAssign['none'] | orderBy: 'displayNameShort'" [dragData]="item" class="list-group-item text-truncate">{{item.displayNameShort}}</li>
                         </div>
                     </div>
                 </div>

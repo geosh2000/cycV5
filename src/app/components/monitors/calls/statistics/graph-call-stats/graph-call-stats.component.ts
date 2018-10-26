@@ -250,7 +250,7 @@ export class GraphCallStatsComponent implements AfterViewInit, OnChanges {
         this.chart['calls']['series'][8].update( { name: `AHT - ${this.data['IN']['name']}`, color: this.data['IN']['color'], data: this.data['IN']['aht'], type: 'line', yAxis: 1 })
       }
 
-      this.chart['calls'].title.update({ text: `Llamadas ${ moment(this.date).format('DD MMM YYYY')}`})
+      this.chart['calls'].title.update({ text: `Llamadas ${ this.date }`})
       // this.chart['calls'].subtitle.update({ text: `$${this.totals[group].toLocaleString('es-MX')} (Last Update: ${ this.lu })`})
       this.resizeChart()
     }

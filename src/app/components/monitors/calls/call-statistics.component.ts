@@ -280,7 +280,7 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
 
                 // console.log(this.data)
                 // console.log(this.dataH)
-                this.date = this.dateSelected
+                this.date = this.inicio != this.fin ? `${moment(this.inicio).format('DD MMM \'YY')} a ${moment(this.fin).format('DD MMM \'YY')}` : moment(this.inicio).format('DD MMM \'YY')
                 this.lu = res['lu']
 
                 this.reload = false

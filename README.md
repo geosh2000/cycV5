@@ -28,6 +28,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Filtrado por asesor (.2016)
 * Filtrado de Supervisores (.2016)
 * Drag and Drop (.2016)
+* Se omiten "Otros Puestos" en listado de asesores (.2019)
+* Se asigna color por departamento (.2019)
 
 ### Asignación de Supervisores PDV
 * Listado completo de PDVs por país (.2016)
@@ -49,6 +51,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Visualización de SLA en resumen (.2015)
 * Implementación de ventana múltiple (.2015)
 * Corrección de LastUpdate en monitores (.2016)
+* Corrección de fecha desplegada en gráfica (.2019)
 
 ### Cambios de Turno
 * Nuevo módulo de cambios de turno (.2003)
@@ -62,6 +65,10 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### CxC
 * Implementación de no. de quincenas al enviar a RRHH (.2004)
 * Corrección de Layout descargable por quincenas (.2004)
+* Restricción de selección de fechas para aplicación (.2019)
+* Fecha de envío a RRHH en módulo de aplicaciones (.2019)
+* Se omiten cxc de asesores de baja en módulo de aplicaciones (.2019)
+* Se agregan avisos de ajuste para asesores de baja en módulo de registro (.2019)
 
 ### Evaluaciones Desempeño
 * Módulo de Búsqueda y Evaluación (.2010)

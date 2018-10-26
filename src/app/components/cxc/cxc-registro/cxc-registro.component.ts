@@ -107,6 +107,8 @@ export class CxcRegistroComponent implements OnInit {
   linkId:any
   linkCxcLinkId:any
 
+  bajas:any = []
+
   constructor(public _api: ApiService,
                 public _init:InitService,
                 private titleService: Title,
@@ -132,6 +134,7 @@ export class CxcRegistroComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('CyC - Registro CXC');
+    this.cxcBajas()
   }
 
   getCxc( onlyReg = this.onlyReg, noTx = this.noTx, resumed = this.resumed ){
@@ -158,6 +161,7 @@ export class CxcRegistroComponent implements OnInit {
 
             this.loading['cxc'] = false
             this.data = res['data']
+            this.cxcBajas()
 
           }, err => {
 
@@ -352,6 +356,34 @@ export class CxcRegistroComponent implements OnInit {
 
   dwlFormat(){
     jQuery('#dwlFrame').attr( 'src', 'assets/formats/cxc.docx')
+  }
+
+  cxcBajas(){
+    this.loading['bajas'] = false
+
+    this._api.restfulGet( '', `Cxc/cxcBajaAsesor`)
+          .subscribe( res => {
+
+            this.loading['bajas'] = false
+            this.bajas = res['data']
+
+          }, err => {
+
+            console.log('ERROR', err)
+
+            this.loading['bajas'] = false
+
+            let error = err.error
+            this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
+            console.error(err.statusText, error.msg)
+
+          })
+  }
+
+  goToLoc( loc ){
+    this.searchType = 'Localizador'
+    this.searchTerm['Localizador'] = loc
+    this.getCxc()
   }
 
 }

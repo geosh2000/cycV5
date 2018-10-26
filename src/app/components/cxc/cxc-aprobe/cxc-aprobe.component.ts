@@ -39,19 +39,23 @@ export class CxcAprobeComponent implements OnInit {
   }
 
   buildDates(){
-    let index = 0
-    for( let i = moment(moment().subtract(5, 'months').format('YYYY-MM-15')); i<moment().add(5, 'months'); i.add(1, 'days') ){
+    let start, index = 0
 
+    if( parseInt( moment().format('DD') ) <= 10 ){
+      start = moment().format('YYYY-MM-15')
+    }else if( parseInt( moment().format('DD') ) <= 25 ){
+      start = moment( moment().format('YYYY-MM-01') ).add(1,'months').subtract(1, 'days').format('YYYY-MM-DD')
+    }else{
+      start = moment( moment().format('YYYY-MM-01') ).add(1,'months').format('YYYY-MM-15')
+    }
+
+    for( let i = moment(start); i<moment().add(5, 'months'); i.add(1, 'days') ){
       i = this.dateBuilder(i)
-
       this.datesList.push( i.format('YYYY-MM-DD') )
-
-      if( moment() <= i.clone().add(32, 'days') && moment().clone().add(17,'days') > i ){
-        this.firstPay = i.format('YYYY-MM-DD')
-      }
-
       index++
     }
+
+    this.firstPay = start
   }
 
   dateBuilder( m ){
