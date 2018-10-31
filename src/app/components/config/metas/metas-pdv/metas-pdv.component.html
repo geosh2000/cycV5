@@ -1,0 +1,146 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Metas PDV</h1></span>
+                        <p class="lead">Consulta y registra metas mensuales para los módulos de PDV</p>
+                    </div>
+                </div>
+            </div>
+            <div class="container d-flex justify-content-start">
+
+                <div class="p-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="mes">Mes</label>
+                        </div>
+                        <select class="custom-select" id="mes" [(ngModel)]="monthSelected">
+                          <option selected>Selecciona...</option>
+                          <option value="1">Enero</option>
+                          <option value="2">Febrero</option>
+                          <option value="3">Marzo</option>
+                          <option value="4">Abril</option>
+                          <option value="5">Mayo</option>
+                          <option value="6">Junio</option>
+                          <option value="7">Julio</option>
+                          <option value="8">Agosto</option>
+                          <option value="9">Septiembre</option>
+                          <option value="10">Octubre</option>
+                          <option value="11">Noviembre</option>
+                          <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="anio">Año</label>
+                        </div>
+                        <select class="custom-select" id="anio" [(ngModel)]="yearSelected">
+                          <option selected>Selecciona...</option>
+                          <option [value]="y" *ngFor="let y of years">{{ y }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="anio">País</label>
+                        </div>
+                        <select class="custom-select" id="anio" [(ngModel)]="paisSelected">
+                          <option selected>Selecciona...</option>
+                          <option value="CO">CO</option>
+                          <option value="MX">MX</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="anio">Status</label>
+                        </div>
+                        <select class="custom-select" id="anio" [(ngModel)]="statusSelected">
+                          <option selected>Selecciona...</option>
+                          <option value="1">Sólo Activos</option>
+                          <option value="2">Sólo Inactivos</option>
+                          <option value="0">Todos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="p-2">
+                    <!-- <button class="btn btn-success" (click)="openEval()">Buscar</button> -->
+                    <button class="btn btn-success" (click)="getData()" [disabled]="loading['data']">Buscar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container-fluid" *ngIf="data.length > 0">
+
+        <ngx-table [configuration]="config" [data]="data" [columns]="columns">
+            <ng-template let-row>
+                <td class="row__email" *ngFor="let item of columns">
+                    <span [ngSwitch]="item['key']">
+                      <span style="font-size: smaller" *ngSwitchCase="'Activo'">
+                          <span class="badge badge-pill" [ngClass]="{'badge-success': row[item['key']] == 1, 'badge-danger': row[item['key']] != 1}">{{ row[item['key']] == 1 ? 'Activo' : 'Inactivo' }}</span>
+                    </span>
+                    <span style="font-size: smaller" [style.width.px]="190" *ngSwitchCase="'meta_total'">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">$</span>
+    </div>
+    <input type="text" class="form-control" [(ngModel)]="row[item['key']]" (change)="editDaily(row, item['key'], $event.target.value )">
+</div>
+</span>
+<span style="font-size: smaller" [style.width.px]="190" *ngSwitchCase="'meta_hotel'">
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+</div>
+<input type="text" class="form-control" [(ngModel)]="row[item['key']]" (change)="editDaily(row, item['key'], $event.target.value )">
+</div>
+</span>
+<span style="font-size: smaller" [style.width.px]="190" *ngSwitchCase="'meta_total_diaria'">
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+</div>
+<input type="text" class="form-control" [(ngModel)]="row[item['key']]" readonly>
+</div>
+</span>
+<span style="font-size: smaller" [style.width.px]="190" *ngSwitchCase="'meta_hotel_diaria'">
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+</div>
+<input type="text" class="form-control" [(ngModel)]="row[item['key']]" readonly>
+</div>
+</span>
+
+<span style="font-size: smaller" *ngSwitchCase="'save'">
+                        <div class="d-flex justify-content-between">
+                          <div class="p-1">
+                            <button class="btn btn-sm btn-success" (click)="editAmmount(row)"><i class="far fa-save"></i><span *ngIf="row['save']"></span></button>
+</div>
+<div class="p-1">
+    <span *ngIf="row['error']" class="text-danger" style="font-size: smaller">Error al guardar metas</span>
+    <span *ngIf="row['success']" class="text-success" style="font-size: smaller">Meta guardada</span>
+</div>
+</div>
+</span>
+<span *ngSwitchDefault><span style="font-size: smaller">{{row[item['key']]}}</span></span>
+</span>
+</td>
+</ng-template>
+</ngx-table>
+
+</div>
+</div>

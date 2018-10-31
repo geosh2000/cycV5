@@ -86,6 +86,8 @@ import { HcPdvComponent } from './components/hc/hc-pdv/hc-pdv.component';
 import { PdvSuperAssignComponent } from './components/config/pdv-super-assign/pdv-super-assign.component';
 import { CcSuperAssignComponent } from './components/config/cc-super-assign/cc-super-assign.component';
 import { ReportesAvisosPdvComponent } from './components/reportes/reportes-avisos-pdv/reportes-avisos-pdv.component';
+import { DisciplinaPositivaComponent } from './components/rrhh/disciplina-positiva/disciplina-positiva.component';
+import { MetasPdvComponent } from './components/config/metas/metas-pdv/metas-pdv.component';
 
 
 const APP_ROUTES: Routes = [
@@ -122,6 +124,8 @@ const APP_ROUTES: Routes = [
   { path: 'aprobarVacantes', component: AprobarVacantesComponent },
   { path: 'evaluacionesDesempeno', component: EvaluacionDesempenoComponent },
   { path: 'evaluacionesDesempeno/:asesor', component: EvaluacionDesempenoComponent },
+  { path: 'dp', component: DisciplinaPositivaComponent },
+  { path: 'dp/:asesor', component: DisciplinaPositivaComponent },
 
   // Asistencia
   { path: 'asistencia/calendario', component: CalendarioComponent },
@@ -192,6 +196,7 @@ const APP_ROUTES: Routes = [
   { path: 'config/reasignacionRsva', component: CambioLocalizadorAsesorComponent },
   { path: 'config/uploadCalidad', component: UploadCalidadComponent },
   { path: 'config/uploadLogsPdv', component: UploadLogsPdvComponent },
+  { path: 'config/metasPdv', component: MetasPdvComponent },
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },

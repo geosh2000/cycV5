@@ -13,6 +13,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fix Excel Download (file type) (.2005)
 * Fix de Notificación en error de APIs (.2010)
 * Módulo Drag & Drop (.2016)
+* Fix Logout con corrección de ZH (.2019)
 
 ### Altas en grupo
 * Módulo de altas con template de xlsx (.2009)
@@ -52,6 +53,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Implementación de ventana múltiple (.2015)
 * Corrección de LastUpdate en monitores (.2016)
 * Corrección de fecha desplegada en gráfica (.2019)
+* Horario de acuerdo a ZH (.2020)
 
 ### Cambios de Turno
 * Nuevo módulo de cambios de turno (.2003)
@@ -100,6 +102,12 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Módulo de Asistencias
 * División CO / MX
+
+### Módulo de Metas PDV
+* División CO / MX (.2020)
+* Filtro por Activos / Inactivos (.2020)
+* Meta total y de hotel (.2020)
+* Cálculo automático de meta por día (.2020)
 
 ### Módulo de Monitor de Pausas
 * División CO / MX

@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 declare var jQuery:any;
 
-import { ApiService, InitService, TokenCheckService } from '../../services/service.index';
+import { ApiService, InitService, TokenCheckService, ZonaHorariaService } from '../../services/service.index';
 
 @Component({
   selector: 'app-logout',
@@ -24,6 +24,7 @@ export class LogoutComponent implements OnInit {
                 private _api:ApiService,
                 private _init:InitService,
                 private _tokenCheck:TokenCheckService,
+                private _zh:ZonaHorariaService,
                 public toastr: ToastrService
                 ) {
 
@@ -66,7 +67,7 @@ export class LogoutComponent implements OnInit {
   }
 
   printDate( input, format ){
-    return moment(input).format(format)
+    return moment.tz(input,'America/Mexico_city').tz( this._zh.zone ).format(format)
   }
 
   logout( id ){

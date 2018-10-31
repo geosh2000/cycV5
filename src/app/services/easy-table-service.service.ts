@@ -32,7 +32,7 @@ export class EasyTableServiceService {
     showDetailsArrow: false,
     showContextMenu: false,
     persistState: false,
-    paginationMaxSize: 5,
+    paginationMaxSize: 10,
     tableLayout: {
       style: 'tiny', // or big or tiny
       theme: 'normal', // or dark

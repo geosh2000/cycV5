@@ -226,6 +226,8 @@ import { HcPdvComponent } from './components/hc/hc-pdv/hc-pdv.component';
 import { PdvSuperAssignComponent } from './components/config/pdv-super-assign/pdv-super-assign.component';
 import { CcSuperAssignComponent } from './components/config/cc-super-assign/cc-super-assign.component';
 import { ReportesAvisosPdvComponent } from './components/reportes/reportes-avisos-pdv/reportes-avisos-pdv.component';
+import { DisciplinaPositivaComponent } from './components/rrhh/disciplina-positiva/disciplina-positiva.component';
+import { MetasPdvComponent } from './components/config/metas/metas-pdv/metas-pdv.component';
 
 declare let jQuery: Object;
 
@@ -401,6 +403,8 @@ registerLocaleData(localeEsMX)
     PdvSuperAssignComponent,
     CcSuperAssignComponent,
     ReportesAvisosPdvComponent,
+    DisciplinaPositivaComponent,
+    MetasPdvComponent,
   ],
   imports: [
     BrowserModule,

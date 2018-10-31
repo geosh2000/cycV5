@@ -1,0 +1,35 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Disciplina Positiva</h1></span>
+                        <p class="lead">Consulta y registra acciones de DP por asesor</p>
+                    </div>
+                    <div>
+                        <img src="assets/img/bePriceBCO.png" height="150" width="150" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="container d-flex justify-content-start">
+
+                <div class="p-2">
+                    <div class="input-group">
+                        <app-search-asesor (result)="onSelected( $event )" [currentUser]="currentUser" [active]="2" placeholder="Buscar Asesor"></app-search-asesor>
+                    </div>
+                </div>
+
+                <div class="p-2">
+                    <!-- <button class="btn btn-success" (click)="openEval()">Buscar</button> -->
+                    <button class="btn btn-success" (click)="searchEval()" [disabled]="loading['evals']">Buscar <span *ngIf="loading['evals']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

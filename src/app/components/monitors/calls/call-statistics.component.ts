@@ -250,29 +250,29 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
 
                 // TD
                 for( let call of res['data']['td'] ){
-                  groups['Abandon']['data'].push([parseInt(this.unixTime(call['H'])), parseInt(call['Abandoned'])])
-                  groups['PDV']['data'].push([parseInt(this.unixTime(call['H'])), parseInt(call['PDV'])])
-                  groups['PDV']['aht'].push([parseInt(this.unixTime(call['H'])), parseInt(call['AHT_pdv'])])
-                  groups['IN']['data'].push([parseInt(this.unixTime(call['H'])), parseInt(call['main'])])
-                  groups['IN']['aht'].push([parseInt(this.unixTime(call['H'])), parseInt(call['AHT_main'])])
-                  groups['Mixcoac']['data'].push([parseInt(this.unixTime(call['H'])), parseInt(call['apoyo'])])
-                  groups['Mixcoac']['aht'].push([parseInt(this.unixTime(call['H'])), parseInt(call['AHT_apoyo'])])
-                  // console.log(call['H'], parseInt(this.unixTime(call['H'])))
+                  groups['Abandon']['data'].push([parseInt(this.unixTime(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['Abandoned'])])
+                  groups['PDV']['data'].push([parseInt(this.unixTime(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['PDV'])])
+                  groups['PDV']['aht'].push([parseInt(this.unixTime(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['AHT_pdv'])])
+                  groups['IN']['data'].push([parseInt(this.unixTime(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['main'])])
+                  groups['IN']['aht'].push([parseInt(this.unixTime(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['AHT_main'])])
+                  groups['Mixcoac']['data'].push([parseInt(this.unixTime(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['apoyo'])])
+                  groups['Mixcoac']['aht'].push([parseInt(this.unixTime(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['AHT_apoyo'])])
+                  // console.log(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'), parseInt(this.unixTime(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'))))
                 }
 
                 // LW
                 for( let call of res['data']['lw'] ){
-                  groupsH['lw']['data'].push([parseInt(this.unixTime(moment(call['H']).add(7, 'days').format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['Offered'])])
+                  groupsH['lw']['data'].push([parseInt(this.unixTime(moment(moment.tz(call['H'],'America/Mexico_city').add(7, 'days').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss')).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['Offered'])])
                 }
 
                 // LY
                 for( let call of res['data']['ly'] ){
-                  groupsH['ly']['data'].push([parseInt(this.unixTime(moment(call['H']).add(364, 'days').format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['Offered'])])
+                  groupsH['ly']['data'].push([parseInt(this.unixTime(moment(moment.tz(call['H'],'America/Mexico_city').add(364, 'days').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss')).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['Offered'])])
                 }
 
                 // Forecast
                 for( let call of res['data']['forecast'] ){
-                  groups['Forecast']['data'].push([parseInt(this.unixTime(call['H'])), parseInt(call['Offered'])])
+                  groups['Forecast']['data'].push([parseInt(this.unixTime(moment.tz(call['H'],'America/Mexico_city').tz(this._zh.zone).format('YYYY-MM-DD HH:mm:ss'))), parseInt(call['Offered'])])
                 }
 
                 this.data = groups
