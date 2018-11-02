@@ -55,6 +55,7 @@ export class CargaHorariosComponent implements OnInit {
   filterExpanded:boolean = false
   copyShow:boolean = false
   selectedAsesores:any = []
+  pdvList:any = []
 
   inicio:any = moment().format('YYYY-MM-DD')
   fin:any = moment().format('YYYY-MM-DD')
@@ -102,6 +103,11 @@ export class CargaHorariosComponent implements OnInit {
   }
 
   errors:any = []
+
+  selectOptions:Select2Options = {
+    multiple: false,
+  }
+
   constructor(
               private _api:ApiService,
               private _init:InitService,
@@ -131,6 +137,7 @@ export class CargaHorariosComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('CyC - Carga de Horarios');
     this.getZones()
+    this.getPdvs()
     setTimeout( () => {
       this.horaCun = this._zh.isCun
       this.zone = this._zh.zone
@@ -257,6 +264,7 @@ export class CargaHorariosComponent implements OnInit {
                 }
 
                 this.listScheds = list
+                // console.log(this.listScheds)
 
               }, err => {
                 console.log('ERROR', err)
@@ -742,7 +750,7 @@ export class CargaHorariosComponent implements OnInit {
         let tmp = JSON.parse(JSON.stringify(item))
         tmp['Fecha'] = i.format('YYYY-MM-DD')
         for( let f of hs ){
-          if( tmp[f] != null ){
+          if( tmp[f] != null){
             tmp[f] = dow != parseInt(moment(tmp[f]).format('e')) ? moment(`${i.clone().add(1,'days').format('YYYY-MM-DD')} ${moment(tmp[f]).format('HH:mm:ss')}`).format('YYYY-MM-DD HH:mm:ss') : moment(`${i.clone().format('YYYY-MM-DD')} ${moment(tmp[f]).format('HH:mm:ss')}`).format('YYYY-MM-DD HH:mm:ss')
           }
         }
@@ -753,6 +761,37 @@ export class CargaHorariosComponent implements OnInit {
 
     this.uploadChanges( finalArr, 'copySave' )
 
+  }
+
+  getPdvs(){
+    this.loading['pdvs'] = true
+
+    this._api.restfulGet( `MX/${moment().format('MM')}/${moment().format('YYYY')}/0`, 'Lists/pdvMetas')
+        .subscribe( res => {
+
+          this.loading['pdvs'] = false
+          let data = []
+
+          for( let item of res['data'] ){
+            data.push({ id: item['id'], text: `${item['displayNameShortOk']} (${ item['Ciudad'] })` })
+          }
+
+          this.pdvList = data
+
+        }, err => {
+          console.log('ERROR', err)
+          this.loading['pdvs'] = false
+          let error = err.error
+          this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
+          console.error(err.statusText, error.msg)
+        })
+  }
+
+  selectedVal( asesor, item, val ){
+    this.listScheds[asesor][item]['data']['pdv'] = val.value
+    this.listScheds[asesor][item]['change'] = true
+    console.log(val)
+    console.log(this.listScheds[asesor][item]['data'])
   }
 
 }

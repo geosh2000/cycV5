@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
-import { ApiService, InitService } from '../../../../services/service.index';
+import { ApiService, InitService, ZonaHorariaService } from '../../../../services/service.index';
 
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
@@ -39,6 +39,7 @@ export class BitacoraAddActionComponent implements OnInit {
 
   constructor(public _api: ApiService,
                 public _init:InitService,
+                private _zh:ZonaHorariaService,
                 public toastr: ToastrService) {
       this.getActions()
   }
@@ -199,6 +200,10 @@ export class BitacoraAddActionComponent implements OnInit {
     }
 
     jQuery('#bitAddModal').modal('hide')
+  }
+
+  printTime( time, format ){
+    return moment.tz(time, 'America/Mexico_city').tz(this._zh.zone).format(format)
   }
 
 }

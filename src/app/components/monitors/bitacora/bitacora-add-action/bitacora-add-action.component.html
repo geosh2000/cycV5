@@ -15,7 +15,7 @@
                         <input type="text" class="form-control" placeholder="Fecha" [(ngModel)]="form['Fecha']" readonly=true>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" placeholder="HG" [(ngModel)]="form['HG']" readonly=true>
+                        <input type="text" class="form-control" placeholder="HG" [(ngModel)]="form['hg']" readonly=true>
                     </div>
                 </div>
                 <div class="form-row pt-2">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-end" *ngIf="lastAsesor">
-                    <div><small>{{ lastAsesor }} // {{ lastUpdate }}</small></div>
+                    <div><small>{{ lastAsesor }} // {{ printTime(lastUpdate, 'DD MMM \'YY HH:mm:ss') }}</small></div>
                 </div>
             </div>
             <div class="modal-footer">

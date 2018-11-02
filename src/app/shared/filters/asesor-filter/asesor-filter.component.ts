@@ -114,11 +114,11 @@ export class AsesorFilterComponent implements OnInit {
               }
 
               this.changeList( this.bySup )
-              console.log(this.asesores)
-              console.log(this.supervisores)
+              // console.log(this.asesores)
+              // console.log(this.supervisores)
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['asesores'] = false
 

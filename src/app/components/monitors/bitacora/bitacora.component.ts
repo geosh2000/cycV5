@@ -55,6 +55,7 @@ export class BitacoraComponent implements OnInit {
   lu:any
 
   selectedDate:any
+  viewDate:any
   viewDep:any = 35
   listDeps:any = []
 
@@ -107,6 +108,8 @@ export class BitacoraComponent implements OnInit {
 
   getData( skill = this.viewDep ){
     this.loading['data'] = true
+
+    this.viewDate = this.selectedDate
 
     this._api.restfulGet( `${this.selectedDate}/${skill}`, 'Bitacoras/bitacora')
     .subscribe( res => {
@@ -228,6 +231,15 @@ export class BitacoraComponent implements OnInit {
     }
     // console.log(params)
     this._add.build( params )
+  }
+
+  printHg( hg ){
+    let h = parseInt(hg) >= 10 ? parseInt(hg) : `0${parseInt(hg)}`
+    let m = parseFloat(hg) - parseInt(hg) > 0 ? '30' : '00'
+
+    let cvTime = moment.tz(`${this.viewDate} ${h}:${m}:00`, 'America/Mexico_city').tz(this._zh.zone)
+
+    return `${ cvTime.format('YYYY-MM-DD') != this.viewDate ? cvTime.format('DD/MM ') : '' }${cvTime.format('HH:mm')}`
   }
 
 }

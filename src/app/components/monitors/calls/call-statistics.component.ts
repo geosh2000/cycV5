@@ -59,6 +59,7 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
   @Input() skill:number = 35
   @Input() multi:boolean = false
   @Input() phase:number = 0
+  @Input() dt:any
 
   currentUser: any
   showContents:boolean = false

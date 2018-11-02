@@ -75,7 +75,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let hour of data[viewDep] | keys">
-                    <td class="text-center">{{ hour }}</td>
+                    <td class="text-center">{{ printHg(hour) }}</td>
                     <td class="text-center">{{ data[viewDep][hour]['Depto'] }}</td>
                     <td class="text-center" [ngClass]="formatCell(data[viewDep][hour]['SLA'], true, data[viewDep][hour]['metas'] ? data[viewDep][hour]['metas']['sla'] ? data[viewDep][hour]['metas']['sla']['meta'] : 0 : 0, '>', 1.1,.8, .6, true)">{{ data[viewDep][hour]['SLA'] | number:'.0-2' }}{{ data[viewDep][hour]['SLA'] == null ? '' : '%' }}</td>
                     <td class="text-center">{{ (data[viewDep][hour]['metas'] ? data[viewDep][hour]['metas']['sla'] ? data[viewDep][hour]['metas']['sla']['meta'] : 0 : 0) *100 }}%</td>

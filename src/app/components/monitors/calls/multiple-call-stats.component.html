@@ -1,16 +1,16 @@
 <div class="row" style="height: 50%">
     <div class="col-6">
-        <app-call-statistics [skill]="35" [multi]=true [phase]="0"></app-call-statistics>
+        <app-call-statistics [skill]="monitor['a']" [multi]=true [phase]="0" [dt]="reloadFlag" #monA></app-call-statistics>
     </div>
     <div class="col-6">
-        <app-call-statistics [skill]="7" [multi]=true [phase]="5"></app-call-statistics>
+        <app-call-statistics [skill]="monitor['b']" [multi]=true [phase]="5" [dt]="reloadFlag" #monB></app-call-statistics>
     </div>
 </div>
 <div class="row" style="height: 50%">
     <div class="col-6">
-        <app-call-statistics [skill]="55" [multi]=true [phase]="10"></app-call-statistics>
+        <app-call-statistics [skill]="monitor['c']" [multi]=true [phase]="10" [dt]="reloadFlag" #monC></app-call-statistics>
     </div>
     <div class="col-6">
-        <app-call-statistics [skill]="73" [multi]=true [phase]="15"></app-call-statistics>
+        <app-call-statistics [skill]="monitor['d']" [multi]=true [phase]="15" [dt]="reloadFlag" #monD></app-call-statistics>
     </div>
 </div>

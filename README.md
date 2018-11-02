@@ -46,6 +46,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Validación de localizador correcto (.2017)
 * Módulo de reporte de avisos PDV (.2018)
 
+### Bitácora
+* Hora por zona horaria global (.2021)
+
 ### Call Statistics
 * Tabla intermedia para mejorar performance de consultas (.2015)
 * API mejorada, una sola carga por consulta (.2015)
@@ -54,6 +57,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Corrección de LastUpdate en monitores (.2016)
 * Corrección de fecha desplegada en gráfica (.2019)
 * Horario de acuerdo a ZH (.2020)
+* AutoRefresh Multi (.2020)
+* Skills seleccionables desde barra de direcciones en multi (.2020)
+* FIX -> Multi Last Update format (.2021)
 
 ### Cambios de Turno
 * Nuevo módulo de cambios de turno (.2003)
@@ -63,6 +69,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Carga de Horarios
 * Fix de horarios con distintas zonas horarias (.2015)
+* Asignación de PDV (Sólo para ese departamento) (.2020)
 
 ### CxC
 * Implementación de no. de quincenas al enviar a RRHH (.2004)
@@ -99,6 +106,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Margen Hotel en Ventas (.2016)
 * BUG FIX -> Descarga a Excel (.2017)
 * Mejora en performance de consultas (.2017)
+* Tablas MATERIAL (.2021)
 
 ### Módulo de Asistencias
 * División CO / MX
