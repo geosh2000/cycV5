@@ -11,12 +11,12 @@ import * as Globals from '../../globals';
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnChanges {
 
   currentUser:any
   showContents:boolean = false
   mainCredential:string = 'default'
-  birthday = false
+  birthday:any = false
 
   @Input() tokenStatus:boolean
 
@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -85,12 +85,41 @@ export class HomeComponent implements OnInit {
   getBD( asesor? ){
     this._api.restfulGet( asesor ? asesor : '','Asesores/bd' )
               .subscribe( res =>{
-                this.birthday = res['data']
+                this.birthday = res['data'] == '1' ? true : false
               },
                 (err) => {
                   let error = err
                   console.error(`${ error }`);
               });
+  }
+
+  test(){
+
+    let params = {
+      'fields': {
+         'project':
+         {
+            'key': 'HELP'
+         },
+         'summary': 'Cambio de Rol oscar.espinosa (prueba)',
+         'issuetype': {
+            'name': 'Cambio de puesto'
+         },
+         'customfield_12902' : { 'name':'oscar.espinosa'},  // Usuario Afectado
+         'customfield_12900': 'Ventas In',  // Perfil Origen
+         'customfield_12901': 'Ventas Out'  // Perfil Nuevo
+     }
+    }
+
+    this._api.helpPost( params, '' )
+        .subscribe( res =>{
+          console.log(res)
+        },
+          (err) => {
+            let error = err
+            console.error(`${ error }`);
+        });
+
   }
 
 }

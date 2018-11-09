@@ -1,4 +1,5 @@
 import { Injectable, Component, OnInit } from '@angular/core';
+import 'rxjs/add/operator/map';
 import { AsesoresService } from './asesores.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CompleterService, CompleterData } from 'ng2-completer';

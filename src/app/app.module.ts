@@ -25,6 +25,7 @@ import {TableModule} from 'ngx-easy-table';
 
 // services
 import { NavbarService, AsesoresService, LoginService, CredentialsService, TokenCheckService, ApiService, InitService, GlobalServicesService } from './services/service.index';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 // pipes
 import { KeysPipe } from './pipes/keys.pipe';
@@ -437,6 +438,7 @@ registerLocaleData(localeEsMX)
       autoFocus: true
     }),
     NgDragDropModule.forRoot(),
+    ScrollingModule,
 
     // ==================================================
     // START ANGULAR MATERIAL

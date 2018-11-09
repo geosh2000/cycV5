@@ -1,197 +1,199 @@
 <div class="alert alert-danger" role="alert" *ngIf="!showContents">
-  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
 <div class="container-fluid" *ngIf="showContents">
 
-  <!-- TITLE -->
-  <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
-    <div class="container">
-      <div class="d-flex justify-content-between">
-        <div>
-          <span><h1 class="display-3">Reporte de Incentivos Cancún</h1></span>
-          <p class="lead">Parámetros, resultados y consulta de bonos</p>
-        </div>
-      </div>
-      <div class="container">
-        <div class="form-row align-items-center">
-          <div class="col-auto">
-            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" [(ngModel)]="viewParams['month']" id="mes">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Reporte de Incentivos Cancún</h1></span>
+                    <p class="lead">Parámetros, resultados y consulta de bonos</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" [(ngModel)]="viewParams['month']" id="mes">
               <option [value]="mes" *ngFor="let mes of months">{{ mes }}</option>
             </select>
-          </div>
-          <div class="col-auto">
-            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" [(ngModel)]="viewParams['year']" id="año">
+                    </div>
+                    <div class="col-auto">
+                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" [(ngModel)]="viewParams['year']" id="año">
               <option [value]="year" *ngFor="let year of years">{{ year }}</option>
             </select>
-          </div>
-        </div>
-      </div>
-      <div class="container p-2 d-flex justify-content-left">
-        <div class="m-1">
-          <button type="button" class="btn btn-success" (click)="getBonos()" [disabled]="loading['bonos']">Consultar <span *ngIf="loading['bonos']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-        </div>
-        <div class="m-1" *ngIf="bonosData">
-          <button type="button" class="btn btn-warning">Descargar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <ngb-tabset *ngIf="bonosData">
-
-    <!-- RESULTADOS -->
-    <ng-container *ngFor="let dep of bonosData | keys">
-        <ngb-tab>
-          <ng-template ngbTabTitle>{{ depsData[dep] }}</ng-template>
-          <ng-template ngbTabContent>
-            <ng-container *ngFor="let puesto of bonosData[dep] | keys">
-
-            <div class="container" *ngIf="paramsData[dep] && paramsData[dep][puesto]">
-              <div class="alert alert-primary" role="alert">
-                <div class="m-1">
-                  <p><span class="font-weight-bold">{{ bonosData[dep][puesto]['depName'] }}</span> ({{ bonosData[dep][puesto]['puestoName'] }}) -> {{ paramsData[dep][puesto]['monto'] | currency:'MXN':'symbol-narrow':'.2-2' }}
-                  <br>
-                  <div class="m-1 p-0 container bg-light">
-                    <table style="font-size: smaller" class="table table-sm table-striped table-bordered">
-                      <thead>
-                        <th>Parámetro</th>
-                        <th>Cumplimiento</th>
-                        <th>Topado</th>
-                        <th>Peso</th>
-                        <th>Monto</th>
-                        <th>Reductor</th>
-                        <th>Condición</th>
-                        <th>Por Incidencia</th>
-                        <th>Peso</th>
-                      </thead>
-                      <tbody>
-                        <ng-container *ngFor="let i of parList">
-                          <tr *ngIf="paramsData[dep][puesto]['par_'+i] != null || paramsData[dep][puesto]['red_par_'+i] != null">
-                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['par_'+i]) }}</td>
-                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['cum_'+i] * 100 | number:'.2-2') }}%</td>
-                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['tope_'+i] == 1 ? 'Sí' : 'No') }}</td>
-                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['perc_'+i] * 100 | number:'.2-2') }}%</td>
-                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : (paramsData[dep][puesto]['perc_'+i] * paramsData[dep][puesto]['monto']) | currency:'MXN':'symbol-narrow':'.2-2') }}</td>
-                            <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_par_'+i]) }}</td>
-                            <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_op_'+i] + ' ' + paramsData[dep][puesto]['red_comp_'+i] ) }}</td>
-                            <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_xInc_'+i] == 1 ? 'Sí' : 'No') }}</td>
-                            <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_perc_'+i] * 100 | number:'.2-2') }}%</td>
-                          </tr>
-                        </ng-container>
-                      </tbody>
-                    </table>
-                  </div>
+                    </div>
                 </div>
-              </div>
-              <table style="font-size: smaller" class="table table-sm table-striped table-bordered table-hover" [id]="bonosData[dep][puesto]['depName']+ bonosData[dep][puesto]['puestoName']">
-                <thead>
-                  <tr>
-                    <th class="text-center" style="vertical-align: top">Asesor</th>
-                    <th class="text-center" style="vertical-align: top">Aplicable</th>
-                    <ng-container *ngFor="let item of paramsData[dep][puesto] | keys">
-                      <ng-container *ngIf="paramsData[dep][puesto][item] != null && matchPar(item, 'par')">
-                        <th class="text-center" style="vertical-align: top">{{ paramsData[dep][puesto][item].replace('c_','').replace('_', ' ').replace('_', ' ') | capitalizado:true }}</th>
-                        <th class="text-center" style="vertical-align: top">{{ paramsData[dep][puesto][item].replace('c_','').replace('_', ' ').replace('_', ' ') | capitalizado:true }}<br>{{ matchPar(item, 'red') ? '%' : 'monto' }}</th>
-                      </ng-container>
-                    </ng-container>
-                    <th class="text-center" style="vertical-align: top">Monto<br>Bono</th>
-                    <th class="text-center" style="vertical-align: top">Monto<br>Reductores</th>
-                    <th class="text-center" style="vertical-align: top">Monto<br>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container *ngFor="let asesor of bonosData[dep][puesto] | keys" >
-                    <tr *ngIf="matchPar(asesor, 'asesor')">
-                      <td>{{ bonosData[dep][puesto][asesor]['detalle']['Nombre'] }}</td>
-                      <td class="text-center">{{ bonosData[dep][puesto][asesor]['aplica'] == 1 ? 'Sí' : 'No'}}</td>
-                      <ng-container *ngFor="let item of paramsData[dep][puesto] | keys">
-                        <ng-container *ngIf="paramsData[dep][puesto][item] != null && matchPar(item, 'par')">
-                          <td class="text-center">{{ (bonosData[dep][puesto][asesor]['detalle'][paramsData[dep][puesto][item]]  * ( percMatch( paramsData[dep][puesto][item] ) ? 100 : 1 )) | number:'.0-2' }}{{ percMatch( paramsData[dep][puesto][item] ) ? '%' : '' }}</td>
-                          <td class="text-center text-danger" *ngIf="matchPar(item, 'red')">{{ (bonosData[dep][puesto][asesor]['reductores'][paramsData[dep][puesto][item]]*100) | number:'.2-2' }}%</td>
-                          <td class="text-center" *ngIf="!matchPar(item, 'red')">{{ (bonosData[dep][puesto][asesor]['bono'][paramsData[dep][puesto][item]]) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                        </ng-container>
-                      </ng-container>
-                      <td class='text-right'>{{ (sumBono(dep, puesto, asesor, 'bono')) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                      <td class='text-danger text-right'>{{ sumBono(dep, puesto, asesor, 'red') | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
-                      <th class='text-right'>
-                        <app-bono-approve (save)="paySave($event, dep, puesto)" [reload]="reload[asesor]" [total]="sumBono(dep, puesto, asesor, 'total')" [status]="bonosData[dep][puesto][asesor]['aprobacion']" [params]="paramsDataAsk" [nombre]="bonosData[dep][puesto][asesor]['detalle']['Nombre']" [asesor]="asesor" ></app-bono-approve>
-                      </th>
-                    </tr>
-                  </ng-container>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="text-center" style="vertical-align: top">Total</th>
-                    <th class="text-center" style="vertical-align: top"></th>
-                    <ng-container *ngFor="let item of paramsData[dep][puesto] | keys">
-                      <ng-container *ngIf="paramsData[dep][puesto][item] != null && matchPar(item, 'par')">
-                        <th class="text-center" style="vertical-align: top"></th>
-                        <th class="text-center" style="vertical-align: top"></th>
-                      </ng-container>
-                    </ng-container>
-                    <th class="text-center" style="vertical-align: top"></th>
-                    <th class="text-center" style="vertical-align: top"></th>
-                    <th class="text-center" style="vertical-align: top">{{ total[dep][puesto] | currency:'MXN':'symbol-narrow':'.2-2' }}</th>
-                  </tr>
-                </tfoot>
-              </table>
             </div>
-            <br>
-          </ng-container>
+            <div class="container p-2 d-flex justify-content-left">
+                <div class="m-1">
+                    <button type="button" class="btn btn-success" (click)="getBonos()" [disabled]="loading['bonos']">Consultar <span *ngIf="loading['bonos']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                </div>
+                <div class="m-1" *ngIf="bonosData">
+                    <button type="button" class="btn btn-warning">Descargar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-          </ng-template>
+    <ngb-tabset *ngIf="bonosData">
+
+        <!-- RESULTADOS -->
+        <ng-container *ngFor="let dep of bonosData | keys">
+            <ngb-tab>
+                <ng-template ngbTabTitle>{{ depsData[dep] }}</ng-template>
+                <ng-template ngbTabContent>
+                    <ng-container *ngFor="let puesto of bonosData[dep] | keys">
+
+                        <div class="container" *ngIf="paramsData[dep] && paramsData[dep][puesto]">
+                            <div class="alert alert-primary" role="alert">
+                                <div class="m-1">
+                                    <p><span class="font-weight-bold">{{ bonosData[dep][puesto]['depName'] }}</span> ({{ bonosData[dep][puesto]['puestoName'] }}) -> {{ paramsData[dep][puesto]['monto'] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                                        <br>
+                                        <div class="m-1 p-0 container bg-light">
+                                            <table style="font-size: smaller" class="table table-sm table-striped table-bordered">
+                                                <thead>
+                                                    <th>Parámetro</th>
+                                                    <th>Cumplimiento</th>
+                                                    <th>Topado</th>
+                                                    <th>Peso</th>
+                                                    <th>Monto</th>
+                                                    <th>Reductor</th>
+                                                    <th>Condición</th>
+                                                    <th>Por Incidencia</th>
+                                                    <th>Peso</th>
+                                                </thead>
+                                                <tbody>
+                                                    <ng-container *ngFor="let i of parList">
+                                                        <tr *ngIf="paramsData[dep][puesto]['par_'+i] != null || paramsData[dep][puesto]['red_par_'+i] != null">
+                                                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['par_'+i]) }}</td>
+                                                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['cum_'+i] * 100 | number:'.2-2') }}%</td>
+                                                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['tope_'+i] == 1 ? 'Sí' : 'No') }}</td>
+                                                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : paramsData[dep][puesto]['perc_'+i] * 100 | number:'.2-2') }}%</td>
+                                                            <td>{{ (paramsData[dep][puesto]['par_'+i] == null ? '' : (paramsData[dep][puesto]['perc_'+i] * paramsData[dep][puesto]['monto']) | currency:'MXN':'symbol-narrow':'.2-2') }}</td>
+                                                            <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_par_'+i]) }}</td>
+                                                            <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_op_'+i] + ' ' + paramsData[dep][puesto]['red_comp_'+i] ) }}</td>
+                                                            <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_xInc_'+i] == 1 ? 'Sí' : 'No') }}</td>
+                                                            <td>{{ (paramsData[dep][puesto]['red_par_'+i] == null ? '' : paramsData[dep][puesto]['red_perc_'+i] * 100 | number:'.2-2') }}%</td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                            <table style="font-size: smaller" class="table table-sm table-striped table-bordered table-hover" [id]="bonosData[dep][puesto]['depName']+ bonosData[dep][puesto]['puestoName']">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="vertical-align: top">Asesor</th>
+                                        <th class="text-center" style="vertical-align: top">Aplicable</th>
+                                        <ng-container *ngFor="let item of paramsData[dep][puesto] | keys">
+                                            <ng-container *ngIf="paramsData[dep][puesto][item] != null && matchPar(item, 'par')">
+                                                <th class="text-center" style="vertical-align: top">{{ paramsData[dep][puesto][item].replace('c_','').replace('_', ' ').replace('_', ' ') | capitalizado:true }}</th>
+                                                <th class="text-center" style="vertical-align: top">{{ paramsData[dep][puesto][item].replace('c_','').replace('_', ' ').replace('_', ' ') | capitalizado:true }}<br>{{ matchPar(item, 'red') ? '%' : 'monto' }}</th>
+                                            </ng-container>
+                                        </ng-container>
+                                        <th class="text-center" style="vertical-align: top">Monto<br>Bono</th>
+                                        <th class="text-center" style="vertical-align: top">Monto<br>Reductores</th>
+                                        <th class="text-center" style="vertical-align: top">Monto<br>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let asesor of bonosData[dep][puesto] | keys">
+                                        <tr *ngIf="matchPar(asesor, 'asesor')">
+                                            <td>{{ bonosData[dep][puesto][asesor]['detalle']['Nombre'] }}</td>
+                                            <td class="text-center">{{ bonosData[dep][puesto][asesor]['aplica'] == 1 ? 'Sí' : 'No'}}</td>
+                                            <ng-container *ngFor="let item of paramsData[dep][puesto] | keys">
+                                                <ng-container *ngIf="paramsData[dep][puesto][item] != null && matchPar(item, 'par')">
+                                                    <td class="text-center">{{ (bonosData[dep][puesto][asesor]['detalle'][paramsData[dep][puesto][item]] * ( percMatch( paramsData[dep][puesto][item] ) ? 100 : 1 )) | number:'.0-2' }}{{ percMatch( paramsData[dep][puesto][item]
+                                                        ) ? '%' : '' }}</td>
+                                                    <td class="text-center text-danger" *ngIf="matchPar(item, 'red')">{{ (bonosData[dep][puesto][asesor]['reductores'][paramsData[dep][puesto][item]]*100) | number:'.2-2' }}%</td>
+                                                    <td class="text-center" *ngIf="!matchPar(item, 'red')">{{ (bonosData[dep][puesto][asesor]['bono'][paramsData[dep][puesto][item]]) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                                                </ng-container>
+                                            </ng-container>
+                                            <td class='text-right'>{{ (sumBono(dep, puesto, asesor, 'bono')) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                                            <td class='text-danger text-right'>{{ sumBono(dep, puesto, asesor, 'red') | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
+                                            <th class='text-right'>
+                                                <app-bono-approve (save)="paySave($event, dep, puesto)" [reload]="reload[asesor]" [total]="sumBono(dep, puesto, asesor, 'total')" [status]="bonosData[dep][puesto][asesor]['aprobacion']" [params]="paramsDataAsk" [nombre]="bonosData[dep][puesto][asesor]['detalle']['Nombre']"
+                                                    [asesor]="asesor"></app-bono-approve>
+                                            </th>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th class="text-center" style="vertical-align: top">Total</th>
+                                        <th class="text-center" style="vertical-align: top"></th>
+                                        <ng-container *ngFor="let item of paramsData[dep][puesto] | keys">
+                                            <ng-container *ngIf="paramsData[dep][puesto][item] != null && matchPar(item, 'par')">
+                                                <th class="text-center" style="vertical-align: top"></th>
+                                                <th class="text-center" style="vertical-align: top"></th>
+                                            </ng-container>
+                                        </ng-container>
+                                        <th class="text-center" style="vertical-align: top"></th>
+                                        <th class="text-center" style="vertical-align: top"></th>
+                                        <th class="text-center" style="vertical-align: top">{{ total[dep][puesto] | currency:'MXN':'symbol-narrow':'.2-2' }}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <br>
+                    </ng-container>
+
+                </ng-template>
+            </ngb-tab>
+        </ng-container>
+
+        <!-- DETALLADO -->
+        <ngb-tab title="Detalle">
+            <ng-template ngbTabContent>
+                <div class="container-fluid">
+                    <table style="font-size: smaller" class="table table-sm table-striped table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let title of detalleData[0] | keys">{{ title | capitalizado:true}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of detalleData | orderBy: 'Nombre'">
+                                <td *ngFor="let title of item | keys">{{ item[title] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>
         </ngb-tab>
-    </ng-container>
 
-    <!-- DETALLADO -->
-    <ngb-tab title="Detalle">
-      <ng-template ngbTabContent>
-        <div class="container-fluid">
-          <table style="font-size: smaller" class="table table-sm table-striped table-bordered table-responsive">
-            <thead>
-              <tr>
-                <th *ngFor="let title of detalleData[0] | keys">{{ title | capitalizado:true}}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of detalleData | orderBy: 'Nombre'">
-                <td *ngFor="let title of item | keys">{{ item[title] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </ng-template>
-    </ngb-tab>
-
-    <!-- METAS -->
-    <ngb-tab title="Metas">
-      <ng-template ngbTabContent>
-        <div class="container-fluid">
-          <table style="font-size: smaller" class="table table-sm table-striped table-bordered table-responsive">
-            <thead>
-              <tr>
-                <th *ngFor="let title of metasData[0] | keys">{{ title | capitalizado:true}}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of metasData | orderBy: 'NameDep'">
-                <td *ngFor="let title of item | keys; index as i">
-                  <span [ngSwitch]="i">
+        <!-- METAS -->
+        <ngb-tab title="Metas">
+            <ng-template ngbTabContent>
+                <div class="container-fluid">
+                    <table style="font-size: smaller" class="table table-sm table-striped table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let title of metasData[0] | keys">{{ title | capitalizado:true}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of metasData | orderBy: 'NameDep'">
+                                <td *ngFor="let title of item | keys; index as i">
+                                    <span [ngSwitch]="i">
                     <span *ngSwitchCase="0">{{ item[title] == null ? 'General' : item[title] }}</span>
-                    <span *ngSwitchCase="1" class='text-center'>{{ item[title] }}</span>
-                    <span *ngSwitchCase="2" class='text-center'>{{ item[title] }}</span>
-                    <span *ngSwitchCase="3" class='text-center'>{{ item[title] }}</span>
-                    <span *ngSwitchCase="4" class='text-center'>{{ item[title] }}</span>
-                    <span *ngSwitchCase="17" class='text-center'>{{ item[title] }}</span>
-                    <span *ngSwitchDefault class='text-right'>{{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </ng-template>
-    </ngb-tab>
+                                    <span *ngSwitchCase="1" class='text-center'>{{ item[title] }}</span>
+                                    <span *ngSwitchCase="2" class='text-center'>{{ item[title] }}</span>
+                                    <span *ngSwitchCase="3" class='text-center'>{{ item[title] }}</span>
+                                    <span *ngSwitchCase="4" class='text-center'>{{ item[title] }}</span>
+                                    <span *ngSwitchCase="17" class='text-center'>{{ item[title] }}</span>
+                                    <span *ngSwitchDefault class='text-right'>{{ item[title] | currency:'MXN':'symbol-narrow':'.2-2' }}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>
+        </ngb-tab>
 
-  </ngb-tabset>
+    </ngb-tabset>
 </div>

@@ -23,7 +23,7 @@ export class ApiService {
     return this.domSanitizer.bypassSecurityTrustUrl( url );
   }
 
-  postFromApi( params, apiRoute ){
+  postFromApi( params, apiRoute, alternativeRoute? ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let url = `${ this.apiUrl }${ apiRoute }.json.php?token=${currentUser.token}&usn=${currentUser.username}&usid=${currentUser.hcInfo.id}`
@@ -86,9 +86,31 @@ export class ApiService {
     let urlOK = this.transform( url )
 
     let body = JSON.stringify( params );
+
     let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
+
+    return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
+        .pipe(
+           map( res => res )
+        )
+  }
+
+  helpPost( params, apiRoute ){
+
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let url = 'http://help.pricetravel.com.mx/rest/api/2/issue/'
+
+    let urlOK = this.transform( url )
+
+    let body = JSON.stringify( params );
+
+    let headers = new HttpHeaders({
+        'Content-Type':'application/json',
+        'Authorization':'Basic YWxiZXJ0LnNhbmNoZXo6QER5ajIxMjc4Mzcw'
+      });
+
 
     return this.http.post( urlOK.changingThisBreaksApplicationSecurity, body, { headers } )
         .pipe(

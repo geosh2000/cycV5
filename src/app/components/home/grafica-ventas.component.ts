@@ -11,7 +11,7 @@ import * as moment from 'moment-timezone';
   templateUrl: './grafica-ventas.component.html',
   styles: []
 })
-export class GraficaVentasComponent implements OnInit {
+export class GraficaVentasComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() asesor:any = ''
   @Input() name:any = ''
@@ -145,18 +145,19 @@ export class GraficaVentasComponent implements OnInit {
               for(let item of res['data']){
                 dataObj[item.fecha] = {}
 
+                // tslint:disable-next-line:forin
                 for( let index in item ){
                   dataObj[item.fecha][index] = item[index]
 
-                  this.LU = moment.tz( item.Last_update, 'America/Mexico_City' ).tz('America/Bogota').format("kk:mm:ss DD MMM 'YY")
+                  this.LU = moment.tz( item.Last_update, 'America/Mexico_City' ).tz('America/Bogota').format('HH:mm:ss DD MMM \'YY')
                 }
 
               }
 
-              //Montos
+              // Montos
               this.setMontos( dataObj, dataCat, id )
 
-              //FC
+              // FC
               this.setFC( dataObj, dataCat, id )
 
               if(loop){
@@ -255,8 +256,8 @@ export class GraficaVentasComponent implements OnInit {
                                     }} )
 
 
-      this.chart['montos']['series'][0].update( {data: dataMonto, name: 'Por día IN', type: 'column', yAxis: 1, color: "#42b0f4", stack: 'monto'} )
-      this.chart['montos']['series'][1].update( {data: dataMontoElse, yAxis: 1, name: 'Por día No IN', type: 'column', stack: 'monto', color: "#0f5e8e"} )
+      this.chart['montos']['series'][0].update( {data: dataMonto, name: 'Por día IN', type: 'column', yAxis: 1, color: '#42b0f4', stack: 'monto'} )
+      this.chart['montos']['series'][1].update( {data: dataMontoElse, yAxis: 1, name: 'Por día No IN', type: 'column', stack: 'monto', color: '#0f5e8e'} )
 
       if( this.chart['montos']['series'][2] ){
         this.chart['montos']['series'][2].update( {data: dataAcum, name: 'Acumulado', zIndex: 100, color: '#6BCC3D'} )
@@ -293,7 +294,7 @@ export class GraficaVentasComponent implements OnInit {
         dataFC.push( parseFloat( ( dataRsvas[i] / dataCalls[i] * 100 ).toFixed(2) ) )
       }
 
-      //Acumulado
+      // Acumulado
       if( i == 0 ){
         dataRsvasAcum.push(     dataRsvas[i] )
         dataRsvasAcumElse.push( dataRsvasElse[i] )
@@ -316,7 +317,7 @@ export class GraficaVentasComponent implements OnInit {
       i++
     }
 
-    //FC Chart
+    // FC Chart
     if( this.activeTab == 'fc' || id == 'fc' ){
       this.chart['fc'].title.update( {text: `Avance Diario de FC% - <small>${this.name}</small>`, useHTML: true} )
       this.chart['fc'].subtitle.update( {text: `<small style='font-size:smaller'>(Actualizado: ${ this.LU })</small>`, useHTML: true} )
@@ -337,11 +338,11 @@ export class GraficaVentasComponent implements OnInit {
                                     }} )
 
       this.chart['fc']['series'][1].update( {data: dataFCAcum, name: 'Acumulado', zIndex: 100, color: '#6BCC3D'} )
-      this.chart['fc']['series'][0].update( {data: dataFC, name: 'Por día', type: 'column', color: "#42b0f4"} )
+      this.chart['fc']['series'][0].update( {data: dataFC, name: 'Por día', type: 'column', color: '#42b0f4'} )
       this.chart['fc']['xAxis'][0].setCategories( cats );
     }
 
-    //Calls Chart
+    // Calls Chart
     if( this.activeTab == 'calls' || id == 'calls' ){
       this.chart['calls'].title.update( {text: `Reporte Diario de Llamadas y Reservas - <small>${this.name}</small>`, useHTML: true} )
       this.chart['calls'].subtitle.update( {text: `<small style='font-size:smaller'>(Actualizado: ${ this.LU })</small>`, useHTML: true} )
@@ -359,16 +360,16 @@ export class GraficaVentasComponent implements OnInit {
                                         }
                                     }} )
 
-      this.chart['calls']['series'][0].update( {data: dataRsvas,      yAxis: 1, name: 'Reservas IN', type: 'column', stack: 'rsvas', color: "#42b0f4"} )
+      this.chart['calls']['series'][0].update( {data: dataRsvas,      yAxis: 1, name: 'Reservas IN', type: 'column', stack: 'rsvas', color: '#42b0f4'} )
       this.chart['calls']['series'][1].update( {data: dataCalls,      yAxis: 1, name: 'Llamadas', type: 'column', stack: 'calls', color: '#6BCC3D'} )
 
       if( this.chart['calls']['series'][2] ){
-        this.chart['calls']['series'][2].update( {data: dataRsvasElse, yAxis: 1, name: 'Reservas No IN', type: 'column', stack: 'rsvas', color: "#0f5e8e"} )
-        this.chart['calls']['series'][3].update( {data: dataRsvasAcumAll, yAxis: 0, dashStyle: 'ShortDot', name: 'Rsvas Acum', type: 'spline', color: "#42b0f4"} )
+        this.chart['calls']['series'][2].update( {data: dataRsvasElse, yAxis: 1, name: 'Reservas No IN', type: 'column', stack: 'rsvas', color: '#0f5e8e'} )
+        this.chart['calls']['series'][3].update( {data: dataRsvasAcumAll, yAxis: 0, dashStyle: 'ShortDot', name: 'Rsvas Acum', type: 'spline', color: '#42b0f4'} )
         this.chart['calls']['series'][4].update( {data: dataCallsAcum, yAxis: 0, dashStyle: 'ShortDot', name: 'Llam Acum', type: 'spline', zIndex: 100, color: '#6BCC3D'} )
       }else{
-        this.chart['calls'].addSeries( {data: dataRsvasElse, yAxis: 1, name: 'Reservas No IN', type: 'column', stack: 'rsvas', color: "#0f5e8e"} )
-        this.chart['calls'].addSeries( {data: dataRsvasAcumAll, yAxis: 0, dashStyle: 'ShortDot', name: 'Rsvas Acum', type: 'spline', color: "#42b0f4"} )
+        this.chart['calls'].addSeries( {data: dataRsvasElse, yAxis: 1, name: 'Reservas No IN', type: 'column', stack: 'rsvas', color: '#0f5e8e'} )
+        this.chart['calls'].addSeries( {data: dataRsvasAcumAll, yAxis: 0, dashStyle: 'ShortDot', name: 'Rsvas Acum', type: 'spline', color: '#42b0f4'} )
         this.chart['calls'].addSeries( {data: dataCallsAcum, yAxis: 0, dashStyle: 'ShortDot', name: 'Llam Acum', type: 'spline', zIndex: 100, color: '#6BCC3D'} )
       }
       this.chart['calls']['xAxis'][0].setCategories( cats );
@@ -416,6 +417,6 @@ export class GraficaVentasComponent implements OnInit {
     console.log(event)
   }
 
-  
+
 
 }

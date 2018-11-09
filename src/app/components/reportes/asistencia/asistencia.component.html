@@ -156,7 +156,7 @@
 </div>
 
 <ng-container *ngIf="asistData && showContents">
-    <div class="container-fluid">
+    <cdk-virtual-scroll-viewport itemSize="50" class="border border-secondary container-fluid" style="height: 800px">
         <table class="table table-fluid table-striped table-bordered table-hover table-sm table-responsive" style="max-height: 700px; overflow: auto" id="ausTable">
             <thead>
                 <tr>
@@ -169,7 +169,7 @@
                 </tr>
             </thead>
             <tbody>
-                <ng-container *ngFor="let rac of orederedKeys">
+                <ng-container *cdkVirtualFor="let rac of orederedKeys">
                     <tr *ngIf="searchFilter.length <= 3 || (searchFilter.length > 3 && (sRep(asistData[rac].Nombre).match( sRep(searchFilter) ) || sRep(asistData[rac].Departamento).match( sRep(searchFilter) ) || sRep(asistData[rac].PuestoName).match( sRep(searchFilter) )))">
                         <td scope="row"><small>{{ asistData[rac].Nombre }} <a class="cursor: pointer" [routerLink]="['/detail-asesor',rac]" target="_blank"><i class="fa fa-fw fa-info-circle"></i></a></small></td>
                         <td class="text-center" scope="row"><small>{{ asistData[rac].Colaborador }}</small></td>
@@ -184,6 +184,6 @@
                 </ng-container>
             </tbody>
         </table>
-    </div>
+    </cdk-virtual-scroll-viewport>
     <app-pya-exception (save)="excStatus( $event )"></app-pya-exception>
 </ng-container>
