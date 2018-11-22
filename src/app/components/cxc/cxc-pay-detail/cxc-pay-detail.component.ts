@@ -33,7 +33,7 @@ export class CxcPayDetailComponent implements OnInit {
   getData(){
     this.loading['data'] = true
     jQuery('#payDetailModal').modal('show')
-    this._api.restfulGet( `${this.id}/1`, `Cxc/cxcCorte`)
+    this._api.restfulGet( `-1/${this.id}/1`, `Cxc/cxcCorte`)
           .subscribe( res => {
 
             this.loading['data'] = false

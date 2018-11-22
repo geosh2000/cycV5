@@ -124,15 +124,15 @@ export class BatchAsesorFormComponent implements OnInit, OnChanges {
       ['Nombre_Separado']:    new FormControl(item['Nombres'] ? this.ucwords( item['Nombres'] ) : ''               , [ Validators.required, Validators.pattern('^[A-ZÁÉÍÓÚ]{1}[a-záéíóú]+([ ]{1}([A-ZÁÉÍÓÚ]{1}[a-záéíóú]+|[d]{1}[e]{1}[l]{0,1})){0,3}$')], this.nameExists.bind(this) ),
       ['Apellidos_Separado']: new FormControl(item['Apellidos'] ? this.ucwords( item['Apellidos'] ) : ''           , [ Validators.required, Validators.pattern('^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+([ ]{1}[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+|[ ]{1}[a-záéíóúñ]{2,3}){0,5}$')], this.nameExists.bind(this) ),
       ['N Corto']:            new FormControl(item['Nombre Corto'] ? this.ucwords( item['Nombre Corto'], false) : '' , [ Validators.required, Validators.pattern('^[A-Z]{1}[a-z]* [A-Z]{1}[a-z]*$') ], this.userExists.bind(this) ),
-      ['num_colaborador']:    new FormControl(item['Numero Colaborador'] ? item['Numero Colaborador'].trim() : ''  , [ Validators.required, Validators.pattern('^[0-9]{8}$')  ] ),
-      ['RFC']:                new FormControl(item['Cedula'] ? item['Cedula'].trim() : ''                          , [] ),
-      ['Ingreso']:            new FormControl(item['Fecha Ingreso'] ? moment(item['Fecha Ingreso'].trim(), 'YYYY/MM/DD').format('YYYY/MM/DD') : ''            , [ Validators.required, Validators.pattern('^[2]{1}[0]{1}[0-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
-      ['Fecha_Nacimiento']:   new FormControl(item['Fecha Nacimiento'] ? moment(item['Fecha Nacimiento'].trim(), 'YYYY/MM/DD').format('YYYY/MM/DD') : ''      , [ Validators.required, Validators.pattern('^(([1]{1}[9]{1}[4-9]{1}[0-9]{1})||([2]{1}[0]{1}[0-2]{1}[0-9]{1}))[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
-      ['Telefono1']:          new FormControl(item['Telefono'] ? item['Telefono'].trim() : ''                      , [ Validators.pattern('^[0-9]+$') ] ),
-      ['Telefono2']:          new FormControl(item['Movil'] ? item['Movil'].trim() : ''                            , [ Validators.pattern('^[0-9]+$') ] ),
+      ['num_colaborador']:    new FormControl(item['Numero Colaborador'] ? String(item['Numero Colaborador']).trim() : ''  , [ Validators.required, Validators.pattern('^[0-9]{8}$')  ] ),
+      ['RFC']:                new FormControl(item['Cedula'] ? String(item['Cedula']).trim() : ''                          , [] ),
+      ['Ingreso']:            new FormControl(item['Fecha Ingreso'] ? this.xlsToMoment(String(item['Fecha Ingreso']).trim()) : ''            , [ Validators.required, Validators.pattern('^[2]{1}[0]{1}[0-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
+      ['Fecha_Nacimiento']:   new FormControl(item['Fecha Nacimiento'] ? this.xlsToMoment(String(item['Fecha Nacimiento']).trim()) : ''      , [ Validators.required, Validators.pattern('^(([1]{1}[9]{1}[4-9]{1}[0-9]{1})||([2]{1}[0]{1}[0-2]{1}[0-9]{1}))[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
+      ['Telefono1']:          new FormControl(item['Telefono'] ? String(item['Telefono']).trim() : ''                      , [ Validators.pattern('^[0-9]+$') ] ),
+      ['Telefono2']:          new FormControl(item['Movil'] ? String(item['Movil']).trim() : ''                            , [ Validators.pattern('^[0-9]+$') ] ),
       ['correo_personal']:    new FormControl(item['Correo Personal'] ? item['Correo Personal'].trim() : ''        , [ Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ] ),
-      ['Vigencia_Pasaporte']: new FormControl(item['Pasaporte'] ? moment(item['Pasaporte'].trim(), 'YYYY/MM/DD').format('YYYY/MM/DD') : ''  , [ Validators.pattern('^[2]{1}[0]{1}[0-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
-      ['Vigencia_Visa']:      new FormControl( ''            , [ Validators.pattern('^[2]{1}[0]{1}[0-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
+      ['Vigencia_Pasaporte']: new FormControl(item['Pasaporte'] ? this.xlsToMoment(String(item['Pasaporte']).trim()) : ''  , [ Validators.pattern('^[2]{1}[0]{1}[0-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
+      ['Vigencia_Visa']:      new FormControl(item['Visa'] ? this.xlsToMoment(String(item['Visa']).trim()) : ''  , [ Validators.pattern('^[2]{1}[0]{1}[0-2]{1}[0-9]{1}[/]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[/]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})') ] ),
       ['Pais']:               new FormControl(item['Pais'] ? item['Pais'].trim() : ''                              , [ Validators.required  ] ),
       contrato:               new FormControl(!item['Contrato'] ? '' : item['Contrato'].trim() == 'Temporal' ? 1 : 2    , [ Validators.required  ] ),
       profile:                new FormControl('', [ Validators.required  ] ),
@@ -156,6 +156,10 @@ export class BatchAsesorFormComponent implements OnInit, OnChanges {
       }else{
       }
     }
+  }
+
+  xlsToMoment(date) {
+    return moment(Math.round((date - 25569)*86400*1000)).add(1, 'days').format('YYYY-MM-DD')
   }
 
   userExists( control: FormControl ): Promise<any>|Observable<any>{

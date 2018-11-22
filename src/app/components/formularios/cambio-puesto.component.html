@@ -15,14 +15,16 @@
 
                         <!-- Fecha Cambio -->
                         <div class="col-6">
-                            <div class="form-group">
-                                <label>Fecha de Cambio</label>
+                            <div class="form-group p-1">
+                                <label>Fecha Cambio</label>
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="fa fa-calendar fa-fw"></i></div>
+                                    <input readonly [ngClass]="{'is-invalid': !formCambioPuesto.controls['fechaCambio'].valid}" daterangepicker formControlName="fechaCambio" [options]="singlePicker" class="form-control uneditable-input" type="text" (selected)="setVal($event.start, 'fechaCambio')">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                                     </div>
-                                    <input class="form-control" placeholder="yyyy-mm-dd" formControlName="fechaCambio" (click)="d.toggle()" name="dp" ngbDatepicker #d="ngbDatepicker">
                                 </div>
+                                <small class="text-danger" style="font-size: xx-small" *ngIf="!formCambioPuesto.controls['fechaCambio'].valid && formCambioPuesto.controls['fechaCambio'].errors?.pattern">Debe coincidir con el formato de Fecha YYYY/MM/DD</small>
+                                <small class="text-danger" style="font-size: xx-small" *ngIf="!formCambioPuesto.controls['fechaCambio'].valid && formCambioPuesto.controls['fechaCambio'].errors?.required">Debes ingresar la Fecha del Cambio</small>
                             </div>
                         </div>
 

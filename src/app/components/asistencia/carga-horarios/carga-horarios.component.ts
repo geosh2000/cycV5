@@ -312,10 +312,11 @@ export class CargaHorariosComponent implements OnInit {
     return -1
   }
 
-  transformHs(item, field){
+  transformHs(item, field, tz = true){
+    let m = moment.tz(this.listScheds[item['asesor']][item['date']]['data'][field], this.zone)
     // if( this.horaCun ){
       if( this.listScheds[item['asesor']][item['date']]['data'][field] != null ){
-        this.listScheds[item['asesor']][item['date']]['data'][field] = moment.tz(this.listScheds[item['asesor']][item['date']]['data'][field], this.zone).tz('America/Mexico_city').format('YYYY-MM-DD HH:mm:ss')
+        this.listScheds[item['asesor']][item['date']]['data'][field] = tz ? m.tz('America/Mexico_city').format('YYYY-MM-DD HH:mm:ss') : m.format('YYYY-MM-DD HH:mm:ss')
       }
     // }
   }
@@ -389,8 +390,8 @@ export class CargaHorariosComponent implements OnInit {
           this.listScheds[item['asesor']][item['date']]['data']['x1e'] = `${ moment(`${item['date']} ${i}:00`) > moment(`${item['date']} ${e}:00`) ? moment(item['date']).add(1,'days').format('YYYY-MM-DD') : item['date']} ${e}:00`
           this.listScheds[item['asesor']][item['date']]['data']['x2s'] = null
           this.listScheds[item['asesor']][item['date']]['data']['x2e'] = null
-          this.transformHs( item, 'x1s' )
-          this.transformHs( item, 'x1e' )
+          this.transformHs( item, 'x1s', false )
+          this.transformHs( item, 'x1e', false )
           break
         case 'x2SE':
           this.listScheds[item['asesor']][item['date']]['data']['x2s'] = `${item['date']} ${i}:00`
@@ -399,8 +400,8 @@ export class CargaHorariosComponent implements OnInit {
             this.listScheds[item['asesor']][item['date']]['data']['x2s'] = null
             this.listScheds[item['asesor']][item['date']]['data']['x2e'] = null
           }
-          this.transformHs( item, 'x2s' )
-          this.transformHs( item, 'x2e' )
+          this.transformHs( item, 'x2s', false )
+          this.transformHs( item, 'x2e', false )
           break
         case 'qX1':
           if( this.listScheds[item['asesor']][item['date']]['data']['js'] == this.listScheds[item['asesor']][item['date']]['data']['je'] ){
@@ -408,8 +409,8 @@ export class CargaHorariosComponent implements OnInit {
           }
           this.listScheds[item['asesor']][item['date']]['data']['x1s'] = i > 0 ? this.listScheds[item['asesor']][item['date']]['data']['je'] : `${moment(this.listScheds[item['asesor']][item['date']]['data']['js']).subtract(Math.abs(i), 'hours').format('YYYY-MM-DD HH:mm:ss')}`
           this.listScheds[item['asesor']][item['date']]['data']['x1e'] = i > 0 ? `${moment(this.listScheds[item['asesor']][item['date']]['data']['je']).add(Math.abs(i), 'hours').format('YYYY-MM-DD HH:mm:ss')}` : this.listScheds[item['asesor']][item['date']]['data']['js']
-          this.transformHs( item, 'x1s' )
-          this.transformHs( item, 'x1e' )
+          this.transformHs( item, 'x1s', false )
+          this.transformHs( item, 'x1e', false )
           break
         case 'qX2':
           if( this.listScheds[item['asesor']][item['date']]['data']['js'] == this.listScheds[item['asesor']][item['date']]['data']['je'] ){
@@ -417,8 +418,8 @@ export class CargaHorariosComponent implements OnInit {
           }
           this.listScheds[item['asesor']][item['date']]['data']['x2s'] = i > 0 ? this.listScheds[item['asesor']][item['date']]['data']['je'] : `${moment(this.listScheds[item['asesor']][item['date']]['data']['js']).subtract(Math.abs(i), 'hours').format('YYYY-MM-DD HH:mm:ss')}`
           this.listScheds[item['asesor']][item['date']]['data']['x2e'] = i > 0 ? `${moment(this.listScheds[item['asesor']][item['date']]['data']['je']).add(Math.abs(i), 'hours').format('YYYY-MM-DD HH:mm:ss')}` : this.listScheds[item['asesor']][item['date']]['data']['js']
-          this.transformHs( item, 'x2s' )
-          this.transformHs( item, 'x2e' )
+          this.transformHs( item, 'x2s', false )
+          this.transformHs( item, 'x2e', false )
           break
         case 'qC':
           if( this.listScheds[item['asesor']][item['date']]['data']['js'] == this.listScheds[item['asesor']][item['date']]['data']['je'] ){
@@ -426,8 +427,8 @@ export class CargaHorariosComponent implements OnInit {
           }
           this.listScheds[item['asesor']][item['date']]['data']['cs'] = `${moment(this.listScheds[item['asesor']][item['date']]['data']['js']).add(i, 'hours').format('YYYY-MM-DD HH:mm:ss')}`
           this.listScheds[item['asesor']][item['date']]['data']['ce'] = `${moment(this.listScheds[item['asesor']][item['date']]['data']['js']).add(i, 'hours').add(e, 'hours').format('YYYY-MM-DD HH:mm:ss')}`
-          this.transformHs( item, 'cs' )
-          this.transformHs( item, 'ce' )
+          this.transformHs( item, 'cs', false )
+          this.transformHs( item, 'ce', false )
           break
       }
 

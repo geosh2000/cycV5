@@ -27,6 +27,9 @@ export class CxcAdminComponent implements OnInit {
   showContents:boolean = false
   mainCredential:string = 'cxc_apply'
 
+  searchBy = 1
+  selectedAsesor = -1
+
   pdvSearch:boolean = false
 
   loading:Object = {
@@ -118,7 +121,7 @@ export class CxcAdminComponent implements OnInit {
 
     this.loading['data'] = true
 
-    this._api.restfulGet( `${this.selectedPayday}/${this.selectedDep}`, `Cxc/cxcCorte`)
+    this._api.restfulGet( `${this.searchBy == 0 ? this.selectedAsesor : -1}/${this.selectedPayday}/${this.selectedDep}`, `Cxc/cxcCorte`)
           .subscribe( res => {
 
             this.loading['data'] = false

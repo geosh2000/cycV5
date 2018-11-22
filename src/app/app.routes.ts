@@ -88,6 +88,12 @@ import { CcSuperAssignComponent } from './components/config/cc-super-assign/cc-s
 import { ReportesAvisosPdvComponent } from './components/reportes/reportes-avisos-pdv/reportes-avisos-pdv.component';
 import { DisciplinaPositivaComponent } from './components/rrhh/disciplina-positiva/disciplina-positiva.component';
 import { MetasPdvComponent } from './components/config/metas/metas-pdv/metas-pdv.component';
+import { PdvZoneAssignComponent } from './components/config/pdv-zone-assign/pdv-zone-assign.component';
+import { OfertasPdvComponent } from './components/uploads/ofertas-pdv/ofertas-pdv.component';
+import { OfertasActivasComponent } from './components/reportes/ofertas-activas/ofertas-activas.component';
+import { VentaSemanaComponent } from './components/reportes/venta-semana/venta-semana.component';
+import { MasBuscadosMpComponent } from './components/reportes/mas-buscados-mp/mas-buscados-mp.component';
+import { LostCallsComponent } from './components/reportes/lost-calls/lost-calls.component';
 
 
 const APP_ROUTES: Routes = [
@@ -151,6 +157,7 @@ const APP_ROUTES: Routes = [
   { path: 'afiliados', component: ReporteAfiliadosComponent},
   { path: 'surveyReport/:surveyId', component: SurveyReportComponent },
   { path: 'consultaAvisosPdv', component: ReportesAvisosPdvComponent },
+  { path: 'ventaSemanaMp', component: VentaSemanaComponent },
 
   // Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
@@ -181,6 +188,9 @@ const APP_ROUTES: Routes = [
   { path: 'oVirtual2018', component: Ovirtual2018Component },
   { path: 'saleIndex', component: SaleIndexMonitorComponent },
   { path: 'bitacoraGtr', component: BitacoraComponent },
+  { path: 'ofertas', component: OfertasActivasComponent },
+  { path: 'masBuscados', component: MasBuscadosMpComponent },
+  { path: 'lostCalls', component: LostCallsComponent },
 
   // CXC
   { path: 'cxc', component: CxcRegistroComponent },
@@ -201,6 +211,7 @@ const APP_ROUTES: Routes = [
   { path: 'config/uploadCalidad', component: UploadCalidadComponent },
   { path: 'config/uploadLogsPdv', component: UploadLogsPdvComponent },
   { path: 'config/metasPdv', component: MetasPdvComponent },
+  { path: 'config/pdvZones', component: PdvZoneAssignComponent },
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },
@@ -214,6 +225,9 @@ const APP_ROUTES: Routes = [
   { path: 'polls/antifaz2018', component: PollsComponent },
   { path: 'polls/quiniela2018', component: QuinielaComponent },
   { path: 'polls/resultadosMundial2018', component: ResultadosMundialComponent },
+
+  // Uploads
+  { path: 'uploads/ofertasPdv', component: OfertasPdvComponent },
 
   // Fifa
   { path: 'polls/fifaSql', component: StepsComponent },

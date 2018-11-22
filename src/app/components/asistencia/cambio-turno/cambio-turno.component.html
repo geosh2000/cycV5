@@ -60,10 +60,17 @@
                         <input matInput placeholder="Caso" [(ngModel)]="form['caso']">
                     </mat-form-field>
                 </div>
+
             </div>
             <div class="p-1 w-300" *ngIf="form['tipoCambio'] != '' && form['asesorA'] && form['asesorB'] && (((form['tipoCambio'] == 3 || form['tipoCambio'] == 4) && form['dateB']) || form['tipoCambio'] < 3)">
                 <div class='p-1 align-items-center'>
                     <button class="btn btn-success" (click)="getOriginals()" [disabled]="(form['tipoCambio'] == 2 || form['tipoCambio'] == 4) && !form['caso']">Consultar</button>
+                    <div style="text-align: center" class="m-1">
+                        <select class="custom-select" (change)="chgZone($event.target.value)" [(ngModel)]="zoneIdx">
+                                <option value="">Selecciona...</option>
+                                <option [value]="item['id']" *ngFor="let item of zhs | orderBy: 'title'">{{ item['title'] }}</option>
+                            </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -257,7 +264,7 @@
 
             </div>
             <div class="d-flex justify-content-end p-1">
-                <button type="submint" class="btn btn-success">Guardar <mat-spinner *ngIf="loading['save']" diameter=20></mat-spinner></button>
+                <button type="submit" class="btn btn-success">Guardar <mat-spinner *ngIf="loading['save']" diameter=20></mat-spinner></button>
             </div>
         </form>
         <!-- <pre>{{ form | json }}</pre> -->

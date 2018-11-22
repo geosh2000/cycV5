@@ -83,6 +83,11 @@ export class CambioTurnoComponent implements OnInit {
     asesorB: []
   }
 
+  zhs:any = []
+  zone:any = 'America/Mexico_city'
+  zoneIdx:any = 0
+  zoneMap:Object = {}
+
   constructor(
     private _api:ApiService,
     public _init:InitService,
@@ -110,7 +115,26 @@ export class CambioTurnoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getZones()
     this.titleService.setTitle('CyC - Cambios de Turno');
+  }
+
+  getZones(){
+    this._api.restfulGet( '', 'Preferences/listZonasHorarias')
+        .subscribe( res => {
+          this.zhs = res['data']
+
+          let zonesMap = {}
+          for( let item of res['data'] ){
+            zonesMap[item['id']] = item['zonaHoraria']
+          }
+
+          this.zoneMap = zonesMap
+        })
+  }
+
+  chgZone( val ){
+    this.zone = this.zoneMap[val]
   }
 
   onSelectedA( event ){
@@ -176,7 +200,7 @@ export class CambioTurnoComponent implements OnInit {
                       case 'x2e':
                       case 'cs':
                       case 'ce':
-                        item[field] = item[field] ? moment(item[field]).format('HH:mm') : null
+                        item[field] = item[field] ? moment.tz(item[field], 'America/Mexico_city').tz(this.zone).format('HH:mm') : null
                     }
                   }
                   if( item['asesor'] == this.form['asesorA'] ){
@@ -295,8 +319,8 @@ export class CambioTurnoComponent implements OnInit {
         // Jornadas
         i = value[pfx + 'i']
         e = value[pfx + 'e']
-        vals['j']['start'] = moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`)
-        vals['j']['end'] = moment(`${ moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`) > moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`) ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1,'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`)
+        vals['j']['start'] = moment.tz(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`, this.zone).tz('America/Mexico_city')
+        vals['j']['end'] = moment.tz(`${ moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`) > moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`) ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1,'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`, this.zone).tz('America/Mexico_city')
         vals['j']['duration'] = moment.duration(vals['j']['end'].diff(vals['j']['start'])).asHours();
         max = 12
         this.checkLenHs( vals['j']['start'], vals['j']['end'], vals['j']['duration'], max, 'Jornadas')
@@ -313,8 +337,8 @@ export class CambioTurnoComponent implements OnInit {
           // X1
           i = value[pfx + 'x1i']
           e = value[pfx + 'x1e']
-          vals['x1']['start'] = moment(`${moment(`${i}:00`) < moment('03:00:00') ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1, 'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`)
-          vals['x1']['end'] = moment(`${ moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`) > moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`) ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1,'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`)
+          vals['x1']['start'] = moment.tz(`${moment(`${i}:00`) < moment('03:00:00') ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1, 'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`, this.zone).tz('America/Mexico_city')
+          vals['x1']['end'] = moment.tz(`${ moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`) > moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`) ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1,'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`, this.zone).tz('America/Mexico_city')
           vals['x1']['duration'] = moment.duration(vals['x1']['end'].diff(vals['x1']['start'])).asHours();
           max = 2
           this.checkLenHs( vals['x1']['start'], vals['x1']['end'], vals['x1']['duration'], max, 'X1')
@@ -335,8 +359,8 @@ export class CambioTurnoComponent implements OnInit {
           // X2
           i = value[pfx + 'x2i']
           e = value[pfx + 'x2e']
-          vals['x2']['start'] = moment(`${moment(`${i}:00`) < moment('03:00:00') ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1, 'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`)
-          vals['x2']['end'] = moment(`${ moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`) > moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`) ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1,'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`)
+          vals['x2']['start'] = moment.tz(`${moment(`${i}:00`) < moment('03:00:00') ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1, 'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`, this.zone).tz('America/Mexico_city')
+          vals['x2']['end'] = moment.tz(`${ moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`) > moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`) ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1,'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`, this.zone).tz('America/Mexico_city')
           vals['x2']['duration'] = moment.duration(vals['x2']['end'].diff(vals['x2']['start'])).asHours();
           max = 2
           this.checkLenHs( vals['x1']['start'], vals['x1']['end'], vals['x1']['duration'], max, 'X1')
@@ -369,8 +393,8 @@ export class CambioTurnoComponent implements OnInit {
           // Comidas
           i = value[pfx + 'ci']
           e = value[pfx + 'ce']
-          vals['c']['start'] = moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`)
-          vals['c']['end'] = moment(`${ moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`) > moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`) ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1,'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`)
+          vals['c']['start'] = moment.tz(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`, this.zone).tz('America/Mexico_city')
+          vals['c']['end'] = moment.tz(`${ moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${i}:00`) > moment(`${moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`) ? moment(this.newData[ pfx.substr(0,1) ]['Fecha']).add(1,'days').format('YYYY-MM-DD') : moment(this.newData[ pfx.substr(0,1) ]['Fecha']).format('YYYY-MM-DD')} ${e}:00`, this.zone).tz('America/Mexico_city')
           vals['c']['duration'] = moment.duration(vals['c']['end'].diff(vals['c']['start'])).asHours();
           max = 1
           this.checkLenHs( vals['c']['start'], vals['c']['end'], vals['c']['duration'], max, 'Comidas')

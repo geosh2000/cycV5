@@ -13,6 +13,7 @@
                 <span *ngIf="item['direction'] != '2' && item['Pausa']">{{ getDuration( item['lastTst'] > item['origPauseTst'] ? item['lastTst'] : item['origPauseTst'] ) }}</span>
                 <span *ngIf="item['direction'] == '2' && item['Pausa']">{{ getDuration( (item['answered'] == '0' ? item['waiting'] : item['lastTst']) > item['origPauseTst'] ? item['answered'] == '0' ? item['waiting'] : item['lastTst'] : item['origPauseTst'] ) }}</span>
                 </span>
+                <span *ngIf="item['xfered_cc'] == 1" class="text-light" style="font-size:small">Transfirió</span>
                 <span class="badge text-dark text-truncate bg-warning" [style.maxWidth.px]="90" *ngIf="item['Pausa']">
                     {{ item['caller'] ? 'En llamada...' : item['Pausa'] }}
                 </span>

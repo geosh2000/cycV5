@@ -1,0 +1,71 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Llamadas Abandonadas</h1></span>
+                    <p class="lead">Listado de llamadas abandonadas por fecha y país</p>
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-start">
+            <div class="p-1">
+                <div class="form-group p-1">
+                    <div class="input-group">
+                        <input readonly daterangepicker [options]="singlePicker" [(ngModel)]="dateSelected" class="form-control uneditable-input" type="text" (selected)="setVal($event.start)">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='p-1'>
+                <div class="form-group p-1">
+                    <select class="custom-select" id="skill" [(ngModel)]="selPais">
+                                            <option value="CO">CO</option>
+                                            <option value="MX">MX</option>
+                                        </select>
+                </div>
+            </div>
+            <div class='p-1'>
+                <button class="btn btn-success" (click)="getData()">Consultar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            </div>
+            <div class='p-1' *ngIf="data.length > 0">
+                <button class="btn btn-warning" (click)="downloadXLS()">Descargar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center" *ngIf="loading['data']">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div class="container" *ngIf="data.length == 0 && !loading['data']">
+        <div class="alert alert-info" role="alert">
+            No existen llamadas abandonadas para la fecha y país seleccionados
+        </div>
+    </div>
+    <div class="container-fluid" *ngIf="data.length > 0">
+        <ngx-table [configuration]="config" [data]="data" [columns]="columns">
+
+            <ng-template let-row>
+                <ng-container *ngFor="let item of columns">
+                    <td class="row__email">
+                        <span [ngSwitch]="item['key']">
+                          <span style="font-size: smaller" *ngSwitchCase="'Hora'">
+                              {{ printDate(row['Hora'], 'YYYY-MM-DD HH:mm:ss') }}
+                          </span>
+                        <span *ngSwitchDefault><span style="font-size: smaller">{{row[item['key']]}}</span></span>
+                        </span>
+                    </td>
+                </ng-container>
+            </ng-template>
+
+        </ngx-table>
+        <p><small>Total de registros: {{ data.length }}</small></p>
+    </div>
+
+</div>

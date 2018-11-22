@@ -1,0 +1,93 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Ofertas MP</h1></span>
+                    <p class="lead">Ofertas activas en sistema</p>
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-start">
+            <div class="p-1" *ngIf="_init.checkSingleCredential('pdv_ofertasUpload')">
+                <div class="form-group p-1">
+                    <div class="input-group">
+                        <input readonly daterangepicker [options]="singlePicker" [(ngModel)]="dateSelected" class="form-control uneditable-input" type="text" (selected)="setVal($event.start)">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='p-2'>
+                <button class="btn" [ngClass]="{'btn-success': _init.checkSingleCredential('pdv_ofertasUpload'), 'btn-warning': !_init.checkSingleCredential('pdv_ofertasUpload')}" (click)="getData()">{{ _init.checkSingleCredential('pdv_ofertasUpload') ? 'Consultar' : 'Refresh' }} <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center" *ngIf="loading['data']">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div class="container" *ngIf="data.length == 0 && !loading['data']">
+        <div class="alert alert-info" role="alert">
+            No existen ofertas cargadas actualmente en la base de datos
+        </div>
+    </div>
+    <div class="container-fluid" *ngIf="data.length > 0">
+        <ngx-table [configuration]="config" [data]="data" [columns]="columns">
+
+            <ng-template let-row>
+                <ng-container *ngFor="let item of columns">
+                    <td class="row__email" *ngIf="_init.checkSingleCredential('pdv_ofertasUpload') || (!_init.checkSingleCredential('pdv_ofertasUpload') && row['Activo'] == '1')">
+                        <span [ngSwitch]="item['key']">
+                          <span style="font-size: smaller" *ngSwitchCase="'Tipo'">
+                              <mat-chip-list>
+                                  <mat-chip [color]="row[item['key']] == 'Exclusiva' ? 'primary' : 'light'" selected>{{row[item['key']]}}</mat-chip>
+                              </mat-chip-list>
+                              <!-- <span class="badge badge-pill" [ngClass]="{'badge-primary': row[item['key']] == 'Exclusiva', 'badge-light': row[item['key']] != 'Exclusiva'}">{{row[item['key']]}}</span> -->
+                        </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'Incentivo'">
+                                  <!-- <mat-checkbox *ngIf="_init.checkSingleCredential('pdv_ofertasUpload')" [checked]="row[item['key']] == '1' ? true : false" (change)="changeInc(item['key'], row, $event)">{{ row[item['key']] == '1' ? 'Sí' : 'No' }}</mat-checkbox> -->
+                                  <mat-chip-list [multiple]="true" [selectable]="true">
+                                      <mat-chip matTooltipPosition="above" [matTooltip]="row['incentivo_cc'] == '1' ? row['incentivo_descr'] : ''" [value]="row['incentivo_cc'] == '1'" (click)="changeIncentivo('incentivo_cc', row)" [selected]="row['incentivo_cc'] == '1'" [color]="row['incentivo_cc'] == '1' ? 'primary' : 'light'" >CC</mat-chip>
+                                      <mat-chip matTooltipPosition="above" [matTooltip]="row['incentivo_pdv'] == '1' ? row['incentivo_descr'] : ''" [value]="row['incentivo_pdv'] == '1'" (click)="changeIncentivo('incentivo_pdv', row)" [selected]="row['incentivo_pdv'] == '1'" [color]="row['incentivo_pdv'] == '1' ? 'accent' : 'light'">PDV</mat-chip>
+                                  </mat-chip-list>
+                                  <mat-form-field *ngIf="_init.checkSingleCredential('pdv_ofertasUpload') && (row['incentivo_cc'] == '1' || row['incentivo_pdv'] == '1')">
+                                        <input matInput type="text" placeholder="Descripción Incentivo" [value]="row['incentivo_descr']" (change)="changeInc('incentivo_descr', row, $event.target.value, true)">
+                                        <button mat-button *ngIf="row['incentivo_descr']" matSuffix mat-icon-button aria-label="Clear" (click)="row['incentivo_descr']=''">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                </mat-form-field>
+                          </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'Activo'">
+                              <mat-checkbox *ngIf="_init.checkSingleCredential('pdv_ofertasUpload')" [checked]="row[item['key']] == '0' ? false : true" (change)="changeInc(item['key'], row, $event)">{{ row[item['key']] == '0' ? 'Inactivo' : 'Activo' }}</mat-checkbox>
+                              <mat-chip-list>
+                                  <mat-chip *ngIf="!_init.checkSingleCredential('pdv_ofertasUpload') && row[item['key']] == '1'" color='accent' selected>Activo</mat-chip>
+                              </mat-chip-list>
+                          </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'bookWinStart'">
+                              {{printDate(row[item['key']],'DD MMM \'YY')}}
+                          </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'bookWinEnd'">
+                              {{printDate(row[item['key']],'DD MMM \'YY')}}
+                          </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'travWinStart'">
+                              {{printDate(row[item['key']],'DD MMM \'YY')}}
+                          </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'travWinEnd'">
+                              {{printDate(row[item['key']],'DD MMM \'YY')}}
+                          </span>
+                        <span *ngSwitchDefault><span style="font-size: smaller">{{row[item['key']]}}</span></span>
+                        </span>
+                    </td>
+                </ng-container>
+            </ng-template>
+
+        </ngx-table>
+    </div>
+
+</div>

@@ -184,12 +184,17 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
                   if( callers.indexOf( `${item['RT_dnis']}:${item['caller']}` ) == -1 ){
                     callers.push(`${item['RT_dnis']}:${item['caller']}`)
+                    item['xfered_cc'] = 0
                   }else{
-                    item['caller'] = null
-                    item['Q'] = null
-                    item['RT_dnis'] = null
-                    item['direction'] = null
-                    item['lastTst'] = item['freeSince']
+                    item['xfered_cc'] = item['caller'] == null ? 0 : 1
+
+                    if( item['caller'] != 'anonymous' ){
+                      item['caller'] = null
+                      item['Q'] = null
+                      item['RT_dnis'] = null
+                      item['direction'] = null
+                      item['lastTst'] = item['freeSince']
+                    }
                   }
 
                   dataQ.push(item)
@@ -235,6 +240,10 @@ export class QueuesV3Component implements OnInit, OnDestroy {
       this.paused = true
       clearTimeout(this.timeout)
     }
+  }
+
+  printTime( time, format ){
+    return moment.tz(time, 'America/Mexico_city').tz(this._zh.zone).format(format)
   }
 
 

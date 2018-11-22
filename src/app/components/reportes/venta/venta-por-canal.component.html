@@ -30,6 +30,12 @@
                   </span>
                         </div>
                     </div>
+                    <div class="form-group p-2">
+                        <select class="custom-select" id="skill" [(ngModel)]="selPais">
+                                                <option value="CO">CO</option>
+                                                <option value="MX">MX</option>
+                                            </select>
+                    </div>
                     <div style="text-align: center" class="p-2">
                         <ui-switch color="green" size="small" [(ngModel)]="soloVenta"></ui-switch>
                         <p style="margin-top: -10px">
@@ -86,6 +92,7 @@
 
     <div class="container-fluid">
         <h2 *ngIf="loadingData"><i class="fa fa-fw fa-spinner fa-pulse"></i> Loading...</h2>
+        <p><small *ngIf="ventaData">*Moneda: {{ currency }}</small></p>
         <table class="table table-sm table-responsive-sm table-bordered table-striped table-hover" style="font-size: smaller" id='ventaData' *ngIf="ventaData">
             <thead>
                 <tr>
@@ -136,7 +143,8 @@
                             <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], isAmmount, false, producto ) }}</td>
                             <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'], false, false, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, false, producto ) * 100) | number:'.0-2' }}%</td>
                             <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, false, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], false, false, producto) * 100) | number:'.0-2'
-                                }}%</td>
+                                }}%
+                            </td>
                             <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, false, producto ) }}</td>
                             <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, false, producto ) }}</td>
                         </tr>
@@ -177,7 +185,8 @@
                                 <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], isAmmount, hour, producto ) }}</td>
                                 <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'], false, hour, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, hour, producto ) * 100) | number:'.0-2' }}%</td>
                                 <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, hour, producto ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], false, hour, producto) * 100) | number:'.0-2'
-                                    }}%</td>
+                                    }}%
+                                </td>
                                 <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, hour, producto ) }}</td>
                                 <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, hour, producto ) }}</td>
                             </tr>

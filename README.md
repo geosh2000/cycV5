@@ -78,6 +78,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Fecha de envío a RRHH en módulo de aplicaciones (.2019)
 * Se omiten cxc de asesores de baja en módulo de aplicaciones (.2019)
 * Se agregan avisos de ajuste para asesores de baja en módulo de registro (.2019)
+* Se agrega filtro por asesor en módolo de administración (.2023)
 
 ### Evaluaciones Desempeño
 * Módulo de Búsqueda y Evaluación (.2010)
@@ -137,6 +138,11 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Pausa corre a partir de que termina la llamada (.2010)
 * Corrección de llamadas con agentes fuera de cola (.2013)
 
+### Ofertas MP
+* Módulo para subir ofertas (.2023)
+* Módulo para consultar ofertas (.2023)
+* Edición de Incentivos PDV / CC (.2023)
+
 ### Reporte Afiliados
 * Fix de columna Afiliado y título de página (.2007)
 
@@ -146,6 +152,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Filtro de Paquete / Prod Desglozado (.2005)
 * Filtro por día / Totalizado (.2007)
 * Filtro por asesor / PDV (.2007)
+
+### Reporte de Venta MP por semana
+* Reporte por semana vendida por fecha (.2023)
+* Descargable (.2023)
+
+### Zonas PDV
+* Módulo de asignación de Zonas por PDV (.2023)
 
 ## v2.4.1
 

@@ -24,23 +24,38 @@
                 <div class="d-flex justify-content-start">
                     <div class="form-group p-2">
                         <div class="input-group">
-                            <select class="custom-select" [(ngModel)]="selectedPayday">
-                              <option value="" *ngIf="!cortesList || cortesList.length > 0">Cargando... <i class="fas fa-spinner fa-pulse"></i></option>
-                              <option [value]="corte['pago']" *ngFor="let corte of cortesList">{{ corte['pago'] }} -> <span class="text-info"><small>({{ corte['inicio'] }} a {{ corte['fin'] }})</small></span></option>
+                            <select class="custom-select" [(ngModel)]="searchBy">
+                              <option value="0">Asesor</option>
+                              <option value="1">Corte</option>
                             </select>
                         </div>
                     </div>
-                    <div class="form-group p-2">
-                        <div class="input-group">
-                            <select class="custom-select" [(ngModel)]="selectedDep">
-                              <option value="">Selecciona la operación...</option>
-                              <option value="0">Contact Center</option>
-                              <option value="29">PDV</option>
-                            </select>
+                    <ng-container *ngIf="searchBy == 1">
+                        <div class="form-group p-2">
+                            <div class="input-group">
+                                <select class="custom-select" [(ngModel)]="selectedPayday">
+                                <option value="" *ngIf="!cortesList || cortesList.length > 0">Cargando... <i class="fas fa-spinner fa-pulse"></i></option>
+                                <option [value]="corte['pago']" *ngFor="let corte of cortesList">{{ corte['pago'] }} -> <span class="text-info"><small>({{ corte['inicio'] }} a {{ corte['fin'] }})</small></span></option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group p-2">
+                            <div class="input-group">
+                                <select class="custom-select" [(ngModel)]="selectedDep">
+                                <option value="">Selecciona la operación...</option>
+                                <option value="0">Contact Center</option>
+                                <option value="29">PDV</option>
+                                </select>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="searchBy != 1">
+                        <div class="form-group p-2">
+                            <app-search-asesor (result)="selectedAsesor = $event.asesor" [currentUser]="currentUser" [active]="2" placeholder="Asesor"></app-search-asesor>
+                        </div>
+                    </ng-container>
                     <div class="p-2">
-                        <button type="button" class="btn btn-success" (click)="getData()">Consultar</button>
+                        <button type="button" class="btn btn-success" (click)="getData()" [disabled]="loading['data']">Consultar</button>
                     </div>
                     <div class="p-2" *ngIf="data && data.length > 0">
                         <button type="button" class="btn btn-warning" (click)="download()" [disabled]="loading['download']">Descargar <span *ngIf="loading['download']"><i class="fas fa-spinner fa-pulse"></i></span></button>
@@ -49,7 +64,15 @@
             </div>
         </div>
 
-        <div *ngIf="data && data.length > 0">
+        <div *ngIf="loading['data']">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        <div *ngIf="data.length == 0 && !loading['data']">
+            <div class="alert alert-info" role="alert">
+                No existen cxc's cargados para este asesor
+            </div>
+        </div>
+        <div *ngIf="data && data.length > 0 && !loading['data']">
             <table class="table table-sm table-bordered table-striped table-hover" style='font-size: smaller'>
                 <thead>
                     <tr>

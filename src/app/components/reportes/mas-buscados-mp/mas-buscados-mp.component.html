@@ -1,0 +1,103 @@
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listado" *ngIf="_init.checkSingleCredential('pdv_masBuscados')">
+   Administrar
+</button>
+<mat-progress-bar mode="indeterminate" *ngIf="loading['data']"></mat-progress-bar>
+<br>
+<div class="container-fluid" *ngIf="!loading['data']">
+    <div class="row">
+        <div class="col-4">
+            <button class="btn btn-block btn-outline-primary m-1 p-2" matLine (click)="destination = destino" *ngFor="let destino of data | keys"><b>{{ data[destino]['destino'] }} Semana: {{ data[destino]['semana'] }} - {{ data[destino]['anio'] }}</b> ({{ printDates(data[destino]['fd']) }})<br>({{ data[destino]['opciones'].length }} opciones)</button>
+            <!-- <mat-nav-list>
+                <mat-list-item *ngFor="let destino of data | keys">
+                </mat-list-item>
+            </mat-nav-list> -->
+        </div>
+        <div class="col-8">
+
+            <ng-container *ngIf="data[destination]">
+                <h3 class="text-info"><b>{{ data[destination]['destino'] }} Semana: {{ data[destination]['semana'] }} - {{ data[destination]['anio'] }}</b> ({{ printDates(data[destination]['fd']) }})</h3>
+                <mat-list>
+                    <ng-container *ngFor="let item of data[destination]['opciones']">
+                        <mat-list-item>{{ item['hotel'] }} con {{ item['dispo'] }}% de descuento</mat-list-item>
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                </mat-list>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="listado" tabindex="-1" role="dialog" aria-labelledby="listadoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="listadoLabel">Listado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <mat-progress-bar mode="indeterminate" *ngIf="loading['update']"></mat-progress-bar>
+                <div class="container-fluid border border-success p-1" *ngIf="!loading['update']">
+                    <form>
+                        <div class="form-row">
+                            <div class="col-md-8 mb-3">
+                                <label for="validationDefault01">Destino</label>
+                                <input type="text" class="form-control" id="validationDefault01" placeholder="Destino" [(ngModel)]="add['destino']" name="destino" required>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="validationDefault02">Semana</label>
+                                <input type="number" class="form-control" id="validationDefault02" placeholder="Semana" [(ngModel)]="add['semana']" name="semana" required>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="validationDefault03">Año</label>
+                                <input type="number" class="form-control" id="validationDefault03" placeholder="Año" [(ngModel)]="add['anio']" name="anio" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-10 mb-3">
+                                <label for="validationDefault03">Hotel</label>
+                                <input type="text" class="form-control" id="validationDefault04" placeholder="Hotel" [(ngModel)]="add['hotel']" name="hotel" required>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="validationDefault03">Dispo</label>
+                                <input type="number" class="form-control" id="validationDefault05" placeholder="Dispo" [(ngModel)]="add['dispo']" name="dispo" required>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end p-1">
+                            <button class="btn btn-primary" type="button" (click)="addReg()">Agregar</button>
+                        </div>
+                    </form>
+                </div>
+                <ngx-table [configuration]="config" [data]="dataRAW" [columns]="columns" *ngIf="!loading['update']">
+
+                    <ng-template let-row>
+                        <ng-container *ngFor="let item of columns">
+                            <td class="row__email" *ngIf="_init.checkSingleCredential('pdv_ofertasUpload') || (!_init.checkSingleCredential('pdv_ofertasUpload') && row['Activo'] == '1')">
+                                <span [ngSwitch]="item['key']">
+                              <span style="font-size: smaller" *ngSwitchCase="'dispo'">
+                                  <mat-form-field>
+                                      <input matInput type="text" placeholder="Descripción Incentivo" [value]="row['dispo']" (change)="changeInc('dispo', row, $event.target.value, true)">
+                                      <button mat-button *ngIf="row['dispo']" matSuffix mat-icon-button aria-label="Clear" (click)="row['dispo']=''">
+                                          <mat-icon>close</mat-icon>
+                                      </button>
+                              </mat-form-field>
+                            </span>
+                                <span style="font-size: smaller" *ngSwitchCase="'action'">
+                                  <mat-checkbox *ngIf="_init.checkSingleCredential('pdv_ofertasUpload')" [checked]="row[item['key']] == '0' ? false : true" (change)="changeInc(item['key'], row, $event, false, true)">{{ row[item['key']] == '0' ? 'Inactivo' : 'Activo' }}</mat-checkbox>
+                              </span>
+                                <span *ngSwitchDefault><span style="font-size: smaller">{{row[item['key']]}}</span></span>
+                                </span>
+                            </td>
+                        </ng-container>
+                    </ng-template>
+
+                </ngx-table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

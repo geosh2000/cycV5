@@ -1,0 +1,91 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Subir Listado de Ofertas</h1></span>
+                    <p class="lead">Registro de información de ofertas través de la subida de un archivo de Excel</p>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class='container d-flex justify-content-start'>
+            <div class="p-2">
+                <form [formGroup]="imageForm">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <label class="sr-only" for="formUploadImage">Archivo</label>
+                            <input (change)="setImagePath( )" type="file" class="form-control mb-2 mb-sm-0" id="formUploadImage" placeholder="Archivo" #imageFile formControlName="imageFile">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class='p-2'>
+                <button class="btn btn-success" (click)="submit()" [disabled]="loading['upload']">Subir <span *ngIf="loading['upload']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            </div>
+            <div class='p-2 text-center'>
+                <button class="btn btn-info" (click)="dwlFormat()">Descargar Formato</button>
+            </div>
+            <div class='p-2 text-center'>
+                <button class="btn btn-warning" (click)="save()" [disabled]="loading['save']" *ngIf="xlsData.length > 0">Guardar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            </div>
+        </div>
+        <iframe id="dwlFrame" src="assets/img/bePriceBCO.png" style="display:none;"></iframe>
+    </div>
+
+    <div class="container d-flex justify-content-center" *ngIf="loading['building']">
+        <h1>{{ loading['upload'] ? 'Subiendo' : 'Construyendo' }}... <i class="fas fa-spinner fa-pulse"></i></h1>
+    </div>
+    <div class="container-fluid" *ngIf="xlsData.length > 0">
+        <ngx-table [configuration]="config" [data]="xlsData" [columns]="columns">
+
+            <ng-template let-row>
+                <ng-container *ngFor="let item of columns">
+                    <td class="row__email">
+                        <span [ngSwitch]="item['key']">
+                                  <span style="font-size: smaller" *ngSwitchCase="'Tipo'">
+                                      <mat-chip-list>
+                                          <mat-chip [color]="row[item['key']] == 'Exclusiva' ? 'primary' : 'light'" selected>{{row[item['key']]}}</mat-chip>
+                                      </mat-chip-list>
+                                </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'Incentivo'">
+                                          <mat-chip-list [multiple]="true" [selectable]="true">
+                                              <mat-chip matTooltipPosition="above" [matTooltip]="row['incentivo_cc'] == '1' ? row['incentivo_descr'] : ''" [value]="row['incentivo_cc'] == '1'" (click)="changeIncentivo('incentivo_cc', row)" [selected]="row['incentivo_cc'] == '1'" [color]="row['incentivo_cc'] == '1' ? 'primary' : 'light'" >CC</mat-chip>
+                                              <mat-chip matTooltipPosition="above" [matTooltip]="row['incentivo_pdv'] == '1' ? row['incentivo_descr'] : ''" [value]="row['incentivo_pdv'] == '1'" (click)="changeIncentivo('incentivo_pdv', row)" [selected]="row['incentivo_pdv'] == '1'" [color]="row['incentivo_pdv'] == '1' ? 'accent' : 'light'">PDV</mat-chip>
+                                          </mat-chip-list>
+                                          <mat-form-field *ngIf="(row['incentivo_cc'] == '1' || row['incentivo_pdv'] == '1')">
+                                                <input matInput type="text" placeholder="Descripción Incentivo" [value]="row['incentivo_descr']" (change)="changeInc('incentivo_descr', row, $event.target.value, true)">
+                                                <button mat-button *ngIf="row['incentivo_descr']" matSuffix mat-icon-button aria-label="Clear" (click)="row['incentivo_descr']=''">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                        </mat-form-field>
+                                  </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'Activo'">
+                                      <mat-checkbox [checked]="row[item['key']] == '0' ? false : true" (change)="changeInc(item['key'], row, $event)">{{ row[item['key']] == '0' ? 'Inactivo' : 'Activo' }}</mat-checkbox>
+                                  </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'bookWinStart'">
+                                      {{printDate(row[item['key']],'DD MMM \'YY')}}
+                                  </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'bookWinEnd'">
+                                      {{printDate(row[item['key']],'DD MMM \'YY')}}
+                                  </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'travWinStart'">
+                                      {{printDate(row[item['key']],'DD MMM \'YY')}}
+                                  </span>
+                        <span style="font-size: smaller" *ngSwitchCase="'travWinEnd'">
+                                      {{printDate(row[item['key']],'DD MMM \'YY')}}
+                                  </span>
+                        <span *ngSwitchDefault><span style="font-size: smaller">{{row[item['key']]}}</span></span>
+                        </span>
+                    </td>
+                </ng-container>
+            </ng-template>
+
+        </ngx-table>
+    </div>
+
+</div>

@@ -37,10 +37,13 @@ export class VentaPorCanalComponent implements OnInit {
   isAmmount:boolean = true
   isHour:boolean = false
   prodLu:string
+  currency:any
 
   loadingData:boolean = false
   ventaData:any
   locsData:any
+
+  selPais:any = 'MX'
 
   options: Object
 
@@ -53,7 +56,7 @@ export class VentaPorCanalComponent implements OnInit {
                 public activatedRoute:ActivatedRoute,
                 private titleService:Title,
                 private cp:CurrencyPipe
-                ){ 
+                ){
                   this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
@@ -66,10 +69,10 @@ export class VentaPorCanalComponent implements OnInit {
 
   dateChange( start, end ){
 
-    this.searchStart = start.format("YYYY-MM-DD")
-    this.searchEnd = end.format("YYYY-MM-DD")
+    this.searchStart = start.format('YYYY-MM-DD')
+    this.searchEnd = end.format('YYYY-MM-DD')
 
-    jQuery('#datepicker').val(`${start.format("DD MMM 'YY")} - ${end.format("DD MMM 'YY")}`)
+    jQuery('#datepicker').val(`${start.format('DD MMM \'YY')} - ${end.format('DD MMM \'YY')}`)
 
     // this.getCuartiles(this.searchStart, this.searchEnd, this.skill)
   }
@@ -110,12 +113,11 @@ export class VentaPorCanalComponent implements OnInit {
     let ammount = this.isAmmount ? 1 : 0
 
 
-    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}/${ ammount }/${ hour }`, 'venta/getVentaPorCanalSV')
+    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}/${ ammount }/${ hour }/0/${this.selPais}`, 'venta/getVentaPorCanalSV')
             .subscribe( res =>{
               this.ventaData = res['data']['venta']
               this.locsData = res['data']['locs']
-
-              console.log
+              this.currency = res['data']['currency']
 
               if(this.tdInfo){
                 this.prodLu = res['lu']
@@ -139,13 +141,13 @@ export class VentaPorCanalComponent implements OnInit {
 
     if(tz!='mx'){
       let fechaTmp = moment.tz(date, 'America/Mexico_City')
-      fecha = fechaTmp.clone().tz("America/Bogota")
+      fecha = fechaTmp.clone().tz('America/Bogota')
     }else{
       fecha = moment(date)
     }
 
     moment.updateLocale('en', {
-      weekdays : [ "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" ]
+      weekdays : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado' ]
     })
 
     return fecha.format( format )
@@ -180,8 +182,8 @@ export class VentaPorCanalComponent implements OnInit {
     }else{
       for(let index in wb.Sheets['Sheet1']){
         if( index.match( /^[C-K]([1-9][0-9]+|[2-9])$/ )){
-          if( index.match( /^[C-G,J-K][0-9]+$/ ) ){
-            wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v.substr(1,100).replace(/[,]/g,'')
+          if( index.match( /^[C-H,K-L][0-9]+$/ ) ){
+            wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v.replace(/[,]/g,'')
           }else{
             wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v.replace('%','')
             wb.Sheets['Sheet1'][index].v = wb.Sheets['Sheet1'][index].v/100
@@ -204,7 +206,8 @@ export class VentaPorCanalComponent implements OnInit {
   s2ab(s) {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
-    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    // tslint:disable-next-line:no-bitwise
+    for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 

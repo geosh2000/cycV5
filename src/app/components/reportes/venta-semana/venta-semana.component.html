@@ -1,0 +1,54 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Venta por semana</h1></span>
+                    <p class="lead">Venta por semana del año en Marca Propia MX</p>
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-start">
+            <div class="d-flex justify-content-start p-1">
+                <div class="form-group p-1">
+                    <select class="custom-select" id="skill" [(ngModel)]="paisSelected">
+                                        <option value="CO">CO</option>
+                                        <option value="MX">MX</option>
+                                    </select>
+                </div>
+                <div class="form-group p-1">
+                    <div class="input-group">
+                        <input readonly daterangepicker [options]="singlePicker" [(ngModel)]="dateSelected" class="form-control uneditable-input" type="text" (selected)="setVal($event.start)">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='p-2'>
+                <button class="btn btn-success" (click)="getData()">Consultar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            </div>
+            <div class='p-2' *ngIf="data.length > 0">
+                <button class="btn btn-warning" (click)="downloadXLS()">Descargar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center" *ngIf="loading['data']">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div class="container" *ngIf="data.length == 0 && !loading['data']">
+        <div class="alert alert-info" role="alert">
+            No existen data cargadas actualmente en la base de datos
+        </div>
+    </div>
+    <div class="container-fluid" *ngIf="data.length > 0">
+        <ngx-table [configuration]="config" [data]="data" [columns]="columns">
+        </ngx-table>
+    </div>
+
+</div>

@@ -229,6 +229,12 @@ import { CcSuperAssignComponent } from './components/config/cc-super-assign/cc-s
 import { ReportesAvisosPdvComponent } from './components/reportes/reportes-avisos-pdv/reportes-avisos-pdv.component';
 import { DisciplinaPositivaComponent } from './components/rrhh/disciplina-positiva/disciplina-positiva.component';
 import { MetasPdvComponent } from './components/config/metas/metas-pdv/metas-pdv.component';
+import { PdvZoneAssignComponent } from './components/config/pdv-zone-assign/pdv-zone-assign.component';
+import { OfertasPdvComponent } from './components/uploads/ofertas-pdv/ofertas-pdv.component';
+import { OfertasActivasComponent } from './components/reportes/ofertas-activas/ofertas-activas.component';
+import { VentaSemanaComponent } from './components/reportes/venta-semana/venta-semana.component';
+import { MasBuscadosMpComponent } from './components/reportes/mas-buscados-mp/mas-buscados-mp.component';
+import { LostCallsComponent } from './components/reportes/lost-calls/lost-calls.component';
 
 declare let jQuery: Object;
 
@@ -406,6 +412,12 @@ registerLocaleData(localeEsMX)
     ReportesAvisosPdvComponent,
     DisciplinaPositivaComponent,
     MetasPdvComponent,
+    PdvZoneAssignComponent,
+    OfertasPdvComponent,
+    OfertasActivasComponent,
+    VentaSemanaComponent,
+    MasBuscadosMpComponent,
+    LostCallsComponent,
   ],
   imports: [
     BrowserModule,
