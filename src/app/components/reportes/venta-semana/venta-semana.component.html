@@ -21,13 +21,30 @@
                                     </select>
                 </div>
                 <div class="form-group p-1">
-                    <div class="input-group">
+                    <!-- <div class="input-group">
                         <input readonly daterangepicker [options]="singlePicker" [(ngModel)]="dateSelected" class="form-control uneditable-input" type="text" (selected)="setVal($event.start)">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                         </div>
+                    </div> -->
+                    <div class="input-group">
+                        <input class="form-control" placeholder="yyyy-mm-dd" [autoClose]="false" (click)="d.toggle()" id="picker" name="dp" ngbDatepicker #d="ngbDatepicker" [dayTemplate]="t" (dateSelect)="onDateSelection($event, d)" autocomplete="off">
+                        <ng-template #t let-date="date" let-focused="focused">
+                            <span class="custom-day" [class.focused]="focused" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+       {{ date.day }}
+     </span>
+                        </ng-template>
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-calendar fa-fw"></i></div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="p-2 text-center">
+                <p>
+                    <ui-switch color="green" size="small" [(ngModel)]="porPdv"></ui-switch>
+                </p>
+                <p><small>Por PDV</small></p>
             </div>
             <div class='p-2'>
                 <button class="btn btn-success" (click)="getData()">Consultar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
@@ -42,7 +59,7 @@
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="container" *ngIf="data.length == 0 && !loading['data']">
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info" style="z-index: -1" role="alert">
             No existen data cargadas actualmente en la base de datos
         </div>
     </div>

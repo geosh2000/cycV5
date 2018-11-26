@@ -156,6 +156,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Reporte de Venta MP por semana
 * Reporte por semana vendida por fecha (.2023)
 * Descargable (.2023)
+* Selección de Rango de Fechas (.2024)
+* Filtro por PDV (.2024)
 
 ### Zonas PDV
 * Módulo de asignación de Zonas por PDV (.2023)
