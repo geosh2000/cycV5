@@ -186,12 +186,12 @@ export class AltasBatchComponent implements OnInit, OnDestroy {
 
   buildForms(){
     clearTimeout(this.timeout)
-    // let url = `img/${this.imageForm.controls['dir'].value}`
-    // let file = `${this.imageForm.controls['fname'].value + this.imageForm.controls['ftype'].value}`
-    // let test = false
-    let url = 'assets'
-    let file = 'test.xlsx'
-    let test = true
+    let url = `img/${this.imageForm.controls['dir'].value}`
+    let file = `${this.imageForm.controls['fname'].value + this.imageForm.controls['ftype'].value}`
+    let test = false
+    // let url = 'assets'
+    // let file = 'test.xlsx'
+    // let test = true
 
     this._api.getFile( file, url, test )
         .subscribe( f => {

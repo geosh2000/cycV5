@@ -21,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { Select2Module } from 'ng2-select2';
 import { NgDragDropModule } from 'ng-drag-drop';
 import {TableModule} from 'ngx-easy-table';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 
 // services
@@ -235,6 +236,7 @@ import { OfertasActivasComponent } from './components/reportes/ofertas-activas/o
 import { VentaSemanaComponent } from './components/reportes/venta-semana/venta-semana.component';
 import { MasBuscadosMpComponent } from './components/reportes/mas-buscados-mp/mas-buscados-mp.component';
 import { LostCallsComponent } from './components/reportes/lost-calls/lost-calls.component';
+import { PdvCoordAssignComponent } from './components/config/pdv-coord-assign/pdv-coord-assign.component';
 
 declare let jQuery: Object;
 
@@ -418,6 +420,7 @@ registerLocaleData(localeEsMX)
     VentaSemanaComponent,
     MasBuscadosMpComponent,
     LostCallsComponent,
+    PdvCoordAssignComponent,
   ],
   imports: [
     BrowserModule,
@@ -450,6 +453,7 @@ registerLocaleData(localeEsMX)
       autoFocus: true
     }),
     NgDragDropModule.forRoot(),
+    NgxMaterialTimepickerModule.forRoot(),
     ScrollingModule,
 
     // ==================================================

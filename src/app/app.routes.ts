@@ -89,6 +89,7 @@ import { ReportesAvisosPdvComponent } from './components/reportes/reportes-aviso
 import { DisciplinaPositivaComponent } from './components/rrhh/disciplina-positiva/disciplina-positiva.component';
 import { MetasPdvComponent } from './components/config/metas/metas-pdv/metas-pdv.component';
 import { PdvZoneAssignComponent } from './components/config/pdv-zone-assign/pdv-zone-assign.component';
+import { PdvCoordAssignComponent } from './components/config/pdv-coord-assign/pdv-coord-assign.component';
 import { OfertasPdvComponent } from './components/uploads/ofertas-pdv/ofertas-pdv.component';
 import { OfertasActivasComponent } from './components/reportes/ofertas-activas/ofertas-activas.component';
 import { VentaSemanaComponent } from './components/reportes/venta-semana/venta-semana.component';
@@ -212,6 +213,7 @@ const APP_ROUTES: Routes = [
   { path: 'config/uploadLogsPdv', component: UploadLogsPdvComponent },
   { path: 'config/metasPdv', component: MetasPdvComponent },
   { path: 'config/pdvZones', component: PdvZoneAssignComponent },
+  { path: 'config/pdvCoordAssign', component: PdvCoordAssignComponent },
 
   // PDV
   { path: 'cambios-pdvs-asesores', component: CambioPdvComponent },

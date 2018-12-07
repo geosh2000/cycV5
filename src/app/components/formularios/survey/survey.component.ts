@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
 
 declare var jQuery:any;
+import * as moment from 'moment-timezone';
 import { SurvHistoricComponent } from './surv-historic/surv-historic.component';
 
 @Component({
@@ -33,6 +34,12 @@ export class SurveyComponent implements OnInit {
     'master': null,
     'fields': [],
     'opts': [],
+  }
+
+  public singlePicker = {
+    singleDatePicker: true,
+    showDropdowns: true,
+    opens: 'left'
   }
 
   optsFilter:Object = {}
@@ -99,9 +106,17 @@ export class SurveyComponent implements OnInit {
       this.form.addControl(
         field['id'],
         new FormControl( dflt, valids ))
-    }
+
+      }
 
     this.formReady = true
+    setTimeout( () => {
+      for( let field of data['fields'] ){
+        if( field['type'] == 'date' || field['type'] == 'datetime' ){
+          this.form.controls[field['id']].reset()
+        }
+      }
+    }, 500)
   }
 
   getSurveyData(){
@@ -213,6 +228,7 @@ export class SurveyComponent implements OnInit {
 
   resetForm(){
     this.validateFlag = false
+    jQuery('.dtPick').val('')
     this.getSurveyData()
   }
 
@@ -279,5 +295,34 @@ export class SurveyComponent implements OnInit {
 
     this.filterValue = ''
   }
+
+  setVal( val, field ){
+    this.form.controls[field].setValue(val.format('YYYY-MM-DD'))
+  }
+
+  setValDT( val, field, type ){
+
+    let dt = ''
+    switch( type ){
+      case 'date':
+        dt = `${val.format('YYYY-MM-DD')} ${this.form.controls[field].value ? moment(this.form.controls[field].value.substr(11,8)).format('HH:mm:ss') : '00:00:00'}`
+        this.form.controls[field].setValue(dt)
+        break
+      case 'time':
+        // console.log(val)
+        dt = `${moment(`${this.form.controls[field].value ? moment(this.form.controls[field].value.substr(0,10)).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')} ${val}:00`).format('YYYY-MM-DD HH:mm:ss')}`
+        this.form.controls[field].setValue(dt)
+        break
+    }
+
+    // console.log(this.form.controls[field])
+  }
+
+  onSelectedAsesor(item, field){
+    console.log(item)
+    if(item){
+      this.form.controls[field].setValue(item.Nombre)
+    }
+}
 
 }
