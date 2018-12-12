@@ -1,0 +1,138 @@
+<div *ngIf="showContents">
+
+    <div class="container-fluid">
+        <!-- TITLE -->
+        <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span><h1 class="display-3">Avance de Venta Mensual PDV</h1></span>
+                        <p class="lead">Alcances de meta por asesor / supervisor / coordinador</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class='container'>
+                <div class="d-flex justify-content-start flex-wrap">
+                    <div class='p-1'>
+                        <select class="custom-select" (change)="getZones(selParams['year'], $event.target.value)" [(ngModel)]="selParams['month']">
+                        <option [value]="i+1" *ngFor="let month of options['meses']; index as i;">{{ month }}</option>
+                      </select>
+                    </div>
+                    <div class='p-1'>
+                        <select class="custom-select" (change)="getZones($event.target.value, selParams['month'])" [(ngModel)]="selParams['year']">
+                        <option [value]="year" *ngFor="let year of options['anios']">{{ year }}</option>
+                      </select>
+                    </div>
+
+                    <div class="p-1">
+                        <button type="button" class="btn btn-success" (click)="getData()" [disabled]="loading['data']">Buscar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                    </div>
+                    <div class="p-1 ml-auto">
+                        <button type="button" class="btn btn-warning" *ngIf="data['daily'] && data['sumAll'] && data['daily'].length>0 && data['sumAll'].length>0" (click)="downloadXLS()" [disabled]="loading['data']">Descargar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="data['zones'] && data['zones'].length > 0">
+        <mat-tab-group animationDuration="800ms" (selectedTabChange)="tabChange('main', $event)">
+
+            <!-- ZONAS -->
+            <mat-tab label="Zonas">
+
+                <div class='p-2'>
+                    <mat-progress-bar mode="buffer" *ngIf="loading['data']"></mat-progress-bar>
+                    <app-zone-chart [data]="data['zones']" [mes]="dataParams['mes']" [anio]="dataParams['anio']"></app-zone-chart>
+                </div>
+
+            </mat-tab>
+
+            <!-- SUPERVISORES -->
+            <mat-tab label="Supervisores" *ngIf="data['super'] && data['super'].length > 0">
+
+
+                <div class='p-2'>
+                    <div class="d-flex justify-content-start flex-wrap">
+                        <mat-form-field class='p-1'>
+                            <mat-select [(value)]="views['super']['zone']" (selectionChange)="tabChange(1,1)">
+                                <mat-option>None</mat-option>
+                                <mat-option [value]="zone['Zona']" *ngFor="let zone of data['zones'] | orderBy: 'Zona'">{{ zone['Zona'] }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class='p-2'>
+                    <mat-progress-bar mode="buffer" *ngIf="loading['data']"></mat-progress-bar>
+                    <app-super-chart [data]="data['super']" [mes]="dataParams['mes']" [sizeFlag]="nowFlag" [anio]="dataParams['anio']" [filterZone]="views['super']['zone']"></app-super-chart>
+                </div>
+            </mat-tab>
+
+            <!-- PDVS -->
+            <mat-tab label="PDVs" *ngIf="data['pdv'] && data['pdv'].length > 0">
+                <div class='p-2'>
+                    <div class="d-flex justify-content-start flex-wrap">
+                        <mat-form-field class='p-1'>
+                            <mat-select [(value)]="views['pdv']['zone']">
+                                <mat-option>None</mat-option>
+                                <mat-option [value]="zone['Zona']" *ngFor="let zone of data['zones'] | orderBy: 'Zona'">{{ zone['Zona'] }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class='p-1'>
+                            <mat-select [(value)]="views['pdv']['super']" (selectionChange)="tabChange(1,1)">
+                                <mat-option>None</mat-option>
+                                <ng-container *ngFor="let super of data['super'] | orderBy:'Supervisor'">
+                                    <mat-option [value]="super['Supervisor']" *ngIf="super['Zona'] == views['pdv']['zone']">{{ super['Supervisor'] }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <div class='p-2'>
+                        <mat-progress-bar mode="buffer" *ngIf="loading['data']"></mat-progress-bar>
+                        <app-pdv-chart [data]="data['pdv']" [mes]="dataParams['mes']" [sizeFlag]="nowFlag" [anio]="dataParams['anio']" [filterZone]="views['pdv']['super']"></app-pdv-chart>
+                    </div>
+                </div>
+
+            </mat-tab>
+
+            <!-- ASESORES -->
+            <mat-tab label="Asesores">
+
+                <div class='p-2'>
+                    <div class="d-flex justify-content-start flex-wrap align-items-center">
+
+                        <mat-form-field class='p-1'>
+                            <mat-select [(value)]="views['asesor']['super']">
+                                <mat-option>None</mat-option>
+                                <ng-container *ngFor="let super of listsData['supers']">
+                                    <mat-option [value]="super">{{ super }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class='p-1'>
+                            <mat-slide-toggle color="primary" (checked)="detAsesor" (change)="detAsesor = $event.checked">Asesor</mat-slide-toggle>
+                        </div>
+                        <mat-form-field class='p-1' *ngIf="detAsesor">
+                            <mat-select [(value)]="views['asesor']['asesor']" (selectionChange)="tabChange(1,1)">
+                                <mat-option>None</mat-option>
+                                <ng-container *ngFor="let asesor of data['asesor']; index as i">
+                                    <mat-option [value]="asesor['Nombre']" *ngIf="asesor['Supervisor'] == views['asesor']['super']">{{ asesor['Nombre'] }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class='p-2'>
+                        <mat-progress-bar mode="buffer" *ngIf="loading['data']"></mat-progress-bar>
+                        <app-sum-asesor-chart *ngIf="!detAsesor" [data]="data['asesor']" [mes]="dataParams['mes']" [sizeFlag]="nowFlag" [anio]="dataParams['anio']" [filterZone]="views['asesor']['super']"></app-sum-asesor-chart>
+                        <app-asesor-pdv-chart *ngIf="detAsesor" [data]="data['daily']" [mes]="dataParams['mes']" [sizeFlag]="nowFlag" [anio]="dataParams['anio']" [filterZone]="views['asesor']['asesor']"></app-asesor-pdv-chart>
+                    </div>
+                </div>
+
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+</div>

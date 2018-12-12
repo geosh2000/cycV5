@@ -146,6 +146,14 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Reporte Afiliados
 * Fix de columna Afiliado y título de página (.2007)
 
+### Reporte Avance PDV
+* Gráfica de avance General (.2026)
+* Gráfica de avance por Zona - PDV (.2026)
+* Gráfica de avance por Zona - Supervisor (.2026)
+* Gráfica de avance por Supervisor - Asesor (.2026)
+* Gráfica de avance por Asesor (.2026)
+* Data Exportable (.2026)
+
 ### Reporte Venta por PDV
 * Reporte por día por PDV (.2005)
 * Filtro de Venta y Cxl / Solo Venta (.2005)

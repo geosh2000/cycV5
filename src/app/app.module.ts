@@ -237,6 +237,12 @@ import { VentaSemanaComponent } from './components/reportes/venta-semana/venta-s
 import { MasBuscadosMpComponent } from './components/reportes/mas-buscados-mp/mas-buscados-mp.component';
 import { LostCallsComponent } from './components/reportes/lost-calls/lost-calls.component';
 import { PdvCoordAssignComponent } from './components/config/pdv-coord-assign/pdv-coord-assign.component';
+import { AvanceVentaPdvComponent } from './components/reportes/pdv/avance-venta-pdv/avance-venta-pdv.component';
+import { ZoneChartComponent } from './components/reportes/pdv/avance-venta-pdv/charts/zone-chart.component';
+import { SuperChartComponent } from './components/reportes/pdv/avance-venta-pdv/charts/super-chart.component';
+import { PdvChartComponent } from './components/reportes/pdv/avance-venta-pdv/charts/pdv-chart.component';
+import { SumAsesorChartComponent } from './components/reportes/pdv/avance-venta-pdv/charts/sum-asesor-chart.component';
+import { AsesorPdvChartComponent } from './components/reportes/pdv/avance-venta-pdv/charts/asesor-pdv-chart.component';
 
 declare let jQuery: Object;
 
@@ -248,11 +254,15 @@ export function highchartsFactory() {
     let exp = require('highcharts/modules/exporting');
     let sg = require('highcharts/modules/solid-gauge');
     let sank = require('highcharts/modules/sankey');
+    let xr = require('highcharts/modules/xrange');
+    let bull = require('highcharts/modules/bullet');
 
     hcm(hc);
     exp(hc);
     sg(hc);
     sank(hc);
+    xr(hc);
+    bull(hc);
     return hc;
 }
 
@@ -421,6 +431,12 @@ registerLocaleData(localeEsMX)
     MasBuscadosMpComponent,
     LostCallsComponent,
     PdvCoordAssignComponent,
+    AvanceVentaPdvComponent,
+    ZoneChartComponent,
+    SuperChartComponent,
+    PdvChartComponent,
+    SumAsesorChartComponent,
+    AsesorPdvChartComponent,
   ],
   imports: [
     BrowserModule,

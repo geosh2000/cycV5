@@ -95,6 +95,7 @@ import { OfertasActivasComponent } from './components/reportes/ofertas-activas/o
 import { VentaSemanaComponent } from './components/reportes/venta-semana/venta-semana.component';
 import { MasBuscadosMpComponent } from './components/reportes/mas-buscados-mp/mas-buscados-mp.component';
 import { LostCallsComponent } from './components/reportes/lost-calls/lost-calls.component';
+import { AvanceVentaPdvComponent } from './components/reportes/pdv/avance-venta-pdv/avance-venta-pdv.component';
 
 
 const APP_ROUTES: Routes = [
@@ -159,6 +160,7 @@ const APP_ROUTES: Routes = [
   { path: 'surveyReport/:surveyId', component: SurveyReportComponent },
   { path: 'consultaAvisosPdv', component: ReportesAvisosPdvComponent },
   { path: 'ventaSemanaMp', component: VentaSemanaComponent },
+  { path: 'avancePdv', component: AvanceVentaPdvComponent },
 
   // Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
