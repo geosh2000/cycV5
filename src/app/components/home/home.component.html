@@ -60,7 +60,11 @@
 
     <!-- Gráficas -->
     <div class="container" style="overflow: auto">
-        <app-grafica-ventas [asesor]='asesorShow' [name]='nameShow'></app-grafica-ventas>
+        <mat-progress-bar mode="buffer" *ngIf="loading['pdvGraph']"></mat-progress-bar>
+        <app-grafica-ventas *ngIf="graphIndex == 'normal'" [asesor]='asesorShow' [name]='nameShow'></app-grafica-ventas>
+        <app-super-chart *ngIf="dataGraph['super'] && graphIndex == 'coordinador'" [data]="dataGraph['super']" [mes]="dataParams['mes']" [anio]="dataParams['anio']" [filterZone]="depAsesorShow['zona']"></app-super-chart>
+        <app-pdv-chart *ngIf="dataGraph['pdv'] && graphIndex == 'supPdv'" [data]="dataGraph['pdv']" [mes]="dataParams['mes']" [anio]="dataParams['anio']" [filterZone]="depAsesorShow['name']"></app-pdv-chart>
+        <app-asesor-pdv-chart *ngIf="dataGraph['asesor'] && graphIndex == 'asesor'" [data]="dataGraph['daily']" [mes]="dataParams['mes']" [anio]="dataParams['anio']" [filterZone]="depAsesorShow['name']"></app-asesor-pdv-chart>
     </div>
 
     <!-- <button (click)="test()">TEST</button> -->

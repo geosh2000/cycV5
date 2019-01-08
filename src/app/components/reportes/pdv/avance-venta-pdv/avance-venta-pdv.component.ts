@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { DaterangepickerConfig, DaterangePickerComponent } from 'ng2-daterangepicker';
 import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
+import { EasyTableServiceService } from '../../../../services/easy-table-service.service';
 
 import { Title } from '@angular/platform-browser';
 
@@ -27,6 +28,15 @@ export class AvanceVentaPdvComponent implements OnInit {
   mainCredential:string = 'pdv_avancePdv'
   currentUser:any
   loading:Object = {}
+
+  config:EasyTableServiceService
+  columns:any = [
+    { type: 'default', key: 'Nombre', title: 'Nombre' },
+    { type: 'default', key: 'Puesto', title: 'Puesto' },
+    { type: 'default', key: 'Supervisor', title: 'Supervisor' },
+    { type: 'ammount', key: 'meta_asesor', title: 'Meta Total' },
+    { type: 'ammount', key: 'MetaHotel_asesor', title: 'Meta Hotel' }
+  ]
 
   options:Object = {
     meses: [],
@@ -102,6 +112,11 @@ export class AvanceVentaPdvComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('CyC - Avance de Venta PDV');
+    this.config =  EasyTableServiceService.config
+    this.config['exportEnabled'] = true
+    this.config['paginationEnabled'] = true
+    this.config['rows'] = 50
+    this.config['paginationRangeEnabled'] = true
   }
 
   buildOpts(){

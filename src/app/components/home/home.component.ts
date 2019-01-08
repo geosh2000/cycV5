@@ -6,6 +6,8 @@ import { CompleterService, CompleterData } from 'ng2-completer';
 
 declare var jQuery:any;
 import * as Globals from '../../globals';
+import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-home',
@@ -22,19 +24,42 @@ export class HomeComponent implements OnInit, OnChanges {
 
   token:boolean
   asesorShow:any
+  depAsesorShow:Object = {
+    dep: '',
+    puesto: '',
+    name: '',
+    zona: ''
+  }
   nameShow:any = 'Yo'
+  dataGraph:Object = {}
+  dataParams:Object = {
+    mes: moment().format('MM'),
+    anio: moment().format('YYYY')
+  }
+
+  loading:Object = {}
+  graphIndex:any = 'normal'
 
   protected searchStrName:string;
 
   protected onSelected( item ){
     this.asesorShow = item.asesor
+    this.depAsesorShow = {
+      dep: item.depDep,
+      puesto: item.depPuesto,
+      name: item.Nombre,
+      zona: ''
+    }
     this.nameShow = item.Nombre
     this.getBD( item.asesor )
+    this.changeHome()
   }
 
   constructor( private _api:ApiService,
                 public _init:InitService,
-                private _tokenCheck:TokenCheckService) {
+                private _tokenCheck:TokenCheckService,
+                private toastr:ToastrService
+              ) {
 
     this.currentUser = this._init.getUserInfo()
 
@@ -45,6 +70,12 @@ export class HomeComponent implements OnInit, OnChanges {
 
     this.asesorShow = this.currentUser.hcInfo.id
     this.nameShow = this.userToName( this.currentUser.username )
+    this.depAsesorShow = {
+      dep: this.currentUser.hcInfo.dep,
+      puesto: this.currentUser.hcInfo.puesto,
+      name: this.currentUser.hcInfo.Nombre,
+      zona: ''
+    }
 
     this.token = this.tokenStatus
 
@@ -61,10 +92,36 @@ export class HomeComponent implements OnInit, OnChanges {
         })
 
       this.getBD()
+      console.log(this.currentUser)
 
   }
 
   ngOnInit() {
+    this.changeHome()
+  }
+
+  changeHome(){
+    console.log( this.depAsesorShow)
+    if( this.depAsesorShow['dep'] == 29 ){
+
+      let index = ''
+      switch( this.depAsesorShow['puesto'] ){
+        case '11':
+        case '45':
+        case '48':
+          this.graphIndex = 'supPdv'
+          break;
+        case '17':
+          this.graphIndex = 'coordinador'
+          this.getZone()
+          break;
+        default:
+          this.graphIndex = 'asesor'
+          break;
+      }
+
+      this.getGraphPdv()
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -119,6 +176,53 @@ export class HomeComponent implements OnInit, OnChanges {
             let error = err
             console.error(`${ error }`);
         });
+
+  }
+
+
+  getGraphPdv(){
+    this.loading['pdvGraph'] = true
+
+    this._api.restfulGet( `${moment().format('MM')}/${moment().format('YYYY')}`, 'Venta/avancePdvMes' )
+            .subscribe( res => {
+
+              this.loading['pdvGraph'] = false
+
+              this.dataGraph = res['data']
+
+            }, err => {
+              console.log('ERROR', err)
+
+              this.loading['pdvGraph'] = false
+
+              let error = err.error
+              this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
+              console.error(err.statusText, error.msg)
+
+            })
+
+  }
+
+  getZone(){
+    this.loading['zone'] = true
+
+    this._api.restfulPut( {name: this.depAsesorShow }, 'Lists/individualZone' )
+            .subscribe( res => {
+
+              this.loading['zone'] = false
+
+              this.depAsesorShow['zona'] = res['data']['nombreZona']
+
+            }, err => {
+              console.log('ERROR', err)
+
+              this.loading['zone'] = false
+
+              let error = err.error
+              this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
+              console.error(err.statusText, error.msg)
+
+            })
 
   }
 

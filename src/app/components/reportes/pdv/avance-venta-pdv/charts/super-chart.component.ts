@@ -58,7 +58,41 @@ export class SuperChartComponent implements AfterViewInit, OnChanges {
                         shadow: false
                     },
                     tooltip: {
-                        shared: true
+                        shared: true,
+                        formatter: function () {
+                            let s = '<b>' + this.x + '</b>';
+                            let amm = []
+                            let x = 0
+                            let per = 0
+                            let color = '';
+                            let compare = 100;
+
+                            $.each(this.points, function () {
+                                s += '<br/>' + this.series.name + ': <b>$' +
+                                    this.y.toLocaleString() + '</b>';
+                                amm.push(this.y);
+
+                                if( this.series.name.match(/^Monto/gm) ){
+                                    per = (amm[x] / amm[x-1])*100;
+
+                                    if( this.series.name.match(/^Hotel/gm) ){
+                                        compare = 100
+                                    }else{
+                                        compare = 90
+                                    }
+
+                                    if( per < compare ){
+                                        color='#a80b1e';
+                                    }else{
+                                        color='#4a9920';
+                                    }
+                                    s += ' <span class=\'color: ' + color + ';\'><b> (' + per.toFixed(2) + '%)</b></span>';
+                                }
+                                x++;
+                            });
+
+                            return s;
+                        }
                     },
                     plotOptions: {
                         column: {
@@ -149,7 +183,7 @@ export class SuperChartComponent implements AfterViewInit, OnChanges {
 
   setData(){
 
-    console.log(this)
+    // console.log(this)
     if( this.chart['super'] && this.data.length > 0 ){
 
       let mes = this.mes ? parseInt(this.mes) : parseInt(moment().format('MM'))

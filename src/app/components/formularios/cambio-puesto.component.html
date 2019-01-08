@@ -138,7 +138,22 @@
                         </div>
 
                         <!-- Fecha Liberacion -->
-                        <div class="col-6">
+                        <div class="col-6" *ngIf="formCambioPuesto.controls['reemplazable'].value == true">
+                            <div class="form-group p-1">
+                                <label>Fecha Liberación</label>
+                                <div class="input-group">
+                                    <input readonly [ngClass]="{'is-invalid': !formCambioPuesto.controls['fechaLiberacion'].valid}" daterangepicker formControlName="fechaLiberacion" [options]="singlePicker" class="form-control uneditable-input" type="text" (selected)="setVal($event.start, 'fechaLiberacion')">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                    </div>
+                                </div>
+                                <small class="text-danger" style="font-size: xx-small" *ngIf="!formCambioPuesto.controls['fechaLiberacion'].valid && formCambioPuesto.controls['fechaLiberacion'].errors?.pattern">Debe coincidir con el formato de Fecha YYYY/MM/DD</small>
+                                <small class="text-danger" style="font-size: xx-small" *ngIf="!formCambioPuesto.controls['fechaLiberacion'].valid && formCambioPuesto.controls['fechaLiberacion'].errors?.required">Debes ingresar la Fecha de Liberación</small>
+                                <small class="text-danger" style="font-size: xx-small" *ngIf="!formCambioPuesto.controls['fechaLiberacion'].valid && formCambioPuesto.controls['fechaLiberacion'].errors?.lessFechaLiberacion">La fecha de liberación debe ser menor o igual a la fecha de Cambio</small>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-6">
                             <div class="form-group" [ngClass]="{ 'is-invalid': !formCambioPuesto.controls['fechaLiberacion'].valid }" *ngIf="formCambioPuesto.controls['reemplazable'].value == true">
                                 <label>Fecha Liberación</label>
                                 <div class="input-group">
@@ -154,7 +169,7 @@
                                     <div><small>La fecha de liberación debe ser menor o igual a la fecha de Cambio</small></div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                     <div class="alert alert-danger" role="alert" *ngIf="saveAlert">
