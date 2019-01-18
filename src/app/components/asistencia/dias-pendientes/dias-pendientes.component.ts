@@ -59,7 +59,7 @@ export class DiasPendientesComponent implements OnInit {
     this._dateRangeOptions.settings = {
       autoUpdateInput: true,
       singleDatePicker: true,
-      locale: { format: "YYYY-MM-DD" }
+      locale: { format: 'YYYY-MM-DD' }
     }
 
     this._tokenCheck.getTokenStatus()
@@ -69,7 +69,7 @@ export class DiasPendientesComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -103,7 +103,7 @@ export class DiasPendientesComponent implements OnInit {
                 console.log(this.detail)
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['list'] = false
                 this.loading['detail'] = false
@@ -125,7 +125,7 @@ export class DiasPendientesComponent implements OnInit {
                 this.approbeData = res['data']
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['toApprobe'] = false
 
@@ -146,7 +146,7 @@ export class DiasPendientesComponent implements OnInit {
                 this.rejectData = res['data']
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['rejected'] = false
 
@@ -167,7 +167,7 @@ export class DiasPendientesComponent implements OnInit {
                 this.detailData = res['data']
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['detailed'] = false
 
@@ -215,7 +215,7 @@ export class DiasPendientesComponent implements OnInit {
     if( this.validateAdd() ){
       this.putSaveAdd()
     }else{
-      this.toastr.error( "Debes llenar todos los campos para guardar el registro", `Falta Información!` )
+      this.toastr.error( 'Debes llenar todos los campos para guardar el registro', `Falta Información!` )
     }
   }
 
@@ -226,13 +226,13 @@ export class DiasPendientesComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['saveAdd'] = false
-                this.toastr.success( "Campos correctos", `Guardado!` )
+                this.toastr.success( 'Campos correctos', `Guardado!` )
                 this.resetForm()
                 this.addName = false
                 this.toApprobe()
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['saveAdd'] = false
 
@@ -287,7 +287,7 @@ export class DiasPendientesComponent implements OnInit {
                 this.detailed(this.detail['asesor'])
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['delete'] = false
 

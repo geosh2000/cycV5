@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Config } from 'ngx-easy-table/src/app/ngx-easy-table/model/config';
+import { Config } from 'ngx-easy-table/lib/model/config';
 
 @Injectable()
 export class EasyTableServiceService {

@@ -12,7 +12,7 @@ import { EasyTableServiceService } from '../../../services/easy-table-service.se
 
 import { saveAs } from 'file-saver';
 import { utils, write, WorkBook } from 'xlsx';
-import { Columns } from 'ngx-easy-table/src/app/ngx-easy-table';
+// import { Columns } from 'ngx-easy-table';
 
 const equals = (one: NgbDateStruct, two: NgbDateStruct) => one && two && two.year == one.year && two.month == one.month && two.day == one.day;
 const before = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false : one.year == two.year ? one.month == two.month ? one.day == two.day ? false : one.day < two.day : one.month < two.month : one.year < two.year;
@@ -85,7 +85,7 @@ export class VentaSemanaComponent implements OnInit {
   porPdvDisplay:boolean = false
 
   config:EasyTableServiceService
-  columns:Columns[] = [
+  columns = [
     { key: 'FechaOk', title: 'Fecha' },
     { key: 'pais', title: 'Pais' },
     { key: 'PDV', title: 'PDV' },
@@ -101,7 +101,7 @@ export class VentaSemanaComponent implements OnInit {
     { key: 'RN', title: 'RN' }
   ]
 
-  columnsCopy: Columns[] = [];
+  columnsCopy = [];
   checked = new Set(['FechaOk','pais','gpoTipoRsva','Hotel','hotelId','placeId','Destination','Anio','Semana','PDV','Zona','MLs','RN']);
 
   constructor(public _api: ApiService,

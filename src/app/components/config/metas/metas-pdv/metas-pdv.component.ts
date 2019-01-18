@@ -9,7 +9,7 @@ import { EasyTableServiceService } from '../../../../services/easy-table-service
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
 import { ActivatedRoute } from '@angular/router';
-import { Columns } from 'ngx-easy-table/src/app/ngx-easy-table';
+// import { Columns } from 'ngx-easy-table/ngx-easy-table';
 
 @Component({
   selector: 'app-metas-pdv',

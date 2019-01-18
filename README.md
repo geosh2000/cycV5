@@ -80,6 +80,12 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Se agregan avisos de ajuste para asesores de baja en módulo de registro (.2019)
 * Se agrega filtro por asesor en módolo de administración (.2023)
 
+### Detalle-Asesor
+* Saldos Vacacionales (.2028)
+* Integración de saldos vacacionales con módulo de captura de ausentismos (.2028)
+* Integración en vista de detalle del asesor (.2028)
+* Integración de días pendientes en módulo de detalle del asesor (.2028)
+
 ### Evaluaciones Desempeño
 * Módulo de Búsqueda y Evaluación (.2010)
 * Tiempo límite para evaluación (.2010)
@@ -153,6 +159,8 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Gráfica de avance por Supervisor - Asesor (.2026)
 * Gráfica de avance por Asesor (.2026)
 * Data Exportable (.2026)
+* Corrección de nombres de acuerdo a RSV (.2027)
+* Tabla con metas (.2027)
 
 ### Reporte Venta por PDV
 * Reporte por día por PDV (.2005)

@@ -55,6 +55,10 @@
             <!-- CxCs -->
             <app-home-cxc-view [asesor]="selected['id']"></app-home-cxc-view>
             <app-det-horario [asesor]="selected['id']" (reload)="reload()" [time]="now" *ngIf="_init.checkSingleCredential('hc_detalle_asesores')"></app-det-horario>
+            <!-- Vacaciones -->
+            <app-det-vacaciones [asesor]="selected['id']"></app-det-vacaciones>
+            <!-- Dias Pendientes -->
+            <app-det-dias-pendientes [asesor]="selected['id']"></app-det-dias-pendientes>
         </div>
 
         <!-- Evaluacion -->

@@ -96,6 +96,7 @@ import { VentaSemanaComponent } from './components/reportes/venta-semana/venta-s
 import { MasBuscadosMpComponent } from './components/reportes/mas-buscados-mp/mas-buscados-mp.component';
 import { LostCallsComponent } from './components/reportes/lost-calls/lost-calls.component';
 import { AvanceVentaPdvComponent } from './components/reportes/pdv/avance-venta-pdv/avance-venta-pdv.component';
+import { CuartilesV2Component } from './components/reportes/cuartiles/cuartiles-v2.component';
 
 
 const APP_ROUTES: Routes = [
@@ -145,6 +146,7 @@ const APP_ROUTES: Routes = [
 
   // Reportes
   { path: 'cuartiles', component: CuartilesComponent },
+  { path: 'cuartilesNew', component: CuartilesV2Component },
   { path: 'precisionPronostico', component: PrecisionComponent },
   { path: 'precisionPorIntervalo', component: PorIntervaloComponent },
   { path: 'asistencia', component: AsistenciaComponent },

@@ -243,6 +243,9 @@ import { SuperChartComponent } from './components/reportes/pdv/avance-venta-pdv/
 import { PdvChartComponent } from './components/reportes/pdv/avance-venta-pdv/charts/pdv-chart.component';
 import { SumAsesorChartComponent } from './components/reportes/pdv/avance-venta-pdv/charts/sum-asesor-chart.component';
 import { AsesorPdvChartComponent } from './components/reportes/pdv/avance-venta-pdv/charts/asesor-pdv-chart.component';
+import { CuartilesV2Component } from './components/reportes/cuartiles/cuartiles-v2.component';
+import { DetVacacionesComponent } from './components/hc/detalle-asesores/det-vacaciones/det-vacaciones.component';
+import { DetDiasPendientesComponent } from './components/hc/detalle-asesores/det-dias-pendientes/det-dias-pendientes.component';
 
 declare let jQuery: Object;
 
@@ -437,6 +440,9 @@ registerLocaleData(localeEsMX)
     PdvChartComponent,
     SumAsesorChartComponent,
     AsesorPdvChartComponent,
+    CuartilesV2Component,
+    DetVacacionesComponent,
+    DetDiasPendientesComponent,
   ],
   imports: [
     BrowserModule,
