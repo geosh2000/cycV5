@@ -44,6 +44,25 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
   allQs = {}
   countrySelected:any = 'CO'
+  skillSelected:any = 'CO'
+
+  skillList:Object = {
+    35: 'MX - MX Soporte Agencias Main'
+  }
+
+  qList:any = []
+  ahtLimits:Object = {}
+  viewParams:Object = {
+    small: true,
+    qs: false,
+    displays: {
+      v1: { active: true, bySkill: false, skill: '', qs: [] },
+      v2: { active: false, bySkill: false, skill: '', qs: [] },
+      v3: { active: false, bySkill: false, skill: '', qs: [] },
+      v4: { active: false, bySkill: false, skill: '', qs: [] },
+      v5: { active: false, bySkill: false, skill: '', qs: [] }
+    }
+  }
 
 
   constructor( public _api: ApiService,
@@ -58,6 +77,44 @@ export class QueuesV3Component implements OnInit, OnDestroy {
   this.currentUser = this._init.getUserInfo()
   this.showContents = this._init.checkCredential( this.mainCredential, true )
 
+  this.activatedRoute.params.subscribe( params => {
+    this.countrySelected = params.pais ? params.pais : 'CO'
+
+    if( params.params ){
+      let param = params.params.split('|'), i=0
+      console.log(param)
+      for( let p of param ){
+        switch(i){
+          case 0:
+            this.viewParams['small'] = p == 1 ? true : false
+            break
+          case 1:
+            this.viewParams['qs'] = p == 1 ? true : false
+            break
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+            let qParams = p.split(',')
+            let qQs = qParams[3].split('-')
+            this.viewParams['displays'][`v${i-1}`] = {
+              active: qParams[0] == 1 ? true : false,
+              bySkill: qParams[1] == 1 ? true : false,
+              skill: qParams[2],
+              qs: qQs
+            }
+            break
+        }
+        i++
+      }
+    }
+
+    console.log(params)
+    console.log(this.viewParams)
+
+  })
+
   this._tokenCheck.getTokenStatus()
     .subscribe( res => {
         if( res.status ){
@@ -68,27 +125,14 @@ export class QueuesV3Component implements OnInit, OnDestroy {
     })
 
 
-  this.activatedRoute.params.subscribe( params => {
-    // if( params.skill ){
-    //   this.skillSelected = params.skill
-    //   jQuery('#qSel').val(this.skillSelected)
-    // }
-
-    // if( params.monitor == 1 ){
-    //   this.displayFilter = false
-    //   this._global.displayMonitor( true )
-    // }else{
-    //   this.displayFilter = true
-    //   this._global.displayMonitor( false )
-    // }
-  })
-
   this.getQueues()
 }
 
   ngOnInit() {
     this.titleService.setTitle('CyC - Monitor Colas');
     this.getData()
+    this.getQList()
+    this.getAhtRefresh()
   }
 
   colsGet(){
@@ -169,6 +213,27 @@ export class QueuesV3Component implements OnInit, OnDestroy {
               })
   }
 
+  getQList( event? ){
+    this.loading['qList'] = true
+
+    this._api.restfulGet( !event ? this.countrySelected : event,'Lists/monitorSkills' )
+              .subscribe( res => {
+
+                this.loading['qList'] = false
+                this.qList = res['data']
+
+              }, err => {
+                console.log('ERROR', err)
+
+                this.loading['qList'] = false
+
+                let error = err.error
+                this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
+                console.error(err.statusText, error.msg)
+
+              })
+  }
+
   getData(){
     this.loading['data'] = true
 
@@ -231,6 +296,11 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
   }
 
+  getAhtRefresh(){
+    this.getAhtLimits()
+    setTimeout( () => this.startTimer(), 1800000 )
+  }
+
   pause(){
     if( this.paused ){
       this.paused = false
@@ -244,6 +314,29 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
   printTime( time, format ){
     return moment.tz(time, 'America/Mexico_city').tz(this._zh.zone).format(format)
+  }
+
+  getAhtLimits(){
+
+    this.loading['ahts'] = true
+
+    this._api.restfulGet( '','Queuemetrics/lastAhtLimit' )
+              .subscribe( res => {
+
+                this.loading['ahts'] = false
+
+                this.ahtLimits = res['data']
+
+              }, err => {
+
+                this.loading['ahts'] = false
+
+                console.log('ERROR', err)
+
+                let error = err.error
+                console.error(err.statusText, error.msg)
+
+              })
   }
 
 

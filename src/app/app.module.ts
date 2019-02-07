@@ -246,6 +246,7 @@ import { AsesorPdvChartComponent } from './components/reportes/pdv/avance-venta-
 import { CuartilesV2Component } from './components/reportes/cuartiles/cuartiles-v2.component';
 import { DetVacacionesComponent } from './components/hc/detalle-asesores/det-vacaciones/det-vacaciones.component';
 import { DetDiasPendientesComponent } from './components/hc/detalle-asesores/det-dias-pendientes/det-dias-pendientes.component';
+import { CallsV2Component } from './components/monitors/calls-v2/calls-v2.component';
 
 declare let jQuery: Object;
 
@@ -443,6 +444,7 @@ registerLocaleData(localeEsMX)
     CuartilesV2Component,
     DetVacacionesComponent,
     DetDiasPendientesComponent,
+    CallsV2Component,
   ],
   imports: [
     BrowserModule,

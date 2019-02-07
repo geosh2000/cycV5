@@ -43,7 +43,7 @@ import { OrderPipe } from 'ngx-order-pipe';
 })
 export class ReporteAfiliadosComponent implements OnInit {
 
-  mainCredential: any = 'default'
+  mainCredential: any = 'afiliados'
   showContents: boolean;
   currentUser: any;
 

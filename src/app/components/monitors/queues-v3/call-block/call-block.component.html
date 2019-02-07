@@ -1,10 +1,29 @@
 <div class="row d-flex justify-content-between flex-wrap alert alert-primary" role="alert" style="font-size: small">
     <div class="p-1">
-        <select2 [data]="data | orderBy: 'text'" (valueChanged)="selectedVal($event)" [options]="selectOptions" width="300"></select2>
+        <div class="d-flex flex-wrap justify-content-start align-items-center">
+            <div class="p-1 text-center">
+                <ui-switch color="green" size="small" [(ngModel)]="params['bySkill']" (change)="!$event ? params['qs']=[] : params['skill'] ? params['qs']=changeSkill(params['skill']) : params['qs']=params['qs']"></ui-switch>
+                <p><small>{{ params['bySkill'] ? 'Por Skill' : 'Por Cola'}}</small></p>
+            </div>
+            <div class="p-1 text-center" *ngIf="!params['bySkill']">
+                <select2 [data]="data" (valueChanged)="selectedVal($event)" [options]="selectOptions" width="300"></select2>
+            </div>
+            <div class="p-1" *ngIf="params['bySkill']">
+                <select class="custom-select" [(ngModel)]="params['skill']" (change)="changeSkill($event.target.value)">
+                        <option value="">Selecciona un skill...</option>
+                        <option [value]="skill['skill']" *ngFor="let skill of qList | orderBy:'name'">
+                            {{ skill['name'] }}
+                        </option>
+                    </select>
+            </div>
+            <div class="p-1" *ngIf="params['bySkill']">
+                <ui-switch color="green" size="small" [(ngModel)]="qsDisplay"></ui-switch>
+                <p><small>Ver Qs</small></p>
+            </div>
+        </div>
     </div>
     <div class="p-1">
         <div class="d-flex flex-wrap justify-content-end align-items-center">
-
             <div class="p-1">
                 <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
                 <span class="d-flex justify-content-around align-items-center">
@@ -36,7 +55,7 @@
             </div>
 
             <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
+                <span class="ml-auto  badge border border-info badge-pill" [ngClass]="{'badge-light': waits.length<=4, 'badge-danger flashit text-light': waits.length>4 }" [style.width.px]="100">
                 <span class="d-flex justify-content-around align-items-center">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fa-circle text-warning"></i>
@@ -47,7 +66,7 @@
                     {{ waits.length }}
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">En Espera</p>
+                <p class="text-center" [ngClass]="{'text-info': waits.length<=4, 'text-light': waits.length>4 }" style="font-size: xx-small">En Espera</p>
                 </span>
             </div>
 
@@ -241,8 +260,8 @@
         <div class="container-fluid">
             <div class="d-flex flex-wrap justify-content-start">
                 <ng-container *ngFor="let item of agents | orderBy: 'agente'">
-                    <app-call-card [item]="item" [queue]="selectedQs" *ngIf="!display['sm']"></app-call-card>
-                    <app-call-card-sm [item]="item" [queue]="selectedQs" *ngIf="display['sm']"></app-call-card-sm>
+                    <app-call-card [item]="item" [queue]="params['qs']" *ngIf="!display['sm']"></app-call-card>
+                    <app-call-card-sm [countrySelected]="countrySelected" [ahtLimits]="ahtLimits" [qsDisplay]="qsDisplay" [item]="item" [selectedQNames]="selectedQNames" [queue]="params['qs']" *ngIf="display['sm']"></app-call-card-sm>
                 </ng-container>
             </div>
         </div>

@@ -143,6 +143,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Mejoras en performance de monitor (.2010)
 * Pausa corre a partir de que termina la llamada (.2010)
 * Corrección de llamadas con agentes fuera de cola (.2013)
+* Selección por Skill (.2029)
 
 ### Ofertas MP
 * Módulo para subir ofertas (.2023)
@@ -151,6 +152,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Reporte Afiliados
 * Fix de columna Afiliado y título de página (.2007)
+* Acceso para "Solo Afiliados" con perfil "ViewOnlyAffiliates" (.2029)
 
 ### Reporte Avance PDV
 * Gráfica de avance General (.2026)

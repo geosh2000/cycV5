@@ -47,8 +47,13 @@ export class LoginComponent implements OnInit {
             this.loginError=false;
             this.loginMsg='';
             jQuery('#loginModal').modal('hide');
-            this._route.navigateByUrl('/home')
-            this._route.navigateByUrl(sourceUrl)
+
+            if( res['isAffiliate'] ){
+              this._route.navigateByUrl('/afiliados')
+            }else{
+              this._route.navigateByUrl('/home')
+              this._route.navigateByUrl(sourceUrl)
+            }
             this._init.getPreferences()
 
         }

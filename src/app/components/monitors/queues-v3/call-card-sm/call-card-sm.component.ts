@@ -45,12 +45,33 @@ import { InitService } from '../../../../services/service.index';
 
   .bg-out{
     background: -webkit-linear-gradient(top, #0069ea 0%,#0069ea 43%,#3b008e 100%)
+  }
+
+  /* Flash class and keyframe animation */
+  .flashit{
+    color:#f2f;
+  	-webkit-animation: flash linear 1s infinite;
+  	animation: flash linear 1s infinite;
+  }
+  @-webkit-keyframes flash {
+  	0% { opacity: 1; }
+  	50% { opacity: .1; }
+  	100% { opacity: 1; }
+  }
+  @keyframes flash {
+  	0% { opacity: 1; }
+  	50% { opacity: .1; }
+  	100% { opacity: 1; }
   }`]
 })
 export class CallCardSmComponent implements OnInit {
 
   @Input() item:Object = {}
   @Input() queue:any = []
+  @Input() selectedQNames:Object = {}
+  @Input() qsDisplay:boolean
+  @Input() ahtLimits:Object = {}
+  @Input() countrySelected:any = ''
 
   constructor( private _init: InitService) { }
 
@@ -152,6 +173,71 @@ export class CallCardSmComponent implements OnInit {
     }
 
     return false
+  }
+
+  colorQ( item, q ){
+    if( item['qs'].indexOf(q)>=0 ){
+
+      if( this.selectedQNames[q] == item['Q'] ){
+        return 'badge-primary'
+      }else{
+        return 'badge-success'
+      }
+    }else{
+      return 'badge-light border border-info'
+    }
+  }
+
+  colorTime( item ){
+    if(item['direction'] != '2' && !item['Pausa']){
+      if( this.getDuration( item['lastTst'], 's' ) > parseInt(this.ahtLimits[item['waitQ']]) ){
+        return true
+      }
+
+      return false
+    }
+
+    if( item['direction'] != '2' && item['Pausa'] ){
+      let limit = 0
+      switch( item['Pausa'] ){
+        case 'Pausa No Productiva':
+          limit = 300
+          break
+        case 'ACW':
+          limit = 120
+          break
+        case 'Comida':
+          limit = 1800
+          break
+        case 'Mesa de Hospitalidad':
+        case 'Charla con Supervisor':
+        case 'Briefing':
+        case 'Trabajo en Piso':
+          limit = 3600
+          break
+        default:
+          limit = 1000000000
+      }
+
+      let tst =  this.getDuration( item['lastTst'] > item['origPauseTst'] ? item['lastTst'] : item['origPauseTst'], 's' )
+
+      if( tst > limit ){
+        return true
+      }
+
+      return false
+    }
+
+  }
+
+  secToTime( seconds ){
+    if( !seconds ){
+      return false
+    }
+
+    return moment().startOf('day')
+      .seconds(seconds)
+      .format('H:mm:ss');
   }
 
 }

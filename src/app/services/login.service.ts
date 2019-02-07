@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
 import { ApiService } from './api.service';
@@ -27,7 +26,7 @@ export class LoginService {
                         })
         );
         this._init.getPreferences()
-        return { status: true, msg: 'Logueo Correcto', err: 'NA' }
+        return { status: true, msg: 'Logueo Correcto', err: 'NA', isAffiliate: res['credentials']['viewOnlyAffiliates'] == '1' ? true : false}
       }, err => {
 
         if(err){

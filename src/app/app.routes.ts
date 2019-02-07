@@ -97,6 +97,7 @@ import { MasBuscadosMpComponent } from './components/reportes/mas-buscados-mp/ma
 import { LostCallsComponent } from './components/reportes/lost-calls/lost-calls.component';
 import { AvanceVentaPdvComponent } from './components/reportes/pdv/avance-venta-pdv/avance-venta-pdv.component';
 import { CuartilesV2Component } from './components/reportes/cuartiles/cuartiles-v2.component';
+import { CallsV2Component } from './components/monitors/calls-v2/calls-v2.component';
 
 
 const APP_ROUTES: Routes = [
@@ -175,11 +176,16 @@ const APP_ROUTES: Routes = [
   { path: 'queues/:skill', component: QueuesV2Component },
   { path: 'queues', component: QueuesV2Component },
   { path: 'colas', component: QueuesV3Component },
+  { path: 'colas/:pais', component: QueuesV3Component },
+  { path: 'colas/:pais/:params', component: QueuesV3Component },
+  { path: 'colas', component: QueuesV3Component },
   { path: 'pauses', component: MonitorPausasComponent },
   { path: 'pausas', component: MonitorPausasComponent },
   { path: 'ventaAsesor', component: VentaPorAsesorComponent },
   { path: 'monitors/ivrParticipacion', component: ParticipacionComponent },
   { path: 'monitors/callStatistics', component: CallStatisticsComponent },
+  { path: 'monitors/combo', component: CallsV2Component },
+  { path: 'monitors/combo/:a', component: CallsV2Component },
   { path: 'monitors/multiCalls', component: MultipleCallStatsComponent },
   { path: 'monitors/multiCalls/:a', component: MultipleCallStatsComponent },
   { path: 'monitors/multiCalls/:a/:b', component: MultipleCallStatsComponent },

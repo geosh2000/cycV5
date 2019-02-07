@@ -1,11 +1,28 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+
+
 import * as moment from 'moment-timezone';
 import { ApiService } from '../../../../services/service.index';
 
 @Component({
   selector: 'app-call-block',
   templateUrl: './call-block.component.html',
-  styles: []
+  styles: [`/* Flash class and keyframe animation */
+  .flashit{
+    color:#f2f;
+  	-webkit-animation: flash linear 1s infinite;
+  	animation: flash linear 1s infinite;
+  }
+  @-webkit-keyframes flash {
+  	0% { opacity: 1; }
+  	50% { opacity: .1; }
+  	100% { opacity: 1; }
+  }
+  @keyframes flash {
+  	0% { opacity: 1; }
+  	50% { opacity: .1; }
+  	100% { opacity: 1; }
+  }`]
 })
 export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -13,14 +30,27 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
   @Input() data:any = []
   @Input() qData:any = []
   @Input() display:Object = {}
+  @Input() params:Object = {
+    active: true,
+    bySkill: false,
+    skill: 0,
+    qs: []
+  }
   @Input() countrySelected:any = ''
+  @Input() qList:any = []
+  @Input() qsDisplay:boolean
+  @Input() ahtLimits:Object = {}
+
+  selectedQNames:Object = {}
+  selectedSkill:any
+
+  selectBySkill:boolean = false
 
   title:any = ''
 
   waits:any = []
   agents:any = []
 
-  selectedQs:any = []
   sumAll:any = {}
   summary:Object = {}
 
@@ -31,13 +61,13 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   timeout:any
-  timerCount = 60
+  timerCount = 10
   timer:Object = {
     success: 60,
     error: 10
   }
 
-  constructor( private _api:ApiService ) { }
+  constructor( private _api:ApiService ) {}
 
   ngOnInit() {
     this.timerCount = 2
@@ -46,6 +76,7 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges( changes: SimpleChanges ){
     this.buildCalls()
+    this.changeSkill( this.params['skill'] )
   }
 
   ngOnDestroy(){
@@ -53,6 +84,7 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   buildCalls(){
+    // console.log(this.params['qs'])
     let waits = [], agents = []
     let sum = {
       in: 0,
@@ -65,7 +97,7 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
       ttOut: 0
     }
     for( let item of this.qData ){
-      if( (this.selectedQs.indexOf(item['waitQ']) > -1 || this.selectedQs.length == 0) && !item['Queue'] && item['waitQ'] && item['caller']){
+      if( (this.params['qs'].indexOf(item['waitQ']) > -1 || this.params['qs'].length == 0) && !item['Queue'] && item['waitQ'] && item['caller']){
         if( item['agente'].match(/^wait/g) ){
           waits.push(item)
         }
@@ -74,11 +106,11 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
           agents.push(item)
 
           // ONLY MEMBERS OF SELECTED Qs
-          if( this.isMember(item['qs']) || this.selectedQs.length == 0 ){
+          if( this.isMember(item['qs']) || this.params['qs'].length == 0 ){
             sum['online']++
 
             // ONLY CALLS IN SELECTED Q's
-            if( this.isMember([item['waitQ']]) || this.selectedQs.length == 0 ){
+            if( this.isMember([item['waitQ']]) || this.params['qs'].length == 0 ){
               if( item['caller'] ){
                 if( item['direction'] == '1' ){
                   sum['in']++
@@ -110,8 +142,23 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   selectedVal( val ){
-    this.selectedQs = val.value
-    this.timerCount = 2
+    console.log( 'selVal')
+    if( !this.params['bySkill'] ){
+      this.params['qs'] = val.value
+      this.timerCount = 2
+    }
+  }
+
+  changeSkill( val ){
+    // console.log( val )
+    for( let skill of this.qList ){
+      if( skill['skill'] == val ){
+        this.params['qs'] = skill['qs']
+        this.selectedQNames = skill['nameQs']
+        this.timerCount = 2
+        return true
+      }
+    }
   }
 
   getDuration( datetime, format='hms', normal = false ):any{
@@ -171,7 +218,7 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
 
   isMember( qs ){
 
-    for( let item of this.selectedQs ){
+    for( let item of this.params['qs'] ){
       if( qs.indexOf( item ) > -1 ){
         return true
       }
@@ -180,11 +227,11 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
     return false
   }
 
-  getSummary(){
+  getSummary( flag = false ){
 
     this.loading['sum'] = true
 
-    this._api.restfulPut( this.selectedQs,'Queuemetrics/summaryRT/' + this.countrySelected )
+    this._api.restfulPut( this.params['qs'],'Queuemetrics/summaryRT/' + this.countrySelected )
               .subscribe( res => {
 
                 this.loading['sum'] = false
@@ -192,14 +239,18 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
                 this.sumAll = res['data']
 
                 this.timerCount = this.timer['success']
-                this.startTimer()
+                if( !flag ){
+                  this.startTimer()
+                }
 
               }, err => {
 
                 this.loading['sum'] = false
 
                 this.timerCount = this.timer['success']
-                this.startTimer()
+                if( !flag ){
+                  this.startTimer()
+                }
 
                 console.log('ERROR', err)
 
@@ -218,5 +269,6 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
     }
 
   }
+
 
 }

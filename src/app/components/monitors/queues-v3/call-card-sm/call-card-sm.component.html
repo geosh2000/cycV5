@@ -1,22 +1,22 @@
 <div class="card m-1" [ngClass]="bgCardColor( item )" [style.width.px]="200" *ngIf="isMember(item['qs']) || queue.length == 0">
 
     <!-- HEADER -->
-    <div class="card-header p-1" style="font-size: smaller">
+    <div class="card-header p-1" style="font-size: smaller; height: 55px">
 
         <div class="d-flex justify-content-between">
-            <div class="m-0 p-0" style="min-width: 158px; max-width: 158px">
+            <div class="m-0 p-0 align-middle" style="min-width: 158px; max-width: 158px">
                 <h5 class="mb-0 text-truncate" [ngClass]="{'text-light': item['direction'] == '2' && item['lastTst'] != '0'}">{{item['agente']}}</h5>
-
-                <span class="badge bg-primary text-light" [style.width.px]="60">
-                      <span *ngIf="item['direction'] != '2' && !item['Pausa']">{{ getDuration( item['lastTst'] ) }}</span>
-                <span *ngIf="item['direction'] == '2' && !item['Pausa']">{{ getDuration( item['answered'] == '0' ? item['waiting'] : item['lastTst'] ) }}</span>
-                <span *ngIf="item['direction'] != '2' && item['Pausa']">{{ getDuration( item['lastTst'] > item['origPauseTst'] ? item['lastTst'] : item['origPauseTst'] ) }}</span>
-                <span *ngIf="item['direction'] == '2' && item['Pausa']">{{ getDuration( (item['answered'] == '0' ? item['waiting'] : item['lastTst']) > item['origPauseTst'] ? item['answered'] == '0' ? item['waiting'] : item['lastTst'] : item['origPauseTst'] ) }}</span>
-                </span>
-                <span *ngIf="item['xfered_cc'] == 1" class="text-light" style="font-size:small">Transfirió</span>
-                <span class="badge text-dark text-truncate bg-warning" [style.maxWidth.px]="90" *ngIf="item['Pausa']">
-                    {{ item['caller'] ? 'En llamada...' : item['Pausa'] }}
-                </span>
+                <div class='d-flex justify-content-around align-items-center pt-2'>
+                    <span class="badge badge-light ml-1 pl-1 text-truncate text-uppercase text-left" [style.width.px]="150">
+                            <span>
+                                <small>
+                                    <span class="badge text-light" [style.background]="item['color']" [style.color]="item['color']" [style.width.px]="25">
+                                        DEP
+                                    </span> {{ item['Dep'] ? item['Dep'].substring( countrySelected == 'MX' ? 4 : 0,100) : 'Unknown' }}
+                    </small>
+                    </span>
+                    </span>
+                </div>
 
             </div>
             <div class="m-0 p-0">
@@ -26,5 +26,50 @@
         </div>
 
     </div>
+    <div class="card-body p-1 text-light text-center" style="font-size: smaller">
 
+        <div class='d-flex justify-content-start align-items-center'>
+            <span class="badge text-light" [ngClass]="{ 'badge-primary': !colorTime(item), 'badge-danger flashit': colorTime(item)}" [style.width.px]="60">
+                        <span [matTooltip]="ahtLimits['waitQ']" matTooltipPosition="above" *ngIf="item['direction'] != '2' && !item['Pausa']">{{ getDuration( item['lastTst'] ) }}</span>
+            <span *ngIf="item['direction'] == '2' && !item['Pausa']">{{ getDuration( item['answered'] == '0' ? item['waiting'] : item['lastTst'] ) }}</span>
+            <span *ngIf="item['direction'] != '2' && item['Pausa']">{{ getDuration( item['lastTst'] > item['origPauseTst'] ? item['lastTst'] : item['origPauseTst'] ) }}</span>
+            <span *ngIf="item['direction'] == '2' && item['Pausa']">{{ getDuration( (item['answered'] == '0' ? item['waiting'] : item['lastTst']) > item['origPauseTst'] ? item['answered'] == '0' ? item['waiting'] : item['lastTst'] : item['origPauseTst'] ) }}</span>
+            </span>
+            <span class="badge text-light ml-1 pl-1 text-truncate bg-warning" [style.width.px]="120" *ngIf="item['xfered_cc'] == 1">
+                        <span>
+                            <small>Transfirió</small>
+                        </span>
+            </span>
+            <span class="badge text-dark ml-1 pl-1 text-truncate bg-warning" [style.width.px]="120" *ngIf="item['Pausa']" [matTooltip]="item['caller'] ? 'En llamada...' : item['Pausa']" matTooltipPosition="above">
+                        <span>
+                            {{ item['caller'] ? 'En llamada...' : item['Pausa'] }}
+                        </span>
+            </span>
+            <span class="d-flex justify-content-between align-items-center badge badge-light ml-1 pl-1 text-truncate" [style.width.px]="120" *ngIf="item['direction'] != '2' && !item['Pausa'] && item['caller']" [matTooltip]="item['Q']+' // AHT promedio: '+secToTime(ahtLimits[item['waitQ']])"
+                matTooltipPosition="above">
+                        <small><span *ngIf="colorTime(item)">
+                                <i class="fas fa-flag text-danger flashit"></i> {{ item['direction'] != '2' && item['Pausa'] ? 'Pausa' : 'AHT' }}
+                        </span></small>
+            <span>
+                            <small>{{ item['Q'].substring(countrySelected == 'MX' ? 8 : 5,100) }}</small>
+                        </span>
+            </span>
+            <span class="d-flex justify-content-center align-items-center badge badge-light ml-1 pl-1 text-truncate" [style.width.px]="120" *ngIf="item['direction'] == '2' && !item['Pausa'] && item['caller']">
+            <span>
+                            <small>{{ item['caller'] }}</small>
+                        </span>
+            </span>
+        </div>
+    </div>
+
+</div>
+<div class="card m-1 d-flex" [style.width.px]="200" *ngIf="qsDisplay && (isMember(item['qs']) || queue.length == 0)">
+    <div class="d-flex flex-wrap justify-content-start align-items-center">
+        <div style="padding:1" *ngFor="let q of queue">
+            <small><span class="badge" [matTooltip]="selectedQNames[q]" matTooltipPosition="above" [ngClass]="colorQ( item, q )">{{ q }}</span></small>
+        </div>
+    </div>
+    <!-- <div>
+        <pre>{{ item | json }}</pre>
+    </div> -->
 </div>
