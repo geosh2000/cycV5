@@ -1,10 +1,6 @@
-<div class="row d-flex justify-content-between flex-wrap alert alert-primary" role="alert" style="font-size: small">
+<div class="alert alert-primary" [ngClass]="{'row d-flex justify-content-between flex-wrap': !params['bigDetail']}" role="alert" style="font-size: small">
     <div class="p-1">
-        <div class="d-flex flex-wrap justify-content-start align-items-center">
-            <div class="p-1 text-center">
-                <ui-switch color="green" size="small" [(ngModel)]="params['bySkill']" (change)="!$event ? params['qs']=[] : params['skill'] ? params['qs']=changeSkill(params['skill']) : params['qs']=params['qs']"></ui-switch>
-                <p><small>{{ params['bySkill'] ? 'Por Skill' : 'Por Cola'}}</small></p>
-            </div>
+        <div *ngIf="!hideHead">
             <div class="p-1 text-center" *ngIf="!params['bySkill']">
                 <select2 [data]="data" (valueChanged)="selectedVal($event)" [options]="selectOptions" width="300"></select2>
             </div>
@@ -16,219 +12,260 @@
                         </option>
                     </select>
             </div>
-            <div class="p-1" *ngIf="params['bySkill']">
-                <ui-switch color="green" size="small" [(ngModel)]="qsDisplay"></ui-switch>
-                <p><small>Ver Qs</small></p>
+            <div class="d-flex flex-wrap justify-content-center align-items-center">
+                <div class="p-1 text-center">
+                    <ui-switch color="green" size="small" [(ngModel)]="params['bySkill']" (change)="!$event ? params['qs']=[] : params['skill'] ? params['qs']=changeSkill(params['skill']) : params['qs']=params['qs']"></ui-switch>
+                    <p><small>{{ params['bySkill'] ? 'Por Skill' : 'Por Cola'}}</small></p>
+                </div>
+                <div class="p-1" *ngIf="params['bySkill']">
+                    <ui-switch color="green" size="small" [(ngModel)]="qsDisplay"></ui-switch>
+                    <p><small>Ver Qs</small></p>
+                </div>
+                <div class="p-1">
+                    <ui-switch color="green" size="small" [(ngModel)]="params['detail']"></ui-switch>
+                    <p><small>Ver Detalle</small></p>
+                </div>
+                <div class="p-1">
+                    <ui-switch color="green" size="small" [(ngModel)]="params['waits']"></ui-switch>
+                    <p><small>Ver Espera</small></p>
+                </div>
+                <div class="p-1">
+                    <ui-switch color="green" size="small" [(ngModel)]="params['bigDetail']"></ui-switch>
+                    <p><small>Big Sum</small></p>
+                </div>
             </div>
         </div>
     </div>
     <div class="p-1">
-        <div class="d-flex flex-wrap justify-content-end align-items-center">
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
-                <span class="d-flex justify-content-around align-items-center">
+        <div [ngClass]="{'d-flex flex-wrap justify-content-end align-items-center': !params['bigDetail']}">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                         <span class="m-1 fa-layers fa-3x">
                           <i class="far fa-circle text-info"></i>
                           <i class="fas fa-sign-in-alt text-info" data-fa-transform="flip-h shrink-7"></i>
                         </span>
-                <h3 class="m-1">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']">
+                    Entrantes
+                </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}">
                     {{ summary['in'] }}
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">Entrantes</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">Entrantes</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fa-circle text-primary"></i>
                     <i class="fas fa-sign-out-alt text-primary" data-fa-transform="shrink-7"></i>
                 </span>
-                <h3 class="m-1">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']"> Salientes </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}">
                     {{ summary['out'] }}
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">Salientes</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">Salientes</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge border border-info badge-pill" [ngClass]="{'badge-light': waits.length<=4, 'badge-danger flashit text-light': waits.length>4 }" [style.width.px]="100">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'], waits)">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fa-circle text-warning"></i>
                     <i class="fas fas fa-ellipsis-h text-info" data-fa-transform="shrink-7"></i>
                 </span>
                 <!-- <span class="animated flash infinite" *ngIf="summary['Waiting']>=3"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span> -->
-                <h3 class="m-1">
+                <h3 class='m-1 ml-4' [ngClass]="{'text-info': waits.length<=4, 'text-light': waits.length>4 }" *ngIf="params['bigDetail']"> En Espera </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}">
                     {{ waits.length }}
                 </h3>
                 </span>
-                <p class="text-center" [ngClass]="{'text-info': waits.length<=4, 'text-light': waits.length>4 }" style="font-size: xx-small">En Espera</p>
+                <p class="text-center" [ngClass]="{'text-info': waits.length<=4, 'text-light': waits.length>4 }" style="font-size: xx-small" *ngIf="!params['bigDetail']">En Espera</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fas fa-user text-success"></i>
                 </span>
-                <h3 class="m-1">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']"> Conectados </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}">
                     {{ summary['online'] }}
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">Conectados</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">Conectados</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fa-circle text-danger"></i>
                     <i class="fas fas fa-user text-secondary" data-fa-transform="shrink-7"></i>
                 </span>
-                <h3 class="m-1">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']"> Ocupados </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}">
                     {{ summary['busy'] }}
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">Ocupados</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">Ocupados</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fa-circle text-primary"></i>
                     <i class="fas fas fa-user text-success" data-fa-transform="shrink-7"></i>
                 </span>
-                <h3 class="m-1">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']"> Disponibles </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}">
                     {{ summary['avail'] }}
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">Disponibles</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">Disponibles</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="fas fas fa-user text-success" data-fa-transform="shrink-7"></i>
                     <i class="fas fa-ban text-warning"></i>
                 </span>
                 <!-- <span class="animated flash infinite" *ngIf="summary['pause']>=5"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span> -->
-                <h3 class="m-1">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']"> En Pausa </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}">
                     {{ summary['pause'] }}
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">En Pausa</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">En Pausa</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="120">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                         <i class="fas fa-phone text-primary" data-fa-transform="shrink-2"></i>
                 </span>
                 <!-- <span class="animated flash infinite" *ngIf="summary['pause']>=5"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span> -->
-                <h4 class="m-1" *ngIf="!loading['sum']">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']">
+                    Recibidas
+                </h3>
+                <h4 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="!loading['sum']">
                     {{ sumAll['ofrecidas'] | number:'.0-0' }}
                 </h4>
-                <h3 class="m-1" *ngIf="loading['sum']">
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="loading['sum']">
                     <i class="fas fa-spinner fa-pulse text-info"></i>
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">Recibidas</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">Recibidas</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="120">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                         <i class="fas fa-phone-slash text-danger" data-fa-transform="shrink-2"></i>
                 </span>
                 <!-- <span class="animated flash infinite" *ngIf="summary['pause']>=5"><i class="fa fa-fw fa-exclamation-circle text-danger"></i></span> -->
-                <h4 class="m-1" *ngIf="!loading['sum']">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']">
+                    Abandon (%)
+                </h3>
+                <h4 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="!loading['sum']">
                     {{ (sumAll['ofrecidas'] == 0 ? 0 : sumAll['abandonadas']/sumAll['ofrecidas'])*100 | number:'.0-2' }}
                 </h4>
-                <h3 class="m-1" *ngIf="loading['sum']">
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="loading['sum']">
                     <i class="fas fa-spinner fa-pulse text-info"></i>
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">Abandon</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">Abandon</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fa-circle text-warning"></i>
                     <span class="fa-layers-text text-info" data-fa-transform="shrink-12 up-3">%</span>
                 <span class="fa-layers-text text-info" data-fa-transform="shrink-10 down-2">20</span>
                 </span>
-                <h3 class="m-1" *ngIf="!loading['sum']">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']">
+                    SLA de 20 seg.
+                </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="!loading['sum']">
                     {{ (sumAll['ofrecidas'] == 0 ? 0 : (sumAll['sla20'] / sumAll['ofrecidas'])*100) | number:'.0-0' }}
                 </h3>
-                <h3 class="m-1" *ngIf="loading['sum']">
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="loading['sum']">
                     <i class="fas fa-spinner fa-pulse text-info"></i>
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">SLA 20</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">SLA 20</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="100">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fa-circle text-warning"></i>
                     <span class="fa-layers-text text-info" data-fa-transform="shrink-12 up-3">%</span>
                 <span class="fa-layers-text text-info" data-fa-transform="shrink-10 down-2">30</span>
                 </span>
-                <h3 class="m-1" *ngIf="!loading['sum']">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']">
+                    SLA de 30 seg.
+                </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="!loading['sum']">
                     {{ (sumAll['ofrecidas'] == 0 ? 0 : (sumAll['sla30'] / sumAll['ofrecidas'])*100) | number:'.0-0' }}
                 </h3>
-                <h3 class="m-1" *ngIf="loading['sum']">
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="loading['sum']">
                     <i class="fas fa-spinner fa-pulse text-info"></i>
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">SLA 30</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">SLA 30</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="120">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fa-clock text-danger"></i>
                 </span>
-                <h3 class="m-1">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']"> AHT In </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}">
                     {{ (summary['in'] == 0 ? 0 : (summary['ttIn'] / summary['in'])) | number:'.0-2' }}
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">AHT In</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">AHT In</p>
                 </span>
             </div>
 
-            <div class="p-1">
-                <span class="ml-auto  badge badge-light border border-info badge-pill" [style.width.px]="120">
-                <span class="d-flex justify-content-around align-items-center">
+            <div class="p-1" [ngClass]="{'text-right': params['bigDetail']}">
+                <span class="ml-auto  badge badge-light border border-info badge-pill" [ngClass]="blockWidth(params['bigDetail'])">
+                <span class="d-flex align-items-center" [ngClass]="{'justify-content-around': !params['bigDetail'], 'justify-content-start': params['bigDetail']}">
                 <span class="m-1 fa-layers fa-3x">
                     <i class="far fa-clock text-primary"></i>
                 </span>
-                <h3 class="m-1">
+                <h3 class='m-1 ml-4 text-info' *ngIf="params['bigDetail']"> AHT Out </h3>
+                <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}">
                     {{ (summary['out'] == 0 ? 0 : (summary['ttOut'] / summary['out'])) | number:'.0-2' }}
                 </h3>
                 </span>
-                <p class="text-info text-center" style="font-size: xx-small">AHT Out</p>
+                <p class="text-info text-center" style="font-size: xx-small" *ngIf="!params['bigDetail']">AHT Out</p>
                 </span>
             </div>
 
@@ -237,7 +274,7 @@
 </div>
 <div class="container-fluid">
     <div class="d-flex justify-content-start">
-        <div [style.width.px]="350">
+        <div [style.width.px]="350" *ngIf="params['waits']">
             <ul class="list-group">
                 <li class="list-group-item p-2 bg-info">
                     <div class="d-flex justify-content-center align-items-center text-light">
@@ -257,7 +294,7 @@
                 </ng-container>
             </ul>
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid" *ngIf="params['detail']">
             <div class="d-flex flex-wrap justify-content-start">
                 <ng-container *ngFor="let item of agents | orderBy: 'agente'">
                     <app-call-card [item]="item" [queue]="params['qs']" *ngIf="!display['sm']"></app-call-card>

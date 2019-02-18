@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -6,6 +6,7 @@ import { ApiService, InitService, TokenCheckService, GlobalServicesService, Zona
 
 import * as moment from 'moment-timezone';
 import { ToastrService } from 'ngx-toastr';
+import { CallBlockComponent } from './call-block/call-block.component';
 declare var jQuery:any;
 
 @Component({
@@ -14,6 +15,23 @@ declare var jQuery:any;
   styles: []
 })
 export class QueuesV3Component implements OnInit, OnDestroy {
+
+  @ViewChild('blockMain') _callb:CallBlockComponent
+  @Input() countrySelected:any = 'CO'
+  @Input() hideHead:boolean = false
+  @Input() viewParams:Object = {
+              small: true,
+              qs: false,
+              displays: {
+                v1: { active: true,  detail: true, bigDetail: false, waits: true, bySkill: false, skill: '', qs: [] },
+                v2: { active: false, detail: true, bigDetail: false, waits: true, bySkill: false, skill: '', qs: [] },
+                v3: { active: false, detail: true, bigDetail: false, waits: true, bySkill: false, skill: '', qs: [] },
+                v4: { active: false, detail: true, bigDetail: false, waits: true, bySkill: false, skill: '', qs: [] },
+                v5: { active: false, detail: true, bigDetail: false, waits: true, bySkill: false, skill: '', qs: [] }
+              }
+            }
+
+  @Output() skillSel = new EventEmitter<any>()
 
   currentUser: any
   showContents:boolean = false
@@ -43,7 +61,6 @@ export class QueuesV3Component implements OnInit, OnDestroy {
   qData:Object = {}
 
   allQs = {}
-  countrySelected:any = 'CO'
   skillSelected:any = 'CO'
 
   skillList:Object = {
@@ -52,18 +69,6 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
   qList:any = []
   ahtLimits:Object = {}
-  viewParams:Object = {
-    small: true,
-    qs: false,
-    displays: {
-      v1: { active: true, bySkill: false, skill: '', qs: [] },
-      v2: { active: false, bySkill: false, skill: '', qs: [] },
-      v3: { active: false, bySkill: false, skill: '', qs: [] },
-      v4: { active: false, bySkill: false, skill: '', qs: [] },
-      v5: { active: false, bySkill: false, skill: '', qs: [] }
-    }
-  }
-
 
   constructor( public _api: ApiService,
                   private titleService: Title,
@@ -77,43 +82,47 @@ export class QueuesV3Component implements OnInit, OnDestroy {
   this.currentUser = this._init.getUserInfo()
   this.showContents = this._init.checkCredential( this.mainCredential, true )
 
-  this.activatedRoute.params.subscribe( params => {
-    this.countrySelected = params.pais ? params.pais : 'CO'
+  if( !this.hideHead ){
+    this.activatedRoute.params.subscribe( params => {
+      if( params.pais ){
+        this.countrySelected = params.pais ? params.pais : 'CO'
 
-    if( params.params ){
-      let param = params.params.split('|'), i=0
-      console.log(param)
-      for( let p of param ){
-        switch(i){
-          case 0:
-            this.viewParams['small'] = p == 1 ? true : false
-            break
-          case 1:
-            this.viewParams['qs'] = p == 1 ? true : false
-            break
-          case 2:
-          case 3:
-          case 4:
-          case 5:
-          case 6:
-            let qParams = p.split(',')
-            let qQs = qParams[3].split('-')
-            this.viewParams['displays'][`v${i-1}`] = {
-              active: qParams[0] == 1 ? true : false,
-              bySkill: qParams[1] == 1 ? true : false,
-              skill: qParams[2],
-              qs: qQs
+        if( params.params ){
+          let param = params.params.split('|'), i=0
+          // console.log(param)
+          for( let p of param ){
+            switch(i){
+              case 0:
+                this.viewParams['small'] = p == 1 ? true : false
+                break
+              case 1:
+                this.viewParams['qs'] = p == 1 ? true : false
+                break
+              case 2:
+              case 3:
+              case 4:
+              case 5:
+              case 6:
+                let qParams = p.split(',')
+                let qQs = qParams[6].split('-')
+                this.viewParams['displays'][`v${i-1}`] = {
+                  active: qParams[0] == 1 ? true : false,
+                  bySkill: qParams[1] == 1 ? true : false,
+                  detail: qParams[2] == 1 ? true : false,
+                  bigDetail: qParams[3] == 1 ? true : false,
+                  waits: qParams[4] == 1 ? true : false,
+                  skill: qParams[5],
+                  qs: qQs
+                }
+                break
             }
-            break
+            i++
+          }
         }
-        i++
       }
-    }
 
-    console.log(params)
-    console.log(this.viewParams)
-
-  })
+    })
+  }
 
   this._tokenCheck.getTokenStatus()
     .subscribe( res => {
@@ -242,13 +251,14 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
                 this.loading['data'] = false
                 let dataQ = []
-                let callers = []
+                let callers = [], waits = [], indCall
 
                 for( let item of res['data'] ){
                   item['qs'] = item['Queue'] ? item['Queue'].split(':') : []
 
-                  if( callers.indexOf( `${item['RT_dnis']}:${item['caller']}` ) == -1 ){
+                  if( (indCall = callers.indexOf( `${item['RT_dnis']}:${item['caller']}` )) == -1 ){
                     callers.push(`${item['RT_dnis']}:${item['caller']}`)
+                    waits.push(item['waiting'])
                     item['xfered_cc'] = 0
                   }else{
                     item['xfered_cc'] = item['caller'] == null ? 0 : 1
@@ -258,7 +268,9 @@ export class QueuesV3Component implements OnInit, OnDestroy {
                       item['Q'] = null
                       item['RT_dnis'] = null
                       item['direction'] = null
-                      item['lastTst'] = item['freeSince']
+                      item['lastTst'] = item['xfered_cc'] == 1 ? waits[indCall] : item['freeSince']
+                      item['indCall'] = indCall
+                      // item['lastTst'] = item['freeSince']
                     }
                   }
 
@@ -290,7 +302,9 @@ export class QueuesV3Component implements OnInit, OnDestroy {
     if( this.timerCount == 0 ){
       this.getData()
     }else{
-      this.timerCount --
+      if( !this.paused ){
+        this.timerCount --
+      }
       this.timeout = setTimeout( () => this.startTimer(), 1000 )
     }
 
@@ -303,12 +317,10 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
   pause(){
     if( this.paused ){
-      this.paused = false
       this.timerCount = 0
-      this.startTimer()
+      this.paused = false
     }else{
       this.paused = true
-      clearTimeout(this.timeout)
     }
   }
 
@@ -337,6 +349,10 @@ export class QueuesV3Component implements OnInit, OnDestroy {
                 console.error(err.statusText, error.msg)
 
               })
+  }
+
+  emitSkill( val ){
+    this.skillSel.emit(val)
   }
 
 

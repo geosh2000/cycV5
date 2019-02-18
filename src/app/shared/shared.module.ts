@@ -77,6 +77,7 @@ import { AvisosGlobalesComponent } from './avisos-globales/avisos-globales.compo
 import { Select2Module } from 'ng2-select2';
 import { AvisoPdvComponent } from './avisos-globales/aviso-pdv/aviso-pdv.component';
 import { NewAdvPdvComponent } from './avisos-globales/new-adv-pdv/new-adv-pdv.component';
+import { AutocompleteAffiliateComponent } from './autocomplete-affiliate/autocomplete-affiliate.component';
 
 
 
@@ -164,6 +165,7 @@ import { NewAdvPdvComponent } from './avisos-globales/new-adv-pdv/new-adv-pdv.co
         AvisosGlobalesComponent,
         AvisoPdvComponent,
         NewAdvPdvComponent,
+        AutocompleteAffiliateComponent,
 
     ],
     exports: [
@@ -193,7 +195,7 @@ import { NewAdvPdvComponent } from './avisos-globales/new-adv-pdv/new-adv-pdv.co
         UserPreferencesComponent,
         AvisosGlobalesComponent,
         NewAdvPdvComponent,
-
+        AutocompleteAffiliateComponent,
     ]
 })
 export class SharedModule { }

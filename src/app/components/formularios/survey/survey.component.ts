@@ -323,6 +323,13 @@ export class SurveyComponent implements OnInit {
     if(item){
       this.form.controls[field].setValue(item.Nombre)
     }
-}
+  }
+
+  onSelectedAffiliate(item, field){
+    console.log(item)
+    if(item){
+      this.form.controls[field].setValue(item.shortName + ' ' + item.description)
+    }
+  }
 
 }

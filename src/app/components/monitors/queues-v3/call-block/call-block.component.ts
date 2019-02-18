@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 
 import * as moment from 'moment-timezone';
@@ -8,6 +8,13 @@ import { ApiService } from '../../../../services/service.index';
   selector: 'app-call-block',
   templateUrl: './call-block.component.html',
   styles: [`/* Flash class and keyframe animation */
+  .bigDetailOn{
+    width: 100%;
+    max-width: 500px
+  }
+  .bigDetailOff{
+    width: 100px
+  }
   .flashit{
     color:#f2f;
   	-webkit-animation: flash linear 1s infinite;
@@ -29,10 +36,14 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
   @Input() dispo:any = 1
   @Input() data:any = []
   @Input() qData:any = []
+  @Input() hideHead:boolean = false
   @Input() display:Object = {}
   @Input() params:Object = {
     active: true,
     bySkill: false,
+    detail: true,
+    bigDetail: false,
+    waits: true,
     skill: 0,
     qs: []
   }
@@ -40,6 +51,8 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
   @Input() qList:any = []
   @Input() qsDisplay:boolean
   @Input() ahtLimits:Object = {}
+
+  @Output() skillSel = new EventEmitter<any>()
 
   selectedQNames:Object = {}
   selectedSkill:any
@@ -67,6 +80,14 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
     error: 10
   }
 
+  maxData:Object = {
+    wait: {},
+    call: {},
+    pause: {},
+    interjet: {},
+    ijCount: 0
+  }
+
   constructor( private _api:ApiService ) {}
 
   ngOnInit() {
@@ -84,6 +105,14 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   buildCalls(){
+    let maxData:Object = {
+      wait: {},
+      call: {},
+      pause: {},
+      interjet: {},
+      ijCount: 0
+    }
+
     // console.log(this.params['qs'])
     let waits = [], agents = []
     let sum = {
@@ -99,6 +128,9 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
     for( let item of this.qData ){
       if( (this.params['qs'].indexOf(item['waitQ']) > -1 || this.params['qs'].length == 0) && !item['Queue'] && item['waitQ'] && item['caller']){
         if( item['agente'].match(/^wait/g) ){
+          if( !maxData['wait']['waiting'] || item['waiting'] < maxData['wait']['waiting'] ){
+            maxData['wait'] = item
+          }
           waits.push(item)
         }
       }else{
@@ -110,25 +142,48 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
             sum['online']++
 
             // ONLY CALLS IN SELECTED Q's
-            if( this.isMember([item['waitQ']]) || this.params['qs'].length == 0 ){
-              if( item['caller'] ){
+            if( (this.isMember([item['waitQ']]) || this.params['qs'].length == 0) && item['xfered_cc']!=1 ){
+
+              if( !maxData['call']['answeredTst'] || item['answeredTst'] < maxData['call']['answeredTst'] ){
+                if( item['xfered_cc'] != 1 ){
+                  maxData['call'] = item
+                }
+              }
+
+              if( item['caller'] && item['caller'] != null ){
+                if( item['Pausa'] ){
+                  sum['pause']++
+                }
+
+                if( item['obCaller'] == '015511025553' && (!maxData['interjet']['obTst'] || item['obTst'] < maxData['interjet']['obTst']) ){
+                  maxData['interjet'] = item
+                }
+
+                if( item['obCaller'] == '015511025553' ){
+                  maxData['ijCount']++
+                }
+
                 if( item['direction'] == '1' ){
                   sum['in']++
                   sum['ttIn'] += parseInt( this.getDuration( item['lastTst'], 'm' ) )
                 }else{
+
                   sum['out']++
                   sum['ttOut'] += parseInt( this.getDuration( item['lastTst'], 'm' ) )
                 }
 
                 sum['busy']++
-              }else{
-                if( !item['Pausa'] ){
-                  sum['avail']++
-                }
+              }
+            }else{
+              if( !item['Pausa'] || item['Pausa'] == '' ){
+                sum['avail']++
               }
             }
 
             if( item['Pausa'] ){
+              if( !maxData['pause']['lastTst'] || item['lastTst'] < maxData['pause']['lastTst'] ){
+                maxData['pause'] = item
+              }
               sum['pause']++
             }
           }
@@ -139,10 +194,11 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
     this.agents = agents
     this.waits = waits
     this.summary = sum
+    this.maxData = maxData
   }
 
   selectedVal( val ){
-    console.log( 'selVal')
+    // console.log( 'selVal')
     if( !this.params['bySkill'] ){
       this.params['qs'] = val.value
       this.timerCount = 2
@@ -150,12 +206,13 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   changeSkill( val ){
-    // console.log( val )
+
     for( let skill of this.qList ){
       if( skill['skill'] == val ){
         this.params['qs'] = skill['qs']
         this.selectedQNames = skill['nameQs']
         this.timerCount = 2
+        this.skillSel.emit(val.substring(0,val.indexOf('_')))
         return true
       }
     }
@@ -190,6 +247,15 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
         return Math.floor(result.asMinutes())
       case 's':
         return Math.floor(result.asSeconds())
+    }
+  }
+
+  blockWidth( flag, waits? ){
+
+    if( flag ){
+      return `bigDetailOn ${waits ? (waits.length<=4 ? 'badge-light' : 'badge-danger flashit text-light') : ''}`
+    }else{
+      return `bigDetailOff ${waits ? (waits.length<=4 ? 'badge-light' : 'badge-danger flashit text-light') : ''}`
     }
   }
 

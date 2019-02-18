@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, Injectable, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, Injectable, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CompleterService, CompleterData } from 'ng2-completer';
@@ -54,7 +54,7 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
     `],
     // providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
   })
-  export class CallStatisticsComponent implements OnInit, OnDestroy {
+  export class CallStatisticsComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() skill:number = 35
   @Input() multi:boolean = false
@@ -140,6 +140,13 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
   ngOnInit() {
     setTimeout( () => { this.chgDate( true ) }, 1500+(this.phase*1000) )
 
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    if( changes['skill'] ){
+      this.getSkills()
+    }
   }
 
   ngOnDestroy() {

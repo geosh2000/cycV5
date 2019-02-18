@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-    <div class="row d-flex justify-content-center flex-wrap alert alert-primary" role="alert" style="font-size: small">
+    <div class="row d-flex justify-content-center alert alert-primary" role="alert" style="font-size: small" *ngIf="!hideHead">
         <div class="p-1">
             <select class="custom-select" [(ngModel)]="countrySelected" (change)="getQList( $event.target.value )">
           <option value="">Selecciona un pais...</option>
@@ -58,7 +58,7 @@
         </div>
         <div class='p-1'>
             <button class="btn btn-sm" [ngClass]="{'btn-outline-secondary': paused, 'btn-success': !paused}" (click)="pause()">
-                {{ paused ? 'Correr' : 'Pausar' }}
+                <span *ngIf="!loading['data']">{{ paused ? 'Correr' : 'Pausar' }}</span>
                 <small><span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></small>
             </button>
         </div>
@@ -68,8 +68,11 @@
           </div>
         </ng-container> -->
     </div>
+    <app-call-block #blockMain [hideHead]="hideHead" [ahtLimits]="ahtLimits" [qsDisplay]="viewParams['qs']" [countrySelected]="countrySelected" [qList]="qList" [data]="allQs[countrySelected]" [qData]="dataQ" [params]="viewParams['displays']['v1']" [display]="{sm: viewParams['small']}"
+        *ngIf="viewParams['displays']['v1']['active']"></app-call-block>
     <ng-container *ngFor="let d of viewParams['displays'] | keys">
-        <app-call-block [ahtLimits]="ahtLimits" [qsDisplay]="viewParams['qs']" [countrySelected]="countrySelected" [qList]="qList" [data]="allQs[countrySelected]" [qData]="dataQ" [params]="viewParams['displays'][d]" [display]="{sm: viewParams['small']}" *ngIf="viewParams['displays'][d]['active']"></app-call-block>
+        <app-call-block (skillSel)="emitSkill($event)" [ahtLimits]="ahtLimits" [qsDisplay]="viewParams['qs']" [countrySelected]="countrySelected" [qList]="qList" [data]="allQs[countrySelected]" [qData]="dataQ" [params]="viewParams['displays'][d]" [display]="{sm: viewParams['small']}"
+            *ngIf="viewParams['displays'][d]['active'] && d!='v1'"></app-call-block>
     </ng-container>
 
 </div>

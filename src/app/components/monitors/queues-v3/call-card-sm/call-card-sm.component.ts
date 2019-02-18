@@ -70,6 +70,7 @@ export class CallCardSmComponent implements OnInit {
   @Input() queue:any = []
   @Input() selectedQNames:Object = {}
   @Input() qsDisplay:boolean
+  @Input() tstDisplay:boolean = false
   @Input() ahtLimits:Object = {}
   @Input() countrySelected:any = ''
 
@@ -189,6 +190,10 @@ export class CallCardSmComponent implements OnInit {
   }
 
   colorTime( item ){
+    if( !item['caller'] ){
+      return false
+    }
+
     if(item['direction'] != '2' && !item['Pausa']){
       if( this.getDuration( item['lastTst'], 's' ) > parseInt(this.ahtLimits[item['waitQ']]) ){
         return true

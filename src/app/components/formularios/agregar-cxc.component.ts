@@ -48,12 +48,12 @@ export class AgregarCxcComponent implements OnInit {
   currentUser:any
 
   saveAlert:boolean = false
-  errorMsg:string = ""
+  errorMsg:string = ''
 
   public singlePicker = {
     singleDatePicker: true,
     showDropdowns: true,
-    opens: "left"
+    opens: 'left'
   }
 
   constructor(
@@ -71,15 +71,15 @@ export class AgregarCxcComponent implements OnInit {
 
     this._dateRangeOptions.settings = {
       autoUpdateInput: false,
-      locale: { format: "YYYY-MM-DD" }
+      locale: { format: 'YYYY-MM-DD' }
     }
 
     this.formAddCxc = new FormGroup({
       asesor: new FormControl('', [ Validators.required ] ),
-      localizador: new FormControl('', [ Validators.required, Validators.pattern("^([5-9]{1}[0-9]{6}|[1]{1}[0-9]{7})$") ] ),
-      monto: new FormControl('', [ Validators.required, Validators.pattern("^[1-9]{1}[0-9]*([.]{0,1}[0-9]{1,2}$|$)") ] ),
-      fecha_cxc: new FormControl('', [ Validators.required, Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
-      fecha_aplicacion: new FormControl('', [ Validators.required, Validators.pattern("^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$") ] ),
+      localizador: new FormControl('', [ Validators.required, Validators.pattern('^([5-9]{1}[0-9]{6}|[1]{1}[0-9]{7})$') ] ),
+      monto: new FormControl('', [ Validators.required, Validators.pattern('^[1-9]{1}[0-9]*([.]{0,1}[0-9]{1,2}$|$)') ] ),
+      fecha_cxc: new FormControl('', [ Validators.required, Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
+      fecha_aplicacion: new FormControl('', [ Validators.required, Validators.pattern('^[2]{1}[0]{1}[1-2]{1}[0-9]{1}[-]{1}([0]{1}[1-9]{1}|[1]{1}[0-2]{1})[-]{1}([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-1]{1})$') ] ),
       tipo: new FormControl('', [ Validators.required ] ),
       firmado: new FormControl('indeterminate', [ this.checkChange ]),
       comments: new FormControl('', [ Validators.required ] ),
@@ -92,7 +92,7 @@ export class AgregarCxcComponent implements OnInit {
   ngOnInit() {
   }
 
-  //Validación Check
+  // Validación Check
   checkChange( control: FormControl ): { [s:string]:boolean }{
 
     if( !control.dirty ){
@@ -106,7 +106,7 @@ export class AgregarCxcComponent implements OnInit {
   }
 
   setVal( val, control ){
-    this.formAddCxc.controls[control].setValue( val.format("YYYY-MM-DD") )
+    this.formAddCxc.controls[control].setValue( val.format('YYYY-MM-DD') )
   }
 
   buildForm( array ){
@@ -119,12 +119,12 @@ export class AgregarCxcComponent implements OnInit {
 
   submit(){
     this.submitting = true
-    this._api.restfulPut( this.formAddCxc.value, "Cxc/addcxc" )
+    this._api.restfulPut( this.formAddCxc.value, 'Cxc/addcxc' )
             .subscribe( res => {
               this.submitting = false
               if( res['status'] ){
 
-                this.save.emit({form: "#form_addCxc", status: true, date: this.formAddCxc.controls['fecha_aplicacion'].value})
+                this.save.emit({form: '#form_addCxc', status: true, date: this.formAddCxc.controls['fecha_aplicacion'].value})
                 this.formAddCxc.reset()
 
               }else{

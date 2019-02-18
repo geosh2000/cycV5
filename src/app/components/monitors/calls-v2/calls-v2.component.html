@@ -1,17 +1,145 @@
-<div class="row" style="height: 50%">
-    <div class="col-6">
-        <!-- <app-call-statistics [skill]="monitor['a']" [multi]=true [phase]="0" [dt]="reloadFlag" #monA></app-call-statistics> -->
+<div class="row" style="height: 1000px">
+    <div class="col-4">
+        <app-queues-v3 (skillSel)="emitSkill($event)" countrySelected="MX" [viewParams]="viewParams" [hideHead]="true"></app-queues-v3>
+        <div *ngIf="_qM"><small>{{ _qM.dataQ[0] ? _qM.printTime(_qM.dataQ[0]['Last_Update'], 'YYYY-MM-DD HH:mm:ss') : 'NA' }}</small></div>
     </div>
-    <div class="col-6">
-        <!-- <app-call-statistics [skill]="monitor['b']" [multi]=true [phase]="5" [dt]="reloadFlag" #monB></app-call-statistics> -->
-    </div>
-</div>
-<div class="row" style="height: 50%">
-    <div class="col-6">
-        <!-- <app-call-statistics [skill]="monitor['c']" [multi]=true [phase]="10" [dt]="reloadFlag" #monC></app-call-statistics> -->
-    </div>
-    <div class="col-6">
-        <!-- <app-call-statistics [skill]="monitor['d']" [multi]=true [phase]="15" [dt]="reloadFlag" #monD></app-call-statistics> -->
-        <app-call-statistics [skill]="monitor['a']" [multi]=true [phase]="0" [dt]="reloadFlag" #monA></app-call-statistics>
+    <div class="col-8">
+        <div class="row" style="height: 35%; overflow-y:auto">
+            <div class="col-12">
+                <div class='row' style="height: 100%; overflow-y:auto">
+                    <div class='col-6'>
+                        <div *ngIf="_qM && _qM['_callb']">
+                            <div class="p-1 text-right">
+                                <span class="ml-auto  badge badge-light border border-info badge-pill" style="width: 100%">
+                                    <span class="d-flex align-items-center justify-content-start">
+                                            <span class="m-1 fa-layers fa-3x">
+                                                <i class="far fa-circle text-info"></i>
+                                                <i class="fas fa-sign-in-alt text-info" data-fa-transform="flip-h shrink-7"></i>
+                                            </span>
+                                <h3 class='m-1 ml-4 text-info text-truncate'>
+                                    Longest Call
+                                </h3>
+                                <h3 class="m-1 ml-auto mr-3">
+                                    {{ _qM._callb['maxData']['call']['answeredTst'] ? getDuration(_qM._callb['maxData']['call']['answeredTst']) : 'NA' }}
+                                </h3>
+                                </span>
+                                <span class="d-flex justify-content-around pl-1 pr-1" *ngIf="_qM._callb['maxData']['wait']['caller']">
+                                        <h6 class='m-1 ml-4 text-info text-truncate'>
+                                                {{ _qM._callb['maxData']['call']['agente'] }} ({{_qM._callb['maxData']['call']['Extension']}})
+                                        </h6>
+                                        <h6 class="m-1 ml-auto mr-3 text-info text-truncate">
+                                                {{ _qM._callb['maxData']['call']['Q'] }}
+                                        </h6>
+                                </span>
+                                </span>
+                            </div>
+                            <div class="p-1 text-right">
+                                <span class="ml-auto  badge badge-light border border-info badge-pill" style="width: 100%">
+                                    <span class="d-flex align-items-center justify-content-start">
+                                    <span class="m-1 fa-layers fa-3x">
+                                        <i class="far fa-circle text-warning"></i>
+                                        <i class="fas fas fa-ellipsis-h text-info" data-fa-transform="shrink-7"></i>
+                                    </span>
+                                <h3 class='m-1 ml-4 text-info text-truncate'>
+                                    Longest Wait
+                                </h3>
+                                <h3 class="m-1 ml-auto mr-3">
+                                    {{ _qM._callb['maxData']['wait']['waiting'] ? getDuration(_qM._callb['maxData']['wait']['waiting']) : '' }}
+                                </h3>
+                                </span>
+                                <span class="d-flex justify-content-around pl-1 pr-1" *ngIf="_qM._callb['maxData']['wait']['caller']">
+                                        <h6 class='m-1 ml-4 text-info text-truncate'>
+                                            {{_qM._callb['maxData']['wait']['Q']}}
+                                        </h6>
+                                        <h6 class="m-1 ml-auto mr-3 text-info text-truncate">
+                                            {{ _qM._callb['maxData']['wait']['caller'] }}
+                                        </h6>
+                                </span>
+                                </span>
+                            </div>
+                            <div class="p-1 text-right">
+
+                                <span class="ml-auto  badge badge-light border border-info badge-pill" style="width: 100%">
+                                            <span class="d-flex align-items-center justify-content-start">
+                                        <span class="m-1 fa-layers fa-3x">
+                                            <i class="fas fas fa-user text-success" data-fa-transform="shrink-7"></i>
+                                            <i class="fas fa-ban text-warning"></i>
+                                        </span>
+                                <h3 class='m-1 ml-4 text-info text-truncate'>
+                                    Longest Pause
+                                </h3>
+                                <h3 class="m-1 ml-auto mr-3">
+                                    {{ _qM._callb['maxData']['pause']['lastTst'] ? getDuration(_qM._callb['maxData']['pause']['lastTst']) : '' }}
+                                </h3>
+                                </span>
+                                <span class="d-flex justify-content-around pl-1 pr-1" *ngIf="_qM._callb['maxData']['pause']['agente']">
+                                        <h6 class='m-1 ml-4 text-info text-truncate'>
+                                            {{ _qM._callb['maxData']['pause']['agente'] }} ({{_qM._callb['maxData']['pause']['Extension']}})
+                                        </h6>
+                                        <h6 class="m-1 ml-auto mr-3 text-info text-truncate">
+                                            {{ _qM._callb['maxData']['pause']['Pausa'] }}
+                                        </h6>
+                                </span>
+                                </span>
+                            </div>
+                            <div class="p-1 text-right">
+                                <span class="ml-auto  badge badge-light border border-info badge-pill" style="width: 100%">
+                                            <span class="d-flex align-items-center justify-content-start">
+                                                    <span class="m-1 fa-layers fa-3x">
+                                                            <i class="fas fa-plane-departure text-primary" data-fa-transform="shrink-2"></i>
+                                                    </span>
+                                <h3 class='m-1 ml-4 text-info text-truncate'>
+                                    Longest Interjet Call ({{_qM._callb['maxData']['ijCount']}})
+                                </h3>
+                                <h3 class="m-1 ml-auto mr-3">
+                                    {{ _qM._callb['maxData']['interjet']['obTst'] ? getDuration(_qM._callb['maxData']['interjet']['obTst']) : 'NA' }}
+                                </h3>
+                                </span>
+                                <span class="d-flex justify-content-around pl-1 pr-1" *ngIf="_qM._callb['maxData']['interjet']['obCaller']">
+                                            <h6 class='m-1 ml-4 text-info text-truncate'>
+                                                {{ _qM._callb['maxData']['interjet']['agente'] }} ({{_qM._callb['maxData']['interjet']['Extension']}})
+                                            </h6>
+                                            <h6 class="m-1 ml-auto mr-3 text-info text-truncate">
+                                                {{ _qM._callb['maxData']['interjet']['Q'] }}
+                                            </h6>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-6'>
+                        <div *ngIf="_qM && _qM['_callb']">
+                            <ul class="list-group">
+                                <li class="list-group-item p-2 bg-info">
+                                    <div class="d-flex justify-content-center align-items-center text-light">
+                                        <h5>Llamadas en espera</h5>
+                                    </div>
+                                </li>
+                                <ng-container *ngFor="let item of _qM['_callb']['waits'] | orderBy: 'waiting'">
+                                    <li class="list-group-item pt-1 pb-1">
+                                        <div class="d-flex justify-content-between align-items-center text-truncate">
+                                            {{ item['caller'] }}
+                                            <span class="badge badge-primary badge-pill" [style.width.px]="70">{{ getDuration(item['waiting']) }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <span class="badge badge-secondary badge-pill" style="font-size: xx-small">{{ item['Q'] }}</span>
+                                        </div>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <pre>
+                        {{ (_qM['_callb'] ? _qM._callb['maxData'] : []) | json }}
+                    </pre> -->
+                </div>
+            </div>
+        </div>
+        <div class="row" style="height: 65%">
+            <div class="col-12">
+                <!-- <app-call-statistics [skill]="monitor['d']" [multi]=true [phase]="15" [dt]="reloadFlag" #monD></app-call-statistics> -->
+                <app-call-statistics [skill]="skillSelected" [multi]=true [phase]="0" [dt]="reloadFlag" #monA></app-call-statistics>
+            </div>
+        </div>
     </div>
 </div>

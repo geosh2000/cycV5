@@ -69,7 +69,8 @@
             <small><span class="badge" [matTooltip]="selectedQNames[q]" matTooltipPosition="above" [ngClass]="colorQ( item, q )">{{ q }}</span></small>
         </div>
     </div>
-    <!-- <div>
+    <!-- <div> -->
+    <div *ngIf="tstDisplay">
         <pre>{{ item | json }}</pre>
-    </div> -->
+    </div>
 </div>
