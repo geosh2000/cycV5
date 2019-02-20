@@ -21,9 +21,11 @@
                                 </h3>
                                 <h3 class="m-1 ml-auto mr-3">
                                     {{ _qM._callb['maxData']['call']['answeredTst'] ? getDuration(_qM._callb['maxData']['call']['answeredTst']) : 'NA' }}
+
                                 </h3>
+                                <pre>{{ _qM._callb['maxData']['call'] | json }}</pre>
                                 </span>
-                                <span class="d-flex justify-content-around pl-1 pr-1" *ngIf="_qM._callb['maxData']['wait']['caller']">
+                                <span class="d-flex justify-content-around pl-1 pr-1" *ngIf="_qM._callb['maxData']['call']['caller']">
                                         <h6 class='m-1 ml-4 text-info text-truncate'>
                                                 {{ _qM._callb['maxData']['call']['agente'] }} ({{_qM._callb['maxData']['call']['Extension']}})
                                         </h6>
@@ -68,8 +70,9 @@
                                 <h3 class='m-1 ml-4 text-info text-truncate'>
                                     Longest Pause
                                 </h3>
-                                <h3 class="m-1 ml-auto mr-3">
-                                    {{ _qM._callb['maxData']['pause']['lastTst'] ? getDuration(_qM._callb['maxData']['pause']['lastTst']) : '' }}
+                                <h3 class="m-1 ml-auto mr-3" *ngIf="_qM._callb['maxData']['pause']['lastTst']">
+                                    <span *ngIf="item['direction'] != '2' && item['Pausa']">{{ getDuration( _qM._callb['maxData']['pause']['lastTst'] > _qM._callb['maxData']['pause']['origPauseTst'] ? _qM._callb['maxData']['pause']['lastTst'] : _qM._callb['maxData']['pause']['origPauseTst'] ) }}</span>
+                                    <span *ngIf="item['direction'] == '2' && item['Pausa']">{{ getDuration( (_qM._callb['maxData']['pause']['answered'] == '0' ? _qM._callb['maxData']['pause']['waiting'] : _qM._callb['maxData']['pause']['lastTst']) > _qM._callb['maxData']['pause']['origPauseTst'] ? _qM._callb['maxData']['pause']['answered'] == '0' ? _qM._callb['maxData']['pause']['waiting'] : _qM._callb['maxData']['pause']['lastTst'] : _qM._callb['maxData']['pause']['origPauseTst'] ) }}</span>
                                 </h3>
                                 </span>
                                 <span class="d-flex justify-content-around pl-1 pr-1" *ngIf="_qM._callb['maxData']['pause']['agente']">

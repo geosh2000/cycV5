@@ -7,7 +7,7 @@ import { ApiService, InitService, TokenCheckService } from '../../../services/se
 import { ToastrService } from 'ngx-toastr';
 
 import { saveAs } from 'file-saver';
-import { utils, write, WorkBook } from 'xlsx';
+import { utils, write, WorkBook, WorkSheet } from 'xlsx';
 
 const equals = (one: NgbDateStruct, two: NgbDateStruct) => one && two && two.year == one.year && two.month == one.month && two.day == one.day;
 const before = (one: NgbDateStruct, two: NgbDateStruct) => !one || !two ? false : one.year == two.year ? one.month == two.month ? one.day == two.day ? false : one.day < two.day : one.month < two.month : one.year < two.year;
@@ -65,6 +65,26 @@ export class ReporteAfiliadosComponent implements OnInit {
   totals:any
   shownAf:any
   currency:any = 'MXN'
+  serviciosData:object = {
+    in: [],
+    out: [],
+    ol: [],
+    all: []
+  }
+  serviciosTotals:object = {
+    in: [],
+    out: [],
+    ol: [],
+    all: []
+  }
+
+  jsonXls:Object = {
+    sum : [],
+    sIn : [],
+    sOut : [],
+    sOl : [],
+    sAll : []
+  }
 
   constructor(
               private _api:ApiService,
@@ -162,10 +182,34 @@ export class ReporteAfiliadosComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['data'] = false
-                this.reportData = res['data']
+                this.reportData = res['data']['kpis']
+                this.serviciosData = res['data']['serv']
+                this.serviciosTotals = res['data']['total']
                 this.totals = res['total']
                 this.afiliado = this.shownAf
                 this.titleService.setTitle(`CyC - Reporte ${ this.shownAf }`)
+
+                let jsonXls:Object = {
+                  sum : [],
+                  sIn : [],
+                  sOut : [],
+                  sOl : [],
+                  sAll : []
+                }
+
+                jsonXls['sum'] = this.reportData
+                jsonXls['sum'].push(this.totals)
+                jsonXls['sIn'] = this.serviciosData['in']
+                jsonXls['sIn'].push(this.serviciosTotals['in'])
+                jsonXls['sOut'] = this.serviciosData['out']
+                jsonXls['sOut'].push(this.serviciosTotals['out'])
+                jsonXls['sOl'] = this.serviciosData['ol']
+                jsonXls['sOl'].push(this.serviciosTotals['ol'])
+                jsonXls['sAll'] = this.serviciosData['all']
+                jsonXls['sAll'].push(this.serviciosTotals['all'])
+
+                this.jsonXls = jsonXls
+                console.log(jsonXls)
 
               }, err => {
                 console.log('ERROR', err)
@@ -186,6 +230,14 @@ export class ReporteAfiliadosComponent implements OnInit {
       case 'MontoOnline':
       case 'MontoCC':
       case 'MontoAll':
+      case 'Monto_Hotel':
+      case 'Monto_Vuelo':
+      case 'Monto_Tour':
+      case 'Monto_Traslado':
+      case 'Monto_Crucero':
+      case 'Monto_Circuito':
+      case 'Monto_Auto':
+      case 'Monto_Otros':
       case 'AvTktIn':
       case 'AvTktOut':
       case 'AvTktOnline':
@@ -215,7 +267,18 @@ export class ReporteAfiliadosComponent implements OnInit {
 
   toXls( sheets, title ){
 
-    let wb = utils.table_to_book(document.getElementById(sheets), {raw: true});
+    let wb:WorkBook = utils.book_new()
+    let s_sum:WorkSheet = utils.json_to_sheet(this.jsonXls['sum'])
+    let s_sIn:WorkSheet = utils.json_to_sheet(this.jsonXls['sIn'])
+    let s_sOut:WorkSheet = utils.json_to_sheet(this.jsonXls['sOut'])
+    let s_sOnline:WorkSheet = utils.json_to_sheet(this.jsonXls['sOl'])
+    let s_sAll:WorkSheet = utils.json_to_sheet(this.jsonXls['sAll'])
+
+    utils.book_append_sheet(wb, s_sum, 'Resumen')
+    utils.book_append_sheet(wb, s_sIn, 'Servicios (In)')
+    utils.book_append_sheet(wb, s_sOut, 'Servicios (Out)')
+    utils.book_append_sheet(wb, s_sOnline, 'Servicios (Online)')
+    utils.book_append_sheet(wb, s_sAll, 'Servicios (All)')
 
     let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type: 'binary' });
 

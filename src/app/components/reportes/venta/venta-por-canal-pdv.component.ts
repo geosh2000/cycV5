@@ -27,6 +27,7 @@ export class VentaPorCanalPdvComponent implements OnInit {
   mainCredential:string = 'tablas_f'
   currentUser:any
 
+  countrySelected:any = 'MX'
   searchStart:any
   searchEnd:any
   soloVenta:boolean = false
@@ -90,7 +91,7 @@ export class VentaPorCanalPdvComponent implements OnInit {
     let inicio = this.searchStart
     let fin = this.searchEnd
 
-    this._api.restfulGet( `${inicio}/${fin}/${sv}/${this.isPaq}/${as}/${tot}`, 'venta/getVentaPorPDV')
+    this._api.restfulGet( `${inicio}/${fin}/${sv}/${this.isPaq}/${as}/${tot}/${this.countrySelected}`, 'venta/getVentaPorPDV')
             .subscribe( res =>{
               this.ventaData = res['data']
 

@@ -144,6 +144,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Pausa corre a partir de que termina la llamada (.2010)
 * Corrección de llamadas con agentes fuera de cola (.2013)
 * Selección por Skill (.2029)
+* Combo con resumen, longest events, esperas y gráfico (.2030)
 
 ### Ofertas MP
 * Módulo para subir ofertas (.2023)
@@ -170,6 +171,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Filtro de Paquete / Prod Desglozado (.2005)
 * Filtro por día / Totalizado (.2007)
 * Filtro por asesor / PDV (.2007)
+* Filtro por país (.2030)
 
 ### Reporte de Venta MP por semana
 * Reporte por semana vendida por fecha (.2023)

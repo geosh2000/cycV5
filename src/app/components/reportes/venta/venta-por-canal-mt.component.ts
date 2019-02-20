@@ -54,7 +54,7 @@ export class VentaPorCanalMtComponent implements OnInit {
                 public activatedRoute:ActivatedRoute,
                 private titleService:Title,
                 private cp:CurrencyPipe
-                ){ 
+                ){
                   this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
 
@@ -67,10 +67,10 @@ export class VentaPorCanalMtComponent implements OnInit {
 
   dateChange( start, end ){
 
-    this.searchStart = start.format("YYYY-MM-DD")
-    this.searchEnd = end.format("YYYY-MM-DD")
+    this.searchStart = start.format('YYYY-MM-DD')
+    this.searchEnd = end.format('YYYY-MM-DD')
 
-    jQuery('#datepicker').val(`${start.format("DD MMM 'YY")} - ${end.format("DD MMM 'YY")}`)
+    jQuery('#datepicker').val(`${start.format('DD MMM \'YY')} - ${end.format('DD MMM \'YY')}`)
 
     // this.getCuartiles(this.searchStart, this.searchEnd, this.skill)
   }
@@ -138,13 +138,13 @@ export class VentaPorCanalMtComponent implements OnInit {
 
     if(tz!='mx'){
       let fechaTmp = moment.tz(date, 'America/Mexico_City')
-      fecha = fechaTmp.clone().tz("America/Bogota")
+      fecha = fechaTmp.clone().tz('America/Bogota')
     }else{
       fecha = moment(date)
     }
 
     moment.updateLocale('en', {
-      weekdays : [ "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" ]
+      weekdays : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado' ]
     })
 
     return fecha.format( format )
@@ -203,7 +203,8 @@ export class VentaPorCanalMtComponent implements OnInit {
   s2ab(s) {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
-    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    // tslint:disable-next-line:no-bitwise
+    for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 

@@ -603,7 +603,8 @@ export class KpisPdvComponent implements OnInit, OnDestroy {
   currencyDispl( ammount ){
     if( this.params['marca'] == 'Marcas Propias' && this.params['pais'] == 'CO'){
 
-      let monto = ammount * 146.741
+      // let monto = ammount * 146.741
+      let monto = ammount
       this.suf = ''
       if( monto > 1000000 ){
         monto = monto / 1000

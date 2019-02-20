@@ -133,7 +133,7 @@ export class CallCardSmComponent implements OnInit {
       colorSheme['aux'] = 'bg-warning text-dark'
       colorSheme['in'] = 'bg-info text-light'
       colorSheme['avail'] = 'bg-light text-dark'
-      colorSheme['outTry'] = 'bg-outCC text-light'
+      colorSheme['outTry'] = 'bg-out text-light'
       colorSheme['out'] = 'bg-outCC text-light'
     }
 

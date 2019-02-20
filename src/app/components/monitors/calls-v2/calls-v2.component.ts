@@ -61,7 +61,8 @@ export class CallsV2Component implements OnInit, OnDestroy {
  }
 
   ngOnInit() {
-    this.titleService.setTitle('CyC - Detalle Asesores');
+    this.timerLoad()
+    this.titleService.setTitle('CyC - Monitor Telefonía');
   }
 
   ngOnDestroy() {
@@ -102,6 +103,31 @@ export class CallsV2Component implements OnInit, OnDestroy {
 
   emitSkill( val ){
     this.skillSelected = val
+  }
+
+  timerLoad( pause = false ){
+
+    if( this.timeCount == 0 ){
+      this.chgFlag()
+      this.timeCount = 600
+    }else{
+      if( this.timeCount > 0){
+        this.timeCount--
+      }
+    }
+
+    this.timeout = setTimeout( () => {
+      this.timerLoad()
+      }, 1000 )
+
+  }
+
+  chgFlag(){
+    let td = moment().tz('America/Mexico_city').format('YYYY-MM-DD')
+
+    this._monA.inicio = td
+    this._monA.fin = td
+    this._monA.timeCount = 1
   }
 
 }

@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group mr-2">
                         <div class="input-group">
-                            <input class="form-control" placeholder="yyyy-mm-dd" [autoClose]="false" (click)="d.toggle()" id="picker" name="dp" ngbDatepicker #d="ngbDatepicker" [dayTemplate]="t" (dateSelect)="onDateSelection($event, d)">
+                            <input class="form-control" placeholder="yyyy-mm-dd" [autoClose]="false" (click)="d.toggle()" id="picker" name="dp" ngbDatepicker #d="ngbDatepicker" [dayTemplate]="t" (dateSelect)="onDateSelection($event, d)" autocomplete="off">
                             <ng-template #t let-date="date" let-focused="focused">
                                 <span class="custom-day" [class.focused]="focused" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
                             {{ date.day }}
@@ -51,28 +51,133 @@
 
     <div class="container-fluid" style="overflow: auto" *ngIf="reportData">
         <p class="font-italic"><small>Monto en {{ currency }}</small></p>
-        <table class="table table-sm table-bordered table-hover table-striped" style="font-size: smaller" id='reporte'>
-            <thead>
-                <tr>
-                    <th>Afiliado</th>
-                    <th *ngFor="let field of reportData[0] | keys">{{ field }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of reportData | orderBy: 'Fecha'">
-                    <td>{{ afiliado }}</td>
-                    <td class="text-center" *ngFor="let field of item | keys">{{ printVal( field, item ) }}</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>{{ afiliado }}</td>
-                    <th *ngFor="let field of totals | keys" class="text-center">
-                        {{ printVal( field, totals ) }}
-                    </th>
-                </tr>
-            </tfoot>
-        </table>
+        <mat-tab-group>
+            <mat-tab label="KPIs">
+                <table class="table table-sm table-bordered table-hover table-striped" style="font-size: smaller" id='reporte'>
+                    <thead>
+                        <tr>
+                            <th>Afiliado</th>
+                            <th *ngFor="let field of reportData[0] | keys">{{ field }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of reportData | orderBy: 'Fecha'">
+                            <td>{{ afiliado }}</td>
+                            <td class="text-center" *ngFor="let field of item | keys">{{ printVal( field, item ) }}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>{{ afiliado }}</td>
+                            <th *ngFor="let field of totals | keys" class="text-center">
+                                {{ printVal( field, totals ) }}
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </mat-tab>
+            <mat-tab label="Por Servicio">
+                <mat-tab-group>
+                    <mat-tab label="CC IN">
+                        <table class="table table-sm table-bordered table-hover table-striped" style="font-size: smaller" id='serv_In'>
+                            <thead>
+                                <tr>
+                                    <th>Grupo</th>
+                                    <th *ngFor="let field of serviciosData['in'][0] | keys">{{ field }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of serviciosData['in'] | orderBy: 'Fecha'">
+                                    <td>CC IN</td>
+                                    <td class="text-center" *ngFor="let field of item | keys">{{ printVal( field, item ) }}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>CC In</td>
+                                    <th *ngFor="let field of serviciosTotals['in'] | keys" class="text-center">
+                                        {{ printVal( field, serviciosTotals['in'] ) }}
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </mat-tab>
+                    <mat-tab label="CC Out">
+                        <table class="table table-sm table-bordered table-hover table-striped" style="font-size: smaller" id='serv_Out'>
+                            <thead>
+                                <tr>
+                                    <th>Grupo</th>
+                                    <th *ngFor="let field of serviciosData['out'][0] | keys">{{ field }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of serviciosData['out'] | orderBy: 'Fecha'">
+                                    <td>CC Out</td>
+                                    <td class="text-center" *ngFor="let field of item | keys">{{ printVal( field, item ) }}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>CC Out</td>
+                                    <th *ngFor="let field of serviciosTotals['out'] | keys" class="text-center">
+                                        {{ printVal( field, serviciosTotals['out'] ) }}
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </mat-tab>
+                    <mat-tab label="Online">
+                        <table class="table table-sm table-bordered table-hover table-striped" style="font-size: smaller" id='serv_Online'>
+                            <thead>
+                                <tr>
+                                    <th>Grupo</th>
+                                    <th *ngFor="let field of serviciosData['ol'][0] | keys">{{ field }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of serviciosData['ol'] | orderBy: 'Fecha'">
+                                    <td>Online</td>
+                                    <td class="text-center" *ngFor="let field of item | keys">{{ printVal( field, item ) }}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Online</td>
+                                    <th *ngFor="let field of serviciosTotals['ol'] | keys" class="text-center">
+                                        {{ printVal( field, serviciosTotals['ol'] ) }}
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </mat-tab>
+                    <mat-tab label="All" isActive>
+                        <table class="table table-sm table-bordered table-hover table-striped" style="font-size: smaller" id='serv_All'>
+                            <thead>
+                                <tr>
+                                    <th>Grupo</th>
+                                    <th *ngFor="let field of serviciosData['all'][0] | keys">{{ field }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of serviciosData['all'] | orderBy: 'Fecha'">
+                                    <td>All</td>
+                                    <td class="text-center" *ngFor="let field of item | keys">{{ printVal( field, item ) }}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>All</td>
+                                    <th *ngFor="let field of serviciosTotals['all'] | keys" class="text-center">
+                                        {{ printVal( field, serviciosTotals['all'] ) }}
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-tab>
+        </mat-tab-group>
+
     </div>
 
 </div>
