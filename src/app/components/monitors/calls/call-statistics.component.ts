@@ -295,7 +295,7 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
 
                 if( flag ){
                   this.timerFlag = true
-                  this.timeCount = 300
+                  this.timeCount = 120
                   this.timerLoad()
                 }else{
                   this.timerFlag = false
@@ -347,7 +347,7 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
 
       }else{
         if( this.timeCount > 0){
-          this.timeCount--
+          this.timeCount = this.timeCount - (this.monitor ? 1 : 0)
           this.timeout = setTimeout( () => {
           this.timerLoad()
           }, 1000 )

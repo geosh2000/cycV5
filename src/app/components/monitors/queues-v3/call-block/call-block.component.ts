@@ -15,6 +15,9 @@ import { ApiService } from '../../../../services/service.index';
   .bigDetailOff{
     width: 100px
   }
+  .bigDetailOffLarge{
+    width: 170px
+  }
   .flashit{
     color:#f2f;
   	-webkit-animation: flash linear 1s infinite;
@@ -250,12 +253,12 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  blockWidth( flag, waits? ){
+  blockWidth( flag, waits?, large? ){
 
     if( flag ){
       return `bigDetailOn ${waits ? (waits.length<=4 ? 'badge-light' : 'badge-danger flashit text-light') : ''}`
     }else{
-      return `bigDetailOff ${waits ? (waits.length<=4 ? 'badge-light' : 'badge-danger flashit text-light') : ''}`
+      return `${large ? 'bigDetailOffLarge' : 'bigDetailOff'} ${waits ? (waits.length<=4 ? 'badge-light' : 'badge-danger flashit text-light') : ''}`
     }
   }
 
