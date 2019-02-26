@@ -1,4 +1,4 @@
-import { Component, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, Input, SimpleChanges, HostListener, ElementRef, OnInit, OnChanges } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 import * as moment from 'moment-timezone';
@@ -13,7 +13,7 @@ declare var jQuery:any;
   templateUrl: './dash-por-hora.component.html',
   styles: []
 })
-export class DashPorHoraComponent implements AfterViewInit {
+export class DashPorHoraComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 
   divWidth:number = 1200
 
@@ -66,19 +66,19 @@ export class DashPorHoraComponent implements AfterViewInit {
   }
 
   titles = {
-    In          : "CC-In",
-    Out         : "CC-Out",
-    Presencial  : "PDV",
-    Online      : "Online",
-    Total       : "Total",
-    Com         : ".COM",
-    Outlet         : "Outlet"
+    In          : 'CC-In',
+    Out         : 'CC-Out',
+    Presencial  : 'PDV',
+    Online      : 'Online',
+    Total       : 'Total',
+    Com         : '.COM',
+    Outlet         : 'Outlet'
   }
 
   dates:any = []
 
   btnWidth:number = 100
-  btnFormat:string = "ddd DD MMM"
+  btnFormat:string = 'ddd DD MMM'
 
   constructor(public _api: ApiService,
                 private titleService: Title,
@@ -96,7 +96,7 @@ export class DashPorHoraComponent implements AfterViewInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -221,14 +221,14 @@ export class DashPorHoraComponent implements AfterViewInit {
                     }]
                 }
 
-    //Set First Week
+    // Set First Week
     if( parseInt(moment().format('E')) > 1 ){
       this.params['start'] = moment().subtract(parseInt(moment().format('E'))-1, 'days').format('YYYY-MM-DD')
     }else{
       this.params['start'] = moment().format('YYYY-MM-DD')
     }
 
-    //Set Last Week
+    // Set Last Week
     if( parseInt(moment().format('E')) < 7 ){
       this.params['end'] = moment().add(7 - parseInt(moment().format('E')), 'days').format('YYYY-MM-DD')
     }else{
@@ -258,14 +258,14 @@ export class DashPorHoraComponent implements AfterViewInit {
     let week = []
     let start, end
 
-    //Set First Week
+    // Set First Week
     if( parseInt(moment(this.dateStart).format('E')) > 1 ){
       start = moment(this.dateStart).subtract(parseInt(moment(this.dateStart).format('E'))-1, 'days').format('YYYY-MM-DD')
     }else{
       start = moment(this.dateStart).format('YYYY-MM-DD')
     }
 
-    //Set Last Week
+    // Set Last Week
     if( parseInt(moment(this.dateEnd).format('E')) < 7 ){
       end = moment(this.dateEnd).add(7 - parseInt(moment(this.dateEnd).format('E')), 'days').format('YYYY-MM-DD')
     }else{
@@ -296,13 +296,13 @@ export class DashPorHoraComponent implements AfterViewInit {
             .subscribe( res => {
 
               this.loading['data'] = false
-              this.lu = moment(res['lu']['lu']).format("DD MMM 'YY HH:mm:ss")
+              this.lu = moment(res['lu']['lu']).format('DD MMM \'YY HH:mm:ss')
               this.buildData( res['data'] )
               this.timerCount = this.timeToReload
               console.log(res['data'])
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['data'] = false
 
@@ -355,7 +355,7 @@ export class DashPorHoraComponent implements AfterViewInit {
   saveInstance(identifier, chartInstance) {
       this.chart[identifier] = chartInstance;
       console.log(this.chart[identifier].pointer)
-      this.chart[identifier].pointer.__proto__.reset = () => { return undefined }
+      this.chart[identifier].pointer.__proto__.reset = () => undefined
       this.flag = true
   }
 
@@ -382,7 +382,7 @@ export class DashPorHoraComponent implements AfterViewInit {
 
   unixTime( time ){
     // DEFINE UNIX TIME
-    let m = moment.tz(`${ time }`, "America/Mexico_city")
+    let m = moment.tz(`${ time }`, 'America/Mexico_city')
     let local = m.clone().tz( this._zh.zone )
     let dif = moment(m.format('YYYY-MM-DD HH:mm:ss')).diff(local.format('YYYY-MM-DD HH:mm:ss'), 'hours')
     m.subtract((5+(dif*(-1))), 'hours')
@@ -427,11 +427,17 @@ export class DashPorHoraComponent implements AfterViewInit {
       }
 
       // CREATE IF lineWidth
+      // tslint:disable-next-line:no-unused-expression
       !prim[y]          ? prim[y]         = { 'Total': []       , 'Com': [] }       : null
+      // tslint:disable-next-line:no-unused-expression
       !acum[y]          ? acum[y]         = { 'Total': [first]  , 'Com': [first] }  : null
+      // tslint:disable-next-line:no-unused-expression
       !primal[y]        ? primal[y]       = { 'Total': 0        , 'Com': 0       }  : null
+      // tslint:disable-next-line:no-unused-expression
       !prim[y][chan]    ? prim[y][chan]   = []                                      : null
+      // tslint:disable-next-line:no-unused-expression
       !acum[y][chan]    ? acum[y][chan]   = [first]                                 : null
+      // tslint:disable-next-line:no-unused-expression
       !primal[y][chan]  ? primal[y][chan] = 0                                       : null
 
       // BUILD DATA
@@ -450,6 +456,7 @@ export class DashPorHoraComponent implements AfterViewInit {
 
     }
 
+    // tslint:disable-next-line:forin
     for( let ch in acum['ty'] ){
       last[1] = acum['ty'][ch][acum['ty'][ch].length - 1][1]
       acum['ty'][ch].push( [last[0], primal['ty'][ch]] )
@@ -470,12 +477,12 @@ export class DashPorHoraComponent implements AfterViewInit {
   chgView( date, flag = 'both' ){
 
     switch( flag ){
-      case "both":
-      case "start":
+      case 'both':
+      case 'start':
         this.params['start'] = date
         this.params['end'] = date
         break
-      case "end":
+      case 'end':
         this.params['end'] = date
         break
     }
@@ -521,10 +528,10 @@ export class DashPorHoraComponent implements AfterViewInit {
 
               if( this.divWidth < 700 ){
                 this.btnWidth  = 50
-                this.btnFormat = "DD-MM"
+                this.btnFormat = 'DD-MM'
               }else{
                 this.btnWidth  = 100
-                this.btnFormat = "ddd DD MMM"
+                this.btnFormat = 'ddd DD MMM'
               }
             }
         }

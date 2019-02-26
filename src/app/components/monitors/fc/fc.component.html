@@ -1,0 +1,10 @@
+<div class='d-flex justify-content-center align-items-center m-0 p-0' style="height: 1000px" [ngClass]="classColor(parse(fc['main']['fc']),true)">
+    <div>
+        <p [ngClass]="classColor(parse(fc['main']['fc']),false)" class="text-center" style="font-size: 30rem" *ngIf="!loading['data']">{{ parse(fc['main']['fc']) | percent:'.0-2' }}</p>
+        <mat-spinner diameter="500" *ngIf="loading['data']"></mat-spinner>
+        <p [ngClass]="classColor(parse(fc['main']['fc']),false)" class="text-center" style="font-size: 3rem">{{ fc['main']['locs'] }} Locs || {{ fc['main']['llamadas'] }} Llamadas</p>
+        <p [ngClass]="classColor(parse(fc['main']['fc']),false)" class="text-center" style="font-size: 2rem">FC Desborde: {{ parse(fc['pdv']['fc']) | percent:'.0-2' }}</p>
+        <br>
+        <p [ngClass]="classColor(parse(fc['main']['fc']),false)" class="text-center" style="font-size: 1rem">Última Actualizacion: {{ printTime(lu, 'DD MMM \'YY HH:mm:ss') }}... Recarga en {{ countTime }} seg.</p>
+    </div>
+</div>

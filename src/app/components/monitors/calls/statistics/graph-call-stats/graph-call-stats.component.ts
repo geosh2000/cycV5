@@ -208,7 +208,6 @@ export class GraphCallStatsComponent implements AfterViewInit, OnChanges {
   }
 
   setData(){
-      console.log(this.data)
     if( this.chart['calls'] ){
       if( this.h && this.h['ly'] && this.h['ly']['name'] ){
         this.chart['calls']['series'][0].update( { name: this.h['ly']['name'], data: this.h['ly']['data'], type: this.h['ly']['type'] } )

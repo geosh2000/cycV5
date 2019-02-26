@@ -3,6 +3,17 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 # Release History
 
+## v2.4.3
+
+### CallStatistics
+* Reporte de desbordes para colas con "desborde" = 1
+
+### Monitor FC para MP
+* FC del día, con referencia de desborde
+
+### Tabla F Soporte
+* Identificación de llamadas desbordadas y % de desborde
+
 ## v2.4.2
 
 ### Global
