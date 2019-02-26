@@ -11,6 +11,7 @@ import { ApiService, InitService, TokenCheckService } from '../../../services/se
 declare var jQuery:any;
 import * as moment from 'moment-timezone';
 import { SurvHistoricComponent } from './surv-historic/surv-historic.component';
+import { _MAT_INK_BAR_POSITIONER_FACTORY } from '../../../../../node_modules/@angular/material/tabs/typings/ink-bar';
 
 @Component({
   selector: 'app-survey',
@@ -326,9 +327,15 @@ export class SurveyComponent implements OnInit {
   }
 
   onSelectedAffiliate(item, field){
-    console.log(item)
     if(item){
       this.form.controls[field].setValue(item.shortName + ' ' + item.description)
+      let afs
+      for( let fld of this.surveyData['fields'] ){
+        if( fld['name'] == 'affiliateSiteId'){
+          this.form.controls[fld['id']].setValue(item.idAffiliate)
+          return false
+        }
+      }
     }
   }
 

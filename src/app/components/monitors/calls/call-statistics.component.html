@@ -107,7 +107,7 @@
                             </span>
                         </div>
                         <div class="col text-center p-1">
-                            <p class="p-2">Part PDV</p>
+                            <p class="p-2">Part Desborde</p>
                             <span class="badge badge-info ml-auto p-2" [style.width.px]="80">
                               <p>{{ (total ? total['PDV'] : 0) | number:'.0-0'}}</p>
                               <p>{{ (total ? ((total['PDV'] ? total['PDV'] : 0) / total['contestadas'] * 100) : 0) | number:'.0-2'}}%</p>
@@ -167,7 +167,7 @@
                                 <p class="text-dark">{{ (total ? total['sla30']/total['ofrecidas'] : 0) | percent:'1.0-2'}}</p>
                             </td>
                             <td class="text-center bg-info text-light">
-                                <p>PDV</p>
+                                <p>Desborde</p>
                                 <p>{{ (total ? total['PDV'] : 0) | number:'.0-0'}}</p>
                                 <p>{{ (total ? ((total['PDV'] ? total['PDV'] : 0) / total['contestadas'] * 100) : 0) | number:'.0-2'}}%</p>
                             </td>

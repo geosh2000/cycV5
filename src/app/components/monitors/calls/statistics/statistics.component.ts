@@ -225,7 +225,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
                   if( !groups[call['Grupo']] ){
                     groups[call['Grupo']] = {
-                      name: call['Grupo'],
+                      name: call['Grupo'] == 'PDV' ? 'Desborde' : call['Grupo'],
                       data: [[parseInt(this.unixTime(call['H'])), parseInt(call['calls'])]],
                       aht:  [[parseInt(this.unixTime(call['H'])), parseFloat(call['AHT'])]]
                     }
@@ -253,7 +253,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
                                           color : '#870000',
                                           data  : groups['Abandon'] ? groups['Abandon']['data'] : []
                                         },
-                              PDV     : { name  : 'PDV',
+                              PDV     : { name  : 'Desborde',
                                           color : '#008bd1',
                                           data  : groups['PDV'] ? groups['PDV']['data'] : [],
                                           aht   : groups['PDV'] ? groups['PDV']['aht'] : []
@@ -320,7 +320,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
                 this.loading['data'] = false
 
                 this.dataH[group] = {
-                  name: group,
+                  name: group == 'PDV' ? 'Desborde' : group,
                   // color: color,
                   data: [],
                   type: 'line'

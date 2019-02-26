@@ -104,7 +104,7 @@ export class GraphCallStatsComponent implements AfterViewInit, OnChanges {
                     dashStyle: 'ShortDot',
                     color: '#ef9300'
                 },{
-                    name: 'PDV',
+                    name: 'Desborde',
                     data: [1],
                     dashStyle: 'ShortDot',
                     color: '#ef9300'
@@ -119,7 +119,7 @@ export class GraphCallStatsComponent implements AfterViewInit, OnChanges {
                     dashStyle: 'ShortDot',
                     color: '#ef9300'
                 },{
-                    name: 'AHT - PDV',
+                    name: 'AHT - Desborde',
                     data: [1],
                     dashStyle: 'ShortDot',
                     color: '#ef9300',
@@ -208,6 +208,7 @@ export class GraphCallStatsComponent implements AfterViewInit, OnChanges {
   }
 
   setData(){
+      console.log(this.data)
     if( this.chart['calls'] ){
       if( this.h && this.h['ly'] && this.h['ly']['name'] ){
         this.chart['calls']['series'][0].update( { name: this.h['ly']['name'], data: this.h['ly']['data'], type: this.h['ly']['type'] } )

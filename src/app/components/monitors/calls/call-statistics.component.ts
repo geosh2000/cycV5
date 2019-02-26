@@ -225,7 +225,7 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
                                           color : '#870000',
                                           data  : []
                                         },
-                              PDV     : { name  : 'PDV',
+                              PDV     : { name  : 'Desborde-off',
                                           color : '#008bd1',
                                           data  : [],
                                           aht   : []
