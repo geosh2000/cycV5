@@ -93,6 +93,7 @@ import { PdvCoordAssignComponent } from './components/config/pdv-coord-assign/pd
 import { OfertasPdvComponent } from './components/uploads/ofertas-pdv/ofertas-pdv.component';
 import { OfertasActivasComponent } from './components/reportes/ofertas-activas/ofertas-activas.component';
 import { VentaSemanaComponent } from './components/reportes/venta-semana/venta-semana.component';
+import { VentaPorHoraComponent } from './components/reportes/venta-por-hora/venta-por-hora.component';
 import { MasBuscadosMpComponent } from './components/reportes/mas-buscados-mp/mas-buscados-mp.component';
 import { LostCallsComponent } from './components/reportes/lost-calls/lost-calls.component';
 import { AvanceVentaPdvComponent } from './components/reportes/pdv/avance-venta-pdv/avance-venta-pdv.component';
@@ -165,6 +166,7 @@ const APP_ROUTES: Routes = [
   { path: 'consultaAvisosPdv', component: ReportesAvisosPdvComponent },
   { path: 'ventaSemanaMp', component: VentaSemanaComponent },
   { path: 'avancePdv', component: AvanceVentaPdvComponent },
+  { path: 'ventaPorHora', component: VentaPorHoraComponent },
 
   // Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },

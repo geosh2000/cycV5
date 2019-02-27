@@ -94,8 +94,9 @@ export class BitacoraComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('CyC - Bitácora GTR');
-    this.getData();
-    this.timerLoad();
+    this.getDeps()
+    this.getData()
+    this.timerLoad()
     // console.log(this.testData)
     // console.log(JSON.stringify(this.testData))
     // console.log(JSON.parse(JSON.stringify(this.testData)))
@@ -117,7 +118,6 @@ export class BitacoraComponent implements OnInit {
       this.loading['data'] = false
       let data = res['data']
       let result = {}
-      let listDeps = []
 
       for( let item of data ){
         item['comments'] = item['comments'] == null ? [] : JSON.parse(item['comments'])
@@ -127,7 +127,6 @@ export class BitacoraComponent implements OnInit {
         if( result[item['Skill']] ){
           result[item['Skill']][item['HG']] = item
         }else{
-          listDeps.push({dep: item['Depto'], skill: item['Skill']})
           result[item['Skill']] = {
             [item['HG']]: item
           }
@@ -135,12 +134,39 @@ export class BitacoraComponent implements OnInit {
       }
 
       this.data = result
-      this.listDeps = listDeps
       // console.log(result)
 
     }, err => {
       console.log('ERROR', err)
       this.loading['data'] = false
+      let error = err.error
+      this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
+      console.error(err.statusText, error.msg)
+    })
+  }
+
+  getDeps(){
+    this.loading['deps'] = true
+
+    this.viewDate = this.selectedDate
+
+    this._api.restfulGet( `mx/1`, 'Lists/depList')
+    .subscribe( res => {
+
+      this.loading['deps'] = false
+      let listDeps = []
+
+      for( let item of res['data'] ){
+        if( item['parent'] == 1){
+          listDeps.push({dep: item['Departamento'], skill: item['id']})
+        }
+      }
+
+      this.listDeps = listDeps
+
+    }, err => {
+      console.log('ERROR', err)
+      this.loading['deps'] = false
       let error = err.error
       this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
       console.error(err.statusText, error.msg)

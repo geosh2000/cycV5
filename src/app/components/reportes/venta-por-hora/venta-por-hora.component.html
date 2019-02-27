@@ -1,0 +1,60 @@
+<div class="alert alert-danger" role="alert" *ngIf="!showContents">
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+</div>
+<div class="container-fluid" *ngIf="showContents">
+
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">Venta por hora</h1></span>
+                    <p class="lead">Venta por hora por día</p>
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-start flex-wrap">
+
+            <div style="text-align: center" class="m-1">
+                <select class="custom-select" [(ngModel)]="viewDep">
+                            <option value="">Selecciona...</option>
+                            <option [value]="item['skill']" *ngFor="let item of listDeps | orderBy:'dep'">{{ item['dep'] }}</option>
+                        </select>
+            </div>
+            <div class="form-row align-items-center m-1">
+                <div class="form-group mr-2">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="yyyy-mm-dd" [autoClose]="false" (click)="d.toggle()" id="picker" name="dp" ngbDatepicker #d="ngbDatepicker" [dayTemplate]="t" (dateSelect)="onDateSelection($event, d)" autocomplete="off">
+                        <ng-template #t let-date="date" let-focused="focused">
+                            <span class="custom-day" [class.focused]="focused">{{ date.day }}</span>
+                        </ng-template>
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-calendar fa-fw"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='m-1'>
+                <button class="btn btn-success" (click)="getData()">Consultar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            </div>
+            <div class='m-1' *ngIf="data.length > 0">
+                <button class="btn btn-warning" (click)="downloadXLS()">Descargar</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center" *ngIf="loading['data']">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <div class="container-fluid" *ngIf="data.length > 0">
+        <ngx-table [configuration]="config" [data]="data" [columns]="columns">
+            <ng-template let-row>
+                <td class="row__email" *ngFor="let item of columns">
+                    <span style="font-size: smaller">{{ item['key'].indexOf('Monto') > -1 ? (row[item['key']] | currency:'MXN':'symbol-narrow':'.2-2') : row[item['key']] }}</span>
+                </td>
+            </ng-template>
+        </ngx-table>
+    </div>
+
+</div>

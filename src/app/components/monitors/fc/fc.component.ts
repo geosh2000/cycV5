@@ -26,10 +26,12 @@ export class FcComponent implements OnInit, OnDestroy {
 
   fc:Object = {
     'main' : {
-      fc: 0, locs: 0, llamadas: 0
+      'td' : {fc: 0, locs: 0, llamadas: 0},
+      'yd' : {fc: 0, locs: 0, llamadas: 0},
     },
     'pdv' : {
-      fc: 0, locs: 0, llamadas: 0
+      'td' : {fc: 0, locs: 0, llamadas: 0},
+      'yd' : {fc: 0, locs: 0, llamadas: 0},
     }
   }
   params:any = []
@@ -96,10 +98,30 @@ export class FcComponent implements OnInit, OnDestroy {
             .subscribe( res => {
 
               this.loading['data'] = false
-              this.fc['main'] = res['data']['result']['main']
-              this.fc['pdv'] = res['data']['result']['pdv']
+
+              let fc:Object = {
+                'main' : {
+                  'td' : {fc: 0, locs: 0, llamadas: 0},
+                  'yd' : {fc: 0, locs: 0, llamadas: 0},
+                },
+                'pdv' : {
+                  'td' : {fc: 0, locs: 0, llamadas: 0},
+                  'yd' : {fc: 0, locs: 0, llamadas: 0},
+                }
+              }
+
+              fc['main'] = res['data']['result']['main'] ? res['data']['result']['main'] : {}
+              fc['pdv'] = res['data']['result']['pdv'] ? res['data']['result']['pdv'] : {}
+              if( !fc['main']['td'] ){ fc['main']['td'] =  {fc: 0, locs: 0, llamadas: 0} }
+              if( !fc['main']['yd'] ){ fc['main']['yd'] =  {fc: 0, locs: 0, llamadas: 0} }
+              if( !fc['pdv']['td'] ){ fc['pdv']['td'] =  {fc: 0, locs: 0, llamadas: 0} }
+              if( !fc['pdv']['yd'] ){ fc['pdv']['yd'] =  {fc: 0, locs: 0, llamadas: 0} }
+
+              this.fc = fc
               this.lu = res['data']['lu']['lu']
               this.params = res['params']
+
+
 
             }, err => {
               console.log('ERROR', err)

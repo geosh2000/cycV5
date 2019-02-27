@@ -10,9 +10,15 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Monitor FC para MP
 * FC del día, con referencia de desborde
+* Comparación misma hora del día anterior
 
 ### Tabla F Soporte
 * Identificación de llamadas desbordadas y % de desborde
+
+### Venta por Hora
+* Reporte de venta por hora por skill seleccionado
+* 1 día de selección
+* Descargable
 
 ## v2.4.2
 

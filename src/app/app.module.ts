@@ -248,6 +248,7 @@ import { DetVacacionesComponent } from './components/hc/detalle-asesores/det-vac
 import { DetDiasPendientesComponent } from './components/hc/detalle-asesores/det-dias-pendientes/det-dias-pendientes.component';
 import { CallsV2Component } from './components/monitors/calls-v2/calls-v2.component';
 import { FcComponent } from './components/monitors/fc/fc.component';
+import { VentaPorHoraComponent } from './components/reportes/venta-por-hora/venta-por-hora.component';
 
 declare let jQuery: Object;
 
@@ -447,6 +448,7 @@ registerLocaleData(localeEsMX)
     DetDiasPendientesComponent,
     CallsV2Component,
     FcComponent,
+    VentaPorHoraComponent,
   ],
   imports: [
     BrowserModule,
