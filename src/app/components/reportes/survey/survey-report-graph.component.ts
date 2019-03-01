@@ -17,8 +17,8 @@ declare var jQuery:any;
 import * as moment from 'moment-timezone';
 
 @Component({
-  selector: 'app-survey-report',
-  templateUrl: './survey-report.component.html',
+  selector: 'app-survey-report-graph',
+  templateUrl: './survey-report-graph.component.html',
   styles: [`
             .custom-day {
               text-align: center;
@@ -37,9 +37,10 @@ import * as moment from 'moment-timezone';
             .custom-day.faded {
               background-color: rgba(2, 117, 216, 0.5);
             }
+            ngb-datepicker { z-index: 9999 !important; }
   `],
 })
-export class SurveyReportComponent implements OnInit {
+export class SurveyReportGraphComponent implements OnInit {
 
   currentUser: any
   showContents:boolean = false
@@ -55,8 +56,8 @@ export class SurveyReportComponent implements OnInit {
   toDate: NgbDateStruct
 
   surveyData:Object = {}
+  data:any = []
   reportData:any = []
-  hasGraph:boolean = false
 
   constructor(public _api: ApiService,
     public _init:InitService,
@@ -165,7 +166,7 @@ export class SurveyReportComponent implements OnInit {
             this.surveyData = res['data']
             this.titleService.setTitle('CyC - ' + this.surveyData['master']['name'] + ' (Reporte)');
             this.showContents = this._init.checkCredential( this.surveyData['master']['reportKey'] ? this.surveyData['master']['reportKey'] : 'default', true )
-            this.hasGraph = res['data']['graph']['id'] ? true : false
+
           }, err => {
 
             console.log('ERROR', err)
@@ -182,12 +183,15 @@ export class SurveyReportComponent implements OnInit {
   getData(){
     this.loading['data'] = true
 
-    this._api.restfulGet( `${this.surveyId}/${this.inicio}/${this.fin}`, `Survey/results`)
+    this._api.restfulGet( `${this.surveyId}/${this.inicio}/${this.fin}`, `Survey/sankey`)
           .subscribe( res => {
 
             this.loading['data'] = false
 
-            this.reportData = res['data']
+            this.data = res['data']
+            // this.titleService.setTitle('CyC - ' + this.surveyData['master']['name'] + ' (Reporte)');
+            // this.showContents = this._init.checkCredential( this.surveyData['master']['reportKey'] ? this.surveyData['master']['reportKey'] : 'default', true )
+            this.showContents = true
 
           }, err => {
 
@@ -200,10 +204,6 @@ export class SurveyReportComponent implements OnInit {
             console.error(err.statusText, error.msg)
 
           })
-  }
-
-  goTo( liga ){
-    location.href=liga
   }
 
 }

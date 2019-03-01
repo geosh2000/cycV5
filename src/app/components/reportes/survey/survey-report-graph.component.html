@@ -3,12 +3,12 @@
 </div>
 <div class="container-fluid" *ngIf="showContents">
     <!-- TITLE -->
-    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn" style="position:relative; z-index: 1">
         <div class="container">
             <div class="d-flex justify-content-between">
                 <div>
-                    <span><h1 class="display-3">Reporte {{ surveyData['master'] ? surveyData['master']['name'] : 'Formulario' }}</h1></span>
-                    <p class="lead">Selecciona la fecha y el afiliado a consultar</p><br>
+                    <span><h1 class="display-3">Gráfica {{ surveyData['master'] ? surveyData['master']['name'] : 'Formulario' }}</h1></span>
+                    <p class="lead">Selecciona la fecha y el formulario a consultar</p><br>
                 </div>
             </div>
             <div class="container">
@@ -30,9 +30,6 @@
                     <div class="m-1">
                         <button type="button" class="btn btn-success" (click)="getData()" [disabled]="loading['data']">Consultar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
                     </div>
-                    <div class="m-1" *ngIf="hasGraph">
-                        <button type="button" class="btn btn-info" (click)="goTo('/#/surveyGraph/'+surveyId)">Gráfica</button>
-                    </div>
                     <div class="m-1" *ngIf="reportData.length > 0">
                         <button type="button" class="btn btn-warning" (click)="download('reporte')">Descargar</button>
                     </div>
@@ -40,18 +37,7 @@
             </div>
         </div>
     </div>
-    <div class='container-fluid' *ngIf="reportData.length > 0">
-        <table id='reporte' class="table table-sm table-hover table-bordered table-striped" style="font-size: smaller">
-            <thead>
-                <tr>
-                    <th *ngFor="let field of reportData[0] | keys">{{ field }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of reportData">
-                    <td *ngFor="let field of item | keys">{{ item[field] }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class='container-fluid'>
+        <app-survey-graph [data]="data" [date]="inicio + ' a ' + fin" [title]="surveyData['master'] ? surveyData['master']['name'] : 'Tipificación'"></app-survey-graph>
     </div>
 </div>

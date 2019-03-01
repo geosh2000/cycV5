@@ -100,6 +100,7 @@ import { AvanceVentaPdvComponent } from './components/reportes/pdv/avance-venta-
 import { CuartilesV2Component } from './components/reportes/cuartiles/cuartiles-v2.component';
 import { CallsV2Component } from './components/monitors/calls-v2/calls-v2.component';
 import { FcComponent } from './components/monitors/fc/fc.component';
+import { SurveyReportGraphComponent } from './components/reportes/survey/survey-report-graph.component';
 
 
 const APP_ROUTES: Routes = [
@@ -163,6 +164,7 @@ const APP_ROUTES: Routes = [
   { path: 'proReport', component: ProReportComponent },
   { path: 'afiliados', component: ReporteAfiliadosComponent},
   { path: 'surveyReport/:surveyId', component: SurveyReportComponent },
+  { path: 'surveyGraph/:surveyId', component: SurveyReportGraphComponent },
   { path: 'consultaAvisosPdv', component: ReportesAvisosPdvComponent },
   { path: 'ventaSemanaMp', component: VentaSemanaComponent },
   { path: 'avancePdv', component: AvanceVentaPdvComponent },

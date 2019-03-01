@@ -1,12 +1,12 @@
-<div class='d-flex justify-content-center align-items-center m-0 p-0' style="height: 1000px" [ngClass]="classColor(parse(fc['main']['td']['fc']),true)">
+<div class='d-flex justify-content-center align-items-center m-0 p-0' [ngClass]="classColor(parse(fc['main']['td']['fc']),true)">
     <div>
-        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 30rem" *ngIf="!loading['data']">{{ parse(fc['main']['td']['fc']) | percent:'.0-2' }}</p>
+        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 23vw" *ngIf="!loading['data']">{{ parse(fc['main']['td']['fc']) | percent:'.0-2' }}</p>
         <mat-spinner diameter="500" *ngIf="loading['data']"></mat-spinner>
-        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 3rem">{{ fc['main']['td']['locs'] }} Locs || {{ fc['main']['td']['llamadas'] }} Llamadas</p>
-        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 2rem">(Ayer: {{ parse(fc['main']['yd']['fc']) | percent:'.0-2' }} || {{ fc['main']['yd']['locs'] }} Locs || {{ fc['main']['yd']['llamadas'] }} Llamadas)</p>
-        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 3rem">FC Desborde: {{ parse(fc['pdv']['td']['fc']) | percent:'.0-2' }}</p>
-        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 2rem">(Ayer: {{ parse(fc['pdv']['td']['fc']) | percent:'.0-2' }})</p>
+        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 3vw">{{ fc['main']['td']['locs'] }} Locs || {{ fc['main']['td']['llamadas'] }} Llamadas</p>
+        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 1.3vw">(Ayer: {{ parse(fc['main']['yd']['fc']) | percent:'.0-2' }} || {{ fc['main']['yd']['locs'] }} Locs || {{ fc['main']['yd']['llamadas'] }} Llamadas)</p>
+        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 3vw">FC Desborde: {{ parse(fc['pdv']['td']['fc']) | percent:'.0-2' }}</p>
+        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 1.3vw">(Ayer: {{ parse(fc['pdv']['yd']['fc']) | percent:'.0-2' }})</p>
         <br>
-        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 1rem">Última Actualizacion: {{ printTime(lu, 'DD MMM \'YY HH:mm:ss') }}... Recarga en {{ countTime }} seg.</p>
+        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 1vw; height:10px">Última Actualizacion: {{ printTime(lu, 'DD MMM \'YY HH:mm:ss') }}... Recarga en {{ countTime }} seg.</p>
     </div>
 </div>

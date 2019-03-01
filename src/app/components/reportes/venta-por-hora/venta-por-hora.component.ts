@@ -177,7 +177,7 @@ export class VentaPorHoraComponent implements OnInit {
   getData(){
     this.loading['data'] = true
 
-    this._api.restfulGet( `${this.inicio}/${this.viewDep}`, 'Venta/ventaPorHora' )
+    this._api.restfulGet( `${this.dateSelected}/${this.viewDep}`, 'Venta/ventaPorHora' )
             .subscribe( res => {
 
               this.loading['data'] = false
