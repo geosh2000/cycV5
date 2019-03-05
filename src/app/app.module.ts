@@ -251,6 +251,7 @@ import { FcComponent } from './components/monitors/fc/fc.component';
 import { VentaPorHoraComponent } from './components/reportes/venta-por-hora/venta-por-hora.component';
 import { SurveyGraphComponent } from './components/reportes/survey/survey-graph.component';
 import { SurveyReportGraphComponent } from './components/reportes/survey/survey-report-graph.component';
+import { SeguimientoBaseObComponent } from './components/reportes/seguimiento-base-ob/seguimiento-base-ob.component';
 
 declare let jQuery: Object;
 
@@ -453,6 +454,7 @@ registerLocaleData(localeEsMX)
     VentaPorHoraComponent,
     SurveyGraphComponent,
     SurveyReportGraphComponent,
+    SeguimientoBaseObComponent,
   ],
   imports: [
     BrowserModule,

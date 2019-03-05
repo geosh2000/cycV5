@@ -11,6 +11,13 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### Monitor FC para MP
 * FC del día, con referencia de desborde
 * Comparación misma hora del día anterior
+* Responsivo para teléfonos (.3001)
+
+### Reporte gráfico para formularios
+* Sankey de tipificaciones parametrizado (.3001)
+
+### Seguimiento de base OB MP
+* Match de base con llamadas salientes (.3002)
 
 ### Tabla F Soporte
 * Identificación de llamadas desbordadas y % de desborde
@@ -19,6 +26,7 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Reporte de venta por hora por skill seleccionado
 * 1 día de selección
 * Descargable
+* Fix de fecha (.3001)
 
 ## v2.4.2
 
