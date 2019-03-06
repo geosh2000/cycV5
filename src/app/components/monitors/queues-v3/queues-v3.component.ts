@@ -19,6 +19,7 @@ export class QueuesV3Component implements OnInit, OnDestroy {
   @ViewChild('blockMain') _callb:CallBlockComponent
   @Input() countrySelected:any = 'CO'
   @Input() hideHead:boolean = false
+  @Input() useTotals:boolean = false
   @Input() viewParams:Object = {
               small: true,
               qs: false,
@@ -30,6 +31,7 @@ export class QueuesV3Component implements OnInit, OnDestroy {
                 v5: { active: false, detail: true, bigDetail: false, waits: true, bySkill: false, skill: '', qs: [] }
               }
             }
+  @Input() totals:Object = {}
 
   @Output() skillSel = new EventEmitter<any>()
 

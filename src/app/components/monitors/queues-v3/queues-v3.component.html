@@ -68,8 +68,8 @@
           </div>
         </ng-container> -->
     </div>
-    <app-call-block #blockMain [hideHead]="hideHead" [ahtLimits]="ahtLimits" [qsDisplay]="viewParams['qs']" [countrySelected]="countrySelected" [qList]="qList" [data]="allQs[countrySelected]" [qData]="dataQ" [params]="viewParams['displays']['v1']" [display]="{sm: viewParams['small']}"
-        *ngIf="viewParams['displays']['v1']['active']"></app-call-block>
+    <app-call-block #blockMain [totals]="totals" [useTotals]="useTotals" [hideHead]="hideHead" [ahtLimits]="ahtLimits" [qsDisplay]="viewParams['qs']" [countrySelected]="countrySelected" [qList]="qList" [data]="allQs[countrySelected]" [qData]="dataQ" [params]="viewParams['displays']['v1']"
+        [display]="{sm: viewParams['small']}" *ngIf="viewParams['displays']['v1']['active']"></app-call-block>
     <ng-container *ngFor="let d of viewParams['displays'] | keys">
         <app-call-block (skillSel)="emitSkill($event)" [ahtLimits]="ahtLimits" [qsDisplay]="viewParams['qs']" [countrySelected]="countrySelected" [qList]="qList" [data]="allQs[countrySelected]" [qData]="dataQ" [params]="viewParams['displays'][d]" [display]="{sm: viewParams['small']}"
             *ngIf="viewParams['displays'][d]['active'] && d!='v1'"></app-call-block>

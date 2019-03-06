@@ -93,6 +93,7 @@ export class SeguimientoBaseObComponent implements OnInit {
     { key: 'Localizador', title: 'Localizador' },
     { key: 'gpoCanalKpi', title: 'Canal KPI' },
     { key: 'tipoCanal', title: 'Canal Tipo' },
+    { key: 'name', title: 'Status' },
     { key: 'Servicios', title: 'Servicios' },
     { key: 'nombreCliente', title: 'Cliente' },
     { key: 'correo', title: 'Correo' },
@@ -101,10 +102,11 @@ export class SeguimientoBaseObComponent implements OnInit {
     { key: 'asesores', title: 'Asesores' },
     { key: 'primerIntento', title: 'Primer Intento' },
     { key: 'ultimoIntento', title: 'Ultimo Intento' },
+    { key: 'Concretada', title: 'Concretada Por' },
   ]
 
   columnsCopy = [];
-  checked = new Set(['Fecha','Hora','Localizador','gpoCanalKpi','tipoCanal','Servicios','nombreCliente','correo','Intentos','Efectivas','asesores','primerIntento','ultimoIntento']);
+  checked = new Set(['Fecha','Hora','Localizador','gpoCanalKpi','tipoCanal','name','Servicios','nombreCliente','correo','Intentos','Efectivas','asesores','primerIntento','ultimoIntento','Concretada',]);
 
   constructor(public _api: ApiService,
       public _init:InitService,

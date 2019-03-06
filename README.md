@@ -8,6 +8,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 ### CallStatistics
 * Reporte de desbordes para colas con "desborde" = 1
 
+### Monitor Combo
+* Obtención de resumen de llamadas desde callStatistics (.3003)
+
 ### Monitor FC para MP
 * FC del día, con referencia de desborde
 * Comparación misma hora del día anterior
@@ -15,12 +18,17 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 
 ### Reporte gráfico para formularios
 * Sankey de tipificaciones parametrizado (.3001)
+* Fix -> Botón de gráficas desde reporte (.3003)
 
 ### Seguimiento de base OB MP
 * Match de base con llamadas salientes (.3002)
+* Filtra resultados saldados por el cliente (.3003)
 
 ### Tabla F Soporte
 * Identificación de llamadas desbordadas y % de desborde
+
+### Venta por PDV
+* Modificación de Columnas (.3003)
 
 ### Venta por Hora
 * Reporte de venta por hora por skill seleccionado

@@ -31,7 +31,7 @@
                         <button type="button" class="btn btn-success" (click)="getData()" [disabled]="loading['data']">Consultar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
                     </div>
                     <div class="m-1" *ngIf="hasGraph">
-                        <button type="button" class="btn btn-info" [routerLink]="'/surveyGraph/'+surveyId">Gráfica</button>
+                        <button type="button" class="btn btn-info" [routerLink]="['/surveyGraph',surveyId]">Gráfica</button>
                     </div>
                     <div class="m-1" *ngIf="reportData.length > 0">
                         <button type="button" class="btn btn-warning" (click)="download('reporte')">Descargar</button>

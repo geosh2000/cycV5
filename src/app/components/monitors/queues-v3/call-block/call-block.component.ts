@@ -54,6 +54,8 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
   @Input() qList:any = []
   @Input() qsDisplay:boolean
   @Input() ahtLimits:Object = {}
+  @Input() useTotals:boolean = false
+  @Input() totals:Object = {}
 
   @Output() skillSel = new EventEmitter<any>()
 

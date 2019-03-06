@@ -1,6 +1,6 @@
 <div class="row" style="height: 1000px">
     <div class="col-4">
-        <app-queues-v3 (skillSel)="emitSkill($event)" countrySelected="MX" [viewParams]="viewParams" [hideHead]="true"></app-queues-v3>
+        <app-queues-v3 [totals]="_monA ? _monA['total'] : {}" [useTotals]="__monA ? true : false" (skillSel)="emitSkill($event)" countrySelected="MX" [viewParams]="viewParams" [hideHead]="true"></app-queues-v3>
         <div *ngIf="_qM"><small>{{ _qM.dataQ[0] ? _qM.printTime(_qM.dataQ[0]['Last_Update'], 'YYYY-MM-DD HH:mm:ss') : 'NA' }}</small></div>
     </div>
     <div class="col-8">

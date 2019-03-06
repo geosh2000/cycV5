@@ -77,15 +77,16 @@
                 <tr>
                     <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '1'">Fechas</th>
                     <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">Fecha</th>
-                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">DOW</th>
+                    <!-- <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">DOW</th>
                     <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">Año</th>
                     <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">Mes</th>
-                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">Día</th>
-                    <th class="text-center" scope="col">Ciudad</th>
+                    <th class="text-center" scope="col" *ngIf="ventaData[0]['Total'] == '0'">Día</th> -->
+                    <th class="text-center" scope="col" *ngIf="!ventaData[0]['Nombre']">Ciudad</th>
                     <th class="text-center" scope="col" *ngIf="!ventaData[0]['Nombre']">PDV</th>
-                    <th class="text-center" scope="col" *ngIf="!ventaData[0]['Nombre']">PDV Name</th>
+                    <th class="text-center" scope="col">PDV Name</th>
+                    <!-- <th class="text-center" scope="col" *ngIf="!ventaData[0]['Nombre']">PDV Name</th> -->
                     <th class="text-center" scope="col" *ngIf="ventaData[0]['Nombre']">Asesor</th>
-                    <th class="text-center" scope="col">Supervisor</th>
+                    <th class="text-center" scope="col" *ngIf="!ventaData[0]['Nombre']">Supervisor</th>
                     <th class="text-center" scope="col">Monto Shop</th>
                     <th class="text-center" scope="col">Monto Otro<br>Canal</th>
                     <th class="text-center" scope="col">Monto Total</th>
@@ -104,15 +105,16 @@
                 <tr *ngFor="let item of ventaData">
                     <th class="text-center" *ngIf="ventaData[0]['Total'] == '1'">{{ printDate( searchStart, "YYYY-MM-DD" ) }} a {{ printDate( searchEnd, "YYYY-MM-DD" ) }}</th>
                     <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? 'Total' : printDate( item['Fecha'], "YYYY-MM-DD" ) }}</th>
-                    <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "dddd" ) }}</th>
+                    <!-- <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "dddd" ) }}</th>
                     <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "YYYY" ) }}</th>
                     <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "MMMM" ) }}</th>
-                    <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "DD" ) }}</th>
-                    <td class="text-center">{{ item['Ciudad'] }}</td>
+                    <th class="text-center" *ngIf="ventaData[0]['Total'] == '0'">{{ item['Fecha'] == 'Total' ? '' : printDate( item['Fecha'], "DD" ) }}</th> -->
+                    <td class="text-center" *ngIf="!ventaData[0]['Nombre']">{{ item['Ciudad'] }}</td>
                     <td class="text-center" *ngIf="!ventaData[0]['Nombre']">{{ item['PDV'] }}</td>
-                    <td class="text-center" *ngIf="!ventaData[0]['Nombre']">{{ item['PdvName'] }}</td>
+                    <!-- <td class="text-center" *ngIf="!ventaData[0]['Nombre']">{{ item['PdvName'] }}</td> -->
+                    <td class="text-center">{{ item['PdvName'] }}</td>
                     <td class="text-center" *ngIf="ventaData[0]['Nombre']">{{ item['Nombre'] }}</td>
-                    <td class="text-center">{{ item['Supervisor'] }}</td>
+                    <td class="text-center" *ngIf="!ventaData[0]['Nombre']">{{ item['Supervisor'] }}</td>
                     <td class="text-center">{{ coalesce(item['MontoShop'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
                     <td class="text-center">{{ coalesce(item['MontoOtrosCanales'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
                     <td class="text-center">{{ coalesce(item['Monto'],0) | currency:'MXN':'symbol-narrow':'.2-2' }}</td>
