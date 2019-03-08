@@ -30,6 +30,7 @@ export class HorariosSemanaComponent implements OnInit {
     ch_ret:       true,
     ch_sa:        true,
     ch_x:        true,
+    ch_pdv:        true,
     ch_x_p:        false,
     sh_p:        true,
     sh_d:        true

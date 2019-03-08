@@ -142,6 +142,14 @@
                                 </p>
                             </div>
                         </div>
+                        <div class="col-lg">
+                            <div style="text-align: center" class="p-2">
+                                <ui-switch color="green" size="small" name='sh_p' [(ngModel)]="showOpts['ch_pdv']"></ui-switch>
+                                <p style="margin-top: -10px">
+                                    <small *ngIf="!tdInfo">PDV</small>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="container p-2 d-flex justify-content-left flex-wrap" *ngIf="depLoadFlag">

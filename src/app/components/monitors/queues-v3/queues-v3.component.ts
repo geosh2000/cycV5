@@ -39,11 +39,14 @@ export class QueuesV3Component implements OnInit, OnDestroy {
   showContents:boolean = false
   mainCredential:string = 'default'
   timeout:any
+  timeoutAht:any
   timerCount = 2
   timer:Object = {
     success: 2,
     error: 1
   }
+
+  flagProc:boolean = true
 
   displays = {
    a: true,
@@ -159,6 +162,8 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     clearTimeout(this.timeout)
+    clearTimeout(this.timeoutAht)
+    this.flagProc = false
   }
 
   getQueues(){
@@ -282,7 +287,10 @@ export class QueuesV3Component implements OnInit, OnDestroy {
                 this.dataQ = dataQ
 
                 this.timerCount = this.timer['success']
-                this.startTimer()
+
+                if(this.flagProc){
+                  this.startTimer()
+                }
 
               }, err => {
                 console.log('ERROR', err)
@@ -314,7 +322,7 @@ export class QueuesV3Component implements OnInit, OnDestroy {
 
   getAhtRefresh(){
     this.getAhtLimits()
-    setTimeout( () => this.startTimer(), 1800000 )
+    this.timeoutAht = setTimeout( () => this.startTimer(), 1800000 )
   }
 
   pause(){

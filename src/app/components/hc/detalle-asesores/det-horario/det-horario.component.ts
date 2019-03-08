@@ -84,6 +84,7 @@ export class DetHorarioComponent implements OnChanges {
     ch_sa:        true,
     ch_x:        true,
     ch_x_p:        false,
+    ch_pdv:        true,
     sh_p:        true,
     sh_d:        true
   }

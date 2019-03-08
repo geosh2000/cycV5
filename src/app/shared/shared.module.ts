@@ -78,6 +78,7 @@ import { Select2Module } from 'ng2-select2';
 import { AvisoPdvComponent } from './avisos-globales/aviso-pdv/aviso-pdv.component';
 import { NewAdvPdvComponent } from './avisos-globales/new-adv-pdv/new-adv-pdv.component';
 import { AutocompleteAffiliateComponent } from './autocomplete-affiliate/autocomplete-affiliate.component';
+import { PdvBadgeComponent } from './buttons/pdv-badge/pdv-badge.component';
 
 
 
@@ -166,6 +167,7 @@ import { AutocompleteAffiliateComponent } from './autocomplete-affiliate/autocom
         AvisoPdvComponent,
         NewAdvPdvComponent,
         AutocompleteAffiliateComponent,
+        PdvBadgeComponent,
 
     ],
     exports: [
@@ -196,6 +198,7 @@ import { AutocompleteAffiliateComponent } from './autocomplete-affiliate/autocom
         AvisosGlobalesComponent,
         NewAdvPdvComponent,
         AutocompleteAffiliateComponent,
+        PdvBadgeComponent,
     ]
 })
 export class SharedModule { }

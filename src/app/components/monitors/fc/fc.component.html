@@ -7,6 +7,6 @@
         <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 3vw">FC Desborde: {{ parse(fc['pdv']['td']['fc']) | percent:'.0-2' }}</p>
         <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 1.3vw">(Ayer: {{ parse(fc['pdv']['yd']['fc']) | percent:'.0-2' }})</p>
         <br>
-        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 1vw; height:10px">Última Actualizacion: {{ printTime(lu, 'DD MMM \'YY HH:mm:ss') }}... Recarga en {{ countTime }} seg.</p>
+        <p [ngClass]="classColor(parse(fc['main']['td']['fc']),false)" class="text-center" style="font-size: 1vw">Última Actualizacion: {{ printTime(lu, 'DD MMM \'YY HH:mm:ss') }}... Recarga en {{ countTime }} seg.</p>
     </div>
 </div>

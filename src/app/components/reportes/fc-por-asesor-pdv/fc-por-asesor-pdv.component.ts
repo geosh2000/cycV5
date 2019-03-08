@@ -35,11 +35,11 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<any> {
   }
 }
 @Component({
-  selector: 'app-seguimiento-base-ob',
-  templateUrl: './seguimiento-base-ob.component.html',
+  selector: 'app-fc-por-asesor-pdv',
+  templateUrl: './fc-por-asesor-pdv.component.html',
   styles: []
 })
-export class SeguimientoBaseObComponent implements OnInit {
+export class FcPorAsesorPdvComponent implements OnInit {
 
   public singlePicker = {
     singleDatePicker: true,
@@ -89,25 +89,15 @@ export class SeguimientoBaseObComponent implements OnInit {
   config:EasyTableServiceService
   columns = [
     { key: 'Fecha', title: 'Fecha' },
-    { key: 'Hora', title: 'Hora' },
-    { key: 'Localizador', title: 'Localizador' },
-    { key: 'gpoCanalKpi', title: 'Canal KPI' },
-    { key: 'tipoCanal', title: 'Canal Tipo' },
-    { key: 'name', title: 'Status' },
-    { key: 'Servicios', title: 'Servicios' },
-    { key: 'nombreCliente', title: 'Cliente' },
-    { key: 'correo', title: 'Correo' },
-    { key: 'Intentos', title: 'Intentos' },
-    { key: 'Efectivas', title: 'Llamadas Efectivas' },
-    { key: 'asesores', title: 'Asesores' },
-    { key: 'primerIntento', title: 'Primer Intento' },
-    { key: 'ultimoIntento', title: 'Ultimo Intento' },
-    { key: 'Concretada', title: 'Concretada Por' },
-    { key: 'LocsSaldados', title: 'Locs Saldados' },
+    { key: 'Nombre', title: 'Nombre' },
+    { key: 'PDV', title: 'PDV' },
+    { key: 'Llamadas', title: 'Llamadas Recibidas' },
+    { key: 'LocsIn', title: 'Locs Canal IN' },
+    { key: 'FC', title: 'FC' },
   ]
 
   columnsCopy = [];
-  checked = new Set(['Fecha','Hora','Localizador','gpoCanalKpi','tipoCanal','name','Servicios','nombreCliente','correo','Intentos','Efectivas','asesores','primerIntento','ultimoIntento','Concretada','LocsSaldados']);
+  checked = new Set(['Fecha','Nombre','PDV','Llamadas','LocsIn','FC',]);
 
   constructor(public _api: ApiService,
       public _init:InitService,
@@ -140,7 +130,7 @@ export class SeguimientoBaseObComponent implements OnInit {
     this.config['paginationEnabled'] = true
     this.config['rows'] = 20
     this.config['paginationRangeEnabled'] = true
-    this.titleService.setTitle('CyC - Seguimiento de Base OB MP');
+    this.titleService.setTitle('CyC - FC en vivo por asesor PDV');
     this.getDeps()
   }
 
@@ -182,7 +172,7 @@ export class SeguimientoBaseObComponent implements OnInit {
   getData(){
     this.loading['data'] = true
 
-    this._api.restfulGet( `${this.dateSelected}`, 'Venta/baseSumCall' )
+    this._api.restfulGet( `${this.dateSelected}`, 'Venta/fcPdvPorAsesor' )
             .subscribe( res => {
 
               this.loading['data'] = false
@@ -215,7 +205,7 @@ export class SeguimientoBaseObComponent implements OnInit {
     let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
 'binary' });
 
-    saveAs(new Blob([this.s2ab(wbout)], { type: 'application/vnd.ms-excel' }), `SeguimientoBase_${this.dateSelected}.xlsx`)
+    saveAs(new Blob([this.s2ab(wbout)], { type: 'application/vnd.ms-excel' }), `fcPorAsesor_PDV_${this.dateSelected}.xlsx`)
   }
 
   s2ab(s) {

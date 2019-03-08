@@ -252,6 +252,7 @@ import { VentaPorHoraComponent } from './components/reportes/venta-por-hora/vent
 import { SurveyGraphComponent } from './components/reportes/survey/survey-graph.component';
 import { SurveyReportGraphComponent } from './components/reportes/survey/survey-report-graph.component';
 import { SeguimientoBaseObComponent } from './components/reportes/seguimiento-base-ob/seguimiento-base-ob.component';
+import { FcPorAsesorPdvComponent } from './components/reportes/fc-por-asesor-pdv/fc-por-asesor-pdv.component';
 
 declare let jQuery: Object;
 
@@ -455,6 +456,7 @@ registerLocaleData(localeEsMX)
     SurveyGraphComponent,
     SurveyReportGraphComponent,
     SeguimientoBaseObComponent,
+    FcPorAsesorPdvComponent,
   ],
   imports: [
     BrowserModule,

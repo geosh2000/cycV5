@@ -16,6 +16,9 @@ Esta versión está hecha con el framework de Angular con la finalidad de añadi
 * Comparación misma hora del día anterior
 * Responsivo para teléfonos (.3001)
 
+### Monitor FC asesores PDV
+* FC del día, por asesor que haya tomado llamadas del IN (.3005)
+
 ### Reporte gráfico para formularios
 * Sankey de tipificaciones parametrizado (.3001)
 * Fix -> Botón de gráficas desde reporte (.3003)

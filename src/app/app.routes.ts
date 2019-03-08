@@ -102,6 +102,7 @@ import { CallsV2Component } from './components/monitors/calls-v2/calls-v2.compon
 import { FcComponent } from './components/monitors/fc/fc.component';
 import { SurveyReportGraphComponent } from './components/reportes/survey/survey-report-graph.component';
 import { SeguimientoBaseObComponent } from './components/reportes/seguimiento-base-ob/seguimiento-base-ob.component';
+import { FcPorAsesorPdvComponent } from './components/reportes/fc-por-asesor-pdv/fc-por-asesor-pdv.component';
 
 
 const APP_ROUTES: Routes = [
@@ -171,6 +172,7 @@ const APP_ROUTES: Routes = [
   { path: 'avancePdv', component: AvanceVentaPdvComponent },
   { path: 'ventaPorHora', component: VentaPorHoraComponent },
   { path: 'seguimientoBase', component: SeguimientoBaseObComponent },
+  { path: 'fcPorAsesorPdv', component: FcPorAsesorPdvComponent },
 
   // Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },
