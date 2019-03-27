@@ -1,244 +1,256 @@
 <div class="alert alert-danger" role="alert" *ngIf="!showContents">
-  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
 <div class="container-fluid" *ngIf="showContents">
-  <div class="container d-flex justify-content-center">
-    <div class="card" [style.width.px]="650">
-      <div class="card-body" [ngClass]="{'bg-warning': edit}">
+    <div class="container d-flex justify-content-center">
+        <div class="card" [style.width.px]="650">
+            <div class="card-body" [ngClass]="{'bg-warning': edit && !dataIn}">
 
-        <div class="row">
-          <div class="col-12">
-            <h1 class="text-center text-info">Citas Outlet VyV 2018</h1>
-            <h4 class="text-center text-info" *ngIf="edit">Folio: {{ folioSelected }}</h4>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 d-flex justify-content-between">
-            <div class="p-1">
-              <button type="button" class="btn btn-success" [disabled]="loading['save']" (click)="save()" *ngIf="!edit">Guardar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-              <button type="button" class="btn btn-success" [disabled]="loading['save']" (click)="save( true )" *ngIf="edit">Guardar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-              <button type="button" class="btn btn-danger ml-2" [disabled]="loading['delete']" (click)="delete()" *ngIf="edit"><i class="far fa-trash-alt"></i><span *ngIf="loading['delete']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-            </div>
-            <div class="p-1">
-              <button type="button" class="btn btn-warning" (click)="download()">Descargar <span *ngIf="loading['download']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-            </div>
-            <div class="p-1">
-              <button type="button" class="btn btn-info" (click)="editMode( !edit )">{{ !edit ? 'Modo Edición' : 'Modo Captura' }}</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="row border pt-2">
-
-          <div class="col-6">
-            <div class="form-group row">
-              <div class="col-sm-12">
-                <input (keyup)="validate('name')" type="text" [ngClass]="{'is-invalid': form['name'] == '' && !validation['name']}" class="form-control" id="nombre" placeholder="Nombre del Cliente" [(ngModel)]="form['name']">
-              </div>
-              <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['name'] == '' && !validation['name']">
-                Ingresa el nombre del cliente
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-sm-12">
-                <input (keyup)="validate('correo')" type="text" [ngClass]="{'is-invalid': form['correo'] == '' && !validation['correo']}" class="form-control" id="correo" placeholder="Correo Electrónico" [(ngModel)]="form['correo']">
-              </div>
-              <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['correo'] == '' && !validation['correo']">
-                Correo obligatorio
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6">
-            <div class="form-group row">
-              <div class="col-sm-12">
-                <input (keyup)="validate('localizador')" type="text" [ngClass]="{'is-invalid': form['localizador'] == '' && !validation['localizador']}" class="form-control" id="localizador" placeholder="Localizador" [(ngModel)]="form['localizador']">
-              </div>
-              <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['localizador'] == '' && !validation['localizador']">
-                Ingresa el localizador de referencia
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-sm-12">
-                <input (keyup)="validate('telefono')" type="text" [ngClass]="{'is-invalid': form['telefono'] == '' && !validation['telefono']}" class="form-control" id="telefono" placeholder="Teléfono" [(ngModel)]="form['telefono']">
-              </div>
-              <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['telefono'] == '' && !validation['telefono']">
-                Indica el teléfono de contacto del cliente
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="row">
-
-          <div class="col-6 border p-1">
-            <h3 class="text-center text-info">Producto</h3>
-            <div class="row">
-              <div class="col-6">
-                <div class="text-center p-1">
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Paquete')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Paquete')<0)}" (click)="select('producto', 'Paquete')">Paquete</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Hotel')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Hotel')<0)}" (click)="select('producto', 'Hotel')">Hotel</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Vuelo')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Vuelo')<0)}" (click)="select('producto', 'Vuelo')">Vuelo</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Auto')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Auto')<0)}" (click)="select('producto', 'Auto')">Auto</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Autobus')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Autobus')<0)}" (click)="select('producto', 'Autobus')">Autobús</button>
-                  <br>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="text-center p-1">
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Circuitos')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Circuitos')<0)}" (click)="select('producto', 'Circuitos')">Circuitos</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Crucero')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Crucero')<0)}" (click)="select('producto', 'Crucero')">Crucero</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Seguros')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Seguros')<0)}" (click)="select('producto', 'Seguros')">Seguros</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Tour')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Tour')<0)}" (click)="select('producto', 'Tour')">Tour</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Transfer')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Transfer')<0)}" (click)="select('producto', 'Transfer')">Transfer</button>
-                  <br>
-                </div>
-              </div>
-            </div>
-            <div class="text-danger text-left pl-2" style="font-size: smaller;" *ngIf="form['producto'] && !validation['producto']">
-              Selecciona al menos un producto
-            </div>
-          </div>
-
-          <div class="col-6 border p-1">
-            <h3 class="text-center text-info">Destino</h3>
-            <div class="row">
-              <div class="col-12">
-                <div class="text-center p-1">
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['destino']['tipo'] && form['destino']['tipo'].indexOf('Playa')>=0, 'btn-outline-success': !form['destino']['tipo'] || (form['destino']['tipo'] && form['destino']['tipo'].indexOf('Playa')<0)}" (click)="select('destino', 'Playa')">Playa</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['destino']['tipo'] && form['destino']['tipo'].indexOf('Ciudad')>=0, 'btn-outline-success': !form['destino']['tipo'] || (form['destino']['tipo'] && form['destino']['tipo'].indexOf('Ciudad')<0)}" (click)="select('destino', 'Ciudad')">Ciudad</button>
-                  <br>
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['destino']['tipo'] && form['destino']['tipo'].indexOf('Negocios')>=0, 'btn-outline-success': !form['destino']['tipo'] || (form['destino']['tipo'] && form['destino']['tipo'].indexOf('Negocios')<0)}" (click)="select('destino', 'Negocios')">Negocios</button>
-                  <div class="text-danger text-left" style="font-size: smaller;" *ngIf="form['destino']['tipo'] && !validation['destino']">
-                    Selecciona al menos un tipo de destino
-                  </div>
-                  <br>
-                  <div class="form-group row">
-                    <div class="col-sm-12">
-                      <input (keyup)="validate('destination')" type="text" [ngClass]="{'is-invalid': form['destino']['destino'] == '' && !validation['destination']}" class="form-control" id="destino" placeholder="Destino" [(ngModel)]="form['destino']['destino']">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="text-center text-info">Citas Outlet VyV 2019</h1>
+                        <h4 class="text-center text-info" *ngIf="edit && !dataIn">Folio: {{ folioSelected }}</h4>
                     </div>
-                    <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['destino']['destino'] == '' && !validation['destination']">
-                      Escribe el destino del cliente
+                </div>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="p-1">
+                            <button type="button" class="btn btn-success" [disabled]="loading['save']" (click)="save()" *ngIf="!edit">Guardar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                            <button type="button" class="btn btn-success" [disabled]="loading['save']" (click)="save( true )" *ngIf="edit">Guardar <span *ngIf="loading['save']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                            <button type="button" class="btn btn-danger ml-2" [disabled]="loading['delete']" (click)="delete()" *ngIf="edit"><i class="far fa-trash-alt"></i><span *ngIf="loading['delete']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                        </div>
+                        <div class="p-1">
+                            <button type="button" class="btn btn-warning" (click)="download()" *ngIf="!dataIn">Descargar <span *ngIf="loading['download']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                        </div>
+                        <div class="p-1">
+                            <button type="button" class="btn btn-info" (click)="editMode( !edit )" *ngIf="!dataIn">{{ !edit ? 'Modo Edición' : 'Modo Captura' }}</button>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-        </div>
-        <div class="row">
+                <div class="row border pt-2">
 
-          <div class="col-12 border p-1">
-            <h3 class="text-center text-info">Fecha de Cita</h3>
-            <div class="row">
-              <div class="col-4">
-                <div class="text-center p-1">
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['fecha'] =='2018-05-10', 'btn-outline-success': form['fecha'] != '2018-05-10'}" (click)="select('fecha', '2018-05-10')">10-May</button>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="text-center p-1">
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['fecha'] =='2018-05-11', 'btn-outline-success': form['fecha'] != '2018-05-11'}" (click)="select('fecha', '2018-05-11')">11-May</button>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="text-center p-1">
-                  <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['fecha'] =='2018-05-12', 'btn-outline-success': form['fecha'] != '2018-05-12'}" (click)="select('fecha', '2018-05-12')">12-May</button>
-                </div>
-              </div>
-            </div>
-            <div class="text-danger text-left p-2" style="font-size: smaller;" *ngIf="!validation['fecha'] && form['fecha'] == ''">
-              Selecciona una fecha
-            </div>
-          </div>
+                    <div class="col-6">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input (keyup)="validate('name')" type="text" [ngClass]="{'is-invalid': form['name'] == '' && !validation['name']}" class="form-control" id="nombre" placeholder="Nombre del Cliente" [(ngModel)]="form['name']">
+                            </div>
+                            <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['name'] == '' && !validation['name']">
+                                Ingresa el nombre del cliente
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input (keyup)="validate('correo')" type="text" [ngClass]="{'is-invalid': form['correo'] == '' && !validation['correo']}" class="form-control" id="correo" placeholder="Correo Electrónico" [(ngModel)]="form['correo']">
+                            </div>
+                            <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['correo'] == '' && !validation['correo']">
+                                Correo obligatorio
+                            </div>
+                        </div>
+                    </div>
 
-        </div>
-        <div class="row animated fadeIn" *ngIf="form['fecha'] && form['fecha'] != ''">
+                    <div class="col-6">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input (keyup)="validate('localizador')" type="text" [ngClass]="{'is-invalid': form['localizador'] == '' && !validation['localizador']}" class="form-control" id="localizador" placeholder="Localizador" [(ngModel)]="form['localizador']">
+                            </div>
+                            <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['localizador'] == '' && !validation['localizador']">
+                                Ingresa el localizador de referencia
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input (keyup)="validate('telefono')" type="text" [ngClass]="{'is-invalid': form['telefono'] == '' && !validation['telefono']}" class="form-control" id="telefono" placeholder="Teléfono" [(ngModel)]="form['telefono']">
+                            </div>
+                            <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['telefono'] == '' && !validation['telefono']">
+                                Indica el teléfono de contacto del cliente
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="col-12 border p-1">
-            <h3 class="text-center text-info">Hora <span *ngIf="loading['slots']"><i class="fas fa-spinner fa-pulse text-info"></i></span></h3>
-            <div class="text-danger text-left p-2" style="font-size: smaller;" *ngIf="!validation['espacio'] && form['espacio'] == ''">
-              Selecciona un espacio
-            </div>
-            <ng-container *ngFor="let hora of horas; index as i">
-              <div class="row border-bottom pl-3 pr-3" *ngIf="(i <= 8 && form['fecha'] == '2018-05-12') || form['fecha'] != '2018-05-12'">
-                <div class="col-2">
-                  <div class="text-center p-1">
-                    <h6>{{ formatTime(hora,'HH:mm') }}<br>hrs</h6>
-                  </div>
                 </div>
-                <div class="col-1 pl-0 pr-0" *ngFor="let slot of slots">
-                  <div class="text-center p-0">
-                    <button type="button"
-                      class="btn btn-block pl-0 pr-0"
-                      [ngClass]="{
+
+                <div class="row">
+
+                    <div class="col-6 border p-1">
+                        <h3 class="text-center text-info">Producto</h3>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="text-center p-1">
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Paquete')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Paquete')<0)}" (click)="select('producto', 'Paquete')">Paquete</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Hotel')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Hotel')<0)}" (click)="select('producto', 'Hotel')">Hotel</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Vuelo')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Vuelo')<0)}" (click)="select('producto', 'Vuelo')">Vuelo</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Auto')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Auto')<0)}" (click)="select('producto', 'Auto')">Auto</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Autobus')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Autobus')<0)}" (click)="select('producto', 'Autobus')">Autobús</button>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center p-1">
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Circuitos')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Circuitos')<0)}" (click)="select('producto', 'Circuitos')">Circuitos</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Crucero')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Crucero')<0)}" (click)="select('producto', 'Crucero')">Crucero</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Seguros')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Seguros')<0)}" (click)="select('producto', 'Seguros')">Seguros</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Tour')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Tour')<0)}" (click)="select('producto', 'Tour')">Tour</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['producto'] && form['producto'].indexOf('Transfer')>=0, 'btn-outline-success': !form['producto'] || (form['producto'] && form['producto'].indexOf('Transfer')<0)}" (click)="select('producto', 'Transfer')">Transfer</button>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-danger text-left pl-2" style="font-size: smaller;" *ngIf="form['producto'] && !validation['producto']">
+                            Selecciona al menos un producto
+                        </div>
+                    </div>
+
+                    <div class="col-6 border p-1">
+                        <h3 class="text-center text-info">Destino</h3>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="text-center p-1">
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['destino']['tipo'] && form['destino']['tipo'].indexOf('Playa')>=0, 'btn-outline-success': !form['destino']['tipo'] || (form['destino']['tipo'] && form['destino']['tipo'].indexOf('Playa')<0)}"
+                                        (click)="select('destino', 'Playa')">Playa</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['destino']['tipo'] && form['destino']['tipo'].indexOf('Ciudad')>=0, 'btn-outline-success': !form['destino']['tipo'] || (form['destino']['tipo'] && form['destino']['tipo'].indexOf('Ciudad')<0)}"
+                                        (click)="select('destino', 'Ciudad')">Ciudad</button>
+                                    <br>
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['destino']['tipo'] && form['destino']['tipo'].indexOf('Negocios')>=0, 'btn-outline-success': !form['destino']['tipo'] || (form['destino']['tipo'] && form['destino']['tipo'].indexOf('Negocios')<0)}"
+                                        (click)="select('destino', 'Negocios')">Negocios</button>
+                                    <div class="text-danger text-left" style="font-size: smaller;" *ngIf="form['destino']['tipo'] && !validation['destino']">
+                                        Selecciona al menos un tipo de destino
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <input (keyup)="validate('destination')" type="text" [ngClass]="{'is-invalid': form['destino']['destino'] == '' && !validation['destination']}" class="form-control" id="destino" placeholder="Destino" [(ngModel)]="form['destino']['destino']">
+                                        </div>
+                                        <div class="text-danger" style="font-size: smaller; padding-left: 15px" *ngIf="form['destino']['destino'] == '' && !validation['destination']">
+                                            Escribe el destino del cliente
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-12 border p-1">
+                        <h3 class="text-center text-info">Fecha de Cita</h3>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="text-center p-1">
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['tipo'] =='0', 'btn-outline-success': form['tipo'] != '0'}" (click)="select('tipo', '0')">Presencial</button>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center p-1">
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['tipo'] =='1', 'btn-outline-success': form['tipo'] != '1'}" (click)="select('tipo', '1')">Telefónica</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="text-center p-1">
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['fecha'] =='2019-05-09', 'btn-outline-success': form['fecha'] != '2019-05-09'}" (click)="select('fecha', '2019-05-09')">09-May</button>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-center p-1">
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['fecha'] =='2019-05-10', 'btn-outline-success': form['fecha'] != '2019-05-10'}" (click)="select('fecha', '2019-05-10')">10-May</button>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-center p-1">
+                                    <button type="button" class="btn btn-block" [ngClass]="{'btn-success': form['fecha'] =='2019-05-11', 'btn-outline-success': form['fecha'] != '2019-05-11'}" (click)="select('fecha', '2019-05-11')">11-May</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-danger text-left p-2" style="font-size: smaller;" *ngIf="!validation['fecha'] && form['fecha'] == ''">
+                            Selecciona una fecha
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row animated fadeIn" *ngIf="form['fecha'] && form['fecha'] != '' && form['tipo'] != ''">
+
+                    <div class="col-12 border p-1">
+                        <h3 class="text-center text-info">Hora <span *ngIf="loading['slots']"><i class="fas fa-spinner fa-pulse text-info"></i></span></h3>
+                        <div class="text-danger text-left p-2" style="font-size: smaller;" *ngIf="!validation['espacio'] && form['espacio'] == ''">
+                            Selecciona un espacio
+                        </div>
+                        <ng-container *ngFor="let hora of horas; index as i">
+                            <div class="row border-bottom pl-3 pr-3" *ngIf="(i <= 8 && form['fecha'] == '2019-05-11') || form['fecha'] != '2019-05-11'">
+                                <div class="col-2">
+                                    <div class="text-center p-1">
+                                        <h6>{{ formatTime(hora,'HH:mm') }}<br>hrs</h6>
+                                    </div>
+                                </div>
+                                <div class="col-1 pl-0 pr-0" *ngFor="let slot of slots">
+                                    <div class="text-center p-0">
+                                        <button type="button" class="btn btn-block pl-0 pr-0" [ngClass]="{
                         'btn-primary': form['hora'] == hora && form['espacio'] == slot,
-                        'btn-secondary' : (slotsBusy[form['fecha']] && slot<=slotsBusy[form['fecha']][hora]) && !(edit && form['espacio'] == slot),
-                        'btn-outline-info': !(form['hora'] == hora && form['espacio'] == slot) && !(slotsBusy[form['fecha']] && slot<=slotsBusy[form['fecha']][hora])}"
-                      [disabled]="(slotsBusy[form['fecha']] && slot<=slotsBusy[form['fecha']][hora])"
-                      (click)="select('espacio', [slot,hora])">
+                        'btn-secondary' : (slotsBusy[form['fecha']] && slot<=slotsBusy[form['fecha']][form['tipo']][hora]) && !(edit && form['espacio'] == slot),
+                        'btn-outline-info': !(form['hora'] == hora && form['espacio'] == slot) && !(slotsBusy[form['fecha']] && slot<=slotsBusy[form['fecha']][form['tipo']][hora])}" [disabled]="(slotsBusy[form['fecha']] && slot<=slotsBusy[form['fecha']][form['tipo']][hora])"
+                                            (click)="select('espacio', [slot,hora])">
                         {{ slot }}
                     </button>
-                  </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
                 </div>
-              </div>
-            </ng-container>
-          </div>
 
-        </div>
-
-      </div>
-    </div>
-    <div class="card" [style.width.px]="200" [style.height.px]="726" *ngIf="edit">
-      <div class="card-body" [ngClass]="{'bg-warning': edit}" >
-
-        <div class="row">
-          <div class="col-12">
-            <h1 class="text-center text-info">Folios</h1>
-          </div>
-        </div>
-        <div class="row" style="overflow: auto">
-          <div class="col-12">
-            <h3 *ngIf="loading['download']">Loading <i class='fas fa-spinner fa-pulse text-info'></i></h3>
-            <div class="p-1" *ngFor="let folio of folios | keys">
-              <button type="button" class="btn btn-sm btn-link" (click)="load(folio)">{{ folio }} <span *ngIf="loading['load']"><i class="fas fa-spinner fa-pulse"></i></span></button>
             </div>
-          </div>
         </div>
+        <div class="card" [style.width.px]="200" [style.height.px]="726" *ngIf="edit && !dataIn">
+            <div class="card-body" [ngClass]="{'bg-warning': edit && !dataIn}">
 
-      </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="text-center text-info">Folios</h1>
+                    </div>
+                </div>
+                <div class="row" style="overflow: auto">
+                    <div class="col-12">
+                        <h3 *ngIf="loading['download']">Loading <i class='fas fa-spinner fa-pulse text-info'></i></h3>
+                        <div class="p-1" *ngFor="let folio of folios | keys">
+                            <button type="button" class="btn btn-sm btn-link" (click)="load(folio)">{{ folio }} <span *ngIf="loading['load']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id='confirmModal'>
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Confirmación de cita</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id='confirmModal'>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmación de cita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
+                </div>
+                <div class="modal-body">
+                    <p>La cita de {{ confirmation['Nombre'] }} ha quedado agendada para el día <span class="text-bold text-primary">{{ confirmation['date'] }} hrs.</span></p>
+                    <br>
+                    <p>El folio de la cita es <span class="text-bold text-primary">{{ confirmation['folio'] }}</span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          <p>La cita de {{ confirmation['Nombre'] }} ha quedado agendada para el día <span class="text-bold text-primary">{{ confirmation['date'] }} hrs.</span></p>
-          <br>
-          <p>El folio de la cita es <span class="text-bold text-primary">{{ confirmation['folio'] }}</span></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
     </div>
-  </div>
 </div>

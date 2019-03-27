@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 
@@ -11,13 +11,17 @@ import { saveAs } from 'file-saver';
 import { utils, write, WorkBook } from 'xlsx';
 
 import { ApiService, InitService, TokenCheckService } from '../../../../services/service.index';
+import { EasyTableServiceService } from '../../../../services/easy-table-service.service';
+import { OutletComponent } from '../outlet.component';
 
 @Component({
   selector: 'app-db-outlet',
   templateUrl: './db-outlet.component.html',
   styles: []
 })
-export class DbOutletComponent implements OnInit {
+export class DbOutletComponent implements OnInit, OnDestroy {
+
+  @ViewChild(OutletComponent) _outlet:OutletComponent
 
   showContents:boolean = false
   edit:boolean = false
@@ -26,10 +30,14 @@ export class DbOutletComponent implements OnInit {
 
   loading:Object = {}
 
+  timeout:any
   dbData:any = []
-  src:any = ""
-  showLoc:any = ""
-  lvStatus:any = ""
+  dataForm:Object = {}
+  confirmation:Object = {}
+  tst:any
+  src:any = ''
+  showLoc:any = ''
+  lvStatus:any = ''
 
   page:number = 1
   size:number = 20
@@ -39,6 +47,26 @@ export class DbOutletComponent implements OnInit {
     comments : '',
     folio : ''
   }
+
+  config:EasyTableServiceService
+  columns:any = [
+    { type: 'default', key: 'id', title: 'id' },
+    { type: 'default', key: 'Localizador', title: 'Localizador' },
+    { type: 'default', key: 'Servicios', title: 'Servicios' },
+    { type: 'default', key: 'VentaMxn', title: 'VentaMxn' },
+    { type: 'default', key: 'clName', title: 'Nombre' },
+    { type: 'default', key: 'customerEmail', title: 'Correo' },
+    { type: 'default', key: 'customerFijo', title: 'Tel Fijo' },
+    { type: 'default', key: 'customerMobile', title: 'Tel Movil' },
+    { type: 'default', key: 'destination', title: 'Destino' },
+    { type: 'default', key: 'hotel', title: 'Hotel' },
+    { type: 'default', key: 'Contacto', title: 'Contacto' },
+    { type: 'default', key: 'Status', title: 'Status' },
+    { type: 'default', key: 'folio', title: 'folio' },
+    { type: 'default', key: 'ActualizadoPor', title: 'ActualizadoPor' },
+    { type: 'default', key: 'comments', title: 'Observaciones' },
+    { type: 'default', key: 'Last_Update', title: 'Last_Update' },
+  ]
 
   folioOn:boolean = false
   modal:any
@@ -71,9 +99,17 @@ export class DbOutletComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('CyC - DB 2018');
+    this.titleService.setTitle('CyC - Outlet VyV 2019');
+    this.config =  EasyTableServiceService.config
+    this.config['paginationEnabled'] = true
+    this.config['rows'] = 30
+    this.config['paginationRangeEnabled'] = true
     this.getDB()
     this.timer()
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.timeout)
   }
 
   getDB( refresh = false ){
@@ -92,6 +128,7 @@ export class DbOutletComponent implements OnInit {
                     this.dbData[index]['comments'] = item['comments']
                     this.dbData[index]['Contacto'] = item['Contacto']
                     this.dbData[index]['Status'] = item['Status']
+                    this.dbData[index]['Last_Update'] = item['Last_Update']
                     this.dbData[index]['ActualizadoPor'] = item['ActualizadoPor']
                   }
                 }else{
@@ -101,7 +138,7 @@ export class DbOutletComponent implements OnInit {
                 this.collection = res['data'].length
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['data'] = false
 
@@ -115,7 +152,7 @@ export class DbOutletComponent implements OnInit {
   show( loc ){
     this.getLv( loc )
     this.showLoc = loc
-    this.src = "https://rsv.pricetravel.com.mx/reservations/show/"
+    this.src = 'https://rsv.pricetravel.com.mx/reservations/show/'
   }
 
   getLv( loc ){
@@ -130,7 +167,7 @@ export class DbOutletComponent implements OnInit {
 
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['livest'] = false
 
@@ -141,7 +178,7 @@ export class DbOutletComponent implements OnInit {
               })
   }
 
-  chgStatus( id, field, val, content? ){
+  chgStatus( id, field, val, content?, row?, edit = false ){
     this.folioOn = false
 
     this.meta['field'] = field
@@ -152,23 +189,48 @@ export class DbOutletComponent implements OnInit {
 
     if( field == 'Status'){
       this.folioOn = val == 1 ? true : false
-      // jQuery('#folioModal').modal('show')
-      this.modal = this.modalService.open(content, { backdrop: 'static' });
-      this.meta['comments'] = this.dbData[index]['comments']
+
+      if( this.folioOn ){
+        this.dataForm['editFlag'] = edit
+        this.dataForm['id'] = row['id']
+        this.dataForm['name'] = row['clName']
+        this.dataForm['loc'] = row['Localizador']
+        this.dataForm['correo'] = row['customerEmail']
+        this.dataForm['tel'] = `${row['customerFijo']} / ${row['customerMobile']}`
+        this.dataForm['folio'] = edit ? row['folio'] : ''
+        this.tst = moment().format('x')
+        this.confirmation = {}
+        // console.log(this.dataForm)
+        jQuery('#modalAgen').modal('show')
+        // this.modal = this.modalService.open(content, { backdrop: 'static' });
+        this.meta['comments'] = this.dbData[index]['comments']
+      }else{
+        this.updateStatus( field, val, id )
+      }
     }else{
       this.updateStatus( field, val, id )
     }
 
   }
 
-  updateStatus( field, val, id ){
+  updateFolio( e ){
+    if( e.status ){
+      console.log(e)
+      this.updateStatus( 'Status', e['value'], this.dataForm['id'], e.folio, `${e['date']} (${e['tipo']=='0' ? 'presencial' : 'telefónica'})`)
+      this.confirmation = e
+      jQuery('#modalAgen').modal('hide')
+      jQuery('#confirmAge').modal('show')
+    }
+  }
+
+  updateStatus( field, val, id, folio?, c?){
     this.loading['update'] = true
 
     let params = {
         'field'   : field,
         'val'     : val,
-        'folio'   : this.meta['folio'],
-        'comments': this.meta['comments'],
+        'folio'   : folio ? folio : this.meta['folio'],
+        'comments': c ? c : this.meta['comments'],
         'id'      : id
     }
 
@@ -176,16 +238,17 @@ export class DbOutletComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['update'] = false
-                this.dbData[this.meta['index']][field] = val
-                this.dbData[this.meta['index']]['ActualizadoPor'] = this.currentUser['username']
-                this.dbData[this.meta['index']]['status_changer'] = this.currentUser['hcInfo']['id']
-                this.dbData[this.meta['index']]['comments'] = field == 'Status' ? this.meta['comments'] : this.dbData[this.meta['index']]['comments']
-                this.dbData[this.meta['index']]['folio'] = field == 'Status' && val == 1 ? this.meta['folio'] : this.dbData[this.meta['index']]['folio']
-                this.modal.close()
+                // this.dbData[this.meta['index']][field] = val
+                // this.dbData[this.meta['index']]['ActualizadoPor'] = this.currentUser['username']
+                // this.dbData[this.meta['index']]['status_changer'] = this.currentUser['hcInfo']['id']
+                // this.dbData[this.meta['index']]['comments'] = field == 'Status' ? (c ? c :this.meta['comments']) : this.dbData[this.meta['index']]['comments']
+                // this.dbData[this.meta['index']]['folio'] = field == 'Status' && val == 1 ? folio ? folio : this.meta['folio'] : this.dbData[this.meta['index']]['folio']
+                this.getDB(true)
+                jQuery('#modalAgen').modal('hide')
 
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['update'] = false
 
@@ -204,6 +267,6 @@ export class DbOutletComponent implements OnInit {
       this.timerCount--
     }
 
-    setTimeout( () => this.timer, 1000 )
+    this.timeout = setTimeout( () => this.timer(), 1000 )
   }
 }

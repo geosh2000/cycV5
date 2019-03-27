@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef, OnChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, Input, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 
@@ -13,9 +13,22 @@ import { ApiService, InitService, TokenCheckService } from '../../../services/se
 @Component({
   selector: 'app-outlet',
   templateUrl: './outlet.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: []
 })
-export class OutletComponent implements OnInit {
+export class OutletComponent implements OnInit, OnChanges {
+
+  @Output() folio = new EventEmitter<any>()
+
+  @Input() tst:any
+  @Input() editFlag:boolean = false
+  @Input() dataIn:boolean = false
+  @Input() dataForm:Object = {
+    name: '',
+    loc:'',
+    correo: '',
+    tel:'',
+  }
 
   showContents:boolean = false
   edit:boolean = false
@@ -49,7 +62,8 @@ export class OutletComponent implements OnInit {
                 private _init:InitService,
                 private titleService: Title,
                 private _tokenCheck:TokenCheckService,
-                public toastr: ToastrService
+                public toastr: ToastrService,
+                private ref: ChangeDetectorRef
                 ) {
     this.currentUser = this._init.getUserInfo()
     this.showContents = this._init.checkCredential( this.mainCredential, true )
@@ -74,6 +88,27 @@ export class OutletComponent implements OnInit {
     this.timer()
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['tst']){
+      this.reset()
+
+      if(!changes['tst'].firstChange){
+        this.edit = this.dataForm['editFlag']
+
+        if( this.dataForm['editFlag'] ){
+          this.folioSelected = this.dataForm['folio']
+          this.load( this.dataForm['folio'] )
+        }else{
+          this.form['name'] = this.dataForm['name']
+          this.form['localizador'] = this.dataForm['loc']
+          this.form['correo'] = this.dataForm['correo']
+          this.form['telefono'] = this.dataForm['tel']
+        }
+
+      }
+    }
+  }
+
   reset(){
     this.form = {
       destino: {}
@@ -95,6 +130,12 @@ export class OutletComponent implements OnInit {
         }
         this.form['fecha'] = this.form['fecha'] == val ? '' : val
 
+        break
+      case 'tipo':
+        this.form['tipo'] = val
+        this.form['fecha'] = ''
+        this.form['hora'] = ''
+        this.form['espacio'] = ''
         break
       case 'producto':
         if( this.form['producto'] ){
@@ -136,32 +177,35 @@ export class OutletComponent implements OnInit {
   }
 
   validate( field='all' ){
-    field == 'all' || field == 'name' ? ( this.validation['name'] = (this.form['name'] && this.form['name'] != '') ? true : false ) : false
-    field == 'all' || field == 'correo' ? ( this.validation['correo'] = (this.form['correo'] && this.form['correo'] != '') ? true : false ) : false
-    field == 'all' || field == 'localizador' ? ( this.validation['localizador'] = (this.form['localizador'] && this.form['localizador'] != '') ? true : false ) : false
-    field == 'all' || field == 'telefono' ? ( this.validation['telefono'] = (this.form['telefono'] && this.form['telefono'] != '') ? true : false ) : false
-    field == 'all' || field == 'fecha' ? ( this.validation['fecha'] = (this.form['fecha'] && this.form['fecha'] != '') ? true : false ) : false
-    field == 'all' || field == 'hora' ? ( this.validation['hora'] = (this.form['hora'] && this.form['hora'] != '') ? true : false ) : false
-    field == 'all' || field == 'espacio' ? ( this.validation['espacio'] = (this.form['espacio'] && this.form['espacio'] != '') ? true : false ) : false
-    field == 'all' || field == 'destination' ? ( this.validation['destination'] = (this.form['destino']['destino'] && this.form['destino']['destino'] != '') ? true : false ) : false
-    field == 'all' || field == 'destino' ? ( this.validation['destino'] = (this.form['destino']['tipo'] && this.form['destino']['tipo'].length > 0) ? true : false ) : false
-    field == 'all' || field == 'producto' ? ( this.validation['producto'] = (this.form['producto'] && this.form['producto'].length > 0) ? true : false ) : false
+    let t
+    t = field == 'all' || field == 'name' ? ( this.validation['name'] = (this.form['name'] && this.form['name'] != '') ? true : false ) : false
+    t = field == 'all' || field == 'correo' ? ( this.validation['correo'] = (this.form['correo'] && this.form['correo'] != '') ? true : false ) : false
+    t = field == 'all' || field == 'localizador' ? ( this.validation['localizador'] = (this.form['localizador'] && this.form['localizador'] != '') ? true : false ) : false
+    t = field == 'all' || field == 'telefono' ? ( this.validation['telefono'] = (this.form['telefono'] && this.form['telefono'] != '') ? true : false ) : false
+    t = field == 'all' || field == 'fecha' ? ( this.validation['fecha'] = (this.form['fecha'] && this.form['fecha'] != '') ? true : false ) : false
+    t = field == 'all' || field == 'hora' ? ( this.validation['hora'] = (this.form['hora'] && this.form['hora'] != '') ? true : false ) : false
+    t = field == 'all' || field == 'tipo' ? ( this.validation['tipo'] = (this.form['tipo'] && this.form['tipo'] != '') ? true : false ) : false
+    t = field == 'all' || field == 'espacio' ? ( this.validation['espacio'] = (this.form['espacio'] && this.form['espacio'] != '') ? true : false ) : false
+    t = field == 'all' || field == 'destination' ? ( this.validation['destination'] = (this.form['destino']['destino'] && this.form['destino']['destino'] != '') ? true : false ) : false
+    t = field == 'all' || field == 'destino' ? ( this.validation['destino'] = (this.form['destino']['tipo'] && this.form['destino']['tipo'].length > 0) ? true : false ) : false
+    t = field == 'all' || field == 'producto' ? ( this.validation['producto'] = (this.form['producto'] && this.form['producto'].length > 0) ? true : false ) : false
 
-    field == 'all' || field == 'name' ? ( this.form['name'] = this.form['name'] ? this.form['name'] : '' ) : false
-    field == 'all' || field == 'correo' ? ( this.form['correo'] = this.form['correo'] ? this.form['correo'] : '' ) : false
-    field == 'all' || field == 'localizador' ? ( this.form['localizador'] = this.form['localizador'] ? this.form['localizador'] : '' ) : false
-    field == 'all' || field == 'telefono' ? ( this.form['telefono'] = this.form['telefono'] ? this.form['telefono'] : '' ) : false
-    field == 'all' || field == 'fecha' ? ( this.form['fecha'] = this.form['fecha'] ? this.form['fecha'] : '' ) : false
-    field == 'all' || field == 'hora' ? ( this.form['hora'] = this.form['hora'] ? this.form['hora'] : '' ) : false
-    field == 'all' || field == 'espacio' ? ( this.form['espacio'] = this.form['espacio'] ? this.form['espacio'] : '' ) : false
-    field == 'all' || field == 'destination' ? ( this.form['destino']['destino'] = this.form['destino']['destino'] ? this.form['destino']['destino'] : '' ) : false
-    field == 'all' || field == 'destino' ? ( this.form['destino']['tipo'] = this.form['destino']['tipo'] && this.form['destino']['tipo'].length > 0  ? this.form['destino']['tipo'] : [] ) : false
-    field == 'all' || field == 'producto' ? ( this.form['producto'] = this.form['producto'] && this.form['producto'].length > 0  ? this.form['producto'] : [] ) : false
+    t = field == 'all' || field == 'name' ? ( this.form['name'] = this.form['name'] ? this.form['name'] : '' ) : false
+    t = field == 'all' || field == 'correo' ? ( this.form['correo'] = this.form['correo'] ? this.form['correo'] : '' ) : false
+    t = field == 'all' || field == 'localizador' ? ( this.form['localizador'] = this.form['localizador'] ? this.form['localizador'] : '' ) : false
+    t = field == 'all' || field == 'telefono' ? ( this.form['telefono'] = this.form['telefono'] ? this.form['telefono'] : '' ) : false
+    t = field == 'all' || field == 'fecha' ? ( this.form['fecha'] = this.form['fecha'] ? this.form['fecha'] : '' ) : false
+    t = field == 'all' || field == 'tipo' ? ( this.form['tipo'] = this.form['tipo'] ? this.form['tipo'] : '' ) : false
+    t = field == 'all' || field == 'hora' ? ( this.form['hora'] = this.form['hora'] ? this.form['hora'] : '' ) : false
+    t = field == 'all' || field == 'espacio' ? ( this.form['espacio'] = this.form['espacio'] ? this.form['espacio'] : '' ) : false
+    t = field == 'all' || field == 'destination' ? ( this.form['destino']['destino'] = this.form['destino']['destino'] ? this.form['destino']['destino'] : '' ) : false
+    t = field == 'all' || field == 'destino' ? ( this.form['destino']['tipo'] = this.form['destino']['tipo'] && this.form['destino']['tipo'].length > 0  ? this.form['destino']['tipo'] : [] ) : false
+    t = field == 'all' || field == 'producto' ? ( this.form['producto'] = this.form['producto'] && this.form['producto'].length > 0  ? this.form['producto'] : [] ) : false
 
     if( field == 'all' ){
       let flag = true
-      for( let field in this.validation ){
-        if( !this.validation[field] ){
+      for( let f in this.validation ){
+        if( !this.validation[f] ){
           flag = false
         }
       }
@@ -180,16 +224,18 @@ export class OutletComponent implements OnInit {
                 this.slotsBusy = res['data']
 
                 if(!this.edit){
-                  if( this.form['fecha'] && this.form['fecha'] != '' ){
-                    if( this.form['hora'] && this.form['hora'] != '' ){
-                      if( this.form['espacio'] <= res['data'][this.form['fecha']][this.form['hora']] ){
-                        if( res['data'][this.form['fecha']][this.form['hora']] >= 10 ){
-                          this.toastr.error( `Los espacios para el ${ moment(this.form['fecha']).format('DD MMM')} a las ${moment(`${this.form['fecha']} ${this.form['hora']}`).format('HH:mm')} se han agotado. Por favor elige otro horario`, `Espacios Agotados` )
-                          this.form['espacio'] = ''
-                          this.form['hora'] = ''
-                          this.validate('espacio')
-                        }else{
-                          this.form['espacio'] = parseInt(res['data'][this.form['fecha']][this.form['hora']])+1
+                  if( this.form['tipo'] && this.form['tipo'] != '' ){
+                    if( this.form['fecha'] && this.form['fecha'] != '' ){
+                      if( this.form['hora'] && this.form['hora'] != '' ){
+                        if( this.form['espacio'] <= res['data'][this.form['fecha']][this.form['hora']] ){
+                          if( res['data'][this.form['fecha']][this.form['hora']] >= 10 ){
+                            this.toastr.error( `Los espacios para el ${ moment(this.form['fecha']).format('DD MMM')} a las ${moment(`${this.form['fecha']} ${this.form['hora']}`).format('HH:mm')} se han agotado. Por favor elige otro horario`, `Espacios Agotados` )
+                            this.form['espacio'] = ''
+                            this.form['hora'] = ''
+                            this.validate('espacio')
+                          }else{
+                            this.form['espacio'] = parseInt(res['data'][this.form['fecha']][this.form['hora']])+1
+                          }
                         }
                       }
                     }
@@ -197,7 +243,7 @@ export class OutletComponent implements OnInit {
                 }
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['slots'] = false
 
@@ -236,7 +282,8 @@ export class OutletComponent implements OnInit {
         destino     : this.form['destino']['tipo'].join('|'),
         destination : this.form['destino']['destino'],
         Fecha       : this.form['fecha'],
-        Hora        : this.form['hora']
+        Hora        : this.form['hora'],
+        tipo        : this.form['tipo'],
       }
 
       this.loading['save'] = true
@@ -258,15 +305,21 @@ export class OutletComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading['save'] = false
-                this.confirmation = params
-                this.confirmation['date'] = moment(`${params['Fecha']} ${params['Hora']}`).format('dddd DD MMM HH:mm')
+                this.confirmation = pm
+                this.confirmation['date'] = moment(`${pm['Fecha']} ${pm['Hora']}`).format('dddd DD MMM HH:mm')
                 this.confirmation['folio'] = res['data']
-                jQuery('#confirmModal').modal('show')
+                this.confirmation['status'] = true
+                this.confirmation['value'] = 1
+                this.folio.emit(this.confirmation)
+
+                if( !this.dataIn ){
+                  jQuery('#confirmModal').modal('show')
+                }
                 this.reset()
 
 
               }, err => {
-                console.log("ERROR", err)
+                console.log('ERROR', err)
 
                 this.loading['save'] = false
 
@@ -278,7 +331,7 @@ export class OutletComponent implements OnInit {
     }
   }
 
-  download( dwl = false ){
+  download( dwl = false, cb ? ){
     let title = 'citasOutlet'
     this.loading['download'] = true
 
@@ -295,6 +348,11 @@ export class OutletComponent implements OnInit {
                 }
 
                 this.folios = folios
+
+                if( cb ){
+                  console.log(folios)
+                  cb()
+                }
               }else{
                 let wb:any
 
@@ -309,7 +367,7 @@ export class OutletComponent implements OnInit {
               }
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['download'] = false
 
@@ -318,13 +376,15 @@ export class OutletComponent implements OnInit {
               console.error(err.statusText, error.msg)
 
             })
+      this.ref.markForCheck();
 
   }
 
   s2ab(s) {
     let buf = new ArrayBuffer(s.length);
     let view = new Uint8Array(buf);
-    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    // tslint:disable-next-line:no-bitwise
+    for (let i=0; i!=s.length; ++i) { view[i] = s.charCodeAt(i) & 0xFF; }
     return buf;
   }
 
@@ -339,37 +399,46 @@ export class OutletComponent implements OnInit {
   }
 
   load( folio ){
-    this.download(true)
-    let data = this.folios[folio]
+    this.download(true, () => {
+      console.log('get Data', folio)
+      let data = this.folios[folio]
 
-    this.folioSelected = folio
-    this.form = {
-      name: data['Nombre'],
-      correo: data['correo'],
-      telefono: data['telefono'],
-      localizador: data['Localizador'],
-      destino: {
-        destino: data['destination'],
-        tipo: data['destino'].split('|')
-      },
-      producto: data['producto'].split('|'),
-      fecha: data['Fecha'],
-      hora: data['Hora']
-    }
+      this.folioSelected = folio
+      this.form = {
+        name: data['Nombre'],
+        correo: data['correo'],
+        telefono: data['telefono'],
+        localizador: data['Localizador'],
+        destino: {
+          destino: data['destination'],
+          tipo: data['destino'].split('|')
+        },
+        producto: data['producto'].split('|'),
+        fecha: data['Fecha'],
+        hora: data['Hora'],
+        tipo: data['tipo']
+      }
 
-    if( this.slotsBusy[data['Fecha']] ){
-      if( this.slotsBusy[data['Fecha']][data['Hora']] ){
-        this.form['espacio'] = parseInt(this.slotsBusy[data['Fecha']][data['Hora']])
+      if( this.slotsBusy[data['Fecha']] ){
+        if( this.slotsBusy[data['Fecha']][data['tipo']] ){
+          if( this.slotsBusy[data['Fecha']][data['tipo']][data['Hora']] ){
+            this.form['espacio'] = parseInt(this.slotsBusy[data['Fecha']][data['tipo']][data['Hora']])
+          }else{
+            this.form['espacio'] = 1
+          }
+        }else{
+          this.form['espacio'] = 1
+        }
       }else{
         this.form['espacio'] = 1
       }
-    }else{
-      this.form['espacio'] = 1
-    }
 
-    this.validate()
-    console.log(this.form)
-    console.log(this.slotsBusy[data['Fecha']][data['Hora']])
+        this.validate()
+        this.ref.markForCheck();
+        console.log(this.form)
+        console.log(this.slotsBusy[data['Fecha']][data['tipo']][data['Hora']])
+      })
+
   }
 
   delete( ){
@@ -382,10 +451,14 @@ export class OutletComponent implements OnInit {
               this.loading['delete'] = false
               this.reset()
               this.toastr.success( `Folio ${res['data']} Eliminado`, `Eliminado` )
-
+              this.confirmation['date'] = ''
+              this.confirmation['folio'] =''
+              this.confirmation['status'] = true
+              this.confirmation['value'] = 0
+              this.folio.emit(this.confirmation)
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['delete'] = false
 

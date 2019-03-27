@@ -1,92 +1,135 @@
 <div class="alert alert-danger" role="alert" *ngIf="!showContents">
-  <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
+    <p>No cuentas con los permisos para poder visualizar este módulo. Por favor contacta a <span class="font-weight-bold">WFM</span> si necesitas accesos.</p>
 </div>
 <div class="container-fluid" *ngIf="showContents">
-  <div class="p-2">
-    <button type="button" class="btn btn-warning" (click)="getDB(true)">Refresh <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-    <span class="p-1"><small>Reload in {{ timerCount }} sec.</small></span>
-  </div>
-  <br>
-  <div class="container-fluid" *ngIf="dbData">
-    <ngb-pagination size="sm" [pageSize]="size" [collectionSize]="collection" [maxSize]="10" [rotate]="true" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
-    <hr>
-    <table style="font-size: smaller" class="table table-sm table-bordered table-stripped">
-      <thead>
-        <tr>
-          <th *ngFor="let field of dbData[0] | keys">{{ field }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let item of dbData; index as i">
-          <tr *ngIf="i >= (page-1) * size && i < (page) * size && item['Contacto'] != 2">
-            <ng-container *ngFor="let field of item | keys">
-              <ng-container *ngIf="field != 'Contacto' && field != 'Status'">
-                <td [ngClass]="{'text-right': field == 'VentaMxn'}" >{{ field == 'VentaMxn' ? (item[field] | currency:'MXN':'symbol-narrow':'.2-2') : item[field] }}</td>
-              </ng-container>
-              <ng-container *ngIf="field == 'Contacto' || field == 'Status'">
-                <td class='text-center' *ngIf="field == 'Contacto'">
-                  <div class="btn-group">
-                    <button class="btn btn-sm" [ngClass]="{'btn-secondary': item[field]==0, 'btn-success': item[field]==1, 'btn-danger': item[field]==2}" type="button">
-                      {{ item[field] == 0 ? 'Pendiente' : item[field] == 1 ? 'Contactable' : 'No Contactable'  }}
-                    </button>
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      <button class="dropdown-item" (click)="chgStatus(item['id'], 'Contacto', 0)" type="button">Pendiente</button>
-                      <button class="dropdown-item" (click)="chgStatus(item['id'], 'Contacto', 2)" type="button">No contactable</button>
-                      <button class="dropdown-item" (click)="chgStatus(item['id'], 'Contacto', 1)" type="button">Contactable</button>
-                    </div>
-                  </div>
-                </td>
-                <td class='text-center' *ngIf="field == 'Status'">
-                  <div class="btn-group">
-                    <button class="btn btn-sm" [ngClass]="{'btn-secondary': item[field]==0, 'btn-success': item[field]==1, 'btn-warning': item[field]==2, 'btn-danger': item[field]>=3}" type="button">
-                      {{ item[field] == 0 ? 'Pendiente' : item[field] == 1 ? 'Agendado' : item[field] == 2 ? 'Llamar después' : item[field] == 3 ? 'No Interesado' : 'No Contactable'  }}
-                    </button>
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      <button class="dropdown-item" (click)="chgStatus(item['id'], 'Status', 0, content)" type="button">Pendiente</button>
-                      <button class="dropdown-item" (click)="chgStatus(item['id'], 'Status', 1, content)" type="button">Agendado</button>
-                      <button class="dropdown-item" (click)="chgStatus(item['id'], 'Status', 2, content)" type="button">Llamar depués</button>
-                      <button class="dropdown-item" (click)="chgStatus(item['id'], 'Status', 3, content)" type="button">No Interesado</button>
-                      <button class="dropdown-item" (click)="chgStatus(item['id'], 'Status', 4, content)" type="button">No Contactable</button>
-                    </div>
-                  </div>
-                </td>
-              </ng-container>
-            </ng-container>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-    <hr>
-    <ngb-pagination size="sm" [pageSize]="size" [collectionSize]="collection"  [maxSize]="10" [rotate]="true" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
-  </div>
-
-
-  <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-body">
-      <form class="needs-validation" novalidate>
-        <div class="form-group">
-          <label for="comments">Comentarios</label>
-          <input type="text" class="form-control" id="comments" name="comments" [(ngModel)]="meta['comments']" placeholder="Ingresa los comentarios...">
+    <div class="d-flex justify-content-end">
+        <div class="p-2">
+            <button type="button" class="btn btn-warning" (click)="getDB(true)">Refresh <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+            <span class="p-1"><small>Reload in {{ timerCount }} sec.</small></span>
         </div>
-        <div class="form-group" *ngIf="folioOn">
-          <label for="folio">Folio</label>
-          <input type="text" class="form-control" id="folio" name="folio" [(ngModel)]="meta['folio']"  placeholder="Ingresa el folio guardado...">
+        <div class="p-2">
+            <button type="button" class="btn btn-warning" (click)="_outlet.download()" [disabled]="_outlet && _outlet.loading['download']">Descargar <span *ngIf="_outlet && _outlet.loading['download']"><i class="fas fa-spinner fa-pulse"></i></span></button>
         </div>
-        <div class="d-flex justify-content-end">
-          <div class="p-2">
-            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancelar</button>
-          </div>
-          <div class="p-2">
-            <button type="submit" class="btn btn-primary" (click)="updateStatus( meta['field'], meta['val'], meta['id'] )">Guardar</button>
-          </div>
-        </div>
-      </form>
     </div>
-  </ng-template>
+    <br>
+    <div class="container-fluid" *ngIf="dbData">
+        <ngx-table [configuration]="config" [data]="dbData" [columns]="columns">
+            <ng-template let-row>
+                <td class="row__email" *ngFor="let item of columns">
+                    <span [ngSwitch]="item['key']">
+                    <span style="font-size: smaller" *ngSwitchCase="'VentaMxn'">
+                        {{ row[item['key']] | currency:'MXN':'symbol-narrow':'.2-2' }}
+                    </span>
+                    <span style="font-size: smaller" [style.width.px]="190" *ngSwitchCase="'Contacto'">
+                      <div class="btn-group">
+                          <button class="btn btn-sm" [ngClass]="{'btn-secondary': row[item['key']]==0, 'btn-success': row[item['key']]==1, 'btn-danger': row[item['key']]==2}" type="button">
+                            {{ row[item['key']] == 0 ? 'Pendiente' : row[item['key']] == 1 ? 'Contactable' : 'No Contactable'  }}
+                          </button>
+                          <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <button class="dropdown-item" (click)="chgStatus(row['id'], 'Contacto', 0, row)" type="button">Pendiente</button>
+                        <button class="dropdown-item" (click)="chgStatus(row['id'], 'Contacto', 2, row)" type="button">No contactable</button>
+                        <button class="dropdown-item" (click)="chgStatus(row['id'], 'Contacto', 1, row)" type="button">Contactable</button>
+                    </div>
+    </div>
+    </span>
+    <span style="font-size: smaller" [style.width.px]="190" *ngSwitchCase="'Status'">
+                        <div class="btn-group">
+                            <button class="btn btn-sm" [ngClass]="{'btn-secondary': row[item['key']]==0, 'btn-success': row[item['key']]==1, 'btn-warning': row[item['key']]==2, 'btn-danger': row[item['key']]>=3}" type="button">
+                              {{ row[item['key']] == 0 ? 'Pendiente' : row[item['key']] == 1 ? 'Agendado' : row[item['key']] == 2 ? 'Llamar después' : row[item['key']] == 3 ? 'No Interesado' : 'No Contactable'  }}
+                            </button>
+                            <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+        <button class="dropdown-item" (click)="chgStatus(row['id'], 'Status', 0, content, row)" type="button" *ngIf="row[item['key']] >1">Pendiente</button>
+        <button class="dropdown-item" (click)="chgStatus(row['id'], 'Status', 1, content, row)" type="button">Agendar</button>
+        <button class="dropdown-item" (click)="chgStatus(row['id'], 'Status', 1, content, row, true)" type="button" *ngIf="row[item['key']] == 1">Editar</button>
+        <button class="dropdown-item" (click)="chgStatus(row['id'], 'Status', 2, content, row)" type="button" *ngIf="row[item['key']] != 1">Llamar depués</button>
+        <button class="dropdown-item" (click)="chgStatus(row['id'], 'Status', 3, content, row)" type="button" *ngIf="row[item['key']] != 1">No Interesado</button>
+        <button class="dropdown-item" (click)="chgStatus(row['id'], 'Status', 4, content, row)" type="button" *ngIf="row[item['key']] != 1">No Contactable</button>
+    </div>
+</div>
+</span>
+<span style="font-size: smaller" [style.width.px]="190" *ngSwitchDefault>
+                      {{ row[item['key']] }}
+                    </span>
+</span>
+</td>
+</ng-template>
+</ngx-table>
+
+
+<!--  -->
+
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalAgen" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Agenda</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <app-outlet [dataIn]="true" [dataForm]="dataForm" [tst]="tst" (folio)="updateFolio( $event )"></app-outlet>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id='confirmAge'>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmación de cita</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body" *ngIf="confirmation['folio'] != ''">
+                <p>La cita de {{ confirmation['Nombre'] }} ha quedado agendada para el día <span class="text-bold text-primary">{{ confirmation['date'] }} hrs.</span></p>
+                <br>
+                <p>El folio de la cita es <span class="text-bold text-primary">{{ confirmation['folio'] }}</span></p>
+            </div>
+            <div class="modal-body" *ngIf="confirmation['folio'] == ''">
+                <p>La cita ha sido borrada correctamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body modal-lg">
+        <!-- <form class="needs-validation" novalidate>
+            <div class="form-group">
+                <label for="comments">Comentarios</label>
+                <input type="text" class="form-control" id="comments" name="comments" [(ngModel)]="meta['comments']" placeholder="Ingresa los comentarios...">
+            </div>
+            <div class="form-group" *ngIf="folioOn">
+                <label for="folio">Folio</label>
+                <input type="text" class="form-control" id="folio" name="folio" [(ngModel)]="meta['folio']" placeholder="Ingresa el folio guardado...">
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="p-2">
+                    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancelar</button>
+                </div>
+                <div class="p-2">
+                    <button type="submit" class="btn btn-primary" (click)="updateStatus( meta['field'], meta['val'], meta['id'] )">Guardar</button>
+                </div>
+            </div>
+        </form> -->
+
+    </div>
+</ng-template>
 </div>

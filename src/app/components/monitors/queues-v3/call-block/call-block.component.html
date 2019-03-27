@@ -207,7 +207,7 @@
                     SLA de 20 seg.
                 </h3>
                 <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="!loading['sum']">
-                    {{ useTotals ? ( totals['ofrecidas'] ? (totals['sla20']/totals['ofrecidas']*100) : 0 ) : (sumAll['ofrecidas'] == 0 ? 0 : (sumAll['sla20'] / sumAll['ofrecidas'])*100) | number:'.0-0' }}
+                    {{ (useTotals ? ( totals['ofrecidas'] ? (totals['sla20']/totals['ofrecidas']) : 0 ) : (sumAll['ofrecidas'] == 0 ? 0 : (sumAll['sla20'] / sumAll['ofrecidas']))) | percent:'.0-0' }}
                 </h3>
                 <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="loading['sum']">
                     <i class="fas fa-spinner fa-pulse text-info"></i>
@@ -229,7 +229,7 @@
                     SLA de 30 seg.
                 </h3>
                 <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="!loading['sum']">
-                    {{ useTotals ? ( totals['ofrecidas'] ? (totals['sla30']/totals['ofrecidas']*100) : 0 ) : (sumAll['ofrecidas'] == 0 ? 0 : (sumAll['sla30'] / sumAll['ofrecidas'])*100) | number:'.0-0' }}
+                    {{ (useTotals ? ( totals['ofrecidas'] ? (totals['sla30']/totals['ofrecidas']) : 0 ) : (sumAll['ofrecidas'] == 0 ? 0 : (sumAll['sla30'] / sumAll['ofrecidas']))) | percent:'.0-0' }}
                 </h3>
                 <h3 class="m-1" [ngClass]="{'ml-auto mr-3': params['bigDetail']}" *ngIf="loading['sum']">
                     <i class="fas fa-spinner fa-pulse text-info"></i>
