@@ -700,7 +700,12 @@ export class CargaHorariosComponent implements OnInit {
               .subscribe( res => {
 
                 this.loading[loader] = false
-                this.toastr.success(res['msg'], 'Guardado' )
+
+                if( res['omited'] > 0 ){
+                  this.toastr.error(`Se omitieron ${res['omited']} registros por ser de fechas pasadas o de este mes y no contar con permisos para hacerlo`, 'Guardado' )
+                }else{
+                  this.toastr.success(res['msg'], 'Guardado' )
+                }
                 this.getSchedules()
 
               }, err => {

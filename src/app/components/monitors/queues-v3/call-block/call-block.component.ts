@@ -93,6 +93,19 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
     ijCount: 0
   }
 
+  ijNums:any = [
+    '015511025553',
+    '015511025555',
+    '015511025557',
+    '015511025525',
+    '015511025537',
+    '015552420859',
+    '018008361111',
+    '018000112345',
+    '018003225050',
+    '018008909221',
+  ]
+
   constructor( private _api:ApiService ) {}
 
   ngOnInit() {
@@ -160,11 +173,11 @@ export class CallBlockComponent implements OnInit, OnChanges, OnDestroy {
                   sum['pause']++
                 }
 
-                if( item['obCaller'] == '015511025553' && (!maxData['interjet']['obTst'] || item['obTst'] < maxData['interjet']['obTst']) ){
+                if( this.ijNums.indexOf(item['obCaller']) >= 0 && (!maxData['interjet']['obTst'] || item['obTst'] < maxData['interjet']['obTst']) ){
                   maxData['interjet'] = item
                 }
 
-                if( item['obCaller'] == '015511025553' ){
+                if( this.ijNums.indexOf(item['obCaller']) >= 0 ){
                   maxData['ijCount']++
                 }
 
