@@ -1,0 +1,112 @@
+<div *ngIf="showContents">
+
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <span><h1 class="display-3">Revisión de Horarios del Mes</h1></span>
+            <p class="lead">Selecciona la fecha para revisar el resumen de horarios y sus posibles errores agrupado por Coordinador / Supervisor / Pdv</p>
+        </div>
+        <br>
+        <div class='container d-flex justify-content-start'>
+            <label class="my-1 mr-2" for="selMonth">Mes</label>
+            <select class="custom-select my-1 mr-sm-2" id="selMonth" [(ngModel)]="monthSelected" [style.width.px]="70">
+              <option selected>Selecciona...</option>
+              <option [value]="i" *ngFor="let i of months">{{ i }}</option>
+            </select>
+
+            <label class="my-1 mr-2" for="selYear">Año</label>
+            <select class="custom-select my-1 mr-sm-2" id="selYear" [(ngModel)]="yearSelected" [style.width.px]="120">
+              <option selected>Selecciona...</option>
+              <option [value]="i" *ngFor="let i of years">{{ i }}</option>
+            </select>
+
+            <button (click)="getData()" class="btn btn-success my-1" [disabled]="loading['data'] || !monthSelected || !yearSelected">Consultar <span *ngIf="loading['data']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+        </div>
+    </div>
+
+    <mat-progress-bar mode="buffer" *ngIf="loading['data']"></mat-progress-bar>
+    <div class="container" *ngIf="!loading['data'] && data['byCoord'] && data['byCoord'].length > 0">
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let coord of data['byCoord'] | orderBy:'Coordinador'">
+                <mat-expansion-panel-header class="d-flex justify-content-around">
+                    <mat-panel-title>
+                        <div [style.width.px]="300">{{ coord['Coordinador'] }}</div>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <mat-chip-list [selectable]="false">
+                            <mat-chip matTooltip="Dias Correctos" matTooltipPosition="above">
+                                <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-check-circle text-success"></i></span><span> {{ coord['ok']}}</span></div>
+                            </mat-chip>
+                            <mat-chip matTooltip="Dias Sobrepoblados" matTooltipPosition="above" color="warn" selected>
+                                <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-arrow-circle-up text-light"></i></span><span>{{ coord['sobrePoblado'] }}</span></div>
+                            </mat-chip>
+                            <mat-chip matTooltip="Dias Subpoblados" matTooltipPosition="above" color="accent" selected>
+                                <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-arrow-circle-down text-light"></i></span><span>{{ coord['subPoblado'] }}</span></div>
+                            </mat-chip>
+                            <mat-chip matTooltip="Porcentaje de Cumplimiento" matTooltipPosition="above" color="primary" selected>
+                                <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-chart-pie text-light"></i></span><span>{{ coord['cumplimiento'] | percent:'.2-2' }}</span></div>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let sup of coord['sups'] | orderBy:'Supervisor'">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <div [style.width.px]="300">{{ sup['Supervisor'] }}</div>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-chip-list [selectable]="false">
+                                    <mat-chip matTooltip="Dias Correctos" matTooltipPosition="above">
+                                        <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-check-circle text-success"></i></span><span> {{ sup['ok']}}</span></div>
+                                    </mat-chip>
+                                    <mat-chip matTooltip="Dias Sobrepoblados" matTooltipPosition="above" color="warn" selected>
+                                        <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-arrow-circle-up text-light"></i></span><span>{{ sup['sobrePoblado'] }}</span></div>
+                                    </mat-chip>
+                                    <mat-chip matTooltip="Dias Subpoblados" matTooltipPosition="above" color="accent" selected>
+                                        <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-arrow-circle-down text-light"></i></span><span>{{ sup['subPoblado'] }}</span></div>
+                                    </mat-chip>
+                                    <mat-chip matTooltip="Porcentaje de Cumplimiento" matTooltipPosition="above" color="primary" selected>
+                                        <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-chart-pie text-light"></i></span><span>{{ sup['cumplimiento'] | percent:'.2-2' }}</span></div>
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <mat-accordion>
+                            <mat-expansion-panel *ngFor="let pdv of sup['pdvs'] | orderBy:'PDV'" (click)="openDetail(pdv['dates'])">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <div [style.width.px]="300">{{ pdv['PDV'] }}</div>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <mat-chip-list [selectable]="false">
+                                            <mat-chip matTooltip="Dias Correctos" matTooltipPosition="above">
+                                                <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-check-circle text-success"></i></span><span> {{ pdv['ok']}}</span></div>
+                                            </mat-chip>
+                                            <mat-chip matTooltip="Dias Sobrepoblados" matTooltipPosition="above" color="warn" selected>
+                                                <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-arrow-circle-up text-light"></i></span><span>{{ pdv['sobrePoblado'] }}</span></div>
+                                            </mat-chip>
+                                            <mat-chip matTooltip="Dias Subpoblados" matTooltipPosition="above" color="accent" selected>
+                                                <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-arrow-circle-down text-light"></i></span><span>{{ pdv['subPoblado'] }}</span></div>
+                                            </mat-chip>
+                                            <mat-chip matTooltip="Porcentaje de Cumplimiento" matTooltipPosition="above" color="primary" selected>
+                                                <div class="d-flex justify-content-around" [style.width.px]="80"><span><i class="fas fa-chart-pie text-light"></i></span><span>{{ pdv['cumplimiento'] | percent:'.2-2' }}</span></div>
+                                            </mat-chip>
+                                        </mat-chip-list>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+    <app-pdv-monitor-horarios-detail [detail]="detailShown"></app-pdv-monitor-horarios-detail>
+</div>

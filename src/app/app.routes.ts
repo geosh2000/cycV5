@@ -103,6 +103,7 @@ import { FcComponent } from './components/monitors/fc/fc.component';
 import { SurveyReportGraphComponent } from './components/reportes/survey/survey-report-graph.component';
 import { SeguimientoBaseObComponent } from './components/reportes/seguimiento-base-ob/seguimiento-base-ob.component';
 import { FcPorAsesorPdvComponent } from './components/reportes/fc-por-asesor-pdv/fc-por-asesor-pdv.component';
+import { PdvMonitorHorariosComponent } from './components/monitors/pdv-monitor/pdv-monitor-horarios/pdv-monitor-horarios.component';
 
 
 const APP_ROUTES: Routes = [
@@ -212,6 +213,7 @@ const APP_ROUTES: Routes = [
   { path: 'masBuscados', component: MasBuscadosMpComponent },
   { path: 'lostCalls', component: LostCallsComponent },
   { path: 'fc', component: FcComponent },
+  { path: 'pdv/horariosCheck', component: PdvMonitorHorariosComponent },
 
   // CXC
   { path: 'cxc', component: CxcRegistroComponent },

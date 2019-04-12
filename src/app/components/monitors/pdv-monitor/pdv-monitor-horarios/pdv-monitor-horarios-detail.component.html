@@ -1,0 +1,55 @@
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="detailPdv">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalle de {{ detail[0] ? detail[0]['PDV'] : '' }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let det of detail | orderBy:'Fecha'" [hideToggle]="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <div [style.width.px]="150">{{ formatDate(det['Fecha'],'ddd DD MMM \'YY') }}</div>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-chip-list [selectable]="false">
+                                    <mat-chip matTooltip="Posiciones" matTooltipPosition="above">
+                                        <div class="d-flex justify-content-around" [style.width.px]="140"><span><i class="fa fa-th-large text-success"></i> </span><span><small>espacios</small></span><span> {{ det['plazas']}}</span></div>
+                                    </mat-chip>
+                                    <mat-chip matTooltip="Programados" matTooltipPosition="above" color="primary" selected>
+                                        <div class="d-flex justify-content-around" [style.width.px]="140"><span><i class="fas fa-user-friends text-light"></i></span><span><small>programados</small></span><span>{{ det['prog'] }}</span></div>
+                                    </mat-chip>
+                                    <mat-chip matTooltip="Descansando" matTooltipPosition="above" color="accent" selected>
+                                        <div class="d-flex justify-content-around" [style.width.px]="140"><span><i class="fas fa-bed text-light"></i></span><span><small>desc / aus</small></span><span>{{ det['descansos'] }}</span></div>
+                                    </mat-chip>
+                                    <mat-chip matTooltip="Diferencia" matTooltipPosition="above" [color]="det['dif'] != 0 ? 'warn' : 'secondary'" selected>
+                                        <div class="d-flex justify-content-around" [style.width.px]="140"><span><i class="fas text-light" [ngClass]="{'fa-arrow-circle-down':det['dif']<0, 'fa-arrow-circle-up': det['dif']>0, 'fa-arrow-circle-right text-success': det['dif']==0}"></i></span><span><small>diferencia</small></span><span>{{ det['dif'] }}</span></div>
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="d-flex justify-content-center">
+                            <mat-chip-list class="text-center" [selectable]="false">
+                                <mat-chip *ngFor="let a of det['asesoresList']">
+                                    {{ a }}
+                                </mat-chip>
+                            </mat-chip-list>
+                        </div>
+                        <div class="d-flex justify-content-center pt-1">
+                            <mat-chip-list class="text-center" [selectable]="false">
+                                <mat-chip color="warn" selected *ngFor="let a of det['asesoresDList']">
+                                    {{ a }} (D)
+                                </mat-chip>
+                            </mat-chip-list>
+                        </div>
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</div>
