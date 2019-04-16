@@ -46,7 +46,7 @@ export class UploadCalidadComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -76,7 +76,7 @@ export class UploadCalidadComponent implements OnInit {
 
     this.loading[load] = true
 
-    this._api.restfulGet( `${file}/csv/tmp`, "Procesos/readCsv" )
+    this._api.restfulGet( `${file}/csv/tmp`, 'Procesos/readCsv' )
             .subscribe( res => {
 
               this.loading[load] = false
@@ -85,7 +85,7 @@ export class UploadCalidadComponent implements OnInit {
               console.log(res['data'])
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading[load] = false
 
@@ -150,11 +150,11 @@ export class UploadCalidadComponent implements OnInit {
 
     switch(type){
       case 'fcr':
-        api = "uploadFcr"
+        api = 'uploadFcr'
         loader = 'uploading'
         break
       case 'pec':
-        api = "uploadPec"
+        api = 'uploadPec'
         loader = 'uploading_pec'
         break
     }
@@ -171,7 +171,7 @@ export class UploadCalidadComponent implements OnInit {
               this.toastr.success( `${res['data']['UPL_OK']}: Exitosos`, `${res['data']['Registros']} Registros` )
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading[loader] = false
 

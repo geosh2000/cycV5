@@ -47,7 +47,7 @@ export class UploadLogsPdvComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -65,7 +65,7 @@ export class UploadLogsPdvComponent implements OnInit {
 
     this.loading[load] = true
 
-    this._api.restfulGet( `${file}/csv/tmp`, "Procesos/readCsv" )
+    this._api.restfulGet( `${file}/csv/tmp`, 'Procesos/readCsv' )
             .subscribe( res => {
 
               this.loading[load] = false
@@ -76,7 +76,7 @@ export class UploadLogsPdvComponent implements OnInit {
               console.log(res['data'])
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading[load] = false
 
@@ -130,7 +130,9 @@ export class UploadLogsPdvComponent implements OnInit {
     }
 
 
+    // tslint:disable-next-line:forin
     for(let asesor in logs){
+      // tslint:disable-next-line:forin
       for(let date in logs[asesor]){
 
         let login = logs[asesor][date]['login'] ? this.discard(logs[asesor][date]['login'], 'login') : null
@@ -160,7 +162,7 @@ export class UploadLogsPdvComponent implements OnInit {
   uploadLogs(data){
     this.loading['uploadLogs'] = true
 
-    this._api.restfulPut( data, "Procesos/uploadPdvLogs" )
+    this._api.restfulPut( data, 'Procesos/uploadPdvLogs' )
             .subscribe( res => {
 
               this.loading['uploadLogs'] = false
@@ -174,7 +176,7 @@ export class UploadLogsPdvComponent implements OnInit {
               console.log(res['data'])
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['uploadLogs'] = false
 
@@ -189,7 +191,7 @@ export class UploadLogsPdvComponent implements OnInit {
 
     this.loading['pdvList'] = true
 
-    this._api.restfulGet( '', "Headcount/pdvAsesoresList" )
+    this._api.restfulGet( '', 'Headcount/pdvAsesoresList' )
             .subscribe( res => {
 
               this.loading['pdvList'] = false
@@ -198,7 +200,7 @@ export class UploadLogsPdvComponent implements OnInit {
               console.log(res['data'])
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['pdvList'] = false
 

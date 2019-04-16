@@ -167,7 +167,7 @@ export class ApiService {
 
   getFile( id, apiRoute, test = false ){
 
-    let url = test ? '/assets/test.xlsx' : `${ Globals.APISERV }/${ apiRoute }/${ id }`
+    let url = test ? `/${ apiRoute }/${ id }` : `${ Globals.APISERV }/${ apiRoute }/${ id }`
 
     let urlOK = this.transform( url )
 

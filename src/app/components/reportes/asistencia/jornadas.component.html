@@ -38,7 +38,7 @@
 
               <span class="text-center">
                 <small *ngIf="asistData['Descanso'] == 1">Descanso</small>
-                <small *ngIf="asistData['Descanso'] != 1 && asistData['js'] != null">
+                <small *ngIf="asistData['Descanso'] != 1 && asistData['js'] != null" style="font-size: xx-small">
                   {{ formatDate(asistData['js'], 'HH:mm') }} - {{ formatDate(asistData['je'], 'HH:mm') }}
                   <i class="fa fa-fw fa-info-circle"></i>
                 </small>
@@ -54,7 +54,7 @@
     <ng-container *ngIf="!asistData">
         <div class='d-flex justify-content-start'>
             <div class="p-1 ml-auto">
-                <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">j:</button>
+                <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">j</button>
             </div>
 
             <div class="p-1 ml-auto">
@@ -72,7 +72,7 @@
 <ng-container *ngIf="showOpts['ch_x'] && asistData">
     <div class='d-flex justify-content-start'>
         <div class="p-1 ml-auto">
-            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">x:</button>
+            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">x</button>
         </div>
 
         <ng-template #popContent>
@@ -133,7 +133,7 @@
 <ng-container *ngIf="showOpts['ch_comida'] && asistData">
     <div class='d-flex justify-content-start'>
         <div class="p-1 ml-auto">
-            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">c:</button>
+            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">c</button>
         </div>
 
         <div class="p-1 ml-auto">
@@ -156,7 +156,7 @@
 <ng-container *ngIf="showOpts['ch_ret'] && asistData">
     <div class='d-flex justify-content-start'>
         <div class="p-1 ml-auto">
-            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()" [disabled]="!editable">r:</button>
+            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()" [disabled]="!editable">r</button>
         </div>
         <div class="p-1 ml-auto">
             <button [style.width.px]="100" class="btn btn-block btn-outline-secondary text-warning" *ngIf="asistData['loading']">
@@ -174,7 +174,7 @@
 <ng-container *ngIf="showOpts['ch_sa'] && asistData">
     <div class='d-flex justify-content-start'>
         <div class="p-1 ml-auto">
-            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">r:</button>
+            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">r</button>
         </div>
         <div class="p-1 ml-auto">
             <app-sa-badge btnWidth=100 [dataAsesor]="asistData" [date]="date"></app-sa-badge>
@@ -188,7 +188,7 @@
     <ng-container *ngIf="asistData">
         <div class='d-flex justify-content-start'>
             <div class="p-1 ml-auto">
-                <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()" [disabled]="!editable">e:</button>
+                <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px" data-toggle="modal" data-target="#pyaExceptModal" (click)="newExcept()" [disabled]="!editable">e</button>
             </div>
             <div class="p-1 ml-auto">
                 <button [style.width.px]="100" class="btn btn-block btn-outline-secondary text-warning" *ngIf="asistData['loading']">
@@ -206,7 +206,7 @@
     <ng-container *ngIf="!asistData">
         <div class='d-flex justify-content-start'>
             <div class="p-1 ml-auto">
-                <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">e:</button>
+                <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">e</button>
             </div>
 
             <div class="p-1 ml-auto">
@@ -224,7 +224,7 @@
 <ng-container *ngIf="showOpts['ch_pdv'] && asistData">
     <div class='d-flex justify-content-start'>
         <div class="p-1 ml-auto">
-            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">p:</button>
+            <button class="btn btn-sm btn-block btn-outline-primary" style="width: 30px">p</button>
         </div>
         <div class="p-1 ml-auto">
             <app-pdv-badge btnWidth=100 [dataAsesor]="asistData['pdvAssign']" [date]="date"></app-pdv-badge>

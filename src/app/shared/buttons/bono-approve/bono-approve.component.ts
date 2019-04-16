@@ -64,23 +64,23 @@ export class BonoApproveComponent implements OnInit {
             .subscribe( res => {
 
               let data = res['data']
-              let meta = res['meta']
+              let metas = res['meta']
 
               this.loading['change'] = false
 
               jQuery('#exampleModal'+this.asesor).modal('hide')
               if(data['status']){
-                this.save.emit({status: true, msg: 'Status Guardado', asesor: this.asesor, chg: params, meta: meta})
+                this.save.emit({status: true, msg: 'Status Guardado', asesor: this.asesor, chg: params, meta: metas})
               }else{
                 this.alertMsg = data['msg']
-                this.save.emit({status: false, msg: data['msg'], asesor: this.asesor, chg: params, meta: meta})
+                this.save.emit({status: false, msg: data['msg'], asesor: this.asesor, chg: params, meta: metas})
                 jQuery('#alertModal'+this.asesor).modal('show')
               }
 
 
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['change'] = false
 

@@ -104,6 +104,7 @@ import { SurveyReportGraphComponent } from './components/reportes/survey/survey-
 import { SeguimientoBaseObComponent } from './components/reportes/seguimiento-base-ob/seguimiento-base-ob.component';
 import { FcPorAsesorPdvComponent } from './components/reportes/fc-por-asesor-pdv/fc-por-asesor-pdv.component';
 import { PdvMonitorHorariosComponent } from './components/monitors/pdv-monitor/pdv-monitor-horarios/pdv-monitor-horarios.component';
+import { SmdUploadComponent } from './components/config/upload-calidad/smd-upload.component';
 
 
 const APP_ROUTES: Routes = [
@@ -232,6 +233,7 @@ const APP_ROUTES: Routes = [
   { path: 'config/fams', component: FamsComponent },
   { path: 'config/reasignacionRsva', component: CambioLocalizadorAsesorComponent },
   { path: 'config/uploadCalidad', component: UploadCalidadComponent },
+  { path: 'config/uploadSmd', component: SmdUploadComponent },
   { path: 'config/uploadLogsPdv', component: UploadLogsPdvComponent },
   { path: 'config/metasPdv', component: MetasPdvComponent },
   { path: 'config/pdvZones', component: PdvZoneAssignComponent },

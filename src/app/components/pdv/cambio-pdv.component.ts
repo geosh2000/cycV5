@@ -22,7 +22,7 @@ export class CambioPdvComponent implements OnInit {
 
   showContents:boolean = false;
   credentialStatus = 5;
-  mainCredential="pdv_cambioModulo"
+  mainCredential='pdv_cambioModulo'
   currentUser:any
   results:any
 
@@ -67,7 +67,7 @@ export class CambioPdvComponent implements OnInit {
   public singlePicker = {
     singleDatePicker: true,
     showDropdowns: true,
-    opens: "left",
+    opens: 'left',
     ranges: {
                'Today': [moment(), moment()]
             }
@@ -85,7 +85,7 @@ export class CambioPdvComponent implements OnInit {
 
     this._dateRangeOptions.settings = {
       autoUpdateInput: false,
-      locale: { format: "YYYY-MM-DD" }
+      locale: { format: 'YYYY-MM-DD' }
     }
 
 
@@ -117,7 +117,7 @@ export class CambioPdvComponent implements OnInit {
   }
 
   setVal( val ){
-    this.dateSelected = val.format("YYYY-MM-DD")
+    this.dateSelected = val.format('YYYY-MM-DD')
     this.dateSelectedStatus = true
     this.selectedOK = false
     jQuery('#dateSelect').val(this.dateSelected)
