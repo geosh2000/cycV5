@@ -1,86 +1,76 @@
-<div class="accordion" [id]="'acc'+index">
-    <div class="card" *ngFor="let item of data">
-        <div class="card-header" [id]="'heading'+item['id']">
-            <div class="card-header d-flex justify-content-between">
-                <div [style.width.px]="450" style="display: inline">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#'+item['id']+'collapse'" aria-expanded="false" [attr.aria-controls]="item['id'] + 'collapse'">
-                      {{ item['name'] }}<br><small>{{ item['clave'] }}</small>
-                    </button>
+<mat-accordion>
+    <mat-expansion-panel *ngFor="let item of data">
+        <mat-expansion-panel-header collapsedHeight="100px">
+            <mat-panel-title>
+                <div class="p-1 d-flex justify-content-start flex-wrap" [style.width.px]="150">
+                    <div class='p-1'>{{ item['name'] }}</div>
+                    <div class='p-1'><small>{{ item['clave'] }}</small></div>
                 </div>
-                <div class="p-1 text-right">
+            </mat-panel-title>
+            <mat-panel-description>
+                <div class="p-1 d-flex justify-content-end flex-wrap" [style.width.px]="90">
                     <small><span [style.width.px]="45" class="badge badge-primary badge-pill">HC: {{ item['hc'] }}</span></small>
                     <small><span [style.width.px]="45" class="badge badge-success badge-pill">C: {{ item['c'] }}</span></small>
                     <small><span [style.width.px]="45" class="badge badge-danger badge-pill">V: {{ item['v'] }}</span></small>
                 </div>
-
-            </div>
-        </div>
-
-        <div [id]="item['id']+'collapse'" class="collapse" [attr.aria-labelledby]="'heading'+item['id']" [attr.data-parent]="'#acc'+index">
-            <div class="card-body" style="background: #cdd1d4">
-
-
-                <div class="accordion" [id]="'sacc'+item['id']">
-                    <div class="card" *ngFor="let p of item['puesto']">
-                        <div class="card-header" [id]="'heading'+p['id']">
-                            <div class="card-header d-flex justify-content-between">
-                                <div [style.width.px]="600" style="display: inline">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#'+p['id']+'collapse'" aria-expanded="false" [attr.aria-controls]="p['id'] + 'collapse'">
-                                      {{ p['name'] }}<br><small>{{ p['clave'] }}</small>
-                                    </button>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <!-- -->
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let p of item['puesto']">
+                <mat-expansion-panel-header collapsedHeight="100px">
+                    <mat-panel-title>
+                        <div class="p-1 d-flex justify-content-start flex-wrap" [style.width.px]="150">
+                            <div class='p-1'>{{ p['name'] }}</div>
+                            <div class='p-1'><small>{{ p['clave'] }}</small></div>
+                        </div>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <div class="p-1 d-flex justify-content-end flex-wrap" [style.width.px]="90">
+                            <small><span [style.width.px]="45" class="badge badge-primary badge-pill">HC: {{ p['hc'] }}</span></small>
+                            <small><span [style.width.px]="45" class="badge badge-success badge-pill">C: {{ p['c'] }}</span></small>
+                            <small><span [style.width.px]="45" class="badge badge-danger badge-pill">V: {{ p['v'] }}</span></small>
+                        </div>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- <small>{{ p['clave'] }}</small> -->
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let a of p['copc']">
+                        <mat-expansion-panel-header collapsedHeight="100px">
+                            <mat-panel-title>
+                                <div class="p-1 d-flex justify-content-start flex-wrap" [style.width.px]="150">
+                                    <div class='p-1'>{{ a['name'] }}</div>
+                                    <div class='p-1'><small>{{ a['clave'] }}</small></div>
                                 </div>
-                                <div class="p-1 text-right">
-                                    <small><span [style.width.px]="45" class="badge badge-primary badge-pill">HC: {{ p['hc'] }}</span></small>
-                                    <small><span [style.width.px]="45" class="badge badge-success badge-pill">C: {{ p['c'] }}</span></small>
-                                    <small><span [style.width.px]="45" class="badge badge-danger badge-pill">V: {{ p['v'] }}</span></small>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <div class="p-1 d-flex justify-content-end flex-wrap" [style.width.px]="90">
+                                    <small><span [style.width.px]="45" class="badge badge-primary badge-pill">HC: {{ a['hc'] }}</span></small>
+                                    <small><span [style.width.px]="45" class="badge badge-success badge-pill">C: {{ a['c'] }}</span></small>
+                                    <small><span [style.width.px]="45" class="badge badge-danger badge-pill">V: {{ a['v'] }}</span></small>
                                 </div>
-
-                            </div>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <!-- <small>{{ a['clave'] }}</small> -->
+                        <div class="card-body" style="background: #f8f9fa">
+                            <ul class="list-group">
+                                <li class="list-group-item" *ngFor="let asesor of a['asesores']">
+                                    <p class="text-truncate" [ngClass]="{'text-danger': asesor['asesor'] == null,'text-success': asesor['asesor'] != null}">{{ asesor['asesor'] == null ? 'VACANTE' : asesor['asesor'] }} {{ asesor['asesor'] == null ? '('+asesor['liberacion']+')' : '' }}</p>
+                                    <p class="text-truncate" *ngIf="asesor['Aprobada']" style="font-size: xx-small">Liberada <span class="text-success">{{ asesor['Aprobada'] }}</span> por {{ asesor['AprobadaPor'] }}</p>
+                                    <p class="text-truncate text-info" style="font-size: xx-small">id: {{ asesor['vacante'] }} || {{ asesor['Ciudad'] }}</p>
+                                    <p class="text-truncate text-info" style="font-size: xx-small">{{ asesor['PDV'] }}</p>
+                                </li>
+                            </ul>
                         </div>
 
-                        <div [id]="p['id']+'collapse'" class="collapse" [attr.aria-labelledby]="'heading'+item['id']" [attr.data-parent]="'#sacc'+item['id']">
-                            <div class="card-body" style="background: #e2e4e6">
-                                <!-- INICIO ASESORES -->
+                    </mat-expansion-panel>
 
-                                <div class="accordion" [id]="'aacc'+p['id']">
-                                    <div class="card" *ngFor="let a of p['copc']">
-                                        <div class="card-header" [id]="'heading'+a['id']">
-                                            <div class="card-header d-flex justify-content-between">
-                                                <div [style.width.px]="600" style="display: inline">
-                                                    <button class="btn btn-link text-truncate" type="button" data-toggle="collapse" [attr.data-target]="'#'+a['id']+'collapse'" aria-expanded="false" [attr.aria-controls]="a['id'] + 'collapse'">
-                                                      {{ a['name'] }}
-                                                    </button>
-                                                </div>
-                                                <div class="p-1 text-right">
-                                                    <small><span [style.width.px]="45" class="badge badge-primary badge-pill">HC: {{ a['hc'] }}</span></small>
-                                                    <small><span [style.width.px]="45" class="badge badge-success badge-pill">C: {{ a['c'] }}</span></small>
-                                                    <small><span [style.width.px]="45" class="badge badge-danger badge-pill">V: {{ a['v'] }}</span></small>
-                                                </div>
+                </mat-accordion>
 
-                                            </div>
-                                        </div>
+            </mat-expansion-panel>
 
-                                        <div [id]="a['id']+'collapse'" class="collapse" [attr.aria-labelledby]="'heading'+p['id']" [attr.data-parent]="'#asacc'+p['id']">
-                                            <div class="card-body" style="background: #f8f9fa">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item" *ngFor="let asesor of a['asesores']">
-                                                        <p class="text-truncate" [ngClass]="{'text-danger': asesor['asesor'] == null,'text-success': asesor['asesor'] != null}">{{ asesor['asesor'] == null ? 'VACANTE' : asesor['asesor'] }} {{ asesor['asesor'] == null ? '('+asesor['liberacion']+')' : '' }}</p>
-                                                        <p class="text-truncate" *ngIf="asesor['Aprobada']" style="font-size: xx-small">Liberada <span class="text-success">{{ asesor['Aprobada'] }}</span> por {{ asesor['AprobadaPor'] }}</p>
-                                                        <p class="text-truncate text-info" style="font-size: xx-small">id: {{ asesor['vacante'] }} || {{ asesor['Ciudad'] }}</p>
-                                                        <p class="text-truncate text-info" style="font-size: xx-small">{{ asesor['PDV'] }}</p>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+        </mat-accordion>
 
-                                <!-- FIN ASESORES -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    </mat-expansion-panel>
+
+</mat-accordion>

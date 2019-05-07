@@ -35,6 +35,7 @@ export class VentaPorCanalComponent implements OnInit {
   prod:boolean = false
   isPaq:boolean = false
   isAmmount:boolean = true
+  isOutlet:boolean = true
   isHour:boolean = false
   prodLu:string
   currency:any
@@ -111,9 +112,10 @@ export class VentaPorCanalComponent implements OnInit {
 
     let hour = this.isHour ? 1 : 0
     let ammount = this.isAmmount ? 1 : 0
+    let outlet = this.isOutlet ? 1 : 0
 
 
-    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}/${ ammount }/${ hour }/0/${this.selPais}`, 'venta/getVentaPorCanalSV')
+    this._api.restfulGet( `${inicio}/${fin}/${sv}/${type}/${td}/${prod}/${this.isPaq}/${ ammount }/${ hour }/0/${this.selPais}/${outlet}`, 'venta/getVentaPorCanalSV')
             .subscribe( res =>{
               this.ventaData = res['data']['venta']
               this.locsData = res['data']['locs']

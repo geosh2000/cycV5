@@ -104,7 +104,7 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-center align-items-center" *ngIf="!monitor">
+                <div class="d-flex justify-content-center align-items-center flex-wrap" *ngIf="!monitor">
                     <div class="form-inline">
                         <div class="form-group">
                             <div class="input-group">
@@ -113,6 +113,42 @@
                                     <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="fas fa-calendar"></i>
                   </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-2 text-center">
+                        <p>
+                            <ui-switch color="green" size="small" [(ngModel)]="xHora" (change)="refresh( $event )"></ui-switch>
+                        </p>
+                        <p><small>Horas</small></p>
+                    </div>
+                    <div class="d-flex justify-content-around flex-wrap" *ngIf="xHora">
+                        <div class="form-inline m-1">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <!-- <input class="form-control" placeholder="Hora Inicio" [(ngModel)]="startTime" [ngxTimepicker]="startTime" [disableClick]="false" readonly> -->
+                                    <input class="form-control" placeholder="Hora Inicio" aria-label="24hr format" [ngxTimepicker]="fullTime" [format]="24" [style.width.px]="100">
+                                    <ngx-material-timepicker (timeSet)="setTime($event, 'start')" #fullTime></ngx-material-timepicker>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button">
+                                            <i class="fas fa-clock"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-inline m-1">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <!-- <input class="form-control" placeholder="Hora Inicio" [(ngModel)]="startTime" [ngxTimepicker]="startTime" [disableClick]="false" readonly> -->
+                                    <input class="form-control" placeholder="Hora Fin" aria-label="24hr format" [ngxTimepicker]="fullTimeEnd" [format]="24" [style.width.px]="100">
+                                    <ngx-material-timepicker (timeSet)="setTime($event, 'end')" #fullTimeEnd></ngx-material-timepicker>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button">
+                                            <i class="fas fa-clock"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

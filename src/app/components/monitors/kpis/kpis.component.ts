@@ -4,6 +4,7 @@ import * as moment from 'moment-timezone';
 
 import { ToastrService } from 'ngx-toastr';
 import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 declare var jQuery:any;
 
 @Component({
@@ -11,7 +12,7 @@ declare var jQuery:any;
   templateUrl: './kpis.component.html',
   styles: []
 })
-export class KpisComponent implements OnInit {
+export class KpisComponent implements OnInit, OnDestroy {
 
   currentUser: any
   showContents:boolean = false
@@ -44,6 +45,10 @@ export class KpisComponent implements OnInit {
   timerCount:any    = this.timeToReload
 
   startDate:any
+  timeStart:NgbTimeStruct = {hour: 0, minute: 0, second:0};
+  timeEnd:NgbTimeStruct = {hour: parseInt(moment().format('HH')), minute: parseInt(moment().format('mm')), second:0};
+  tmSt:any;
+  tmEnd:any;
   yd:boolean = true
   monitor:boolean = true
   detail:boolean  = true
@@ -53,6 +58,7 @@ export class KpisComponent implements OnInit {
     paq       : false,
     locs      : true
   }
+  xHora:boolean = false
 
   glosario:any = [
     {concept: 'var', exp: 'Variación'},
@@ -80,7 +86,7 @@ export class KpisComponent implements OnInit {
             this.showContents = this._init.checkCredential( this.mainCredential, true )
           }else{
             this.showContents = false
-            jQuery("#loginModal").modal('show');
+            jQuery('#loginModal').modal('show');
           }
         })
 
@@ -129,7 +135,10 @@ export class KpisComponent implements OnInit {
       Hora  : moment().tz('America/Mexico_city').format('HH:mm:ss'),
       pais  : this.params['pais'],
       marca : this.params['marca'],
-      paq   : paq ? 1 : 0
+      paq   : paq ? 1 : 0,
+      inicio: this.tmSt,
+      fin   : this.tmEnd,
+      xHora : this.xHora ? 1 : 0
     }
 
     if( this.dateSelected != moment().format('YYYY-MM-DD') ){
@@ -219,7 +228,7 @@ export class KpisComponent implements OnInit {
               this.processCalls()
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['venta'] = false
 
@@ -356,7 +365,7 @@ export class KpisComponent implements OnInit {
               if( callback ){ callback() }
 
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['calls'] = false
 
@@ -557,6 +566,17 @@ export class KpisComponent implements OnInit {
     }else{
       this.suf = ''
       return ammount
+    }
+  }
+
+  setTime(e, t){
+    switch(t){
+      case 'start':
+        this.tmSt = e + ':00'
+        break
+      case 'end':
+        this.tmEnd = e + ':00'
+        break
     }
   }
 

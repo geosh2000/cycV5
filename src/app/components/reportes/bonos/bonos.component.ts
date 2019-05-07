@@ -29,6 +29,7 @@ export class BonosComponent implements OnInit {
   }
 
   bonosData:any
+  dataSum:any = []
   detalleData:any
   paramsData:any
   metasData:any
@@ -87,9 +88,57 @@ export class BonosComponent implements OnInit {
 
               this.sumAll(res['data']['resultado'])
 
+              let dataSum:any = []
+
               console.log(res)
+              // tslint:disable-next-line:forin
+              for( let k in this.bonosData ){
+                let r = {
+                  key:      k,
+                  name:     res['params']['deps'][k],
+                  puestos:  []
+                }
+
+                // tslint:disable-next-line:forin
+                for( let p in this.bonosData[k] ){
+
+                  if( !this.paramsData[k] ){
+                    continue
+                  }
+
+                  let ps = {
+                    key:        p,
+                    name:       this.bonosData[k][p]['puestoName'],
+                    montoBono:  this.bonosData[k][p]['montoBono'],
+                    params:     this.paramsData[k][p],
+                    asesores:   []
+                  }
+
+                  // tslint:disable-next-line:forin
+                  for( let a in this.bonosData[k][p] ){
+                    // console.log(this.bonosData[k][p][a]['detalle']['Nombre'], )
+                    if( typeof(this.bonosData[k][p][a]) == 'object' ){
+                      if( this.bonosData[k][p][a]['detalle'] ){
+                        let arr = this.bonosData[k][p][a]
+
+                        arr['key'] = a
+                        arr['name'] = this.bonosData[k][p][a]['detalle']['Nombre']
+                        ps.asesores.push(arr)
+                      }
+                    }
+                  }
+
+                  r.puestos.push(ps)
+                }
+
+                dataSum.push(r)
+              }
+
+              this.dataSum=dataSum
+
+              console.log(dataSum)
             }, err => {
-              console.log("ERROR", err)
+              console.log('ERROR', err)
 
               this.loading['bonos'] = false
 
@@ -119,10 +168,12 @@ export class BonosComponent implements OnInit {
       return 0
     }
 
+    // tslint:disable-next-line:forin
     for( let item in this.bonosData[dep][puesto][asesor]['bono'] ){
       monto += this.bonosData[dep][puesto][asesor]['bono'][item]
     }
 
+    // tslint:disable-next-line:forin
     for( let item in this.bonosData[dep][puesto][asesor]['reductores'] ){
       red += this.bonosData[dep][puesto][asesor]['reductores'][item]
     }
@@ -143,9 +194,11 @@ export class BonosComponent implements OnInit {
   sumAll( data ){
     this.total = {}
 
+    // tslint:disable-next-line:forin
     for( let dep in data ){
       this.total[dep] = {}
       if( this.paramsData[dep] ){
+        // tslint:disable-next-line:forin
         for( let puesto in data[dep] ){
           this.total[dep][puesto] = 0
           if( this.paramsData[dep][puesto] ){
@@ -158,10 +211,12 @@ export class BonosComponent implements OnInit {
 
                   let monto = 0, red = 0
 
+                  // tslint:disable-next-line:forin
                   for( let item in this.bonosData[dep][puesto][asesor]['bono'] ){
                     monto += this.bonosData[dep][puesto][asesor]['bono'][item]
                   }
 
+                  // tslint:disable-next-line:forin
                   for( let item in this.bonosData[dep][puesto][asesor]['reductores'] ){
                     red += this.bonosData[dep][puesto][asesor]['reductores'][item]
                   }
@@ -219,6 +274,7 @@ export class BonosComponent implements OnInit {
         this.bonosData[dep][puesto][event['chg']['asesor']]['aprobacion']['review'] = parseInt(event['chg']['review'])
       }
 
+      // tslint:disable-next-line:forin
       for( let par in event['meta'] ){
         this.bonosData[dep][puesto][event['chg']['asesor']]['aprobacion'][par]=event['meta'][par]
       }
@@ -228,6 +284,7 @@ export class BonosComponent implements OnInit {
         this.toastr.error( event['msg'], 'Error' )
       }else{
         this.toastr.warning(event['msg'], 'Alerta!');
+        // tslint:disable-next-line:forin
         for( let par in event['meta'] ){
           this.bonosData[dep][puesto][event['chg']['asesor']]['aprobacion'][par]=event['meta'][par]
         }

@@ -7,14 +7,165 @@
         <div class="container">
             <div class="d-flex justify-content-between">
                 <div>
-                    <span><h1 class="display-3">Reportes Personalizados</h1></span>
+                    <span><h1 class="display-3">Reportes OVV 2019</h1></span>
                     <p class="lead">Usa los filtros y agrupaciones para obtener la información que necesitas</p>
                 </div>
             </div>
         </div>
         <br>
         <div class="container">
-            <div class="row">
+
+            <div class="d-flex justify-content-between flex-wrap border border-light">
+                <div style="text-align: left" class="p-2">
+                    <h4>Fecha: </h4>
+                </div>
+                <div class="form-group p-2" [style.width.px]="300">
+                    <div class="input-group" daterangepicker (selected)="dateChange($event.start, $event.end)" [options]="DROptions">
+                        <input type='text' class="form-control uneditable-input" name="daterange" value="" id="datepicker" autocomplete="off">
+                        <span class="input-group-btn">
+                              <a type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></a>
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between flex-wrap border border-light">
+                <div style="text-align: left" class="p-2">
+                    <h4>Params: </h4>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="genPar['sv']" (change)="validateSel($event, 'sv')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small *ngIf="genPar['sv']">Solo Venta</small>
+                        <small *ngIf="!genPar['sv']">Venta y Xld</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="genPar['isPaq']" (change)="validateSel($event, 'paq')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small *ngIf="genPar['isPaq']">Paquete</small>
+                        <small *ngIf="!genPar['isPaq']">Paq. Desglozado</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="genPar['loc']" (change)="validateSel($event, 'loc')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small *ngIf="genPar['loc']">Por Loc</small>
+                        <small *ngIf="!genPar['loc']">Resumen</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="genPar['compare']" (change)="validateSel($event, 'compare')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small *ngIf="genPar['compare']">Compare LY</small>
+                        <small *ngIf="!genPar['compare']">Not Compared</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="genPar['hotel']" (change)="validateSel($event, 'hotel')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small *ngIf="genPar['hotel']">Hotel</small>
+                        <small *ngIf="!genPar['hotel']">General</small>
+                    </p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between  border border-light">
+                <div style="text-align: left" class="p-2">
+                    <h4>Show Columns: </h4>
+                </div>
+                <div class="d-flex justify-content-end flex-wrap  p-2">
+                    <div class="form-group p-2" *ngFor="let c of columnsCopy">
+                        <label class="form-checkbox form-inline">
+                      <input type="checkbox" [checked]="true" (change)="toggle(c.key, $event.target.checked)">
+                      <i class="form-icon"></i> {{ c.title }}
+                      </label>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between flex-wrap border border-light">
+                <div style="text-align: left" class="p-2">
+                    <h4>Group By: </h4>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="apiData['fecha']['Fecha']['groupBy']" (change)="validateSel($event, 'fecha')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small>Fecha</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="apiData['fecha']['Hora']['groupBy']" (change)="validateSel($event, 'hora')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small>Hora</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="apiData['itemTypes']['servicio']['groupBy']" (change)="validateSel($event, 'servicio')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small>Servicio</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="apiData['branchId']['branchId']['groupBy']" (change)="validateSel($event, 'sucursal')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small>Sucursal</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="apiData['genGroup']['Asesor']['groupBy']" (change)="validateSel($event, 'asesor')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small>Asesor</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="apiData['hotel']['Hotel']['groupBy']" (change)="validateSel($event, 'g_hotel')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small>Hotel</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="apiData['hotel']['Corporativo']['groupBy']" (change)="validateSel($event, 'g_corp')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small>Corp.</small>
+                    </p>
+                </div>
+                <div style="text-align: center" class="p-2">
+                    <ui-switch color="green" size="small" [(ngModel)]="apiData['hotel']['Destination']['groupBy']" (change)="validateSel($event, 'g_dest')"></ui-switch>
+                    <p style="margin-top: -10px">
+                        <small>Dest</small>
+                    </p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between flex-wrap border border-light" *ngIf="apiData['hotel']['Hotel']['groupBy']">
+                <div style="text-align: left" class="p-2">
+                    <h4>Hotel: </h4>
+                </div>
+                <div class="form-group p-2" [style.width.px]="300">
+                    <div class="input-group">
+                        <input type='text' class="form-control" name="Hotel" [(ngModel)]="apiData['hotel']['Hotel']['params'][0]">
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between flex-wrap border border-light" *ngIf="apiData['hotel']['Corporativo']['groupBy']">
+                <div style="text-align: left" class="p-2">
+                    <h4>Corporativo: </h4>
+                </div>
+                <div class="form-group p-2" [style.width.px]="300">
+                    <div class="input-group">
+                        <input type='text' class="form-control" name="Corporativo" [(ngModel)]="apiData['hotel']['Corporativo']['params'][0]">
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between flex-wrap border border-light" *ngIf="apiData['hotel']['Destination']['groupBy']">
+                <div style="text-align: left" class="p-2">
+                    <h4>Destino: </h4>
+                </div>
+                <div class="form-group p-2" [style.width.px]="300">
+                    <div class="input-group">
+                        <input type='text' class="form-control" name="Destino" [(ngModel)]="apiData['hotel']['Destination']['params'][0]">
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
                 <div class="col-6" style="color: black">
                     <mat-tab-group [dynamicHeight]="false" backgroundColor="accent">
                         <mat-tab label="Parámetros">
@@ -24,7 +175,7 @@
                                         <span><small>Venta y Cxl</small></span>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['sv']"></ui-switch>
+                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['sv']" (change)="validateSel($event)"></ui-switch>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
                                         <span><small>Sólo Venta</small></span>
@@ -35,7 +186,7 @@
                                         <span><small>P. Desglozado</small></span>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['isPaq']"></ui-switch>
+                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['isPaq']" (change)="validateSel($event)"></ui-switch>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
                                         <span><small>P. Paquete</small></span>
@@ -46,7 +197,7 @@
                                         <span><small>Normal</small></span>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['outlet']"></ui-switch>
+                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['outlet']" (change)="validateSel($event)"></ui-switch>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
                                         <span><small>Outlet</small></span>
@@ -57,7 +208,7 @@
                                         <span><small>Resumen</small></span>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['loc']"></ui-switch>
+                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['loc']" (change)="validateSel($event)"></ui-switch>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
                                         <span><small>Por Loc</small></span>
@@ -68,133 +219,10 @@
                                         <span><small>Not Compared</small></span>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['compare']"></ui-switch>
+                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['compare']" (change)="validateSel($event)"></ui-switch>
                                     </div>
                                     <div style="text-align: center" class="col-4 p-2">
                                         <span><small>Compare LY</small></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-tab>
-                        <mat-tab label="Fecha y Hora">
-                            <div class="m-1" [style.height.px]="325" style="background: white">
-                                <span>Fecha: </span>
-                                <div class="row">
-                                    <div class="form-group p-2">
-                                        <div class="input-group" daterangepicker (selected)="dateChange($event.start, $event.end)" [options]="DROptions">
-                                            <input type='text' class="form-control uneditable-input" name="daterange" value="" id="datepicker" autocomplete="off">
-                                            <span class="input-group-btn">
-                                <a type="button" class="btn btn-secondary"><i class="fa fa-calendar fa-fw"></i></a>
-                            </span>
-                                        </div>
-                                    </div>
-                                    <div style="text-align: center" class="col-3 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="apiData['fecha']['Fecha']['groupBy']"></ui-switch> <small>Agrupar Fecha</small>
-                                    </div>
-                                    <div style="text-align: center" class="col-3 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="apiData['fecha']['Fecha']['showCol']"></ui-switch> <small>Mostrar Fecha</small>
-                                    </div>
-                                    <div style="text-align: center" class="col-3 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="apiData['fecha']['Hora']['groupBy']"></ui-switch> <small>Agrupar Hora</small>
-                                    </div>
-                                    <div style="text-align: center" class="col-3 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="apiData['fecha']['Hora']['showCol']"></ui-switch> <small>Mostrar Hora</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-tab>
-                        <mat-tab label="Grupo Canal">
-                            <div [style.height.px]="325" style="background: white">
-                                <mat-tab-group [dynamicHeight]="false">
-                                    <mat-tab label="{{ field | capitalizado:true }}:" *ngFor="let field of apiData['chanGroup'] | keys">
-                                        <div class="row" [style.height.px]="315">
-                                            <div class="col-6">
-                                                <ss-multiselect-dropdown *ngIf="opts[field]" [options]="opts[field] | orderBy: 'name'" [(ngModel)]="apiData['chanGroup'][field]['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'chanGroup', field)"></ss-multiselect-dropdown>
-                                            </div>
-                                            <div style="text-align: center" class="col-3 p-2">
-                                                <ui-switch color="green" size="small" [(ngModel)]="apiData['chanGroup'][field]['groupBy']"></ui-switch> <small>Agrupar</small>
-                                            </div>
-                                            <div style="text-align: center" class="col-3 p-2">
-                                                <ui-switch color="green" size="small" [(ngModel)]="apiData['chanGroup'][field]['showCol']"></ui-switch> <small>Mostrar</small>
-                                            </div>
-                                        </div>
-                                    </mat-tab>
-                                </mat-tab-group>
-                            </div>
-                        </mat-tab>
-                        <mat-tab label="Tipo de Rsva">
-                            <div [style.height.px]="325" style="background: white">
-                                <mat-tab-group [dynamicHeight]="false">
-                                    <mat-tab label="{{ field | capitalizado:true }}:" *ngFor="let field of apiData['tipoRsva'] | keys">
-                                        <div class="row" [style.height.px]="315">
-                                            <div class="col-6">
-                                                <ss-multiselect-dropdown *ngIf="opts[field]" [options]="opts[field] | orderBy: 'name'" [(ngModel)]="apiData['tipoRsva'][field]['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'tipoRsva', field)"></ss-multiselect-dropdown>
-                                            </div>
-                                            <div style="text-align: center" class="col-3 p-2">
-                                                <ui-switch color="green" size="small" [(ngModel)]="apiData['tipoRsva'][field]['groupBy']"></ui-switch> <small>Agrupar</small>
-                                            </div>
-                                            <div style="text-align: center" class="col-3 p-2">
-                                                <ui-switch color="green" size="small" [(ngModel)]="apiData['tipoRsva'][field]['showCol']"></ui-switch> <small>Mostrar</small>
-                                            </div>
-                                        </div>
-                                    </mat-tab>
-                                </mat-tab-group>
-                            </div>
-                        </mat-tab>
-                        <mat-tab label="Tipo de Servicio">
-                            <div [style.height.px]="325" style="background: white">
-                                <div class="m-1" *ngFor="let field of apiData['itemTypes'] | keys">
-                                    <div class="p-1">
-                                        <span>{{ field | capitalizado:true }}: </span>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <ss-multiselect-dropdown *ngIf="opts[field]" [options]="opts[field] | orderBy: 'name'" [(ngModel)]="apiData['itemTypes'][field]['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'itemTypes', field)"></ss-multiselect-dropdown>
-                                            </div>
-                                            <div style="text-align: center" class="col-3 p-2">
-                                                <ui-switch color="green" size="small" [(ngModel)]="apiData['itemTypes'][field]['groupBy']"></ui-switch> <small>Agrupar</small>
-                                            </div>
-                                            <div style="text-align: center" class="col-3 p-2">
-                                                <ui-switch color="green" size="small" [(ngModel)]="apiData['itemTypes'][field]['showCol']"></ui-switch> <small>Mostrar</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-tab>
-                        <mat-tab label="Branch">
-                            <div [style.height.px]="325" style="background: white">
-                                <div class="m-1" *ngFor="let field of apiData['branchId'] | keys">
-                                    <div class="p-1">
-                                        <span>{{ field | capitalizado:true }}: </span>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <ss-multiselect-dropdown *ngIf="opts[field]" [options]="opts[field] | orderBy: 'name'" [(ngModel)]="apiData['branchId'][field]['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'branchId', field)"></ss-multiselect-dropdown>
-                                            </div>
-                                            <div style="text-align: center" class="col-3 p-2">
-                                                <ui-switch color="green" size="small" [(ngModel)]="apiData['branchId'][field]['groupBy']"></ui-switch> <small>Agrupar</small>
-                                            </div>
-                                            <div style="text-align: center" class="col-3 p-2">
-                                                <ui-switch color="green" size="small" [(ngModel)]="apiData['branchId'][field]['showCol']"></ui-switch> <small>Mostrar</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-tab>
-                        <mat-tab label="Asesor">
-                            <div class="m-1" [style.height.px]="325" style="background: white">
-                                <div class="p-1">
-                                    <span>Asesores: </span>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <ss-multiselect-dropdown *ngIf="opts['asesores']" [options]="opts['asesores'] | orderBy: 'name'" [(ngModel)]="apiData['genGroup']['Asesor']['params']" [settings]="selectorSettings" (ngModelChange)="selectorChange($event, 'genGroup', 'Asesor')"></ss-multiselect-dropdown>
-                                        </div>
-                                        <div style="text-align: center" class="col-3 p-2">
-                                            <ui-switch color="green" size="small" [(ngModel)]="apiData['genGroup']['Asesor']['groupBy']"></ui-switch> <small>Agrupar</small>
-                                        </div>
-                                        <div style="text-align: center" class="col-3 p-2">
-                                            <ui-switch color="green" size="small" [(ngModel)]="apiData['genGroup']['Asesor']['showCol']"></ui-switch> <small>Mostrar</small>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -320,40 +348,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="d-flex justify-content-end">
-                <div class="p-1 mr-auto">
-                    <div class="d-flex justify-content-start">
-                        <div class="btn-group">
-                            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ !selectedPreset ? 'Presets' : selectedPreset['name'] }}
-              </button>
-                            <div class="dropdown-menu" style="height:150px; overflow: auto">
-                                <button class="dropdown-item" type="button" (click)="selectPreset(opt['id'])" *ngFor="let opt of presets | orderBy: 'name'; index as i">{{ opt['name'] }}</button>
-                            </div>
-                        </div>
-                        <button type="button" class="ml-2 btn btn-info" (click)="savePreset( true, content )">Save Preset</button>
-                    </div>
-                    <ng-container *ngIf="showPName">
-                        <br>
-                        <div class="form-row align-items-center bg-info">
-                            <div class="col-auto my-1">
-                                <div class="p-1 bg-info">
-                                    <label for="name">Nombre</label>
-                                    <input type="text" class="form-control" aria-describedby="name" [(ngModel)]="presetName">
-                                    <small id="name" class="form-text text-light">
-                    Elije un nombre para tus preferencias
-                  </small>
-                                </div>
-                            </div>
-                            <div class="col-auto my-1">
-                                <button type="button" class="btn btn-success" (click)="savePreset( false )">Guardar <span *ngIf="loading['savePreset']"><i class="fas fa-spinner fa-pulse"></i></span></button>
-                                <button type="button" class="btn btn-secondary" (click)="showPName = false">Cancelar</button>
-                            </div>
-                        </div>
 
-                    </ng-container>
-                </div>
                 <div class="p-1">
                     <button type="button" class="btn btn-success" (click)="getReport()">Buscar <span *ngIf="loading['report']"><i class="fas fa-spinner fa-pulse"></i></span></button>
                 </div>
@@ -369,7 +366,7 @@
         <ngx-table [configuration]="config" [data]="dataRep" [columns]="columns">
             <ng-template let-row>
                 <td class="row__email" *ngFor="let item of columns">
-                    <span [ngSwitch]="item['type']">
+                    <span [ngSwitch]="colType[item['key']]">
                 <span *ngSwitchCase="'currency'">
                   {{ row[item['key']] | currency:'MXN':'symbol-narrow':'.2-2' }}
                 </span>
@@ -379,10 +376,10 @@
                 </span>
 
                     <span *ngSwitchCase="'time'">
-                  {{ printDate(row[item['key']],'HH:mm') }}
+                  {{ printDate(row[item['key']],'HH:mm', true) }}
                 </span>
 
-                    <span *ngSwitchCase="'number'">
+                    <span class="text-right" *ngSwitchCase="'number'">
                   {{ (row[item['key']] ? row[item['key']] : 0) | number:'.0-0' }}
                 </span>
 

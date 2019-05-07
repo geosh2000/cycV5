@@ -199,3 +199,11 @@ p {
 .drag-transit {
     border: #3500FF dashed 2px;
 }
+
+
+/* Z */
+
+.zi-1000 {
+    z-index: 1000;
+    position: relative;
+}

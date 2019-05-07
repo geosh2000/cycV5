@@ -105,6 +105,7 @@ import { SeguimientoBaseObComponent } from './components/reportes/seguimiento-ba
 import { FcPorAsesorPdvComponent } from './components/reportes/fc-por-asesor-pdv/fc-por-asesor-pdv.component';
 import { PdvMonitorHorariosComponent } from './components/monitors/pdv-monitor/pdv-monitor-horarios/pdv-monitor-horarios.component';
 import { SmdUploadComponent } from './components/config/upload-calidad/smd-upload.component';
+import { OvvReportComponent } from './components/reportes/outlet/ovv-report/ovv-report.component';
 
 
 const APP_ROUTES: Routes = [
@@ -175,6 +176,7 @@ const APP_ROUTES: Routes = [
   { path: 'ventaPorHora', component: VentaPorHoraComponent },
   { path: 'seguimientoBase', component: SeguimientoBaseObComponent },
   { path: 'fcPorAsesorPdv', component: FcPorAsesorPdvComponent },
+  { path: 'ovvReport', component: OvvReportComponent },
 
   // Bitacoras
   { path: 'bitacoraSupervisores', component: BitacoraSupersComponent },

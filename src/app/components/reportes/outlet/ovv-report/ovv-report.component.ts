@@ -6,8 +6,9 @@ import { Title } from '@angular/platform-browser';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { ApiService, InitService, TokenCheckService } from '../../../services/service.index';
-import { EasyTableServiceService } from '../../../services/easy-table-service.service';
+import { ApiService, InitService, TokenCheckService } from '../../../../services/service.index';
+import { EasyTableServiceService } from '../../../../services/easy-table-service.service';
+import { Columns } from 'ngx-easy-table';
 
 import { saveAs } from 'file-saver';
 import { utils, write, WorkBook } from 'xlsx';
@@ -16,11 +17,11 @@ declare var jQuery:any;
 import * as moment from 'moment-timezone';
 
 @Component({
-  selector: 'app-pro-report',
-  templateUrl: './pro-report.component.html',
+  selector: 'app-ovv-report',
+  templateUrl: './ovv-report.component.html',
   styles: []
 })
-export class ProReportComponent implements OnInit {
+export class OvvReportComponent implements OnInit {
 
   @ViewChild( DaterangePickerComponent ) private picker: DaterangePickerComponent
 
@@ -35,137 +36,194 @@ export class ProReportComponent implements OnInit {
   presets:any = []
   selectedPreset:any = []
 
+  colType:Object = {
+    Localizador: 'text',
+    Fecha: 'date',
+    Hora: 'time',
+    pais: 'text',
+    marca: 'text',
+    gpoCanal: 'text',
+    tipoCanal: 'text',
+    gpoCanalKpiOk: 'text',
+    Sucursal: 'text',
+    NombreAsesor: 'text',
+    servicio: 'text',
+    Monto: 'currency',
+    RN: 'number',
+    tipoRsva: 'text',
+    gpoTipoRsva: 'text',
+    HotelOk: 'text',
+    CorporativoOk: 'text',
+    DestinationOk: 'text',
+  }
+
   config:EasyTableServiceService
-  columns:any = [
-    { type: 'date',   key: 'Fecha',        title: 'Fecha' },
-    { type: 'time',   key: 'Hora',         title: 'Hora' },
-    { type: 'text',   key: 'pais',         title: 'Pais' },
-    { type: 'text',   key: 'marca',        title: 'Marca' },
-    { type: 'text',   key: 'gpoCanal',     title: 'Grupo Canal' },
-    { type: 'text',   key: 'tipoCanal',    title: 'Tipo Canal' },
-    { type: 'text',   key: 'gpoTipoCanal', title: 'Grupo Tipo Canal' },
-    { type: 'text',   key: 'gpoCanalKpiOk',title: 'Grupo KPI' },
-    { type: 'text',   key: 'Sucursal',     title: 'Sucursal' },
-    { type: 'text',   key: 'NombreAsesor', title: 'Asesor' },
-    { type: 'text',   key: 'servicio',     title: 'Servicio' },
-    { type: 'currency',key: 'Monto',       title: 'Monto' },
-    { type: 'number', key: 'RN',           title: 'RN' },
-    { type: 'text',   key: 'tipoRsva',     title: 'Tipo Rsva' },
-    { type: 'text',   key: 'gpoTipoRsva',  title: 'Gpo Tipo Rsva' }
+  columns:Columns[] = [
+    { key: 'Localizador',  title: 'Localizador' },
+    { key: 'Fecha',        title: 'Fecha' },
+    { key: 'Hora',         title: 'Hora' },
+    { key: 'pais',         title: 'Pais' },
+    { key: 'marca',        title: 'Marca' },
+    { key: 'gpoCanal',     title: 'Grupo Canal' },
+    { key: 'tipoCanal',    title: 'Tipo Canal' },
+    { key: 'gpoCanalKpiOk',title: 'Grupo KPI' },
+    { key: 'Sucursal',     title: 'Sucursal' },
+    { key: 'NombreAsesor', title: 'Asesor' },
+    { key: 'servicio',     title: 'Servicio' },
+    { key: 'Monto',       title: 'Monto' },
+    { key: 'RN',           title: 'RN' },
+    { key: 'tipoRsva',     title: 'Tipo Rsva' },
+    { key: 'gpoTipoRsva',  title: 'Gpo Tipo Rsva' },
+    { key: 'HotelOk',        title: 'Hotel' },
+    { key: 'CorporativoOk',  title: 'Corporativo' },
+    { key: 'DestinationOk',  title: 'Destination' },
   ]
+
+  columnsCopy: Columns[] = [];
 
   apiData:Object
   defaultData:Object = {
-    chanGroup : {
-                marca       : { status    : true,
-                                showCol   : true,
-                                groupBy   : false,
-                                name      : 'marca',
-                                searchType: 'in',
-                                params     : ['Marcas Propias']
-                              },
-                gpoCanalKpi : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'gpoCanalKpi',
-                                searchType: 'in',
-                                params     : []
-                              },
-                gpoCanal    : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'gpoCanal',
-                                searchType: 'in',
-                                params     : []
-                              },
-                canal       : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'canal',
-                                searchType: 'in',
-                                params     : []
-                              },
-                pais        : { status    : true,
-                                showCol   : true,
-                                groupBy   : false,
-                                name      : 'pais',
-                                searchType: 'in',
-                                params     : ['MX']
-                              },
-                tipoCanal   : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'tipoCanal',
-                                searchType: 'in',
-                                params     : []
-                              },
-              },
-    tipoRsva  : {
-                tipoRsva    : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'tipoRsva',
-                                searchType: 'in',
-                                params     : []
-                              },
-                gpoTipoRsva : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'gpoTipoRsva',
-                                searchType: 'in',
-                                params     : []
-                              },
-              },
-    fecha     : {
-                Fecha       : { status    : true,
-                                showCol   : true,
-                                groupBy   : true,
-                                name      : 'Fecha',
-                                searchType: 'between',
-                                params     : [moment().subtract(1,'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')]
-                              },
-                Hora        : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'Hora',
-                                searchType: 'between',
-                                params     : ['00:00:00', '23:59:59']
-                              },
-              },
-    itemTypes : {
-                servicio    : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'servicio',
-                                searchType: 'in',
-                                params     : []
-                              },
-              },
-    genGroup  : {
-                Asesor      : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'asesor',
-                                searchType: 'in',
-                                params     : []
-                              },
-                Stand       : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'branchName',
-                                searchType: 'in',
-                                params     : []
-                              }
-              },
-    branchId  : {
-                branchId      : { status    : false,
-                                showCol   : false,
-                                groupBy   : false,
-                                name      : 'branchId',
-                                searchType: 'in',
-                                params     : []
-                              },
-              },
+    'chanGroup':{
+      'marca':{
+        'status':true,
+        'showCol':true,
+        'groupBy':false,
+        'name':'marca',
+        'searchType':'in',
+        'params':['Marcas Propias']
+      },
+      'gpoCanalKpi':{
+        'status':false,
+        'showCol':true,
+        'groupBy':true,
+        'name':'gpoCanalKpi',
+        'searchType':'in',
+        'params':['Outlet']
+      },
+      'gpoCanal':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'gpoCanal',
+        'searchType':'in',
+        'params':[]
+      },
+      'canal':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'canal',
+        'searchType':'in',
+        'params':[]
+      },
+      'pais':{
+        'status':true,
+        'showCol':true,
+        'groupBy':false,
+        'name':'pais',
+        'searchType':'in',
+        'params':['MX']
+      },'tipoCanal':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'tipoCanal',
+        'searchType':'in',
+        'params':[]
+      }
+    },
+    'tipoRsva':{
+      'tipoRsva':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'tipoRsva',
+        'searchType':'in',
+        'params':[]
+      },
+      'gpoTipoRsva':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'gpoTipoRsva',
+        'searchType':'in',
+        'params':[]
+      }
+    },
+    'fecha':{
+      'Fecha':{
+        'status':true,
+        'showCol':true,
+        'groupBy':true,
+        'name':'Fecha',
+        'searchType':'between',
+        'params':['2019-05-09','2019-05-13']
+      },
+      'Hora':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'Hora',
+        'searchType':'between',
+        'params':['00:00:00','23:59:00']
+      }
+    },
+    'itemTypes':{
+      'servicio':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'servicio',
+        'searchType':'in',
+        'params':[]
+      }
+    },
+    'genGroup':{
+      'Asesor':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'asesor',
+        'searchType':'in',
+        'params':[]
+      }
+    },
+    'branchId':{
+      'branchId':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'branchId',
+        'searchType':'in',
+        'params':[]
+      }
+    },
+    'hotel':{
+      'Hotel':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'Hotel',
+        'searchType':'like',
+        'params':[]
+      },
+      'Corporativo':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'Corporativo',
+        'searchType':'like',
+        'params':[]
+      },
+      'Destination':{
+        'status':false,
+        'showCol':true,
+        'groupBy':false,
+        'name':'Destination',
+        'searchType':'like',
+        'params':[]
+      }
+    }
   }
 
   genPar:Object = {
@@ -173,7 +231,8 @@ export class ProReportComponent implements OnInit {
     outlet: false,
     sv: true,
     loc: false,
-    compare: false
+    compare: false,
+    hotel: false
   }
   opts:Object = {}
   asesores:Object = {}
@@ -205,6 +264,7 @@ export class ProReportComponent implements OnInit {
 
   searchStart:any
   searchEnd:any
+  checked:any = []
 
   DROptions: any = {
         locale: { format: 'YYYY-MM-DD' },
@@ -236,6 +296,14 @@ export class ProReportComponent implements OnInit {
     moment.locale('es-MX')
     this.apiData = JSON.parse(JSON.stringify(this.defaultData))
     this.presets.push({ name: '_default', params: JSON.parse(JSON.stringify(this.defaultData)) })
+    this.columnsCopy = this.columns
+
+    let ch:any = []
+    for( let g of this.columns ){
+        ch.push(g.key);
+    }
+
+    this.checked = new Set(ch)
   }
 
   ngOnInit() {
@@ -259,6 +327,12 @@ export class ProReportComponent implements OnInit {
     this.getAsesores()
     this.loadPresets()
 
+  }
+
+  toggle(name: string, value: boolean): void {
+    value ? this.checked.add(name) : this.checked.delete(name);
+    this.columns = this.columnsCopy.filter((column) => this.checked.has(column.key));
+    console.log(this.columns)
   }
 
   getFiltData( group, field ){
@@ -326,7 +400,21 @@ export class ProReportComponent implements OnInit {
   getReport(){
     this.loading['report'] = true
 
-    this._api.restfulPut( {data: this.apiData, gen: this.genPar},'Prorep/pr' )
+    this.validateColumns()
+
+    let par = JSON.parse(JSON.stringify(this.apiData))
+
+    if( this.genPar['loc'] ){
+      // tslint:disable-next-line:forin
+      for( let g in par ){
+        // tslint:disable-next-line:forin
+        for( let f in par[g] ){
+          par[g][f]['showCol'] = true
+        }
+      }
+    }
+
+    this._api.restfulPut( {data: par, gen: this.genPar},'Prorep/pr' )
             .subscribe( res => {
 
               this.loading['report'] = false
@@ -396,7 +484,18 @@ export class ProReportComponent implements OnInit {
 
     wb = { SheetNames: [], Sheets: {} };
     wb.SheetNames.push('reporte');
-    wb.Sheets['reporte'] = utils.json_to_sheet(this.dataRep, {cellDates: true});
+
+    let js:any = []
+
+    for(let r of this.dataRep){
+      let t:Object = {}
+      for(let c of this.columns){
+        t[c.key]=r[c.key]
+      }
+      js.push(t)
+    }
+
+    wb.Sheets['reporte'] = utils.json_to_sheet(js, {cellDates: true});
 
     let wbout = write(wb, { bookType: 'xlsx', bookSST: true, type:
 'binary' });
@@ -492,8 +591,62 @@ export class ProReportComponent implements OnInit {
     }
   }
 
-  printDate(d,f){
-    return d ? moment(d).format(f) : null
+  printDate(d,f, t = false){
+    return d ? moment( t ? `${moment().format('YYYY-MM-DD')} ${d}` : d).format(f) : null
+  }
+
+  validateSel( f, fl ){
+    switch(fl){
+      case 'g_hotel':
+      case 'g_corp':
+      case 'g_dest':
+        if( f ){
+          this.genPar['hotel'] = true
+          // this.toggle('Hotel', true)
+          // this.toggle('Corporativo', true)
+          // this.toggle('Destination', true)
+        }else{
+          this.apiData['hotel']['Hotel']['params'][0] = ''
+          this.apiData['hotel']['Corporativo']['params'][0] = ''
+          this.apiData['hotel']['Destination']['params'][0] = ''
+        }
+        break
+      case 'hotel':
+        if( f ){
+          // this.toggle('Hotel', true)
+          // this.toggle('Corporativo', true)
+          // this.toggle('Destination', true)
+        }else{
+          // this.toggle('Hotel', false)
+          // this.toggle('Corporativo', false)
+          // this.toggle('Destination', false)
+          this.apiData['hotel']['Hotel']['params'][0] = ''
+          this.apiData['hotel']['Corporativo']['params'][0] = ''
+          this.apiData['hotel']['Destination']['params'][0] = ''
+        }
+        break
+    }
+  }
+
+  validateColumns(){
+    // if( !this.apiData['branchId']['branchId']['groupBy'] ){
+    //   this.toggle('Sucursal', false)
+    // }else{
+    //   this.toggle('Sucursal', true)
+    // }
+
+    // if( !this.apiData['genGroup']['Asesor']['groupBy'] ){
+    //   this.toggle('NombreAsesor', false)
+    // }else{
+    //   this.toggle('NombreAsesor', true)
+    // }
+
+    // if( !this.genPar['loc'] ){
+    //   this.toggle('Localizador', false)
+    // }else{
+    //   this.toggle('Localizador', true)
+    // }
+
   }
 
 }

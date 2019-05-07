@@ -109,6 +109,7 @@
                     <th class="text-center" scope="col">Part % CC</th>
                     <th class="text-center" scope="col">Part % .COM</th>
                     <th class="text-center" scope="col">PDV</th>
+                    <th class="text-center" scope="col">Outlet</th>
                     <th class="text-center" scope="col">Total MP</th>
                 </tr>
             </thead>
@@ -126,7 +127,8 @@
                         <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'] ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'] ) * 100) | number:'.0-2' }}%</td>
                         <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'] ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial']) * 100) | number:'.0-2' }}%</td>
                         <td class="text-center">{{ coalesce( item, 'PDV Presencial', true ) }}</td>
-                        <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount) }}</td>
+                        <td class="text-center">{{ coalesce( item, 'Outlet', true ) }}</td>
+                        <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial', 'Outlet'], isAmmount) }}</td>
                     </tr>
                 </ng-container>
                 <ng-container *ngIf="prod && !isHour">
@@ -146,7 +148,8 @@
                                 }}%
                             </td>
                             <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, false, producto ) }}</td>
-                            <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, false, producto ) }}</td>
+                            <td class="text-center">{{ coalesce( item, 'Outlet', true, false, producto ) }}</td>
+                            <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial', 'Outlet'], isAmmount, false, producto ) }}</td>
                         </tr>
                     </ng-container>
                 </ng-container>
@@ -165,7 +168,8 @@
                             <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT'], false, hour ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, hour ) * 100) | number:'.0-2' }}%</td>
                             <td class="text-center">{{ (sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online'], false, hour ) / sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], false, hour) * 100) | number:'.0-2' }}%</td>
                             <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, hour ) }}</td>
-                            <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, hour) }}</td>
+                            <td class="text-center">{{ coalesce( item, 'Outlet', true, hour ) }}</td>
+                            <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial', 'Outlet'], isAmmount, hour) }}</td>
                         </tr>
                     </ng-container>
                 </ng-container>
@@ -188,7 +192,8 @@
                                     }}%
                                 </td>
                                 <td class="text-center">{{ coalesce( item, 'PDV Presencial', true, hour, producto ) }}</td>
-                                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial'], isAmmount, hour, producto ) }}</td>
+                                <td class="text-center">{{ coalesce( item, 'Outlet', true, hour, producto ) }}</td>
+                                <td class="text-center">{{ sumVals( item, ['CC IN', 'Mixcoac', 'PDV IN', 'CC OUT', 'Online', 'PDV Presencial', 'Outlet'], isAmmount, hour, producto ) }}</td>
                             </tr>
                         </ng-container>
                     </ng-container>
