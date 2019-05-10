@@ -106,6 +106,7 @@ import { FcPorAsesorPdvComponent } from './components/reportes/fc-por-asesor-pdv
 import { PdvMonitorHorariosComponent } from './components/monitors/pdv-monitor/pdv-monitor-horarios/pdv-monitor-horarios.component';
 import { SmdUploadComponent } from './components/config/upload-calidad/smd-upload.component';
 import { OvvReportComponent } from './components/reportes/outlet/ovv-report/ovv-report.component';
+import { CalculadoraComponent } from './components/calculadora/calculadora.component';
 
 
 const APP_ROUTES: Routes = [
@@ -257,10 +258,14 @@ const APP_ROUTES: Routes = [
   // Uploads
   { path: 'uploads/ofertasPdv', component: OfertasPdvComponent },
 
+  // Calculadora
+  { path: 'calcOutlet', component: CalculadoraComponent },
+
   // Fifa
   { path: 'polls/fifaSql', component: StepsComponent },
   { path: 'notFound', component: NotFoundComponent },
-  { path: '**', component: NotFoundComponent }
+  { path: '**', component: NotFoundComponent },
+
 ];
 
 export const APP_ROUTING = RouterModule.forRoot(APP_ROUTES, {useHash: true});

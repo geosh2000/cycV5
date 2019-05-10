@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ApiService, InitService, TokenCheckService } from '../../../../services/service.index';
 import { EasyTableServiceService } from '../../../../services/easy-table-service.service';
+// import { Columns } from 'ngx-easy-table';
 import { Columns } from 'ngx-easy-table';
 
 import { saveAs } from 'file-saver';
@@ -34,7 +35,7 @@ export class OvvReportComponent implements OnInit {
   presetName:any
   showPName:boolean = false
   presets:any = []
-  selectedPreset:any = []
+  selectedPreset:any = 'Preset'
 
   colType:Object = {
     Localizador: 'text',
@@ -78,6 +79,7 @@ export class OvvReportComponent implements OnInit {
     { key: 'CorporativoOk',  title: 'Corporativo' },
     { key: 'DestinationOk',  title: 'Destination' },
   ]
+  checkCol:Object = {}
 
   columnsCopy: Columns[] = [];
 
@@ -301,6 +303,7 @@ export class OvvReportComponent implements OnInit {
     let ch:any = []
     for( let g of this.columns ){
         ch.push(g.key);
+        this.checkCol[g.key]=true
     }
 
     this.checked = new Set(ch)
@@ -332,7 +335,8 @@ export class OvvReportComponent implements OnInit {
   toggle(name: string, value: boolean): void {
     value ? this.checked.add(name) : this.checked.delete(name);
     this.columns = this.columnsCopy.filter((column) => this.checked.has(column.key));
-    console.log(this.columns)
+    this.checkCol[name] = value
+    // console.log(this.columns)
   }
 
   getFiltData( group, field ){
@@ -397,7 +401,7 @@ export class OvvReportComponent implements OnInit {
             })
   }
 
-  getReport(){
+  getReport( sort = [] ){
     this.loading['report'] = true
 
     this.validateColumns()
@@ -419,6 +423,13 @@ export class OvvReportComponent implements OnInit {
 
               this.loading['report'] = false
               this.dataRep = res['data']
+              if( sort.length > 0 ){
+                if(sort[0] == 'asc' ){
+                  this.sortAsc(sort[1],sort[2])
+                }else{
+                  this.sortDesc(sort[1],sort[2])
+                }
+              }
 
             }, err => {
               console.log('ERROR', err)
@@ -647,6 +658,164 @@ export class OvvReportComponent implements OnInit {
     //   this.toggle('Localizador', true)
     // }
 
+  }
+
+  setPreset(n){
+    // 'Localizador'
+    // 'Fecha'
+    // 'Hora'
+    // 'pais'
+    // 'marca'
+    // 'gpoCanal'
+    // 'tipoCanal'
+    // 'gpoCanalKpiOk'
+    // 'Sucursal'
+    // 'NombreAsesor'
+    // 'servicio'
+    // 'Monto'
+    // 'RN'
+    // 'tipoRsva'
+    // 'gpoTipoRsva'
+    // 'HotelOk'
+    // 'CorporativoOk'
+    // 'DestinationOk'
+    let mt = [], gp = []
+    switch(n){
+      case 0:
+        // Fecha
+        mt = ['Localizador','Fecha','Monto','RN']
+        gp = ['Fecha']
+        this.multiTog( mt )
+        this.multiGroup( gp )
+        this.getReport( ['asc', 'Fecha', true] )
+        break
+      case 1:
+        // Sucursal
+        mt = ['Localizador','Fecha','Sucursal','Monto','RN']
+        gp = ['Sucursal']
+        this.multiTog( mt )
+        this.multiGroup( gp )
+        this.getReport( ['asc', 'Sucursal', true] )
+        break
+      case 2:
+        // Destinos
+        mt = ['Localizador','Fecha','Monto','RN','DestinationOk']
+        gp = ['Fecha','DestinationOk']
+        this.multiTog( mt )
+        this.multiGroup( gp )
+        this.getReport( ['desc', 'RN', false] )
+        break
+      case 3:
+        // Corporativos
+        mt = ['Localizador','Fecha','servicio','Monto','RN','CorporativoOk']
+        gp = ['Fecha','servicio','CorporativoOk']
+        this.multiTog( mt )
+        this.multiGroup( gp )
+        this.getReport( ['desc', 'RN', false] )
+        break
+      case 5:
+        // Asesores
+        mt = ['Fecha','Localizador','Sucursal','Monto','RN','NombreAsesor']
+        gp = ['NombreAsesor']
+        this.multiTog( mt )
+        this.multiGroup( gp )
+        this.getReport( ['desc', 'Monto', false] )
+        break
+      case 6:
+        // Hora
+        mt = ['Localizador','Hora','Monto','RN']
+        gp = ['Hora']
+        this.multiTog( mt )
+        this.multiGroup( gp )
+        this.getReport( ['asc', 'Hora', true] )
+        break
+      case 7:
+        // Fecha / Hora
+        mt = ['Localizador','Fecha','Hora','Monto','RN']
+        gp = ['Fecha','Hora']
+        this.multiTog( mt )
+        this.multiGroup( gp )
+        // this.getReport( ['asc', 'Sucursal', true] )
+        break
+      case 4:
+        // Hotel
+        mt = ['Localizador','Fecha','servicio','Monto','RN','HotelOk']
+        gp = ['Fecha','servicio','HotelOk']
+        this.multiTog( mt )
+        this.multiGroup( gp )
+        this.getReport( ['desc', 'RN', false] )
+        break
+    }
+  }
+
+  multiTog( arr ){
+    for( let c of this.columnsCopy ){
+      if( arr.indexOf(c.key) > -1){
+        this.toggle(c.key, true)
+      }else{
+        this.toggle(c.key, false)
+      }
+    }
+  }
+
+  multiGroup( arr ){
+
+    let gps = [
+      ['Fecha','fecha','Fecha'],
+      ['Hora','fecha','Hora'],
+      ['servicio','itemTypes','servicio'],
+      ['Sucursal','branchId','branchId'],
+      ['NombreAsesor','genGroup','Asesor'],
+      ['HotelOk','hotel','Hotel'],
+      ['CorporativoOk','hotel','Corporativo'],
+      ['DestinationOk','hotel','Destination']
+    ]
+
+    for( let c of gps ){
+      if( arr.indexOf(c[0]) > -1 ){
+        this.apiData[c[1]][c[2]]['groupBy'] = true
+      }else{
+        this.apiData[c[1]][c[2]]['groupBy'] = false
+      }
+    }
+  }
+
+  sortAsc( f, text = false ): void {
+    this.dataRep = [...this.dataRep.sort((a, b) => {
+      const nA = text ? a[f].toLowerCase() : parseInt(a[f])
+      const nB = text ? b[f].toLowerCase() : parseInt(b[f])
+
+      if( text ){
+        return nA.localeCompare(nB);
+      }else{
+        if (nB < nA) {
+          return 1;
+        }
+        if (nB > nA) {
+          return -1;
+        }
+        return 0;
+      }
+    })];
+  }
+
+  sortDesc( f, text = false ): void {
+    this.dataRep = [...this.dataRep.sort((a, b) => {
+      const nA = text ? a[f].toLowerCase() : parseFloat(a[f])
+      const nB = text ? b[f].toLowerCase() : parseFloat(b[f])
+
+      if( text ){
+        return nB.localeCompare(nA);
+      }else{
+        if (nB < nA) {
+          return -1;
+        }
+        if (nB > nA) {
+          return 1;
+        }
+        return 0;
+      }
+    })];
   }
 
 }

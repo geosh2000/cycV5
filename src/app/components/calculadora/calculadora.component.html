@@ -1,0 +1,119 @@
+<div class="container-fluid">
+    <!-- TITLE -->
+    <div class="jumbotron jumbotron-fluid text-white blueBkg animated fadeIn">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span><h1 class="display-3">¡Tu Ahorro!</h1></span>
+                    <p class="lead">Descuentos por forma de pago</p>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+
+            <form class="form-inline">
+                <label class="my-1 mr-2" for="inlineFormInputName2">Monto</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" name="monto" [(ngModel)]="monto">
+
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Producto</label>
+                <select class="custom-select mb-2 mr-sm-2" id="inlineFormCustomSelectPref" name="tipo" [(ngModel)]="tipo">
+                <option selected>Selecciona...</option>
+                <option value="1">Hotel</option>
+                <option value="2">Paquete</option>
+                <option value="3">Vuelo</option>
+                <option value="4">Cruceros</option>
+                <option value="5">Otros</option>
+              </select>
+                <button type="button" class="btn btn-success mb-2 mr-sm-2" (click)="calc()" [disabled]="monto == 0 || tipo == 0 || tipo == ''">Calcular</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container-fluid d-flex justify-content-center flex-wrap" *ngIf="loading">
+        <mat-spinner></mat-spinner>
+        <div class='m2'>Cargando promociones....</div>
+    </div>
+    <div class="container-fluid" *ngIf="!loading && rules.length == 0">
+        <div class="alert alert-danger" role="alert">
+            Hubo un error al cargar las promociones, o no existen promociones activas. Intenta nuevamente.
+        </div>
+    </div>
+    <div class="container-fluid" *ngIf="!loading && dataConsult['monto'] > 0 && rules.length>0">
+        <div class="d-flex justify-content-center p-2">
+            <h2>{{ dataConsult['monto'] | currency:'MXN':'symbol-narrow':'.2-2' }} ({{ tipoProd[dataConsult['tipo']] }})</h2>
+        </div>
+
+        <div class="p-2">
+            <mat-card *ngFor="let bank of result | keys">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h2 class="text-primary">{{ bank }}</h2>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+
+                    <div class="d-flex justify-content-start flex-wrap">
+                        <ng-container *ngFor="let p of result[bank]">
+                            <mat-card *ngIf="inProd( p['msiProd'], p['tipo'] )" class="msiCard m-1">
+                                <!-- <mat-card *ngFor="let p of result[bank]" class="msiCard m-1"> -->
+                                <mat-card-header>
+                                    <div mat-card-avatar [ngClass]="p['imgClass']"></div>
+                                    <mat-card-title>{{ p['name'] }}</mat-card-title>
+                                    <mat-card-subtitle>{{ p['banco'] }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <mat-list>
+                                        <mat-list-item>
+                                            <mat-icon mat-list-icon>attach_money</mat-icon>
+                                            <h4 mat-line>{{ (p['monto'] - p['descuento']) / p['mensualidad'] | currency:'MXN':'symbol-narrow':'.2-2' }}</h4>
+                                            <p mat-line> {{ p['mensualidad'] == 1 ? 'Cuenta Revolvelte' : p['mensualidad']+' meses sin intereses' }} </p>
+                                        </mat-list-item>
+                                        <ng-container *ngIf="p['descuento'] > 0 && inProd( p['descProd'], p['tipo'] )">
+                                            <mat-divider></mat-divider>
+                                            <mat-list-item>
+                                                <mat-icon mat-list-icon>bookmark</mat-icon>
+                                                <h4 mat-line>{{ p['descuento'] | currency:'MXN':'symbol-narrow':'.2-2' }} de descuento</h4>
+                                                <p mat-line>Clave <b>{{ p['descCode'] }}</b></p>
+                                            </mat-list-item>
+                                        </ng-container>
+                                        <ng-container *ngIf="p['mesBonif'] > 0 && p['monto'] > p['minBonif']">
+                                            <mat-divider></mat-divider>
+                                            <mat-list-item>
+                                                <mat-icon mat-list-icon>bookmark</mat-icon>
+                                                <h4 mat-line>{{ (((p['monto'] - p['descuento']) / p['mensualidad']) > p['maxBonif'] ? p['maxBonif'] : ((p['monto'] - p['descuento']) / p['mensualidad'])) | currency:'MXN':'symbol-narrow':'.2-2' }} de 1 mes</h4>
+                                                <p mat-line>de bonificación</p>
+                                            </mat-list-item>
+                                        </ng-container>
+                                        <ng-container *ngIf="p['bonifRevolv'] > 0 && p['monto'] > p['bonifRevolvMin']">
+                                            <mat-divider></mat-divider>
+                                            <mat-list-item>
+                                                <mat-icon mat-list-icon>bookmark</mat-icon>
+                                                <h4 mat-line>{{ (p['monto']*p['bonifRevolv'] > p['bonifRevolvMax'] ? p['bonifRevolvMax'] : p['monto']*p['bonifRevolv']) | currency:'MXN':'symbol-narrow':'.2-2' }} bonificación</h4>
+                                                <p mat-line>10% a revolvente</p>
+                                            </mat-list-item>
+                                        </ng-container>
+                                        <ng-container *ngIf="p['bbvBon'] && getBbvaBon( p['monto'] ) > 0">
+                                            <mat-divider></mat-divider>
+                                            <mat-list-item>
+                                                <mat-icon mat-list-icon>bookmark</mat-icon>
+                                                <h4 mat-line>{{ getBbvaBon( p['monto'] ) | currency:'MXN':'symbol-narrow':'.2-2' }} bonificación</h4>
+                                                <p mat-line>por <b>acumulado</b> de compras</p>
+                                            </mat-list-item>
+                                        </ng-container>
+                                    </mat-list>
+                                    <div class="text-right" *ngIf="((p['descuento'] > 0 && inProd( p['descProd'], p['tipo'] ) ? p['descuento'] : 0) + (p['mesBonif'] > 0 && p['monto'] > p['minBonif'] ? (((p['monto'] - p['descuento']) / p['mensualidad']) > p['maxBonif'] ? p['maxBonif'] : ((p['monto'] - p['descuento']) / p['mensualidad'])) : 0)++ (p['bonifRevolv'] > 0 && p['monto'] > p['bonifRevolvMin'] ? (p['monto']*p['bonifRevolv'] > p['bonifRevolvMax'] ? p['bonifRevolvMax'] : p['monto']*p['bonifRevolv']) : 0)+ (p['bbvBon'] ? getBbvaBon( p['monto'] ) : 0)) > 0">
+                                        <h3 class="text-success">Ahorro: {{ (p['descuento'] + (p['mesBonif'] > 0 && p['monto'] > p['minBonif'] ? (((p['monto'] - p['descuento']) / p['mensualidad']) > p['maxBonif'] ? p['maxBonif'] : ((p['monto'] - p['descuento']) / p['mensualidad']))
+                                            : 0) + (p['bonifRevolv'] > 0 && p['monto'] > p['bonifRevolvMin'] ? (p['monto']*p['bonifRevolv'] > p['bonifRevolvMax'] ? p['bonifRevolvMax'] : p['monto']*p['bonifRevolv']) : 0) + (p['bbvBon'] ? getBbvaBon( p['monto']
+                                            ) : 0)) | currency:'MXN':'symbol-narrow':'.2-2' }}</h3>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </ng-container>
+                    </div>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

@@ -75,7 +75,7 @@
                 <div class="d-flex justify-content-end flex-wrap  p-2">
                     <div class="form-group p-2" *ngFor="let c of columnsCopy">
                         <label class="form-checkbox form-inline">
-                      <input type="checkbox" [checked]="true" (change)="toggle(c.key, $event.target.checked)">
+                      <input type="checkbox" [checked]="true" [name]="c.key" [(ngModel)]="checkCol[c.key]" (change)="toggle(c.key, $event.target.checked)">
                       <i class="form-icon"></i> {{ c.title }}
                       </label>
                     </div>
@@ -165,198 +165,28 @@
                 </div>
             </div>
 
-            <!-- <div class="row">
-                <div class="col-6" style="color: black">
-                    <mat-tab-group [dynamicHeight]="false" backgroundColor="accent">
-                        <mat-tab label="Parámetros">
-                            <div class="m-1" [style.height.px]="325" style="background: white">
-                                <div class="row">
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>Venta y Cxl</small></span>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['sv']" (change)="validateSel($event)"></ui-switch>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>Sólo Venta</small></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>P. Desglozado</small></span>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['isPaq']" (change)="validateSel($event)"></ui-switch>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>P. Paquete</small></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>Normal</small></span>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['outlet']" (change)="validateSel($event)"></ui-switch>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>Outlet</small></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>Resumen</small></span>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['loc']" (change)="validateSel($event)"></ui-switch>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>Por Loc</small></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>Not Compared</small></span>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <ui-switch color="green" size="small" [(ngModel)]="genPar['compare']" (change)="validateSel($event)"></ui-switch>
-                                    </div>
-                                    <div style="text-align: center" class="col-4 p-2">
-                                        <span><small>Compare LY</small></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-tab>
-                    </mat-tab-group>
-                </div>
-                <div class="col-6">
-                    <div class="" style="max-height: 400px; overflow-y:auto">
-                        <div class="p-1 m-0">
-                            <p class="text-secondary"><small>
-                <b>Parametros:</b>
-                 {{ genPar['isPaq'] ? 'Paquete' : 'Producto desglozado' }},
-                 {{ genPar['sv'] ? 'Solo Venta' : 'Venta y Cxl' }},
-                 {{ genPar['outlet'] ? 'Canal Outlet' : 'Canales Normales' }},
-                 {{ genPar['loc'] ? 'Por Loc' : 'Resumen' }}
-              </small></p>
-                        </div>
-                        <div class="p-1 m-0">
-                            <p class="text-secondary"><small>
-                <b>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('fecha', 'Fecha','showCol')">
-                    <span *ngIf="apiData['fecha']['Fecha']['showCol']"><i class="fas fa-eye text-success"></i></span>
-                    <span *ngIf="!apiData['fecha']['Fecha']['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('fecha', 'Fecha','groupBy')">
-                    <span *ngIf="apiData['fecha']['Fecha']['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                    <span *ngIf="!apiData['fecha']['Fecha']['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                  </button>
-                  Fecha:</b> {{ apiData['fecha']['Fecha']['params'][0] }} - {{ apiData['fecha']['Fecha']['params'][1] }}
-              </small></p>
-                        </div>
-                        <div class="p-1 m-0">
-                            <p class="text-secondary"><small>
-                <b>
-                <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('fecha', 'Hora','showCol')">
-                    <span *ngIf="apiData['fecha']['Hora']['showCol']"><i class="fas fa-eye text-success"></i></span>
-                    <span *ngIf="!apiData['fecha']['Hora']['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('fecha', 'Hora','groupBy')">
-                    <span *ngIf="apiData['fecha']['Hora']['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                    <span *ngIf="!apiData['fecha']['Hora']['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                  </button>
-                  Hora:</b> {{ apiData['fecha']['Hora']['params'][0] }} - {{ apiData['fecha']['Hora']['params'][1] }}
-              </small></p>
-                        </div>
-                        <ng-container *ngFor="let item of apiData['chanGroup'] | keys">
-                            <div class="p-1 m-0">
-                                <p class="text-secondary"><small>
-                  <b>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('chanGroup', item,'showCol')">
-                      <span *ngIf="apiData['chanGroup'][item]['showCol']"><i class="fas fa-eye text-success"></i></span>
-                      <span *ngIf="!apiData['chanGroup'][item]['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('chanGroup', item,'groupBy')">
-                      <span *ngIf="apiData['chanGroup'][item]['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                      <span *ngIf="!apiData['chanGroup'][item]['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                    </button>
-                    {{item}}:</b> {{ (apiData['chanGroup'][item]['params'] && apiData['chanGroup'][item]['params'][0]) ? apiData['chanGroup'][item]['params'] : 'Todo' }}
-                </small></p>
-                            </div>
-                        </ng-container>
-                        <ng-container *ngFor="let item of apiData['tipoRsva'] | keys">
-                            <div class="p-1 m-0">
-                                <p class="text-secondary"><small>
-                  <b>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('tipoRsva', item,'showCol')">
-                      <span *ngIf="apiData['tipoRsva'][item]['showCol']"><i class="fas fa-eye text-success"></i></span>
-                      <span *ngIf="!apiData['tipoRsva'][item]['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('tipoRsva', item,'groupBy')">
-                      <span *ngIf="apiData['tipoRsva'][item]['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                      <span *ngIf="!apiData['tipoRsva'][item]['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                    </button>
-                    {{item}}:</b> {{ (apiData['tipoRsva'][item]['params'] && apiData['tipoRsva'][item]['params'][0]) ? apiData['tipoRsva'][item]['params'] : 'Todo' }}
-                </small></p>
-                            </div>
-                        </ng-container>
-                        <ng-container *ngFor="let item of apiData['itemTypes'] | keys">
-                            <div class="p-1 m-0">
-                                <p class="text-secondary"><small>
-                  <b>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('itemTypes', item,'showCol')">
-                      <span *ngIf="apiData['itemTypes'][item]['showCol']"><i class="fas fa-eye text-success"></i></span>
-                      <span *ngIf="!apiData['itemTypes'][item]['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('itemTypes', item,'groupBy')">
-                      <span *ngIf="apiData['itemTypes'][item]['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                      <span *ngIf="!apiData['itemTypes'][item]['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                    </button>
-                    {{item}}:</b> {{ (apiData['itemTypes'][item]['params'] && apiData['itemTypes'][item]['params'][0]) ? apiData['itemTypes'][item]['params'] : 'Todo' }}
-                </small></p>
-                            </div>
-                        </ng-container>
-                        <ng-container *ngFor="let item of apiData['branchId'] | keys">
-                            <div class="p-1 m-0">
-                                <p class="text-secondary"><small>
-                  <b>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('branchId', item,'showCol')">
-                      <span *ngIf="apiData['branchId'][item]['showCol']"><i class="fas fa-eye text-success"></i></span>
-                      <span *ngIf="!apiData['branchId'][item]['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('branchId', item,'groupBy')">
-                      <span *ngIf="apiData['branchId'][item]['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                      <span *ngIf="!apiData['branchId'][item]['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                    </button>
-                    {{item}}:</b> {{ (apiData['branchId'][item]['params'] && apiData['branchId'][item]['params'][0]) ? apiData['branchId'][item]['params'] : 'Todo' }}
-                </small></p>
-                            </div>
-                        </ng-container>
-                        <div class="p-1 m-0">
-                            <p class="text-secondary"><small>
-                <b>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('genGroup', 'Asesor','showCol')">
-                    <span *ngIf="apiData['genGroup']['Asesor']['showCol']"><i class="fas fa-eye text-success"></i></span>
-                    <span *ngIf="!apiData['genGroup']['Asesor']['showCol']"><i class="fas fa-eye-slash text-danger"></i></span>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-link p-0" (click)="chgPar('genGroup', 'Asesor','groupBy')">
-                    <span *ngIf="apiData['genGroup']['Asesor']['groupBy']"><i class="fas fa-object-ungroup text-success"></i></span>
-                    <span *ngIf="!apiData['genGroup']['Asesor']['groupBy']"><i class="fas fa-object-group text-danger"></i></span>
-                  </button>
-                  Asesores:</b> {{ (apiData['genGroup']['Asesor']['params'] && apiData['genGroup']['Asesor']['params'][0]) ? printAsesores(apiData['genGroup']['Asesor']['params'], 'Usuario') : 'Todo' }}
-              </small></p>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             <div class="d-flex justify-content-end">
 
-                <div class="p-1">
+                <div class="btn-group dropup p-1">
                     <button type="button" class="btn btn-success" (click)="getReport()">Buscar <span *ngIf="loading['report']"><i class="fas fa-spinner fa-pulse"></i></span></button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+                        <button class="dropdown-item" (click)="setPreset(0)">Fecha</button>
+                        <button class="dropdown-item" (click)="setPreset(1)">Sucursal</button>
+                        <button class="dropdown-item" (click)="setPreset(2)">Destinos</button>
+                        <button class="dropdown-item" (click)="setPreset(3)">Corporativos</button>
+                        <button class="dropdown-item" (click)="setPreset(4)">Hoteles</button>
+                        <button class="dropdown-item" (click)="setPreset(5)">Asesores</button>
+                        <button class="dropdown-item" (click)="setPreset(6)">Hora</button>
+                        <button class="dropdown-item" (click)="setPreset(7)">Fecha / Hora</button>
+                    </div>
                 </div>
                 <div class="p-1">
                     <button type="button" class="btn btn-warning" (click)="download()" *ngIf="dataRep">Descargar</button>
                 </div>
+
             </div>
         </div>
     </div>

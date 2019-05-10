@@ -257,6 +257,7 @@ import { PdvMonitorHorariosComponent } from './components/monitors/pdv-monitor/p
 import { PdvMonitorHorariosDetailComponent } from './components/monitors/pdv-monitor/pdv-monitor-horarios/pdv-monitor-horarios-detail.component';
 import { SmdUploadComponent } from './components/config/upload-calidad/smd-upload.component';
 import { OvvReportComponent } from './components/reportes/outlet/ovv-report/ovv-report.component';
+import { CalculadoraComponent } from './components/calculadora/calculadora.component';
 
 declare let jQuery: Object;
 
@@ -465,6 +466,7 @@ registerLocaleData(localeEsMX)
     PdvMonitorHorariosDetailComponent,
     SmdUploadComponent,
     OvvReportComponent,
+    CalculadoraComponent,
   ],
   imports: [
     BrowserModule,
