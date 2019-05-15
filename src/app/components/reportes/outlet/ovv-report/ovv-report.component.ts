@@ -8,7 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ApiService, InitService, TokenCheckService } from '../../../../services/service.index';
 import { EasyTableServiceService } from '../../../../services/easy-table-service.service';
-// import { Columns } from 'ngx-easy-table';
 import { Columns } from 'ngx-easy-table';
 
 import { saveAs } from 'file-saver';

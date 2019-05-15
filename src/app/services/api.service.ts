@@ -1,11 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as Globals from '../globals';
 import { map, catchError } from 'rxjs/operators'
 
+declare global {
+  interface Window {
+    RTCPeerConnection: RTCPeerConnection;
+    mozRTCPeerConnection: RTCPeerConnection;
+    webkitRTCPeerConnection: RTCPeerConnection;
+  }
+}
+
 @Injectable()
 export class ApiService {
+
+  localIp = sessionStorage.getItem('LOCAL_IP');
+
+  private ipRegex = new RegExp(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/);
 
   apiUrl:string = `${ Globals.APISERV }/ng2/json/`;
   apiRestful:string = `${ Globals.APISERV }/api/${Globals.APIFOLDER}/index.php/`;
@@ -14,9 +26,10 @@ export class ApiService {
 
   constructor(
                 private http:HttpClient,
+                private zone: NgZone,
                 private domSanitizer:DomSanitizer
               ) {
-
+      this.determineLocalIp()
   }
 
   transform( url: string): any {
@@ -26,7 +39,7 @@ export class ApiService {
   postFromApi( params, apiRoute, alternativeRoute? ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiUrl }${ apiRoute }.json.php?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}`
+    let url = `${ this.apiUrl }${ apiRoute }.json.php?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}&localIp=${this.localIp}`
     let urlOK = this.transform( url )
 
     let body = JSON.stringify( params );
@@ -41,7 +54,7 @@ export class ApiService {
   postToApi( params, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiPostUrl }${ apiRoute }.post.php?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}`
+    let url = `${ this.apiPostUrl }${ apiRoute }.post.php?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}&localIp=${this.localIp}`
     let urlOK = this.transform( url )
 
     let body = JSON.stringify( params );
@@ -60,7 +73,7 @@ export class ApiService {
 
     if( loginReq ){
       let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      url = `${ this.apiRestful }${ apiRoute }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}`
+      url = `${ this.apiRestful }${ apiRoute }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}&localIp=${this.localIp}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}&localIp=${this.localIp}`
     }else{
       url = `${ this.apiRestful }${ apiRoute }`
     }
@@ -81,7 +94,7 @@ export class ApiService {
   restfulPost( params, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}`
+    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}&localIp=${this.localIp}`
 
     let urlOK = this.transform( url )
 
@@ -121,7 +134,7 @@ export class ApiService {
   restfulImgPost( params, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}`
+    let url = `${ this.apiRestful }${ apiRoute }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}&localIp=${this.localIp}`
 
     let urlOK = this.transform( url )
 
@@ -134,7 +147,7 @@ export class ApiService {
   restfulDelete( id, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}`
+    let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}&localIp=${this.localIp}`
 
     let urlOK = this.transform( url )
 
@@ -151,7 +164,7 @@ export class ApiService {
   restfulGet( id, apiRoute ){
 
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}`
+    let url = `${ this.apiRestful }${ apiRoute }/${ id }?token=${currentUser ? currentUser.token : 'noToken'}&usn=${currentUser ? currentUser.username : 'noUser'}&usid=${currentUser ? currentUser.hcInfo.id : 'noId'}&localIp=${this.localIp}`
 
     let urlOK = this.transform( url )
 
@@ -217,6 +230,35 @@ export class ApiService {
 
   testApi( variable ){
     console.log( variable )
+  }
+
+  private determineLocalIp() {
+    window.RTCPeerConnection = this.getRTCPeerConnection();
+
+    const pc = new RTCPeerConnection({ iceServers: [] });
+    pc.createDataChannel('');
+    pc.createOffer().then(pc.setLocalDescription.bind(pc));
+
+    pc.onicecandidate = (ice) => {
+      this.zone.run(() => {
+        if (!ice || !ice.candidate || !ice.candidate.candidate) {
+          return;
+        }
+
+        this.localIp = this.ipRegex.exec(ice.candidate.candidate)[1];
+        console.log(this.localIp)
+        sessionStorage.setItem('LOCAL_IP', this.localIp);
+
+        pc.onicecandidate = () => {};
+        pc.close();
+      });
+    };
+  }
+
+  private getRTCPeerConnection() {
+    return window.RTCPeerConnection ||
+      window.mozRTCPeerConnection ||
+      window.webkitRTCPeerConnection;
   }
 
 }

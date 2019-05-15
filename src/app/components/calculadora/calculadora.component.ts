@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ApiService } from '../../services/service.index';
 import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-calculadora',
@@ -88,7 +90,7 @@ export class CalculadoraComponent implements OnInit {
   rules:any = []
 
   constructor(private titleService: Title, private _api:ApiService,public toastr: ToastrService) {
-    this.getPromos()
+
   }
 
   ngOnInit() {
@@ -165,6 +167,8 @@ export class CalculadoraComponent implements OnInit {
 
     return false
   }
+
+
 
 }
 

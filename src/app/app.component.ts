@@ -42,7 +42,7 @@ export class AppComponent {
 
   public constructor(
           private router: Router, private titleService: Title,
-          private _api:ApiService,
+          // private _api:ApiService,
           private _global: GlobalServicesService,
           private _init:InitService,
           private _tokenCheck:TokenCheckService,
@@ -62,34 +62,34 @@ export class AppComponent {
                   }
                 })
 
-            this.getVer()
-            this.timerCheck()
+            // this.getVer()
+            // this.timerCheck()
           }
 
-  getVer(){
-    this._api.restfulGet( '', `Lists/cycVersion` )
-            .subscribe( res => {
-              let version = res['data']
-              this.actualVersion = version['LastVer']
-              if(Globals.VER != version['LastVer']){
-                this.reloadVer = true
-              }else{
-                this.reloadVer = false
-              }
-              this.timerCheck()
+  // getVer(){
+  //   this._api.restfulGet( '', `Lists/cycVersion` )
+  //           .subscribe( res => {
+  //             let version = res['data']
+  //             this.actualVersion = version['LastVer']
+  //             if(Globals.VER != version['LastVer']){
+  //               this.reloadVer = true
+  //             }else{
+  //               this.reloadVer = false
+  //             }
+  //             this.timerCheck()
 
-            }, err => {
-              console.log('ERROR', err)
-              let error = err.error
-              this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
-              console.error(err.statusText, error.msg)
-              this.timerCheck()
-            })
-  }
+  //           }, err => {
+  //             console.log('ERROR', err)
+  //             let error = err.error
+  //             this.toastr.error( error.error ? error.error.message : error.msg, error.error ? error.msg : 'Error' )
+  //             console.error(err.statusText, error.msg)
+  //             this.timerCheck()
+  //           })
+  // }
 
-  timerCheck(){
-    setTimeout( () => this.getVer(), 10000)
-  }
+  // timerCheck(){
+  //   setTimeout( () => this.getVer(), 10000)
+  // }
 
   openSideBar( flag ){
     this.opened = flag

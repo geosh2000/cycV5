@@ -34,7 +34,7 @@
         <mat-spinner></mat-spinner>
         <div class='m2'>Cargando promociones....</div>
     </div>
-    <div class="container-fluid" *ngIf="!loading && rules.length == 0">
+    <div class="container-fluid" *ngIf="!loading && dataConsult['monto'] != 0 && rules.length == 0">
         <div class="alert alert-danger" role="alert">
             Hubo un error al cargar las promociones, o no existen promociones activas. Intenta nuevamente.
         </div>

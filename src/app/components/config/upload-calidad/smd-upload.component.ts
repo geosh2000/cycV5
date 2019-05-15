@@ -231,14 +231,40 @@ export class SmdUploadComponent implements OnInit {
     return usr
   }
 
+  getFirstAttr(arr){
+    let attrBegin = 0
+    for( let cEv in arr ){
+      if( arr.hasOwnProperty(cEv) ){
+        if( cEv == 'Comentarios_1' ){
+          attrBegin -= 1
+          return attrBegin
+        }else{
+          attrBegin +=  1
+        }
+      }
+    }
+
+    return attrBegin
+  }
+
   buildRegs( arr ){
     let attr:any=[]
     let evs:any=[]
+
+    let attrBegin:number = 0, firstRow:number = 0
+
+
 
     for(let e of arr){
       let id, i = 0, x=0;
       let tmpR
       let v:any=[]
+
+      if( firstRow == 0 ){
+        attrBegin = this.getFirstAttr(e)
+      }
+      firstRow++
+
       // tslint:disable-next-line:forin
       for( let c in e ){
 
@@ -246,7 +272,7 @@ export class SmdUploadComponent implements OnInit {
           id = e[c]
         }
 
-        if( i > 41 ){
+        if( i >= attrBegin ){
           if( x == 0 ){
             tmpR = {
               txMainId: id,
